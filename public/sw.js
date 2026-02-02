@@ -58,24 +58,12 @@ self.addEventListener("message", (event) => {
     self.skipWaiting();
   }
 });
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME && cacheName !== STATIC_CACHE && cacheName !== RUNTIME_CACHE) {
-            console.log('[SW] Deleting old cache:', cacheName);
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
-  );
-  self.clients.claim();
-});
 
 // Helper: Determine request type
 function getRequestType(request) {
   const url = new URL(request.url);
 
-  // API requests (except fonts which we DO cache)
+  // API requests
   if (url.pathname.startsWith('/api/') || url.host.includes('openrouter.ai')) {
     return 'api';
   }
@@ -95,12 +83,21 @@ function getRequestType(request) {
     return 'static';
   }
 
-  // HTML documents
-  if (request.headers.get('accept')?.includes('text/html')) {
+  // HTML documents and Next.js RSC requests
+  if (request.headers.get('accept')?.includes('text/html') || url.searchParams.has('_rsc')) {
     return 'document';
   }
 
   return 'other';
+}
+
+// Helper: Create an offline response
+function createOfflineResponse() {
+  return new Response('Offline - No cache available', {
+    status: 503,
+    statusText: 'Service Unavailable',
+    headers: new Headers({ 'Content-Type': 'text/plain' })
+  });
 }
 
 // Fetch event - serve from cache with appropriate strategy
@@ -108,12 +105,12 @@ self.addEventListener("fetch", (event) => {
   const { request } = event;
   const requestType = getRequestType(request);
 
-  // Don't cache non-GET requests
+  // Don't intercept non-GET requests
   if (request.method !== "GET") {
     return;
   }
 
-  // Don't cache API requests - always go to network
+  // Don't cache API requests - let them fail naturally
   if (requestType === 'api') {
     return;
   }
@@ -133,7 +130,7 @@ self.addEventListener("fetch", (event) => {
             // Check if we got a valid response
             if (!response || response.status >= 400) {
               console.error('[SW] Invalid response for:', request.url, response?.status);
-              return response; // Return the error response
+              return response;
             }
 
             // Clone the response before caching
@@ -144,11 +141,7 @@ self.addEventListener("fetch", (event) => {
             return response;
           }).catch((error) => {
             console.error('[SW] Fetch failed for static asset:', request.url, error);
-            // Return a generic error response instead of throwing
-            return new Response('Offline - Resource not available', {
-              status: 503,
-              statusText: 'Service Unavailable'
-            });
+            return createOfflineResponse();
           });
         });
       })
@@ -182,7 +175,6 @@ self.addEventListener("fetch", (event) => {
             return response;
           }).catch((error) => {
             console.error('[SW] Fetch failed for font:', request.url, error);
-            // Return offline fallback for fonts
             return new Response('', {
               status: 503,
               statusText: 'Service Unavailable'
@@ -194,7 +186,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // HTML documents - Network First, fallback to Cache
+  // HTML documents and Next.js RSC requests - Network First, fallback to Cache
   if (requestType === 'document') {
     event.respondWith(
       fetch(request)
@@ -202,7 +194,9 @@ self.addEventListener("fetch", (event) => {
           // Clone and cache the response
           const responseToCache = response.clone();
           caches.open(RUNTIME_CACHE).then((cache) => {
-            cache.put(request, responseToCache);
+            cache.put(request, responseToCache).catch(() => {
+              // Cache might be full, ignore error
+            });
           });
           return response;
         })
@@ -214,16 +208,14 @@ self.addEventListener("fetch", (event) => {
               console.log('[SW] Serving from cache:', request.url);
               return response;
             }
-            // Return a basic offline page for navigation requests
+            // Return offline page for navigation requests
             if (request.mode === 'navigate') {
-              return caches.match('/offline').then((response) => {
-                return response || new Response('Offline - No cache available', {
-                  status: 503,
-                  headers: new Headers({ 'Content-Type': 'text/plain' })
-                });
+              return caches.match('/offline').then((offlineResponse) => {
+                return offlineResponse || createOfflineResponse();
               });
             }
-            throw new Error('No cache available');
+            // For RSC prefetch requests, just return an offline response
+            return createOfflineResponse();
           });
         })
     );
@@ -232,6 +224,8 @@ self.addEventListener("fetch", (event) => {
 
   // Other requests - Network First
   event.respondWith(
-    fetch(request).catch(() => caches.match(request))
+    fetch(request)
+      .then((response) => response)
+      .catch(() => caches.match(request).then((response) => response || createOfflineResponse()))
   );
 });
