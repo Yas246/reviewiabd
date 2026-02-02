@@ -80,7 +80,8 @@ export default function PracticePage() {
       console.log('[Practice] Session saved with ID:', sessionId);
       console.log('[Practice] Navigating to quiz page...');
       // Navigate to quiz page with session ID
-      router.push(`/quiz?session=${sessionId}`);
+      // Use direct navigation to avoid RSC prefetch which fails offline
+      window.location.href = `/quiz?session=${sessionId}`;
     } catch (error: any) {
       console.error('[Practice] ERROR during generation:', error);
       console.error('[Practice] Error details:', {

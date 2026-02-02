@@ -120,7 +120,8 @@ export default function ExamPage() {
       });
 
       // Navigate to quiz page with session ID
-      router.push(`/quiz?session=${sessionId}`);
+      // Use direct navigation to avoid RSC prefetch which fails offline
+      window.location.href = `/quiz?session=${sessionId}`;
     } catch (error: any) {
       console.error("Failed to generate exam questions:", error);
       setIsGenerating(false);
@@ -164,7 +165,8 @@ export default function ExamPage() {
       });
 
       console.log('[Exam] Session created, navigating to quiz...');
-      router.push(`/quiz?session=${sessionId}`);
+      // Use direct navigation to avoid RSC prefetch which fails offline
+      window.location.href = `/quiz?session=${sessionId}`;
     } catch (error: any) {
       console.error('[Exam] Failed to retake exam:', error);
       setIsGenerating(false);

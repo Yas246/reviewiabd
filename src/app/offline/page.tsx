@@ -137,7 +137,8 @@ export default function OfflinePage() {
       });
 
       console.log('[Offline] Session created:', sessionId);
-      router.push(`/quiz?session=${sessionId}`);
+      // Use direct navigation to avoid RSC prefetch which fails offline
+      window.location.href = `/quiz?session=${sessionId}`;
     } catch (error) {
       console.error('[Offline] Failed to start exercise:', error);
       alert("Erreur lors du démarrage de l'exercice");

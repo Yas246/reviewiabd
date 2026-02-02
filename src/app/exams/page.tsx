@@ -111,7 +111,8 @@ export default function ExamsPage() {
       });
 
       console.log('[Exams] Session created, navigating to quiz...');
-      router.push(`/quiz?session=${sessionId}`);
+      // Use direct navigation to avoid RSC prefetch which fails offline
+      window.location.href = `/quiz?session=${sessionId}`;
     } catch (error: any) {
       console.error('[Exams] Failed to retake exam:', error);
       alert(`Erreur: ${error.message || "Erreur inconnue"}`);
@@ -136,7 +137,8 @@ export default function ExamsPage() {
         timeLimit: exam.type === "full" ? 7200 : 3600,
         examId: exam.id,
       }).then(() => {
-        router.push(`/quiz?session=${sessionId}`);
+        // Use direct navigation to avoid RSC prefetch which fails offline
+        window.location.href = `/quiz?session=${sessionId}`;
       });
     }
   };

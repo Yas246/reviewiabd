@@ -3,9 +3,9 @@
 // Caches static assets for offline use
 // ============================================
 
-const CACHE_NAME = "review-iabd-v2.1.0";
-const STATIC_CACHE = "review-iabd-static-v2.1.0";
-const RUNTIME_CACHE = "review-iabd-runtime-v2.1.0";
+const CACHE_NAME = "review-iabd-v2.1.1";
+const STATIC_CACHE = "review-iabd-static-v2.1.1";
+const RUNTIME_CACHE = "review-iabd-runtime-v2.1.1";
 
 // Assets to cache on install (core HTML pages)
 const urlsToCache = [
@@ -219,6 +219,26 @@ self.addEventListener("fetch", (event) => {
               console.log('[SW] Serving from cache:', request.url);
               return response;
             }
+
+            // For quiz pages with session parameters, try to serve the base /quiz page
+            const url = new URL(request.url);
+            if (url.pathname === '/quiz' && url.searchParams.has('session')) {
+              console.log('[SW] Quiz page with session not cached, trying base /quiz page');
+              return caches.match('/quiz').then((quizResponse) => {
+                if (quizResponse) {
+                  console.log('[SW] Serving base /quiz page for session request');
+                  return quizResponse;
+                }
+                // If no base quiz page either, go to offline
+                if (request.mode === 'navigate') {
+                  return caches.match('/offline').then((offlineResponse) => {
+                    return offlineResponse || createOfflineResponse();
+                  });
+                }
+                return createOfflineResponse();
+              });
+            }
+
             // Return offline page for navigation requests
             if (request.mode === 'navigate') {
               return caches.match('/offline').then((offlineResponse) => {
