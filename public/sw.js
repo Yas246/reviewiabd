@@ -83,9 +83,15 @@ function getRequestType(request) {
     return 'static';
   }
 
-  // HTML documents and Next.js RSC requests
-  if (request.headers.get('accept')?.includes('text/html') || url.searchParams.has('_rsc')) {
+  // HTML documents
+  if (request.headers.get('accept')?.includes('text/html')) {
     return 'document';
+  }
+
+  // Next.js RSC prefetch requests - DO NOT intercept these offline!
+  // Let them fail silently, don't cache them
+  if (url.searchParams.has('_rsc')) {
+    return 'rsc-prefetch';
   }
 
   return 'other';
@@ -98,6 +104,11 @@ function createOfflineResponse() {
     statusText: 'Service Unavailable',
     headers: new Headers({ 'Content-Type': 'text/plain' })
   });
+}
+
+// Helper: Check if request is a prefetch request
+function isPrefetchRequest(request) {
+  return request.mode === 'navigate' && request.headers.get('purpose') === 'prefetch';
 }
 
 // Fetch event - serve from cache with appropriate strategy
@@ -186,7 +197,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // HTML documents and Next.js RSC requests - Network First, fallback to Cache
+  // HTML documents - Network First, fallback to Cache
   if (requestType === 'document') {
     event.respondWith(
       fetch(request)
@@ -214,11 +225,19 @@ self.addEventListener("fetch", (event) => {
                 return offlineResponse || createOfflineResponse();
               });
             }
-            // For RSC prefetch requests, just return an offline response
+            // For other requests, return offline response
             return createOfflineResponse();
           });
         })
     );
+    return;
+  }
+
+  // Next.js RSC prefetch requests - DO NOT intercept offline
+  // Let them fail silently so they don't affect navigation
+  if (requestType === 'rsc-prefetch') {
+    // Don't call event.respondWith() - let the request fail naturally
+    console.log('[SW] Ignoring RSC prefetch request (will fail silently if offline):', request.url);
     return;
   }
 
