@@ -19,6 +19,7 @@ interface QuizTimerProps {
   className?: string;
   showControls?: boolean;
   mode?: "countdown" | "countup";
+  compact?: boolean; // Compact mode for mobile
 }
 
 export function QuizTimer({
@@ -30,6 +31,7 @@ export function QuizTimer({
   className,
   showControls = true,
   mode = "countup",
+  compact = false,
 }: QuizTimerProps) {
   const [time, setTime] = useState(initialTime);
 
@@ -68,7 +70,10 @@ export function QuizTimer({
   return (
     <div
       className={cn(
-        "flex items-center gap-3 px-4 py-2 rounded border",
+        "flex items-center rounded border",
+        compact
+          ? "gap-1.5 px-2 py-1.5"
+          : "gap-3 px-4 py-2",
         isDanger
           ? "border-domain-ml bg-domain-ml/10"
           : isWarning
@@ -79,7 +84,7 @@ export function QuizTimer({
     >
       <Clock
         className={cn(
-          "w-5 h-5",
+          compact ? "w-4 h-4" : "w-5 h-5",
           isDanger && "text-domain-ml animate-pulse",
           isWarning && "text-domain-ai",
           !isWarning && !isDanger && "text-ink-muted"
@@ -87,14 +92,15 @@ export function QuizTimer({
       />
       <span
         className={cn(
-          "font-mono font-bold text-lg",
+          "font-mono font-bold",
+          compact ? "text-sm" : "text-lg",
           isDanger && "text-domain-ml",
           isWarning && "text-domain-ai"
         )}
       >
         {formatTime(time)}
       </span>
-      {timeLimit && (
+      {!compact && timeLimit && (
         <span className="font-mono text-xs text-ink-muted">
           / {formatTime(timeLimit)}
         </span>
@@ -102,13 +108,16 @@ export function QuizTimer({
       {showControls && onTogglePause && (
         <button
           onClick={onTogglePause}
-          className="ml-2 p-1 rounded hover:bg-paper-dark transition-colors"
+          className={cn(
+            "rounded hover:bg-paper-dark transition-colors",
+            compact ? "p-0.5" : "ml-2 p-1"
+          )}
           aria-label={isPaused ? "Reprendre" : "Pause"}
         >
           {isPaused ? (
-            <Play className="w-4 h-4 text-ink-muted" />
+            <Play className={cn("text-ink-muted", compact ? "w-3 h-3" : "w-4 h-4")} />
           ) : (
-            <Pause className="w-4 h-4 text-ink-muted" />
+            <Pause className={cn("text-ink-muted", compact ? "w-3 h-3" : "w-4 h-4")} />
           )}
         </button>
       )}

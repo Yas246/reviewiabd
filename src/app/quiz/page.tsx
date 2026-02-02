@@ -463,38 +463,99 @@ function QuizContent() {
 
       <main className="flex-1 max-w-3xl mx-auto w-full px-4 py-12">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-4">
-            <Button variant="secondary" size="sm" onClick={() => router.back()}>
-              <ArrowLeft className="w-4 h-4" />
-              Quitter
-            </Button>
-            <div>
-              <h1 className="font-mono font-semibold">
-                {sessionType === "exam" ? "Mode Examen" : "Mode Pratique"}
+        <div className="mb-4">
+          {/* Mobile layout: stacked vertically */}
+          <div className="sm:hidden space-y-2">
+            {/* Row 1: Title and question counter */}
+            <div className="flex items-center justify-between">
+              <h1 className="font-mono font-semibold text-sm truncate flex-1">
+                {sessionType === "exam" ? "Examen" : "Pratique"}
               </h1>
-              <p className="font-mono text-xs text-ink-muted">
-                Question {currentIndex + 1} / {questions.length}
-                {sessionType === "exam" && ` • ${answeredCount}/${questions.length} répondues`}
-              </p>
+              <span className="font-mono text-xs text-ink-muted ml-2">
+                {currentIndex + 1}/{questions.length}
+              </span>
+            </div>
+
+            {/* Row 2: Actions and timer */}
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-1.5">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => router.back()}
+                  className="px-2 py-1"
+                  title="Quitter"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5" />
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setShowQuickNav(!showQuickNav)}
+                  title="Navigation rapide"
+                  className="px-2 py-1"
+                >
+                  <Grid3x3 className="w-3.5 h-3.5" />
+                </Button>
+              </div>
+              <QuizTimer
+                initialTime={timeLimit || 0}
+                timeLimit={timeLimit}
+                mode={sessionType === "exam" ? "countdown" : "countup"}
+                isPaused={showResult}
+                onTimeUp={() => setQuizCompleted(true)}
+                compact
+              />
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <QuizTimer
-              initialTime={timeLimit || 0}
-              timeLimit={timeLimit}
-              mode={sessionType === "exam" ? "countdown" : "countup"}
-              isPaused={showResult}
-              onTimeUp={() => setQuizCompleted(true)}
-            />
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={() => setShowQuickNav(!showQuickNav)}
-              title="Navigation rapide"
-            >
-              <Grid3x3 className="w-4 h-4" />
-            </Button>
+
+          {/* Desktop layout: horizontal */}
+          <div className="hidden sm:block">
+            <div className="flex items-center justify-between gap-4">
+              {/* Left: Title and question counter */}
+              <div className="flex items-center gap-4 min-w-0 flex-1">
+                <div className="min-w-0">
+                  <h1 className="font-mono font-semibold text-base">
+                    {sessionType === "exam" ? "Mode Examen" : "Mode Pratique"}
+                  </h1>
+                  <p className="font-mono text-xs text-ink-muted">
+                    Question {currentIndex + 1} / {questions.length}
+                    {sessionType === "exam" && (
+                      <span>
+                        {` • ${answeredCount}/${questions.length} répondues`}
+                      </span>
+                    )}
+                  </p>
+                </div>
+              </div>
+
+              {/* Right: Actions and timer */}
+              <div className="flex items-center gap-3 flex-shrink-0">
+                <QuizTimer
+                  initialTime={timeLimit || 0}
+                  timeLimit={timeLimit}
+                  mode={sessionType === "exam" ? "countdown" : "countup"}
+                  isPaused={showResult}
+                  onTimeUp={() => setQuizCompleted(true)}
+                />
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setShowQuickNav(!showQuickNav)}
+                  title="Navigation rapide"
+                >
+                  <Grid3x3 className="w-4 h-4" />
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => router.back()}
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  Quitter
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
 

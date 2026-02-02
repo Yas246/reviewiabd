@@ -82,7 +82,7 @@ export function Navigation() {
       <nav className="hidden md:block sticky top-0 z-50 bg-paper-primary/95 backdrop-blur-sm border-b border-paper-dark w-full">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <Link href="/" className="flex items-center">
+            <Link href="/" prefetch={false} className="flex items-center">
               <span className="font-mono font-bold text-xl text-accent whitespace-nowrap">
                 REVIEW_IABD
               </span>
@@ -115,6 +115,7 @@ export function Navigation() {
                   <Link
                     key={link.href}
                     href={link.href}
+                    prefetch={false}
                     className={cn(
                       "px-3 py-2 rounded-md font-mono text-sm font-medium flex items-center gap-2 transition-colors relative whitespace-nowrap",
                       isActive
@@ -139,7 +140,7 @@ export function Navigation() {
       <nav className="md:hidden sticky top-0 z-50 bg-paper-primary/95 backdrop-blur-sm border-b border-paper-dark w-full">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <Link href="/" className="flex items-center space-x-2">
+            <Link href="/" prefetch={false} className="flex items-center space-x-2">
               <span className="font-mono font-bold text-lg text-accent">
                 REVIEW_IABD
               </span>
@@ -192,6 +193,7 @@ export function Navigation() {
                 <Link
                   key={link.href}
                   href={link.href}
+                  prefetch={false}
                   onClick={() => setIsOpen(false)}
                   className={cn(
                     "flex items-center gap-3 px-3 py-2 rounded-md font-mono text-sm font-medium transition-colors",

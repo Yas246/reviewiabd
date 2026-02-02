@@ -229,7 +229,7 @@ export default function HomePage() {
             {MODES.map((mode, index) => {
               const Icon = mode.icon;
               return (
-                <Link key={mode.href} href={mode.href}>
+                <Link key={mode.href} href={mode.href} prefetch={false}>
                   <Card hoverable className="h-full animate-fade-in-up">
                     <CardContent>
                       <div className="flex items-start gap-4">
@@ -273,7 +273,7 @@ export default function HomePage() {
                   <p className="text-ink-secondary mb-4">
                     Commencez par générer vos premières questions en mode Pratique
                   </p>
-                  <Link href="/practice">
+                  <Link href="/practice" prefetch={false}>
                     <Button variant="primary">Commencer à Réviser</Button>
                   </Link>
                 </div>
@@ -286,7 +286,7 @@ export default function HomePage() {
                 const date = new Date(session.completedAt || session.startedAt).toLocaleDateString("fr-FR");
 
                 return (
-                  <Link key={session.id} href={`/quiz?session=${session.id}`}>
+                  <Link key={session.id} href={`/quiz?session=${session.id}`} prefetch={false}>
                     <Card hoverable className="h-full">
                       <CardContent>
                         <div className="flex items-start justify-between mb-3">

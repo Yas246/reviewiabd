@@ -209,18 +209,54 @@ export default function PracticePage() {
         </div>
 
         {/* Info Box */}
-        <Card className="mt-8">
+        <Card className="mt-8 border-l-4 border-l-accent">
           <CardContent>
-            <div className="flex gap-3">
-              <Badge variant="warning">INFO</Badge>
-              <div className="text-sm text-ink-secondary">
-                <p className="font-medium mb-1">Comment ça marche ?</p>
-                <ul className="list-disc list-inside space-y-1">
-                  <li>Les questions sont générées par lots de 10</li>
-                  <li>Vous pouvez commencer avant que toutes les questions soient prêtes</li>
-                  <li>Pas de limite de temps en mode Pratique</li>
-                  <li>Marquez vos questions favorites pour les réviser plus tard</li>
-                </ul>
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <div className="w-1 h-4 bg-accent" />
+                <h3 className="font-mono font-semibold text-sm">Comment ça marche ?</h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="flex items-start gap-2">
+                  <div className="mt-0.5">
+                    <div className="w-5 h-5 rounded-full bg-accent/10 flex items-center justify-center text-xs font-mono text-accent">
+                      1
+                    </div>
+                  </div>
+                  <p className="text-sm text-ink-secondary flex-1">
+                    Les questions sont générées par lots de <span className="font-mono text-accent">10</span>
+                  </p>
+                </div>
+                <div className="flex items-start gap-2">
+                  <div className="mt-0.5">
+                    <div className="w-5 h-5 rounded-full bg-accent/10 flex items-center justify-center text-xs font-mono text-accent">
+                      2
+                    </div>
+                  </div>
+                  <p className="text-sm text-ink-secondary flex-1">
+                    Commencez avant que toutes les questions soient prêtes
+                  </p>
+                </div>
+                <div className="flex items-start gap-2">
+                  <div className="mt-0.5">
+                    <div className="w-5 h-5 rounded-full bg-accent/10 flex items-center justify-center text-xs font-mono text-accent">
+                      3
+                    </div>
+                  </div>
+                  <p className="text-sm text-ink-secondary flex-1">
+                    Pas de limite de temps en mode Pratique
+                  </p>
+                </div>
+                <div className="flex items-start gap-2">
+                  <div className="mt-0.5">
+                    <div className="w-5 h-5 rounded-full bg-accent/10 flex items-center justify-center text-xs font-mono text-accent">
+                      4
+                    </div>
+                  </div>
+                  <p className="text-sm text-ink-secondary flex-1">
+                    Marquez vos questions favorites pour les réviser
+                  </p>
+                </div>
               </div>
             </div>
           </CardContent>

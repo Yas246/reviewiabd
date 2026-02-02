@@ -3,9 +3,9 @@
 // Caches static assets for offline use
 // ============================================
 
-const CACHE_NAME = "review-iabd-v2.0.4";
-const STATIC_CACHE = "review-iabd-static-v2.0.4";
-const RUNTIME_CACHE = "review-iabd-runtime-v2.0.4";
+const CACHE_NAME = "review-iabd-v2.1.0";
+const STATIC_CACHE = "review-iabd-static-v2.1.0";
+const RUNTIME_CACHE = "review-iabd-runtime-v2.1.0";
 
 // Assets to cache on install (core HTML pages)
 const urlsToCache = [
@@ -38,6 +38,26 @@ self.addEventListener("activate", (event) => {
   console.log('[SW] Activating service worker...');
   event.waitUntil(
     caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName !== CACHE_NAME && cacheName !== STATIC_CACHE && cacheName !== RUNTIME_CACHE) {
+            console.log('[SW] Deleting old cache:', cacheName);
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+  self.clients.claim();
+});
+
+// Listen for messages from clients (e.g., to skip waiting)
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "SKIP_WAITING") {
+    console.log('[SW] Received SKIP_WAITING message, activating immediately');
+    self.skipWaiting();
+  }
+});
       return Promise.all(
         cacheNames.map((cacheName) => {
           if (cacheName !== CACHE_NAME && cacheName !== STATIC_CACHE && cacheName !== RUNTIME_CACHE) {

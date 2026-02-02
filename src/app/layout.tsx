@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Crimson_Pro, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { AppProvider } from "@/components/AppProvider";
+import { ServiceWorkerUpdate } from "@/components/ServiceWorkerUpdate";
 
 const crimsonPro = Crimson_Pro({
   variable: "--font-crimson-pro",
@@ -60,13 +61,42 @@ export default function RootLayout({
 
                 // Register Service Worker only in production
                 if ('serviceWorker' in navigator && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+                  let newWorkerWaiting = false;
+
                   window.addEventListener('load', function() {
                     navigator.serviceWorker.register('/sw.js').then(function(registration) {
                       console.log('[SW] ServiceWorker registration successful with scope: ', registration.scope);
+
+                      // Listen for updates
+                      registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        console.log('[SW] New version found!');
+
+                        newWorker?.addEventListener('statechange', () => {
+                          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            console.log('[SW] New version ready, waiting for user to refresh');
+                            newWorkerWaiting = true;
+
+                            // Store in localStorage for React component to check
+                            localStorage.setItem('swUpdateAvailable', 'true');
+
+                            // Dispatch custom event for React components
+                            window.dispatchEvent(new CustomEvent('swUpdateAvailable'));
+                          }
+                        });
+                      });
+
                     }, function(err) {
                       console.error('[SW] ServiceWorker registration failed: ', err);
                     });
                   });
+
+                  // Listen for controller change (when new SW takes control)
+                  navigator.serviceWorker.addEventListener('controllerchange', () => {
+                    console.log('[SW] New service worker activated, reloading page');
+                    window.location.reload();
+                  });
+
                 } else if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
                   console.log('[SW] Service Worker disabled in development mode');
                 }
@@ -93,6 +123,7 @@ export default function RootLayout({
         }}
       >
         <AppProvider>{children}</AppProvider>
+        <ServiceWorkerUpdate />
       </body>
     </html>
   );
