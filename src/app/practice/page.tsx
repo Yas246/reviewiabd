@@ -14,6 +14,8 @@ import { Domain, Question } from "@/types";
 import { Loader2, Play } from "lucide-react";
 import { openRouterService } from "@/services/OpenRouterService";
 import { indexedDBService } from "@/services/IndexedDBService";
+import { storageService } from "@/services/StorageService";
+import { notificationService } from "@/services/NotificationService";
 
 // ============================================
 // PRACTICE PAGE
@@ -40,11 +42,28 @@ export default function PracticePage() {
     setProgress(0);
     setGeneratedQuestions(0);
 
+    let taskId: string | undefined;
+
     try {
       console.log('[Practice] Initializing IndexedDB...');
       // Ensure IndexedDB is initialized
       await indexedDBService.init();
       console.log('[Practice] IndexedDB initialized successfully');
+
+      // Check if notifications are enabled
+      const settings = await storageService.getSettings();
+      const notificationsEnabled = settings?.notifyOnComplete ?? false;
+
+      // Create background task if notifications are enabled
+      if (notificationsEnabled) {
+        taskId = await notificationService.createBackgroundTask(
+          'quiz-generation',
+          selectedDomain,
+          questionCount
+        );
+        await notificationService.updateTaskStatus(taskId!, 'generating');
+        console.log('[Practice] Created background task:', taskId);
+      }
 
       console.log('[Practice] Starting question generation...');
       // Generate questions using OpenRouter service
@@ -77,6 +96,12 @@ export default function PracticePage() {
         startedAt: new Date(),
       });
 
+      // Update background task and send notification
+      if (taskId && notificationsEnabled) {
+        await notificationService.updateTaskStatus(taskId, 'ready', sessionId);
+        console.log('[Practice] Background task updated and notification sent');
+      }
+
       console.log('[Practice] Session saved with ID:', sessionId);
       console.log('[Practice] Navigating to quiz page...');
       // Navigate to quiz page with session ID
@@ -90,6 +115,17 @@ export default function PracticePage() {
         isRetryable: error.isRetryable,
         stack: error.stack
       });
+
+      // Update background task with error
+      if (taskId) {
+        await notificationService.updateTaskStatus(
+          taskId,
+          'failed',
+          undefined,
+          error.message || "Erreur inconnue"
+        );
+      }
+
       setIsGenerating(false);
       setProgress(0);
       setGeneratedQuestions(0);

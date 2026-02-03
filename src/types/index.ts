@@ -199,3 +199,16 @@ export interface QuestionGenerationResponse {
   batchNumber: number;
   totalBatches: number;
 }
+
+// Background task for notifications
+export interface BackgroundTask {
+  id: string;
+  type: 'quiz-generation' | 'exam-generation';
+  status: 'pending' | 'generating' | 'ready' | 'failed';
+  domain: string;
+  questionCount: number;
+  sessionId?: string;
+  createdAt: Date;
+  completedAt?: Date;
+  errorMessage?: string;
+}

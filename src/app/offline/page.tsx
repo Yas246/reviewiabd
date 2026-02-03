@@ -13,6 +13,7 @@ import { Download, Wifi, WifiOff, CheckCircle } from "lucide-react";
 import { indexedDBService } from "@/services/IndexedDBService";
 import { openRouterService } from "@/services/OpenRouterService";
 import { storageService } from "@/services/StorageService";
+import { notificationService } from "@/services/NotificationService";
 
 // ============================================
 // OFFLINE PAGE
@@ -83,8 +84,26 @@ export default function OfflinePage() {
     console.log('[Offline] Generating offline exercises for domain:', selectedDomain);
     setIsGenerating(true);
 
+    let taskId: string | undefined;
+    let sessionId: string | undefined;
+
     try {
       await indexedDBService.init();
+
+      // Check if notifications are enabled
+      const settings = await storageService.getSettings();
+      const notificationsEnabled = settings?.notifyOnComplete ?? false;
+
+      // Create background task if notifications are enabled
+      if (notificationsEnabled) {
+        taskId = await notificationService.createBackgroundTask(
+          'quiz-generation',
+          selectedDomain,
+          questionCount
+        );
+        await notificationService.updateTaskStatus(taskId!, 'generating');
+        console.log('[Offline] Created background task:', taskId);
+      }
 
       console.log('[Offline] Starting question generation...');
       const questions = await openRouterService.generateQuestions({
@@ -106,6 +125,25 @@ export default function OfflinePage() {
       await indexedDBService.saveExercise(exercise);
       console.log('[Offline] Exercise saved:', exercise.id);
 
+      // Create session for immediate start
+      sessionId = `offline-${Date.now()}`;
+      await indexedDBService.saveSession({
+        id: sessionId,
+        type: "offline",
+        domain: exercise.domain,
+        questions: exercise.questions,
+        userAnswers: {},
+        currentIndex: 0,
+        status: "IN_PROGRESS" as any,
+        startedAt: new Date(),
+      });
+
+      // Update background task and send notification
+      if (taskId && notificationsEnabled) {
+        await notificationService.updateTaskStatus(taskId, 'ready', sessionId);
+        console.log('[Offline] Background task updated and notification sent');
+      }
+
       // Refresh exercises list
       const allExercises = await indexedDBService.getAllExercises();
       setExercises(allExercises);
@@ -113,6 +151,17 @@ export default function OfflinePage() {
       alert(`${questions.length} questions générées et prêtes à être utilisées hors ligne !`);
     } catch (error: any) {
       console.error('[Offline] Failed to generate exercises:', error);
+
+      // Update background task with error
+      if (taskId) {
+        await notificationService.updateTaskStatus(
+          taskId,
+          'failed',
+          undefined,
+          error.message || "Erreur inconnue"
+        );
+      }
+
       alert(`Erreur lors de la génération: ${error.message || "Erreur inconnue"}`);
     } finally {
       setIsGenerating(false);

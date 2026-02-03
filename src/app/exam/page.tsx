@@ -12,6 +12,8 @@ import { Clock, FileText, Globe, History, RefreshCw } from "lucide-react";
 import { Domain, SavedExam } from "@/types";
 import { openRouterService } from "@/services/OpenRouterService";
 import { indexedDBService } from "@/services/IndexedDBService";
+import { storageService } from "@/services/StorageService";
+import { notificationService } from "@/services/NotificationService";
 
 // ============================================
 // EXAM PAGE
@@ -48,9 +50,27 @@ export default function ExamPage() {
   const handleStartExam = async () => {
     setIsGenerating(true);
 
+    let taskId: string | undefined;
+
     try {
       // Ensure IndexedDB is initialized
       await indexedDBService.init();
+
+      // Check if notifications are enabled
+      const settings = await storageService.getSettings();
+      const notificationsEnabled = settings?.notifyOnComplete ?? false;
+
+      // Create background task if notifications are enabled
+      const questionCount = examType === "full" ? 40 : 20;
+      if (notificationsEnabled) {
+        taskId = await notificationService.createBackgroundTask(
+          'exam-generation',
+          examType === "domain" ? selectedDomain : "FULL_EXAM",
+          questionCount
+        );
+        await notificationService.updateTaskStatus(taskId!, 'generating');
+        console.log('[Exam] Created background task:', taskId);
+      }
 
       let questions: any[] = [];
 
@@ -119,11 +139,28 @@ export default function ExamPage() {
         examId, // Link to the exam template
       });
 
+      // Update background task and send notification
+      if (taskId && notificationsEnabled) {
+        await notificationService.updateTaskStatus(taskId, 'ready', sessionId);
+        console.log('[Exam] Background task updated and notification sent');
+      }
+
       // Navigate to quiz page with session ID
       // Use direct navigation to avoid RSC prefetch which fails offline
       window.location.href = `/quiz?session=${sessionId}`;
     } catch (error: any) {
       console.error("Failed to generate exam questions:", error);
+
+      // Update background task with error
+      if (taskId) {
+        await notificationService.updateTaskStatus(
+          taskId,
+          'failed',
+          undefined,
+          error.message || "Erreur inconnue"
+        );
+      }
+
       setIsGenerating(false);
       // TODO: Show error toast/notification
       alert(`Erreur lors de la génération: ${error.message || "Erreur inconnue"}`);

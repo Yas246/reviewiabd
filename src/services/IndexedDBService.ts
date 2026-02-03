@@ -7,6 +7,7 @@ import {
   UserSettings,
   UserStatistics,
   UserAnswer,
+  BackgroundTask,
 } from "@/types";
 
 // ============================================
@@ -57,10 +58,17 @@ interface ReviewIABDDB extends DBSchema {
     key: string;
     value: UserStatistics;
   };
+  backgroundTasks: {
+    key: string;
+    value: BackgroundTask;
+    indexes: {
+      "by-status": string;
+    };
+  };
 }
 
 const DB_NAME = "ReviewIABD";
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 class IndexedDBService {
   private db: IDBPDatabase<ReviewIABDDB> | null = null;
@@ -113,6 +121,12 @@ class IndexedDBService {
         // Statistics store
         if (!db.objectStoreNames.contains("statistics")) {
           db.createObjectStore("statistics");
+        }
+
+        // Background tasks store
+        if (!db.objectStoreNames.contains("backgroundTasks")) {
+          const taskStore = db.createObjectStore("backgroundTasks");
+          taskStore.createIndex("by-status", "status");
         }
       },
     });
@@ -482,6 +496,62 @@ class IndexedDBService {
       JSON.stringify(favorites).length;
 
     return size;
+  }
+
+  // ============================================
+  // BACKGROUND TASKS OPERATIONS
+  // ============================================
+
+  /**
+   * Save a background task
+   */
+  async saveBackgroundTask(task: BackgroundTask): Promise<void> {
+    const db = await this.ensureDB();
+    await db.put("backgroundTasks", task);
+  }
+
+  /**
+   * Get a background task by ID
+   */
+  async getBackgroundTask(taskId: string): Promise<BackgroundTask | undefined> {
+    const db = await this.ensureDB();
+    return db.get("backgroundTasks", taskId);
+  }
+
+  /**
+   * Get all background tasks
+   */
+  async getAllBackgroundTasks(): Promise<BackgroundTask[]> {
+    const db = await this.ensureDB();
+    return db.getAll("backgroundTasks");
+  }
+
+  /**
+   * Get background tasks by status
+   */
+  async getBackgroundTasksByStatus(status: string): Promise<BackgroundTask[]> {
+    const db = await this.ensureDB();
+    return db.getAllFromIndex("backgroundTasks", "by-status", status);
+  }
+
+  /**
+   * Delete a background task
+   */
+  async deleteBackgroundTask(taskId: string): Promise<void> {
+    const db = await this.ensureDB();
+    await db.delete("backgroundTasks", taskId);
+  }
+
+  /**
+   * Clear completed background tasks
+   */
+  async clearCompletedBackgroundTasks(): Promise<void> {
+    const db = await this.ensureDB();
+    const tasks = await this.getAllBackgroundTasks();
+    const completedTasks = tasks.filter(t => t.status === 'ready' || t.status === 'failed');
+    for (const task of completedTasks) {
+      await db.delete("backgroundTasks", task.id);
+    }
   }
 }
 

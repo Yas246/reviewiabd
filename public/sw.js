@@ -3,9 +3,9 @@
 // Caches static assets for offline use
 // ============================================
 
-const CACHE_NAME = "review-iabd-v2.2.2";
-const STATIC_CACHE = "review-iabd-static-v2.2.2";
-const RUNTIME_CACHE = "review-iabd-runtime-v2.2.2";
+const CACHE_NAME = "review-iabd-v2.3.0";
+const STATIC_CACHE = "review-iabd-static-v2.3.0";
+const RUNTIME_CACHE = "review-iabd-runtime-v2.3.0";
 
 // Assets to cache on install (core HTML pages)
 const urlsToCache = [
@@ -51,7 +51,7 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
-// Listen for messages from clients (e.g., to skip waiting)
+// Listen for messages from clients (e.g., to skip waiting, show notification)
 self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") {
     console.log('[SW] Received SKIP_WAITING message, activating immediately');
@@ -59,8 +59,59 @@ self.addEventListener("message", (event) => {
   } else if (event.data && event.data.type === "CLAIM_CLIENTS") {
     console.log('[SW] Received CLAIM_CLIENTS message, claiming all clients');
     self.clients.claim();
+  } else if (event.data && event.data.type === "SHOW_NOTIFICATION") {
+    console.log('[SW] Received SHOW_NOTIFICATION message:', event.data);
+    showNotification(event.data.payload);
   }
 });
+
+// Handle notification clicks
+self.addEventListener("notificationclick", (event) => {
+  console.log('[SW] Notification clicked:', event.notification.data);
+  event.notification.close();
+
+  // Extract data from notification
+  const data = event.notification.data || {};
+
+  // If there's a URL to open, open it
+  if (data.url) {
+    event.waitUntil(
+      clients.openWindow(data.url)
+    );
+  }
+});
+
+/**
+ * Show a notification to the user
+ * @param {Object} payload - Notification payload
+ * @param {string} payload.title - Notification title
+ * @param {string} payload.body - Notification body
+ * @param {string} payload.icon - Notification icon URL
+ * @param {string} payload.url - URL to open when clicked
+ * @param {string} payload.tag - Notification tag (to replace previous notifications)
+ */
+function showNotification(payload) {
+  const options = {
+    body: payload.body || '',
+    icon: payload.icon || '/icon-192.png',
+    badge: '/badge-72.png',
+    tag: payload.tag || 'quiz-notification',
+    data: {
+      url: payload.url || '/',
+      ...payload.data
+    },
+    requireInteraction: false,
+    silent: false
+  };
+
+  self.registration.showNotification(payload.title || 'Quiz prêt !', options)
+    .then(() => {
+      console.log('[SW] Notification shown successfully');
+    })
+    .catch((error) => {
+      console.error('[SW] Failed to show notification:', error);
+    });
+}
 
 // Helper: Determine request type
 function getRequestType(request) {

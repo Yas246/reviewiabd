@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { Key, Cpu, Trash2, Download, Upload } from "lucide-react";
 import { storageService } from "@/services/StorageService";
 import { indexedDBService } from "@/services/IndexedDBService";
+import { notificationService } from "@/services/NotificationService";
 
 // ============================================
 // SETTINGS PAGE
@@ -27,6 +28,9 @@ export default function SettingsPage() {
     const loadSettings = async () => {
       console.log('[Settings] Loading settings...');
       try {
+        // Initialize notification service
+        await notificationService.init();
+
         const settings = await storageService.getSettings();
         if (settings) {
           setApiKey(settings.apiKey || "");
@@ -65,6 +69,21 @@ export default function SettingsPage() {
     } finally {
       setIsSaving(false);
     }
+  };
+
+  const handleNotificationToggle = async () => {
+    const newValue = !notifications;
+
+    // If enabling notifications, request permission first
+    if (newValue && !notificationService.isEnabled()) {
+      const granted = await notificationService.requestPermission();
+      if (!granted) {
+        alert("Les notifications nécessitent votre permission pour fonctionner. Vous pouvez les activer dans les paramètres de votre navigateur.");
+        return;
+      }
+    }
+
+    setNotifications(newValue);
   };
 
   const handleExport = async () => {
@@ -212,11 +231,11 @@ export default function SettingsPage() {
                   <div>
                     <p className="font-medium">Notifications</p>
                     <p className="text-sm text-ink-muted">
-                      Recevoir une notification à la fin d'un quiz
+                      Recevoir une notification quand la génération est terminée
                     </p>
                   </div>
                   <button
-                    onClick={() => setNotifications(!notifications)}
+                    onClick={handleNotificationToggle}
                     className={`w-12 h-6 rounded-full transition-colors ${
                       notifications ? "bg-accent" : "bg-paper-dark"
                     }`}
