@@ -163,32 +163,14 @@ class StorageService {
         provider: "openrouter" as AIProvider,
       },
       {
-        id: "google/gemma-3-27b-it:free",
-        name: "Gemma 3 27B (Free)",
-        free: true,
-        provider: "openrouter" as AIProvider,
-      },
-      {
-        id: "meta-llama/llama-3.3-8b-instruct:free",
-        name: "Llama 3.3 8B (Free)",
-        free: true,
-        provider: "openrouter" as AIProvider,
-      },
-      {
-        id: "anthropic/claude-3-haiku",
-        name: "Claude 3 Haiku",
-        free: false,
-        provider: "openrouter" as AIProvider,
-      },
-      {
-        id: "openai/gpt-4o-mini",
-        name: "GPT-4o Mini",
-        free: false,
-        provider: "openrouter" as AIProvider,
-      },
-      {
         id: "gemini-2.5-flash",
         name: "Gemini 2.5 Flash",
+        free: true,
+        provider: "gemini" as AIProvider,
+      },
+      {
+        id: "gemini-2.0-flash",
+        name: "Gemini 2.0 Flash",
         free: true,
         provider: "gemini" as AIProvider,
       },
@@ -232,6 +214,36 @@ class StorageService {
    */
   async setGeminiApiKey(apiKey: string): Promise<void> {
     await this.updateSettings({ geminiApiKey: apiKey });
+  }
+
+  /**
+   * Get custom OpenRouter model
+   */
+  async getCustomOpenRouterModel(): Promise<string> {
+    const settings = await this.getSettings();
+    return settings.customOpenRouterModel || "";
+  }
+
+  /**
+   * Set custom OpenRouter model
+   */
+  async setCustomOpenRouterModel(model: string): Promise<void> {
+    await this.updateSettings({ customOpenRouterModel: model || undefined });
+  }
+
+  /**
+   * Get custom Gemini model
+   */
+  async getCustomGeminiModel(): Promise<string> {
+    const settings = await this.getSettings();
+    return settings.customGeminiModel || "";
+  }
+
+  /**
+   * Set custom Gemini model
+   */
+  async setCustomGeminiModel(model: string): Promise<void> {
+    await this.updateSettings({ customGeminiModel: model || undefined });
   }
 
   // ============================================

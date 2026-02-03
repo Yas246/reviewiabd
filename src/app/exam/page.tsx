@@ -80,17 +80,38 @@ export default function ExamPage() {
 
       if (examType === "full") {
         // Full exam: 4 questions from each of the 10 domains = 40 questions
-        const domains = Object.values(Domain);
+        // NEW: Use 4 multi-domain requests instead of 10 single-domain requests
         const questionsPerDomain = 4;
 
-        for (const domain of domains) {
-          const domainQuestions = await aiService.generateQuestions({
-            domain,
-            count: questionsPerDomain,
-            includeExplanations: true,
-          });
-          questions.push(...domainQuestions);
-        }
+        // Group 1: 4 domains × 4q = 16 questions
+        console.log('[Exam] Generating Group 1: ML, DL, NLP, VISUALISATION_DONNEES');
+        const group1Questions = await aiService.generateMultiDomainQuestions({
+          domains: [Domain.MACHINE_LEARNING, Domain.DEEP_LEARNING, Domain.NLP, Domain.VISUALISATION_DONNEES],
+          countPerDomain: questionsPerDomain,
+          includeExplanations: true,
+        });
+        questions.push(...group1Questions);
+
+        // Group 2: 3 domains × 4q = 12 questions
+        console.log('[Exam] Generating Group 2: IA_SYMBOLIQUE, DATA_WAREHOUSING, BIG_DATA');
+        const group2Questions = await aiService.generateMultiDomainQuestions({
+          domains: [Domain.IA_SYMBOLIQUE, Domain.DATA_WAREHOUSING, Domain.BIG_DATA],
+          countPerDomain: questionsPerDomain,
+          includeExplanations: true,
+        });
+        questions.push(...group2Questions);
+
+        // Group 3: 3 domains × 4q = 12 questions
+        console.log('[Exam] Generating Group 3: SYSTEMES_RECOMMANDATION, DATA_MINING, ETHIQUE_IA');
+        const group3Questions = await aiService.generateMultiDomainQuestions({
+          domains: [Domain.SYSTEMES_RECOMMANDATION, Domain.DATA_MINING, Domain.ETHIQUE_IA],
+          countPerDomain: questionsPerDomain,
+          includeExplanations: true,
+        });
+        questions.push(...group3Questions);
+
+        // Total: 16 + 12 + 12 = 40 questions in 3 requests (even better than 4!)
+        console.log('[Exam] Generated total questions:', questions.length);
 
         // Shuffle questions to mix domains
         questions = questions.sort(() => Math.random() - 0.5);

@@ -29,32 +29,14 @@ const AVAILABLE_MODELS = [
     provider: "openrouter" as AIProvider,
   },
   {
-    id: "google/gemma-3-27b-it:free",
-    name: "Gemma 3 27B (Free)",
-    free: true,
-    provider: "openrouter" as AIProvider,
-  },
-  {
-    id: "meta-llama/llama-3.3-8b-instruct:free",
-    name: "Llama 3.3 8B (Free)",
-    free: true,
-    provider: "openrouter" as AIProvider,
-  },
-  {
-    id: "anthropic/claude-3-haiku",
-    name: "Claude 3 Haiku",
-    free: false,
-    provider: "openrouter" as AIProvider,
-  },
-  {
-    id: "openai/gpt-4o-mini",
-    name: "GPT-4o Mini",
-    free: false,
-    provider: "openrouter" as AIProvider,
-  },
-  {
     id: "gemini-2.5-flash",
     name: "Gemini 2.5 Flash",
+    free: true,
+    provider: "gemini" as AIProvider,
+  },
+  {
+    id: "gemini-2.0-flash",
+    name: "Gemini 2.0 Flash",
     free: true,
     provider: "gemini" as AIProvider,
   },
@@ -65,6 +47,8 @@ export default function OnboardingPage() {
   const [provider, setProvider] = useState<AIProvider>("openrouter");
   const [apiKey, setApiKey] = useState("");
   const [geminiApiKey, setGeminiApiKey] = useState("");
+  const [customOpenRouterModel, setCustomOpenRouterModel] = useState("");
+  const [customGeminiModel, setCustomGeminiModel] = useState("");
   const [selectedModel, setSelectedModel] = useState("z-ai/glm-4.5-air:free");
   const [isValidKey, setIsValidKey] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -127,6 +111,8 @@ export default function OnboardingPage() {
         provider,
         model: selectedModel,
         defaultModel: selectedModel,
+        customOpenRouterModel: customOpenRouterModel || undefined,
+        customGeminiModel: customGeminiModel || undefined,
         onboardingCompleted: true,
         notifyOnComplete: true,
         offlineQuestionsPerDomain: 10,
@@ -386,6 +372,88 @@ export default function OnboardingPage() {
                       </div>
                     </button>
                   )
+                )}
+
+                {/* Custom Model Input - OpenRouter */}
+                {provider === "openrouter" && (
+                  <div className="mt-4 p-4 border border-paper-dark rounded-lg">
+                    <label className="font-mono text-xs text-ink-muted uppercase mb-2 block">
+                      Modèle Custom (optionnel)
+                    </label>
+                    <input
+                      type="text"
+                      value={customOpenRouterModel}
+                      onChange={(e) => setCustomOpenRouterModel(e.target.value)}
+                      placeholder="ex: anthropic/claude-3-5-sonnet"
+                      className="w-full px-4 py-3 bg-paper-secondary border border-paper-dark rounded font-mono text-sm text-ink-primary placeholder:text-ink-muted focus:outline-none focus:border-accent"
+                    />
+                    <p className="text-xs text-ink-muted mt-2">
+                      Entrez l'ID d'un modèle OpenRouter custom. Voir{" "}
+                      <a
+                        href="https://openrouter.ai/models"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-accent hover:underline"
+                      >
+                        la liste complète
+                      </a>.
+                    </p>
+                    {customOpenRouterModel && selectedModel !== customOpenRouterModel && (
+                      <button
+                        onClick={() => setSelectedModel(customOpenRouterModel)}
+                        className="mt-2 text-xs text-accent hover:underline"
+                      >
+                        Utiliser ce modèle custom
+                      </button>
+                    )}
+                    {selectedModel === customOpenRouterModel && customOpenRouterModel && (
+                      <span className="inline-flex items-center gap-1 mt-2 text-xs px-2 py-1 bg-accent/10 text-accent rounded">
+                        <span>CUSTOM</span>
+                        <span>✓</span>
+                      </span>
+                    )}
+                  </div>
+                )}
+
+                {/* Custom Model Input - Gemini */}
+                {provider === "gemini" && (
+                  <div className="mt-4 p-4 border border-paper-dark rounded-lg">
+                    <label className="font-mono text-xs text-ink-muted uppercase mb-2 block">
+                      Modèle Custom (optionnel)
+                    </label>
+                    <input
+                      type="text"
+                      value={customGeminiModel}
+                      onChange={(e) => setCustomGeminiModel(e.target.value)}
+                      placeholder="ex: gemini-1.5-pro"
+                      className="w-full px-4 py-3 bg-paper-secondary border border-paper-dark rounded font-mono text-sm text-ink-primary placeholder:text-ink-muted focus:outline-none focus:border-accent"
+                    />
+                    <p className="text-xs text-ink-muted mt-2">
+                      Entrez l'ID d'un modèle Gemini custom. Voir{" "}
+                      <a
+                        href="https://ai.google.dev/gemini-api/docs/models"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-accent hover:underline"
+                      >
+                        la documentation Gemini
+                      </a>.
+                    </p>
+                    {customGeminiModel && selectedModel !== customGeminiModel && (
+                      <button
+                        onClick={() => setSelectedModel(customGeminiModel)}
+                        className="mt-2 text-xs text-accent hover:underline"
+                      >
+                        Utiliser ce modèle custom
+                      </button>
+                    )}
+                    {selectedModel === customGeminiModel && customGeminiModel && (
+                      <span className="inline-flex items-center gap-1 mt-2 text-xs px-2 py-1 bg-accent/10 text-accent rounded">
+                        <span>CUSTOM</span>
+                        <span>✓</span>
+                      </span>
+                    )}
+                  </div>
                 )}
               </div>
             </CardContent>

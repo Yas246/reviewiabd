@@ -138,6 +138,8 @@ export interface UserSettings {
   provider: AIProvider;   // AI provider selection
   model: string;
   defaultModel: string;
+  customOpenRouterModel?: string;  // Custom model ID for OpenRouter
+  customGeminiModel?: string;       // Custom model ID for Gemini
   notifyOnComplete: boolean;
   offlineQuestionsPerDomain: number;
   onboardingCompleted: boolean;
@@ -195,6 +197,22 @@ export interface QuestionGenerationRequest {
   count: number;
   difficulty?: "easy" | "medium" | "hard";
   includeExplanations: boolean;
+  previousQuestions?: string[]; // Questions already generated (to avoid duplicates)
+}
+
+// Multi-domain generation request (for exams)
+export interface MultiDomainQuestionRequest {
+  domains: Domain[];
+  countPerDomain: number;
+  difficulty?: "easy" | "medium" | "hard";
+  includeExplanations: boolean;
+  previousQuestions?: string[]; // Questions already generated (to avoid duplicates)
+}
+
+// Domain with count
+export interface DomainCount {
+  domain: Domain;
+  count: number;
 }
 
 // Generation response
@@ -227,6 +245,15 @@ export interface IAIService {
       difficulty?: "easy" | "medium" | "hard";
       includeExplanations: boolean;
     },
+    onProgress?: (progress: {
+      current: number;
+      total: number;
+      batch: Question[];
+    }) => void
+  ): Promise<Question[]>;
+
+  generateMultiDomainQuestions(
+    request: MultiDomainQuestionRequest,
     onProgress?: (progress: {
       current: number;
       total: number;

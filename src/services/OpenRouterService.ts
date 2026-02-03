@@ -3,6 +3,7 @@ import {
   Domain,
   QuestionType,
   QuestionGenerationRequest,
+  MultiDomainQuestionRequest,
   QuestionGenerationResponse,
   GenerationProgressCallback,
   APIError,
@@ -50,16 +51,21 @@ function generatePrompt(
   domain: Domain,
   count: number,
   difficulty?: "easy" | "medium" | "hard",
+  previousQuestions?: string[],
 ): string {
   const domainContext = DOMAIN_PROMPTS[domain];
   const difficultyText = difficulty
     ? ` Niveau de difficulté: ${difficulty}.`
     : "";
 
+  // Add previous questions to avoid duplicates
+  const previousQuestionsText = previousQuestions && previousQuestions.length > 0
+    ? `\n\nIMPORTANT: Les questions suivantes ont déjà été générées. Tu DOIS générer des questions DIFFÉRENTES qui ne traitent PAS des mêmes sujets:\n\n${previousQuestions.map(q => `- ${q}`).join('\n')}\n\n`
+    : "";
+
   return `Tu es un expert pédagogique en Intelligence Artificielle et Big Data. Génère ${count} questions à choix multiple (QCM) sur le domaine suivant:
 
-${domainContext}${difficultyText}
-
+${domainContext}${difficultyText}${previousQuestionsText}
 IMPORTANT: Tu dois répondre UNIQUEMENT avec un tableau JSON valide contenant les questions. Pas de texte avant ou après le JSON.
 
 Format attendu pour chaque question:
@@ -81,6 +87,7 @@ Contraintes:
 - L'explication doit être concise (2-3 phrases maximum)
 - Les questions doivent couvrir différents aspects du domaine
 - Inclure des questions pratiques et théoriques
+- CRITIQUE: Chaque nouvelle question doit traiter d'un sujet DIFFÉRENT des questions précédentes
 
 IMPORTANT: Assure-toi que le JSON est complet et bien formé. Ne coupe pas ta réponse.
 
@@ -250,7 +257,7 @@ class OpenRouterService implements IAIService {
         };
       }
 
-      const prompt = generatePrompt(domain, count, difficulty);
+      const prompt = generatePrompt(domain, count, difficulty, request.previousQuestions);
 
       console.log("[OpenRouter] Starting batch generation:", {
         domain,
@@ -374,6 +381,7 @@ class OpenRouterService implements IAIService {
       count,
       difficulty: request.difficulty,
       includeExplanations: request.includeExplanations,
+      previousQuestionsCount: request.previousQuestions?.length || 0,
       batchSize: BATCH_SIZE,
       totalBatches,
       timestamp: new Date().toISOString(),
@@ -393,12 +401,16 @@ class OpenRouterService implements IAIService {
         const batchQuestions = await this.generateQuestionsBatch({
           ...request,
           count: batchSize,
+          previousQuestions: request.previousQuestions,
         });
         console.log(
           `[OpenRouter] Batch ${batchIndex + 1}: received ${batchQuestions.length} questions`,
         );
 
         allQuestions.push(...batchQuestions);
+
+        // Update previousQuestions for next batch to avoid duplicates
+        request.previousQuestions = allQuestions.map(q => q.question);
 
         // Report progress
         if (onProgress) {
@@ -434,6 +446,241 @@ class OpenRouterService implements IAIService {
     });
 
     return allQuestions;
+  }
+
+  /**
+   * Generate questions for multiple domains in a single request
+   * Useful for exams to reduce API calls from 10 to 4
+   */
+  async generateMultiDomainQuestions(
+    request: MultiDomainQuestionRequest,
+    onProgress?: GenerationProgressCallback,
+  ): Promise<Question[]> {
+    const { domains, countPerDomain, difficulty } = request;
+    const totalCount = domains.length * countPerDomain;
+
+    console.log("[OpenRouter] ===== STARTING MULTI-DOMAIN QUESTION GENERATION =====");
+    console.log("[OpenRouter] Request details:", {
+      domains: domains.join(", "),
+      countPerDomain,
+      totalQuestions: totalCount,
+      difficulty,
+      includeExplanations: request.includeExplanations,
+      previousQuestionsCount: request.previousQuestions?.length || 0,
+      timestamp: new Date().toISOString(),
+    });
+
+    try {
+      // Get API key and model from StorageService
+      const apiKey = await storageService.getApiKey();
+      const model = await storageService.getModel();
+
+      if (!apiKey) {
+        throw {
+          message: "API key not configured. Please complete onboarding.",
+          code: "NO_API_KEY",
+          isRetryable: false,
+        };
+      }
+
+      // Build the multi-domain prompt
+      const prompt = this.generateMultiDomainPrompt(request);
+
+      console.log("[OpenRouter] Starting multi-domain batch generation:", {
+        domains: domains.join(", "),
+        totalQuestions: totalCount,
+        model,
+        difficulty,
+        promptLength: prompt.length,
+      });
+      console.log("[OpenRouter] Prompt being sent to API:");
+      console.log("---PROMPT START---");
+      console.log(prompt);
+      console.log("---PROMPT END---");
+
+      console.log("[OpenRouter] Sending HTTP request to OpenRouter API...");
+      const startTime = Date.now();
+
+      const response = await retryWithBackoff(
+        async () => {
+          const res = await fetch(OPENROUTER_API_URL, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${apiKey}`,
+              "HTTP-Referer":
+                typeof window !== "undefined" ? window.location.href : "",
+              "X-Title": "Review IABD",
+            },
+            body: JSON.stringify({
+              model,
+              messages: [
+                {
+                  role: "user",
+                  content: prompt,
+                },
+              ],
+              temperature: 0.7,
+              max_tokens: 12000,
+            }),
+          });
+
+          if (!res.ok) {
+            console.error("[OpenRouter] API error response:", await res.text());
+            throw new Error(`API error: ${res.status} ${res.statusText}`);
+          }
+
+          return res.json();
+        },
+        MAX_RETRIES,
+        BASE_DELAY,
+      );
+
+      const endTime = Date.now();
+      console.log(`[OpenRouter] Request completed in ${endTime - startTime}ms`);
+
+      // Parse response
+      const content = response.choices[0]?.message?.content;
+      if (!content) {
+        throw new Error("Empty response from API");
+      }
+
+      console.log("[OpenRouter] Response received, length:", content.length);
+
+      // Parse questions from response
+      const questions = this.parseMultiDomainQuestions(content, domains);
+
+      if (questions.length !== totalCount) {
+        console.warn(
+          `[OpenRouter] Expected ${totalCount} questions but got ${questions.length}`,
+        );
+      }
+
+      // Report progress
+      if (onProgress) {
+        onProgress({
+          current: questions.length,
+          total: totalCount,
+          batch: questions,
+        });
+      }
+
+      console.log("[OpenRouter] ===== MULTI-DOMAIN QUESTION GENERATION COMPLETED =====");
+      console.log("[OpenRouter] Final results:", {
+        totalGenerated: questions.length,
+        requested: totalCount,
+        domains: domains.join(", "),
+        timestamp: new Date().toISOString(),
+      });
+
+      return questions;
+    } catch (error: any) {
+      const apiError = handleAPIError(error);
+      throw apiError;
+    }
+  }
+
+  /**
+   * Generate prompt for multi-domain question generation
+   */
+  private generateMultiDomainPrompt(request: MultiDomainQuestionRequest): string {
+    const { domains, countPerDomain, difficulty } = request;
+    const domainPrompts = domains.map(
+      (domain) => `${DOMAIN_PROMPTS[domain]} (${countPerDomain} questions)`
+    ).join("\n\n");
+
+    const difficultyText = difficulty
+      ? ` Niveau de difficulté: ${difficulty}.`
+      : "";
+
+    const previousQuestionsText = request.previousQuestions && request.previousQuestions.length > 0
+      ? `\n\nIMPORTANT: Les questions suivantes ont déjà été générées. Tu DOIS générer des questions DIFFÉRENTES qui ne traitent PAS des mêmes sujets:\n\n${request.previousQuestions.map(q => `- ${q}`).join('\n')}\n\n`
+      : "";
+
+    return `Tu es un expert pédagogique en Intelligence Artificielle et Big Data. Génère des questions à choix multiple (QCM) sur les domaines suivants:
+
+${domainPrompts}${difficultyText}${previousQuestionsText}
+IMPORTANT: Tu dois répondre UNIQUEMENT avec un tableau JSON valide contenant les questions. Pas de texte avant ou après le JSON.
+
+Pour chaque domaine, génère exactement ${countPerDomain} questions.
+
+Format attendu pour chaque question:
+{
+  "question": "texte de la question",
+  "domain": "MACHINE_LEARNING" | "IA_SYMBOLIQUE" | "DATA_WAREHOUSING" | "BIG_DATA" | "SYSTEMES_RECOMMANDATION" | "DATA_MINING" | "DEEP_LEARNING" | "VISUALISATION_DONNEES" | "ETHIQUE_IA" | "NLP",
+  "answers": [
+    {"text": "réponse A", "isCorrect": false},
+    {"text": "réponse B", "isCorrect": true},
+    {"text": "réponse C", "isCorrect": false},
+    {"text": "réponse D", "isCorrect": false}
+  ],
+  "explanation": "explication détaillée de la bonne réponse"
+}
+
+Contraintes:
+- Les questions doivent être techniques et précises
+- Une seule bonne réponse par question
+- 4 choix de réponse par question
+- L'explication doit être concise (2-3 phrases maximum)
+- Les questions doivent couvrir différents aspects du domaine
+- Inclure des questions pratiques et théoriques
+- CRITIQUE: Le champ "domain" doit correspondre exactement au domaine de la question
+
+IMPORTANT: Assure-toi que le JSON est complet et bien formé. Ne coupe pas ta réponse.
+
+Génère maintenant les questions au format JSON tableau:`;
+  }
+
+  /**
+   * Parse questions from multi-domain API response
+   */
+  private parseMultiDomainQuestions(content: string, expectedDomains: Domain[]): Question[] {
+    try {
+      // Try to extract JSON from markdown code blocks
+      const jsonMatch = content.match(/```(?:json)?\s*(\[[\s\S]*?\])\s*```/);
+      const jsonContent = jsonMatch ? jsonMatch[1] : content;
+
+      const questionsData = JSON.parse(jsonContent);
+
+      if (!Array.isArray(questionsData)) {
+        throw new Error("Response is not an array");
+      }
+
+      const questions: Question[] = questionsData.map((q: any) => {
+        if (!q.question || !q.answers || !Array.isArray(q.answers) || !q.domain) {
+          throw new Error("Invalid question structure - missing required fields");
+        }
+
+        // Validate domain
+        if (!expectedDomains.includes(q.domain as Domain)) {
+          console.warn(
+            `[OpenRouter] Question has unexpected domain: ${q.domain}. Expected one of: ${expectedDomains.join(", ")}`,
+          );
+        }
+
+        return {
+          id: generateId(),
+          domain: q.domain as Domain,
+          type: QuestionType.SINGLE_CHOICE,
+          question: q.question,
+          answers: q.answers.map((a: any) => ({
+            id: generateId(),
+            text: a.text,
+            isCorrect: a.isCorrect || false,
+          })),
+          explanation: q.explanation || "",
+          difficulty: "medium",
+          tags: [q.domain as Domain],
+          createdAt: new Date(),
+        };
+      });
+
+      console.log("[OpenRouter] Successfully parsed", questions.length, "questions from multi-domain response");
+      return questions;
+    } catch (error: any) {
+      console.error("[OpenRouter] Error parsing multi-domain questions:", error);
+      throw new Error(`Failed to parse questions: ${error.message}`);
+    }
   }
 
   /**
