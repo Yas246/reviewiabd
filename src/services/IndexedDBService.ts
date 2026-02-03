@@ -125,7 +125,7 @@ class IndexedDBService {
 
         // Background tasks store
         if (!db.objectStoreNames.contains("backgroundTasks")) {
-          const taskStore = db.createObjectStore("backgroundTasks");
+          const taskStore = db.createObjectStore("backgroundTasks", { keyPath: "id" });
           taskStore.createIndex("by-status", "status");
         }
       },
