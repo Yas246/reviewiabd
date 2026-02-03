@@ -12,6 +12,7 @@ import { Domain, SavedExercise } from "@/types";
 import { Download, Wifi, WifiOff, CheckCircle } from "lucide-react";
 import { indexedDBService } from "@/services/IndexedDBService";
 import { openRouterService } from "@/services/OpenRouterService";
+import { storageService } from "@/services/StorageService";
 
 // ============================================
 // OFFLINE PAGE
@@ -24,25 +25,33 @@ export default function OfflinePage() {
   const [exercises, setExercises] = useState<SavedExercise[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [questionCount] = useState(10);
+  const [questionCount, setQuestionCount] = useState(10);
   const [isOnline, setIsOnline] = useState(true);
 
   useEffect(() => {
-    const loadExercises = async () => {
-      console.log('[Offline] Loading exercises from IndexedDB...');
+    const loadSettingsAndExercises = async () => {
+      console.log('[Offline] Loading settings and exercises...');
       try {
         await indexedDBService.init();
+
+        // Load offline questions count from settings
+        const settings = await storageService.getSettings();
+        const count = settings?.offlineQuestionsPerDomain || 10;
+        console.log('[Offline] Loaded offline questions count from settings:', count);
+        setQuestionCount(count);
+
+        // Load exercises
         const allExercises = await indexedDBService.getAllExercises();
         console.log('[Offline] Loaded', allExercises.length, 'exercises');
         setExercises(allExercises);
         setLoading(false);
       } catch (error) {
-        console.error('[Offline] Failed to load exercises:', error);
+        console.error('[Offline] Failed to load settings/exercises:', error);
         setLoading(false);
       }
     };
 
-    loadExercises();
+    loadSettingsAndExercises();
   }, []);
 
   // Detect online/offline status
