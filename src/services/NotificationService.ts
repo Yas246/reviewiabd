@@ -59,7 +59,7 @@ class NotificationService {
    */
   async createBackgroundTask(
     type: "quiz-generation" | "exam-generation",
-    domain: Domain,
+    domain: string, // Can be a Domain or "FULL_EXAM"
     questionCount: number
   ): Promise<string> {
     const taskId = `bg-task-${Date.now()}`;
