@@ -128,9 +128,14 @@ export interface SavedExercise {
   lastUsedAt?: Date;
 }
 
+// AI Provider type
+export type AIProvider = 'openrouter' | 'gemini';
+
 // User settings
 export interface UserSettings {
   apiKey: string;
+  geminiApiKey?: string;  // Google API key for Gemini
+  provider: AIProvider;   // AI provider selection
   model: string;
   defaultModel: string;
   notifyOnComplete: boolean;
@@ -211,4 +216,23 @@ export interface BackgroundTask {
   createdAt: Date;
   completedAt?: Date;
   errorMessage?: string;
+}
+
+// AI Service interface (implemented by OpenRouterService and GeminiService)
+export interface IAIService {
+  generateQuestions(
+    options: {
+      domain: Domain;
+      count: number;
+      difficulty?: "easy" | "medium" | "hard";
+      includeExplanations: boolean;
+    },
+    onProgress?: (progress: {
+      current: number;
+      total: number;
+      batch: Question[];
+    }) => void
+  ): Promise<Question[]>;
+
+  validateApiKey(apiKey: string): Promise<boolean>;
 }

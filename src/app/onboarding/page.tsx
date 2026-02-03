@@ -6,8 +6,9 @@ import { Navigation } from "@/components/layout/Navigation";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-import { Key, Check, AlertCircle } from "lucide-react";
+import { Key, Check, AlertCircle, Cpu } from "lucide-react";
 import { storageService } from "@/services/StorageService";
+import { AIProvider } from "@/types";
 
 // ============================================
 // ONBOARDING PAGE
@@ -15,24 +16,56 @@ import { storageService } from "@/services/StorageService";
 // ============================================
 
 const AVAILABLE_MODELS = [
-  { id: "z-ai/glm-4.5-air:free", name: "GLM 4.5 Air (Free)", free: true },
-  { id: "openai/gpt-oss-120b:free", name: "GPT-OSS 120B (Free)", free: true },
-  { id: "google/gemma-3-27b-it:free", name: "Gemma 3 27B (Free)", free: true },
+  {
+    id: "z-ai/glm-4.5-air:free",
+    name: "GLM 4.5 Air (Free)",
+    free: true,
+    provider: "openrouter" as AIProvider,
+  },
+  {
+    id: "openai/gpt-oss-120b:free",
+    name: "GPT-OSS 120B (Free)",
+    free: true,
+    provider: "openrouter" as AIProvider,
+  },
+  {
+    id: "google/gemma-3-27b-it:free",
+    name: "Gemma 3 27B (Free)",
+    free: true,
+    provider: "openrouter" as AIProvider,
+  },
   {
     id: "meta-llama/llama-3.3-8b-instruct:free",
     name: "Llama 3.3 8B (Free)",
     free: true,
+    provider: "openrouter" as AIProvider,
   },
-  { id: "anthropic/claude-3-haiku", name: "Claude 3 Haiku", free: false },
-  { id: "openai/gpt-4o-mini", name: "GPT-4o Mini", free: false },
+  {
+    id: "anthropic/claude-3-haiku",
+    name: "Claude 3 Haiku",
+    free: false,
+    provider: "openrouter" as AIProvider,
+  },
+  {
+    id: "openai/gpt-4o-mini",
+    name: "GPT-4o Mini",
+    free: false,
+    provider: "openrouter" as AIProvider,
+  },
+  {
+    id: "gemini-2.5-flash",
+    name: "Gemini 2.5 Flash",
+    free: true,
+    provider: "gemini" as AIProvider,
+  },
 ];
 
 export default function OnboardingPage() {
   const router = useRouter();
+  const [provider, setProvider] = useState<AIProvider>("openrouter");
   const [apiKey, setApiKey] = useState("");
-  const [selectedModel, setSelectedModel] = useState(
-    "z-ai/glm-4.5-air:free",
-  );
+  const [geminiApiKey, setGeminiApiKey] = useState("");
+  const [selectedModel, setSelectedModel] = useState("z-ai/glm-4.5-air:free");
   const [isValidKey, setIsValidKey] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -49,13 +82,24 @@ export default function OnboardingPage() {
     checkOnboarding();
   }, [router]);
 
-  const validateApiKey = (key: string) => {
-    return key.length >= 20 && /^[a-zA-Z0-9_-]+$/.test(key);
+  const validateApiKey = (key: string, provider: AIProvider) => {
+    if (provider === "gemini") {
+      // Google API key format: AIza followed by 33+ alphanumeric characters
+      return /^AIza[A-Za-z0-9_-]{33,}$/.test(key);
+    } else {
+      // OpenRouter API key format
+      return key.length >= 20 && /^[a-zA-Z0-9_-]+$/.test(key);
+    }
   };
 
   const handleApiKeyChange = (value: string) => {
-    setApiKey(value);
-    setIsValidKey(validateApiKey(value));
+    if (provider === "openrouter") {
+      setApiKey(value);
+      setIsValidKey(validateApiKey(value, provider));
+    } else {
+      setGeminiApiKey(value);
+      setIsValidKey(validateApiKey(value, provider));
+    }
     setError("");
   };
 
@@ -78,7 +122,9 @@ export default function OnboardingPage() {
     try {
       // Save settings to StorageService (IndexedDB)
       await storageService.saveSettings({
-        apiKey,
+        apiKey: provider === "openrouter" ? apiKey : "",
+        geminiApiKey: provider === "gemini" ? geminiApiKey : "",
+        provider,
         model: selectedModel,
         defaultModel: selectedModel,
         onboardingCompleted: true,
@@ -138,20 +184,104 @@ export default function OnboardingPage() {
           </div>
         </div>
 
-        {/* Step 1: API Key */}
+        {/* Step 1: Provider & API Key */}
         {step === 1 && (
           <Card className="animate-fade-in-up">
             <CardContent>
+              {/* Provider Selection */}
               <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center">
+                  <Cpu className="w-6 h-6 text-accent" />
+                </div>
+                <div className="flex-1">
+                  <h2 className="font-mono font-semibold text-lg mb-1">
+                    Fournisseur IA
+                  </h2>
+                  <p className="text-sm text-ink-muted">
+                    Choisissez le service pour générer vos questions
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 mb-8">
+                {/* OpenRouter Option */}
+                <label
+                  className={`cursor-pointer border-2 rounded-lg p-4 transition-all ${
+                    provider === "openrouter"
+                      ? "border-accent bg-accent/10"
+                      : "border-paper-dark hover:border-accent/50"
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="provider"
+                    value="openrouter"
+                    checked={provider === "openrouter"}
+                    onChange={(e) => {
+                      setProvider(e.target.value as AIProvider);
+                      setIsValidKey(false);
+                      setError("");
+                      setSelectedModel("z-ai/glm-4.5-air:free");
+                    }}
+                    className="sr-only"
+                  />
+                  <div className="text-center">
+                    <div className="font-mono font-semibold text-ink-primary mb-1">
+                      OpenRouter
+                    </div>
+                    <div className="text-xs text-ink-muted">
+                      Multi-modèles gratuit
+                    </div>
+                  </div>
+                </label>
+
+                {/* Gemini Option */}
+                <label
+                  className={`cursor-pointer border-2 rounded-lg p-4 transition-all ${
+                    provider === "gemini"
+                      ? "border-accent bg-accent/10"
+                      : "border-paper-dark hover:border-accent/50"
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="provider"
+                    value="gemini"
+                    checked={provider === "gemini"}
+                    onChange={(e) => {
+                      setProvider(e.target.value as AIProvider);
+                      setIsValidKey(false);
+                      setError("");
+                      setSelectedModel("gemini-2.5-flash");
+                    }}
+                    className="sr-only"
+                  />
+                  <div className="text-center">
+                    <div className="font-mono font-semibold text-ink-primary mb-1">
+                      Google Gemini
+                    </div>
+                    <div className="text-xs text-ink-muted">
+                      Gemini 2.5 Flash
+                    </div>
+                  </div>
+                </label>
+              </div>
+
+              {/* API Key Input */}
+              <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center">
                   <Key className="w-6 h-6 text-accent" />
                 </div>
                 <div>
                   <h2 className="font-mono font-semibold text-lg">
-                    Clé API OpenRouter
+                    {provider === "gemini"
+                      ? "Clé API Google"
+                      : "Clé API OpenRouter"}
                   </h2>
                   <p className="text-sm text-ink-muted">
-                    Obtenez votre clé gratuitement sur openrouter.ai
+                    {provider === "gemini"
+                      ? "Obtenez votre clé sur aistudio.google.com"
+                      : "Obtenez votre clé gratuitement sur openrouter.ai"}
                   </p>
                 </div>
               </div>
@@ -163,9 +293,15 @@ export default function OnboardingPage() {
                   </label>
                   <input
                     type="password"
-                    value={apiKey}
+                    value={
+                      provider === "gemini" ? geminiApiKey : apiKey
+                    }
                     onChange={(e) => handleApiKeyChange(e.target.value)}
-                    placeholder="sk-or-v1-..."
+                    placeholder={
+                      provider === "gemini"
+                        ? "AIza..."
+                        : "sk-or-v1-..."
+                    }
                     className="w-full px-4 py-3 bg-paper-secondary border border-paper-dark rounded font-mono text-sm text-ink-primary placeholder:text-ink-muted focus:outline-none focus:border-accent"
                   />
                 </div>
@@ -186,12 +322,18 @@ export default function OnboardingPage() {
 
                 <div className="mt-6">
                   <a
-                    href="https://openrouter.ai/keys"
+                    href={
+                      provider === "gemini"
+                        ? "https://aistudio.google.com/app/apikey"
+                        : "https://openrouter.ai/keys"
+                    }
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-accent text-sm hover:underline"
                   >
-                    Obtenir une clé API →
+                    {provider === "gemini"
+                      ? "Obtenir une clé API Google →"
+                      : "Obtenir une clé API OpenRouter →"}
                   </a>
                 </div>
               </div>
@@ -213,36 +355,38 @@ export default function OnboardingPage() {
               </div>
 
               <div className="space-y-3">
-                {AVAILABLE_MODELS.map((model) => (
-                  <button
-                    key={model.id}
-                    onClick={() => setSelectedModel(model.id)}
-                    className={`w-full p-4 rounded border text-left transition-all ${
-                      selectedModel === model.id
-                        ? "border-accent bg-accent/10"
-                        : "border-paper-dark hover:border-accent/50"
-                    }`}
-                  >
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="font-mono font-medium text-ink-primary">
-                            {model.name}
+                {AVAILABLE_MODELS.filter((model) => model.provider === provider).map(
+                  (model) => (
+                    <button
+                      key={model.id}
+                      onClick={() => setSelectedModel(model.id)}
+                      className={`w-full p-4 rounded border text-left transition-all ${
+                        selectedModel === model.id
+                          ? "border-accent bg-accent/10"
+                          : "border-paper-dark hover:border-accent/50"
+                      }`}
+                    >
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="font-mono font-medium text-ink-primary">
+                              {model.name}
+                            </span>
+                            {model.free && (
+                              <Badge variant="success">GRATUIT</Badge>
+                            )}
+                          </div>
+                          <span className="text-xs text-ink-muted font-mono">
+                            {model.id}
                           </span>
-                          {model.free && (
-                            <Badge variant="success">GRATUIT</Badge>
-                          )}
                         </div>
-                        <span className="text-xs text-ink-muted font-mono">
-                          {model.id}
-                        </span>
+                        {selectedModel === model.id && (
+                          <Check className="w-5 h-5 text-accent" />
+                        )}
                       </div>
-                      {selectedModel === model.id && (
-                        <Check className="w-5 h-5 text-accent" />
-                      )}
-                    </div>
-                  </button>
-                ))}
+                    </button>
+                  )
+                )}
               </div>
             </CardContent>
           </Card>

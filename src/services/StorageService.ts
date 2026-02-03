@@ -1,5 +1,5 @@
 import { indexedDBService } from "./IndexedDBService";
-import { UserSettings, Domain } from "@/types";
+import { UserSettings, Domain, AIProvider } from "@/types";
 
 // ============================================
 // STORAGE SERVICE
@@ -9,6 +9,8 @@ import { UserSettings, Domain } from "@/types";
 
 const DEFAULT_SETTINGS: UserSettings = {
   apiKey: "",
+  geminiApiKey: "",
+  provider: "openrouter" as AIProvider,
   model: "z-ai/glm-4.5-air:free",
   defaultModel: "z-ai/glm-4.5-air:free",
   notifyOnComplete: true,
@@ -146,37 +148,49 @@ class StorageService {
   /**
    * Get available models
    */
-  getAvailableModels(): Array<{ id: string; name: string; free: boolean }> {
+  getAvailableModels(): Array<{ id: string; name: string; free: boolean; provider: AIProvider }> {
     return [
       {
         id: "z-ai/glm-4.5-air:free",
         name: "GLM 4.5 Air (Free)",
         free: true,
+        provider: "openrouter" as AIProvider,
       },
       {
         id: "openai/gpt-oss-120b:free",
         name: "GPT-OSS 120B (Free)",
         free: true,
+        provider: "openrouter" as AIProvider,
       },
       {
         id: "google/gemma-3-27b-it:free",
         name: "Gemma 3 27B (Free)",
         free: true,
+        provider: "openrouter" as AIProvider,
       },
       {
         id: "meta-llama/llama-3.3-8b-instruct:free",
         name: "Llama 3.3 8B (Free)",
         free: true,
+        provider: "openrouter" as AIProvider,
       },
       {
         id: "anthropic/claude-3-haiku",
         name: "Claude 3 Haiku",
         free: false,
+        provider: "openrouter" as AIProvider,
       },
       {
         id: "openai/gpt-4o-mini",
         name: "GPT-4o Mini",
         free: false,
+        provider: "openrouter" as AIProvider,
+      },
+      {
+        id: "gemini-2.5-flash",
+        name: "Gemini 2.5 Flash",
+        free: true,
+        provider: "gemini" as AIProvider,
       },
     ];
   }
@@ -188,6 +202,36 @@ class StorageService {
     const models = this.getAvailableModels();
     const model = models.find((m) => m.id === modelId);
     return model?.name || modelId;
+  }
+
+  /**
+   * Get AI provider
+   */
+  async getProvider(): Promise<AIProvider> {
+    const settings = await this.getSettings();
+    return settings.provider || "openrouter";
+  }
+
+  /**
+   * Set AI provider
+   */
+  async setProvider(provider: AIProvider): Promise<void> {
+    await this.updateSettings({ provider });
+  }
+
+  /**
+   * Get Gemini API key
+   */
+  async getGeminiApiKey(): Promise<string> {
+    const settings = await this.getSettings();
+    return settings.geminiApiKey || "";
+  }
+
+  /**
+   * Set Gemini API key
+   */
+  async setGeminiApiKey(apiKey: string): Promise<void> {
+    await this.updateSettings({ geminiApiKey: apiKey });
   }
 
   // ============================================

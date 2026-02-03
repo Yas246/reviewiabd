@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/Badge";
 import { DomainSelector } from "@/components/features/DomainSelector";
 import { Clock, FileText, Globe, History, RefreshCw } from "lucide-react";
 import { Domain, SavedExam } from "@/types";
-import { openRouterService } from "@/services/OpenRouterService";
+import { aiServiceFactory } from "@/services/AIServiceFactory";
 import { indexedDBService } from "@/services/IndexedDBService";
 import { storageService } from "@/services/StorageService";
 import { notificationService } from "@/services/NotificationService";
@@ -72,6 +72,10 @@ export default function ExamPage() {
         console.log('[Exam] Created background task:', taskId);
       }
 
+      // Get AI service using the provider from settings
+      console.log('[Exam] Using provider:', settings.provider);
+      const aiService = aiServiceFactory.getService(settings.provider);
+
       let questions: any[] = [];
 
       if (examType === "full") {
@@ -80,7 +84,7 @@ export default function ExamPage() {
         const questionsPerDomain = 4;
 
         for (const domain of domains) {
-          const domainQuestions = await openRouterService.generateQuestions({
+          const domainQuestions = await aiService.generateQuestions({
             domain,
             count: questionsPerDomain,
             includeExplanations: true,
@@ -92,7 +96,7 @@ export default function ExamPage() {
         questions = questions.sort(() => Math.random() - 0.5);
       } else {
         // Domain exam: 20 questions from selected domain
-        questions = await openRouterService.generateQuestions({
+        questions = await aiService.generateQuestions({
           domain: selectedDomain,
           count: 20,
           includeExplanations: true,

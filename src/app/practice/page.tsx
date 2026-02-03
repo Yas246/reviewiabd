@@ -12,7 +12,7 @@ import { ProgressBar } from "@/components/ui/ProgressBar";
 import { Badge } from "@/components/ui/Badge";
 import { Domain, Question } from "@/types";
 import { Loader2, Play } from "lucide-react";
-import { openRouterService } from "@/services/OpenRouterService";
+import { aiServiceFactory } from "@/services/AIServiceFactory";
 import { indexedDBService } from "@/services/IndexedDBService";
 import { storageService } from "@/services/StorageService";
 import { notificationService } from "@/services/NotificationService";
@@ -66,8 +66,13 @@ export default function PracticePage() {
       }
 
       console.log('[Practice] Starting question generation...');
-      // Generate questions using OpenRouter service
-      const questions = await openRouterService.generateQuestions(
+      console.log('[Practice] Using provider:', settings.provider);
+
+      // Get the appropriate AI service based on provider setting
+      const aiService = aiServiceFactory.getService(settings.provider);
+
+      // Generate questions using the selected service
+      const questions = await aiService.generateQuestions(
         {
           domain: selectedDomain,
           count: questionCount,

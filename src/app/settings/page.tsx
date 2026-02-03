@@ -9,6 +9,7 @@ import { Key, Cpu, Trash2, Download, Upload } from "lucide-react";
 import { storageService } from "@/services/StorageService";
 import { indexedDBService } from "@/services/IndexedDBService";
 import { notificationService } from "@/services/NotificationService";
+import { AIProvider } from "@/types";
 
 // ============================================
 // SETTINGS PAGE
@@ -17,6 +18,8 @@ import { notificationService } from "@/services/NotificationService";
 
 export default function SettingsPage() {
   const [apiKey, setApiKey] = useState("");
+  const [geminiApiKey, setGeminiApiKey] = useState("");
+  const [provider, setProvider] = useState<AIProvider>("openrouter");
   const [selectedModel, setSelectedModel] = useState("z-ai/glm-4.5-air:free");
   const [notifications, setNotifications] = useState(true);
   const [offlineQuestions, setOfflineQuestions] = useState(10);
@@ -34,6 +37,8 @@ export default function SettingsPage() {
         const settings = await storageService.getSettings();
         if (settings) {
           setApiKey(settings.apiKey || "");
+          setGeminiApiKey(settings.geminiApiKey || "");
+          setProvider(settings.provider || "openrouter");
           setSelectedModel(settings.model || "z-ai/glm-4.5-air:free");
           setNotifications(settings.notifyOnComplete ?? true);
           setOfflineQuestions(settings.offlineQuestionsPerDomain || 10);
@@ -51,9 +56,15 @@ export default function SettingsPage() {
   const handleSave = async () => {
     setIsSaving(true);
     console.log('[Settings] Saving settings...');
+    console.log('[Settings] Provider:', provider);
+    console.log('[Settings] OpenRouter API Key:', apiKey ? apiKey.substring(0, 10) + "..." : "empty");
+    console.log('[Settings] Gemini API Key:', geminiApiKey ? geminiApiKey.substring(0, 10) + "..." : "empty");
+    console.log('[Settings] Model:', selectedModel);
     try {
       await storageService.saveSettings({
         apiKey,
+        geminiApiKey,
+        provider,
         model: selectedModel,
         defaultModel: selectedModel,
         notifyOnComplete: notifications,
@@ -164,33 +175,112 @@ export default function SettingsPage() {
         />
 
         <div className="space-y-6">
-          {/* API Key */}
+          {/* Provider Selection & API Keys */}
           <Card>
             <CardContent className="pt-6">
               <div className="flex items-center gap-3 mb-4">
-                <Key className="w-5 h-5 text-accent" />
-                <CardTitle>Clé API OpenRouter</CardTitle>
+                <Cpu className="w-5 h-5 text-accent" />
+                <CardTitle>Fournisseur IA & Clés API</CardTitle>
               </div>
-              <div className="space-y-3">
-                <input
-                  type="password"
-                  value={apiKey}
-                  onChange={(e) => setApiKey(e.target.value)}
-                  placeholder="Entrez votre clé API"
-                  className="w-full px-4 py-3 bg-paper-secondary border border-paper-dark rounded font-mono text-sm text-ink-primary focus:outline-none focus:border-accent"
-                />
-                <p className="font-mono text-xs text-ink-muted">
-                  Actuel: {maskApiKey(apiKey) || "Non configurée"}
-                </p>
-                <a
-                  href="https://openrouter.ai/keys"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-accent text-sm hover:underline"
-                >
-                  Obtenir une clé API →
-                </a>
+
+              {/* Provider Selector */}
+              <div className="mb-6">
+                <label className="font-medium block mb-3">Fournisseur IA</label>
+                <div className="grid grid-cols-2 gap-4">
+                  <label
+                    className={`flex items-center gap-3 p-4 rounded border cursor-pointer transition-all ${
+                      provider === 'openrouter'
+                        ? 'border-accent bg-accent/10'
+                        : 'border-paper-dark hover:border-accent/50'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="provider"
+                      value="openrouter"
+                      checked={provider === 'openrouter'}
+                      onChange={(e) => setProvider(e.target.value as AIProvider)}
+                      className="sr-only"
+                    />
+                    <div>
+                      <div className="font-mono text-sm">OpenRouter</div>
+                      <div className="text-xs text-ink-muted">Plusieurs modèles disponibles</div>
+                    </div>
+                  </label>
+
+                  <label
+                    className={`flex items-center gap-3 p-4 rounded border cursor-pointer transition-all ${
+                      provider === 'gemini'
+                        ? 'border-accent bg-accent/10'
+                        : 'border-paper-dark hover:border-accent/50'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="provider"
+                      value="gemini"
+                      checked={provider === 'gemini'}
+                      onChange={(e) => setProvider(e.target.value as AIProvider)}
+                      className="sr-only"
+                    />
+                    <div>
+                      <div className="font-mono text-sm">Google Gemini</div>
+                      <div className="text-xs text-ink-muted">Gemini 2.5 Flash</div>
+                    </div>
+                  </label>
+                </div>
               </div>
+
+              {/* API Key fields - conditional based on provider */}
+              {provider === 'openrouter' ? (
+                <div className="space-y-3">
+                  <div>
+                    <label className="font-medium block mb-2">Clé API OpenRouter</label>
+                    <input
+                      type="password"
+                      value={apiKey}
+                      onChange={(e) => setApiKey(e.target.value)}
+                      placeholder="Entrez votre clé API OpenRouter (sk-or-...)"
+                      className="w-full px-4 py-3 bg-paper-secondary border border-paper-dark rounded font-mono text-sm text-ink-primary focus:outline-none focus:border-accent"
+                    />
+                    <p className="font-mono text-xs text-ink-muted mt-1">
+                      Actuel: {maskApiKey(apiKey) || "Non configurée"}
+                    </p>
+                  </div>
+                  <a
+                    href="https://openrouter.ai/keys"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-accent text-sm hover:underline"
+                  >
+                    Obtenir une clé API OpenRouter →
+                  </a>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  <div>
+                    <label className="font-medium block mb-2">Clé API Google</label>
+                    <input
+                      type="password"
+                      value={geminiApiKey}
+                      onChange={(e) => setGeminiApiKey(e.target.value)}
+                      placeholder="Entrez votre clé API Google (AIza...)"
+                      className="w-full px-4 py-3 bg-paper-secondary border border-paper-dark rounded font-mono text-sm text-ink-primary focus:outline-none focus:border-accent"
+                    />
+                    <p className="font-mono text-xs text-ink-muted mt-1">
+                      Actuel: {maskApiKey(geminiApiKey) || "Non configurée"}
+                    </p>
+                  </div>
+                  <a
+                    href="https://aistudio.google.com/app/apikey"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-accent text-sm hover:underline"
+                  >
+                    Obtenir une clé API Google →
+                  </a>
+                </div>
+              )}
             </CardContent>
           </Card>
 
@@ -202,7 +292,9 @@ export default function SettingsPage() {
                 <CardTitle>Modèle IA</CardTitle>
               </div>
               <div className="space-y-2">
-                {models.map((model) => (
+                {models
+                  .filter((model) => model.provider === provider)
+                  .map((model) => (
                   <button
                     key={model.id}
                     onClick={() => setSelectedModel(model.id)}
@@ -213,11 +305,19 @@ export default function SettingsPage() {
                     }`}
                   >
                     <span className="font-mono text-sm">{model.name}</span>
+                    {model.free && (
+                      <span className="text-xs px-2 py-1 bg-green-500/10 text-green-500 rounded">GRATUIT</span>
+                    )}
                     {selectedModel === model.id && (
                       <span className="text-accent text-sm">✓</span>
                     )}
                   </button>
                 ))}
+                {models.filter((model) => model.provider === provider).length === 0 && (
+                  <p className="text-center text-ink-muted text-sm py-4">
+                    Aucun modèle disponible pour ce fournisseur
+                  </p>
+                )}
               </div>
             </CardContent>
           </Card>

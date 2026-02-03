@@ -6,6 +6,7 @@ import {
   QuestionGenerationResponse,
   GenerationProgressCallback,
   APIError,
+  IAIService,
 } from "@/types";
 import { generateId, retryWithBackoff, sleep, batchArray } from "@/lib/utils";
 import { storageService } from "./StorageService";
@@ -227,7 +228,7 @@ function handleAPIError(error: any): APIError {
   };
 }
 
-class OpenRouterService {
+class OpenRouterService implements IAIService {
   /**
    * Generate a batch of questions via OpenRouter API
    */

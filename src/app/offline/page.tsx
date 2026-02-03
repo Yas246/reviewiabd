@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Domain, SavedExercise } from "@/types";
 import { Download, Wifi, WifiOff, CheckCircle } from "lucide-react";
 import { indexedDBService } from "@/services/IndexedDBService";
-import { openRouterService } from "@/services/OpenRouterService";
+import { aiServiceFactory } from "@/services/AIServiceFactory";
 import { storageService } from "@/services/StorageService";
 import { notificationService } from "@/services/NotificationService";
 
@@ -106,7 +106,12 @@ export default function OfflinePage() {
       }
 
       console.log('[Offline] Starting question generation...');
-      const questions = await openRouterService.generateQuestions({
+
+      // Get AI service using the provider from settings
+      console.log('[Offline] Using provider:', settings.provider);
+      const aiService = aiServiceFactory.getService(settings.provider);
+
+      const questions = await aiService.generateQuestions({
         domain: selectedDomain,
         count: questionCount,
         includeExplanations: true,
