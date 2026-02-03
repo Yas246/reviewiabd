@@ -93,7 +93,9 @@ export default function RootLayout({
 
                   // Listen for controller change (when new SW takes control)
                   navigator.serviceWorker.addEventListener('controllerchange', () => {
-                    console.log('[SW] New service worker activated, reloading page');
+                    console.log('[SW] New service worker activated, clearing update flag and reloading');
+                    // Clear the update flag since the new SW is now active
+                    localStorage.setItem('swUpdateAvailable', 'false');
                     window.location.reload();
                   }, { once: true });
 

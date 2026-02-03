@@ -3,9 +3,9 @@
 // Caches static assets for offline use
 // ============================================
 
-const CACHE_NAME = "review-iabd-v2.1.1";
-const STATIC_CACHE = "review-iabd-static-v2.1.1";
-const RUNTIME_CACHE = "review-iabd-runtime-v2.1.1";
+const CACHE_NAME = "review-iabd-v2.2.2";
+const STATIC_CACHE = "review-iabd-static-v2.2.2";
+const RUNTIME_CACHE = "review-iabd-runtime-v2.2.2";
 
 // Assets to cache on install (core HTML pages)
 const urlsToCache = [
@@ -56,6 +56,9 @@ self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") {
     console.log('[SW] Received SKIP_WAITING message, activating immediately');
     self.skipWaiting();
+  } else if (event.data && event.data.type === "CLAIM_CLIENTS") {
+    console.log('[SW] Received CLAIM_CLIENTS message, claiming all clients');
+    self.clients.claim();
   }
 });
 

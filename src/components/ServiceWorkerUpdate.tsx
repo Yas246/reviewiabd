@@ -37,14 +37,38 @@ export function ServiceWorkerUpdate() {
     // Tell the service worker to skip waiting and activate
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.getRegistration().then((registration) => {
-        if (registration && registration.waiting) {
-          // Send message to skip waiting
+        if (!registration) {
+          console.log("[SW Update] No registration, reloading");
+          window.location.reload();
+          return;
+        }
+
+        if (registration.waiting) {
+          // Service worker is waiting, tell it to skip waiting and activate
           registration.waiting.postMessage({ type: "SKIP_WAITING" });
-          console.log("[SW Update] SKIP_WAITING message sent");
+          console.log("[SW Update] SKIP_WAITING message sent to waiting worker");
           // The controllerchange listener in layout.tsx will handle the reload
+        } else if (registration.active) {
+          // Check if the active worker is different from the current controller
+          // This happens when the new worker became active but hasn't taken control yet
+          if (navigator.serviceWorker.controller !== registration.active) {
+            console.log("[SW Update] New worker is active but not controlling, claiming clients...");
+            // Tell the new active worker to claim all clients
+            registration.active.postMessage({ type: "CLAIM_CLIENTS" });
+            // Force a reload after a short delay to let the worker claim this client
+            setTimeout(() => {
+              console.log("[SW Update] Reloading to activate new service worker");
+              window.location.reload();
+            }, 100);
+          } else {
+            // Already controlled by the latest version
+            console.log("[SW Update] Already on latest version, clearing flag");
+            localStorage.setItem("swUpdateAvailable", "false");
+            setShowUpdate(false);
+          }
         } else {
-          // No waiting service worker, just reload
-          console.log("[SW Update] No waiting service worker, reloading immediately");
+          // No waiting or active worker, just reload
+          console.log("[SW Update] No waiting or active worker, reloading immediately");
           window.location.reload();
         }
       });
@@ -64,10 +88,10 @@ export function ServiceWorkerUpdate() {
   }
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:w-96 z-[100] animate-fade-in-up">
+    <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:w-96 z-100 animate-fade-in-up">
       <div className="bg-paper-secondary border border-accent rounded-lg shadow-lg p-4">
         <div className="flex items-start gap-3">
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <Download className="w-5 h-5 text-accent" />
           </div>
           <div className="flex-1 min-w-0">
@@ -80,7 +104,7 @@ export function ServiceWorkerUpdate() {
           </div>
           <button
             onClick={handleDismiss}
-            className="flex-shrink-0 p-1 rounded hover:bg-paper-dark transition-colors"
+            className="shrink-0 p-1 rounded hover:bg-paper-dark transition-colors"
             aria-label="Fermer"
           >
             <X className="w-4 h-4 text-ink-muted" />
