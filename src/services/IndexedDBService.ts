@@ -68,7 +68,7 @@ interface ReviewIABDDB extends DBSchema {
 }
 
 const DB_NAME = "ReviewIABD";
-const DB_VERSION = 2;
+const DB_VERSION = 3;
 
 class IndexedDBService {
   private db: IDBPDatabase<ReviewIABDDB> | null = null;
@@ -124,10 +124,12 @@ class IndexedDBService {
         }
 
         // Background tasks store
-        if (!db.objectStoreNames.contains("backgroundTasks")) {
-          const taskStore = db.createObjectStore("backgroundTasks", { keyPath: "id" });
-          taskStore.createIndex("by-status", "status");
+        // Delete old version if it exists (from v2.2.2 without keyPath)
+        if (db.objectStoreNames.contains("backgroundTasks")) {
+          db.deleteObjectStore("backgroundTasks");
         }
+        const taskStore = db.createObjectStore("backgroundTasks", { keyPath: "id" });
+        taskStore.createIndex("by-status", "status");
       },
     });
   }
