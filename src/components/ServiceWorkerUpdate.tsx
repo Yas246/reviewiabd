@@ -38,12 +38,20 @@ export function ServiceWorkerUpdate() {
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.getRegistration().then((registration) => {
         if (registration && registration.waiting) {
+          // Send message to skip waiting
           registration.waiting.postMessage({ type: "SKIP_WAITING" });
+          console.log("[SW Update] SKIP_WAITING message sent");
+          // The controllerchange listener in layout.tsx will handle the reload
+        } else {
+          // No waiting service worker, just reload
+          console.log("[SW Update] No waiting service worker, reloading immediately");
+          window.location.reload();
         }
       });
+    } else {
+      // No service worker support, just reload
+      window.location.reload();
     }
-    // Reload the page
-    window.location.reload();
   };
 
   const handleDismiss = () => {

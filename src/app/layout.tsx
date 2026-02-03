@@ -95,7 +95,7 @@ export default function RootLayout({
                   navigator.serviceWorker.addEventListener('controllerchange', () => {
                     console.log('[SW] New service worker activated, reloading page');
                     window.location.reload();
-                  });
+                  }, { once: true });
 
                 } else if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
                   console.log('[SW] Service Worker disabled in development mode');
