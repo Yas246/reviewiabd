@@ -76,7 +76,7 @@ interface ReviewIABDDB extends DBSchema {
 }
 
 const DB_NAME = "ReviewIABD";
-const DB_VERSION = 3;
+const DB_VERSION = 4;
 
 class IndexedDBService {
   private db: IDBPDatabase<ReviewIABDDB> | null = null;
