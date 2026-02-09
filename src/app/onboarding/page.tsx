@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Key, Check, AlertCircle, Cpu } from "lucide-react";
 import { storageService } from "@/services/StorageService";
 import { AIProvider } from "@/types";
+import { BatchSizeSlider } from "@/components/features/BatchSizeSlider";
 
 // ============================================
 // ONBOARDING PAGE
@@ -50,6 +51,7 @@ export default function OnboardingPage() {
   const [customOpenRouterModel, setCustomOpenRouterModel] = useState("");
   const [customGeminiModel, setCustomGeminiModel] = useState("");
   const [selectedModel, setSelectedModel] = useState("z-ai/glm-4.5-air:free");
+  const [batchSize, setBatchSize] = useState(10);
   const [isValidKey, setIsValidKey] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -114,8 +116,9 @@ export default function OnboardingPage() {
         customOpenRouterModel: customOpenRouterModel || undefined,
         customGeminiModel: customGeminiModel || undefined,
         onboardingCompleted: true,
-        notifyOnComplete: true,
+        notifyOnComplete: false,
         offlineQuestionsPerDomain: 10,
+        batchSize,
         updatedAt: new Date(),
       });
 
@@ -455,6 +458,14 @@ export default function OnboardingPage() {
                     )}
                   </div>
                 )}
+
+                {/* Batch Size Configuration */}
+                <div className="mt-4 p-4 border border-paper-dark rounded-lg">
+                  <BatchSizeSlider
+                    value={batchSize}
+                    onChange={setBatchSize}
+                  />
+                </div>
               </div>
             </CardContent>
           </Card>

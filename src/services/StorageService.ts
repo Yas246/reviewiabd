@@ -13,8 +13,9 @@ const DEFAULT_SETTINGS: UserSettings = {
   provider: "openrouter" as AIProvider,
   model: "z-ai/glm-4.5-air:free",
   defaultModel: "z-ai/glm-4.5-air:free",
-  notifyOnComplete: true,
+  notifyOnComplete: false,
   offlineQuestionsPerDomain: 10,
+  batchSize: 10,  // Number of questions per API call (default: 10)
   onboardingCompleted: false,
   updatedAt: new Date(),
 };

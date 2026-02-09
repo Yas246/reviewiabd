@@ -10,6 +10,7 @@ import { storageService } from "@/services/StorageService";
 import { indexedDBService } from "@/services/IndexedDBService";
 import { notificationService } from "@/services/NotificationService";
 import { AIProvider } from "@/types";
+import { BatchSizeSlider } from "@/components/features/BatchSizeSlider";
 
 // ============================================
 // SETTINGS PAGE
@@ -23,8 +24,9 @@ export default function SettingsPage() {
   const [selectedModel, setSelectedModel] = useState("z-ai/glm-4.5-air:free");
   const [customOpenRouterModel, setCustomOpenRouterModel] = useState("");
   const [customGeminiModel, setCustomGeminiModel] = useState("");
-  const [notifications, setNotifications] = useState(true);
+  const [notifications, setNotifications] = useState(false);
   const [offlineQuestions, setOfflineQuestions] = useState(10);
+  const [batchSize, setBatchSize] = useState(10);
   const [isSaving, setIsSaving] = useState(false);
   const [loading, setLoading] = useState(true);
   const [models] = useState(storageService.getAvailableModels());
@@ -44,8 +46,9 @@ export default function SettingsPage() {
           setSelectedModel(settings.model || "z-ai/glm-4.5-air:free");
           setCustomOpenRouterModel(settings.customOpenRouterModel || "");
           setCustomGeminiModel(settings.customGeminiModel || "");
-          setNotifications(settings.notifyOnComplete ?? true);
+          setNotifications(settings.notifyOnComplete ?? false);
           setOfflineQuestions(settings.offlineQuestionsPerDomain || 10);
+          setBatchSize(settings.batchSize || 10);
         }
         setLoading(false);
       } catch (error) {
@@ -75,6 +78,7 @@ export default function SettingsPage() {
         customGeminiModel: customGeminiModel || undefined,
         notifyOnComplete: notifications,
         offlineQuestionsPerDomain: offlineQuestions,
+        batchSize,
         onboardingCompleted: true,
         updatedAt: new Date(),
       });
@@ -449,6 +453,13 @@ export default function SettingsPage() {
                     value={offlineQuestions}
                     onChange={(e) => setOfflineQuestions(parseInt(e.target.value))}
                     className="w-24 px-3 py-2 bg-paper-secondary border border-paper-dark rounded font-mono text-sm focus:outline-none focus:border-accent"
+                  />
+                </div>
+
+                <div className="pt-4 border-t border-paper-dark">
+                  <BatchSizeSlider
+                    value={batchSize}
+                    onChange={setBatchSize}
                   />
                 </div>
               </div>

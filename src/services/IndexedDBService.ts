@@ -4,6 +4,7 @@ import {
   QuizSession,
   SavedExam,
   SavedExercise,
+  SavedPracticeQuiz,
   UserSettings,
   UserStatistics,
   UserAnswer,
@@ -39,6 +40,13 @@ interface ReviewIABDDB extends DBSchema {
     indexes: {
       "by-domain": string;
       "unused": number;
+    };
+  };
+  practiceQuizzes: {
+    key: string;
+    value: SavedPracticeQuiz;
+    indexes: {
+      "by-domain": string;
     };
   };
   questions: {
@@ -104,6 +112,12 @@ class IndexedDBService {
           const exerciseStore = db.createObjectStore("exercises");
           exerciseStore.createIndex("by-domain", "domain");
           exerciseStore.createIndex("unused", "used");
+        }
+
+        // Practice quizzes store
+        if (!db.objectStoreNames.contains("practiceQuizzes")) {
+          const practiceQuizStore = db.createObjectStore("practiceQuizzes");
+          practiceQuizStore.createIndex("by-domain", "domain");
         }
 
         // Questions store
@@ -280,6 +294,35 @@ class IndexedDBService {
   async deleteExercise(id: string): Promise<void> {
     const db = await this.ensureDB();
     await db.delete("exercises", id);
+  }
+
+  // ============================================
+  // PRACTICE QUIZ OPERATIONS
+  // ============================================
+
+  async savePracticeQuiz(quiz: SavedPracticeQuiz): Promise<void> {
+    const db = await this.ensureDB();
+    await db.put("practiceQuizzes", quiz, quiz.id);
+  }
+
+  async getPracticeQuiz(id: string): Promise<SavedPracticeQuiz | undefined> {
+    const db = await this.ensureDB();
+    return db.get("practiceQuizzes", id);
+  }
+
+  async getAllPracticeQuizzes(): Promise<SavedPracticeQuiz[]> {
+    const db = await this.ensureDB();
+    return db.getAll("practiceQuizzes");
+  }
+
+  async getPracticeQuizzesByDomain(domain: string): Promise<SavedPracticeQuiz[]> {
+    const db = await this.ensureDB();
+    return db.getAllFromIndex("practiceQuizzes", "by-domain", domain);
+  }
+
+  async deletePracticeQuiz(id: string): Promise<void> {
+    const db = await this.ensureDB();
+    await db.delete("practiceQuizzes", id);
   }
 
   // ============================================

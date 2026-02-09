@@ -87,6 +87,7 @@ export interface QuizSession {
   timeLimit?: number; // in seconds (for exam mode)
   timeRemaining?: number; // in seconds
   examId?: string; // Link to the SavedExam if this is an exam attempt
+  practiceQuizId?: string; // Link to the SavedPracticeQuiz if this is a practice quiz
 }
 
 // Exam attempt with history
@@ -128,6 +129,18 @@ export interface SavedExercise {
   lastUsedAt?: Date;
 }
 
+// Saved practice quiz for reuse
+export interface SavedPracticeQuiz {
+  id: string;
+  domain: Domain;
+  questionCount: number;
+  questions: Question[]; // Store questions for offline reuse
+  bestScore?: number; // Optional: track best score
+  attempts: number; // Number of times taken
+  createdAt: Date;
+  lastAttemptAt: Date;
+}
+
 // AI Provider type
 export type AIProvider = 'openrouter' | 'gemini';
 
@@ -142,6 +155,7 @@ export interface UserSettings {
   customGeminiModel?: string;       // Custom model ID for Gemini
   notifyOnComplete: boolean;
   offlineQuestionsPerDomain: number;
+  batchSize: number;  // Number of questions per API call (default: 10)
   onboardingCompleted: boolean;
   updatedAt: Date;
 }

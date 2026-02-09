@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Navigation } from "@/components/layout/Navigation";
 import { PageHeader } from "@/components/layout/Header";
@@ -10,8 +10,8 @@ import { DomainSelector } from "@/components/features/DomainSelector";
 import { QuestionCounter } from "@/components/features/QuestionCounter";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { Badge } from "@/components/ui/Badge";
-import { Domain, Question } from "@/types";
-import { Loader2, Play } from "lucide-react";
+import { Domain, Question, SavedPracticeQuiz } from "@/types";
+import { Loader2, Play, History, RefreshCw, Trash2 } from "lucide-react";
 import { aiServiceFactory } from "@/services/AIServiceFactory";
 import { indexedDBService } from "@/services/IndexedDBService";
 import { storageService } from "@/services/StorageService";
@@ -29,6 +29,27 @@ export default function PracticePage() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [progress, setProgress] = useState(0);
   const [generatedQuestions, setGeneratedQuestions] = useState(0);
+  const [savedQuizzes, setSavedQuizzes] = useState<SavedPracticeQuiz[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Load saved quizzes on mount
+  useEffect(() => {
+    const loadSavedQuizzes = async () => {
+      console.log('[Practice] Loading saved quizzes...');
+      try {
+        await indexedDBService.init();
+        const quizzes = await indexedDBService.getAllPracticeQuizzes();
+        console.log('[Practice] Loaded', quizzes.length, 'saved quizzes');
+        setSavedQuizzes(quizzes);
+        setLoading(false);
+      } catch (error) {
+        console.error('[Practice] Failed to load saved quizzes:', error);
+        setLoading(false);
+      }
+    };
+
+    loadSavedQuizzes();
+  }, []);
 
   const handleGenerate = async () => {
     console.log('[Practice] Generate button clicked');
@@ -86,6 +107,25 @@ export default function PracticePage() {
       );
 
       console.log('[Practice] Generation completed, received', questions.length, 'questions');
+
+      // Save practice quiz permanently
+      const quizId = `practice-${selectedDomain}-${Date.now()}`;
+      const savedQuiz: SavedPracticeQuiz = {
+        id: quizId,
+        domain: selectedDomain,
+        questionCount: questions.length,
+        questions, // Store questions for reuse
+        attempts: 1,
+        createdAt: new Date(),
+        lastAttemptAt: new Date(),
+      };
+
+      await indexedDBService.savePracticeQuiz(savedQuiz);
+      console.log('[Practice] Quiz saved for reuse:', quizId);
+
+      // Update saved quizzes list
+      setSavedQuizzes(prev => [savedQuiz, ...prev]);
+
       console.log('[Practice] Saving session to IndexedDB...');
 
       // Store questions in IndexedDB for the quiz session
@@ -99,6 +139,7 @@ export default function PracticePage() {
         currentIndex: 0,
         status: "IN_PROGRESS" as any,
         startedAt: new Date(),
+        practiceQuizId: quizId, // Link to saved quiz
       });
 
       // Update background task and send notification
@@ -136,6 +177,68 @@ export default function PracticePage() {
       setGeneratedQuestions(0);
       // TODO: Show error toast/notification
       alert(`Erreur lors de la génération: ${error.message || "Erreur inconnue"}`);
+    }
+  };
+
+  const handleRetakeQuiz = async (quiz: SavedPracticeQuiz) => {
+    console.log('[Practice] Retaking quiz:', quiz.id);
+    setIsGenerating(true);
+
+    try {
+      await indexedDBService.init();
+
+      // Reuse saved questions (shuffle for variety)
+      const shuffledQuestions = [...quiz.questions].sort(() => Math.random() - 0.5);
+      console.log('[Practice] Reusing', shuffledQuestions.length, 'saved questions');
+
+      // Create new session
+      const sessionId = `practice-${Date.now()}`;
+      await indexedDBService.saveSession({
+        id: sessionId,
+        type: "practice",
+        domain: quiz.domain,
+        questions: shuffledQuestions,
+        userAnswers: {},
+        currentIndex: 0,
+        status: "IN_PROGRESS" as any,
+        startedAt: new Date(),
+        practiceQuizId: quiz.id, // Link to saved quiz
+      });
+
+      // Update attempt count and timestamp
+      const updatedQuiz = {
+        ...quiz,
+        attempts: quiz.attempts + 1,
+        lastAttemptAt: new Date(),
+      };
+      await indexedDBService.savePracticeQuiz(updatedQuiz);
+
+      // Update local state
+      setSavedQuizzes(prev =>
+        prev.map(q => q.id === quiz.id ? updatedQuiz : q)
+      );
+
+      console.log('[Practice] Session created, navigating to quiz...');
+      window.location.href = `/quiz?session=${sessionId}`;
+    } catch (error: any) {
+      console.error('[Practice] Failed to retake quiz:', error);
+      setIsGenerating(false);
+      alert(`Erreur: ${error.message || "Erreur inconnue"}`);
+    }
+  };
+
+  const handleDeleteQuiz = async (quizId: string) => {
+    if (!confirm('Supprimer ce quiz ? Cette action est irréversible.')) {
+      return;
+    }
+
+    try {
+      await indexedDBService.deletePracticeQuiz(quizId);
+      setSavedQuizzes(prev => prev.filter(q => q.id !== quizId));
+      console.log('[Practice] Quiz deleted:', quizId);
+    } catch (error: any) {
+      console.error('[Practice] Failed to delete quiz:', error);
+      alert(`Erreur: ${error.message || "Erreur inconnue"}`);
     }
   };
 
@@ -303,6 +406,89 @@ export default function PracticePage() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Saved Practice Quizzes Section */}
+        <div className="mt-12">
+          <div className="flex items-center gap-3 mb-6">
+            <History className="w-5 h-5 text-accent" />
+            <h2 className="font-mono font-semibold text-xl">
+              Quiz Précédents
+            </h2>
+            {savedQuizzes.length > 0 && (
+              <Badge variant="default">{savedQuizzes.length}</Badge>
+            )}
+          </div>
+
+          {loading ? (
+            <p className="font-mono text-sm text-ink-muted">Chargement...</p>
+          ) : savedQuizzes.length === 0 ? (
+            <Card>
+              <CardContent className="text-center py-12">
+                <History className="w-16 h-16 mx-auto mb-4 text-ink-muted" />
+                <p className="text-ink-secondary mb-2">
+                  Aucun quiz précédent
+                </p>
+                <p className="text-sm text-ink-muted">
+                  Les quiz que vous générerez seront sauvegardés ici pour pouvoir les refaire
+                </p>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {savedQuizzes.map((quiz) => (
+                <Card key={quiz.id} hoverable>
+                  <CardContent>
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex-1">
+                        <h3 className="font-mono font-semibold mb-1">
+                          {quiz.domain.replace(/_/g, " ")}
+                        </h3>
+                        <div className="flex items-center gap-2 text-sm text-ink-muted">
+                          <span>{quiz.questionCount} questions</span>
+                          <span>•</span>
+                          <span>Pratique</span>
+                        </div>
+                      </div>
+                      {quiz.bestScore && (
+                        <Badge variant="success">{quiz.bestScore}%</Badge>
+                      )}
+                    </div>
+
+                    <div className="flex items-center justify-between text-xs text-ink-muted mb-4">
+                      <span>
+                        Créé le {new Date(quiz.createdAt).toLocaleDateString("fr-FR")}
+                      </span>
+                      <span>
+                        {quiz.attempts} tentative{quiz.attempts > 1 ? "s" : ""}
+                      </span>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <Button
+                        variant="primary"
+                        className="flex-1"
+                        size="sm"
+                        onClick={() => handleRetakeQuiz(quiz)}
+                        loading={isGenerating}
+                        disabled={isGenerating}
+                      >
+                        <RefreshCw className="w-4 h-4 mr-2" />
+                        Refaire
+                      </Button>
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        onClick={() => handleDeleteQuiz(quiz.id)}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </div>
       </main>
     </div>
   );

@@ -16,7 +16,6 @@ import { storageService } from "./StorageService";
 // Handles AI question generation via Google Gemini API
 // ============================================
 
-const BATCH_SIZE = 10;
 const MAX_RETRIES = 3;
 const BASE_DELAY = 1000;
 
@@ -267,9 +266,10 @@ class GeminiService implements IAIService {
     });
 
     try {
-      // Get API key from settings (IMPORTANT: Read fresh each time!)
+      // Get API key and batchSize from settings (IMPORTANT: Read fresh each time!)
       const settings = await storageService.getSettings();
       const apiKey = settings.geminiApiKey;
+      const batchSize = settings?.batchSize || 10;
 
       if (!apiKey) {
         throw {
@@ -282,7 +282,7 @@ class GeminiService implements IAIService {
       console.log("[Gemini] Using API key starting with:", apiKey.substring(0, 10) + "...");
 
       // Split into batches if needed
-      const batches = batchArray(Array.from({ length: count }, (_, i) => i), BATCH_SIZE);
+      const batches = batchArray(Array.from({ length: count }, (_, i) => i), batchSize);
       const allQuestions: Question[] = [];
 
       for (let i = 0; i < batches.length; i++) {

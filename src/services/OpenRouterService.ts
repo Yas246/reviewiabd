@@ -18,7 +18,6 @@ import { storageService } from "./StorageService";
 // ============================================
 
 const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
-const BATCH_SIZE = 10; // Reduced from 10 to avoid truncation
 const MAX_RETRIES = 3;
 const BASE_DELAY = 1000;
 
@@ -373,7 +372,11 @@ class OpenRouterService implements IAIService {
   ): Promise<Question[]> {
     const { count, domain } = request;
     const allQuestions: Question[] = [];
-    const totalBatches = Math.ceil(count / BATCH_SIZE);
+
+    // Read batchSize from settings
+    const settings = await storageService.getSettings();
+    const batchSize = settings?.batchSize || 10;
+    const totalBatches = Math.ceil(count / batchSize);
 
     console.log("[OpenRouter] ===== STARTING QUESTION GENERATION =====");
     console.log("[OpenRouter] Request details:", {
@@ -382,7 +385,7 @@ class OpenRouterService implements IAIService {
       difficulty: request.difficulty,
       includeExplanations: request.includeExplanations,
       previousQuestionsCount: request.previousQuestions?.length || 0,
-      batchSize: BATCH_SIZE,
+      batchSize,
       totalBatches,
       timestamp: new Date().toISOString(),
     });
@@ -392,7 +395,7 @@ class OpenRouterService implements IAIService {
         `[OpenRouter] --- Starting batch ${batchIndex + 1}/${totalBatches} ---`,
       );
 
-      const batchSize = Math.min(BATCH_SIZE, count - batchIndex * BATCH_SIZE);
+      const currentBatchSize = Math.min(batchSize, count - batchIndex * batchSize);
 
       try {
         console.log(
