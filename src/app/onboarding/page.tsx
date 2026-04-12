@@ -525,13 +525,21 @@ export default function OnboardingPage() {
               <li className="flex gap-3">
                 <span className="shrink-0 w-6 h-6 rounded-full bg-accent/10 text-accent text-xs font-mono font-bold flex items-center justify-center">2</span>
                 <div>
-                  <p className="text-sm text-ink-primary font-medium">Accédez à la section "Keys"</p>
-                  <p className="text-xs text-ink-muted">Dans le menu de gauche, cliquez sur <strong>Keys</strong>.
+                  <p className="text-sm text-ink-primary font-medium">Ouvrez les Settings</p>
+                  <p className="text-xs text-ink-muted">Cliquez sur <strong>Settings</strong> en haut à droite de la page.
                   </p>
                 </div>
               </li>
               <li className="flex gap-3">
                 <span className="shrink-0 w-6 h-6 rounded-full bg-accent/10 text-accent text-xs font-mono font-bold flex items-center justify-center">3</span>
+                <div>
+                  <p className="text-sm text-ink-primary font-medium">Allez dans "API Keys"</p>
+                  <p className="text-xs text-ink-muted">Dans la sidebar à gauche, cliquez sur <strong>API Keys</strong>.
+                  </p>
+                </div>
+              </li>
+              <li className="flex gap-3">
+                <span className="shrink-0 w-6 h-6 rounded-full bg-accent/10 text-accent text-xs font-mono font-bold flex items-center justify-center">4</span>
                 <div>
                   <p className="text-sm text-ink-primary font-medium">Créez une nouvelle clé</p>
                   <p className="text-xs text-ink-muted">Cliquez sur <strong>"Create Key"</strong>, donnez-lui un nom et validez.
@@ -539,7 +547,7 @@ export default function OnboardingPage() {
                 </div>
               </li>
               <li className="flex gap-3">
-                <span className="shrink-0 w-6 h-6 rounded-full bg-accent/10 text-accent text-xs font-mono font-bold flex items-center justify-center">4</span>
+                <span className="shrink-0 w-6 h-6 rounded-full bg-accent/10 text-accent text-xs font-mono font-bold flex items-center justify-center">5</span>
                 <div>
                   <p className="text-sm text-ink-primary font-medium">Copiez votre clé</p>
                   <p className="text-xs text-ink-muted">Collez-la dans le champ ci-dessus. Elle commence par <code className="bg-paper-dark px-1 rounded text-accent">sk-or-v1-...</code>
