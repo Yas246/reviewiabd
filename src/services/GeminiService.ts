@@ -102,6 +102,10 @@ function parseQuestionsFromResponse(
   );
 
   try {
+    // Strip Gemma thinking tokens (<|channel>thought...<channel|>)
+    content = content.replace(/<\|channel\|>thought[\s\S]*?<channel\|>/g, "");
+    content = content.replace(/<\|[^|]+\|>/g, "");
+
     // Extract JSON from the response (handle markdown code blocks)
     let jsonContent = content;
 
@@ -116,6 +120,16 @@ function parseQuestionsFromResponse(
       if (arrayMatch) {
         jsonContent = arrayMatch[0];
         console.log("[Gemini] Found JSON array directly");
+      }
+    }
+
+    // Last resort: find the outermost JSON array by bracket matching
+    if (!jsonContent.trim().startsWith("[")) {
+      const firstBracket = content.indexOf("[");
+      const lastBracket = content.lastIndexOf("]");
+      if (firstBracket !== -1 && lastBracket > firstBracket) {
+        jsonContent = content.substring(firstBracket, lastBracket + 1);
+        console.log("[Gemini] Extracted JSON by bracket matching (fallback)");
       }
     }
 
@@ -407,9 +421,13 @@ class GeminiService implements IAIService {
 
       // Extract text from Gemini response format
       // Gemini returns: { candidates: [{ content: { parts: [{ text }] } }] }
+      // Some models (e.g. gemma-4 with thinking) return thought parts — filter them out
       let responseText = "";
       if (data.candidates && data.candidates[0]?.content?.parts) {
-        responseText = data.candidates[0].content.parts[0].text || "";
+        const parts = data.candidates[0].content.parts;
+        const nonThoughtParts = parts.filter((p: any) => p.text && !p.thought);
+        responseText = nonThoughtParts.map((p: any) => p.text).join("")
+          || parts.find((p: any) => p.text)?.text || "";
       } else {
         throw new Error("Unexpected response format from Gemini API");
       }
@@ -538,9 +556,13 @@ class GeminiService implements IAIService {
       console.log(`[Gemini] Request completed in ${endTime - startTime}ms`);
 
       // Extract text from Gemini response format
+      // Filter out thought parts for reasoning models (e.g. gemma-4)
       let responseText = "";
       if (response.candidates && response.candidates[0]?.content?.parts) {
-        responseText = response.candidates[0].content.parts[0].text || "";
+        const parts = response.candidates[0].content.parts;
+        const nonThoughtParts = parts.filter((p: any) => p.text && !p.thought);
+        responseText = nonThoughtParts.map((p: any) => p.text).join("")
+          || parts.find((p: any) => p.text)?.text || "";
       } else {
         throw new Error("Unexpected response format from Gemini API");
       }
@@ -647,9 +669,31 @@ Génère maintenant les questions au format JSON tableau:`;
    */
   private parseMultiDomainQuestions(content: string, expectedDomains: Domain[]): Question[] {
     try {
+      // Strip Gemma thinking tokens
+      content = content.replace(/<\|channel\|>thought[\s\S]*?<channel\|>/g, "");
+      content = content.replace(/<\|[^|]+\|>/g, "");
+
       // Try to extract JSON from markdown code blocks
+      let jsonContent: string;
       const jsonMatch = content.match(/```(?:json)?\s*(\[[\s\S]*?\])\s*```/);
-      const jsonContent = jsonMatch ? jsonMatch[1] : content;
+      if (jsonMatch) {
+        jsonContent = jsonMatch[1];
+      } else {
+        // Try to find array directly
+        const arrayMatch = content.match(/\[\s*\{[\s\S]*\}\s*\]/);
+        if (arrayMatch) {
+          jsonContent = arrayMatch[0];
+        } else {
+          // Last resort: bracket matching
+          const firstBracket = content.indexOf("[");
+          const lastBracket = content.lastIndexOf("]");
+          if (firstBracket !== -1 && lastBracket > firstBracket) {
+            jsonContent = content.substring(firstBracket, lastBracket + 1);
+          } else {
+            jsonContent = content;
+          }
+        }
+      }
 
       const questionsData = JSON.parse(jsonContent);
 

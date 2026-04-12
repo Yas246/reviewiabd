@@ -252,7 +252,7 @@ export default function OnboardingPage() {
                       Google Gemini
                     </div>
                     <div className="text-xs text-ink-muted">
-                      Gemini 2.5 Flash
+                      Gemini/Gemma
                     </div>
                   </div>
                 </label>
