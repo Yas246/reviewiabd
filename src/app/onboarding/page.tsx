@@ -6,7 +6,8 @@ import { Navigation } from "@/components/layout/Navigation";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-import { Key, Check, AlertCircle, Cpu } from "lucide-react";
+import { Key, Check, AlertCircle, Cpu, HelpCircle } from "lucide-react";
+import { Modal } from "@/components/ui/Modal";
 import { storageService } from "@/services/StorageService";
 import { AIProvider } from "@/types";
 import { BatchSizeSlider } from "@/components/features/BatchSizeSlider";
@@ -56,6 +57,7 @@ export default function OnboardingPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [step, setStep] = useState(1);
+  const [showHelpModal, setShowHelpModal] = useState(false);
 
   useEffect(() => {
     // Check if onboarding is already completed
@@ -309,7 +311,7 @@ export default function OnboardingPage() {
                   </div>
                 )}
 
-                <div className="mt-6">
+                <div className="mt-6 flex items-center gap-4">
                   <a
                     href={
                       provider === "gemini"
@@ -324,6 +326,13 @@ export default function OnboardingPage() {
                       ? "Obtenir une clé API Google →"
                       : "Obtenir une clé API OpenRouter →"}
                   </a>
+                  <button
+                    onClick={() => setShowHelpModal(true)}
+                    className="flex items-center gap-1.5 text-sm text-ink-muted hover:text-accent transition-colors"
+                  >
+                    <HelpCircle className="w-4 h-4" />
+                    Comment obtenir ma clé ?
+                  </button>
                 </div>
               </div>
             </CardContent>
@@ -490,6 +499,115 @@ export default function OnboardingPage() {
           </Button>
         </div>
       </main>
+
+      {/* Help Modal */}
+      <Modal
+        isOpen={showHelpModal}
+        onClose={() => setShowHelpModal(false)}
+        title={provider === "gemini" ? "Obtenir votre clé API Google" : "Obtenir votre clé API OpenRouter"}
+      >
+        {provider === "openrouter" ? (
+          <div className="space-y-4">
+            <p className="text-sm text-ink-secondary">
+              OpenRouter est un service gratuit qui vous permet d&apos;utiliser plusieurs modèles IA.
+              Suivez ces étapes pour obtenir votre clé API :
+            </p>
+            <ol className="space-y-3">
+              <li className="flex gap-3">
+                <span className="shrink-0 w-6 h-6 rounded-full bg-accent/10 text-accent text-xs font-mono font-bold flex items-center justify-center">1</span>
+                <div>
+                  <p className="text-sm text-ink-primary font-medium">Créez un compte sur OpenRouter</p>
+                  <p className="text-xs text-ink-muted">Allez sur{" "}
+                    <a href="https://openrouter.ai" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">openrouter.ai</a> et inscrivez-vous gratuitement.
+                  </p>
+                </div>
+              </li>
+              <li className="flex gap-3">
+                <span className="shrink-0 w-6 h-6 rounded-full bg-accent/10 text-accent text-xs font-mono font-bold flex items-center justify-center">2</span>
+                <div>
+                  <p className="text-sm text-ink-primary font-medium">Accédez à la section "Keys"</p>
+                  <p className="text-xs text-ink-muted">Dans le menu de gauche, cliquez sur <strong>Keys</strong>.
+                  </p>
+                </div>
+              </li>
+              <li className="flex gap-3">
+                <span className="shrink-0 w-6 h-6 rounded-full bg-accent/10 text-accent text-xs font-mono font-bold flex items-center justify-center">3</span>
+                <div>
+                  <p className="text-sm text-ink-primary font-medium">Créez une nouvelle clé</p>
+                  <p className="text-xs text-ink-muted">Cliquez sur <strong>"Create Key"</strong>, donnez-lui un nom et validez.
+                  </p>
+                </div>
+              </li>
+              <li className="flex gap-3">
+                <span className="shrink-0 w-6 h-6 rounded-full bg-accent/10 text-accent text-xs font-mono font-bold flex items-center justify-center">4</span>
+                <div>
+                  <p className="text-sm text-ink-primary font-medium">Copiez votre clé</p>
+                  <p className="text-xs text-ink-muted">Collez-la dans le champ ci-dessus. Elle commence par <code className="bg-paper-dark px-1 rounded text-accent">sk-or-v1-...</code>
+                  </p>
+                </div>
+              </li>
+            </ol>
+            <a
+              href="https://openrouter.ai/keys"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block text-sm text-accent hover:underline mt-2"
+            >
+              Aller sur OpenRouter →
+            </a>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <p className="text-sm text-ink-secondary">
+              Google AI Studio vous donne accès gratuitement aux modèles Gemini.
+              Suivez ces étapes pour obtenir votre clé API :
+            </p>
+            <ol className="space-y-3">
+              <li className="flex gap-3">
+                <span className="shrink-0 w-6 h-6 rounded-full bg-accent/10 text-accent text-xs font-mono font-bold flex items-center justify-center">1</span>
+                <div>
+                  <p className="text-sm text-ink-primary font-medium">Allez sur Google AI Studio</p>
+                  <p className="text-xs text-ink-muted">Visitez{" "}
+                    <a href="https://aistudio.google.com" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">aistudio.google.com</a> et connectez-vous avec votre compte Google.
+                  </p>
+                </div>
+              </li>
+              <li className="flex gap-3">
+                <span className="shrink-0 w-6 h-6 rounded-full bg-accent/10 text-accent text-xs font-mono font-bold flex items-center justify-center">2</span>
+                <div>
+                  <p className="text-sm text-ink-primary font-medium">Cliquez sur "Get API Key"</p>
+                  <p className="text-xs text-ink-muted">Dans le menu de gauche, cliquez sur <strong>"Get API Key"</strong>.
+                  </p>
+                </div>
+              </li>
+              <li className="flex gap-3">
+                <span className="shrink-0 w-6 h-6 rounded-full bg-accent/10 text-accent text-xs font-mono font-bold flex items-center justify-center">3</span>
+                <div>
+                  <p className="text-sm text-ink-primary font-medium">Sélectionnez un projet Google Cloud</p>
+                  <p className="text-xs text-ink-muted">Choisissez un projet existant ou créez-en un nouveau.
+                  </p>
+                </div>
+              </li>
+              <li className="flex gap-3">
+                <span className="shrink-0 w-6 h-6 rounded-full bg-accent/10 text-accent text-xs font-mono font-bold flex items-center justify-center">4</span>
+                <div>
+                  <p className="text-sm text-ink-primary font-medium">Copiez votre clé</p>
+                  <p className="text-xs text-ink-muted">Collez-la dans le champ ci-dessus. Elle commence par <code className="bg-paper-dark px-1 rounded text-accent">AIza...</code>
+                  </p>
+                </div>
+              </li>
+            </ol>
+            <a
+              href="https://aistudio.google.com/app/apikey"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block text-sm text-accent hover:underline mt-2"
+            >
+              Aller sur Google AI Studio →
+            </a>
+          </div>
+        )}
+      </Modal>
     </div>
   );
 }

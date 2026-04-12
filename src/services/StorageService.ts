@@ -15,7 +15,7 @@ const DEFAULT_SETTINGS: UserSettings = {
   defaultModel: "z-ai/glm-4.5-air:free",
   notifyOnComplete: false,
   offlineQuestionsPerDomain: 10,
-  batchSize: 10,  // Number of questions per API call (default: 10)
+  batchSize: 10, // Number of questions per API call (default: 10)
   onboardingCompleted: false,
   updatedAt: new Date(),
 };
@@ -72,9 +72,7 @@ class StorageService {
   /**
    * Update specific settings
    */
-  async updateSettings(
-    updates: Partial<UserSettings>
-  ): Promise<UserSettings> {
+  async updateSettings(updates: Partial<UserSettings>): Promise<UserSettings> {
     const currentSettings = await this.getSettings();
     const updatedSettings = {
       ...currentSettings,
@@ -149,11 +147,16 @@ class StorageService {
   /**
    * Get available models
    */
-  getAvailableModels(): Array<{ id: string; name: string; free: boolean; provider: AIProvider }> {
+  getAvailableModels(): Array<{
+    id: string;
+    name: string;
+    free: boolean;
+    provider: AIProvider;
+  }> {
     return [
       {
-        id: "z-ai/glm-4.5-air:free",
-        name: "GLM 4.5 Air (Free)",
+        id: "google/gemma-4-31b-it:free",
+        name: "Gemma 4 31B (Free)",
         free: true,
         provider: "openrouter" as AIProvider,
       },
@@ -164,14 +167,14 @@ class StorageService {
         provider: "openrouter" as AIProvider,
       },
       {
-        id: "gemini-2.5-flash",
-        name: "Gemini 2.5 Flash",
+        id: "gemma-4-31b-it",
+        name: "Gemma 4 31B",
         free: true,
         provider: "gemini" as AIProvider,
       },
       {
-        id: "gemini-2.0-flash",
-        name: "Gemini 2.0 Flash",
+        id: "gemini-3.1-flash-lite-preview",
+        name: "Gemini 3.1 Flash Lite",
         free: true,
         provider: "gemini" as AIProvider,
       },
