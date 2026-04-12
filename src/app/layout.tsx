@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Crimson_Pro, JetBrains_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { AppProvider } from "@/components/AppProvider";
 import { ServiceWorkerUpdate } from "@/components/ServiceWorkerUpdate";
@@ -126,6 +127,7 @@ export default function RootLayout({
       >
         <AppProvider>{children}</AppProvider>
         <ServiceWorkerUpdate />
+        <Analytics />
       </body>
     </html>
   );

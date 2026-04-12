@@ -19,8 +19,8 @@ import { BatchSizeSlider } from "@/components/features/BatchSizeSlider";
 
 const AVAILABLE_MODELS = [
   {
-    id: "z-ai/glm-4.5-air:free",
-    name: "GLM 4.5 Air (Free)",
+    id: "google/gemma-4-31b-it:free",
+    name: "Gemma 4 31B (Free)",
     free: true,
     provider: "openrouter" as AIProvider,
   },
@@ -31,14 +31,14 @@ const AVAILABLE_MODELS = [
     provider: "openrouter" as AIProvider,
   },
   {
-    id: "gemini-2.5-flash",
-    name: "Gemini 2.5 Flash",
+    id: "gemma-4-31b-it",
+    name: "Gemma 4 31B",
     free: true,
     provider: "gemini" as AIProvider,
   },
   {
-    id: "gemini-2.0-flash",
-    name: "Gemini 2.0 Flash",
+    id: "gemini-3.1-flash-lite-preview",
+    name: "Gemini 3.1 Flash Lite",
     free: true,
     provider: "gemini" as AIProvider,
   },
@@ -51,7 +51,7 @@ export default function OnboardingPage() {
   const [geminiApiKey, setGeminiApiKey] = useState("");
   const [customOpenRouterModel, setCustomOpenRouterModel] = useState("");
   const [customGeminiModel, setCustomGeminiModel] = useState("");
-  const [selectedModel, setSelectedModel] = useState("z-ai/glm-4.5-air:free");
+  const [selectedModel, setSelectedModel] = useState("google/gemma-4-31b-it:free");
   const [batchSize, setBatchSize] = useState(10);
   const [isValidKey, setIsValidKey] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -212,7 +212,7 @@ export default function OnboardingPage() {
                       setProvider(e.target.value as AIProvider);
                       setIsValidKey(false);
                       setError("");
-                      setSelectedModel("z-ai/glm-4.5-air:free");
+                      setSelectedModel("google/gemma-4-31b-it:free");
                     }}
                     className="sr-only"
                   />
@@ -243,7 +243,7 @@ export default function OnboardingPage() {
                       setProvider(e.target.value as AIProvider);
                       setIsValidKey(false);
                       setError("");
-                      setSelectedModel("gemini-2.5-flash");
+                      setSelectedModel("gemma-4-31b-it");
                     }}
                     className="sr-only"
                   />
