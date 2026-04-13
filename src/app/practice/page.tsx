@@ -10,12 +10,12 @@ import { DomainSelector } from "@/components/features/DomainSelector";
 import { QuestionCounter } from "@/components/features/QuestionCounter";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { Badge } from "@/components/ui/Badge";
-import { Domain, Question, SavedPracticeQuiz } from "@/types";
-import { Loader2, Play, History, RefreshCw, Trash2 } from "lucide-react";
-import { aiServiceFactory } from "@/services/AIServiceFactory";
+import { Domain, Question, SavedPracticeQuiz, QuizSession } from "@/types";
+import { Loader2, Play, History, RefreshCw, Trash2, AlertTriangle, CheckCircle } from "lucide-react";
 import { indexedDBService } from "@/services/IndexedDBService";
 import { storageService } from "@/services/StorageService";
 import { notificationService } from "@/services/NotificationService";
+import { generationService } from "@/services/GenerationService";
 
 // ============================================
 // PRACTICE PAGE
@@ -31,6 +31,18 @@ export default function PracticePage() {
   const [generatedQuestions, setGeneratedQuestions] = useState(0);
   const [savedQuizzes, setSavedQuizzes] = useState<SavedPracticeQuiz[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Interrupted generation state
+  const [interruptedSession, setInterruptedSession] = useState<QuizSession | null>(null);
+
+  // Error modal state
+  const [errorModal, setErrorModal] = useState<{
+    show: boolean;
+    message: string;
+    sessionId: string;
+    savedCount: number;
+    requestedCount: number;
+  } | null>(null);
 
   // Load saved quizzes on mount
   useEffect(() => {
@@ -51,6 +63,30 @@ export default function PracticePage() {
     loadSavedQuizzes();
   }, []);
 
+  // Check for interrupted generations on mount
+  useEffect(() => {
+    const checkInterrupted = async () => {
+      try {
+        await indexedDBService.init();
+        const interrupted = await generationService.findInterruptedGenerations();
+        const failed = await generationService.findFailedGenerations();
+
+        // Prioritize: show the most recent interrupted session
+        const allPending = [...interrupted, ...failed].sort(
+          (a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime()
+        );
+
+        if (allPending.length > 0) {
+          setInterruptedSession(allPending[0]);
+        }
+      } catch (error) {
+        console.error('[Practice] Failed to check interrupted generations:', error);
+      }
+    };
+
+    checkInterrupted();
+  }, []);
+
   const handleGenerate = async () => {
     console.log('[Practice] Generate button clicked');
     console.log('[Practice] Configuration:', {
@@ -62,16 +98,12 @@ export default function PracticePage() {
     setIsGenerating(true);
     setProgress(0);
     setGeneratedQuestions(0);
+    setErrorModal(null);
 
     let taskId: string | undefined;
 
     try {
-      console.log('[Practice] Initializing IndexedDB...');
-      // Ensure IndexedDB is initialized
       await indexedDBService.init();
-      console.log('[Practice] IndexedDB initialized successfully');
-
-      // Check if notifications are enabled
       const settings = await storageService.getSettings();
       const notificationsEnabled = settings?.notifyOnComplete ?? false;
 
@@ -86,98 +118,141 @@ export default function PracticePage() {
         console.log('[Practice] Created background task:', taskId);
       }
 
-      console.log('[Practice] Starting question generation...');
-      console.log('[Practice] Using provider:', settings.provider);
+      console.log('[Practice] Starting incremental generation...');
 
-      // Get the appropriate AI service based on provider setting
-      const aiService = aiServiceFactory.getService(settings.provider);
-
-      // Generate questions using the selected service
-      const questions = await aiService.generateQuestions(
-        {
-          domain: selectedDomain,
-          count: questionCount,
-          includeExplanations: true,
-        },
-        (progressData) => {
-          // Progress callback
-          setGeneratedQuestions(progressData.current);
-          setProgress((progressData.current / progressData.total) * 100);
-        }
-      );
-
-      console.log('[Practice] Generation completed, received', questions.length, 'questions');
-
-      // Save practice quiz permanently
-      const quizId = `practice-${selectedDomain}-${Date.now()}`;
-      const savedQuiz: SavedPracticeQuiz = {
-        id: quizId,
-        domain: selectedDomain,
-        questionCount: questions.length,
-        questions, // Store questions for reuse
-        attempts: 1,
-        createdAt: new Date(),
-        lastAttemptAt: new Date(),
-      };
-
-      await indexedDBService.savePracticeQuiz(savedQuiz);
-      console.log('[Practice] Quiz saved for reuse:', quizId);
-
-      // Update saved quizzes list
-      setSavedQuizzes(prev => [savedQuiz, ...prev]);
-
-      console.log('[Practice] Saving session to IndexedDB...');
-
-      // Store questions in IndexedDB for the quiz session
-      const sessionId = `practice-${Date.now()}`;
-      await indexedDBService.saveSession({
-        id: sessionId,
+      // Create the session immediately
+      const sessionId = await generationService.generateWithIncrementalSave({
         type: "practice",
         domain: selectedDomain,
-        questions,
-        userAnswers: {},
-        currentIndex: 0,
-        status: "IN_PROGRESS" as any,
-        startedAt: new Date(),
-        practiceQuizId: quizId, // Link to saved quiz
+        totalCount: questionCount,
+        includeExplanations: true,
+        taskId,
       });
 
-      // Update background task and send notification
-      if (taskId && notificationsEnabled) {
-        await notificationService.updateTaskStatus(taskId, 'ready', sessionId);
-        console.log('[Practice] Background task updated and notification sent');
-      }
+      console.log('[Practice] Session created:', sessionId, 'Starting batch generation...');
 
-      console.log('[Practice] Session saved with ID:', sessionId);
-      console.log('[Practice] Navigating to quiz page...');
-      // Navigate to quiz page with session ID
-      // Use direct navigation to avoid RSC prefetch which fails offline
-      window.location.href = `/quiz?session=${sessionId}`;
+      // Run the generation loop
+      await generationService.runSingleDomainGeneration(
+        sessionId,
+        selectedDomain,
+        questionCount,
+        {
+          onBatchComplete: (p) => {
+            setGeneratedQuestions(p.current);
+            setProgress((p.current / p.total) * 100);
+          },
+          onSessionReady: (id) => {
+            // Navigate to quiz after first batch (progressive display)
+            console.log('[Practice] First batch ready, navigating to quiz:', id);
+            window.location.href = `/quiz?session=${id}`;
+          },
+          onGenerationComplete: (id) => {
+            console.log('[Practice] Generation complete:', id);
+            setIsGenerating(false);
+          },
+          onGenerationError: (error, id, savedCount, requestedCount) => {
+            console.error('[Practice] Generation error:', error, 'Saved:', savedCount);
+            setIsGenerating(false);
+
+            if (savedCount > 0) {
+              // Show error modal with option to use partial questions
+              setErrorModal({
+                show: true,
+                message: error.message,
+                sessionId: id,
+                savedCount,
+                requestedCount,
+              });
+            } else {
+              alert(`Erreur lors de la génération: ${error.message}`);
+            }
+          },
+        },
+        { taskId }
+      );
     } catch (error: any) {
       console.error('[Practice] ERROR during generation:', error);
-      console.error('[Practice] Error details:', {
-        message: error.message,
-        code: error.code,
-        isRetryable: error.isRetryable,
-        stack: error.stack
-      });
-
-      // Update background task with error
-      if (taskId) {
-        await notificationService.updateTaskStatus(
-          taskId,
-          'failed',
-          undefined,
-          error.message || "Erreur inconnue"
-        );
-      }
-
       setIsGenerating(false);
       setProgress(0);
       setGeneratedQuestions(0);
-      // TODO: Show error toast/notification
       alert(`Erreur lors de la génération: ${error.message || "Erreur inconnue"}`);
     }
+  };
+
+  const handleResumeGeneration = async () => {
+    if (!interruptedSession) return;
+
+    setIsGenerating(true);
+    setProgress(0);
+    setErrorModal(null);
+    setInterruptedSession(null);
+
+    const gp = interruptedSession.generationProgress!;
+    setGeneratedQuestions(interruptedSession.questions.length);
+
+    try {
+      await generationService.resumeGeneration(
+        interruptedSession.id,
+        {
+          onBatchComplete: (p) => {
+            setGeneratedQuestions(p.current);
+            setProgress((p.current / p.total) * 100);
+          },
+          onSessionReady: (id) => {
+            window.location.href = `/quiz?session=${id}`;
+          },
+          onGenerationComplete: (id) => {
+            setIsGenerating(false);
+            window.location.href = `/quiz?session=${id}`;
+          },
+          onGenerationError: (error, id, savedCount, requestedCount) => {
+            setIsGenerating(false);
+            if (savedCount > 0) {
+              setErrorModal({
+                show: true,
+                message: error.message,
+                sessionId: id,
+                savedCount,
+                requestedCount,
+              });
+            } else {
+              alert(`Erreur: ${error.message}`);
+            }
+          },
+        }
+      );
+    } catch (error: any) {
+      setIsGenerating(false);
+      alert(`Erreur: ${error.message}`);
+    }
+  };
+
+  const handleUsePartialQuestions = async () => {
+    if (!errorModal) return;
+
+    try {
+      await generationService.finalizeAsPartial(errorModal.sessionId);
+      setErrorModal(null);
+      window.location.href = `/quiz?session=${errorModal.sessionId}`;
+    } catch (error: any) {
+      alert(`Erreur: ${error.message}`);
+    }
+  };
+
+  const handleUseInterruptedQuestions = async () => {
+    if (!interruptedSession) return;
+
+    try {
+      await generationService.finalizeAsPartial(interruptedSession.id);
+      setInterruptedSession(null);
+      window.location.href = `/quiz?session=${interruptedSession.id}`;
+    } catch (error: any) {
+      alert(`Erreur: ${error.message}`);
+    }
+  };
+
+  const handleDismissInterrupted = () => {
+    setInterruptedSession(null);
   };
 
   const handleRetakeQuiz = async (quiz: SavedPracticeQuiz) => {
@@ -202,7 +277,7 @@ export default function PracticePage() {
         currentIndex: 0,
         status: "IN_PROGRESS" as any,
         startedAt: new Date(),
-        practiceQuizId: quiz.id, // Link to saved quiz
+        practiceQuizId: quiz.id,
       });
 
       // Update attempt count and timestamp
@@ -253,6 +328,139 @@ export default function PracticePage() {
           title="Mode Pratique"
           description="Configurez votre session de révision"
         />
+
+        {/* Interrupted Generation Modal */}
+        {interruptedSession && (
+          <Card className="mb-8 border-l-4 border-l-accent animate-fade-in-down">
+            <CardContent>
+              <div className="flex items-start gap-3">
+                <AlertTriangle className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+                <div className="flex-1">
+                  <h3 className="font-mono font-semibold mb-1">
+                    Génération interrompue
+                  </h3>
+                  <p className="text-sm text-ink-secondary mb-1">
+                    {interruptedSession.generationProgress?.generationError
+                      ? `Erreur : ${interruptedSession.generationProgress.generationError}`
+                      : "La génération a été interrompue."}
+                  </p>
+                  <p className="text-sm text-ink-muted mb-3">
+                    {interruptedSession.questions.length} / {interruptedSession.generationProgress?.requestedCount} questions sont déjà prêtes.
+                  </p>
+                  <div className="flex gap-3">
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      onClick={handleResumeGeneration}
+                      loading={isGenerating}
+                    >
+                      <RefreshCw className="w-4 h-4 mr-2" />
+                      Reprendre la génération
+                    </Button>
+                    {interruptedSession.questions.length >= 5 && (
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        onClick={handleUseInterruptedQuestions}
+                      >
+                        <CheckCircle className="w-4 h-4 mr-2" />
+                        Commencer avec {interruptedSession.questions.length} questions
+                      </Button>
+                    )}
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={handleDismissInterrupted}
+                    >
+                      Ignorer
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Error Modal */}
+        {errorModal && (
+          <Card className="mb-8 border-l-4 border-l-red-500 animate-fade-in-down">
+            <CardContent>
+              <div className="flex items-start gap-3">
+                <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+                <div className="flex-1">
+                  <h3 className="font-mono font-semibold mb-1">
+                    Génération interrompue
+                  </h3>
+                  <p className="text-sm text-ink-secondary mb-1">
+                    {errorModal.message}
+                  </p>
+                  <p className="text-sm text-ink-muted mb-3">
+                    {errorModal.savedCount} / {errorModal.requestedCount} questions ont été sauvegardées et sont utilisables.
+                  </p>
+                  <div className="flex gap-3">
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      onClick={handleUsePartialQuestions}
+                    >
+                      <CheckCircle className="w-4 h-4 mr-2" />
+                      Commencer avec {errorModal.savedCount} questions
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={async () => {
+                        setErrorModal(null);
+                        setIsGenerating(true);
+                        try {
+                          await generationService.resumeGeneration(
+                            errorModal.sessionId,
+                            {
+                              onBatchComplete: (p) => {
+                                setGeneratedQuestions(p.current);
+                                setProgress((p.current / p.total) * 100);
+                              },
+                              onSessionReady: (id) => {
+                                window.location.href = `/quiz?session=${id}`;
+                              },
+                              onGenerationComplete: (id) => {
+                                setIsGenerating(false);
+                                window.location.href = `/quiz?session=${id}`;
+                              },
+                              onGenerationError: (err, _id, saved) => {
+                                setIsGenerating(false);
+                                setErrorModal({
+                                  show: true,
+                                  message: err.message,
+                                  sessionId: errorModal.sessionId,
+                                  savedCount: saved,
+                                  requestedCount: errorModal.requestedCount,
+                                });
+                              },
+                            }
+                          );
+                        } catch (err: any) {
+                          setIsGenerating(false);
+                          alert(`Erreur: ${err.message}`);
+                        }
+                      }}
+                    >
+                      <RefreshCw className="w-4 h-4 mr-2" />
+                      Réessayer
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => setErrorModal(null)}
+                    >
+                      Annuler
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Configuration Card */}
         <Card className="mb-8">
@@ -379,7 +587,7 @@ export default function PracticePage() {
                     </div>
                   </div>
                   <p className="text-sm text-ink-secondary flex-1">
-                    Commencez avant que toutes les questions soient prêtes
+                    Commencez le quiz dès que le 1er lot est prêt
                   </p>
                 </div>
                 <div className="flex items-start gap-2">
@@ -389,7 +597,7 @@ export default function PracticePage() {
                     </div>
                   </div>
                   <p className="text-sm text-ink-secondary flex-1">
-                    Pas de limite de temps en mode Pratique
+                    Si la génération échoue, les questions déjà prêtes sont utilisables
                   </p>
                 </div>
                 <div className="flex items-start gap-2">
@@ -399,7 +607,7 @@ export default function PracticePage() {
                     </div>
                   </div>
                   <p className="text-sm text-ink-secondary flex-1">
-                    Marquez vos questions favorites pour les réviser
+                    Pas de limite de temps en mode Pratique
                   </p>
                 </div>
               </div>

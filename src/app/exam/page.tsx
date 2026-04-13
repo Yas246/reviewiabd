@@ -8,12 +8,12 @@ import { Card, CardContent, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { DomainSelector } from "@/components/features/DomainSelector";
-import { Clock, FileText, Globe, History, RefreshCw } from "lucide-react";
-import { Domain, SavedExam } from "@/types";
-import { aiServiceFactory } from "@/services/AIServiceFactory";
+import { Clock, FileText, Globe, History, RefreshCw, AlertTriangle, CheckCircle, Loader2 } from "lucide-react";
+import { Domain, QuizSession, SavedExam } from "@/types";
 import { indexedDBService } from "@/services/IndexedDBService";
 import { storageService } from "@/services/StorageService";
 import { notificationService } from "@/services/NotificationService";
+import { generationService } from "@/services/GenerationService";
 
 // ============================================
 // EXAM PAGE
@@ -27,6 +27,18 @@ export default function ExamPage() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [savedExams, setSavedExams] = useState<SavedExam[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Interrupted generation state
+  const [interruptedSession, setInterruptedSession] = useState<QuizSession | null>(null);
+
+  // Error modal state
+  const [errorModal, setErrorModal] = useState<{
+    show: boolean;
+    message: string;
+    sessionId: string;
+    savedCount: number;
+    requestedCount: number;
+  } | null>(null);
 
   // Load saved exams on mount
   useEffect(() => {
@@ -47,21 +59,43 @@ export default function ExamPage() {
     loadSavedExams();
   }, []);
 
+  // Check for interrupted generations on mount
+  useEffect(() => {
+    const checkInterrupted = async () => {
+      try {
+        await indexedDBService.init();
+        const interrupted = await generationService.findInterruptedGenerations();
+        const failed = await generationService.findFailedGenerations();
+
+        const examPending = [...interrupted, ...failed]
+          .filter(s => s.type === "exam")
+          .sort((a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime());
+
+        if (examPending.length > 0) {
+          setInterruptedSession(examPending[0]);
+        }
+      } catch (error) {
+        console.error('[Exam] Failed to check interrupted generations:', error);
+      }
+    };
+
+    checkInterrupted();
+  }, []);
+
   const handleStartExam = async () => {
     setIsGenerating(true);
+    setErrorModal(null);
 
     let taskId: string | undefined;
 
     try {
-      // Ensure IndexedDB is initialized
       await indexedDBService.init();
-
-      // Check if notifications are enabled
       const settings = await storageService.getSettings();
       const notificationsEnabled = settings?.notifyOnComplete ?? false;
+      const questionCount = examType === "full" ? 40 : 20;
+      const timeLimit = examType === "full" ? 7200 : 3600;
 
       // Create background task if notifications are enabled
-      const questionCount = examType === "full" ? 40 : 20;
       if (notificationsEnabled) {
         taskId = await notificationService.createBackgroundTask(
           'exam-generation',
@@ -72,111 +106,91 @@ export default function ExamPage() {
         console.log('[Exam] Created background task:', taskId);
       }
 
-      // Get AI service using the provider from settings
-      console.log('[Exam] Using provider:', settings.provider);
-      const aiService = aiServiceFactory.getService(settings.provider);
-
-      let questions: any[] = [];
-
-      if (examType === "full") {
-        // Full exam: 4 questions from each of the 10 domains = 40 questions
-        // NEW: Use 4 multi-domain requests instead of 10 single-domain requests
-        const questionsPerDomain = 4;
-
-        // Group 1: 4 domains × 4q = 16 questions
-        console.log('[Exam] Generating Group 1: ML, DL, NLP, VISUALISATION_DONNEES');
-        const group1Questions = await aiService.generateMultiDomainQuestions({
-          domains: [Domain.MACHINE_LEARNING, Domain.DEEP_LEARNING, Domain.NLP, Domain.VISUALISATION_DONNEES],
-          countPerDomain: questionsPerDomain,
-          includeExplanations: true,
-        });
-        questions.push(...group1Questions);
-
-        // Group 2: 3 domains × 4q = 12 questions
-        console.log('[Exam] Generating Group 2: IA_SYMBOLIQUE, DATA_WAREHOUSING, BIG_DATA');
-        const group2Questions = await aiService.generateMultiDomainQuestions({
-          domains: [Domain.IA_SYMBOLIQUE, Domain.DATA_WAREHOUSING, Domain.BIG_DATA],
-          countPerDomain: questionsPerDomain,
-          includeExplanations: true,
-        });
-        questions.push(...group2Questions);
-
-        // Group 3: 3 domains × 4q = 12 questions
-        console.log('[Exam] Generating Group 3: SYSTEMES_RECOMMANDATION, DATA_MINING, ETHIQUE_IA');
-        const group3Questions = await aiService.generateMultiDomainQuestions({
-          domains: [Domain.SYSTEMES_RECOMMANDATION, Domain.DATA_MINING, Domain.ETHIQUE_IA],
-          countPerDomain: questionsPerDomain,
-          includeExplanations: true,
-        });
-        questions.push(...group3Questions);
-
-        // Total: 16 + 12 + 12 = 40 questions in 3 requests (even better than 4!)
-        console.log('[Exam] Generated total questions:', questions.length);
-
-        // Shuffle questions to mix domains
-        questions = questions.sort(() => Math.random() - 0.5);
-      } else {
-        // Domain exam: 20 questions from selected domain
-        questions = await aiService.generateQuestions({
-          domain: selectedDomain,
-          count: 20,
-          includeExplanations: true,
-        });
-      }
-
-      // Save exam as template for reuse (with questions!)
-      const examId = `exam-${examType}-${Date.now()}`;
-      const examName = examType === "full"
-        ? "Examen Complet"
-        : `Examen ${selectedDomain.replace(/_/g, " ")}`;
-
-      const savedExam: SavedExam = {
-        id: examId,
-        name: examName,
-        type: examType,
-        domain: examType === "domain" ? selectedDomain : undefined,
-        questions, // Store the questions for reuse!
-        attempts: [],
-        bestScore: 0,
-        bestAttemptId: "",
-        createdAt: new Date(),
-        lastAttemptAt: new Date(),
-      };
-
-      await indexedDBService.saveExam(savedExam);
-      console.log('[Exam] Saved exam template with questions:', examId);
-
-      // Create session for this attempt (shuffle questions for variety)
-      const shuffledQuestions = [...questions].sort(() => Math.random() - 0.5);
-      const sessionId = `exam-session-${Date.now()}`;
-      const timeLimit = examType === "full" ? 7200 : 3600; // 2h or 1h
-
-      await indexedDBService.saveSession({
-        id: sessionId,
+      // Create session immediately with GENERATING status
+      const sessionId = await generationService.generateWithIncrementalSave({
         type: "exam",
         domain: examType === "domain" ? selectedDomain : undefined,
-        questions: shuffledQuestions,
-        userAnswers: {},
-        currentIndex: 0,
-        status: "IN_PROGRESS" as any,
-        startedAt: new Date(),
+        totalCount: questionCount,
+        includeExplanations: true,
         timeLimit,
-        examId, // Link to the exam template
+        examType,
+        taskId,
       });
 
-      // Update background task and send notification
-      if (taskId && notificationsEnabled) {
-        await notificationService.updateTaskStatus(taskId, 'ready', sessionId);
-        console.log('[Exam] Background task updated and notification sent');
-      }
+      console.log('[Exam] Session created:', sessionId);
 
-      // Navigate to quiz page with session ID
-      // Use direct navigation to avoid RSC prefetch which fails offline
-      window.location.href = `/quiz?session=${sessionId}`;
+      // Run generation based on exam type
+      if (examType === "full") {
+        const allDomains = Object.values(Domain);
+        await generationService.runMultiDomainGeneration(
+          sessionId,
+          allDomains,
+          4, // 4 questions per domain
+          {
+            onBatchComplete: () => {
+              // Could add progress bar for exam too
+            },
+            onSessionReady: (id) => {
+              console.log('[Exam] First group ready, navigating to quiz:', id);
+              window.location.href = `/quiz?session=${id}`;
+            },
+            onGenerationComplete: (id) => {
+              console.log('[Exam] Generation complete:', id);
+              setIsGenerating(false);
+            },
+            onGenerationError: (error, id, savedCount, requestedCount) => {
+              console.error('[Exam] Generation error:', error);
+              setIsGenerating(false);
+              if (savedCount > 0) {
+                setErrorModal({
+                  show: true,
+                  message: error.message,
+                  sessionId: id,
+                  savedCount,
+                  requestedCount,
+                });
+              } else {
+                alert(`Erreur lors de la génération: ${error.message}`);
+              }
+            },
+          },
+          { taskId }
+        );
+      } else {
+        // Domain exam: 20 questions from single domain
+        await generationService.runSingleDomainGeneration(
+          sessionId,
+          selectedDomain,
+          20,
+          {
+            onBatchComplete: () => {},
+            onSessionReady: (id) => {
+              window.location.href = `/quiz?session=${id}`;
+            },
+            onGenerationComplete: (id) => {
+              setIsGenerating(false);
+            },
+            onGenerationError: (error, id, savedCount, requestedCount) => {
+              setIsGenerating(false);
+              if (savedCount > 0) {
+                setErrorModal({
+                  show: true,
+                  message: error.message,
+                  sessionId: id,
+                  savedCount,
+                  requestedCount,
+                });
+              } else {
+                alert(`Erreur lors de la génération: ${error.message}`);
+              }
+            },
+          },
+          { taskId }
+        );
+      }
     } catch (error: any) {
       console.error("Failed to generate exam questions:", error);
 
-      // Update background task with error
       if (taskId) {
         await notificationService.updateTaskStatus(
           taskId,
@@ -187,9 +201,75 @@ export default function ExamPage() {
       }
 
       setIsGenerating(false);
-      // TODO: Show error toast/notification
       alert(`Erreur lors de la génération: ${error.message || "Erreur inconnue"}`);
     }
+  };
+
+  const handleResumeGeneration = async () => {
+    if (!interruptedSession) return;
+
+    setIsGenerating(true);
+    setInterruptedSession(null);
+    setErrorModal(null);
+
+    try {
+      await generationService.resumeGeneration(
+        interruptedSession.id,
+        {
+          onBatchComplete: () => {},
+          onSessionReady: (id) => {
+            window.location.href = `/quiz?session=${id}`;
+          },
+          onGenerationComplete: (id) => {
+            setIsGenerating(false);
+            window.location.href = `/quiz?session=${id}`;
+          },
+          onGenerationError: (error, id, savedCount, requestedCount) => {
+            setIsGenerating(false);
+            if (savedCount > 0) {
+              setErrorModal({
+                show: true,
+                message: error.message,
+                sessionId: id,
+                savedCount,
+                requestedCount,
+              });
+            } else {
+              alert(`Erreur: ${error.message}`);
+            }
+          },
+        }
+      );
+    } catch (error: any) {
+      setIsGenerating(false);
+      alert(`Erreur: ${error.message}`);
+    }
+  };
+
+  const handleUsePartialQuestions = async () => {
+    if (errorModal) {
+      try {
+        await generationService.finalizeAsPartial(errorModal.sessionId);
+        setErrorModal(null);
+        window.location.href = `/quiz?session=${errorModal.sessionId}`;
+      } catch (error: any) {
+        alert(`Erreur: ${error.message}`);
+      }
+      return;
+    }
+    if (interruptedSession) {
+      try {
+        await generationService.finalizeAsPartial(interruptedSession.id);
+        setInterruptedSession(null);
+        window.location.href = `/quiz?session=${interruptedSession.id}`;
+      } catch (error: any) {
+        alert(`Erreur: ${error.message}`);
+      }
+    }
+  };
+
+  const handleDismissInterrupted = () => {
+    setInterruptedSession(null);
   };
 
   const handleRetakeExam = async (exam: SavedExam) => {
@@ -246,6 +326,76 @@ export default function ExamPage() {
           description="Simulez un examen réel avec limite de temps"
         />
 
+        {/* Interrupted Generation Banner */}
+        {interruptedSession && (
+          <Card className="mb-8 border-l-4 border-l-accent animate-fade-in-down">
+            <CardContent>
+              <div className="flex items-start gap-3">
+                <AlertTriangle className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+                <div className="flex-1">
+                  <h3 className="font-mono font-semibold mb-1">
+                    Génération interrompue
+                  </h3>
+                  <p className="text-sm text-ink-secondary mb-1">
+                    {interruptedSession.generationProgress?.generationError
+                      ? `Erreur : ${interruptedSession.generationProgress.generationError}`
+                      : "La génération a été interrompue."}
+                  </p>
+                  <p className="text-sm text-ink-muted mb-3">
+                    {interruptedSession.questions.length} / {interruptedSession.generationProgress?.requestedCount} questions sont déjà prêtes.
+                  </p>
+                  <div className="flex gap-3">
+                    <Button variant="primary" size="sm" onClick={handleResumeGeneration} loading={isGenerating}>
+                      <RefreshCw className="w-4 h-4 mr-2" />
+                      Reprendre
+                    </Button>
+                    {interruptedSession.questions.length >= 5 && (
+                      <Button variant="secondary" size="sm" onClick={handleUsePartialQuestions}>
+                        <CheckCircle className="w-4 h-4 mr-2" />
+                        Commencer avec {interruptedSession.questions.length} questions
+                      </Button>
+                    )}
+                    <Button variant="secondary" size="sm" onClick={handleDismissInterrupted}>
+                      Ignorer
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Error Modal */}
+        {errorModal && (
+          <Card className="mb-8 border-l-4 border-l-red-500 animate-fade-in-down">
+            <CardContent>
+              <div className="flex items-start gap-3">
+                <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+                <div className="flex-1">
+                  <h3 className="font-mono font-semibold mb-1">
+                    Génération interrompue
+                  </h3>
+                  <p className="text-sm text-ink-secondary mb-1">
+                    {errorModal.message}
+                  </p>
+                  <p className="text-sm text-ink-muted mb-3">
+                    {errorModal.savedCount} / {errorModal.requestedCount} questions ont été sauvegardées.
+                  </p>
+                  <div className="flex gap-3">
+                    <Button variant="primary" size="sm" onClick={handleUsePartialQuestions}>
+                      <CheckCircle className="w-4 h-4 mr-2" />
+                      Commencer avec {errorModal.savedCount} questions
+                    </Button>
+                    <Button variant="secondary" size="sm" onClick={() => setErrorModal(null)}>
+                      Annuler
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           {/* Full Exam Card */}
           <Card
@@ -255,7 +405,7 @@ export default function ExamPage() {
           >
             <CardContent>
               <div className="flex items-start gap-4 mb-4">
-                <div className="w-12 h-12 rounded bg-domain-ml/20 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded bg-domain-ml/20 flex items-center justify-center shrink-0">
                   <Globe className="w-6 h-6 text-domain-ml" />
                 </div>
                 <div className="flex-1">
@@ -296,7 +446,7 @@ export default function ExamPage() {
           >
             <CardContent>
               <div className="flex items-start gap-4 mb-4">
-                <div className="w-12 h-12 rounded bg-domain-dl/20 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded bg-domain-dl/20 flex items-center justify-center shrink-0">
                   <FileText className="w-6 h-6 text-domain-dl" />
                 </div>
                 <div className="flex-1">
@@ -380,8 +530,15 @@ export default function ExamPage() {
           <Button variant="secondary" onClick={() => router.back()} disabled={isGenerating}>
             Retour
           </Button>
-          <Button variant="primary" onClick={handleStartExam} loading={isGenerating}>
-            {isGenerating ? "Préparation..." : "Commencer l'Examen"}
+          <Button variant="primary" onClick={handleStartExam} loading={isGenerating} disabled={isGenerating}>
+            {isGenerating ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                Préparation...
+              </>
+            ) : (
+              "Commencer l'Examen"
+            )}
           </Button>
         </div>
 

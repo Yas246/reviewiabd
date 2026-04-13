@@ -3,9 +3,9 @@
 // Caches static assets for offline use
 // ============================================
 
-const CACHE_NAME = "review-iabd-v2.8.0";
-const STATIC_CACHE = "review-iabd-static-v2.8.0";
-const RUNTIME_CACHE = "review-iabd-runtime-v2.8.0";
+const CACHE_NAME = "review-iabd-v2.9.0";
+const STATIC_CACHE = "review-iabd-static-v2.9.0";
+const RUNTIME_CACHE = "review-iabd-runtime-v2.9.0";
 
 // Assets to cache on install (core HTML pages)
 const urlsToCache = [
@@ -361,3 +361,105 @@ self.addEventListener("fetch", (event) => {
       ),
   );
 });
+
+// ============================================
+// BACKGROUND FETCH (Android - continues fetch when app is backgrounded)
+// ============================================
+
+if ("backgroundfetch" in self) {
+  // Background Fetch succeeded
+  self.addEventListener("backgroundfetchsuccess", (event) => {
+    console.log("[SW] Background fetch succeeded:", event.registration.id);
+
+    event.waitUntil(
+      (async () => {
+        try {
+          const records = await event.registration.matchAll();
+
+          for (const record of records) {
+            const response = await record.responseReady;
+            if (!response) continue;
+
+            const responseText = await response.text();
+
+            // Extract session info from the fetch ID
+            // Format: quiz-batch-{sessionId}-batch{batchIndex}
+            const fetchId = event.registration.id;
+            const batchMatch = fetchId.match(/quiz-batch-(.+)-batch(\d+)/);
+
+            if (batchMatch) {
+              const sessionId = batchMatch[1];
+              const batchIndex = parseInt(batchMatch[2], 10);
+
+              console.log("[SW] Background fetch complete for session:", sessionId, "batch:", batchIndex);
+
+              // Notify all clients about the completed batch
+              const allClients = await self.clients.matchAll();
+              allClients.forEach((client) => {
+                client.postMessage({
+                  type: "BACKGROUND_BATCH_COMPLETE",
+                  sessionId,
+                  batchIndex,
+                  responseData: responseText,
+                });
+              });
+            }
+          }
+
+          // Show completion notification
+          self.registration.showNotification("Quiz prêt !", {
+            body: "La génération de questions s'est terminée en arrière-plan.",
+            icon: "/icon-192.png",
+            tag: "bg-fetch-complete",
+          });
+        } catch (error) {
+          console.error("[SW] Background fetch success handler error:", error);
+        }
+      })()
+    );
+  });
+
+  // Background Fetch failed
+  self.addEventListener("backgroundfetchfail", (event) => {
+    console.error("[SW] Background fetch failed:", event.registration.id);
+
+    event.waitUntil(
+      (async () => {
+        const fetchId = event.registration.id;
+        const batchMatch = fetchId.match(/quiz-batch-(.+)-batch(\d+)/);
+
+        if (batchMatch) {
+          const sessionId = batchMatch[1];
+
+          // Notify clients about the failure
+          const allClients = await self.clients.matchAll();
+          allClients.forEach((client) => {
+            client.postMessage({
+              type: "BACKGROUND_BATCH_FAILED",
+              sessionId,
+              fetchId,
+            });
+          });
+        }
+      })()
+    );
+  });
+
+  // Background Fetch click (user tapped the UI)
+  self.addEventListener("backgroundfetchclick", (event) => {
+    console.log("[SW] Background fetch clicked:", event.registration.id);
+
+    event.waitUntil(
+      (async () => {
+        const allClients = await self.clients.matchAll({ type: "window" });
+        if (allClients.length > 0) {
+          // Focus existing window
+          allClients[0].focus();
+        } else {
+          // Open new window
+          self.clients.openWindow("/practice");
+        }
+      })()
+    );
+  });
+}

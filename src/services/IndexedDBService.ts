@@ -76,7 +76,7 @@ interface ReviewIABDDB extends DBSchema {
 }
 
 const DB_NAME = "ReviewIABD";
-const DB_VERSION = 4;
+const DB_VERSION = 5;
 
 class IndexedDBService {
   private db: IDBPDatabase<ReviewIABDDB> | null = null;
@@ -212,6 +212,39 @@ class IndexedDBService {
   ): Promise<QuizSession[]> {
     const db = await this.ensureDB();
     return db.getAllFromIndex("sessions", "by-status", status);
+  }
+
+  /**
+   * Append questions to an existing session (for progressive generation).
+   * Does NOT replace existing questions - only appends unique ones.
+   */
+  async appendQuestionsToSession(
+    sessionId: string,
+    newQuestions: Question[],
+    generationProgress?: QuizSession["generationProgress"]
+  ): Promise<QuizSession | undefined> {
+    const db = await this.ensureDB();
+    const session = await db.get("sessions", sessionId);
+    if (!session) return undefined;
+
+    const existingIds = new Set(session.questions.map(q => q.id));
+    const uniqueNew = newQuestions.filter(q => !existingIds.has(q.id));
+
+    const updatedSession: QuizSession = {
+      ...session,
+      questions: [...session.questions, ...uniqueNew],
+      ...(generationProgress !== undefined ? { generationProgress } : {}),
+    };
+
+    await db.put("sessions", updatedSession, sessionId);
+    return updatedSession;
+  }
+
+  /**
+   * Find sessions stuck in GENERATING status (interrupted generations)
+   */
+  async getGeneratingSessions(): Promise<QuizSession[]> {
+    return this.getSessionsByStatus("GENERATING" as QuizSession["status"]);
   }
 
   async deleteSession(id: string): Promise<void> {

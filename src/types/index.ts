@@ -62,6 +62,7 @@ export enum QuizSessionStatus {
   IN_PROGRESS = "IN_PROGRESS",
   COMPLETED = "COMPLETED",
   PAUSED = "PAUSED",
+  GENERATING = "GENERATING",
 }
 
 // User's answer for a question
@@ -88,6 +89,21 @@ export interface QuizSession {
   timeRemaining?: number; // in seconds
   examId?: string; // Link to the SavedExam if this is an exam attempt
   practiceQuizId?: string; // Link to the SavedPracticeQuiz if this is a practice quiz
+  generationProgress?: {
+    requestedCount: number;
+    completedBatches: number;
+    totalBatches: number;
+    isGenerating: boolean;
+    lastBatchAt?: Date;
+    generationError?: string;
+  };
+}
+
+// Generation state for quiz page consumption
+export interface GenerationState {
+  isGenerating: boolean;
+  availableCount: number;
+  requestedCount: number;
 }
 
 // Exam attempt with history

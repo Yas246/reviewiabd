@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Navigation } from "@/components/layout/Navigation";
 import { QuestionCard } from "@/components/features/QuestionCard";
@@ -8,14 +8,29 @@ import { QuizTimer } from "@/components/features/QuizTimer";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/Card";
-import { Question, QuizSession, SavedExam, QuizSessionStatus } from "@/types";
-import { ArrowLeft, ArrowRight, CheckCircle, Grid3x3, X } from "lucide-react";
+import {
+  Question,
+  QuizSession,
+  SavedExam,
+  QuizSessionStatus,
+  GenerationState,
+} from "@/types";
+import {
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle,
+  Grid3x3,
+  X,
+  Loader2,
+} from "lucide-react";
 import { indexedDBService } from "@/services/IndexedDBService";
 import { statisticsService } from "@/services/StatisticsService";
 
 // ============================================
 // QUIZ PAGE
-// Display questions one at a time with timer
+// Display questions one at a time with timer.
+// Supports progressive loading: questions can arrive
+// while the user is already answering.
 // ============================================
 
 function QuizContent() {
@@ -38,6 +53,10 @@ function QuizContent() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showQuickNav, setShowQuickNav] = useState(false);
+
+  // Progressive generation state
+  const [generationState, setGenerationState] = useState<GenerationState | null>(null);
+  const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Load session on mount
   useEffect(() => {
@@ -63,6 +82,28 @@ function QuizContent() {
         setCurrentIndex(session.currentIndex);
         setSessionType(session.type as "practice" | "exam" | "offline");
         setTimeLimit(session.timeLimit);
+
+        // Check if generation is still in progress
+        if (
+          session.generationProgress?.isGenerating ||
+          session.status === QuizSessionStatus.GENERATING
+        ) {
+          setGenerationState({
+            isGenerating: true,
+            availableCount: session.questions.length,
+            requestedCount:
+              session.generationProgress?.requestedCount ||
+              session.questions.length,
+          });
+
+          // Allow user to answer even while generating
+          if (session.status === QuizSessionStatus.GENERATING) {
+            await indexedDBService.saveSession({
+              ...session,
+              status: QuizSessionStatus.IN_PROGRESS,
+            });
+          }
+        }
 
         // Load user answers if they exist
         if (session.userAnswers) {
@@ -90,6 +131,112 @@ function QuizContent() {
     loadSession();
   }, [sessionId]);
 
+  // Listen for new questions via BroadcastChannel (same-tab, fast)
+  useEffect(() => {
+    if (!sessionId) return;
+
+    let channel: BroadcastChannel | null = null;
+    try {
+      channel = new BroadcastChannel("quiz-generation");
+    } catch {
+      // BroadcastChannel not supported, polling will handle it
+    }
+
+    const handler = async (event: MessageEvent) => {
+      const data = event.data;
+      if (!data || data.sessionId !== sessionId) return;
+
+      if (data.type === "BATCH_COMPLETE") {
+        // Reload session to get new questions
+        try {
+          const session = await indexedDBService.getSession(sessionId);
+          if (session) {
+            setQuestions([...session.questions]);
+            setGenerationState((prev) =>
+              prev
+                ? {
+                    ...prev,
+                    availableCount: session.questions.length,
+                  }
+                : null
+            );
+          }
+        } catch (err) {
+          console.error("[Quiz] Failed to reload session:", err);
+        }
+      }
+
+      if (data.type === "GENERATION_COMPLETE") {
+        try {
+          const session = await indexedDBService.getSession(sessionId);
+          if (session) {
+            setQuestions([...session.questions]);
+          }
+        } catch {
+          // ignore
+        }
+        setGenerationState(null);
+      }
+    };
+
+    if (channel) {
+      channel.addEventListener("message", handler);
+    }
+
+    return () => {
+      if (channel) {
+        channel.removeEventListener("message", handler);
+        channel.close();
+      }
+    };
+  }, [sessionId]);
+
+  // Polling fallback for new questions (handles SW background fetch)
+  useEffect(() => {
+    if (!generationState?.isGenerating || !sessionId) return;
+
+    // Poll every 2 seconds
+    pollingRef.current = setInterval(async () => {
+      try {
+        const session = await indexedDBService.getSession(sessionId);
+        if (!session) return;
+
+        const newCount = session.questions.length;
+
+        // New questions arrived
+        if (newCount !== questions.length) {
+          setQuestions([...session.questions]);
+          setGenerationState((prev) =>
+            prev
+              ? {
+                  ...prev,
+                  availableCount: newCount,
+                }
+              : null
+          );
+        }
+
+        // Generation completed
+        if (!session.generationProgress?.isGenerating) {
+          setGenerationState(null);
+          if (pollingRef.current) {
+            clearInterval(pollingRef.current);
+            pollingRef.current = null;
+          }
+        }
+      } catch (err) {
+        console.error("[Quiz] Polling error:", err);
+      }
+    }, 2000);
+
+    return () => {
+      if (pollingRef.current) {
+        clearInterval(pollingRef.current);
+        pollingRef.current = null;
+      }
+    };
+  }, [generationState?.isGenerating, sessionId, questions.length]);
+
   // Save session progress and answers
   const saveSessionProgress = async () => {
     if (!sessionId) return;
@@ -98,11 +245,20 @@ function QuizContent() {
       const session = await indexedDBService.getSession(sessionId);
       if (session) {
         // Convert selectedAnswers to userAnswers format
-        const userAnswers: Record<string, { questionId: string; selectedAnswerIds: string[]; isCorrect: boolean; timeSpent: number; isFavorite: boolean }> = {};
+        const userAnswers: Record<
+          string,
+          {
+            questionId: string;
+            selectedAnswerIds: string[];
+            isCorrect: boolean;
+            timeSpent: number;
+            isFavorite: boolean;
+          }
+        > = {};
         Object.entries(selectedAnswers).forEach(([questionId, answerId]) => {
-          const question = questions.find(q => q.id === questionId);
+          const question = questions.find((q) => q.id === questionId);
           if (question) {
-            const correctAnswer = question.answers.find(a => a.isCorrect);
+            const correctAnswer = question.answers.find((a) => a.isCorrect);
             userAnswers[questionId] = {
               questionId,
               selectedAnswerIds: [answerId],
@@ -151,6 +307,11 @@ function QuizContent() {
       setCurrentIndex(currentIndex + 1);
       setShowResult(false);
     } else {
+      // Check if more questions are still generating
+      if (generationState?.isGenerating) {
+        // Don't complete quiz yet - wait for more questions
+        return;
+      }
       setQuizCompleted(true);
     }
   };
@@ -165,29 +326,35 @@ function QuizContent() {
   const handleToggleFavorite = async () => {
     if (!currentQuestion) return;
 
-    console.log('[Quiz] Toggle favorite for question:', currentQuestion.id);
+    console.log("[Quiz] Toggle favorite for question:", currentQuestion.id);
     const newFavorites = new Set(favorites);
     if (newFavorites.has(currentQuestion.id)) {
-      console.log('[Quiz] Removing from favorites');
+      console.log("[Quiz] Removing from favorites");
       newFavorites.delete(currentQuestion.id);
       await indexedDBService.removeFavorite(currentQuestion.id);
-      console.log('[Quiz] Favorite removed');
+      console.log("[Quiz] Favorite removed");
     } else {
-      console.log('[Quiz] Adding to favorites');
+      console.log("[Quiz] Adding to favorites");
       newFavorites.add(currentQuestion.id);
-      console.log('[Quiz] Calling addFavorite...');
+      console.log("[Quiz] Calling addFavorite...");
       // Save the question WITH the correct answer pre-selected
-      const correctAnswer = currentQuestion.answers.find(a => a.isCorrect);
+      const correctAnswer = currentQuestion.answers.find((a) => a.isCorrect);
       const questionWithCorrectAnswer = {
         ...currentQuestion,
         selectedAnswerId: correctAnswer?.id,
       };
-      console.log('[Quiz] Saving with correct answer:', correctAnswer?.id);
+      console.log(
+        "[Quiz] Saving with correct answer:",
+        correctAnswer?.id
+      );
       await indexedDBService.addFavorite(questionWithCorrectAnswer);
-      console.log('[Quiz] Favorite added');
+      console.log("[Quiz] Favorite added");
     }
     setFavorites(newFavorites);
-    console.log('[Quiz] Favorites state updated, count:', newFavorites.size);
+    console.log(
+      "[Quiz] Favorites state updated, count:",
+      newFavorites.size
+    );
   };
 
   const handleShowResult = () => {
@@ -222,14 +389,16 @@ function QuizContent() {
   };
 
   // Check if all questions have been answered
-  const allQuestionsAnswered = questions.every(q => selectedAnswers[q.id]);
+  const allQuestionsAnswered = questions.every((q) => selectedAnswers[q.id]);
   const answeredCount = Object.keys(selectedAnswers).length;
 
   // Save completion and update statistics when quiz is completed
   useEffect(() => {
     const handleQuizCompletion = async () => {
       if (quizCompleted && sessionId) {
-        console.log('[Quiz] Quiz completed, updating session and statistics...');
+        console.log(
+          "[Quiz] Quiz completed, updating session and statistics..."
+        );
         try {
           // Update session status to COMPLETED
           const session = await indexedDBService.getSession(sessionId);
@@ -240,21 +409,26 @@ function QuizContent() {
               completedAt: new Date(),
             };
             await indexedDBService.saveSession(completedSession);
-            console.log('[Quiz] Session marked as completed');
+            console.log("[Quiz] Session marked as completed");
 
             // Update statistics
             await statisticsService.init();
             await statisticsService.updateFromSession(completedSession);
-            console.log('[Quiz] Statistics updated');
+            console.log("[Quiz] Statistics updated");
 
             // If this is an exam session, save the attempt to the SavedExam
             if (session.type === "exam" && session.examId) {
-              console.log('[Quiz] This is an exam, saving attempt to SavedExam...');
+              console.log(
+                "[Quiz] This is an exam, saving attempt to SavedExam..."
+              );
               await saveExamAttempt(completedSession, session.examId);
             }
           }
         } catch (error) {
-          console.error('[Quiz] Failed to update session/statistics:', error);
+          console.error(
+            "[Quiz] Failed to update session/statistics:",
+            error
+          );
         }
       }
     };
@@ -262,16 +436,19 @@ function QuizContent() {
     handleQuizCompletion();
   }, [quizCompleted, sessionId]);
 
-  const saveExamAttempt = async (completedSession: QuizSession, examId: string) => {
+  const saveExamAttempt = async (
+    completedSession: QuizSession,
+    examId: string
+  ) => {
     try {
       // Get the SavedExam
       const exam = await indexedDBService.getExam(examId);
       if (!exam) {
-        console.log('[Quiz] Exam not found:', examId);
+        console.log("[Quiz] Exam not found:", examId);
         return;
       }
 
-      console.log('[Quiz] Found SavedExam:', exam.name);
+      console.log("[Quiz] Found SavedExam:", exam.name);
 
       // Calculate score
       let correct = 0;
@@ -285,11 +462,16 @@ function QuizContent() {
           }
         }
       });
-      const score = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+      const score =
+        answered > 0 ? Math.round((correct / answered) * 100) : 0;
 
       // Calculate time spent
       const timeSpent = completedSession.completedAt
-        ? Math.floor((new Date(completedSession.completedAt).getTime() - new Date(completedSession.startedAt).getTime()) / 1000)
+        ? Math.floor(
+            (new Date(completedSession.completedAt).getTime() -
+              new Date(completedSession.startedAt).getTime()) /
+              1000
+          )
         : 0;
 
       // Create the attempt
@@ -307,12 +489,13 @@ function QuizContent() {
         timeSpent,
       };
 
-      console.log('[Quiz] Created attempt:', attempt);
+      console.log("[Quiz] Created attempt:", attempt);
 
       // Update the SavedExam
       const updatedAttempts = [...exam.attempts, attempt];
       const newBestScore = Math.max(exam.bestScore, score);
-      const newBestAttemptId = score > exam.bestScore ? attempt.id : exam.bestAttemptId;
+      const newBestAttemptId =
+        score > exam.bestScore ? attempt.id : exam.bestAttemptId;
 
       const updatedExam: SavedExam = {
         ...exam,
@@ -323,9 +506,12 @@ function QuizContent() {
       };
 
       await indexedDBService.saveExam(updatedExam);
-      console.log('[Quiz] Saved attempt to SavedExam, new best score:', newBestScore);
+      console.log(
+        "[Quiz] Saved attempt to SavedExam, new best score:",
+        newBestScore
+      );
     } catch (error) {
-      console.error('[Quiz] Failed to save exam attempt:', error);
+      console.error("[Quiz] Failed to save exam attempt:", error);
     }
   };
 
@@ -374,7 +560,9 @@ function QuizContent() {
             <CardContent className="text-center py-12">
               <div className="mb-8">
                 <h1 className="font-mono font-bold text-3xl mb-2">
-                  {sessionType === "exam" ? "Examen Terminé !" : "Quiz Terminé !"}
+                  {sessionType === "exam"
+                    ? "Examen Terminé !"
+                    : "Quiz Terminé !"}
                 </h1>
                 <p className="text-ink-secondary">Voici vos résultats</p>
               </div>
@@ -401,25 +589,45 @@ function QuizContent() {
 
               {/* Review answers section - show all questions with correct answers */}
               <div className="text-left mb-8">
-                <h2 className="font-mono font-semibold mb-4">Révision des réponses</h2>
+                <h2 className="font-mono font-semibold mb-4">
+                  Révision des réponses
+                </h2>
                 <div className="space-y-3 max-h-96 overflow-y-auto">
                   {questions.map((q, index) => {
                     const selectedId = selectedAnswers[q.id];
                     const correctAnswer = q.answers.find((a) => a.isCorrect);
                     const isCorrect = selectedId === correctAnswer?.id;
-                    const selectedAnswer = q.answers.find(a => a.id === selectedId);
+                    const selectedAnswer = q.answers.find(
+                      (a) => a.id === selectedId
+                    );
 
                     return (
-                      <div key={q.id} className="p-3 bg-paper-secondary rounded text-sm">
+                      <div
+                        key={q.id}
+                        className="p-3 bg-paper-secondary rounded text-sm"
+                      >
                         <div className="flex items-start gap-2">
-                          <span className={`font-mono font-bold ${isCorrect ? 'text-domain-dl' : 'text-domain-ml'}`}>
+                          <span
+                            className={`font-mono font-bold ${
+                              isCorrect
+                                ? "text-domain-dl"
+                                : "text-domain-ml"
+                            }`}
+                          >
                             {index + 1}.
                           </span>
                           <div className="flex-1">
                             <p className="font-medium mb-1">{q.question}</p>
-                            <p className={`text-xs ${isCorrect ? 'text-domain-dl' : 'text-domain-ml'}`}>
-                              {isCorrect ? '✓ Correct' : '✗ Incorrect'} -
-                              Votre réponse: {selectedAnswer?.text || 'Non répondu'}
+                            <p
+                              className={`text-xs ${
+                                isCorrect
+                                  ? "text-domain-dl"
+                                  : "text-domain-ml"
+                              }`}
+                            >
+                              {isCorrect ? "✓ Correct" : "✗ Incorrect"} -
+                              Votre réponse:{" "}
+                              {selectedAnswer?.text || "Non répondu"}
                             </p>
                             {!isCorrect && (
                               <p className="text-xs text-domain-dl mt-1">
@@ -440,14 +648,23 @@ function QuizContent() {
               </div>
 
               <div className="flex gap-4 justify-center">
-                <Button variant="secondary" onClick={() => router.push("/")}>
+                <Button
+                  variant="secondary"
+                  onClick={() => router.push("/")}
+                >
                   Retour à l&apos;Accueil
                 </Button>
                 <Button
                   variant="primary"
-                  onClick={() => router.push(sessionType === "exam" ? "/exam" : "/practice")}
+                  onClick={() =>
+                    router.push(
+                      sessionType === "exam" ? "/exam" : "/practice"
+                    )
+                  }
                 >
-                  {sessionType === "exam" ? "Autre Examen" : "Nouveau Quiz"}
+                  {sessionType === "exam"
+                    ? "Autre Examen"
+                    : "Nouveau Quiz"}
                 </Button>
               </div>
             </CardContent>
@@ -462,6 +679,35 @@ function QuizContent() {
       <Navigation />
 
       <main className="flex-1 max-w-3xl mx-auto w-full px-4 py-12">
+        {/* Generation Progress Banner */}
+        {generationState && generationState.isGenerating && (
+          <div className="mb-4 p-3 bg-accent/10 border border-accent/30 rounded-lg">
+            <div className="flex items-center gap-3">
+              <Loader2 className="w-4 h-4 animate-spin text-accent shrink-0" />
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between mb-1">
+                  <p className="font-mono text-sm text-accent">
+                    {generationState.availableCount} /{" "}
+                    {generationState.requestedCount} questions
+                  </p>
+                  <span className="font-mono text-xs text-ink-muted">
+                    {generationState.requestedCount -
+                      generationState.availableCount}{" "}
+                    en cours...
+                  </span>
+                </div>
+                <ProgressBar
+                  value={
+                    (generationState.availableCount /
+                      generationState.requestedCount) *
+                    100
+                  }
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Header */}
         <div className="mb-4">
           {/* Mobile layout: stacked vertically */}
@@ -530,7 +776,7 @@ function QuizContent() {
               </div>
 
               {/* Right: Actions and timer */}
-              <div className="flex items-center gap-3 flex-shrink-0">
+              <div className="flex items-center gap-3 shrink-0">
                 <QuizTimer
                   initialTime={timeLimit || 0}
                   timeLimit={timeLimit}
@@ -569,8 +815,14 @@ function QuizContent() {
           <Card className="mb-6 animate-fade-in-down">
             <CardContent className="pt-4">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="font-mono text-sm font-semibold">Navigation Rapide</h3>
-                <Button variant="secondary" size="sm" onClick={() => setShowQuickNav(false)}>
+                <h3 className="font-mono text-sm font-semibold">
+                  Navigation Rapide
+                </h3>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setShowQuickNav(false)}
+                >
                   <X className="w-4 h-4" />
                 </Button>
               </div>
@@ -578,7 +830,9 @@ function QuizContent() {
                 {questions.map((q, index) => {
                   const isAnswered = selectedAnswers[q.id];
                   const isCurrent = index === currentIndex;
-                  const isCorrect = isAnswered && q.answers.find(a => a.id === isAnswered)?.isCorrect;
+                  const isCorrect =
+                    isAnswered &&
+                    q.answers.find((a) => a.id === isAnswered)?.isCorrect;
 
                   return (
                     <button
@@ -586,18 +840,20 @@ function QuizContent() {
                       onClick={() => handleGoToQuestion(index)}
                       className={`
                         w-10 h-10 rounded font-mono text-sm font-medium transition-all
-                        ${isCurrent
-                          ? 'bg-accent text-paper-primary ring-2 ring-accent'
-                          : 'bg-paper-secondary hover:bg-paper-dark'
+                        ${
+                          isCurrent
+                            ? "bg-accent text-paper-primary ring-2 ring-accent"
+                            : "bg-paper-secondary hover:bg-paper-dark"
                         }
-                        ${isAnswered && !isCurrent
-                          ? isCorrect
-                            ? 'bg-domain-dl/20 text-domain-dl border border-domain-dl'
-                            : 'bg-domain-ml/20 text-domain-ml border border-domain-ml'
-                          : ''
+                        ${
+                          isAnswered && !isCurrent
+                            ? isCorrect
+                              ? "bg-domain-dl/20 text-domain-dl border border-domain-dl"
+                              : "bg-domain-ml/20 text-domain-ml border border-domain-ml"
+                            : ""
                         }
                       `}
-                      title={`Question ${index + 1}${isAnswered ? ' • Répondu' : ''}`}
+                      title={`Question ${index + 1}${isAnswered ? " • Répondu" : ""}`}
                     >
                       {index + 1}
                     </button>
@@ -649,14 +905,16 @@ function QuizContent() {
 
           {sessionType === "exam" ? (
             // Exam mode: No "Validate" button, just "Next" (can skip questions)
-            <Button
-              variant="primary"
-              onClick={handleNext}
-            >
+            <Button variant="primary" onClick={handleNext}>
               {currentIndex < questions.length - 1 ? (
                 <>
                   Suivant
                   <ArrowRight className="w-4 h-4 ml-2" />
+                </>
+              ) : generationState?.isGenerating ? (
+                <>
+                  En attente...
+                  <Loader2 className="w-4 h-4 ml-2 animate-spin" />
                 </>
               ) : (
                 <>
@@ -673,6 +931,11 @@ function QuizContent() {
                   <>
                     Suivant
                     <ArrowRight className="w-4 h-4 ml-2" />
+                  </>
+                ) : generationState?.isGenerating ? (
+                  <>
+                    En attente...
+                    <Loader2 className="w-4 h-4 ml-2 animate-spin" />
                   </>
                 ) : (
                   <>
@@ -696,7 +959,9 @@ function QuizContent() {
 
         {sessionType === "exam" && !allQuestionsAnswered && (
           <p className="text-center text-sm text-ink-muted mt-4">
-            {questions.length - answeredCount} question{questions.length - answeredCount > 1 ? 's' : ''} non répondue{questions.length - answeredCount > 1 ? 's' : ''}
+            {questions.length - answeredCount} question
+            {questions.length - answeredCount > 1 ? "s" : ""} non répondue
+            {questions.length - answeredCount > 1 ? "s" : ""}
           </p>
         )}
       </main>
