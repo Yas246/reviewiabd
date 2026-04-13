@@ -14,6 +14,7 @@ import {
   SavedExam,
   QuizSessionStatus,
   GenerationState,
+  Domain,
 } from "@/types";
 import {
   ArrowLeft,
@@ -24,6 +25,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { indexedDBService } from "@/services/IndexedDBService";
+import { generationService } from "@/services/GenerationService";
 import { statisticsService } from "@/services/StatisticsService";
 
 // ============================================
@@ -190,6 +192,105 @@ function QuizContent() {
       }
     };
   }, [sessionId]);
+
+  // Continue generation if the session is still generating
+  // (The practice page only generates the first batch, then navigates here)
+  useEffect(() => {
+    if (!generationState?.isGenerating || !sessionId) return;
+
+    let cancelled = false;
+
+    const continueGeneration = async () => {
+      try {
+        const session = await indexedDBService.getSession(sessionId);
+        if (!session || !session.generationProgress || cancelled) return;
+
+        const gp = session.generationProgress;
+        if (!gp.isGenerating || gp.completedBatches >= gp.totalBatches) return;
+
+        console.log(
+          `[Quiz] Continuing generation from batch ${gp.completedBatches + 1}/${gp.totalBatches}`
+        );
+
+        if (session.type === "exam" && !session.domain && gp.requestedCount > 20) {
+          // Full exam multi-domain continuation
+          const allDomains = Object.values(Domain);
+          await generationService.runMultiDomainGeneration(
+            sessionId,
+            allDomains,
+            4,
+            {
+              onBatchComplete: async () => {
+                if (cancelled) return;
+                const s = await indexedDBService.getSession(sessionId);
+                if (s) {
+                  setQuestions([...s.questions]);
+                  setGenerationState((prev) =>
+                    prev
+                      ? { ...prev, availableCount: s.questions.length }
+                      : null
+                  );
+                }
+              },
+              onGenerationComplete: () => {
+                if (cancelled) return;
+                setGenerationState(null);
+                console.log("[Quiz] Background generation complete");
+              },
+              onGenerationError: (error, _id, savedCount) => {
+                if (cancelled) return;
+                console.error("[Quiz] Background generation error:", error);
+                setGenerationState(null);
+                if (savedCount > 0 && savedCount >= 5) {
+                  // Questions are usable, just stop the banner
+                }
+              },
+            }
+          );
+        } else if (session.domain) {
+          // Single domain (practice or domain exam)
+          await generationService.runSingleDomainGeneration(
+            sessionId,
+            session.domain,
+            gp.requestedCount,
+            {
+              onBatchComplete: async () => {
+                if (cancelled) return;
+                const s = await indexedDBService.getSession(sessionId);
+                if (s) {
+                  setQuestions([...s.questions]);
+                  setGenerationState((prev) =>
+                    prev
+                      ? { ...prev, availableCount: s.questions.length }
+                      : null
+                  );
+                }
+              },
+              onGenerationComplete: () => {
+                if (cancelled) return;
+                setGenerationState(null);
+                console.log("[Quiz] Background generation complete");
+              },
+              onGenerationError: (error, _id, savedCount) => {
+                if (cancelled) return;
+                console.error("[Quiz] Background generation error:", error);
+                setGenerationState(null);
+              },
+            }
+          );
+        }
+      } catch (err) {
+        console.error("[Quiz] Failed to continue generation:", err);
+        if (!cancelled) setGenerationState(null);
+      }
+    };
+
+    continueGeneration();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [generationState?.isGenerating, sessionId]);
 
   // Polling fallback for new questions (handles SW background fetch)
   useEffect(() => {

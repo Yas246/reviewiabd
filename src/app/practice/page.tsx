@@ -69,15 +69,13 @@ export default function PracticePage() {
       try {
         await indexedDBService.init();
         const interrupted = await generationService.findInterruptedGenerations();
-        const failed = await generationService.findFailedGenerations();
 
-        // Prioritize: show the most recent interrupted session
-        const allPending = [...interrupted, ...failed].sort(
-          (a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime()
-        );
-
-        if (allPending.length > 0) {
-          setInterruptedSession(allPending[0]);
+        if (interrupted.length > 0) {
+          // Show the most recent interrupted session
+          const sorted = interrupted.sort(
+            (a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime()
+          );
+          setInterruptedSession(sorted[0]);
         }
       } catch (error) {
         console.error('[Practice] Failed to check interrupted generations:', error);

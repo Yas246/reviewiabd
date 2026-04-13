@@ -185,11 +185,9 @@ class GenerationService {
         // After first batch: session is ready for display
         if (batchIndex === 0) {
           callbacks.onSessionReady?.(sessionId);
-        }
-
-        // Delay between batches (rate limit protection)
-        if (batchIndex < totalBatches - 1) {
-          await new Promise(resolve => setTimeout(resolve, 500));
+          // Stop here - the quiz page will continue generation.
+          // Navigating away kills this page's JS, so continuing is pointless.
+          return;
         }
       } catch (error: any) {
         console.error(
@@ -323,10 +321,8 @@ class GenerationService {
 
         if (batchIndex === 0) {
           callbacks.onSessionReady?.(sessionId);
-        }
-
-        if (batchIndex < totalBatches - 1) {
-          await new Promise(resolve => setTimeout(resolve, 500));
+          // Stop here - the quiz page will continue generation.
+          return;
         }
       } catch (error: any) {
         console.error(
@@ -590,23 +586,17 @@ class GenerationService {
 
   /**
    * Find sessions with interrupted generations.
-   * Called on app mount to detect stale GENERATING sessions.
+   * Checks both GENERATING status and IN_PROGRESS sessions where isGenerating is still true.
+   * Also finds sessions with generation errors.
    */
   async findInterruptedGenerations(): Promise<QuizSession[]> {
-    const sessions = await indexedDBService.getGeneratingSessions();
-    // Only return sessions that are truly interrupted (isGenerating still true)
-    return sessions.filter(
-      s => s.generationProgress?.isGenerating === true
+    const allSessions = await indexedDBService.getAllSessions();
+    return allSessions.filter(
+      s =>
+        s.generationProgress?.isGenerating === true ||
+        (s.generationProgress?.generationError &&
+          s.status !== QuizSessionStatus.COMPLETED)
     );
-  }
-
-  /**
-   * Find sessions with generation errors.
-   * These have questions saved but generation stopped due to error.
-   */
-  async findFailedGenerations(): Promise<QuizSession[]> {
-    const sessions = await indexedDBService.getGeneratingSessions();
-    return sessions.filter(s => s.generationProgress?.generationError);
   }
 }
 

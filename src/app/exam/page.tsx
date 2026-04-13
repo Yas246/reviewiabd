@@ -65,9 +65,8 @@ export default function ExamPage() {
       try {
         await indexedDBService.init();
         const interrupted = await generationService.findInterruptedGenerations();
-        const failed = await generationService.findFailedGenerations();
 
-        const examPending = [...interrupted, ...failed]
+        const examPending = interrupted
           .filter(s => s.type === "exam")
           .sort((a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime());
 
