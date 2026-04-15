@@ -30,6 +30,7 @@ export default function PracticePage() {
   const [progress, setProgress] = useState(0);
   const [generatedQuestions, setGeneratedQuestions] = useState(0);
   const [savedQuizzes, setSavedQuizzes] = useState<SavedPracticeQuiz[]>([]);
+  const [activePracticeSessions, setActivePracticeSessions] = useState<Map<string, QuizSession>>(new Map());
   const [loading, setLoading] = useState(true);
 
   // Interrupted generation state
@@ -53,6 +54,19 @@ export default function PracticePage() {
         const quizzes = await indexedDBService.getAllPracticeQuizzes();
         console.log('[Practice] Loaded', quizzes.length, 'saved quizzes');
         setSavedQuizzes(quizzes);
+
+        // Load active sessions for practice quizzes
+        const sessionsMap = new Map<string, QuizSession>();
+        const inProgress = await indexedDBService.getSessionsByStatus("IN_PROGRESS");
+        const paused = await indexedDBService.getSessionsByStatus("PAUSED");
+        for (const s of [...inProgress, ...paused]) {
+          if (s.type === "practice" && s.practiceQuizId) {
+            sessionsMap.set(s.practiceQuizId, s);
+          }
+        }
+        setActivePracticeSessions(sessionsMap);
+        console.log('[Practice] Found', sessionsMap.size, 'active sessions');
+
         setLoading(false);
       } catch (error) {
         console.error('[Practice] Failed to load saved quizzes:', error);
@@ -139,7 +153,31 @@ export default function PracticePage() {
             setGeneratedQuestions(p.current);
             setProgress((p.current / p.total) * 100);
           },
-          onSessionReady: (id) => {
+          onSessionReady: async (id) => {
+            // Create the SavedPracticeQuiz BEFORE navigating so there's exactly one
+            try {
+              const session = await indexedDBService.getSession(id);
+              if (session && !session.practiceQuizId) {
+                const quizId = `practice-${session.domain}-${Date.now()}`;
+                await indexedDBService.savePracticeQuiz({
+                  id: quizId,
+                  domain: session.domain!,
+                  questionCount: session.questions.length,
+                  questions: session.questions,
+                  attempts: 1,
+                  createdAt: session.startedAt,
+                  lastAttemptAt: new Date(),
+                });
+                // Link session to quiz for resume tracking
+                await indexedDBService.saveSession({
+                  ...session,
+                  practiceQuizId: quizId,
+                });
+                console.log('[Practice] Created practice quiz:', quizId, 'with', session.questions.length, 'questions');
+              }
+            } catch (err) {
+              console.error('[Practice] Failed to create practice quiz:', err);
+            }
             // Navigate to quiz after first batch (progressive display)
             console.log('[Practice] First batch ready, navigating to quiz:', id);
             window.location.href = `/quiz?session=${id}`;
@@ -249,16 +287,35 @@ export default function PracticePage() {
     }
   };
 
-  const handleDismissInterrupted = () => {
+  const handleDismissInterrupted = async () => {
+    if (!interruptedSession) return;
+    try {
+      // Mark the session as non-generating so it stops appearing as interrupted
+      const session = await indexedDBService.getSession(interruptedSession.id);
+      if (session) {
+        await indexedDBService.saveSession({
+          ...session,
+          status: "PAUSED" as any,
+          generationProgress: session.generationProgress
+            ? { ...session.generationProgress, isGenerating: false }
+            : undefined,
+        });
+      }
+    } catch {}
     setInterruptedSession(null);
   };
 
-  const handleRetakeQuiz = async (quiz: SavedPracticeQuiz) => {
+  const handleRetakeQuiz = async (quiz: SavedPracticeQuiz, clearOldSession?: string) => {
     console.log('[Practice] Retaking quiz:', quiz.id);
     setIsGenerating(true);
 
     try {
       await indexedDBService.init();
+
+      // Delete old session if restarting
+      if (clearOldSession) {
+        await indexedDBService.deleteSession(clearOldSession);
+      }
 
       // Reuse saved questions (shuffle for variety)
       const shuffledQuestions = [...quiz.questions].sort(() => Math.random() - 0.5);
@@ -641,57 +698,96 @@ export default function PracticePage() {
             </Card>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {savedQuizzes.map((quiz) => (
-                <Card key={quiz.id} hoverable>
-                  <CardContent>
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="flex-1">
-                        <h3 className="font-mono font-semibold mb-1">
-                          {quiz.domain.replace(/_/g, " ")}
-                        </h3>
-                        <div className="flex items-center gap-2 text-sm text-ink-muted">
-                          <span>{quiz.questionCount} questions</span>
-                          <span>•</span>
-                          <span>Pratique</span>
+              {savedQuizzes.map((quiz) => {
+                const activeSession = activePracticeSessions.get(quiz.id);
+                const answeredCount = activeSession
+                  ? Object.keys(activeSession.userAnswers).length
+                  : 0;
+                const totalQuestions = quiz.questionCount;
+
+                return (
+                  <Card key={quiz.id} hoverable>
+                    <CardContent>
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex-1">
+                          <h3 className="font-mono font-semibold mb-1">
+                            {quiz.domain.replace(/_/g, " ")}
+                          </h3>
+                          <div className="flex items-center gap-2 text-sm text-ink-muted">
+                            <span>{totalQuestions} questions</span>
+                            <span>•</span>
+                            <span>Pratique</span>
+                          </div>
                         </div>
+                        {activeSession ? (
+                          <Badge variant="default">
+                            {answeredCount}/{totalQuestions}
+                          </Badge>
+                        ) : (
+                          quiz.bestScore && (
+                            <Badge variant="success">{quiz.bestScore}%</Badge>
+                          )
+                        )}
                       </div>
-                      {quiz.bestScore && (
-                        <Badge variant="success">{quiz.bestScore}%</Badge>
+
+                      <div className="flex items-center justify-between text-xs text-ink-muted mb-4">
+                        <span>
+                          Créé le {new Date(quiz.createdAt).toLocaleDateString("fr-FR")}
+                        </span>
+                        <span>
+                          {quiz.attempts} tentative{quiz.attempts > 1 ? "s" : ""}
+                        </span>
+                      </div>
+
+                      {activeSession ? (
+                        <div className="space-y-2">
+                          <Button
+                            variant="primary"
+                            className="w-full"
+                            size="sm"
+                            onClick={() => window.location.href = `/quiz?session=${activeSession.id}`}
+                          >
+                            <Play className="w-4 h-4 mr-2" />
+                            Continuer ({answeredCount}/{totalQuestions})
+                          </Button>
+                          <Button
+                            variant="secondary"
+                            className="w-full"
+                            size="sm"
+                            onClick={() => handleRetakeQuiz(quiz, activeSession.id)}
+                            loading={isGenerating}
+                            disabled={isGenerating}
+                          >
+                            <RefreshCw className="w-4 h-4 mr-2" />
+                            Recommencer
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="flex gap-2">
+                          <Button
+                            variant="primary"
+                            className="flex-1"
+                            size="sm"
+                            onClick={() => handleRetakeQuiz(quiz)}
+                            loading={isGenerating}
+                            disabled={isGenerating}
+                          >
+                            <RefreshCw className="w-4 h-4 mr-2" />
+                            Refaire
+                          </Button>
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            onClick={() => handleDeleteQuiz(quiz.id)}
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
                       )}
-                    </div>
-
-                    <div className="flex items-center justify-between text-xs text-ink-muted mb-4">
-                      <span>
-                        Créé le {new Date(quiz.createdAt).toLocaleDateString("fr-FR")}
-                      </span>
-                      <span>
-                        {quiz.attempts} tentative{quiz.attempts > 1 ? "s" : ""}
-                      </span>
-                    </div>
-
-                    <div className="flex gap-2">
-                      <Button
-                        variant="primary"
-                        className="flex-1"
-                        size="sm"
-                        onClick={() => handleRetakeQuiz(quiz)}
-                        loading={isGenerating}
-                        disabled={isGenerating}
-                      >
-                        <RefreshCw className="w-4 h-4 mr-2" />
-                        Refaire
-                      </Button>
-                      <Button
-                        variant="secondary"
-                        size="sm"
-                        onClick={() => handleDeleteQuiz(quiz.id)}
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+                    </CardContent>
+                  </Card>
+                );
+              })}
             </div>
           )}
         </div>

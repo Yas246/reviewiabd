@@ -392,25 +392,39 @@ class GenerationService {
     };
     await indexedDBService.saveSession(finalized);
 
-    // Save as SavedPracticeQuiz for reuse
+    // Save as SavedPracticeQuiz for reuse (or update existing one)
     if (session.type === "practice" && session.domain) {
-      const quizId = `practice-${session.domain}-${Date.now()}`;
-      const savedQuiz: SavedPracticeQuiz = {
-        id: quizId,
-        domain: session.domain,
-        questionCount: session.questions.length,
-        questions: session.questions,
-        attempts: 1,
-        createdAt: new Date(),
-        lastAttemptAt: new Date(),
-      };
-      await indexedDBService.savePracticeQuiz(savedQuiz);
+      if (session.practiceQuizId) {
+        // Update existing quiz (created when generation started)
+        const existingQuiz = await indexedDBService.getPracticeQuiz(session.practiceQuizId);
+        if (existingQuiz) {
+          await indexedDBService.savePracticeQuiz({
+            ...existingQuiz,
+            questionCount: session.questions.length,
+            questions: session.questions,
+          });
+          console.log("[Generation] Updated practice quiz:", session.practiceQuizId, "→", session.questions.length, "questions");
+        }
+      } else {
+        // No existing quiz — create one (shouldn't normally happen)
+        const quizId = `practice-${session.domain}-${Date.now()}`;
+        const savedQuiz: SavedPracticeQuiz = {
+          id: quizId,
+          domain: session.domain,
+          questionCount: session.questions.length,
+          questions: session.questions,
+          attempts: 1,
+          createdAt: new Date(),
+          lastAttemptAt: new Date(),
+        };
+        await indexedDBService.savePracticeQuiz(savedQuiz);
 
-      // Link session to quiz
-      await indexedDBService.saveSession({
-        ...finalized,
-        practiceQuizId: quizId,
-      });
+        // Link session to quiz
+        await indexedDBService.saveSession({
+          ...finalized,
+          practiceQuizId: quizId,
+        });
+      }
     }
 
     // Save as SavedExam for reuse (if exam type)
@@ -477,24 +491,37 @@ class GenerationService {
     };
     await indexedDBService.saveSession(finalized);
 
-    // Save as partial SavedPracticeQuiz
+    // Save/update SavedPracticeQuiz
     if (session.type === "practice" && session.domain) {
-      const quizId = `practice-${session.domain}-partial-${Date.now()}`;
-      const savedQuiz: SavedPracticeQuiz = {
-        id: quizId,
-        domain: session.domain,
-        questionCount: session.questions.length,
-        questions: session.questions,
-        attempts: 1,
-        createdAt: new Date(),
-        lastAttemptAt: new Date(),
-      };
-      await indexedDBService.savePracticeQuiz(savedQuiz);
+      if (session.practiceQuizId) {
+        // Update existing quiz
+        const existingQuiz = await indexedDBService.getPracticeQuiz(session.practiceQuizId);
+        if (existingQuiz) {
+          await indexedDBService.savePracticeQuiz({
+            ...existingQuiz,
+            questionCount: session.questions.length,
+            questions: session.questions,
+          });
+        }
+      } else {
+        // No existing quiz — create one
+        const quizId = `practice-${session.domain}-partial-${Date.now()}`;
+        const savedQuiz: SavedPracticeQuiz = {
+          id: quizId,
+          domain: session.domain,
+          questionCount: session.questions.length,
+          questions: session.questions,
+          attempts: 1,
+          createdAt: new Date(),
+          lastAttemptAt: new Date(),
+        };
+        await indexedDBService.savePracticeQuiz(savedQuiz);
 
-      await indexedDBService.saveSession({
-        ...finalized,
-        practiceQuizId: quizId,
-      });
+        await indexedDBService.saveSession({
+          ...finalized,
+          practiceQuizId: quizId,
+        });
+      }
     }
 
     // Save as partial SavedExam
@@ -591,12 +618,12 @@ class GenerationService {
    */
   async findInterruptedGenerations(): Promise<QuizSession[]> {
     const allSessions = await indexedDBService.getAllSessions();
-    return allSessions.filter(
-      s =>
-        s.generationProgress?.isGenerating === true ||
-        (s.generationProgress?.generationError &&
-          s.status !== QuizSessionStatus.COMPLETED)
-    );
+    return allSessions.filter(s => {
+      // Only show sessions that are actively generating (not paused/completed)
+      if (s.status === "COMPLETED" || s.status === "PAUSED") return false;
+      return s.generationProgress?.isGenerating === true ||
+        (s.generationProgress?.generationError != null);
+    });
   }
 }
 

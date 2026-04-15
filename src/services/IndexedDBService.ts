@@ -80,53 +80,56 @@ const DB_VERSION = 5;
 
 class IndexedDBService {
   private db: IDBPDatabase<ReviewIABDDB> | null = null;
+  private dbClosed = false;
 
   /**
-   * Initialize database connection
+   * Initialize database connection.
+   * If the database is corrupted, delete and recreate it.
    */
   async init(): Promise<void> {
-    if (this.db) return;
+    if (this.db && !this.dbClosed) return;
 
-    this.db = await openDB<ReviewIABDDB>(DB_NAME, DB_VERSION, {
-      upgrade(db) {
-        // Settings store
-        if (!db.objectStoreNames.contains("settings")) {
-          db.createObjectStore("settings");
-        }
+    try {
+      this.db = await openDB<ReviewIABDDB>(DB_NAME, DB_VERSION, {
+        upgrade(db) {
+          // Settings store
+          if (!db.objectStoreNames.contains("settings")) {
+            db.createObjectStore("settings");
+          }
 
-        // Sessions store
-        if (!db.objectStoreNames.contains("sessions")) {
-          const sessionStore = db.createObjectStore("sessions");
-          sessionStore.createIndex("by-status", "status");
-        }
+          // Sessions store
+          if (!db.objectStoreNames.contains("sessions")) {
+            const sessionStore = db.createObjectStore("sessions");
+            sessionStore.createIndex("by-status", "status");
+          }
 
-        // Exams store
-        if (!db.objectStoreNames.contains("exams")) {
-          const examStore = db.createObjectStore("exams");
-          examStore.createIndex("by-type", "type");
-          examStore.createIndex("by-domain", "domain");
-        }
+          // Exams store
+          if (!db.objectStoreNames.contains("exams")) {
+            const examStore = db.createObjectStore("exams");
+            examStore.createIndex("by-type", "type");
+            examStore.createIndex("by-domain", "domain");
+          }
 
-        // Exercises store
-        if (!db.objectStoreNames.contains("exercises")) {
-          const exerciseStore = db.createObjectStore("exercises");
-          exerciseStore.createIndex("by-domain", "domain");
-          exerciseStore.createIndex("unused", "used");
-        }
+          // Exercises store
+          if (!db.objectStoreNames.contains("exercises")) {
+            const exerciseStore = db.createObjectStore("exercises");
+            exerciseStore.createIndex("by-domain", "domain");
+            exerciseStore.createIndex("unused", "used");
+          }
 
-        // Practice quizzes store
-        if (!db.objectStoreNames.contains("practiceQuizzes")) {
-          const practiceQuizStore = db.createObjectStore("practiceQuizzes");
-          practiceQuizStore.createIndex("by-domain", "domain");
-        }
+          // Practice quizzes store
+          if (!db.objectStoreNames.contains("practiceQuizzes")) {
+            const practiceQuizStore = db.createObjectStore("practiceQuizzes");
+            practiceQuizStore.createIndex("by-domain", "domain");
+          }
 
-        // Questions store
-        if (!db.objectStoreNames.contains("questions")) {
-          const questionStore = db.createObjectStore("questions");
-          questionStore.createIndex("by-domain", "domain");
-        }
+          // Questions store
+          if (!db.objectStoreNames.contains("questions")) {
+            const questionStore = db.createObjectStore("questions");
+            questionStore.createIndex("by-domain", "domain");
+          }
 
-        // Favorites store
+          // Favorites store
         if (!db.objectStoreNames.contains("favorites")) {
           const favoriteStore = db.createObjectStore("favorites");
           favoriteStore.createIndex("by-domain", "domain");
@@ -146,15 +149,49 @@ class IndexedDBService {
         taskStore.createIndex("by-status", "status");
       },
     });
+    } catch (error) {
+      console.error("[IndexedDB] Failed to open database, deleting and retrying:", error);
+      // Database is corrupted — delete it and try again
+      this.db = null;
+      this.dbClosed = false;
+      await indexedDB.deleteDatabase(DB_NAME);
+      this.db = await openDB<ReviewIABDDB>(DB_NAME, DB_VERSION, {
+        upgrade(db) {
+          db.createObjectStore("settings");
+          const sessionStore = db.createObjectStore("sessions");
+          sessionStore.createIndex("by-status", "status");
+          const examStore = db.createObjectStore("exams");
+          examStore.createIndex("by-type", "type");
+          examStore.createIndex("by-domain", "domain");
+          const exerciseStore = db.createObjectStore("exercises");
+          exerciseStore.createIndex("by-domain", "domain");
+          exerciseStore.createIndex("unused", "used");
+          const practiceQuizStore = db.createObjectStore("practiceQuizzes");
+          practiceQuizStore.createIndex("by-domain", "domain");
+          const questionStore = db.createObjectStore("questions");
+          questionStore.createIndex("by-domain", "domain");
+          db.createObjectStore("favorites").createIndex("by-domain", "domain");
+          db.createObjectStore("statistics");
+          const taskStore2 = db.createObjectStore("backgroundTasks", { keyPath: "id" });
+          taskStore2.createIndex("by-status", "status");
+        },
+      });
+      console.log("[IndexedDB] Database recreated successfully");
+    }
   }
 
   /**
-   * Ensure database is initialized
+   * Ensure database is initialized and connection is still alive.
+   * Reconnects if the connection was closed (e.g. by HMR/Fast Refresh).
    */
   private async ensureDB(): Promise<IDBPDatabase<ReviewIABDDB>> {
-    if (!this.db) {
-      await this.init();
+    if (this.db && !this.dbClosed) {
+      return this.db;
     }
+    // Connection is null or closed — reconnect
+    this.db = null;
+    this.dbClosed = false;
+    await this.init();
     return this.db!;
   }
 
@@ -208,7 +245,7 @@ class IndexedDBService {
   }
 
   async getSessionsByStatus(
-    status: QuizSession["status"]
+    status: QuizSession["status"] | string
   ): Promise<QuizSession[]> {
     const db = await this.ensureDB();
     return db.getAllFromIndex("sessions", "by-status", status);

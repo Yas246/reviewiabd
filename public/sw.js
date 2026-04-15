@@ -3,9 +3,9 @@
 // Caches static assets for offline use
 // ============================================
 
-const CACHE_NAME = "review-iabd-v2.9.0";
-const STATIC_CACHE = "review-iabd-static-v2.9.0";
-const RUNTIME_CACHE = "review-iabd-runtime-v2.9.0";
+const CACHE_NAME = "review-iabd-v3.1.0";
+const STATIC_CACHE = "review-iabd-static-v3.1.0";
+const RUNTIME_CACHE = "review-iabd-runtime-v3.1.0";
 
 // Assets to cache on install (core HTML pages)
 const urlsToCache = [

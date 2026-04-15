@@ -1,0 +1,702 @@
+[
+  {
+    "id": "nlp_001",
+    "question": "Pourquoi la tokenization est-elle la premiere etape critique de tout pipeline NLP ?",
+    "options": ["A) Elle accelere le calcul", "B) Elle decoupe le texte en unites manipulables (mots, sous-mots) que le modele peut traiter", "C) Elle traduit le texte", "D) Elle supprime les erreurs"],
+    "answer": "B",
+    "explanation": "La tokenization decoupe le texte brut en tokens (mots, sous-mots, caracteres). Le choix du tokenizer impacte tout le pipeline : BPE (GPT), WordPiece (BERT), SentencePiece (multilingue). Mauvais tokenization = mauvaises representations."
+  },
+  {
+    "id": "nlp_002",
+    "question": "Comment Word2Vec capture-t-il la semantique des mots ?",
+    "options": ["A) En lisant des dictionnaires", "B) En apprenant des vecteurs denses ou les mots de contextes similaires ont des vecteurs proches", "C) En comptant les lettres", "D) En utilisant des regles grammaticales"],
+    "answer": "B",
+    "explanation": "Word2Vec (Mikolov, 2013) utilise CBOW (predire un mot depuis son contexte) et Skip-gram (predire le contexte depuis un mot). Les vecteurs resultants capturent les similarites semantiques (roi-reine approx homme-femme)."
+  },
+  {
+    "id": "nlp_003",
+    "question": "Pourquoi les embeddings contextuels de BERT surpassent-ils les embeddings statiques de Word2Vec ?",
+    "options": ["A) BERT est plus recent", "B) Le vecteur d'un mot change selon le contexte ('avocat' fruit vs profession), ce que Word2Vec ne peut pas faire", "C) Word2Vec est plus petit", "D) BERT utilise plus de couches"],
+    "answer": "B",
+    "explanation": "Word2Vec donne un vecteur fixe par mot. BERT produit des embeddings contextuels : 'besche' dans 'je besche le jardin' vs 'la besche est un outil' recoit des vecteurs differents. Le self-attention capture le contexte bidirectionnel."
+  },
+  {
+    "id": "nlp_004",
+    "question": "Comment le modele Skip-gram de Word2Vec predit-il les mots de contexte ?",
+    "options": ["A) En utilisant un reseau de neurones profond", "B) En maximisant la probabilite des mots voisins (fenetre de contexte) etant donne le mot central", "C) En comptant les co-occurrences", "D) En utilisant une matrice de confusion"],
+    "answer": "B",
+    "explanation": "Le Skip-gram prend un mot central w(t) et maximise la probabilite des mots dans une fenetre de taille c : somme log P(w(t+j)|w(t)) pour j de -c a c. La probabilite est calculee via softmax."
+  },
+  {
+    "id": "nlp_005",
+    "question": "Pourquoi GloVe se distingue-t-il de Word2Vec ?",
+    "options": ["A) Il est plus rapide", "B) Il combine les co-occurrences globales (matrice entiere) et l'apprentissage par fenetre locale", "C) Il utilise uniquement le deep learning", "D) Il ne fonctionne qu'en anglais"],
+    "answer": "B",
+    "explanation": "GloVe (Pennington et al., 2014) minimise la difference entre le produit scalaire des embeddings et le log de la co-occurrence globale. Contrairement a Word2Vec (fenetres locales), GloVe utilise toute la matrice de co-occurrence du corpus."
+  },
+  {
+    "id": "nlp_006",
+    "question": "Comment le NER (Named Entity Recognition) identifie-t-il les entites dans un texte ?",
+    "options": ["A) En utilisant un dictionnaire fixe", "B) En etiquetant chaque token avec un type d'entite (PER, LOC, ORG, DATE) via sequence tagging (BIO)", "C) En comptant les mots rares", "D) En cherchant les mots en majuscules"],
+    "answer": "B",
+    "explanation": "Le NER utilise le sequence labeling avec le schema BIO (B-PER, I-PER, O). Les modeles modernes (BERT-CRF, spaCy) attribuent a chaque token une etiquette d'entite. Utilise pour extraire personnes, lieux, organisations, dates."
+  },
+  {
+    "id": "nlp_007",
+    "question": "Pourquoi le POS Tagging est-il fondamental en NLP ?",
+    "options": ["A) C'est une etape optionnelle", "B) Il identifie le role grammatical de chaque mot (nom, verbe, adjectif), essentiel pour desambiguiser le sens", "C) Il supprime les mots inutiles", "D) Il traduit les mots"],
+    "answer": "B",
+    "explanation": "Le POS tagging attribue a chaque mot sa categorie grammaticale. 'Avocat' = nom (personne ou fruit) selon le contexte. Les POS tags alimentent le parsing, le NER, et la desambiguisation lexicale."
+  },
+  {
+    "id": "nlp_008",
+    "question": "Comment TF-IDF pese-t-il l'importance d'un mot dans un document ?",
+    "options": ["A) Par sa longueur", "B) En multipliant sa frequence dans le document (TF) par la rarete dans le corpus (IDF)", "C) En comptant les lettres", "D) En utilisant un reseau de neurones"],
+    "answer": "B",
+    "explanation": "TF-IDF = TF(t,d) x IDF(t) = (frequence de t dans d) x log(N/df_t). Un mot frequent dans un document mais rare dans le corpus est discriminant. 'Le', 'de' ont un TF eleve mais IDF bas."
+  },
+  {
+    "id": "nlp_009",
+    "question": "Pourquoi le stemming est-il moins precis que la lemmatisation ?",
+    "options": ["A) Il est plus lent", "B) Le stemming coupe les suffixes mecaniquement (running runn), la lemmatisation trouve la forme canonique reelle (running run)", "C) Le stemming est plus ancien", "D) Ils sont identiques"],
+    "answer": "B",
+    "explanation": "Le stemming (Porter) coupe les suffixes par regles heuristiques : 'studies' 'studi'. La lemmatisation utilise un dictionnaire et le POS tag : 'studies' 'study'. Plus precise mais plus lente."
+  },
+  {
+    "id": "nlp_010",
+    "question": "Comment le dependency parsing analyse-t-il la structure d'une phrase ?",
+    "options": ["A) En comptant les mots", "B) Il identifie les relations grammaticales entre mots (sujet, objet, modifieur) sous forme d'arbre de dependances", "C) Il traduit la phrase", "D) Il identifie les entites nommees"],
+    "answer": "B",
+    "explanation": "Le dependency parsing construit un arbre ou chaque mot a un 'head' (parent). 'Le chat mange la souris' : mange root, chat nsubj de mange, souris obj de mange. Utilise pour l'analyse semantique et le relation extraction."
+  },
+  {
+    "id": "nlp_011",
+    "question": "Pourquoi BERT utilise-t-il le Masked Language Model (MLM) ?",
+    "options": ["A) Pour masquer les donnees sensibles", "B) Il masque 15% des tokens et apprend a les predire, permettant un pre-entrainement bidirectionnel", "C) Pour accelerer l'entrainement", "D) Pour gerer les langues multiples"],
+    "answer": "B",
+    "explanation": "BERT masque 15% des tokens et predit les tokens originaux. Cela force le modele a utiliser le contexte gauche ET droit, impossible avec les modeles autoregressifs (GPT) qui ne voient que le contexte gauche."
+  },
+  {
+    "id": "nlp_012",
+    "question": "Comment le Transfer Learning a-t-il revolutionne le NLP ?",
+    "options": ["A) En accelerant les calculs", "B) Un modele pre-entraine sur des milliards de mots est fine-tune sur une tache specifique avec peu de donnees", "C) En remplacant les regles", "D) En utilisant des GPU"],
+    "answer": "B",
+    "explanation": "ULMFiT (Howard & Ruder, 2018) puis BERT (Devlin et al., 2019) ont montre qu'un modele pre-entraine generaliste fine-tune sur environ 1000 exemples bat un modele specifique entraine sur 100K exemples."
+  },
+  {
+    "id": "nlp_013",
+    "question": "Pourquoi la traduction automatique neuronale (NMT) surpasse-t-elle la traduction statistique (SMT) ?",
+    "options": ["A) Elle est plus rapide", "B) Elle capture les dependances longues distances et le contexte global via l'attention", "C) Elle utilise moins de donnees", "D) SMT ne fonctionne pas"],
+    "answer": "B",
+    "explanation": "La SMT traduit par fragments independants. La NMT (encoder-decoder + attention) comprend la phrase complete avant de generer la traduction. L'attention aligne les mots source et cible dynamiquement."
+  },
+  {
+    "id": "nlp_014",
+    "question": "Comment le mecanisme d'attention de Bahdanau a-t-il resolu le bottleneck de l'encoder-decoder ?",
+    "options": ["A) En augmentant la taille du vecteur", "B) Au lieu de compresser toute la source en un vecteur, il permet au decodeur de regarder toutes les positions sources", "C) En utilisant plus de couches", "D) En supprimant l'encodeur"],
+    "answer": "B",
+    "explanation": "L'encoder-decoder original compressait la phrase source en un seul vecteur. L'attention de Bahdanau (2014) pondere les etats caches de l'encodeur a chaque etape de decodage."
+  },
+  {
+    "id": "nlp_015",
+    "question": "Pourquoi BLEU est-il la metrique standard mais imparfaite de la traduction automatique ?",
+    "options": ["A) Elle est parfaite", "B) Elle mesure la correspondance de n-grammes avec une reference mais ne capture pas la semantique ni la coherence globale", "C) Elle fonctionne uniquement en anglais", "D) Elle est trop complexe"],
+    "answer": "B",
+    "explanation": "BLEU compte les n-grammes (1-4) communs entre traduction et reference. Limites : ne detecte pas les traductions semantiquement correctes mais syntaxiquement differentes."
+  },
+  {
+    "id": "nlp_016",
+    "question": "Comment les LLMs gerent-ils les langues a ressources limitees ?",
+    "options": ["A) Ils ne les gerent pas", "B) Via le transfer learning multilingue : un modele entraine sur 100 langues transfere ses capacites aux langues sous-representees", "C) Ils traduisent tout en anglais", "D) Ils ignorent ces langues"],
+    "answer": "B",
+    "explanation": "mBERT (104 langues), XLM-R (100 langues) partagent les representations entre langues. Le transfer cross-lingual permet de performer sur des langues avec peu de donnees."
+  },
+  {
+    "id": "nlp_017",
+    "question": "Pourquoi la desambiguisation lexicale (WSD) est-elle difficile ?",
+    "options": ["A) Les mots n'ont qu'un seul sens", "B) Le sens d'un mot depend du contexte, et les frontieres entre sens sont parfois floues", "C) C'est un probleme resolu", "D) Seuls les mots rares sont ambigus"],
+    "answer": "B",
+    "explanation": "'Brique' = construction, jeu, coup (argot). Le sens depend du contexte mais les frontieres sont floues. La WSD necessite une comprehension semantique profonde."
+  },
+  {
+    "id": "nlp_018",
+    "question": "Comment l'analyse de sentiment fonctionne-t-elle au-dela du simple comptage de mots ?",
+    "options": ["A) Elle ne fait que compter les mots", "B) Les modeles modernes capturent la negation, l'ironie et le contexte via les embeddings contextuels", "C) Elle utilise des dictionnaires", "D) Elle fonctionne uniquement sur des reviews"],
+    "answer": "B",
+    "explanation": "Les modeles neuronaux capturent : negation ('pas mauvais' = positif), intensificateurs ('tres bon'), ironie ('genial, encore rate'), et dependance au contexte."
+  },
+  {
+    "id": "nlp_019",
+    "question": "Pourquoi la generation de texte par les LLMs n'est-elle pas vraiment creative ?",
+    "options": ["A) Elle l'est", "B) Les modeles predisent le token le plus probable statistiquement, sans intention ni comprehension reelle", "C) Ils ne generent rien de nouveau", "D) Seuls les petits modeles sont limites"],
+    "answer": "B",
+    "explanation": "Les LLMs sont des modeles statistiques : a chaque etape, ils choisissent le token le plus probable. Ils n'ont pas d'intention, de comprehension ni de creativite au sens humain. Ils recombinent des patterns appris."
+  },
+  {
+    "id": "nlp_020",
+    "question": "Comment les modeles de topic modeling (LDA) decouvrent-ils les themes dans un corpus ?",
+    "options": ["A) En utilisant des mots-cles manuels", "B) Via un modele probabiliste : chaque document est un melange de topics et chaque topic une distribution de mots", "C) En comptant les paragraphes", "D) En classifiant les documents"],
+    "answer": "B",
+    "explanation": "LDA (Blei et al., 2003) : chaque document = melange de K topics, chaque topic = distribution sur le vocabulaire. L'algorithme infere ces distributions par Gibbs sampling ou VI."
+  },
+  {
+    "id": "nlp_021",
+    "question": "Pourquoi le zero-shot learning en NLP est-il impressionnant ?",
+    "options": ["A) Il est lent", "B) Le modele accomplit une tache sans aucun exemple d'entrainement specifique, uniquement a partir d'instructions textuelles", "C) Il fonctionne toujours parfaitement", "D) Il necessite peu de donnees"],
+    "answer": "B",
+    "explanation": "Le zero-shot : donner au modele une tache via prompt sans aucun exemple. GPT-3/4 le font remarquablement. Le modele a appris indirectement pendant le pre-entrainement."
+  },
+  {
+    "id": "nlp_022",
+    "question": "Comment les modeles de summarization fonctionnent-ils ?",
+    "options": ["A) En supprimant les phrases au hasard", "B) Extractif (selection des phrases cles) ou abstractive (generation d'un nouveau texte resumant)", "C) En traduisant le texte", "D) En utilisant des regles"],
+    "answer": "B",
+    "explanation": "L'extractif (TextRank, BERT extractive) selectionne les phrases les plus importantes. L'abstractive (BART, T5) genere un nouveau texte resumant. L'abstractive est plus naturelle mais risque les hallucinations."
+  },
+  {
+    "id": "nlp_023",
+    "question": "Pourquoi ROUGE est-il utilise pour evaluer les resumes automatiques ?",
+    "options": ["A) C'est un outil de maquillage", "B) Il mesure le chevauchement de n-grammes entre le resume genere et les resumes de reference", "C) Il mesure la vitesse", "D) Il compte les mots"],
+    "answer": "B",
+    "explanation": "ROUGE mesure : ROUGE-1 (unigrammes), ROUGE-2 (bigrammes), ROUGE-L (plus longue sous-sequence commune). Comme BLEU, il a des limites mais reste le standard."
+  },
+  {
+    "id": "nlp_024",
+    "question": "Comment les modeles de Question Answering localisent-ils la reponse dans un texte ?",
+    "options": ["A) En cherchant le mot le plus frequent", "B) En predisant les positions de debut et fin (start/end span) du passage contenant la reponse", "C) En utilisant un moteur de recherche", "D) En traduisant la question"],
+    "answer": "B",
+    "explanation": "Les modeles extractive QA (BERT SQuAD) predisent deux indices : start et end. Le modele apprend a pointer vers le bon span dans le contexte."
+  },
+  {
+    "id": "nlp_025",
+    "question": "Pourquoi le dialogue state tracking est-il crucial pour les chatbots orientes taches ?",
+    "options": ["A) Pour tracker les utilisateurs", "B) Il maintient l'etat de la conversation (intent, slots remplis) pour comprendre et poursuivre le dialogue", "C) C'est optionnel", "D) Il remplace le NLP"],
+    "answer": "B",
+    "explanation": "Le DST suit l'etat du dialogue : intent (reserver vol), slots (destination, date). Sans tracking, le chatbot oublie les informations deja donnees."
+  },
+  {
+    "id": "nlp_026",
+    "question": "Comment l'architecture Seq2Seq avec attention fonctionne-t-elle pour la traduction ?",
+    "options": ["A) En traduisant mot a mot", "B) L'encodeur traite la source, le decodeur genere la cible, l'attention aligne chaque mot cible aux mots sources pertinents", "C) En utilisant des regles", "D) En cherchant dans un dictionnaire"],
+    "answer": "B",
+    "explanation": "L'encodeur (BiLSTM) traite la phrase source. A chaque etape de decodage, l'attention calcule un contexte = somme ponderee des etats caches source. Le decodeur genere le token cible."
+  },
+  {
+    "id": "nlp_027",
+    "question": "Pourquoi le coreference resolution est-il important ?",
+    "options": ["A) Il n'est pas important", "B) Il identifie les expressions qui referent a la meme entite ('Marie' et 'elle'), essentiel pour comprendre qui fait quoi", "C) Il resout les conflits", "D) Il traduit les pronoms"],
+    "answer": "B",
+    "explanation": "'Marie a achete un chat. Elle l'adore.' 'Elle' = Marie, 'l'' = le chat. Le coreference resolution relie ces expressions."
+  },
+  {
+    "id": "nlp_028",
+    "question": "Comment les embeddings de phrases sont-ils utilises ?",
+    "options": ["A) Pour decorer les phrases", "B) Ils representent une phrase entiere en un vecteur unique pour la similarite semantique et la recherche", "C) Pour traduire", "D) Pour compter les mots"],
+    "answer": "B",
+    "explanation": "Les sentence embeddings (Sentence-BERT, USE) placent les phrases dans un espace vectoriel. Phrases semantiquement proches = vecteurs proches. Utilises pour la recherche semantique et le clustering."
+  },
+  {
+    "id": "nlp_029",
+    "question": "Pourquoi le multilingual NLP est-il plus difficile que le NLP monoculture ?",
+    "options": ["A) Les langues sont toutes similaires", "B) Les structures grammaticales, alphabets et ressources varient enormement ; les langues a faibles ressources sont sous-desservies", "C) C'est un probleme resolu", "D) Seul l'anglais compte"],
+    "answer": "B",
+    "explanation": "Le multilingual NLP doit gerer : 7000+ langues, scripts varies, morphologie complexe, et le manque de donnees annotees pour 95% des langues."
+  },
+  {
+    "id": "nlp_030",
+    "question": "Comment la detection de langue fonctionne-t-elle ?",
+    "options": ["A) En regardant l'extension du fichier", "B) Via des modeles de classification rapide (fastText) qui identifient la langue a partir des n-grammes de caracteres", "C) En demandant a l'utilisateur", "D) En utilisant les dictionnaires"],
+    "answer": "B",
+    "explanation": "fastText lid utilise les n-grammes de caracteres comme features. 'Bonjour' bon, onj, njo, jou, our distribution caracteristique du francais. Rapide et precis meme sur de courts textes."
+  },
+  {
+    "id": "nlp_031",
+    "question": "Pourquoi les chatbots bases sur des regles (ELIZA) ont-ils ete remplaces ?",
+    "options": ["A) Ils etaient trop performants", "B) Les regles ne peuvent pas couvrir la variete infinie du langage naturel ; les modeles appris generalisent", "C) Les utilisateurs preferaient", "D) Les modeles data-driven sont plus simples"],
+    "answer": "B",
+    "explanation": "ELIZA pattern-matchait des phrases. Impossible de gerer la variete et l'ambiguite du langage. Les modeles data-driven apprennent les patterns a partir de millions d'exemples."
+  },
+  {
+    "id": "nlp_032",
+    "question": "Comment la tokenization BPE gere-t-elle les mots hors vocabulaire ?",
+    "options": ["A) Elle les ignore", "B) Elle decompose les mots inconnus en sous-mots frequents : 'unhappiness' 'un', 'happi', 'ness'", "C) Elle utilise UNK", "D) Elle les traduit"],
+    "answer": "B",
+    "explanation": "BPE fusionne iterativement les paires de caracteres les plus frequentes. Tout texte est tokenizable sans token UNK. Utilise par GPT-2/3/4."
+  },
+  {
+    "id": "nlp_033",
+    "question": "Pourquoi le prompt engineering est-il devenu central ?",
+    "options": ["A) Les prompts sont des mots de passe", "B) La formulation du prompt change radicalement la qualite de la reponse, sans modifier le modele", "C) C'est une mode", "D) Les LLMs ne fonctionnent qu'avec des prompts speciaux"],
+    "answer": "B",
+    "explanation": "Le meme modele peut classer, resumer, traduire ou raisonner selon le prompt. La formulation change les resultats sans modifier le modele."
+  },
+  {
+    "id": "nlp_034",
+    "question": "Comment le Few-Shot Learning ameliore-t-il les performances sans fine-tuning ?",
+    "options": ["A) En utilisant plus de GPU", "B) En donnant quelques exemples (3-5) dans le prompt pour montrer au modele le pattern a suivre", "C) En augmentant le learning rate", "D) En utilisant plus de donnees d'entrainement"],
+    "answer": "B",
+    "explanation": "Le few-shot prompt inclut des exemples. Le modele infere le pattern et generalise. GPT-3 a montre que 5-10 exemples suffisent pour la plupart des taches."
+  },
+  {
+    "id": "nlp_035",
+    "question": "Pourquoi GPT (causal) et BERT (bidirectionnel) servent-ils a des taches differentes ?",
+    "options": ["A) Ils sont interchangeables", "B) GPT voit seulement le passe ideal pour la generation ; BERT voit tout ideal pour la comprehension", "C) BERT est plus recent", "D) GPT est plus petit"],
+    "answer": "B",
+    "explanation": "GPT est decoder-only : seul le passe est visible. BERT est encoder-only : chaque token voit toute la sequence. GPT generation, BERT classification/extraction."
+  },
+  {
+    "id": "nlp_036",
+    "question": "Comment le Relation Extraction identifie-t-il les liens entre entites ?",
+    "options": ["A) En dessinant des fleches", "B) Il classifie la relation entre deux entites (ex: 'Apple' [a_fonde] 'Steve Jobs') dans un texte", "C) En comptant les entites", "D) En traduisant les relations"],
+    "answer": "B",
+    "explanation": "Le Relation Extraction prend une paire d'entites et le contexte, puis classifie la relation : fonde-par, employe-de, situe-dans."
+  },
+  {
+    "id": "nlp_037",
+    "question": "Pourquoi T5 et BART sont-ils encoder-decoder ?",
+    "options": ["A) Ils sont plus petits", "B) Ils sont concus pour les taches seq2seq (resume, traduction) ou entree et sortie sont des sequences", "C) Ils sont plus rapides", "D) Par convention"],
+    "answer": "B",
+    "explanation": "T5 et BART visent les taches text-to-text : entree = texte, sortie = texte. BART est pre-entraine avec du denoising, T5 avec span corruption."
+  },
+  {
+    "id": "nlp_038",
+    "question": "Comment le constituency parsing differe-t-il du dependency parsing ?",
+    "options": ["A) Ils sont identiques", "B) Le constituency cree des groupes syntaxiques (NP, VP) imbriques ; le dependency cree des relations mot-a-mot", "C) Le constituency est plus moderne", "D) Le dependency est plus ancien"],
+    "answer": "B",
+    "explanation": "Le constituency parsing cree un arbre avec des constituants : [S [NP le chat] [VP mange [NP la souris]]]. Le dependency parsing cree des arcs mot-a-mot."
+  },
+  {
+    "id": "nlp_039",
+    "question": "Pourquoi le RLHF rend-il les LLMs plus surs ?",
+    "options": ["A) Il les rend plus lents", "B) Il aligne les reponses sur les preferences humaines (utile, honnete, inoffensif) par apprentissage de recompense", "C) Il supprime des mots", "D) Il ajoute des filtres post-hoc"],
+    "answer": "B",
+    "explanation": "RLHF : humains notent des paires de reponses, un reward model apprend les preferences, le LLM est optimise pour maximiser ce reward."
+  },
+  {
+    "id": "nlp_040",
+    "question": "Comment les modeles de code (Codex, CodeLlama) sont-ils entraines ?",
+    "options": ["A) Avec des ingenieurs", "B) Sur des milliards de lignes de code source publics (GitHub), apprenant a generer et completer du code", "C) Avec des manuels", "D) Avec des tests unitaires"],
+    "answer": "B",
+    "explanation": "Codex et CodeLlama sont fine-tunes sur du code GitHub. Ils apprennent les patterns de code et les APIs de multiples langages."
+  },
+  {
+    "id": "nlp_041",
+    "question": "Pourquoi l'instruction tuning est-il crucial pour les LLMs ?",
+    "options": ["A) Il ajoute des instructions au code", "B) Il fine-tune le modele sur des paires (instruction, reponse) pour qu'il suive les consignes", "C) Il accelere l'entrainement", "D) Il reduit la taille du modele"],
+    "answer": "B",
+    "explanation": "Un modele de base predit du texte. L'instruction tuning l'entraine a suivre des instructions. Sans lui, GPT continue le texte au lieu de repondre."
+  },
+  {
+    "id": "nlp_042",
+    "question": "Comment le Speech-to-Text integre-t-il les modeles NLP ?",
+    "options": ["A) L'ASR n'utilise pas le NLP", "B) L'ASR convertit l'audio en texte, puis le NLP traite ce texte pour comprehension ou traduction", "C) L'ASR traduit directement", "D) L'audio n'est pas du texte"],
+    "answer": "B",
+    "explanation": "Pipeline : audio ASR (Whisper) texte NLP (NER, sentiment, QA). Les modeles modernes integrent les deux."
+  },
+  {
+    "id": "nlp_043",
+    "question": "Pourquoi les LLMs ont-ils une fenetre de contexte limitee ?",
+    "options": ["A) Par choix arbitraire", "B) L'attention a une complexite O(n2) en memoire ; au-dela de la fenetre, le cout explose", "C) Le texte n'a pas besoin de plus", "D) C'est un bug"],
+    "answer": "B",
+    "explanation": "Le self-attention stocke une matrice n*n des scores d'attention. Flash Attention et les architectures lineaires repoussent cette limite."
+  },
+  {
+    "id": "nlp_044",
+    "question": "Comment le Text Classification multilabel differe-t-il du multiclass ?",
+    "options": ["A) Ils sont identiques", "B) Multiclass = une seule classe ; multilabel = plusieurs classes simultanees (article = 'tech' ET 'finance')", "C) Multilabel est plus simple", "D) Multiclass est plus recent"],
+    "answer": "B",
+    "explanation": "Multiclass : softmax, une seule classe. Multilabel : sigmoid par classe, chaque classe independante."
+  },
+  {
+    "id": "nlp_045",
+    "question": "Pourquoi le RAG ameliore-t-il les LLMs en NLP ?",
+    "options": ["A) Il remplace le LLM", "B) Il injecte des documents pertinents dans le contexte pour des reponses factuelles et a jour", "C) Il accelere la generation", "D) Il reduit la taille du modele"],
+    "answer": "B",
+    "explanation": "RAG : encoder la question, retrouver les K documents pertinents (vector search), injecter question + documents dans le prompt. Fournit des informations a jour et reduit les hallucinations."
+  },
+  {
+    "id": "nlp_046",
+    "question": "Pourquoi la morphological analysis est-elle cruciale pour les langues agglutinatives ?",
+    "options": ["A) Elle n'est pas importante", "B) En turc, un mot peut encoder une phrase entiere ; la segmentation morphologique est essentielle", "C) Seul le turc compte", "D) La tokenization suffit"],
+    "answer": "B",
+    "explanation": "Les langues agglutinatives combinent morphemes en mots tres longs. Sans analyse morphologique, le tokenizer traite chaque forme comme un mot unique inconnu."
+  },
+  {
+    "id": "nlp_047",
+    "question": "Comment le semantic search remplace-t-il la recherche par mots-cles ?",
+    "options": ["A) Ils cherchent la meme chose", "B) Ils encodent la requete et les documents en embeddings et mesurent la similarite cosinus", "C) Ils utilisent plus de mots-cles", "D) Ils sont plus lents"],
+    "answer": "B",
+    "explanation": "La recherche semantique encode la requete en vecteur et cherche les documents aux embeddings les plus proches. 'Comment perdre du poids' matche 'methodes pour maigrir' meme sans mots communs."
+  },
+  {
+    "id": "nlp_048",
+    "question": "Pourquoi le chain-of-thought prompting ameliore-t-il le raisonnement des LLMs ?",
+    "options": ["A) En allongeant les prompts", "B) En demandant au modele de detailler son raisonnement etape par etape, ameliorant les taches logiques", "C) En ajoutant plus de donnees", "D) En utilisant un modele plus grand"],
+    "answer": "B",
+    "explanation": "Le CoT force le modele a decomposer le probleme. Chaque etape genere des tokens qui guident le raisonnement suivant. Ameliore les taches mathematiques de 20-40%."
+  },
+  {
+    "id": "nlp_049",
+    "question": "Pourquoi la perplexity mesure-t-elle la qualite d'un modele de langue ?",
+    "options": ["A) Elle mesure la confusion du developpeur", "B) Elle quantifie a quel point le modele est surpris par un texte ; plus basse = meilleur modele", "C) Elle compte les erreurs", "D) Elle mesure la vitesse"],
+    "answer": "B",
+    "explanation": "La perplexite = exp(-1/N x somme log P(w_i|context)). Plus basse = le modele est plus confiant et precis."
+  },
+  {
+    "id": "nlp_050",
+    "question": "Comment le n-gram language model fonctionne-t-il ?",
+    "options": ["A) En utilisant des reseaux de neurones", "B) Il estime P(w_n | historique) en comptant les co-occurrences dans un corpus", "C) En utilisant un dictionnaire", "D) En traduisant les phrases"],
+    "answer": "B",
+    "explanation": "Le n-gram model : P(w_n | historique) environ = count(w_{n-k+1}...w_n) / count(w_{n-k+1}...w_{n-1}). Simple mais limite : ne capture que les dependances locales."
+  },
+  {
+    "id": "nlp_051",
+    "question": "Pourquoi le knowledge distillation est-il utilise pour les modeles NLP ?",
+    "options": ["A) Pour augmenter la taille", "B) Pour compresser un grand modele en un petit plus rapide, en gardant environ 97% des performances", "C) Pour ameliorer la precision", "D) Pour ajouter des connaissances"],
+    "answer": "B",
+    "explanation": "DistilBERT apprend a reproduire les soft probabilities de BERT. 40% plus petit, 60% plus rapide, 97% des performances."
+  },
+  {
+    "id": "nlp_052",
+    "question": "Comment le text generation avec top-k et top-p sampling fonctionne-t-il ?",
+    "options": ["A) En choisissant toujours le meilleur token", "B) Top-k garde les K tokens les plus probables ; top-p garde les tokens cumulant P% de probabilite (dynamique)", "C) En choisissant aleatoirement", "D) En utilisant la temperature uniquement"],
+    "answer": "B",
+    "explanation": "Top-p est plus adaptatif : peu de tokens si la distribution est pointue, beaucoup si elle est plate."
+  },
+  {
+    "id": "nlp_053",
+    "question": "Pourquoi le text augmentation est-il utile en NLP ?",
+    "options": ["A) Pour rendre le texte plus beau", "B) Il cree des variantes (synonymes, back-translation) pour augmenter artificiellement le dataset", "C) Pour traduire", "D) Pour compresser"],
+    "answer": "B",
+    "explanation": "Le text augmentation cree des variantes : remplacement par synonymes, back-translation, paraphrase. Augmente la robustesse du modele, surtout avec peu de donnees annotees."
+  },
+  {
+    "id": "nlp_054",
+    "question": "Comment les modeles de paraphrase detectent-ils les phrases de meme sens ?",
+    "options": ["A) En comparant les mots", "B) En mesurant la similarite cosinus entre les embeddings de phrases ou via classification croisee", "C) En traduisant", "D) En comptant les syllabes"],
+    "answer": "B",
+    "explanation": "Les modeles de paraphrase comparent les embeddings de deux phrases. Si la similarite cosinus depasse un seuil, ce sont des paraphrases."
+  },
+  {
+    "id": "nlp_055",
+    "question": "Pourquoi le text classification avec BERT necessite-t-il un token [CLS] ?",
+    "options": ["A) Pour afficher CLS a l'ecran", "B) Le token [CLS] est ajoute en debut de sequence et son embedding final represente la phrase entiere pour la classification", "C) C'est decoratif", "D) Pour accelerer le calcul"],
+    "answer": "B",
+    "explanation": "Apres les couches Transformer, l'embedding de [CLS] agrege l'information de toute la sequence via le self-attention. On connecte cet embedding a un classifieur."
+  },
+  {
+    "id": "nlp_056",
+    "question": "Comment les attention visualization (BertViz) aident-elles a comprendre les modeles ?",
+    "options": ["A) Elles decorent les resultats", "B) Elles montrent quels tokens regardent quels autres tokens, revelant les patterns appris (sujet-verbe, coreference)", "C) Elles ameliorent les performances", "D) Elles traduisent les textes"],
+    "answer": "B",
+    "explanation": "BertViz visualise les poids d'attention : lignes reliant les tokens avec intensite variable. Revele les patterns linguistiques appris sans supervision."
+  },
+  {
+    "id": "nlp_057",
+    "question": "Pourquoi le subword tokenization est-il preferable au word-level pour le multilingue ?",
+    "options": ["A) Il est plus simple", "B) Il partage les sous-mots entre langues apparentees et gere les langues a vocabulaire ouvert sans token UNK", "C) Il fonctionne uniquement en anglais", "D) Il est plus rapide"],
+    "answer": "B",
+    "explanation": "Le subword tokenization (BPE, SentencePiece) partage les sous-mots entre langues. Reduit le vocabulaire et partage les representations cross-linguales."
+  },
+  {
+    "id": "nlp_058",
+    "question": "Comment les modeles de text entailment (NLI) determinent-ils si une phrase en implique une autre ?",
+    "options": ["A) En verifiant les mots communs", "B) Ils classifient la paire (premisse, hypothese) en entailment/contradiction/neutral via cross-attention", "C) En traduisant les phrases", "D) En utilisant la logique formelle"],
+    "answer": "B",
+    "explanation": "Le NLI classifie : entailment (vrai), contradiction (faux), ou neutral (incertain). SNLI/MultiNLI sont les benchmarks."
+  },
+  {
+    "id": "nlp_059",
+    "question": "Pourquoi les masked language models comme BERT sont-ils meilleurs pour le NER que GPT ?",
+    "options": ["A) BERT est plus recent", "B) L'attention bidirectionnelle voit le contexte gauche ET droit, crucial pour identifier les entites", "C) GPT ne peut pas faire du NER", "D) BERT est plus grand"],
+    "answer": "B",
+    "explanation": "Pour le NER, identifier 'Paris' comme LOC necessite le contexte apres ('Paris, la capitale'). BERT voit les deux cotes. GPT ne voit que le contexte gauche."
+  },
+  {
+    "id": "nlp_060",
+    "question": "Comment le beam search produit-il de meilleurs resultats en generation ?",
+    "options": ["A) En utilisant plus de GPU", "B) Il maintient K meilleures sequences candidates a chaque etape au lieu de la seule meilleure", "C) En augmentant la temperature", "D) En utilisant un modele plus grand"],
+    "answer": "B",
+    "explanation": "Le beam search (K=5) garde les K sequences les plus probables et les etend toutes. Un choix localement sous-optimal peut mener a une meilleure sequence globale."
+  },
+  {
+    "id": "nlp_061",
+    "question": "Pourquoi le length penalty est-il utilise dans la traduction automatique ?",
+    "options": ["A) Pour penaliser les phrases trop longues", "B) Sans penalite, le beam search favorise les sequences courtes (moins de tokens = probabilite produit plus elevee)", "C) Pour ameliorer la grammaire", "D) C'est optionnel"],
+    "answer": "B",
+    "explanation": "La probabilite d'une sequence est le produit des probabilites de chaque token. Plus de tokens = produit plus petit. Le length penalty compense."
+  },
+  {
+    "id": "nlp_062",
+    "question": "Comment les word sense disambiguation models utilisent-ils le contexte ?",
+    "options": ["A) Ils ignorent le contexte", "B) Ils utilisent les embeddings contextuels du mot cible et de ses voisins pour determiner le sens correct", "C) Ils utilisent des dictionnaires", "D) Ils comptent les mots"],
+    "answer": "B",
+    "explanation": "La WSD moderne utilise BERT : le embedding contextuel differe selon le contexte. Un classifieur predit le sens WordNet approprie."
+  },
+  {
+    "id": "nlp_063",
+    "question": "Pourquoi evalue-t-on la NLG avec des metriques diverses ?",
+    "options": ["A) Une seule metrique suffit", "B) Aucune metrique ne capture toutes les dimensions (fidelite, fluidite, diversite, coherence) ; il faut les combiner", "C) BLEU est suffisant", "D) Les humains ne jugent pas"],
+    "answer": "B",
+    "explanation": "BLEU capture le n-gram overlap, ROUGE le recall, BERTScore la similarite semantique. Aucune metrique automatique ne remplace le jugement humain."
+  },
+  {
+    "id": "nlp_064",
+    "question": "Comment les text normalization prepare-ils les donnees pour le NLP ?",
+    "options": ["A) En ajoutant du bruit", "B) En standardisant : minuscule, suppression des accents, normalisation Unicode", "C) En traduisant", "D) En ajoutant des majuscules"],
+    "answer": "B",
+    "explanation": "La normalisation : 'Cafe' 'cafe', 'M.J.' 'Michael Jordan'. Reduit la variance inutile du texte."
+  },
+  {
+    "id": "nlp_065",
+    "question": "Pourquoi les Transformers ont-ils remplace les LSTM dans le NLP ?",
+    "options": ["A) Les LSTM ne fonctionnaient pas", "B) Les Transformers se parallellisent sur GPU et capturent les dependances longues distances sans vanishing gradient", "C) Les LSTM sont trop recents", "D) Les Transformers sont plus simples"],
+    "answer": "B",
+    "explanation": "Les LSTMs traitent les tokens sequentiellement. Les Transformers traitent tous les tokens en parallele via self-attention. Pas de vanishing gradient."
+  },
+  {
+    "id": "nlp_066",
+    "question": "Comment SentencePiece gere-t-il les langues sans espaces (chinois, japonais) ?",
+    "options": ["A) Il insere des espaces", "B) Il traite le texte comme un flux de caracteres et apprend les unites optimales sans necessiter d'espaces", "C) Il ignore ces langues", "D) Il utilise des dictionnaires"],
+    "answer": "B",
+    "explanation": "SentencePiece est language-agnostic : il traite le texte brut comme une sequence de caracteres Unicode. Fonctionne pour le chinois comme pour l'anglais."
+  },
+  {
+    "id": "nlp_067",
+    "question": "Pourquoi les conversational AI models ont-ils besoin de gestion du contexte ?",
+    "options": ["A) Pour memoriser les mots de passe", "B) Sans contexte, chaque message est traite isolement et le modele oublie ce qui a ete dit precedemment", "C) C'est optionnel", "D) Pour accelerer les reponses"],
+    "answer": "B",
+    "explanation": "Les modeles conversationnels integrent l'historique dans le prompt pour maintenir la coherence."
+  },
+  {
+    "id": "nlp_068",
+    "question": "Comment le BERTScore ameliore-t-il les metriques de generation ?",
+    "options": ["A) En utilisant BERT pour tout", "B) Il compare les embeddings contextuels, capturant la similarite semantique meme avec des mots differents", "C) Il remplace BLEU", "D) Il est plus rapide"],
+    "answer": "B",
+    "explanation": "BERTScore calcule la similarite cosinus entre les embeddings BERT. 'Le chat est sur le matelas' et 'Le felin repose sur le lit' ont un BERTScore eleve."
+  },
+  {
+    "id": "nlp_069",
+    "question": "Pourquoi l'information retrieval est-il fondamental pour les systemes NLP modernes ?",
+    "options": ["A) Il n'est pas important", "B) Le RAG, la recherche semantique et les agents IA dependent de la capacite a retrouver les documents pertinents", "C) Seul le LLM compte", "D) C'est un probleme resolu"],
+    "answer": "B",
+    "explanation": "L'IR moderne est le premier maillon du RAG. Sans bon retrieval, meme le meilleur LLM recoit un mauvais contexte."
+  },
+  {
+    "id": "nlp_070",
+    "question": "Comment les text embeddings sont-ils utilises dans les bases vectorielles ?",
+    "options": ["A) Pour decorer les bases de donnees", "B) Les embeddings sont indexes (HNSW, FAISS) pour une recherche rapide par similarite cosinus", "C) Pour stocker du texte", "D) Pour compresser les donnees"],
+    "answer": "B",
+    "explanation": "Les vector databases indexent les embeddings avec HNSW ou IVF. La recherche par similarite trouve les K vecteurs les plus proches en millisecondes."
+  },
+  {
+    "id": "nlp_071",
+    "question": "Pourquoi le pre-training objective influence-t-il les performances downstream ?",
+    "options": ["A) Tous les objectifs sont equivalens", "B) MLM apprend la comprehension ; CLM apprend la generation ; l'objectif determine les forces du modele", "C) L'objectif n'a pas d'impact", "D) Seule la taille du modele compte"],
+    "answer": "B",
+    "explanation": "MLM force la comprehension bidirectionnelle bon pour classification. CLM force la prediction sequentielle bon pour generation."
+  },
+  {
+    "id": "nlp_072",
+    "question": "Comment les cross-encoders et bi-encoders different-ils ?",
+    "options": ["A) Ils sont identiques", "B) Bi-encoder encode separement (rapide, scalable) ; cross-encoder traite la paire ensemble (plus precis, plus lent)", "C) Le cross-encoder est plus rapide", "D) Le bi-encoder est plus precis"],
+    "answer": "B",
+    "explanation": "Bi-encoder : deux phrases encodees separement, similarite cosinus. Rapide. Cross-encoder : les deux phrases concatenees. Plus precis mais O(n2)."
+  },
+  {
+    "id": "nlp_073",
+    "question": "Pourquoi le back-translation ameliore-t-il la traduction automatique ?",
+    "options": ["A) Il traduit en arriere", "B) Il genere des donnees synthetiques : traduire le target vers le source augmente les paires paralleles", "C) Il est plus rapide", "D) Il corrige les erreurs"],
+    "answer": "B",
+    "explanation": "Le back-translation cree des paires supplementaires qui augmentent le dataset et ameliorent le modele."
+  },
+  {
+    "id": "nlp_074",
+    "question": "Comment le named entity linking connecte-t-il les entites aux bases de connaissances ?",
+    "options": ["A) En ajoutant des liens hypertexte", "B) Il associe chaque entite mentionnee ('Apple') a son entree dans une base (Wikidata, DBpedia)", "C) En traduisant les entites", "D) En creant de nouvelles entites"],
+    "answer": "B",
+    "explanation": "Le NEL desambiguise 'Apple' en Apple (entreprise) vs apple (fruit). Combine le contexte textuel et les informations de la knowledge base."
+  },
+  {
+    "id": "nlp_075",
+    "question": "Pourquoi la language identification est-elle la premiere etape d'un pipeline multilingue ?",
+    "options": ["A) Elle n'est pas necessaire", "B) Il faut appliquer le bon modele/tokenizer pour chaque langue", "C) C'est la derniere etape", "D) Tous les modeles sont multilingues"],
+    "answer": "B",
+    "explanation": "Avant de traiter du texte, il faut connaitre sa langue pour choisir le bon tokenizer et modele."
+  },
+  {
+    "id": "nlp_076",
+    "question": "Comment le text summarization abstractive genere-t-il de nouvelles phrases ?",
+    "options": ["A) En copiant des phrases existantes", "B) Un modele encoder-decoder encode le document puis decode un resume avec de nouvelles formulations", "C) En supprimant des mots", "D) En traduisant en anglais"],
+    "answer": "B",
+    "explanation": "L'abstractive summarization genere un nouveau texte qui resume le contenu avec de nouvelles phrases."
+  },
+  {
+    "id": "nlp_077",
+    "question": "Pourquoi les stop words sont-ils parfois conserves dans les modeles NLP modernes ?",
+    "options": ["A) Ils sont toujours supprimes", "B) Les Transformers utilisent le contexte complet ; 'pas bon' perd son sens negatif si 'pas' est supprime", "C) Ils n'ont aucun impact", "D) Seuls les modeles anciens les suppriment"],
+    "answer": "B",
+    "explanation": "Avec BERT/GPT, chaque mot contribue au contexte : 'ne...pas' encode la negation. Supprimer les stop words detruit cette information."
+  },
+  {
+    "id": "nlp_078",
+    "question": "Comment les sequence labeling modeles (BiLSTM-CRF) fonctionnent-ils pour le NER ?",
+    "options": ["A) En classifiant le texte entier", "B) Le BiLSTM encode le contexte et le CRF optimise la sequence complete de labels", "C) En utilisant des regex", "D) En comptant les majuscules"],
+    "answer": "B",
+    "explanation": "BiLSTM produit un score par (token, label), le CRF optimise globalement la sequence en modelisant les transitions entre labels."
+  },
+  {
+    "id": "nlp_079",
+    "question": "Pourquoi le prompt tuning est-il plus efficient que le full fine-tuning ?",
+    "options": ["A) Il est plus precis", "B) Il entraine seulement quelques parametres (soft prompts) au lieu de tous les poids, reduisant le cout et le stockage", "C) Il fonctionne sans donnees", "D) Il est plus ancien"],
+    "answer": "B",
+    "explanation": "Le prompt tuning apprend des soft tokens prefixees a l'entree. Le LLM reste gele. Quelques milliers de parametres vs milliards."
+  },
+  {
+    "id": "nlp_080",
+    "question": "Comment les LLM agents utilisent-ils le NLP pour accomplir des taches complexes ?",
+    "options": ["A) Ils utilisent des regles", "B) Ils decomposent une tache en sous-taches, utilisent des outils et raisonnent etape par etape", "C) Ils ne font que generer du texte", "D) Ils fonctionnent sans modele"],
+    "answer": "B",
+    "explanation": "Les agents NLP : 1) pensent, 2) agissent (appel d'outil), 3) observent, 4) repetenent. Le LLM decide quand chercher, calculer ou repondre."
+  },
+  {
+    "id": "nlp_081",
+    "question": "Pourquoi le vocabulary size est-il un compromis important ?",
+    "options": ["A) Plus grand est toujours meilleur", "B) Trop petit = tokens UNK ; trop grand = embeddings rares et sous-entrainees + memoire", "C) La taille n'a pas d'importance", "D) 50K est la taille parfaite"],
+    "answer": "B",
+    "explanation": "BPE trouve le bon equilibre entre couverture et qualite des embeddings."
+  },
+  {
+    "id": "nlp_082",
+    "question": "Comment les text classification pipelines sont-ils structures ?",
+    "options": ["A) En un seul bloc", "B) Preprocessing tokenization encoding modele post-processing, chaque etape affectant la performance finale", "C) En utilisant uniquement des regex", "D) En utilisant des reseaux de neurones uniquement"],
+    "answer": "B",
+    "explanation": "Pipeline : 1) nettoyage, 2) tokenization, 3) encoding, 4) modele, 5) post-processing. Chaque maillon compte."
+  },
+  {
+    "id": "nlp_083",
+    "question": "Pourquoi les multimodal models integrent-ils vision et langage ?",
+    "options": ["A) Pour utiliser plus de GPU", "B) Beaucoup d'informations sont visuelles ; comprendre le monde necessite les deux modalites", "C) C'est une mode", "D) Le texte seul suffit"],
+    "answer": "B",
+    "explanation": "CLIP aligne images et textes dans un espace partage. GPT-4V comprend une image ET repond en langage naturel."
+  },
+  {
+    "id": "nlp_084",
+    "question": "Comment le constrained decoding garantit-il que la sortie respecte un format ?",
+    "options": ["A) En priant le modele", "B) Il masque les tokens invalides a chaque etape, forcant la generation a suivre un schema (JSON, regex)", "C) En post-traitant", "D) En utilisant un modele plus grand"],
+    "answer": "B",
+    "explanation": "Le constrained decoding restreint les tokens possibles a chaque etape selon une grammaire. 0% d'erreur de format."
+  },
+  {
+    "id": "nlp_085",
+    "question": "Pourquoi le data annotation est-il le bottleneck du NLP ?",
+    "options": ["A) Les donnees s'annotent toutes seules", "B) L'annotation manuelle est couteuse, lente et subjective ; la qualite des annotations plafonne la qualite du modele", "C) Seul le modele compte", "D) C'est un probleme resolu"],
+    "answer": "B",
+    "explanation": "L'annotation necessite des experts, est couteuse et subjective. Le modele ne peut pas depasser la qualite de ses annotations."
+  },
+  {
+    "id": "nlp_086",
+    "question": "Comment les LLM-powered evaluators evalue-ils les outputs NLP ?",
+    "options": ["A) En utilisant BLEU", "B) Un LLM (GPT-4) note la qualite d'une generation selon des criteres (pertinence, coherence, facticite)", "C) En comptant les mots", "D) En utilisant des humains"],
+    "answer": "B",
+    "explanation": "LLM-as-judge : demander a GPT-4 de noter une reponse selon des criteres. Correle bien avec le jugement humain. Rapide, scalable."
+  },
+  {
+    "id": "nlp_087",
+    "question": "Pourquoi l'adversarial NLP teste-t-elle la robustesse des modeles ?",
+    "options": ["A) Pour les rendre plus lents", "B) De petites modifications peuvent inverser la prediction sans changer le sens", "C) C'est inutile", "D) Seuls les modeles militaires sont testes"],
+    "answer": "B",
+    "explanation": "Les attaques adversariales modifient quelques mots pour changer la prediction. Teste la robustesse semantique."
+  },
+  {
+    "id": "nlp_088",
+    "question": "Comment le text normalization pour les reseaux sociaux ameliore-t-il le NLP ?",
+    "options": ["A) En ajoutant des emojis", "B) Il convertit 'bjr' 'bonjour', '2m1' 'demain', normalisant le langage SMS/tweet", "C) En supprimant les tweets", "D) En traduisant en anglais"],
+    "answer": "B",
+    "explanation": "La normalisation : 'slt cv ?' 'salut ca va ?'. Les modeles dedies sont fine-tunes sur ce type de texte."
+  },
+  {
+    "id": "nlp_089",
+    "question": "Pourquoi la model compression est-elle importante pour le deploiement NLP ?",
+    "options": ["A) Pour utiliser plus de ressources", "B) BERT-large (340M params) est trop lourd pour mobile/edge ; la compression reduit taille et latence", "C) Pour ameliorer la precision", "D) C'est optionnel"],
+    "answer": "B",
+    "explanation": "La compression : quantification, pruning, distillation. DistilBERT = 40% plus petit, 60% plus rapide, 97% des performances."
+  },
+  {
+    "id": "nlp_090",
+    "question": "Comment l'aspect-based sentiment analysis affine-t-il l'analyse de sentiment ?",
+    "options": ["A) En analysant plus de texte", "B) Il analyse le sentiment par aspect ('repas delicieux mais service lent') = repas:positif, service:negatif", "C) En utilisant des emojis", "D) En comptant les adjectifs"],
+    "answer": "B",
+    "explanation": "L'aspect-based SA decompose les sentiments par aspect. Plus fin que le sentiment global."
+  },
+  {
+    "id": "nlp_091",
+    "question": "Pourquoi les pre-trained language models sont-ils des foundation models ?",
+    "options": ["A) Ils sont faciles a utiliser", "B) Ils servent de fondation adaptable a des centaines de taches NLP via fine-tuning ou prompting", "C) Ils sont les plus petits", "D) C'est un terme marketing"],
+    "answer": "B",
+    "explanation": "Un seul modele pre-entraine sert a classification, NER, QA, resume, traduction, etc. Via fine-tuning, prompting ou few-shot."
+  },
+  {
+    "id": "nlp_092",
+    "question": "Comment evalue-t-on la diversite des generations textuelles ?",
+    "options": ["A) En comptant les mots", "B) Via distinct-n (proportion de n-grammes uniques) et entropy qui mesurent la variete du vocabulaire genere", "C) En utilisant BLEU", "D) En mesurant la vitesse"],
+    "answer": "B",
+    "explanation": "Distinct-1/Distinct-2 : proportion d'unigrammes/bigrammes uniques. Haute diversite = vocabulaire varie."
+  },
+  {
+    "id": "nlp_093",
+    "question": "Pourquoi les prompt templates sont-ils importants ?",
+    "options": ["A) Pour decorer les prompts", "B) Le template structure l'instruction ; un bon template ameliore la performance de 10-30%", "C) Tous les templates sont equivalens", "D) C'est du prompting basique"],
+    "answer": "B",
+    "explanation": "Le template clarifie la tache. Le choix du template a un impact mesurable sur les performances."
+  },
+  {
+    "id": "nlp_094",
+    "question": "Comment les vision-language models utilisent-ils le NLP pour decrire des images ?",
+    "options": ["A) En utilisant des legendes pre-ecrites", "B) Ils encodent l'image en features visuelles, les projettent dans l'espace du LLM qui genere la description textuelle", "C) En cherchant des images similaires", "D) En utilisant des metadonnees"],
+    "answer": "B",
+    "explanation": "ViT encode l'image, un adapter projette dans l'espace du LLM, qui genere la description."
+  },
+  {
+    "id": "nlp_095",
+    "question": "Pourquoi le code-switching pose-t-il un defi unique au NLP multilingue ?",
+    "options": ["A) Ce n'est pas un probleme", "B) Les locuteurs melangent les langues ; les modeles doivent gerer les transitions de langue", "C) C'est rare", "D) Seuls les modeles bilingues sont concernes"],
+    "answer": "B",
+    "explanation": "Le code-switching melange deux langues dans une meme phrase. Tres courant (Hinglish, Spanglish, Franglais). Les modeles doivent identifier la langue a chaque token."
+  },
+  {
+    "id": "nlp_096",
+    "question": "Vous devez construire un systeme FAQ intelligent. Quelle approche NLP est la plus adaptee ?",
+    "options": ["A) Un simple moteur de recherche par mots-cles", "B) Un systeme RAG : embeddings des FAQ + vector search + LLM pour reformuler les reponses", "C) Un chatbot base sur des regles", "D) Un systeme de matching exact"],
+    "answer": "B",
+    "explanation": "RAG : encoder les Q/R en embeddings, retrouver la FAQ similaire (semantic search), le LLM reformule en contexte conversationnel."
+  },
+  {
+    "id": "nlp_097",
+    "question": "Comment le Next Token Prediction pre-entraine-t-il les modeles comme GPT ?",
+    "options": ["A) En predissant le milieu de la phrase", "B) A chaque position, le modele predit le token suivant a partir de tous les tokens precedents", "C) En traduisant", "D) En supprimant des mots"],
+    "answer": "B",
+    "explanation": "Le CLM (Causal Language Model) maximise P(w_t | w_1, ..., w_{t-1}). En predissant des milliards de tokens suivants, le modele apprend la grammaire, les faits et le raisonnement."
+  },
+  {
+    "id": "nlp_098",
+    "question": "Pourquoi l'embedding [SEP] est-il utilise dans BERT ?",
+    "options": ["A) Pour separer les phrases", "B) Il marque la separation entre deux segments (question + contexte) dans les taches de paire de sequences", "C) Pour terminer la sequence", "D) Pour debug"],
+    "answer": "B",
+    "explanation": "[SEP] separe les deux segments en entree : 'Question [SEP] Contexte'. Permet au modele de distinguer les deux parties. Utilise en NLI, QA, et similarite de phrases."
+  },
+  {
+    "id": "nlp_099",
+    "question": "Comment les modeles de spoken language understanding (SLU) combinent-ils ASR et NLU ?",
+    "options": ["A) Ils ne combinent rien", "B) Ils effectuent la reconnaissance vocale et la comprehension semantique (intent + slots) conjointement", "C) Ils traduisent seulement", "D) Ils ne fonctionnent qu'avec du texte"],
+    "answer": "B",
+    "explanation": "Le SLU (ex: Alexa, Google Assistant) combine ASR (audio texte) et NLU (intent + slot extraction) pour comprendre et agir sur les commandes vocales."
+  },
+  {
+    "id": "nlp_100",
+    "question": "Pourquoi les modeles comme Whisper sont-ils revolutionnaires pour le multilingual ASR ?",
+    "options": ["A) Ils ne fonctionnent qu'en anglais", "B) Ils sont entraines sur 680K heures de donnees multilingues, performant sur 99 langues sans fine-tuning specifique", "C) Ils sont trop lents", "D) Ils necessitent beaucoup de donnees annotees"],
+    "answer": "B",
+    "explanation": "Whisper (OpenAI, 2022) est pre-entraine sur 680K heures couvrant 99 langues. Il transcrit, traduit et detecte la langue sans fine-tuning. Robuste au bruit et aux accents."
+  }
+]

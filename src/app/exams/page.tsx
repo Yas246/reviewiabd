@@ -8,9 +8,9 @@ import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { DomainBadge } from "@/components/features/DomainSelector";
-import { History, Trophy, Target, TrendingUp, Calendar } from "lucide-react";
+import { History, Trophy, Target, TrendingUp, Calendar, FileText } from "lucide-react";
 import { indexedDBService } from "@/services/IndexedDBService";
-import { SavedExam, ExamAttempt } from "@/types";
+import { SavedExam, ExamAttempt, QuizSession } from "@/types";
 
 // ============================================
 // EXAMS HISTORY PAGE
@@ -20,6 +20,7 @@ import { SavedExam, ExamAttempt } from "@/types";
 export default function ExamsPage() {
   const router = useRouter();
   const [exams, setExams] = useState<SavedExam[]>([]);
+  const [activeExamSession, setActiveExamSession] = useState<QuizSession | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -31,6 +32,15 @@ export default function ExamsPage() {
 
         console.log('[Exams] Found', allExams.length, 'saved exams');
         setExams(allExams);
+
+        // Check for active exam sessions
+        const inProgress = await indexedDBService.getSessionsByStatus("IN_PROGRESS");
+        const paused = await indexedDBService.getSessionsByStatus("PAUSED");
+        const active = [...inProgress, ...paused].find(s => s.type === "exam");
+        if (active) {
+          setActiveExamSession(active);
+        }
+
         setLoading(false);
       } catch (error) {
         console.error('[Exams] Failed to load exams:', error);
@@ -165,6 +175,45 @@ export default function ExamsPage() {
           title="Historique des Examens"
           description={`${stats.count} examen${stats.count > 1 ? 's' : ''} créé${stats.count > 1 ? 's' : ''} • ${stats.totalAttempts} tentative${stats.totalAttempts > 1 ? 's' : ''}`}
         />
+
+        {/* Active Exam Session Banner */}
+        {activeExamSession && (
+          <Card className="mb-8 border-l-4 border-l-accent animate-fade-in-down">
+            <CardContent>
+              <div className="flex items-start gap-3">
+                <FileText className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+                <div className="flex-1">
+                  <h3 className="font-mono font-semibold mb-1">
+                    Examen en cours
+                  </h3>
+                  <p className="text-sm text-ink-secondary mb-1">
+                    {Object.keys(activeExamSession.userAnswers).length} / {activeExamSession.questions.length} questions répondues
+                    {activeExamSession.domain && ` — ${activeExamSession.domain.replace(/_/g, " ")}`}
+                  </p>
+                  <div className="flex gap-3 mt-3">
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      onClick={() => window.location.href = `/quiz?session=${activeExamSession.id}`}
+                    >
+                      Continuer
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={async () => {
+                        await indexedDBService.deleteSession(activeExamSession.id);
+                        setActiveExamSession(null);
+                      }}
+                    >
+                      Recommencer
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-8">

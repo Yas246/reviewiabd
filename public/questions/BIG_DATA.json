@@ -1,0 +1,1182 @@
+[
+  {
+    "id": "bd_001",
+    "question": "Combien de V définissent traditionnellement le Big Data ?",
+    "options": ["A) 2", "B) 3", "C) 5", "D) 7"],
+    "answer": "B",
+    "explanation": "Le Big Data est traditionnellement défini par 3 V : Volume (quantité), Vélocité (vitesse) et Variété (types de données), formulés par Doug Laney en 2001. (Le piège ici est le 'traditionnellement')"
+  },
+  {
+    "id": "bd_002",
+    "question": "Pourquoi le traitement batch de Hadoop MapReduce est-il moins adapté aux analyses en temps réel ?",
+    "options": [
+      "A) Il ne supporte pas les données structurées",
+      "B) Il écrit les résultats sur disque à chaque étape, ce qui crée une latence importante",
+      "C) Il ne peut traiter qu'un seul fichier à la fois",
+      "D) Il nécessite une connexion Internet permanente"
+    ],
+    "answer": "B",
+    "explanation": "MapReduce écrit les résultats intermédiaires sur disque (I/O coûteux) entre les phases Map et Reduce, ce qui introduit une latence incompatible avec les besoins temps réel. Spark résout cela avec le traitement en mémoire."
+  },
+  {
+    "id": "bd_003",
+    "question": "Dans un cluster Hadoop, que se passe-t-il si un DataNode tombe en panne ?",
+    "options": [
+      "A) Toutes les données sont perdues",
+      "B) Le NameNode redistribue les blocs répliqués depuis les autres DataNodes",
+      "C) Le cluster s'arrête complètement",
+      "D) Les données sont automatiquement envoyées vers le cloud"
+    ],
+    "answer": "B",
+    "explanation": "HDFS maintient des réplicas (par défaut 3) de chaque bloc sur différents DataNodes. Si un DataNode tombe, le NameNode détecte l'absence et garantit la réplication minimale à partir des copies existantes."
+  },
+  {
+    "id": "bd_004",
+    "question": "Quel est le rôle du NameNode dans HDFS ?",
+    "options": [
+      "A) Stocker physiquement les blocs de données",
+      "B) Gérer le système de fichiers et les métadonnées (arborescence, localisation des blocs)",
+      "C) Exécuter les jobs MapReduce",
+      "D) Surveiller le réseau"
+    ],
+    "answer": "B",
+    "explanation": "Le NameNode est le maître du cluster HDFS. Il maintient l'arborescence des fichiers, les métadonnées et la localisation de chaque bloc sur les DataNodes, mais ne stocke pas les données lui-même."
+  },
+  {
+    "id": "bd_005",
+    "question": "Comment Apache Spark parvient-il à être jusqu'à 100 fois plus rapide que MapReduce ?",
+    "options": [
+      "A) En utilisant un langage plus rapide",
+      "B) En effectuant les traitements en mémoire (in-memory) via les RDD et en évitant les écritures disque intermédiaires",
+      "C) En compressant davantage les données",
+      "D) En utilisant un réseau plus rapide"
+    ],
+    "answer": "B",
+    "explanation": "Spark conserve les données en mémoire RAM entre les opérations successives (RDD lineage), évitant les écritures/lectures disque coûteuses de MapReduce. Le DAG d'exécution optimise aussi le plan de traitement."
+  },
+  {
+    "id": "bd_006",
+    "question": "Parmi ces technologies, laquelle est un système de messagerie distribué utilisé pour le streaming de données en temps réel ?",
+    "options": ["A) HDFS", "B) Apache Kafka", "C) Hive", "D) Pig"],
+    "answer": "B",
+    "explanation": "Apache Kafka est une plateforme de streaming distribué qui permet de publier, stocker et traiter des flux de données en temps réel. Il est utilisé comme bus de messages entre producteurs et consommateurs de données."
+  },
+  {
+    "id": "bd_007",
+    "question": "Vous devez analyser des logs de serveur web en temps réel pour détecter des intrusions. Quelle combinaison de technologies est la plus adaptée ?",
+    "options": [
+      "A) HDFS + MapReduce",
+      "B) Kafka + Spark Streaming",
+      "C) Excel + Outlook",
+      "D) MySQL + PHP"
+    ],
+    "answer": "B",
+    "explanation": "Kafka collecte les logs en temps réel comme un flux continu, et Spark Streaming les analyse en micro-batchs pour détecter des patterns d'intrusion avec une latence de quelques secondes."
+  },
+  {
+    "id": "bd_008",
+    "question": "Quelle est la différence fondamentale entre HDFS et un système de fichiers classique ?",
+    "options": [
+      "A) HDFS ne peut stocker que des images",
+      "B) HDFS est conçu pour stocker de très gros fichiers en les découpant en blocs distribués sur plusieurs machines",
+      "C) HDFS est plus rapide pour les petits fichiers",
+      "D) HDFS fonctionne uniquement sous Windows"
+    ],
+    "answer": "B",
+    "explanation": "HDFS découpe les fichiers en blocs (128 Mo par défaut) et les distribue sur plusieurs DataNodes avec réplication, optimisé pour les lectures séquentielles de gros fichiers plutôt que les accès aléatoires."
+  },
+  {
+    "id": "bd_009",
+    "question": "Pourquoi le format de fichier Parquet est-il privilégié dans les environnements Big Data ?",
+    "options": [
+      "A) Il est compatible uniquement avec Java",
+      "B) Son stockage en colonnes et sa compression poussée réduisent drastiquement l'I/O et le stockage",
+      "C) Il est plus facile à lire pour les humains",
+      "D) Il fonctionne sans schéma"
+    ],
+    "answer": "B",
+    "explanation": "Parquet stocke les données par colonne, permettant une compression très efficace (encodage RLE, dictionnaire) et de ne lire que les colonnes nécessaires lors d'une requête, réduisant considérablement les I/O."
+  },
+  {
+    "id": "bd_010",
+    "question": "Dans le contexte du Big Data, que signifie la 'Vélocité' ?",
+    "options": [
+      "A) La vitesse des processeurs",
+      "B) La rapidité à laquelle les données sont générées et doivent être traitées",
+      "C) La vitesse de connexion Internet",
+      "D) La fréquence des sauvegardes"
+    ],
+    "answer": "B",
+    "explanation": "La Vélocité fait référence à la vitesse de génération et de traitement des données. Certaines sources (capteurs IoT, réseaux sociaux) produisent des données en continu qui doivent être analysées en temps réel."
+  },
+  {
+    "id": "bd_011",
+    "question": "Quel type de données n'est PAS considéré comme de la donnée non structurée ?",
+    "options": [
+      "A) Les vidéos de surveillance",
+      "B) Les tweets sans métadonnées",
+      "C) Les enregistrements d'une table MySQL relationnelle",
+      "D) Les images médicales"
+    ],
+    "answer": "C",
+    "explanation": "Les enregistrements d'une table MySQL sont des données structurées (schéma fixe, lignes et colonnes). Les vidéos, tweets et images sont des données non structurées qui ne suivent pas de schéma prédéfini."
+  },
+  {
+    "id": "bd_012",
+    "question": "Comment le framework Apache Flink se distingue-t-il de Spark Streaming ?",
+    "options": [
+      "A) Flink ne supporte que le batch",
+      "B) Flink offre un véritable traitement event-by-event (true streaming) avec exactement-once",
+      "C) Flink est plus lent",
+      "D) Flink ne fonctionne pas en cluster"
+    ],
+    "answer": "B",
+    "explanation": "Contrairement à Spark Streaming qui traite par micro-batchs, Flink traite chaque événement individuellement (true streaming) et garantit la sémantique exactly-once, adapté aux applications critiques en temps réel."
+  },
+  {
+    "id": "bd_013",
+    "question": "Dans un scénario où vous traitez 10 To de données de logs quotidiennement, pourquoi préférer un stockage distribué plutôt qu'une base relationnelle ?",
+    "options": [
+      "A) Les bases relationnelles ne peuvent pas stocker de logs",
+      "B) Le stockage distribué scale horizontalement en ajoutant des machines bon marché, là où un SGBDR atteint vite ses limites",
+      "C) Les bases relationnelles sont trop sécurisées",
+      "D) Le stockage distribué est obligatoire par loi"
+    ],
+    "answer": "B",
+    "explanation": "Les bases relationnelles scalent verticalement (machine plus puissante = coûteux), tandis que le stockage distribué (HDFS, S3) scale horizontalement en ajoutant des serveurs commodity, adapté aux volumes pétaoctets."
+  },
+  {
+    "id": "bd_014",
+    "question": "Lequel de ces outils sert principalement à orchestrer des workflows de données complexes ?",
+    "options": [
+      "A) Apache Hive",
+      "B) Apache Airflow",
+      "C) Apache HBase",
+      "D) Apache Flume"
+    ],
+    "answer": "B",
+    "explanation": "Apache Airflow orchestre des workflows de données en définissant des DAGs (Directed Acyclic Graphs) de tâches, gérant les dépendances, les relances et la planification de pipelines ETL complexes."
+  },
+  {
+    "id": "bd_015",
+    "question": "Pourquoi le format Avant est-il souvent choisi pour sérialiser des données dans l'écosystème Hadoop ?",
+    "options": [
+      "A) Il produit les fichiers les plus petits",
+      "B) Il offre un schéma intégré, l'évolution de schéma et la compatibilité entre langages",
+      "C) Il est le seul format supporté par Spark",
+      "D) Il est plus rapide que le format binaire"
+    ],
+    "answer": "B",
+    "explanation": "Avro intègre le schéma JSON dans chaque fichier, supporte l'évolution de schéma (ajout/suppression de champs) et offre des bindings pour de nombreux langages, idéal pour l'échange de données entre systèmes."
+  },
+  {
+    "id": "bd_016",
+    "question": "Quel est l'avantage principal de la architecture Lambda par rapport à un pipeline batch classique ?",
+    "options": [
+      "A) Elle est moins coûteuse",
+      "B) Elle combine un chemin batch (données historiques complètes) et un chemin speed (résultats en temps réel)",
+      "C) Elle ne nécessite qu'un seul serveur",
+      "D) Elle supprime le besoin de nettoyage de données"
+    ],
+    "answer": "B",
+    "explanation": "L'architecture Lambda maintient deux chemins parallèles : un batch layer pour des résultats précis sur l'historique complet, et un speed layer pour des résultats approchés en temps réel. Les deux sont fusionnés dans le serving layer."
+  },
+  {
+    "id": "bd_017",
+    "question": "Dans Kafka, que se passe-t-il si un consommateur ne lit plus les messages pendant longtemps ?",
+    "options": [
+      "A) Les messages sont supprimés immédiatement",
+      "B) Selon la configuration de retention, les messages plus anciens sont supprimés automatiquement",
+      "C) Kafka envoie une alerte et arrête le topic",
+      "D) Les messages sont transférés vers HDFS"
+    ],
+    "answer": "B",
+    "explanation": "Kafka applique une politique de retention (par durée ou par taille) sur chaque topic. Les messages dépassant cette politique sont supprimés automatiquement, indépendamment de s'ils ont été consommés ou non."
+  },
+  {
+    "id": "bd_018",
+    "question": "Comment le sharding contribue-t-il aux performances dans les bases de données NoSQL ?",
+    "options": [
+      "A) En dupliquant toutes les données sur chaque serveur",
+      "B) En répartissant les données sur plusieurs serveurs selon une clé de partitionnement",
+      "C) En compressant les données",
+      "D) En chiffrant les données"
+    ],
+    "answer": "B",
+    "explanation": "Le sharding (partitionnement horizontal) distribue les données sur plusieurs serveurs selon une clé de shard. Chaque serveur gère un sous-ensemble des données, permettant un traitement parallèle et une scalabilité horizontale."
+  },
+  {
+    "id": "bd_019",
+    "question": "Pourquoi dit-on que Cassandra est optimisée pour les écritures ?",
+    "options": [
+      "A) Elle ne permet pas les lectures",
+      "B) Elle utilise un modèle SSTable + MemTable où les écritures sont d'abord en mémoire puis flushées séquentiellement sur disque",
+      "C) Elle compresse les données avant écriture",
+      "D) Elle utilise un réseau fibre optique"
+    ],
+    "answer": "B",
+    "explanation": "Cassandra écrit d'abord en mémoire (MemTable) et dans un commit log séquentiel, puis flush en SSTables sur disque. Les écritures séquentielles sont extrêmement rapides, rendant Cassandra idéale pour les workloads à forte écriture."
+  },
+  {
+    "id": "bd_020",
+    "question": "Dans quel cas utiliseriez-vous HBase plutôt que Hive ?",
+    "options": [
+      "A) Pour des analyses complexes sur des téraoctets avec des jointures",
+      "B) Pour des lectures/écritures aléatoires en temps réel sur des milliards de lignes par clé",
+      "C) Pour générer des rapports PDF",
+      "D) Pour créer des dashboards"
+    ],
+    "answer": "B",
+    "explanation": "HBase est une base de données colonne NoSQL optimisée pour les accès aléatoires en temps réel par clé. Hive est un entrepôt de données pour des requêtes batch complexes. Le choix dépend du pattern d'accès."
+  },
+  {
+    "id": "bd_021",
+    "question": "Quel est le principal inconvénient de l'architecture Lambda ?",
+    "options": [
+      "A) Elle est trop lente",
+      "B) La complexité de maintenir deux pipelines (batch et speed) avec une logique dupliquée",
+      "C) Elle ne supporte pas le temps réel",
+      "D) Elle est limitée à 1 To de données"
+    ],
+    "answer": "B",
+    "explanation": "L'architecture Lambda requiert de maintenir deux codebases séparées (batch et speed) avec la même logique métier, doublant la complexité de développement, de test et de maintenance."
+  },
+  {
+    "id": "bd_022",
+    "question": "Comment l'architecture Kappa résout-elle le problème de la complexité de Lambda ?",
+    "options": [
+      "A) En supprimant le batch layer et en utilisant un seul pipeline streaming pour tout",
+      "B) En ajoutant un troisième layer",
+      "C) En utilisant uniquement du batch",
+      "D) En supprimant les données historiques"
+    ],
+    "answer": "A",
+    "explanation": "L'architecture Kappa (proposée par Jay Kreps) élimine le batch layer et traite tout via un seul pipeline streaming. Pour recalculer l'historique, on relit le log depuis le début, simplifiant l'architecture."
+  },
+  {
+    "id": "bd_023",
+    "question": "Parmi ces bases NoSQL, laquelle suit le modèle graphe ?",
+    "options": ["A) MongoDB", "B) Cassandra", "C) Neo4j", "D) Redis"],
+    "answer": "C",
+    "explanation": "Neo4j est la base de données graphe la plus populaire. Elle stocke les données sous forme de nœuds et de relations, optimisée pour les requêtes traversant des connexions complexes (réseaux sociaux, recommandations, fraudes)."
+  },
+  {
+    "id": "bd_024",
+    "question": "Si vous devez stocker des sessions utilisateur temporaires avec une expiration automatique, quelle technologie recommanderiez-vous ?",
+    "options": ["A) HDFS", "B) Redis", "C) Hive", "D) HBase"],
+    "answer": "B",
+    "explanation": "Redis est un store clé-valeur en mémoire qui supporte nativement l'expiration automatique (TTL). Parfait pour les sessions temporaires, les caches et les compteurs avec des performances en microsecondes."
+  },
+  {
+    "id": "bd_025",
+    "question": "Pourquoi le modèle de programmation MapReduce porte-il ce nom ?",
+    "options": [
+      "A) C'est le nom de ses créateurs",
+      "B) Il divise le traitement en deux phases : Map (filtrer/classer) et Reduce (agréger/résumer)",
+      "C) Il cartographie les données puis les réduit",
+      "D) C'est un acronyme"
+    ],
+    "answer": "B",
+    "explanation": "Le nom vient des deux fonctions fonctionnelles : Map applique une opération à chaque élément et produit des paires clé-valeur, Reduce agrège les valeurs partageant la même clé en un résultat unique."
+  },
+  {
+    "id": "bd_026",
+    "question": "Dans Spark, quelle est la différence entre un RDD et un DataFrame ?",
+    "options": [
+      "A) Ils sont identiques",
+      "B) Le RDD est non typé et sans optimisation, le DataFrame a un schéma et bénéficie de l'optimiseur Catalyst",
+      "C) Le DataFrame est plus ancien",
+      "D) Le RDD fonctionne uniquement en Python"
+    ],
+    "answer": "B",
+    "explanation": "Les RDDs sont des collections distribuées non typées sans optimisation. Les DataFrames ont un schéma défini et bénéficient de Catalyst (optimiseur) et de Tungsten (génération de code), offrant de bien meilleures performances."
+  },
+  {
+    "id": "bd_027",
+    "question": "Quel mécanisme garantit la tolérance aux pannes dans Apache Spark ?",
+    "options": [
+      "A) La réplication des données sur tous les nœuds",
+      "B) Le lineage des RDD : Spark retrace les transformations pour reconstruire les partitions perdues",
+      "C) Un système de backup quotidien",
+      "D) La redondance du réseau"
+    ],
+    "answer": "B",
+    "explanation": "Spark maintient le DAG (lineage) des transformations appliquées à chaque RDD. Si une partition est perdue suite à une panne, Spark la reconstruit en relisant les données sources et en rejouant les transformations."
+  },
+  {
+    "id": "bd_028",
+    "question": "Comment le YARN (Yet Another Resource Negotiator) fonctionne-t-il dans Hadoop ?",
+    "options": [
+      "A) Il stocke les données",
+      "B) Il gère les ressources du cluster en allouant CPU et mémoire aux applications via un ResourceManager et des NodeManagers",
+      "C) Il exécute les requêtes SQL",
+      "D) Il surveille la température des serveurs"
+    ],
+    "answer": "B",
+    "explanation": "YARN est le gestionnaire de ressources de Hadoop. Le ResourceManager gère les ressources globales du cluster, et les NodeManagers sur chaque machine allouent des conteneurs (CPU + RAM) aux applications."
+  },
+  {
+    "id": "bd_029",
+    "question": "Pourquoi le concept de 'data locality' est-il crucial dans les performances Big Data ?",
+    "options": [
+      "A) Pour des raisons de sécurité",
+      "B) Déplacer le calcul vers les données (et non l'inverse) réduit les transferts réseau coûteux",
+      "C) Pour respecter les lois locales",
+      "D) Pour faciliter le débogage"
+    ],
+    "answer": "B",
+    "explanation": "La data locality rapproche le calcul des données stockées. Dans HDFS, MapReduce envoie les tâches aux DataNodes qui possèdent les blocs de données concernés, évitant de transférer des téraoctets sur le réseau."
+  },
+  {
+    "id": "bd_030",
+    "question": "Quel est le rôle du ZooKeeper dans l'écosystème Big Data ?",
+    "options": [
+      "A) Stocker de gros volumes de données",
+      "B) Offrir un service de coordination distribué (élection de leader, gestion de configuration, synchronisation)",
+      "C) Exécuter des algorithmes de Machine Learning",
+      "D) Visualiser les données"
+    ],
+    "answer": "B",
+    "explanation": "ZooKeeper est un service de coordination pour systèmes distribués. Il gère l'élection de leader (Kafka, HBase), la configuration, la synchronisation et la notification entre les nœuds du cluster."
+  },
+  {
+    "id": "bd_031",
+    "question": "Dans un pipeline de données, à quoi sert un outil comme Apache NiFi ?",
+    "options": [
+      "A) À exécuter des modèles de Machine Learning",
+      "B) À automatiser et surveiller visuellement les flux de données entre systèmes hétérogènes",
+      "C) À chiffrer les données",
+      "D) À créer des dashboards"
+    ],
+    "answer": "B",
+    "explanation": "Apache NiFi permet de créer visuellement des flux de données (dataflows) entre systèmes, avec routage, transformation, priorisation et monitoring, sans écrire de code. Idéal pour l'intégration de données en temps réel."
+  },
+  {
+    "id": "bd_032",
+    "question": "Vous analysez les données de capteurs IoT qui envoient 10 000 événements par seconde. Quel pattern d'architecture est le plus adapté ?",
+    "options": [
+      "A) Charger les données dans MySQL toutes les heures",
+      "B) Edge computing + Kafka + traitement streaming pour analyser et réagir en temps réel",
+      "C) Stocker dans des fichiers CSV et analyser le lendemain",
+      "D) Utiliser un tableur Excel"
+    ],
+    "answer": "B",
+    "explanation": "Le pattern Edge + Kafka + Streaming permet d'ingérer le flux continu à haute vélocité, de filtrer/transformer en temps réel et de déclencher des alertes immédiates, essentiel pour l'IoT à grande échelle."
+  },
+  {
+    "id": "bd_033",
+    "question": "Parmi ces formats de fichiers, lequel est le plus adapté pour le stockage de données structurées interrogées fréquemment par colonnes ?",
+    "options": [
+      "A) CSV",
+      "B) JSON",
+      "C) ORC (Optimized Row Columnar)",
+      "D) XML"
+    ],
+    "answer": "C",
+    "explanation": "ORC est un format colonne optimisé pour Hive/Spark. Il offre une compression élevée, des statistiques par colonne (min/max/count) et la possibilité de ne lire que les colonnes nécessaires, accélérant les requêtes."
+  },
+  {
+    "id": "bd_034",
+    "question": "Comment le concept de 'Event Sourcing' est-il utilisé dans les architectures Big Data ?",
+    "options": [
+      "A) En supprimant les événements après traitement",
+      "B) En stockant chaque changement d'état comme un événement immuable, permettant de reconstruire l'état à tout instant",
+      "C) En compressant les événements",
+      "D) En ignorant les événements anciens"
+    ],
+    "answer": "B",
+    "explanation": "L'Event Sourcing stocke chaque changement comme un événement dans un log ordonné (souvent Kafka). L'état actuel est reconstruit en relisant les événements, offrant auditabilité et capacité de rejeu complet."
+  },
+  {
+    "id": "bd_035",
+    "question": "Pourquoi le CAP Theorem est-il fondamental pour comprendre les bases de données distribuées ?",
+    "options": [
+      "A) Il définit les types de données possibles",
+      "B) Il prouve qu'un système distribué ne peut garantir simultanément Cohérence, Disponibilité et Tolérance aux partitions",
+      "C) Il détermine la vitesse du réseau",
+      "D) Il fixe le prix des serveurs"
+    ],
+    "answer": "B",
+    "explanation": "Le théorème CAP (Brewer) établit qu'en cas de partition réseau, un système doit choisir entre Cohérence (C) et Disponibilité (A). La Tolérance aux partitions (P) est obligatoire dans un système distribué."
+  },
+  {
+    "id": "bd_036",
+    "question": "Quel est le bon cas d'usage pour Elasticsearch dans un environnement Big Data ?",
+    "options": [
+      "A) Le stockage de données brutes à long terme",
+      "B) La recherche full-text en temps réel et l'analytique de logs à grande échelle",
+      "C) Le Machine Learning supervisé",
+      "D) La gestion de transactions bancaires"
+    ],
+    "answer": "B",
+    "explanation": "Elasticsearch est un moteur de recherche et d'analytique distribué basé sur Lucene. Excellent pour la recherche full-text, l'analytique de logs (avec la stack ELK) et les dashboards en temps réel."
+  },
+  {
+    "id": "bd_037",
+    "question": "Dans le contexte du Big Data, que signifie le terme 'Variété' ?",
+    "options": [
+      "A) Le nombre de formats de fichiers supportés",
+      "B) La diversité des types et formats de données (structurées, semi-structurées, non structurées)",
+      "C) La variété de langages de programmation",
+      "D) Le nombre de bases de données utilisées"
+    ],
+    "answer": "B",
+    "explanation": "La Variété désigne l'hétérogénéité des données : structurées (SQL), semi-structurées (JSON, XML) et non structurées (texte, images, vidéos). Le Big Data doit intégrer et analyser tous ces types conjointement."
+  },
+  {
+    "id": "bd_038",
+    "question": "Comment le mécanisme de 'compaction' fonctionne-t-il dans Cassandra ?",
+    "options": [
+      "A) Il compresse les données avec gzip",
+      "B) Il fusionne plusieurs SSTables pour éliminer les données obsolètes et récupérer l'espace",
+      "C) Il supprime les données anciennes",
+      "D) Il chiffre les données"
+    ],
+    "answer": "B",
+    "explanation": "La compaction dans Cassandra fusionne les SSTables en supprimant les tombstones (données supprimées) et les versions obsolètes, récupérant l'espace disque et optimisant les performances de lecture."
+  },
+  {
+    "id": "bd_039",
+    "question": "Quel est le principal avantage de l'approche Schema-on-Read utilisée par Hive ?",
+    "options": [
+      "A) Les données sont immédiatement structurées",
+      "B) Elle permet d'appliquer un schéma au moment de la lecture, offrant une flexibilité maximale sur des données brutes variées",
+      "C) Elle garantit une qualité parfaite des données",
+      "D) Elle accélère les écritures"
+    ],
+    "answer": "B",
+    "explanation": "Hive utilise le Schema-on-Read : les données brutes sont stockées sans contrainte de schéma, et la structure est appliquée uniquement lors de la requête. Cela permet d'interroger des données hétérogènes sans préparation."
+  },
+  {
+    "id": "bd_040",
+    "question": "Vous devez choisir entre MongoDB et Cassandra pour une application nécessitant des écritures massives sur plusieurs data centers. Lequel choisissez-vous et pourquoi ?",
+    "options": [
+      "A) MongoDB, car il supporte les transactions ACID",
+      "B) Cassandra, car sa architecture masterless et sa réplication configurable offrent une disponibilité et une scalabilité d'écriture multi-DC optimales",
+      "C) MongoDB, car il est plus populaire",
+      "D) Les deux sont équivalents pour ce cas"
+    ],
+    "answer": "B",
+    "explanation": "Cassandra est masterless (pas de point unique de défaillance) et supporte la réplication multi-data center configurable. Son modèle d'écriture optimisé (SSTables) excelle dans les scenarios d'écriture massive distribuée."
+  },
+  {
+    "id": "bd_041",
+    "question": "Quelle est la différence entre le scaling horizontal et le scaling vertical ?",
+    "options": [
+      "A) Horizontal = ajouter des machines ; Vertical = améliorer une machine existante",
+      "B) Horizontal = améliorer une machine ; Vertical = ajouter des machines",
+      "C) Les deux signifient la même chose",
+      "D) Horizontal = cloud ; Vertical = on-premise"
+    ],
+    "answer": "A",
+    "explanation": "Le scaling horizontal (scale-out) ajoute des serveurs au cluster. Le scaling vertical (scale-up) améliore un serveur existant (CPU, RAM). Le Big Data privilégie le horizontal pour sa scalabilité et son rapport coût/performance."
+  },
+  {
+    "id": "bd_042",
+    "question": "Comment le moteur de requête Presto/Trino se différencie-t-il de Hive ?",
+    "options": [
+      "A) Il stocke les données différemment",
+      "B) Il exécute les requêtes SQL en mémoire et en parallèle sur plusieurs sources, sans MapReduce, offrant des résultats beaucoup plus rapides",
+      "C) Il ne supporte que les données structurées",
+      "D) Il est limité à une seule source de données"
+    ],
+    "answer": "B",
+    "explanation": "Presto/Trino est un moteur de requête SQL distribué qui exécute en mémoire et en parallèle, sans écrire sur disque entre les étapes. Il peut interroger simultanément Hive, MySQL, S3, Kafka et d'autres sources."
+  },
+  {
+    "id": "bd_043",
+    "question": "Dans le contexte du Big Data, que signifie le terme 'Volume' ?",
+    "options": [
+      "A) Le volume sonore des serveurs",
+      "B) La quantité massive de données générée, souvent mesurée en téraoctets ou pétaoctets",
+      "C) Le nombre de volumes (livres) de documentation",
+      "D) Le volume d'affaires de l'entreprise"
+    ],
+    "answer": "B",
+    "explanation": "Le Volume fait référence à la quantité gigantesque de données produites quotidiennement (réseaux sociaux, capteurs IoT, transactions). Ces volumes dépassent la capacité des systèmes traditionnels, nécessitant des solutions Big Data."
+  },
+  {
+    "id": "bd_044",
+    "question": "Quand utiliseriez-vous Apache Storm plutôt que Spark Streaming ?",
+    "options": [
+      "A) Pour des analyses batch",
+      "B) Quand la latence doit être de l'ordre de la milliseconde par événement (true real-time)",
+      "C) Pour des requêtes SQL",
+      "D) Pour du Machine Learning"
+    ],
+    "answer": "B",
+    "explanation": "Apache Storm traite chaque tuple individuellement avec une latence sub-milliseconde, là où Spark Streaming traite par micro-batchs (latence de quelques secondes). Storm est choisi quand chaque milliseconde compte."
+  },
+  {
+    "id": "bd_045",
+    "question": "Quel est le rôle du 'Offset' dans Apache Kafka ?",
+    "options": [
+      "A) Décaler les données dans le temps",
+      "B) Un identifiant unique et séquentiel assigné à chaque message dans une partition, permettant de suivre la position du consommateur",
+      "C) Un décalage de sécurité",
+      "D) Une compensation réseau"
+    ],
+    "answer": "B",
+    "explanation": "L'offset est un numéro séquentiel unique dans chaque partition. Les consommateurs utilisent l'offset pour suivre leur position de lecture et peuvent reprendre depuis un point précis en cas de panne."
+  },
+  {
+    "id": "bd_046",
+    "question": "Comment Delta Lake améliore-t-il le Data Lake traditionnel ?",
+    "options": [
+      "A) En ajoutant uniquement de la compression",
+      "B) En ajoutant des transactions ACID, le schema enforcement et le time travel sur les données du Data Lake",
+      "C) En remplaçant le stockage par des bases relationnelles",
+      "D) En supprimant le besoin de Spark"
+    ],
+    "answer": "B",
+    "explanation": "Delta Lake ajoute une couche transactionnelle (transaction log) sur les fichiers Parquet du Data Lake, apportant les transactions ACID, le contrôle de schéma, les upserts/merges et le time travel (requêtes sur des versions passées)."
+  },
+  {
+    "id": "bd_047",
+    "question": "Parmi ces affirmations sur Apache Spark, laquelle est FAUSSE ?",
+    "options": [
+      "A) Spark peut être 100x plus rapide que MapReduce en mémoire",
+      "B) Spark ne peut fonctionner qu'avec HDFS comme stockage",
+      "C) Spark supporte les libraries MLlib, GraphX, Spark SQL et Structured Streaming",
+      "D) Spark peut lire des données depuis S3, HDFS, Cassandra et bien d'autres sources"
+    ],
+    "answer": "B",
+    "explanation": "Spark est agnostique du stockage et peut lire depuis HDFS, S3, Cassandra, HBase, JDBC, Kafka, Elasticsearch et bien d'autres. L'affirmation B est fausse car Spark n'est pas limité à HDFS."
+  },
+  {
+    "id": "bd_048",
+    "question": "Pourquoi le partitionnement des données est-il essentiel dans une table Hive ?",
+    "options": [
+      "A) Pour décorer les données",
+      "B) Il permet de scanner uniquement les partitions pertinentes (pruning), réduisant drastiquement les I/O et le temps de requête",
+      "C) Pour chiffrer les données",
+      "D) Pour compresser les données"
+    ],
+    "answer": "B",
+    "explanation": "Le partitionnement Hive organise les données en dossiers par valeurs de colonnes clés (date, pays). Lors d'une requête filtrée, seules les partitions correspondantes sont lues (partition pruning), accélérant considérablement les requêtes."
+  },
+  {
+    "id": "bd_049",
+    "question": "Dans un système distribué, que se passe-t-il lors d'un 'split brain' ?",
+    "options": [
+      "A) Le système devient plus rapide",
+      "B) Deux partitions du réseau forment chacune un leader, créant une incohérence des données",
+      "C) Les données sont automatiquement fusionnées",
+      "D) Le système s'arrête proprement"
+    ],
+    "answer": "B",
+    "explanation": "Le split brain survient quand une partition réseau divise le cluster en deux groupes isolés, chacun élisant son propre leader. Les deux leaders acceptent des écritures, créant des conflits et des incohérences dans les données."
+  },
+  {
+    "id": "bd_050",
+    "question": "Comment la technique du 'Bloom Filter' est-elle utilisée dans les bases de données Big Data ?",
+    "options": [
+      "A) Pour filtrer les requêtes SQL",
+      "B) Comme structure probabiliste pour tester rapidement si un élément est absent d'un ensemble, évitant des lectures disque inutiles",
+      "C) Pour nettoyer les données",
+      "D) Pour chiffrer les données"
+    ],
+    "answer": "B",
+    "explanation": "Le Bloom Filter est une structure probabiliste qui indique avec certitude si un élément est absent, et avec une faible probabilité de faux positifs s'il est présent. Utilisé dans HBase, Cassandra pour éviter des lectures disque coûteuses."
+  },
+  {
+    "id": "bd_051",
+    "question": "Quel est l'ordre correct d'un pipeline de données typique en Big Data ?",
+    "options": [
+      "A) Stockage → Ingestion → Analyse → Visualisation",
+      "B) Ingestion → Stockage → Traitement/Transformation → Analyse → Visualisation",
+      "C) Analyse → Ingestion → Stockage → Visualisation",
+      "D) Visualisation → Traitement → Ingestion → Stockage"
+    ],
+    "answer": "B",
+    "explanation": "Un pipeline Big Data suit généralement : 1) Ingestion (Kafka, Flume), 2) Stockage (HDFS, S3), 3) Traitement (Spark, Flink), 4) Analyse (Hive, Presto), 5) Visualisation (Tableau, Grafana)."
+  },
+  {
+    "id": "bd_052",
+    "question": "Comment le concept de 'Immutable Data' (données immuables) influence-t-il les architectures Big Data ?",
+    "options": [
+      "A) Les données ne peuvent jamais être créées",
+      "B) On ne modifie jamais les données existantes, on ajoute de nouveaux événements, simplifiant la réplication et l'auditabilité",
+      "C) Les données sont chiffrées en permanence",
+      "D) Les données sont supprimées après lecture"
+    ],
+    "answer": "B",
+    "explanation": "Les données immuables (concept clé de Kafka, HDFS, Event Sourcing) ne sont jamais modifiées. Les corrections sont de nouveaux événements. Cela simplifie la réplication, la concurrence, l'audit et le rejeu des données."
+  },
+  {
+    "id": "bd_053",
+    "question": "Quel problème le format de fichier Avro résout-il par rapport au CSV ?",
+    "options": [
+      "A) Il est plus lisible par les humains",
+      "B) Il intègre le schéma dans le fichier, supporte les types complexes et offre une meilleure compression binaire",
+      "C) Il fonctionne uniquement sous Linux",
+      "D) Il ne supporte que les nombres"
+    ],
+    "answer": "B",
+    "explanation": "Contrairement au CSV (texte, pas de types, pas de schéma), Avro est un format binaire avec schéma intégré, supportant les types imbriqués, l'évolution de schéma et offrant une compression efficace."
+  },
+  {
+    "id": "bd_054",
+    "question": "Dans le contexte du Big Data, pourquoi parle-t-on de 'Véritable' (Veracity) comme 4ème V ?",
+    "options": [
+      "A) Pour mesurer la véracité des sources médiatiques",
+      "B) Pour souligner les défis liés à la qualité, la fiabilité et la confiance dans les données massives",
+      "C) Pour indiquer la vitesse du réseau",
+      "D) Pour mesurer le volume des données"
+    ],
+    "answer": "B",
+    "explanation": "La Veracity (véracité) reflète les incertitudes sur la qualité des données : données manquantes, bruitées, contradictoires ou biaisées. Dans le Big Data, la confiance dans les résultats dépend de la qualité des données sources."
+  },
+  {
+    "id": "bd_055",
+    "question": "Comment le Concept de 'Data Lakehouse' combine-t-il les avantages du Data Lake et du Data Warehouse ?",
+    "options": [
+      "A) En supprimant les deux",
+      "B) En offrant le stockage flexible du Data Lake avec les transactions ACID, le schéma et la gouvernance du Data Warehouse",
+      "C) En utilisant uniquement des bases relationnelles",
+      "D) En copiant les données dans les deux systèmes"
+    ],
+    "answer": "B",
+    "explanation": "Le Lakehouse (ex: Databricks, Apache Iceberg) combine le stockage low-cost et flexible du Data Lake avec les transactions ACID, l'application de schéma et les performances du Data Warehouse sur la même plateforme."
+  },
+  {
+    "id": "bd_056",
+    "question": "Quel est le rôle de Apache Ambari dans un cluster Hadoop ?",
+    "options": [
+      "A) Exécuter des requêtes SQL",
+      "B) Fournir une interface web de gestion, monitoring et provisioning du cluster Hadoop",
+      "C) Stocker les données",
+      "D) Développer des applications Java"
+    ],
+    "answer": "B",
+    "explanation": "Ambari est un outil de gestion de cluster Hadoop avec une interface web pour installer, configurer, monitorer et gérer les services (HDFS, YARN, Hive, etc.) à travers l'ensemble du cluster."
+  },
+  {
+    "id": "bd_057",
+    "question": "Pourquoi le traitement en mémoire (in-memory) est-il devenu un standard dans les architectures Big Data modernes ?",
+    "options": [
+      "A) La RAM est moins chère que le disque",
+      "B) Les accès RAM sont 100 000x plus rapides que les accès disque, transformant les performances des traitements itératifs",
+      "C) C'est obligatoire pour le cloud",
+      "D) Les disques durs n'existent plus"
+    ],
+    "answer": "B",
+    "explanation": "La latence RAM (~100ns) est des ordres de grandeur inférieure à celle du disque (~10ms). Pour les traitements itératifs (ML, graphes) où les mêmes données sont accédées répétitivement, le in-memory (Spark) est transformateur."
+  },
+  {
+    "id": "bd_058",
+    "question": "Dans Cassandra, que signifie le niveau de cohérence 'QUORUM' ?",
+    "options": [
+      "A) Attendre la majorité des réplicas (N/2 + 1) pour les lectures et écritures",
+      "B) Attendre tous les réplicas",
+      "C) Attendre un seul réplica",
+      "D) Ne pas attendre de réponse"
+    ],
+    "answer": "A",
+    "explanation": "QUORUM nécessite une réponse de la majorité des réplicas (replication_factor/2 + 1). Cela garantit la cohérence linéarisable : toute lecture après une écriture confirmée verra la dernière valeur."
+  },
+  {
+    "id": "bd_059",
+    "question": "Comment le streaming 'exactly-once' garantit-il qu'aucun événement n'est traité en double ni perdu ?",
+    "options": [
+      "A) En ignorant les erreurs",
+      "B) Par des transactions atomiques, l'idempotence des opérateurs et les checkpoints persistants du state",
+      "C) En traitant chaque événement deux fois",
+      "D) En utilisant un seul serveur"
+    ],
+    "answer": "B",
+    "explanation": "L'exactly-once combine : des transactions atomiques (Kafka), l'idempotence des opérateurs de traitement, et des checkpoints distribués (Flink/Spark) permettant de reprendre exactement où on s'était arrêté après une panne."
+  },
+  {
+    "id": "bd_060",
+    "question": "Quel est l'avantage d'utiliser Apache Iceberg comme format de table ouvert ?",
+    "options": [
+      "A) Il est compatible uniquement avec Spark",
+      "B) Il offre des transactions ACID, le time travel, le schema evolution et est compatible avec Spark, Flink, Trino, Hive",
+      "C) Il est limité à 1 To",
+      "D) Il nécessite un serveur dédié"
+    ],
+    "answer": "B",
+    "explanation": "Iceberg est un format de table ouvert (open table format) qui apporte les transactions ACID, le time travel et l'évolution de schéma sur les Data Lakes, tout en étant compatible avec de multiples moteurs (Spark, Flink, Trino)."
+  },
+  {
+    "id": "bd_061",
+    "question": "Pourquoi le modèle de données en colonnes est-il avantageux pour les requêtes analytiques sur le Big Data ?",
+    "options": [
+      "A) Il est plus facile à comprendre",
+      "B) Il ne lit que les colonnes nécessaires, améliore la compression (valeurs similaires adjacentes) et réduit les I/O",
+      "C) Il fonctionne uniquement avec des données textuelles",
+      "D) Il est obligatoire pour le cloud"
+    ],
+    "answer": "B",
+    "explanation": "Le stockage colonne ne charge en mémoire que les colonnes de la requête (pas les lignes entières). Les valeurs similaires d'une même colonne se compressent mieux ensemble, réduisant drastiquement I/O et stockage."
+  },
+  {
+    "id": "bd_062",
+    "question": "Comment un 'Bloom Filter Index' accélère-t-il les lectures dans HBase ?",
+    "options": [
+      "A) En compressant les données",
+      "B) En permettant de sauter rapidement les blocs HFiles qui ne contiennent pas la clé recherchée",
+      "C) En triant les données",
+      "D) En dupliquant les données"
+    ],
+    "answer": "B",
+    "explanation": "HBase stocke un Bloom Filter par HFile. Avant de lire un bloc sur disque, il consulte le Bloom Filter pour savoir si la clé pourrait y être. Si le filtre dit 'non', le bloc est sauté, évitant des I/O inutiles."
+  },
+  {
+    "id": "bd_063",
+    "question": "Dans un cluster Kafka, que se passe-t-il si le broker leader d'une partition tombe en panne ?",
+    "options": [
+      "A) La partition est perdue",
+      "B) Un des followers ISR (In-Sync Replicas) est automatiquement élu nouveau leader",
+      "C) Tous les producteurs s'arrêtent",
+      "D) Le cluster redémarre entièrement"
+    ],
+    "answer": "B",
+    "explanation": "Kafka maintient des réplicas (leader + followers). Si le leader tombe, le contrôleur Kafka élit un follower ISR (In-Sync Replica) comme nouveau leader, assurant la continuité du service sans perte de données."
+  },
+  {
+    "id": "bd_064",
+    "question": "Pourquoi le format JSON est-il populaire mais problématique dans les pipelines Big Data ?",
+    "options": [
+      "A) Il n'est pas lisible",
+      "B) Il est lisible et flexible mais verbeux, sans schéma strict, et lent à parser par rapport aux formats binaires comme Avro ou Parquet",
+      "C) Il ne supporte que les chaînes de caractères",
+      "D) Il est trop compressé"
+    ],
+    "answer": "B",
+    "explanation": "JSON est populaire pour sa lisibilité et flexibilité (schema-less), mais sa verbosité (clés répétées), l'absence de schéma strict et le parsing texte le rendent inefficace pour les volumes Big Data face à Avro/Parquet."
+  },
+  {
+    "id": "bd_065",
+    "question": "Comment le concept de 'backpressure' fonctionne-t-il dans les systèmes de streaming ?",
+    "options": [
+      "A) En augmentant la pression du réseau",
+      "B) Le consommateur signale au producteur de ralentir quand il ne peut plus suivre le rythme",
+      "C) En compressant les messages",
+      "D) En supprimant les messages en retard"
+    ],
+    "answer": "B",
+    "explanation": "Le backpressure est un mécanisme de flux control où le consommateur lent informe le producteur de réduire son débit. Cela évite la surcharge mémoire et la perte de données dans les pipelines streaming."
+  },
+  {
+    "id": "bd_066",
+    "question": "Quel est le bon use case pour Apache Pulsar par rapport à Kafka ?",
+    "options": [
+      "A) Quand on n'a besoin que du batch",
+      "B) Pour la multi-tenancy native, la geo-réplication intégrée et le stockage tiercé (BookKeeper + S3)",
+      "C) Pour des volumes inférieurs à 1 Go",
+      "D) Pour des données relationnelles uniquement"
+    ],
+    "answer": "B",
+    "explanation": "Pulsar offre nativement la multi-tenancy (isolation des tenants), la geo-réplication entre clusters et un stockage dissocié via BookKeeper. C'est un choix pertinent pour les grandes organisations multi-équipes."
+  },
+  {
+    "id": "bd_067",
+    "question": "Dans Spark, quand utiliseriez-vous un 'Broadcast Join' plutôt qu'un join classique ?",
+    "options": [
+      "A) Quand les deux tables font plusieurs téraoctets",
+      "B) Quand une table est petite (< ~10 Go) : elle est envoyée à tous les exécuteurs pour éviter le shuffle réseau coûteux",
+      "C) Quand les données sont chiffrées",
+      "D) Pour les jointures sur des colonnes textuelles"
+    ],
+    "answer": "B",
+    "explanation": "Le Broadcast Join envoie une copie de la petite table à tous les exécuteurs, éliminant le shuffle (réarrangement réseau des données). Le gain est considérable quand une table est suffisamment petite pour tenir en mémoire."
+  },
+  {
+    "id": "bd_068",
+    "question": "Pourquoi le 'shuffle' est-il souvent le bottleneck dans les jobs Spark ?",
+    "options": [
+      "A) Il trie les données trop rapidement",
+      "B) Il implique des transferts réseau massifs entre exécuteurs pour regrouper les données par clé",
+      "C) Il compresse les données trop agressivement",
+      "D) Il ne fonctionne pas en cluster"
+    ],
+    "answer": "B",
+    "explanation": "Le shuffle redistribue les données entre exécuteurs (souvent sur différentes machines) selon une clé de partitionnement. Ces transferts réseau et écritures disque sont la opération la plus coûteuse dans un job Spark."
+  },
+  {
+    "id": "bd_069",
+    "question": "Comment le concept de 'Late Arrival' est-il géré dans les systèmes de streaming ?",
+    "options": [
+      "A) Les événements en retard sont ignorés",
+      "B) Via des watermarks qui définissent un seuil de retard acceptable et des fenêtres avec allowedLateness",
+      "C) En arrêtant le flux jusqu'à la réception de tous les événements",
+      "D) En accélérant le réseau"
+    ],
+    "answer": "B",
+    "explanation": "Les watermarks définissent la progression du temps événementiel. Les événements arrivant après le watermark sont 'late'. On peut configurer une fenêtre de grâce (allowedLateness) pour les accepter et mettre à jour les résultats."
+  },
+  {
+    "id": "bd_070",
+    "question": "Quel est le rôle du 'Checkpointing' dans Flink ?",
+    "options": [
+      "A) Créer des points de restauration dans les données",
+      "B) Sauvegarder périodiquement l'état du processing et l'offset Kafka pour garantir exactement-once en cas de panne",
+      "C) Vérifier la qualité des données",
+      "D) Compresser les données"
+    ],
+    "answer": "B",
+    "explanation": "Le checkpointing dans Flink prend un snapshot distribué de l'état (state) de l'application et des offsets sources, basé sur l'algorithme Chandy-Lamport. En cas de panne, l'application reprend du dernier checkpoint."
+  },
+  {
+    "id": "bd_071",
+    "question": "Comment Apache Beam se positionne-t-il par rapport à Spark et Flink ?",
+    "options": [
+      "A) C'est un moteur d'exécution concurrent",
+      "B) C'est un SDK unifié qui permet d'écrire un pipeline une fois et de l'exécuter sur Spark, Flink ou Google Dataflow",
+      "C) Il remplace définitivement Spark",
+      "D) Il fonctionne uniquement sur Google Cloud"
+    ],
+    "answer": "B",
+    "explanation": "Apache Beam fournit un modèle de programmation unifié (SDK) portable. Vous écrivez votre pipeline une fois et choisissez le runner (Spark, Flink, Dataflow) à l'exécution, évitant le verrouillage sur un moteur spécifique."
+  },
+  {
+    "id": "bd_072",
+    "question": "Pourquoi un Data Lake peut-il se transformer en 'Data Swamp' ?",
+    "options": [
+      "A) À cause de l'humidité dans le data center",
+      "B) Par manque de gouvernance, de catalogage et de documentation, rendant les données introuvables et inutilisables",
+      "C) Parce que les données expirent",
+      "D) À cause de la chaleur des serveurs"
+    ],
+    "answer": "B",
+    "explanation": "Sans gouvernance (catalogage des données, documentation, contrôle qualité), le Data Lake se remplit de données non documentées et inutilisables. Les utilisateurs ne savent plus quelles données existent ni si elles sont fiables."
+  },
+  {
+    "id": "bd_073",
+    "question": "Dans le contexte du streaming, quelle est la différence entre 'Event Time' et 'Processing Time' ?",
+    "options": [
+      "A) Ce sont des synonymes",
+      "B) Event Time = quand l'événement s'est produit ; Processing Time = quand le système le traite",
+      "C) Event Time = temps de traitement ; Processing Time = temps de réception",
+      "D) Event Time est mesuré en secondes, Processing Time en minutes"
+    ],
+    "answer": "B",
+    "explanation": "L'Event Time est le timestamp où l'événement s'est réellement produit (ex: moment du clic). Le Processing Time est le moment où le système traite l'événement. Le décalage entre les deux crée les défis du streaming."
+  },
+  {
+    "id": "bd_074",
+    "question": "Comment le format Apache Parquet gère-t-il les données imbriquées (nested) ?",
+    "options": [
+      "A) Il ne les supporte pas",
+      "B) Via son modèle de stockage en colonnes avec des niveaux de répétition et de définition (Dremel encoding)",
+      "C) En les aplatissant entièrement",
+      "D) En les convertissant en CSV"
+    ],
+    "answer": "B",
+    "explanation": "Parquet utilise l'encodage Dremel avec des Repetition Levels et Definition Levels pour stocker efficacement les structures imbriquées (listes, structs) en colonnes, sans perdre la hiérarchie des données."
+  },
+  {
+    "id": "bd_075",
+    "question": "Quel est l'avantage d'utiliser un objet stocké comme S3 plutôt que HDFS comme couche de stockage ?",
+    "options": [
+      "A) S3 est toujours plus rapide",
+      "B) S3 offre une durabilité extrême (99.999999999%), un coût de stockage inférieur et élimine la gestion de cluster HDFS",
+      "C) S3 ne nécessite aucune configuration",
+      "D) HDFS ne fonctionne plus"
+    ],
+    "answer": "B",
+    "explanation": "S3 offre 11 neufs de durabilité, un coût au Go bien inférieur à HDFS, et délègue la gestion de l'infrastructure à AWS. Cependant, HDFS reste plus performant pour les workloads nécessitant une data locality stricte."
+  },
+  {
+    "id": "bd_076",
+    "question": "Comment le partitionnement d'un topic Kafka influence-t-il le parallélisme ?",
+    "options": [
+      "A) Un seul consommateur peut lire le topic",
+      "B) Chaque partition peut être lue par un consommateur différent, permettant un traitement parallèle proportionnel au nombre de partitions",
+      "C) Plus de partitions signifie moins de performances",
+      "D) Le nombre de partitions n'a aucun impact"
+    ],
+    "answer": "B",
+    "explanation": "Kafka assigne chaque partition à un consommateur dans le groupe. Le parallélisme maximum = nombre de partitions. Plus de partitions = plus de consommateurs parallèles, mais aussi plus de fichiers et de surcharge pour le broker."
+  },
+  {
+    "id": "bd_077",
+    "question": "Pourquoi le concept de 'idempotence' est-il important dans les pipelines de données ?",
+    "options": [
+      "A) Pour rendre le code plus rapide",
+      "B) Pour garantir que relancer une opération plusieurs fois donne le même résultat qu'une seule exécution, essentiel pour la reprise après panne",
+      "C) Pour chiffrer les données",
+      "D) Pour compresser les résultats"
+    ],
+    "answer": "B",
+    "explanation": "L'idempotence garantit que re-exécuter une opération ne crée pas de doublons ni d'effets secondaires. C'est crucial dans les pipelines de données où les relances (retries) sont fréquentes après des pannes."
+  },
+  {
+    "id": "bd_078",
+    "question": "Vous devez implémenter un système de recommandation en temps réel pour un site e-commerce. Quelle architecture est la plus adaptée ?",
+    "options": [
+      "A) HDFS + MapReduce batch nocturne",
+      "B) Kafka (clics en temps réel) + Flink/Spark Streaming ( scoring ML) + Redis Cache (recommandations rapides)",
+      "C) MySQL + cron job toutes les 24h",
+      "D) Fichiers plats + script Python manuel"
+    ],
+    "answer": "B",
+    "explanation": "L'architecture Kafka + Streaming ML + Redis capte les interactions en temps réel, calcule les scores de recommandation en continu et sert les résultats depuis le cache Redis avec une latence de l'ordre de la milliseconde."
+  },
+  {
+    "id": "bd_079",
+    "question": "Comment le 'Vectorized Query Execution' améliore-t-il les performances dans les moteurs Big Data ?",
+    "options": [
+      "A) En utilisant des vecteurs mathématiques",
+      "B) En traitant des lots de données (batches) plutôt qu'une ligne à la fois, exploitant le cache CPU et les instructions SIMD",
+      "C) En compressant les vecteurs",
+      "D) En parallélisant sur le GPU uniquement"
+    ],
+    "answer": "B",
+    "explanation": "L'exécution vectorisée traite des blocs de valeurs en colonne plutôt que des lignes individuelles. Cela exploite le cache CPU (localité spatiale) et les instructions SIMD (Single Instruction, Multiple Data) pour des gains de 5-10x."
+  },
+  {
+    "id": "bd_080",
+    "question": "Pourquoi le concept de 'Schema Evolution' est-il crucial dans les pipelines Big Data ?",
+    "options": [
+      "A) Pour empêcher tout changement de schéma",
+      "B) Pour permettre l'ajout, la suppression ou la modification de champs sans casser les consommateurs existants ni les données historiques",
+      "C) Pour accélérer les requêtes",
+      "D) Pour réduire le stockage"
+    ],
+    "answer": "B",
+    "explanation": "Les schémas évoluent dans le temps (nouveaux champs, types modifiés). Le Schema Evolution (Avro, Iceberg) garantit que les données anciennes restent lisibles avec les schémas nouveaux et inversement, sans interruption de service."
+  },
+  {
+    "id": "bd_081",
+    "question": "Comment fonctionne le mécanisme de 'Write-Ahead Log' (WAL) dans les bases de données Big Data ?",
+    "options": [
+      "A) Les lectures sont journalisées avant d'être exécutées",
+      "B) Les modifications sont écrites dans un log séquentiel sur disque avant d'être appliquées, garantissant la durabilité en cas de crash",
+      "C) Les données sont compressées avant écriture",
+      "D) Les écritures sont différées indéfiniment"
+    ],
+    "answer": "B",
+    "explanation": "Le WAL enregistre chaque modification dans un log séquentiel avant son application. En cas de crash, le système relit le WAL pour restaurer l'état. Utilisé dans Kafka, Cassandra, HBase pour garantir la durabilité."
+  },
+  {
+    "id": "bd_082",
+    "question": "Dans le contexte de la haute disponibilité, comment fonctionne le 'Leader Election' ?",
+    "options": [
+      "A) Un vote démocratique entre les administrateurs",
+      "B) Un mécanisme automatique (souvent via ZooKeeper) pour désigner un nœud coordinateur parmi les réplicas",
+      "C) Une élection manuelle chaque matin",
+      "D) Le nœud le plus rapide devient toujours le leader"
+    ],
+    "answer": "B",
+    "explanation": "L'élection du leader est un mécanisme de coordination (ZooKeeper, Raft) qui désigne automatiquement un nœud comme coordinateur. Si le leader tombe, une nouvelle élection est déclenchée automatiquement."
+  },
+  {
+    "id": "bd_083",
+    "question": "Pourquoi utilise-t-on des 'Column Families' dans HBase ?",
+    "options": [
+      "A) Pour regrouper les colonnes d'une famille logique",
+      "B) Les colonnes d'une même famille sont stockées ensemble sur disque, optimisant les lectures de groupes de colonnes apparentées",
+      "C) Pour nommer joliment les colonnes",
+      "D) Pour des raisons de sécurité"
+    ],
+    "answer": "B",
+    "explanation": "Dans HBase, les données d'une column family sont stockées ensemble dans des HFiles séparés. Cela permet de ne lire que les families de colonnes nécessaires lors d'une requête, réduisant les I/O."
+  },
+  {
+    "id": "bd_084",
+    "question": "Comment le 'Consistent Hashing' résout-il le problème du rehashing lors de l'ajout/suppression de nœuds ?",
+    "options": [
+      "A) En rehashant toutes les données à chaque changement",
+      "B) En assignant les données à un anneau de hachage, seul le voisinage du nœud ajouté/supprimé est affecté",
+      "C) En dupliquant toutes les données",
+      "D) En arrêtant le cluster"
+    ],
+    "answer": "B",
+    "explanation": "Le consistent hashing place les nœuds et les clés sur un anneau. Ajouter/retirer un nœud ne déplace que les données du voisinage immédiat, évitant de redistribuer l'ensemble des données. Utilisé dans Cassandra, DynamoDB."
+  },
+  {
+    "id": "bd_085",
+    "question": "Quelle stratégie de fenêtrage utiliseriez-vous pour compter les transactions bancaires par heure, toutes les heures ?",
+    "options": [
+      "A) Session Window",
+      "B) Tumbling Window d'une durée d'une heure",
+      "C) Sliding Window de 5 minutes",
+      "D) Global Window"
+    ],
+    "answer": "B",
+    "explanation": "Le Tumbling Window (fenêtre fixe) divise le temps en tranches non chevauchantes d'une heure. Chaque transaction est comptée dans la fenêtre d'une heure correspondante, sans chevauchement ni gap."
+  },
+  {
+    "id": "bd_086",
+    "question": "Quelle est la différence entre un Tumbling Window et un Hopping/Sliding Window ?",
+    "options": [
+      "A) Ils sont identiques",
+      "B) Le Tumbling est fixe et non chevauchant ; le Hopping glisse par pas plus petits que sa taille, créant un chevauchement",
+      "C) Le Sliding ne fonctionne pas en streaming",
+      "D) Le Tumbling est plus lent"
+    ],
+    "answer": "B",
+    "explanation": "Le Tumbling Window a une taille fixe et les fenêtres ne se chevauchent pas. Le Hopping Window a une taille et un pas (slide) : si le pas < la taille, les fenêtres se chevauchent, permettant des calculs lissés."
+  },
+  {
+    "id": "bd_087",
+    "question": "Comment le 'Change Data Capture' (CDC) contribue-t-il aux architectures Big Data modernes ?",
+    "options": [
+      "A) En capturant des photos des données",
+      "B) En capturant les changements des bases sources en temps réel et les propageant vers Kafka/Data Lake sans impact sur la source",
+      "C) En modifiant les données sources",
+      "D) En remplaçant l'ETL traditionnel"
+    ],
+    "answer": "B",
+    "explanation": "Le CDC capture en temps réel les changements (INSERT/UPDATE/DELETE) des bases transactionnelles et les publie dans Kafka ou directement vers le Data Lake, permettant des pipelines near real-time avec un impact minimal sur la source."
+  },
+  {
+    "id": "bd_088",
+    "question": "Pourquoi la sérialisation des données est-elle un enjeu de performance dans les systèmes Big Data ?",
+    "options": [
+      "A) Elle n'a aucun impact",
+      "B) La sérialisation/désérialisation représente jusqu'à 30% du temps CPU, un format compact et rapide (Protobuf, Avro) est donc crucial",
+      "C) Seule la sécurité est impactée",
+      "D) Elle n'affecte que le stockage"
+    ],
+    "answer": "B",
+    "explanation": "Dans les systèmes distribués, les données sont constamment sérialisées (envoi réseau, stockage) et désérialisées (traitement). Un format efficace (Avro, Protobuf) vs un format lent (Java Serialization) impacte drastiquement les performances."
+  },
+  {
+    "id": "bd_089",
+    "question": "Comment le concept de 'MurmurHash' est-il utilisé dans le Big Data ?",
+    "options": [
+      "A) Pour chiffrer les données",
+      "B) Comme fonction de hachage rapide et uniforme pour le partitionnement des données et le consistent hashing",
+      "C) Pour compresser les données",
+      "D) Pour trier les données"
+    ],
+    "answer": "B",
+    "explanation": "MurmurHash est une fonction de hachage non cryptographique très rapide et avec une distribution uniforme. Elle est utilisée pour déterminer sur quel nœud/partition stocker une donnée dans les systèmes distribués."
+  },
+  {
+    "id": "bd_090",
+    "question": "Pourquoi la 'garbage collection' (GC) est-elle un problème dans les applications Big Data basées sur la JVM ?",
+    "options": [
+      "A) Elle nettoie les ordures dans le data center",
+      "B) Les pauses GC (Stop-The-World) peuvent durer plusieurs secondes et interrompre le traitement sur des heaps de plusieurs dizaines de Go",
+      "C) Elle est trop rapide",
+      "D) Elle ne fonctionne pas sur les serveurs"
+    ],
+    "answer": "B",
+    "explanation": "Sur des JVM avec des heaps de 32+ Go (Spark, Kafka), les pauses GC peuvent durer des secondes, causant des timeouts et des interruptions. Les optimisations (G1GC, ZGC, off-heap) sont essentielles pour les workloads Big Data."
+  },
+  {
+    "id": "bd_091",
+    "question": "Comment le 'Data Skew' affecte-t-il les performances dans un job Spark ?",
+    "options": [
+      "A) Il n'a aucun effet",
+      "B) Une clé disproportionnée (ex: clé null ou utilisateur viral) concentre les données sur un seul exécuteur, créant un bottleneck",
+      "C) Il accélère le traitement",
+      "D) Il améliore la compression"
+    ],
+    "answer": "B",
+    "explanation": "Le data skew survient quand une ou quelques clés ont beaucoup plus de données que les autres. L'exécuteur traitant ces clés reçoit un volume disproportionné, ralentissant tout le job (stragglers). Solutions : salting, broadcast join."
+  },
+  {
+    "id": "bd_092",
+    "question": "Quel est l'intérêt de 'Apache Hudi' dans un Data Lake ?",
+    "options": [
+      "A) C'est un format de compression",
+      "B) Il permet les upserts et les mises à jour incrémentales sur des données stockées dans le Data Lake, avec un support ACID",
+      "C) Il remplace entièrement Spark",
+      "D) Il fonctionne uniquement sur Windows"
+    ],
+    "answer": "B",
+    "explanation": "Apache Hudi (Hadoop Upserts Deletes and Incrementals) permet de mettre à jour et supprimer des enregistrements dans le Data Lake, de suivre les changements incrémentaux et de garantir l'ACID sur des fichiers Parquet/Avro."
+  },
+  {
+    "id": "bd_093",
+    "question": "Comment le 'Speculative Execution' fonctionne-t-il dans Hadoop MapReduce ?",
+    "options": [
+      "A) Il prédit les résultats sans exécuter les tâches",
+      "B) Il détecte les tâches lentes (stragglers) et lance des copies redondantes, gardant le résultat de la première à terminer",
+      "C) Il exécute les tâches dans le désordre",
+      "D) Il ignore les tâches lentes"
+    ],
+    "answer": "B",
+    "explanation": "La spéculation détecte les tâches plus lentes que la moyenne et lance des copies sur d'autres nœuds. Le premier résultat est conservé, les autres sont tués. Cela mitige les problèmes matériels ponctuels (disque défaillant, etc.)."
+  },
+  {
+    "id": "bd_094",
+    "question": "Pourquoi utilise-t-on des 'Connectors' dans les pipelines de données ?",
+    "options": [
+      "A) Pour connecter des câbles réseau",
+      "B) Pour standardiser l'interface entre les sources/cibles de données et le moteur de traitement, sans réinventer l'intégration",
+      "C) Pour compresser les données",
+      "D) Pour surveiller le réseau"
+    ],
+    "answer": "B",
+    "explanation": "Les connectors (Kafka Connect, Spark connectors) fournissent des interfaces standardisées pour lire/écrire dans divers systèmes (MySQL, S3, Elasticsearch). Ils gèrent la connexion, le schéma et la récupération après panne."
+  },
+  {
+    "id": "bd_095",
+    "question": "Comment le 'Apache Mesos' se compare-t-il à YARN comme gestionnaire de ressources ?",
+    "options": [
+      "A) Mesos ne gère que Hadoop",
+      "B) Mesos est un gestionnaire de ressources plus généraliste qui peut exécuter Hadoop, Spark, Kafka et d'autres workloads avec un fine-grained sharing",
+      "C) YARN est plus récent",
+      "D) Ils sont strictement identiques"
+    ],
+    "answer": "B",
+    "explanation": "Contrairement à YARN (conçu pour Hadoop), Mesos est un gestionnaire de cluster généraliste qui offre un partage fine-grained des ressources entre frameworks hétérogènes (Hadoop, Spark, Kafka, Marathon)."
+  },
+  {
+    "id": "bd_096",
+    "question": "Dans le contexte du Big Data, comment le 'Edge Computing' complète-t-il l'architecture Cloud ?",
+    "options": [
+      "A) Il remplace entièrement le cloud",
+      "B) Il traite les données au plus près de la source (capteurs) pour réduire la latence et le volume de données envoyé au cloud",
+      "C) Il ne fonctionne que la nuit",
+      "D) Il est utilisé uniquement pour la sécurité"
+    ],
+    "answer": "B",
+    "explanation": "L'Edge Computing traite et filtre les données localement (capteurs IoT, passerelles) avant envoi au cloud. Cela réduit la latence de réponse, la bande passante nécessaire et permet des actions immédiates."
+  },
+  {
+    "id": "bd_097",
+    "question": "Comment la technique du 'Salting' résout-elle le data skew dans Spark ?",
+    "options": [
+      "A) En ajoutant du sel aux données",
+      "B) En ajoutant un préfixe aléatoire aux clés déséquilibrées pour les répartir uniformément, puis en agrégeant les résultats partiels",
+      "C) En supprimant les clés problématiques",
+      "D) En compressant les données"
+    ],
+    "answer": "B",
+    "explanation": "Le salting ajoute un suffixe aléatoire (0 à N) aux clés hotspot pour répartir les données uniformément. Après la première agrégation partielle, on retire le sel et on agrège les résultats finaux."
+  },
+  {
+    "id": "bd_098",
+    "question": "Quel est le principal défi de la gestion des métadonnées dans un Data Lake ?",
+    "options": [
+      "A) Le stockage physique des métadonnées",
+      "B) Le manque de schéma centralisé rend difficile la découverte, la compréhension et la gouvernance des données",
+      "C) Le coût des métadonnées",
+      "D) La couleur des fichiers"
+    ],
+    "answer": "B",
+    "explanation": "Sans schéma ni catalogue centralisé (Hive Metastore, AWS Glue), les utilisateurs ne savent pas quelles données existent dans le Data Lake, ni leur signification. Le catalogage et la documentation sont essentiels."
+  },
+  {
+    "id": "bd_099",
+    "question": "Pourquoi le concept de 'exactly-once semantics' est-il plus complexe qu'il n'y paraît ?",
+    "options": [
+      "A) Il suffit de compter les messages",
+      "B) Il nécessite la coordination atomique entre la source (Kafka), le processeur (state) et le sink, avec gestion des pannes à chaque niveau",
+      "C) C'est simple à implémenter",
+      "D) Il ne concerne que les lectures"
+    ],
+    "answer": "B",
+    "explanation": "L'exactly-once exige que source + processing + sink soient atomiques. Si le sink échoue après le processing, il faut pouvoir réessayer sans doublon. Cela implique des transactions distribuées et l'idempotence à chaque étape."
+  },
+  {
+    "id": "bd_100",
+    "question": "Vous concevez un système pour analyser les sentiments sur les réseaux sociaux en temps réel. Quel stack technologique est le plus cohérent ?",
+    "options": [
+      "A) MySQL + PHP + Apache",
+      "B) Kafka Collect + Spark Streaming (NLP) + Elasticsearch + Kibana Dashboard",
+      "C) Oracle + Crystal Reports",
+      "D) Excel + PowerPoint"
+    ],
+    "answer": "B",
+    "explanation": "Kafka collecte les tweets en flux continu, Spark Streaming applique les modèles NLP de sentiment en temps réel, Elasticsearch indexe les résultats pour la recherche, et Kibana fournit les dashboards de visualisation en direct."
+  }
+]

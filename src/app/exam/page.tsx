@@ -26,6 +26,7 @@ export default function ExamPage() {
   const [selectedDomain, setSelectedDomain] = useState<Domain>(Domain.MACHINE_LEARNING);
   const [isGenerating, setIsGenerating] = useState(false);
   const [savedExams, setSavedExams] = useState<SavedExam[]>([]);
+  const [activeExamSession, setActiveExamSession] = useState<QuizSession | null>(null);
   const [loading, setLoading] = useState(true);
 
   // Interrupted generation state
@@ -49,6 +50,16 @@ export default function ExamPage() {
         const exams = await indexedDBService.getAllExams();
         console.log('[Exam] Loaded', exams.length, 'saved exams');
         setSavedExams(exams);
+
+        // Check for active exam sessions (paused or in-progress)
+        const inProgress = await indexedDBService.getSessionsByStatus("IN_PROGRESS");
+        const paused = await indexedDBService.getSessionsByStatus("PAUSED");
+        const active = [...inProgress, ...paused].find(s => s.type === "exam");
+        if (active) {
+          setActiveExamSession(active);
+          console.log('[Exam] Found active session:', active.id);
+        }
+
         setLoading(false);
       } catch (error) {
         console.error('[Exam] Failed to load saved exams:', error);
@@ -267,7 +278,20 @@ export default function ExamPage() {
     }
   };
 
-  const handleDismissInterrupted = () => {
+  const handleDismissInterrupted = async () => {
+    if (!interruptedSession) return;
+    try {
+      const session = await indexedDBService.getSession(interruptedSession.id);
+      if (session) {
+        await indexedDBService.saveSession({
+          ...session,
+          status: "PAUSED" as any,
+          generationProgress: session.generationProgress
+            ? { ...session.generationProgress, isGenerating: false }
+            : undefined,
+        });
+      }
+    } catch {}
     setInterruptedSession(null);
   };
 
@@ -324,6 +348,45 @@ export default function ExamPage() {
           title="Mode Examen"
           description="Simulez un examen réel avec limite de temps"
         />
+
+        {/* Active Exam Session Banner */}
+        {activeExamSession && (
+          <Card className="mb-8 border-l-4 border-l-accent animate-fade-in-down">
+            <CardContent>
+              <div className="flex items-start gap-3">
+                <FileText className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+                <div className="flex-1">
+                  <h3 className="font-mono font-semibold mb-1">
+                    Examen en cours
+                  </h3>
+                  <p className="text-sm text-ink-secondary mb-1">
+                    {Object.keys(activeExamSession.userAnswers).length} / {activeExamSession.questions.length} questions répondues
+                    {activeExamSession.domain && ` — ${activeExamSession.domain.replace(/_/g, " ")}`}
+                  </p>
+                  <div className="flex gap-3 mt-3">
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      onClick={() => window.location.href = `/quiz?session=${activeExamSession.id}`}
+                    >
+                      Continuer
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={async () => {
+                        await indexedDBService.deleteSession(activeExamSession.id);
+                        setActiveExamSession(null);
+                      }}
+                    >
+                      Recommencer
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Interrupted Generation Banner */}
         {interruptedSession && (

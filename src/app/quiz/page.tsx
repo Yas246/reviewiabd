@@ -52,6 +52,7 @@ function QuizContent() {
     "practice" | "exam" | "offline"
   >("practice");
   const [timeLimit, setTimeLimit] = useState<number | undefined>();
+  const [timerInitialTime, setTimerInitialTime] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showQuickNav, setShowQuickNav] = useState(false);
@@ -59,6 +60,7 @@ function QuizContent() {
   // Progressive generation state
   const [generationState, setGenerationState] = useState<GenerationState | null>(null);
   const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const currentTimeRef = useRef<number>(0);
 
   // Load session on mount
   useEffect(() => {
@@ -83,28 +85,65 @@ function QuizContent() {
         setQuestions(session.questions);
         setCurrentIndex(session.currentIndex);
         setSessionType(session.type as "practice" | "exam" | "offline");
-        setTimeLimit(session.timeLimit);
+        // Timer setup: initialTime and timeLimit are different concepts!
+        // - initialTime: where the timer starts counting from (elapsed time for countup, remaining for countdown)
+        // - timeLimit: max time before onTimeUp fires
+        // For countdown (exam): initialTime = seconds remaining, timeLimit = original total
+        // For countup (practice/offline): initialTime = seconds elapsed, timeLimit = undefined (no limit)
+        if (session.type === "exam") {
+          setTimerInitialTime(session.timeRemaining || session.timeLimit || 0);
+          setTimeLimit(session.timeLimit);
+        } else {
+          // Practice/offline: resume from elapsed time, NO time limit
+          setTimerInitialTime(session.timeRemaining || 0);
+          setTimeLimit(undefined);
+        }
+
+        // If session was already completed, show results directly
+        if (session.status === QuizSessionStatus.COMPLETED) {
+          setQuizCompleted(true);
+        }
 
         // Check if generation is still in progress
+        // DELAY setting generationState to avoid Strict Mode race:
+        // Strict Mode unmount → cleanup fires pauseSession (async) →
+        // remount → loadSession reads stale IDB data → sets generationState →
+        // continueGeneration fires unwanted API calls.
+        // By delaying 500ms and re-reading IDB, pauseSession has time to complete.
         if (
           session.generationProgress?.isGenerating ||
           session.status === QuizSessionStatus.GENERATING
         ) {
-          setGenerationState({
-            isGenerating: true,
-            availableCount: session.questions.length,
-            requestedCount:
-              session.generationProgress?.requestedCount ||
-              session.questions.length,
-          });
+          setTimeout(async () => {
+            try {
+              // Re-read from IDB — cleanup may have changed status to PAUSED
+              const fresh = await indexedDBService.getSession(sessionId);
+              if (
+                !fresh ||
+                fresh.status === "PAUSED" ||
+                fresh.status === "COMPLETED"
+              ) {
+                console.log("[Quiz] Skipping generation resume — session is", fresh?.status);
+                return;
+              }
 
-          // Allow user to answer even while generating
-          if (session.status === QuizSessionStatus.GENERATING) {
-            await indexedDBService.saveSession({
-              ...session,
-              status: QuizSessionStatus.IN_PROGRESS,
-            });
-          }
+              setGenerationState({
+                isGenerating: true,
+                availableCount: fresh.questions.length,
+                requestedCount:
+                  fresh.generationProgress?.requestedCount ||
+                  fresh.questions.length,
+              });
+
+              // Allow user to answer even while generating
+              if (fresh.status === QuizSessionStatus.GENERATING) {
+                await indexedDBService.saveSession({
+                  ...fresh,
+                  status: QuizSessionStatus.IN_PROGRESS,
+                });
+              }
+            } catch {}
+          }, 500);
         }
 
         // Load user answers if they exist
@@ -204,6 +243,9 @@ function QuizContent() {
       try {
         const session = await indexedDBService.getSession(sessionId);
         if (!session || !session.generationProgress || cancelled) return;
+
+        // Re-check status from IDB — session may have been paused by cleanup effect
+        if (session.status === "PAUSED" || session.status === "COMPLETED") return;
 
         const gp = session.generationProgress;
         if (!gp.isGenerating || gp.completedBatches >= gp.totalBatches) return;
@@ -374,6 +416,7 @@ function QuizContent() {
           ...session,
           currentIndex,
           userAnswers,
+          timeRemaining: currentTimeRef.current || undefined,
         });
       }
     } catch (err) {
@@ -387,6 +430,77 @@ function QuizContent() {
       saveSessionProgress();
     }
   }, [currentIndex, selectedAnswers]);
+
+  // Update SavedPracticeQuiz when questions arrive from background generation
+  useEffect(() => {
+    const updatePracticeQuiz = async () => {
+      if (!sessionId || loading || questions.length === 0) return;
+      try {
+        const session = await indexedDBService.getSession(sessionId);
+        if (session?.type === "practice" && session.practiceQuizId) {
+          const quiz = await indexedDBService.getPracticeQuiz(session.practiceQuizId);
+          if (quiz && quiz.questions.length !== questions.length) {
+            await indexedDBService.savePracticeQuiz({
+              ...quiz,
+              questionCount: questions.length,
+              questions: questions,
+            });
+            console.log("[Quiz] Updated practice quiz:", session.practiceQuizId, "→", questions.length, "questions");
+          }
+        }
+      } catch {}
+    };
+    updatePracticeQuiz();
+  }, [questions.length, sessionId, loading]);
+
+  // Mark session as PAUSED when leaving the quiz (unmount or navigate away)
+  // Also save a SavedPracticeQuiz for practice sessions so they appear in the practice page
+  useEffect(() => {
+    const pauseSession = async () => {
+      if (!sessionId) return;
+      try {
+        const session = await indexedDBService.getSession(sessionId);
+        if (!session) return;
+
+        // Pause the session
+        if (session.status === "IN_PROGRESS" || session.status === "GENERATING") {
+          await indexedDBService.saveSession({
+            ...session,
+            status: "PAUSED" as any,
+            generationProgress: session.generationProgress
+              ? { ...session.generationProgress, isGenerating: false }
+              : undefined,
+          });
+          console.log("[Quiz] Session paused:", sessionId);
+        }
+
+        // For practice sessions with a saved quiz, update its questions
+        // (generation may have added more questions since the quiz was created)
+        if (session.type === "practice" && session.practiceQuizId && session.questions.length > 0 && session.domain) {
+          const existingQuiz = await indexedDBService.getPracticeQuiz(session.practiceQuizId);
+          if (existingQuiz && existingQuiz.questions.length !== session.questions.length) {
+            await indexedDBService.savePracticeQuiz({
+              ...existingQuiz,
+              questionCount: session.questions.length,
+              questions: session.questions,
+            });
+            console.log("[Quiz] Updated practice quiz questions:", session.practiceQuizId, "→", session.questions.length);
+          }
+        }
+      } catch {}
+    };
+
+    const handleBeforeUnload = () => {
+      // Progress is already saved by saveSessionProgress on every answer
+      // No synchronous beacon needed — IndexedDB persists across sessions
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      pauseSession();
+    };
+  }, [sessionId]);
 
   const currentQuestion = questions[currentIndex];
   const selectedAnswerId = selectedAnswers[currentQuestion?.id];
@@ -846,11 +960,12 @@ function QuizContent() {
                 </Button>
               </div>
               <QuizTimer
-                initialTime={timeLimit || 0}
+                initialTime={timerInitialTime}
                 timeLimit={timeLimit}
                 mode={sessionType === "exam" ? "countdown" : "countup"}
                 isPaused={showResult}
                 onTimeUp={() => setQuizCompleted(true)}
+                onTimeUpdate={(t) => { currentTimeRef.current = t; }}
                 compact
               />
             </div>
@@ -879,11 +994,12 @@ function QuizContent() {
               {/* Right: Actions and timer */}
               <div className="flex items-center gap-3 shrink-0">
                 <QuizTimer
-                  initialTime={timeLimit || 0}
+                  initialTime={timerInitialTime}
                   timeLimit={timeLimit}
                   mode={sessionType === "exam" ? "countdown" : "countup"}
                   isPaused={showResult}
                   onTimeUp={() => setQuizCompleted(true)}
+                  onTimeUpdate={(t) => { currentTimeRef.current = t; }}
                 />
                 <Button
                   variant="secondary"

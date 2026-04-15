@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { indexedDBService } from "@/services/IndexedDBService";
+import { preloadedQuestionsService } from "@/services/PreloadedQuestionsService";
 import { storageService } from "@/services/StorageService";
 import { statisticsService } from "@/services/StatisticsService";
 
@@ -33,6 +34,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         console.log('[AppProvider] Initializing StatisticsService...');
         await statisticsService.init();
         console.log('[AppProvider] StatisticsService initialized successfully');
+
+        // Load pre-generated questions on first launch
+        console.log('[AppProvider] Loading pre-generated questions...');
+        await preloadedQuestionsService.loadAllIfNeeded();
+        console.log('[AppProvider] Pre-generated questions check complete');
 
         // Log current data for debugging
         const settings = await storageService.getSettings();

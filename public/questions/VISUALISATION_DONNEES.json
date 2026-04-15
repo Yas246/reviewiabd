@@ -1,0 +1,702 @@
+[
+  {
+    "id": "vd_001",
+    "question": "Vous devez montrer l'évolution du chiffre d'affaires mensuel sur 3 ans. Quel type de graphique est le plus adapté ?",
+    "options": ["A) Un diagramme circulaire", "B) Un graphique en ligne (line chart)", "C) Un nuage de points", "D) Un histogramme"],
+    "answer": "B",
+    "explanation": "Le line chart est idéal pour montrer une tendance temporelle continue. L'axe X = temps, l'axe Y = valeur. Il révèle les tendances, saisonnalités et ruptures dans l'évolution du CA mensuel."
+  },
+  {
+    "id": "vd_002",
+    "question": "Pourquoi le diagramme circulaire (pie chart) est-il souvent déconseillé en Data Visualization ?",
+    "options": ["A) Il est trop moderne", "B) L'oeil humain est mauvais pour comparer des angles et des surfaces ; un bar chart est plus précis pour comparer des proportions", "C) Il ne fonctionne qu'avec 2 catégories", "D) Il est trop petit"],
+    "answer": "B",
+    "explanation": "Les études perceptuelles montrent que comparer des angles/surfaces est moins précis que comparer des longueurs. Un bar chart permet des comparaisons instantanées. Le pie chart reste acceptable pour montrer des parts d'un tout avec peu de catégories."
+  },
+  {
+    "id": "vd_003",
+    "question": "Comment Edward Tufte définit-il le 'Data-Ink Ratio' ?",
+    "options": ["A) Le ratio entre la quantité d'encre et la taille du papier", "B) La proportion d'encre utilisée pour les données par rapport à l'encre totale sur le graphique", "C) Le ratio entre graphiques et texte", "D) Le nombre de couleurs par graphique"],
+    "answer": "B",
+    "explanation": "Le Data-Ink Ratio de Tufte mesure l'efficacité : ratio = encre pour les données / encre totale. Un bon graphique maximise ce ratio en éliminant le 'chartjunk' (grilles inutiles, bordures, décorations 3D)."
+  },
+  {
+    "id": "vd_004",
+    "question": "Vous voulez comparer les ventes de 5 produits dans 3 régions. Quel graphique offre la meilleure lisibilité ?",
+    "options": ["A) Un pie chart", "B) Un grouped bar chart ou un heatmap", "C) Un scatter plot", "D) Un line chart"],
+    "answer": "B",
+    "explanation": "Le grouped bar chart permet de comparer les 5 produits au sein de chaque région et entre les régions. La heatmap est une alternative compacte avec un code couleur."
+  },
+  {
+    "id": "vd_005",
+    "question": "Pourquoi le 'Small Multiples' (faceting) est-il une technique de visualisation puissante ?",
+    "options": ["A) Il utilise des petits graphiques pour économiser l'espace", "B) Il affiche le même type de graphique répété pour chaque catégorie, permettant des comparaisons immédiates et systématiques", "C) Il remplace les grands graphiques", "D) Il est plus facile à animer"],
+    "answer": "B",
+    "explanation": "Les small multiples (Tufte) montrent le même graphique pour chaque groupe (ex: 12 line charts pour 12 mois). L'oeil compare instantanément les patterns entre les panneaux. Scalable et comparatif."
+  },
+  {
+    "id": "vd_006",
+    "question": "Comment choisir entre un histogramme et un bar chart ?",
+    "options": ["A) Ils sont interchangeables", "B) Histogramme = distribution d'une variable continue (barres collées) ; Bar chart = comparaison de catégories discrètes (barres espacées)", "C) L'histogramme est toujours vertical", "D) Le bar chart est pour les petits datasets"],
+    "answer": "B",
+    "explanation": "L'histogramme montre la distribution d'une variable continue découpée en bins (barres collées). Le bar chart compare des catégories nominales (barres espacées). L'aire des barres de l'histogramme représente la fréquence."
+  },
+  {
+    "id": "vd_007",
+    "question": "Pourquoi les échelles de couleur (colormaps) ont-elles un impact crucial sur l'interprétation ?",
+    "options": ["A) C'est uniquement esthétique", "B) Un mauvais colormap peut créer des artefacts visuels ou cacher des patterns ; le choix dépend du type de données (séquentiel, divergent, catégoriel)", "C) Les couleurs n'influencent pas la perception", "D) Un seul colormap convient à tout"],
+    "answer": "B",
+    "explanation": "Colormaps séquentiels (Blues) pour données ordonnées, divergents (RdBu) pour données centrées, catégoriels (Set2) pour catégories. Jet crée des bandes artificielles. Viridis est perçu uniformément."
+  },
+  {
+    "id": "vd_008",
+    "question": "Quel est le problème avec le colormap 'jet' (arc-en-ciel) ?",
+    "options": ["A) Il est trop vieux", "B) Il crée des bandes de luminosité inégales et des artefacts visuels, et n'est pas lisible par les daltoniens", "C) Il est trop lumineux", "D) Il ne fonctionne pas en impression"],
+    "answer": "B",
+    "explanation": "Le colormap jet a des variations de luminosité non monotones. L'oeil perçoit des 'frontières' inexistantes. Viridis, Plasma et Inferno sont perçus uniformément et sont daltonien-friendly."
+  },
+  {
+    "id": "vd_009",
+    "question": "Comment un scatter plot révèle-t-il la corrélation entre deux variables ?",
+    "options": ["A) En montrant une ligne droite", "B) La forme du nuage de points indique la direction et la force de la relation : allongé = forte corrélation, circulaire = faible", "C) En affichant le coefficient de corrélation", "D) En coloriant les points"],
+    "answer": "B",
+    "explanation": "Un nuage allongé en montée = corrélation positive forte. En descente = négative. Circulaire/dispersé = pas de corrélation. Le scatter révèle aussi les outliers et les relations non linéaires."
+  },
+  {
+    "id": "vd_010",
+    "question": "Pourquoi le box plot (diagramme en boîte) est-il utile pour comparer des distributions ?",
+    "options": ["A) Il montre chaque point individuellement", "B) Il résume la distribution en 5 statistiques (min, Q1, médiane, Q3, max) et identifie les outliers de manière compacte", "C) Il est uniquement décoratif", "D) Il ne fonctionne qu'avec des catégories"],
+    "answer": "B",
+    "explanation": "Le box plot montre la médiane (ligne), l'IQR (boîte Q1-Q3), les moustaches (1.5xIQR) et les outliers (points). Compact, il permet de comparer médiane, dispersion et asymétrie de plusieurs groupes."
+  },
+  {
+    "id": "vd_011",
+    "question": "Comment un violin plot améliore-t-il le box plot ?",
+    "options": ["A) Il produit des sons", "B) Il ajoute une estimation de densité (KDE) en miroir, révélant la forme de la distribution comme la bimodalité", "C) Il est plus petit", "D) Il supprime les outliers"],
+    "answer": "B",
+    "explanation": "Le violin plot combine le box plot avec un KDE symétrique. Il révèle les distributions multimodales que le box plot cache (une boîte identique peut cacher des distributions très différentes)."
+  },
+  {
+    "id": "vd_012",
+    "question": "Pourquoi le 'lie factor' de Tufte est-il important ?",
+    "options": ["A) Il détecte les mensonges dans les données", "B) Il mesure le ratio entre l'effet visuel montré et l'effet réel dans les données", "C) Il compte le nombre de couleurs", "D) Il mesure la vitesse de lecture"],
+    "answer": "B",
+    "explanation": "Le lie factor = (effet visuel montré) / (effet réel). Un lie factor de 1 est honnête. Les graphiques 3D disproportionnés ont un lie factor > 1, gonflant visuellement les différences."
+  },
+  {
+    "id": "vd_013",
+    "question": "Vous devez montrer la répartition des parts de marché de 3 entreprises. Bar chart ou pie chart ?",
+    "options": ["A) Toujours un pie chart", "B) Bar chart si la comparaison précise importe ; pie chart acceptable avec seulement 3 catégories pour montrer le tout", "C) Un scatter plot", "D) Un line chart"],
+    "answer": "B",
+    "explanation": "Avec 3 catégories, le pie chart est acceptable. Mais le bar chart reste plus précis pour comparer. Si une part domine (80%), le pie chart est plus impactant visuellement."
+  },
+  {
+    "id": "vd_014",
+    "question": "Comment le treemap visualise-t-il des données hiérarchiques ?",
+    "options": ["A) En dessinant un arbre", "B) En imbriquant des rectangles proportionnels à la valeur de chaque catégorie, avec la couleur comme dimension supplémentaire", "C) En utilisant des cercles concentriques", "D) En listant les catégories"],
+    "answer": "B",
+    "explanation": "Le treemap divise un rectangle en sous-rectangles proportionnels à la valeur. La hiérarchie est visible par l'imbrication. Couleur = deuxième dimension (ex: rentabilité). Efficace pour montrer proportions d'une hiérarchie."
+  },
+  {
+    "id": "vd_015",
+    "question": "Pourquoi l'axe Y doit-il commencer à zéro dans un bar chart ?",
+    "options": ["A) Ça n'a pas d'importance", "B) Les barres sont jugées par leur longueur proportionnelle ; un axe tronqué exagère les différences et trompe le lecteur", "C) Ça prend trop d'espace", "D) Ce n'est pas nécessaire pour les line charts non plus"],
+    "answer": "B",
+    "explanation": "Pour les bar charts, l'axe Y doit commencer à zéro car les barres sont jugées proportionnellement. Pour les line charts, un axe tronqué est acceptable car l'oeil juge la pente et la tendance, pas la surface."
+  },
+  {
+    "id": "vd_016",
+    "question": "Comment le parallel coordinates plot aide-t-il à explorer des données multidimensionnelles ?",
+    "options": ["A) En dessinant des parallèles", "B) Chaque axe vertical = une dimension ; chaque observation = une ligne traversant tous les axes, révélant patterns et clusters", "C) En moyennant les dimensions", "D) En supprimant les dimensions inutiles"],
+    "answer": "B",
+    "explanation": "Chaque dimension est un axe vertical. Chaque observation est une ligne. Les clusters de lignes similaires révèlent des groupes. Les croisements révèlent des corrélations négatives."
+  },
+  {
+    "id": "vd_017",
+    "question": "Pourquoi D3.js est-il considéré comme le framework de visualisation le plus flexible ?",
+    "options": ["A) Il est le plus facile", "B) Il offre un contrôle bas niveau sur chaque élément SVG/Canvas via les data joins, permettant des visualisations sur mesure", "C) Il est uniquement pour les cartes", "D) Il ne nécessite pas de JavaScript"],
+    "answer": "B",
+    "explanation": "D3.js donne un contrôle total : manipulation DOM, transitions, data binding, calculs géométriques. Puissant mais courbe d'apprentissage raide. Highcharts/Chart.js sont plus simples mais moins flexibles."
+  },
+  {
+    "id": "vd_018",
+    "question": "Comment le Sankey diagram visualise-t-il les flux ?",
+    "options": ["A) Avec des flèches simples", "B) Avec des bandes dont l'épaisseur est proportionnelle au volume, montrant les flux entre nœuds et les pertes/gains", "C) En listant les flux", "D) Avec des barres empilées"],
+    "answer": "B",
+    "explanation": "Le Sankey utilise des bandes épaisses reliant des nœuds. L'épaisseur = volume du flux. Idéal pour montrer les flux de matière, d'énergie ou d'argent. Les pertes apparaissent comme des bandes qui se rétrécissent."
+  },
+  {
+    "id": "vd_019",
+    "question": "Pourquoi la choropleth map peut-elle être trompeuse pour les données de population ?",
+    "options": ["A) Elle ne fonctionne pas avec les populations", "B) Les grandes régions peu peuplées dominent visuellement, gonflant artificiellement leur importance perçue", "C) Elle est trop petite", "D) Elle ne montre pas les couleurs"],
+    "answer": "B",
+    "explanation": "Une choropleth colore les régions géographiques. La Russie (grande, peu peuplée) domine Singapour (petite, très peuplée). Solutions : cartogrammes ou bubble maps (cercles proportionnels)."
+  },
+  {
+    "id": "vd_020",
+    "question": "Comment un bubble chart ajoute-t-il une dimension par rapport au scatter plot ?",
+    "options": ["A) En ajoutant plus de couleurs", "B) La taille de chaque point encode une troisième variable quantitative, en plus de X et Y", "C) En ajoutant des axes 3D", "D) En animant les points"],
+    "answer": "B",
+    "explanation": "Bubble chart = scatter + taille variable. X = PIB/habitant, Y = espérance de vie, taille = population (Gapminder). La taille est encodée par l'aire (pas le rayon) pour une perception proportionnelle correcte."
+  },
+  {
+    "id": "vd_021",
+    "question": "Pourquoi un 'spaghetti chart' (trop de lignes superposées) est-il un anti-pattern ?",
+    "options": ["A) Il a faim", "B) Au-delà de 5-7 lignes, le graphique devient illisible ; les croisements sont impossibles à suivre", "C) Il est trop coloré", "D) Il fonctionne uniquement en noir et blanc"],
+    "answer": "B",
+    "explanation": "Trop de séries croisées = enchevêtrement illisible. Solutions : small multiples, highlight une ligne et griser les autres, agréger/clustering, ou utiliser un heatmap/sparklines."
+  },
+  {
+    "id": "vd_022",
+    "question": "Comment le 'sparkline' de Tufte fonctionne-t-il ?",
+    "options": ["A) En produisant des étincelles", "B) C'est un mini line chart de la taille d'un mot intégré dans un tableau, montrant la tendance sans axes ni labels", "C) C'est un graphique animé", "D) C'est un graphique en colonnes miniature"],
+    "answer": "B",
+    "explanation": "Les sparklines sont des mini-graphiques compacts montrant la tendance générale. Intégrés dans des tableaux, ils ajoutent le contexte visuel sans encombrer. Tufte les appelle 'data-intense, design-simple, word-sized graphics.'"
+  },
+  {
+    "id": "vd_023",
+    "question": "Pourquoi le 'ridge plot' est-il populaire pour les distributions temporelles ?",
+    "options": ["A) Il ressemble à des montagnes", "B) Il superpose les distributions KDE avec un décalage vertical, créant un effet de cascade temporelle", "C) Il est plus précis que l'histogramme", "D) Il fonctionne uniquement avec des données musicales"],
+    "answer": "B",
+    "explanation": "Le ridge plot empile les distributions KDE avec un offset vertical. Chaque crête = une période. L'évolution des formes au fil du temps est captée immédiatement."
+  },
+  {
+    "id": "vd_024",
+    "question": "Comment un waterfall chart décompose-t-il une valeur cumulative ?",
+    "options": ["A) En montrant une cascade d'eau", "B) Il montre les contributions positives et négatives menant d'un total initial à un total final", "C) En empilant des barres", "D) En utilisant des courbes"],
+    "answer": "B",
+    "explanation": "Le waterfall démarre d'une barre initiale, ajoute/soustrait les contributions en barres flottantes, et termine par une barre finale. Clair pour montrer comment on passe du CA au bénéfice net."
+  },
+  {
+    "id": "vd_025",
+    "question": "Pourquoi le 'dual-axis chart' est-il controversé ?",
+    "options": ["A) Il est trop moderne", "B) Les deux séries partagent le même espace mais des échelles différentes, permettant de créer des corrélations fallacieuses", "C) Il utilise trop de couleurs", "D) Il ne fonctionne pas en impression"],
+    "answer": "B",
+    "explanation": "Avec deux axes Y, on peut faire correspondre visuellement n'importe quelles deux séries en ajustant les échelles. Solutions : normaliser les séries, utiliser deux graphiques séparés, ou un scatter plot."
+  },
+  {
+    "id": "vd_026",
+    "question": "Pourquoi le radar chart est-il limité à 5-8 variables ?",
+    "options": ["A) Il n'y a jamais plus de 8 variables", "B) Au-delà de 8 axes, les polygones superposés deviennent illisibles", "C) La forme ne supporte pas plus", "D) Il faut trop de couleurs"],
+    "answer": "B",
+    "explanation": "Le radar chart place les variables sur des axes radiaux. Avec trop de variables, les polygones deviennent des disques illisibles. Les comparaisons sont aussi faussées car les variables adjacentes semblent plus corrélées."
+  },
+  {
+    "id": "vd_027",
+    "question": "Comment le heatmap visualise-t-il une matrice de corrélation ?",
+    "options": ["A) En dessinant une carte géographique", "B) Chaque cellule est colorée selon la valeur du coefficient (-1 bleu, 0 blanc, +1 rouge)", "C) En affichant les valeurs numériques uniquement", "D) En utilisant des barres"],
+    "answer": "B",
+    "explanation": "La heatmap de corrélation colore chaque paire de variables selon leur coefficient. Les blocs de couleur révèlent les groupes corrélés. Le dendrogramme peut réorganiser les variables par similarité."
+  },
+  {
+    "id": "vd_028",
+    "question": "Pourquoi le stacked bar chart devient-il illisible avec trop de catégories ?",
+    "options": ["A) Il est toujours lisible", "B) Seul le segment du bas est aligné ; les segments supérieurs flottent à des hauteurs variables, rendant les comparaisons impossibles", "C) Il utilise trop de couleurs", "D) Il ne fonctionne qu'avec 2 catégories"],
+    "answer": "B",
+    "explanation": "Comparer les segments du haut est difficile car leurs bases varient. Solutions : small multiples, side-by-side bars, ou 100% stacked si seul le relatif importe."
+  },
+  {
+    "id": "vd_029",
+    "question": "Pourquoi Tableau est-il devenu l'outil de référence en BI ?",
+    "options": ["A) Il est gratuit", "B) Son interface drag-and-drop, ses capacités d'analyse interactive et sa connectivité universelle aux sources de données", "C) Il fonctionne uniquement sur Mac", "D) Il est le seul existant"],
+    "answer": "B",
+    "explanation": "Tableau a démocratisé la BI avec son interface intuitive (VizQL), permettant aux utilisateurs métier de créer des dashboards interactifs sans coder."
+  },
+  {
+    "id": "vd_030",
+    "question": "Comment le 'brushing and linking' permet-il l'exploration interactive ?",
+    "options": ["A) En peignant les graphiques", "B) Sélectionner des points dans un graphique les highlight dans tous les autres graphiques liés automatiquement", "C) En connectant les graphiques par des lignes", "D) En ajoutant des hyperliens"],
+    "answer": "B",
+    "explanation": "Sélectionner un cluster dans un scatter plot highlight les mêmes points dans un histogramme, une carte et un tableau. Permet l'exploration multidimensionnelle cohérente."
+  },
+  {
+    "id": "vd_031",
+    "question": "Pourquoi la 'visual hierarchy' est-elle cruciale dans un dashboard ?",
+    "options": ["A) Pour classer les graphiques alphabétiquement", "B) Elle guide l'oeil du plus important (KPIs) vers le moins important (détails) via taille, couleur et position", "C) Il s'agit de la hiérarchie des données", "D) C'est uniquement décoratif"],
+    "answer": "B",
+    "explanation": "La hiérarchie visuelle utilise taille (grands KPIs en haut), couleur (accent pour alertes), position (haut-gauche = plus important) et contraste pour guider l'attention."
+  },
+  {
+    "id": "vd_032",
+    "question": "Comment le scatter plot matrix (SPLOM) aide-t-il à explorer les corrélations multiples ?",
+    "options": ["A) En affichant une matrice de nombres", "B) Il affiche les scatter plots de toutes les paires de variables, révélant corrélations, clusters et outliers d'un coup", "C) En empilant les graphiques", "D) En utilisant des couleurs uniquement"],
+    "answer": "B",
+    "explanation": "Le SPLOM crée une grille N×N de scatter plots. La diagonale montre les distributions. Permet de voir toutes les relations bivariées en un coup d'oeil."
+  },
+  {
+    "id": "vd_033",
+    "question": "Pourquoi l'animation dans les visualisations est-elle puissante mais dangereuse ?",
+    "options": ["A) Elle est trop coûteuse", "B) Elle montre les transitions temporelles intuitivement mais l'utilisateur ne peut pas comparer deux moments simultanément", "C) Elle ne fonctionne pas sur mobile", "D) Elle est toujours trompeuse"],
+    "answer": "B",
+    "explanation": "L'animation (ex: Gapminder) montre les changements intuitivement. Mais la mémoire visuelle est limitée : on ne peut pas comparer début et fin simultanément. Combiner animation + slider + small multiples est l'idéal."
+  },
+  {
+    "id": "vd_034",
+    "question": "Comment le tooltip enrichit-il l'expérience de visualisation ?",
+    "options": ["A) En ajoutant des outils au graphique", "B) En affichant des détails contextuels au survol sans encombrer le graphique principal", "C) En remplaçant les labels", "D) En corrigeant les erreurs"],
+    "answer": "B",
+    "explanation": "Le tooltip affiche valeurs exactes, métadonnées et contexte au survol. Le graphique principal reste épuré (principe de Tufte : detail on demand). Essentiel pour l'interactivité."
+  },
+  {
+    "id": "vd_035",
+    "question": "Pourquoi le 'chartjunk' dégrade-t-il la lisibilité ?",
+    "options": ["A) Il rend les graphiques trop beaux", "B) Les décorations inutiles (grilles lourdes, 3D, gradients) consomment de l'encre et de l'attention sans transmettre d'information", "C) Il est nécessaire", "D) Il améliore la précision"],
+    "answer": "B",
+    "explanation": "Le chartjunk (terme de Tufte) inclut les grilles excessives, les effets 3D, les gradients décoratifs. Ils consomment de l'attention cognitive sans valeur informationnelle. Maximiser le data-ink ratio = minimiser le chartjunk."
+  },
+  {
+    "id": "vd_036",
+    "question": "Comment le 'candlestick chart' (chandelier) est-il utilisé en finance ?",
+    "options": ["A) Pour décorer les bureaux", "B) Il montre les 4 prix d'une période (ouverture, fermeture, haut, bas) avec un corps et des mèches, révélant la psychologie du marché", "C) Pour afficher un seul prix", "D) Pour compter les transactions"],
+    "answer": "B",
+    "explanation": "Le candlestick : corps = ouverture-fermeture (vert si hausse, rouge si baisse), mèches = high/low. Les patterns (doji, hammer, engulfing) signalent les retournements de tendance."
+  },
+  {
+    "id": "vd_037",
+    "question": "Pourquoi le Gantt chart est-il standard en gestion de projet ?",
+    "options": ["A) Il est décoratif", "B) Il montre les tâches comme des barres horizontales sur un axe temporel, visualisant les durées, chevauchements et dépendances", "C) Il ne montre que les dates limites", "D) Il fonctionne uniquement avec 3 tâches"],
+    "answer": "B",
+    "explanation": "Le Gantt chart place les tâches en lignes, les durées en barres horizontales. Les dépendances sont des flèches. Permet de voir d'un coup quels tâches sont parallèles, critiques ou en retard."
+  },
+  {
+    "id": "vd_038",
+    "question": "Comment le 'streamgraph' diffère-t-il du stacked area chart ?",
+    "options": ["A) Ils sont identiques", "B) Le streamgraph est centré sur l'axe horizontal, créant un flux organique ; le stacked area est aligné sur l'axe Y", "C) Le streamgraph n'a pas d'axes", "D) Le stacked area est toujours positif"],
+    "answer": "B",
+    "explanation": "Le streamgraph centre les couches autour de l'axe, créant une forme fluide et organique. Plus esthétique et révélateur des tendances relatives, mais moins précis pour lire les valeurs absolues."
+  },
+  {
+    "id": "vd_039",
+    "question": "Pourquoi la 'colour blindness' doit-elle être considérée dans les visualisations ?",
+    "options": ["A) Personne n'est daltonien", "B) ~8% des hommes et 0.5% des femmes ont une déficience ; les palettes doivent rester lisibles sans dépendre de rouge/vert", "C) C'est uniquement un problème d'impression", "D) Les couleurs n'ont pas d'importance"],
+    "answer": "B",
+    "explanation": "~8% des hommes caucasiens ont un daltonisme rouge-vert. Utiliser des palettes daltonien-friendly (Viridis, Okabe-Ito, ColorBrewer) et encoder l'information par forme/taille en plus de la couleur."
+  },
+  {
+    "id": "vd_040",
+    "question": "Comment le 'word cloud' visualise-t-il la fréquence des mots ?",
+    "options": ["A) En listant les mots", "B) En affichant les mots avec une taille proportionnelle à leur fréquence, disposés de manière compacte", "C) En utilisant des barres", "D) En coloriant un texte"],
+    "answer": "B",
+    "explanation": "Le word cloud affiche les mots les plus fréquents en grand, les moins fréquents en petit. Utile pour une vue d'ensemble rapide mais critiqué : les mots longs semblent plus importants, pas de comparaison précise possible."
+  },
+  {
+    "id": "vd_041",
+    "question": "Pourquoi matplotlib est-il la bibliothèque de base en Python pour la visualisation ?",
+    "options": ["A) Il est le plus beau", "B) Il offre un contrôle total sur chaque élément du graphique, inspiré de MATLAB, et sert de fondation à seaborn, plotly et d'autres", "C) Il est le seul disponible", "D) Il ne nécessite pas de code"],
+    "answer": "B",
+    "explanation": "Matplotlib est le fondement de l'écosystème Python viz. Contrôle total sur axes, ticks, labels, annotations. Seaborn ajoute les statistical plots, Plotly ajoute l'interactivité. Courbe d'apprentissage raide mais flexibilité maximale."
+  },
+  {
+    "id": "vd_042",
+    "question": "Comment seaborn améliore-t-il matplotlib ?",
+    "options": ["A) En le remplaçant", "B) En fournissant des fonctions haut niveau pour les statistical plots (violin, pairplot, heatmap) avec de beaux thèmes par défaut", "C) En ajoutant des animations", "D) En supprimant les fonctions inutiles"],
+    "answer": "B",
+    "explanation": "Seaborn simplifie la création de graphiques statistiques : violin plot, pairplot, jointplot, heatmap de corrélation. Thèmes esthétiques intégrés, gestion automatique des couleurs et des légendes."
+  },
+  {
+    "id": "vd_043",
+    "question": "Pourquoi Plotly est-il privilégié pour les dashboards interactifs ?",
+    "options": ["A) Il est plus précis que matplotlib", "B) Il génère des graphiques interactifs (zoom, hover, pan) nativement web, intégrables dans Dash", "C) Il est uniquement pour les cartes", "D) Il ne nécessite pas de serveur"],
+    "answer": "B",
+    "explanation": "Plotly génère du HTML/JS interactif (zoom, hover tooltips, pan). Couplé à Dash, il crée des applications web de visualisation complète avec callbacks Python."
+  },
+  {
+    "id": "vd_044",
+    "question": "Comment le 'lollipop chart' améliore-t-il le bar chart ?",
+    "options": ["A) Il est plus sucré", "B) Il remplace les barres par des lignes fines terminées par un cercle, réduisant le bruit visuel tout en gardant la même information", "C) Il ajoute des couleurs", "D) Il est uniquement vertical"],
+    "answer": "B",
+    "explanation": "Le lollipop chart ( Cleveland dot plot) utilise des lignes fines + cercles. Même information que le bar chart mais moins encombré visuellement. Particulièrement efficace avec beaucoup de catégories."
+  },
+  {
+    "id": "vd_045",
+    "question": "Pourquoi le 'dot plot' de Cleveland est-il recommandé pour les comparaisons ?",
+    "options": ["A) Il est nouveau", "B) Il positionne les points le long d'un axe aligné, exploitant mieux la précision de perception de position que la longueur des barres", "C) Il est plus coloré", "D) Il fonctionne uniquement avec des pourcentages"],
+    "answer": "B",
+    "explanation": "Les études de Cleveland et McGill montrent que la perception de position le long d'un axe commun est plus précise que la longueur. Le dot plot est souvent plus lisible qu'un bar chart pour les comparaisons fines."
+  },
+  {
+    "id": "vd_046",
+    "question": "Comment le 'funnel chart' est-il utilisé en analyse de conversion ?",
+    "options": ["A) Pour verser des liquides", "B) Il montre les volumes à chaque étape du parcours client, révélant les taux d'abandon entre les étapes", "C) Pour compter les clics", "D) Pour afficher les revenus uniquement"],
+    "answer": "B",
+    "explanation": "Le funnel chart montre le rétrécissement progressif : visiteurs → inscrits → panier → achat. Chaque étape est plus étroite. Révèle immédiatement où se situe le plus fort taux d'abandon."
+  },
+  {
+    "id": "vd_047",
+    "question": "Pourquoi le 'bullet chart' est-il préféré aux gauges pour les KPIs ?",
+    "options": ["A) Il est plus joli", "B) Il montre la valeur actuelle vs la cible et les zones de performance dans un format compact et précis, contrairement aux gauges décoratives", "C) Il est plus grand", "D) Il utilise des couleurs vives"],
+    "answer": "B",
+    "explanation": "Le bullet chart (Stephen Few) remplace les jauges circulaires : barre principale (actuel), marqueur (cible), zones colorées (mauvais/satisfaisant/bon). Compact, précis, et permet la comparaison de plusieurs KPIs."
+  },
+  {
+    "id": "vd_048",
+    "question": "Comment le 'waffle chart' (unit chart) montre-t-il les proportions ?",
+    "options": ["A) Avec des gaufs", "B) En remplissant des carrés d'une grille 10×10, chaque carré représentant 1% — intuitif pour le grand public", "C) En utilisant des barres", "D) En dessinant des cercles"],
+    "answer": "B",
+    "explanation": "Le waffle chart utilise une grille de 100 (ou 1000) carrés. 65% = 65 carrés remplis. Très intuitif : chaque carré = 1%. Particulièrement efficace pour communiquer des proportions au grand public."
+  },
+  {
+    "id": "vd_049",
+    "question": "Pourquoi le 'network graph' est-il difficile à lire avec beaucoup de nœuds ?",
+    "options": ["A) Il est toujours lisible", "B) Le 'hairball effect' : trop de connexions créent une masse illisible de lignes croisées", "C) Il ne fonctionne qu'avec 5 nœuds", "D) Les couleurs ne s'affichent pas"],
+    "answer": "B",
+    "explanation": "Au-delà de ~50 nœuds avec des connexions denses, le network graph devient un 'hairball'. Solutions : filtrer par poids, utiliser des layouts hiérarchiques, community detection avec couleurs, ou arc diagram."
+  },
+  {
+    "id": "vd_050",
+    "question": "Comment le 'choropleth' diffère-t-il du 'cartogram' ?",
+    "options": ["A) Ils sont identiques", "B) Le choropleth colore les régions géographiques normales ; le cartogram déforme la taille des régions proportionnellement à une variable", "C) Le cartogram utilise des couleurs uniquement", "D) Le choropleth déforme les régions"],
+    "answer": "B",
+    "explanation": "Le choropleth respecte la géographie mais colore par valeur. Le cartogram déforme : les pays avec forte population gonflent, les autres rétrécissent. Le cartogram corrige le biais des grandes régions vides."
+  },
+  {
+    "id": "vd_051",
+    "question": "Pourquoi le 'area chart' peut-il tromper sur les valeurs individuelles ?",
+    "options": ["A) Il est trop petit", "B) Dans un stacked area chart, les couches supérieures incluent les valeurs des couches inférieures, pas seulement leur propre valeur", "C) Il ne montre pas les tendances", "D) Il fonctionne uniquement en noir et blanc"],
+    "answer": "B",
+    "explanation": "Le stacked area chart est cumulatif : la couche supérieure montre la somme de toutes les couches, pas sa valeur individuelle. La ligne du haut représente le total. Pour voir les valeurs individuelles, utiliser un line chart normal ou un 100% area."
+  },
+  {
+    "id": "vd_052",
+    "question": "Comment le 'donut chart' se compare-t-il au pie chart ?",
+    "options": ["A) Il est identique", "B) Il supprime le centre (trou), permettant d'y placer un KPI ou label ; le trou réduit la comparaison d'angles problématique", "C) Il est moins précis", "D) Il ne fonctionne qu'avec 2 catégories"],
+    "answer": "B",
+    "explanation": "Le donut chart supprime le centre du pie, réduisant la comparaison d'angles (le problème principal). Le centre peut afficher un nombre clé. C'est un compromis esthétique mais le bar chart reste plus précis."
+  },
+  {
+    "id": "vd_053",
+    "question": "Pourquoi le 'bee swarm plot' est-il une alternative au box plot ?",
+    "options": ["A) Il attire les abeilles", "B) Il montre chaque point individuel, évitant qu'ils se chevauchent, tout en révélant la densité locale", "C) Il supprime les outliers", "D) Il est uniquement pour les grandes distributions"],
+    "answer": "B",
+    "explanation": "Le bee swarm plot place chaque point avec un offset pour éviter le chevauchement. Il montre la distribution complète, les clusters et les gaps que le box plot résume en 5 statistiques."
+  },
+  {
+    "id": "vd_054",
+    "question": "Comment le 'error bar' contribue-t-il à la rigueur scientifique des graphiques ?",
+    "options": ["A) Il montre les erreurs de calcul", "B) Il affiche l'incertitude (intervalle de confiance, écart-type) autour de chaque mesure, évitant de surinterpréter les différences", "C) Il indique les erreurs de données", "D) Il est purement décoratif"],
+    "answer": "B",
+    "explanation": "Les error bars montrent l'incertitude : intervalle de confiance 95%, écart-type ou erreur standard. Des barres qui se chevauchent suggèrent que la différence n'est pas significative. Indispensable en publication scientifique."
+  },
+  {
+    "id": "vd_055",
+    "question": "Pourquoi le 'Bland-Altman plot' est-il utilisé en statistique médicale ?",
+    "options": ["A) Il montre les médicaments", "B) Il évalue l'accord entre deux méthodes de mesure en comparant la différence à la moyenne, révélant les biais systématiques", "C) Il est identique au scatter plot", "D) Il ne fonctionne qu'avec des patients"],
+    "answer": "B",
+    "explanation": "Le Bland-Altman plot (différence vs moyenne des deux mesures) montre le biais moyen (ligne centrale) et les limites d'agrément (±1.96 SD). Si les points sont dans les limites, les deux méthodes sont interchangeables."
+  },
+  {
+    "id": "vd_056",
+    "question": "Comment le 'connected scatter plot' combine-t-il deux concepts ?",
+    "options": ["A) Il connecte deux scatter plots", "B) Il affiche un scatter plot dont les points sont reliés par des lignes temporelles, montrant à la fois relation et évolution", "C) Il connecte les points les plus proches", "D) Il est identique au line chart"],
+    "answer": "B",
+    "explanation": "Le connected scatter plot montre deux variables en scatter, avec des lignes reliant les points dans l'ordre temporel. Révèle comment la relation entre X et Y évolue dans le temps (ex: chômage vs inflation par année)."
+  },
+  {
+    "id": "vd_057",
+    "question": "Pourquoi le 'Marimekko chart' (mosaic plot) est-il utile pour les données catégorielles ?",
+    "options": ["A) Il est décoratif", "B) Il combine un stacked bar chart avec des largeurs variables, montrant les proportions de deux variables catégorielles simultanément", "C) Il ne fonctionne qu'avec des nombres", "D) Il est trop complexe"],
+    "answer": "B",
+    "explanation": "Le Marimekko chart a des colonnes de largeurs différentes (proportion d'une catégorie) et des segments empilés (proportion d'une sous-catégorie). L'aire de chaque segment représente la proportion conjointe des deux variables."
+  },
+  {
+    "id": "vd_058",
+    "question": "Comment le 'calendar heatmap' visualise-t-il les données temporelles ?",
+    "options": ["A) En dessinant un calendrier classique", "B) En colorant chaque jour du calendrier selon une valeur, révélant les patterns quotidiens et saisonniers", "C) En utilisant des barres", "D) En affichant les dates uniquement"],
+    "answer": "B",
+    "explanation": "Le calendar heatmap (ex: contributions GitHub) colore chaque jour selon une métrique (commits, activité). Révèle les patterns hebdomadaires (weekends) et saisonniers d'un coup d'oeil."
+  },
+  {
+    "id": "vd_059",
+    "question": "Pourquoi le 'sunburst chart' est-il une alternative au treemap ?",
+    "options": ["A) Il est plus précis", "B) Il représente la hiérarchie en cercles concentriques, le centre étant la racine, chaque anneau un niveau de profondeur", "C) Il ne montre pas les proportions", "D) Il fonctionne uniquement avec 2 niveaux"],
+    "answer": "B",
+    "explanation": "Le sunburst chart montre la hiérarchie en anneaux concentriques. Centre = racine, anneaux successifs = niveaux enfants. Plus intuitif pour les hiérarchies profondes que le treemap, mais moins précis pour comparer les surfaces d'anneaux."
+  },
+  {
+    "id": "vd_060",
+    "question": "Comment le 'horizon chart' compresse-t-il l'espace vertical ?",
+    "options": ["A) En coupant le graphique", "B) En pliant les négatifs en positifs et en superposant les bandes colorées par densité, divisant la hauteur par 3-4x", "C) En supprimant les valeurs négatives", "D) En utilisant des couleurs uniquement"],
+    "answer": "B",
+    "explanation": "Le horizon chart divise la zone en bandes, miroite les négatifs en positifs, et superpose les bandes avec une opacité croissante. Résultat : même information dans 1/4 de l'espace. Idéal pour les small multiples de séries temporelles."
+  },
+  {
+    "id": "vd_061",
+    "question": "Pourquoi le 'Bump chart' est-il utile pour les classements temporels ?",
+    "options": ["A) Il montre des bosses", "B) Il trace les rangs de catégories dans le temps, montrant les changements de position avec des lignes qui se croisent", "C) Il est identique au line chart", "D) Il ne fonctionne qu'avec 3 catégories"],
+    "answer": "B",
+    "explanation": "Le bump chart trace les classements (rang 1, 2, 3...) au fil du temps. Les croisements de lignes montrent les changements de position. Plus lisible qu'un line chart quand on se soucie du rang, pas de la valeur absolue."
+  },
+  {
+    "id": "vd_062",
+    "question": "Comment le 'strip plot' (jitter plot) résout-il le problème de surplotting ?",
+    "options": ["A) En supprimant les points", "B) En ajoutant un jitter (bruit aléatoire) sur l'axe discret pour étaler les points et voir la densité locale", "C) En agrandissant le graphique", "D) En utilisant des couleurs différentes"],
+    "answer": "B",
+    "explanation": "Le strip plot ajoute un petit déplacement aléatoire (jitter) sur l'axe catégoriel pour éviter que tous les points d'une même catégorie se chevauchent. Révèle la concentration locale et les outliers."
+  },
+  {
+    "id": "vd_063",
+    "question": "Pourquoi le 'hexbin plot' est-il préféré au scatter plot pour les très grands datasets ?",
+    "options": ["A) Il est plus joli", "B) Il binne les données en hexagones colorés par densité, évitant le surplotting de millions de points", "C) Il est plus précis", "D) Il fonctionne uniquement avec 2 variables"],
+    "answer": "B",
+    "explanation": "Avec >100K points, le scatter plot devient une masse noire. Le hexbin divise l'espace en hexagones et colore par nombre de points. La forme hexagonale minimise les artefacts directionnels du binning carré."
+  },
+  {
+    "id": "vd_064",
+    "question": "Comment le 'marginal plot' (joint plot) enrichit-il un scatter plot ?",
+    "options": ["A) Il ajoute des marges au papier", "B) Il ajoute les distributions marginales (histogramme ou KDE) sur les axes X et Y du scatter plot", "C) Il ajoute des notes en marge", "D) Il change les couleurs"],
+    "answer": "B",
+    "explanation": "Le joint plot (seaborn) ajoute les distributions univariées en marge du scatter plot. Permet de voir la corrélation ET les distributions individuelles dans un seul graphique."
+  },
+  {
+    "id": "vd_065",
+    "question": "Pourquoi le 'Simpson's Paradox' peut-il apparaître dans les visualisations ?",
+    "options": ["A) C'est un bug logiciel", "B) Une tendance visible dans les groupes individuels disparaît ou s'inverse quand les groupes sont combinés", "C) Il ne concerne que les statistiques", "D) Les couleurs sont mal choisies"],
+    "answer": "B",
+    "explanation": "Le paradoxe de Simpson : chaque sous-groupe montre une tendance (ex: traitement A > B dans chaque tranche d'âge) mais l'agrégation montre l'inverse. La visualisation doit toujours montrer les sous-groupes, pas seulement l'agrégat."
+  },
+  {
+    "id": "vd_066",
+    "question": "Comment le 'Gestalt principles' s'appliquent-ils à la visualisation ?",
+    "options": ["A) Ce sont des principes allemands", "B) Proximité, similarité, continuité et clôture guident l'oeil pour percevoir des groupes et patterns automatiquement", "C) Ils ne s'appliquent pas aux graphiques", "D) Ils remplacent les axes"],
+    "answer": "B",
+    "explanation": "Les principes Gestalt : éléments proches = groupe (proximité), même couleur = groupe (similarité), lignes continues = relation (continuité), zone fermée = unité (closure). Les bons graphiques exploitent ces principes pour guider la perception."
+  },
+  {
+    "id": "vd_067",
+    "question": "Pourquoi le 'Power BI' de Microsoft est-il un concurrent sérieux de Tableau ?",
+    "options": ["A) Il est gratuit", "B) Son intégration avec l'écosystème Microsoft (Excel, Azure, Teams), son pricing attractif et son moteur DAX", "C) Il est plus facile", "D) Il fonctionne uniquement sous Windows"],
+    "answer": "B",
+    "explanation": "Power BI s'intègre nativement avec Office 365, Azure et Teams. Son langage DAX permet des calculs complexes. Le pricing (inclus dans les licences Microsoft 365) le rend attractif pour les entreprises déjà sur l'écosystème."
+  },
+  {
+    "id": "vd_068",
+    "question": "Comment le 'streamgraph' a-t-il gagné en popularité ?",
+    "options": ["A) Grâce à une publicité", "B) Par une visualisation du New York Times sur les sorties cinéma d'été qui est devenue virale en 2008", "C) Par un article scientifique", "D) Grâce à Excel"],
+    "answer": "B",
+    "explanation": "Le streamgraph a été popularisé par Lee Byron et Matthew Wattenberg via une visualisation NYT 'The Ebb and Flow of Movies'. L'esthétique organique et la révélation des tendances relatives ont captivé le public."
+  },
+  {
+    "id": "vd_069",
+    "question": "Pourquoi le 'Anscombe's Quartet' démontre-t-il l'importance de la visualisation ?",
+    "options": ["A) Il montre 4 graphiques identiques", "B) 4 datasets ont des statistiques identiques (moyenne, variance, corrélation) mais des patterns visuels complètement différents", "C) Il prouve que les statistiques suffisent", "D) Il fonctionne uniquement avec 4 points"],
+    "answer": "B",
+    "explanation": "Le Quartet d'Anscombe (1973) montre 4 jeux de données avec même moyenne, variance, corrélation et régression. Mais visuellement : un linéaire, un courbe, un avec outlier, un vertical. La visualisation révèle ce que les stats cachent."
+  },
+  {
+    "id": "vd_070",
+    "question": "Comment le 'Datasaurus Dozen' renforce-t-il l'argument d'Anscombe ?",
+    "options": ["A) Avec des dinosaures", "B) Il génère 13 datasets (dont un en forme de dinosaure) avec les mêmes statistiques mais des formes visuellement très différentes", "C) Il utilise des données préhistoriques", "D) Il remplace le quartet d'Anscombe"],
+    "answer": "B",
+    "explanation": "Le Datasaurus Dozen (Matejka & Fitzmaurice, 2017) montre que même des formes complexes (dinosaur, star, circle, X) peuvent partager les mêmes statistiques descriptives. Prouve que la visualisation est irremplacable."
+  },
+  {
+    "id": "vd_071",
+    "question": "Pourquoi la bibliothèque ggplot2 de R est-elle influente dans la Data Visualization ?",
+    "options": ["A) Elle est la seule disponible en R", "B) Elle implémente la 'Grammar of Graphics' ( Wilkinson) : construire des graphiques par couches composable (data + aes + geom + facet)", "C) Elle est plus facile que Python", "D) Elle ne fonctionne qu'en R"],
+    "answer": "B",
+    "explanation": "ggplot2 (Hadley Wickham) implémente la Grammar of Graphics : chaque graphique = data + aesthetic mappings (x, y, color) + geometric objects (points, lines) + facets + scales + coord. Composable et cohérent."
+  },
+  {
+    "id": "vd_072",
+    "question": "Comment le 'Facet Grid' de seaborn/ggplot se compare-t-il aux small multiples de Tufte ?",
+    "options": ["A) Ce sont des concepts différents", "B) C'est l'implémentation logicielle du même concept : grille de graphiques identiques partitionnés par une ou deux variables", "C) Le facet grid est plus limité", "D) Les small multiples sont plus anciens"],
+    "answer": "B",
+    "explanation": "Les facet grids sont l'implémentation logicielle des small multiples de Tufte. En ggplot : facet_wrap(~var) ou facet_grid(row~col). En seaborn : sns.FacetGrid(). Même concept, même puissance."
+  },
+  {
+    "id": "vd_073",
+    "question": "Pourquoi le '3D chart' est-il généralement déconseillé ?",
+    "options": ["A) Il est trop moderne", "B) La perspective 3D déforme les proportions, les barres arrières paraissent plus petites, et l'occlusion cache des données", "C) Il est trop petit", "D) Il ne fonctionne pas sur papier"],
+    "answer": "B",
+    "explanation": "Les graphiques 3D déforment les proportions par la perspective, les éléments arrières semblent plus petits, les barres avant occultent les arrière. Edward Tufte recommande d'éviter la 3D sauf pour les données véritablement tridimensionnelles."
+  },
+  {
+    "id": "vd_074",
+    "question": "Comment le 'confidence interval' (bande de confiance) améliore-t-il un line chart ?",
+    "options": ["A) Il ajoute des couleurs", "B) Il entoure la ligne d'une bande semi-transparente montrant l'incertitude, évitant de surinterpréter les fluctuations", "C) Il supprime le bruit", "D) Il lisse la courbe"],
+    "answer": "B",
+    "explanation": "La bande de confiance montre l'intervalle dans lequel la vraie valeur a X% de chances de se trouver. Une bande étroite = prédiction fiable. Large = incertitude. Plus honnête qu'une ligne pointue sans contexte."
+  },
+  {
+    "id": "vd_075",
+    "question": "Pourquoi le 'Slopegraph' de Tufte est-il efficace pour montrer les changements ?",
+    "options": ["A) Il montre des pentes", "B) Il connecte les valeurs de début et fin par des lignes, rendant les changements (hausse/baisse) immédiatement visibles par la pente", "C) Il est identique au line chart", "D) Il ne fonctionne qu'avec 2 points"],
+    "answer": "B",
+    "explanation": "Le slopegraph montre deux colonnes de valeurs reliées par des lignes. La pente de chaque ligne indique instantanément hausse ou baisse et son ampleur. Minimal et efficace pour les comparaisons avant/après."
+  },
+  {
+    "id": "vd_076",
+    "question": "Comment le 'KDE plot' (Kernel Density Estimation) améliore-t-il l'histogramme ?",
+    "options": ["A) Il est plus coloré", "B) Il produit une courbe lisse continue qui estime la densité de probabilité, sans dépendre des bins arbitraires de l'histogramme", "C) Il est plus rapide", "D) Il supprime les outliers"],
+    "answer": "B",
+    "explanation": "Le KDE estime la densité en sommant des noyaux gaussiens centrés sur chaque point. Pas de bins arbitraires. La courbe est lisse, continue et ne dépend pas du choix du nombre de bins ou de leur position."
+  },
+  {
+    "id": "vd_077",
+    "question": "Pourquoi le 'geospatial visualization' nécessite-t-elle des projections cartographiques ?",
+    "options": ["A) Pour décorer les cartes", "B) La Terre est sphérique mais l'écran est plat ; toute projection déforme (surface, forme, distance ou direction)", "C) Pour accélérer le rendu", "D) Les projections ne sont pas nécessaires"],
+    "answer": "B",
+    "explanation": "Aucune projection plate ne préserve simultanément surface, forme, distance et direction. Mercator préserve les angles (navigation) mais gonfle les pôles. Equal-area préserve les surfaces. Le choix dépend de ce qu'on veut montrer."
+  },
+  {
+    "id": "vd_078",
+    "question": "Comment le 'glyph' (icone de données) encode-t-il plusieurs variables ?",
+    "options": ["A) En dessinant des hiéroglyphes", "B) En modifiant les propriétés visuelles d'une forme (taille, couleur, orientation, longueur de bras) pour encoder plusieurs variables simultanément", "C) En utilisant du texte", "D) En ajoutant des images"],
+    "answer": "B",
+    "explanation": "Les glyphs (Chernoff faces, star plots, wind barbs) encodent plusieurs variables dans un seul objet visuel. Ex: une Chernoff face utilise la taille des yeux, sourire, forme du visage. Efficace mais limité en nombre de variables."
+  },
+  {
+    "id": "vd_079",
+    "question": "Pourquoi le 'dashboard design' suit-il le 'F-pattern' ou 'Z-pattern' ?",
+    "options": ["A) Ce sont des lettres décoratives", "B) L'oeil scanne naturellement en F (haut-gauche → droite → bas) ou en Z ; placer les KPIs clés en haut-gauche suit le parcours visuel naturel", "C) C'est une mode", "D) Ça ne s'applique pas aux dashboards"],
+    "answer": "B",
+    "explanation": "Les eye-tracking studies montrent que les utilisateurs scannent en F ou Z. Les informations les plus importantes doivent être en haut-gauche, les détails en bas. Le design suit la cognition naturelle."
+  },
+  {
+    "id": "vd_080",
+    "question": "Comment le 'Altair' de Python se compare-t-il à matplotlib ?",
+    "options": ["A) Il est identique", "B) Altair utilise une Grammar of Graphics déclarative (JSON/Vega-Lite), permettant des visualisations interactives avec moins de code", "C) Altair remplace matplotlib", "D) Altair ne fonctionne qu'avec des DataFrames"],
+    "answer": "B",
+    "explanation": "Altair suit la Grammar of Graphics : on déclare ce qu'on veut (data + encodings + mark_type) et la librairie génère du Vega-Lite. Interactivité (zoom, select, tooltip) native. Plus déclaratif que matplotlib (impératif)."
+  },
+  {
+    "id": "vd_081",
+    "question": "Pourquoi le 'Pareto chart' combine-t-il barres et lignes ?",
+    "options": ["A) Pour décorer", "B) Les barres montrent les valeurs individuelles (décroissantes) et la ligne montre le pourcentage cumulé, identifiant les 80/20", "C) Il ne fonctionne qu'avec des pourcentages", "D) La ligne est optionnelle"],
+    "answer": "B",
+    "explanation": "Le Pareto chart trie les catégories par valeur décroissante (barres) et superpose la courbe cumulative (ligne). Quand la courbe atteint 80%, on identifie les catégories critiques (principe 80/20 de Pareto)."
+  },
+  {
+    "id": "vd_082",
+    "question": "Comment le 'biplot' améliore-t-il la compréhension d'une PCA ?",
+    "options": ["A) Il montre deux PCA", "B) Il superpose les observations (scores) et les variables (loadings/vecteurs) sur le même graphique, révélant quelles variables contribuent aux axes", "C) Il divise l'écran en deux", "D) Il est identique au scatter plot"],
+    "answer": "B",
+    "explanation": "Le biplot PCA montre les observations (points) et les variables (flèches/vecteurs). La direction et longueur de chaque flèche indiquent la contribution de la variable aux composantes. Essentiel pour interpréter la PCA."
+  },
+  {
+    "id": "vd_083",
+    "question": "Pourquoi le 'interactive filter' améliore-t-il l'exploration de données ?",
+    "options": ["A) Il filtre le bruit", "B) Il permet à l'utilisateur de sélectionner dynamiquement des sous-ensembles, réduisant la complexité et focalisant sur les données pertinentes", "C) Il supprime des données", "D) Il est uniquement décoratif"],
+    "answer": "B",
+    "explanation": "Les filtres interactifs (dropdowns, sliders, date pickers) permettent à l'utilisateur de zoomer sur les données pertinentes. Un dashboard avec 10 filtres peut répondre à des centaines de questions sans créer 100 graphiques."
+  },
+  {
+    "id": "vd_084",
+    "question": "Comment le 'quantile-quantile (QQ) plot' vérifie-t-il la normalité d'une distribution ?",
+    "options": ["A) En dessinant deux quantiles", "B) En comparant les quantiles empiriques aux quantiles théoriques d'une loi normale ; les points alignés sur la droite = distribution normale", "C) En calculant la moyenne", "D) En traçant l'histogramme"],
+    "answer": "B",
+    "explanation": "Le QQ plot compare les quantiles de la distribution empirique (axe Y) à ceux de la loi normale (axe X). Si les points suivent la droite y=x, la distribution est normale. Les déviations (queue, S-shape) révèlent le type de non-normalité."
+  },
+  {
+    "id": "vd_085",
+    "question": "Pourquoi le 'Grafana' est-il populaire pour le monitoring en temps réel ?",
+    "options": ["A) Il est uniquement décoratif", "B) Il connecte de multiples sources de données (Prometheus, InfluxDB, Elasticsearch) et fournit des dashboards temps réel avec alertes", "C) Il est le seul existant", "D) Il ne fonctionne qu'avec des métriques système"],
+    "answer": "B",
+    "explanation": "Grafana est une plateforme open-source de visualisation qui se connecte à de nombreuses sources de métriques. Ses dashboards en temps réel, son système d'alertes et ses annotations en font le standard pour le monitoring DevOps."
+  },
+  {
+    "id": "vd_086",
+    "question": "Comment le 'chord diagram' visualise-t-il les relations entre catégories ?",
+    "options": ["A) Avec des accords musicaux", "B) Des arcs relient des catégories sur un cercle, l'épaisseur de l'arc étant proportionnelle au volume de la relation", "C) En listant les relations", "D) Avec des barres"],
+    "answer": "B",
+    "explanation": "Le chord diagram place les catégories autour d'un cercle et relie les paires liées par des arcs. L'épaisseur = volume de la relation. Idéal pour montrer les échanges commerciaux, les flux migratoires ou les corrélations inter-modèles."
+  },
+  {
+    "id": "vd_087",
+    "question": "Pourquoi le 'clustering dendrogram' accompagne-t-il souvent un heatmap ?",
+    "options": ["A) Pour décorer", "B) Il réorganise les lignes et colonnes en regroupant les similarités, révélant les blocs de structure dans la heatmap", "C) Il est obligatoire", "D) Il remplace la heatmap"],
+    "answer": "B",
+    "explanation": "Le dendrogramme (clustering hiérarchique) réordonne les lignes et colonnes de la heatmap pour placer les éléments similaires côte à côte. Les blocs de couleur émergent, révélant la structure cachée des données."
+  },
+  {
+    "id": "vd_088",
+    "question": "Comment le 'step chart' se différencie-t-il du line chart ?",
+    "options": ["A) Il va plus vite", "B) Il relie les points par des segments horizontaux puis verticaux (pas de diagonale), montrant que la valeur reste constante puis change brusquement", "C) Il est identique", "D) Il utilise des marches aléatoires"],
+    "answer": "B",
+    "explanation": "Le step chart montre des changements discrets (prix fixe puis changement, nombre d'employés). La ligne horizontale = période de stabilité. Le saut vertical = moment du changement. Plus honnête qu'une interpolation linéaire."
+  },
+  {
+    "id": "vd_089",
+    "question": "Pourquoi le 'Range Chart' (barre d'erreur) est-il important pour les prévisions ?",
+    "options": ["A) Il montre les limites", "B) Il affiche l'intervalle de prédiction (min-max ou confiance) autour de la valeur centrale, communiquant l'incertitude de la prévision", "C) Il est uniquement pour les finances", "D) Il remplace la valeur centrale"],
+    "answer": "B",
+    "explanation": "Le range chart montre la prévision centrale et son intervalle de confiance. Une plage étroite = prévision fiable. Large = incertitude. Indispensable pour les prévisions météo, financières ou de demande."
+  },
+  {
+    "id": "vd_090",
+    "question": "Comment le 'Diverging Bar Chart' met-il en évidence les valeurs positives et négatives ?",
+    "options": ["A) En divergeant les couleurs", "B) Les barres partent d'un axe central, s'étendant à droite (positif) ou à gauche (négatif), avec des couleurs contrastées", "C) En utilisant des barres verticales", "D) En supprimant les valeurs proches de zéro"],
+    "answer": "B",
+    "explanation": "Le diverging bar chart centre l'axe sur zéro. Les barres positives s'étendent à droite (couleur A), les négatives à gauche (couleur B). Immédiatement visible : qui est au-dessus/en-dessous de la moyenne."
+  },
+  {
+    "id": "vd_091",
+    "question": "Pourquoi la 'typographie' est-elle importante dans les visualisations ?",
+    "options": ["A) Pour faire joli", "B) Le choix de la police (sans-serif pour lisibilité écran), la taille (hiérarchie) et le contraste affectent la lisibilité et la crédibilité", "C) Elle n'a pas d'impact", "D) Seule la couleur compte"],
+    "answer": "B",
+    "explanation": "La typographie transmet la hiérarchie (titres 24pt, sous-titres 16pt, labels 12pt). Sans-serif (Inter, Roboto) pour écran, serif pour impression. Un mauvais choix (Comic Sans) détruit la crédibilité. Le texte est la moitié du graphique."
+  },
+  {
+    "id": "vd_092",
+    "question": "Comment le 'KPI card' (carte indicateur) synthétise-t-il une métrique clé ?",
+    "options": ["A) En affichant un graphique", "B) Il montre la valeur actuelle, la variation vs objectif/période précédente et souvent un sparkline dans un format compact", "C) En listant tous les nombres", "D) En utilisant des couleurs vives uniquement"],
+    "answer": "B",
+    "explanation": "Le KPI card affiche : la valeur principale en grand, la variation (↑+5% en vert ou ↓-3% en rouge), l'objectif, et un mini sparkline. Très compact, il permet de monitorer plusieurs métriques en un coup d'oeil."
+  },
+  {
+    "id": "vd_093",
+    "question": "Pourquoi le 'Responsive Design' est-il crucial pour les dashboards modernes ?",
+    "options": ["A) Il rend les graphiques plus beaux", "B) Les dashboards doivent s'adapter aux tailles d'écran variées (mobile, tablette, desktop) pour rester lisibles partout", "C) Il accélère le chargement", "D) Il est uniquement pour les sites web"],
+    "answer": "B",
+    "explanation": "Les décideurs consultent les dashboards sur mobile en déplacement. Un dashboard non responsive est illisible sur téléphone. Les KPI cards s'empilent, les graphiques se redimensionnent, les filtres se replient."
+  },
+  {
+    "id": "vd_094",
+    "question": "Comment le 'conditional formatting' dans les tableaux améliore-t-il la perception ?",
+    "options": ["A) Il colore les tableaux", "B) Il applique des couleurs ou icônes aux cellules selon leur valeur, transformant un tableau en heatmap lisible instantanément", "C) Il trie les données", "D) Il supprime les valeurs aberrantes"],
+    "answer": "B",
+    "explanation": "Le conditional formatting (cellules vertes/rouges, barres de données, icônes ↑↓) transforme un tableau de nombres en une visualisation. L'oeil identifie immédiatement les valeurs élevées/basses sans lire chaque nombre."
+  },
+  {
+    "id": "vd_095",
+    "question": "Pourquoi le 'data storytelling' est-il devenu une compétence clé ?",
+    "options": ["A) Pour raconter des histoires aux enfants", "B) Combiner données, visualisation et narration pour convaincre les décideurs en guidant l'interprétation", "C) C'est une mode passagère", "D) Il remplace les statistiques"],
+    "answer": "B",
+    "explanation": "Le data storytelling combine : données fiables + visualisations claires + narration guidante. Un graphique seul ne convainc pas ; il faut le contexte (pourquoi c'est important), l'insight (que voit-on) et l'action (que faire)."
+  },
+  {
+    "id": "vd_096",
+    "question": "Comment le 'gganimate' ou 'Flourish' ajoutent-ils la dimension temporelle ?",
+    "options": ["A) En accélérant les calculs", "B) Ils animent les graphiques dans le temps, montrant les transitions fluides entre les états successifs des données", "C) Ils ajoutent des animations décoratives", "D) Ils remplacent les graphiques statiques"],
+    "answer": "B",
+    "explanation": "gganimate (R) et Flourish (web) animent les graphiques : les points se déplacent, les barres grandissent/rapetissent, les couleurs changent au fil du temps. La dimension temporelle devient intuitive et captivante."
+  },
+  {
+    "id": "vd_097",
+    "question": "Pourquoi le 'colour palette' de ColorBrewer est-il une référence ?",
+    "options": ["A) Il est le plus beau", "B) Il offre des palettes testées pour la lisibilité, l'impression, la photocopie et le daltonisme, classées par type de données", "C) Il est le seul disponible", "D) Il fonctionne uniquement en cartographie"],
+    "answer": "B",
+    "explanation": "ColorBrewer (Cynthia Brewer) fournit des palettes testées empiriquement : séquentielles (une variable ordonnée), divergentes (centrées) et qualitatives (catégories). Testées pour daltonisme, impression N&B et lisibilité."
+  },
+  {
+    "id": "vd_098",
+    "question": "Comment le 'cross-filter' dans Power BI ou Tableau fonctionne-t-il ?",
+    "options": ["A) Il filtre les erreurs", "B) Cliquer sur un élément d'un graphique filtre automatiquement tous les autres graphiques du dashboard", "C) Il croise les données", "D) Il supprime les filtres"],
+    "answer": "B",
+    "explanation": "Le cross-filtering : cliquer sur 'Europe' dans un pie chart filtre instantanément le bar chart, la carte et le tableau pour ne montrer que les données européennes. Navigation intuitive sans menus déroulants."
+  },
+  {
+    "id": "vd_099",
+    "question": "Pourquoi l'accessibilité (a11y) des visualisations est-elle un enjeu croissant ?",
+    "options": ["A) C'est optionnel", "B) Les visualisations doivent être compréhensibles par tous : daltoniens, lecteurs d'écran, malvoyants (alt text, tabular data fallback)", "C) Ça concerne uniquement les sites web", "D) C'est trop coûteux"],
+    "answer": "B",
+    "explanation": "L'accessibilité inclut : palettes daltonien-friendly, textes alternatifs pour les lecteurs d'écran, tables de données téléchargeables, contrastes suffisants et navigation au clavier. C'est à la fois éthique et souvent légal (ADA, RGAA)."
+  },
+  {
+    "id": "vd_100",
+    "question": "Vous devez présenter les résultats d'une étude sur 5 indicateurs de santé dans 10 pays. Quelle approche de visualisation est la plus efficace ?",
+    "options": ["A) 50 pie charts", "B) Un heatmap (pays × indicateurs) avec dendrogramme + un parallel coordinates plot interactif pour l'exploration", "C) Un tableau de 500 nombres", "D) Un seul scatter plot"],
+    "answer": "B",
+    "explanation": "La heatmap révèle les patterns globaux (pays clusters, indicateurs corrélés). Le parallel coordinates permet l'exploration détaillée. Ensemble ils offrent vue d'ensemble + exploration fine, le meilleur des deux mondes."
+  }
+]

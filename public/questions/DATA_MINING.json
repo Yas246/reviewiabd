@@ -1,0 +1,702 @@
+[
+  {
+    "id": "dm_001",
+    "question": "Vous analysez les achats d'un supermarché et découvrez que les clients qui achètent des couches achètent souvent de la bière le vendredi soir. De quelle technique s'agit-il ?",
+    "options": ["A) Classification", "B) Régression linéaire", "C) Recherche de règles d'association", "D) Clustering hiérarchique"],
+    "answer": "C",
+    "explanation": "Les règles d'association découvrent des co-occurrences fréquentes entre items (diapers → beer). L'algorithme Apriori identifie les itemsets fréquents puis génère des règles avec support, confiance et lift."
+  },
+  {
+    "id": "dm_002",
+    "question": "Comment l'algorithme Apriori réduit-il l'espace de recherche des itemsets fréquents ?",
+    "options": ["A) En testant tous les itemsets possibles", "B) En utilisant le principe anti-monotone : si un itemset est non fréquent, tous ses sur-ensembles sont aussi non fréquents", "C) En augmentant le seuil de support à chaque itération", "D) En ignorant les items rares uniquement"],
+    "answer": "B",
+    "explanation": "Le principe Apriori (anti-monotonie) élimine précocement les itemsets inférieurs au seuil de support. Si {A} n'est pas fréquent, alors {A,B}, {A,C}, etc. ne le seront pas non plus. Cela réduit drastiquement les combinaisons à tester."
+  },
+  {
+    "id": "dm_003",
+    "question": "Pourquoi le seuil de 'support' dans les règles d'association ne doit-il être ni trop haut ni trop bas ?",
+    "options": ["A) Il n'a pas d'importance", "B) Trop haut = seules les règles évidentes/triviales ; trop bas = explosion de règles dont beaucoup sont dues au hasard", "C) Trop bas = trop peu de règles", "D) Il doit toujours être à 50%"],
+    "answer": "B",
+    "explanation": "Un support trop élevé ne capture que les combinaisons très communes (triviales). Un support trop bas génère un nombre explosif de règles, beaucoup étant du bruit statistique. Le bon seuil dépend du domaine et du volume de données."
+  },
+  {
+    "id": "dm_004",
+    "question": "Dans une règle d'association {A} → {B}, que mesure exactement le 'lift' ?",
+    "options": ["A) La probabilité que A implique B", "B) Le ratio entre la co-occurrence observée de A et B et celle attendue s'ils étaient indépendants", "C) La fréquence de A dans le dataset", "D) La vitesse de calcul"],
+    "answer": "B",
+    "explanation": "Le lift = P(A∧B) / (P(A) × P(B)). Un lift > 1 indique que A et B apparaissent plus souvent ensemble que par hasard (association positive). = 1 = indépendance. < 1 = association négative."
+  },
+  {
+    "id": "dm_005",
+    "question": "Comment l'algorithme FP-Growth améliore-t-il Apriori pour la recherche d'itemsets fréquents ?",
+    "options": ["A) En utilisant un réseau de neurones", "B) En construisant un arbre FP (Frequent Pattern) qui compresse les transactions, évitant la génération explicite des candidats", "C) En augmentant le seuil de support", "D) En éliminant les doublons uniquement"],
+    "answer": "B",
+    "explanation": "FP-Growth compresse toutes les transactions dans un FP-tree (structure compacte) puis mine récursivement les itemsets fréquents sans générer de candidats explicites. Il est généralement 2x à 10x plus rapide qu'Apriori."
+  },
+  {
+    "id": "dm_006",
+    "question": "Vous devez segmenter les clients d'une banque sans connaître à l'avance les groupes. Quelle approche utilisez-vous ?",
+    "options": ["A) Un arbre de décision", "B) Une régression logistique", "C) Le clustering (K-means, DBSCAN, hiérarchique)", "D) Les règles d'association"],
+    "answer": "C",
+    "explanation": "Le clustering est un apprentissage non supervisé qui regroupe les objets similaires sans labels prédéfinis. K-means, DBSCAN et le clustering hiérarchique sont les approches standard pour la segmentation de clientèle."
+  },
+  {
+    "id": "dm_007",
+    "question": "Combien de fois l'algorithme K-means doit-il recalculer les centroïdes avant de converger ?",
+    "options": ["A) Exactement 10 fois", "B) Jusqu'à ce que les centroïdes ne bougent plus (stabilisation) ou qu'un nombre max d'itérations soit atteint", "C) Une seule fois suffit", "D) Le nombre de clusters fois"],
+    "answer": "B",
+    "explanation": "K-means alterne assignation (chaque point → centroïde le plus proche) et mise à jour (nouveau centroïde = moyenne du cluster) jusqu'à convergence (centroïdes stables) ou max_iterations. La convergence est garantie mais pas l'optimum global."
+  },
+  {
+    "id": "dm_008",
+    "question": "Pourquoi l'initialisation K-means++ est-elle préférable à l'initialisation aléatoire classique ?",
+    "options": ["A) Elle est plus rapide", "B) Elle choisit les centroïdes initiaux éloignés les uns des autres, évitant les convergences vers des optima locaux médiocres", "C) Elle ne nécessite pas de choisir K", "D) Elle fonctionne avec des données catégorielles"],
+    "answer": "B",
+    "explanation": "K-means++ sélectionne le premier centroïde aléatoirement, puis chaque suivant avec une probabilité proportionnelle à sa distance aux centroïdes existants. Cela répartit les centroïdes et conduit à de meilleurs résultats plus rapidement."
+  },
+  {
+    "id": "dm_009",
+    "question": "Comment le DBSCAN gère-t-il les points qui n'appartiennent à aucun cluster ?",
+    "options": ["A) Il les force dans le cluster le plus proche", "B) Il les étiquette comme 'bruit' (noise) et ne les assigne à aucun cluster", "C) Il crée un cluster spécial pour eux", "D) Il les supprime du dataset"],
+    "answer": "B",
+    "explanation": "DBSCAN identifie les core points (minPts voisins dans ε), les border points (proche d'un core) et les noise points (ni core ni border). Les noise points ne sont assignés à aucun cluster, ce qui est un avantage pour la détection d'anomalies."
+  },
+  {
+    "id": "dm_010",
+    "question": "Quel est l'avantage majeur de DBSCAN par rapport à K-means ?",
+    "options": ["A) Il est toujours plus rapide", "B) Il découvre des clusters de forme arbitraire et ne nécessite pas de spécifier le nombre de clusters à l'avance", "C) Il fonctionne uniquement en 2D", "D) Il ne nécessite aucun paramètre"],
+    "answer": "B",
+    "explanation": "Contrairement à K-means (clusters sphériques, K fixé), DBSCAN découvre des clusters de forme arbitraire (croissants, anneaux) et détermine automatiquement leur nombre. Il gère aussi le bruit, mais requiert ε et minPts."
+  },
+  {
+    "id": "dm_011",
+    "question": "Comment la méthode du 'coude' (Elbow Method) aide-t-elle à choisir K dans K-means ?",
+    "options": ["A) Elle compte le nombre de coudes dans les données", "B) Elle trace l'inertie (variance intra-cluster) en fonction de K ; le K optimal est au point d'inflexion (le coude)", "C) Elle choisit toujours K=3", "D) Elle utilise un réseau de neurones"],
+    "answer": "B",
+    "explanation": "L'inertie décroît quand K augmente (plus de clusters = clusters plus compacts). Le coude est le point où l'ajout d'un cluster supplémentaire n'apporte qu'une faible réduction d'inertie, indiquant le K optimal."
+  },
+  {
+    "id": "dm_012",
+    "question": "Pourquoi la normalisation des données est-elle indispensable avant un K-means ?",
+    "options": ["A) Pour accélérer le calcul", "B) Les variables à grande échelle dominent la distance euclidienne ; la normalisation donne un poids égal à chaque dimension", "C) Pour supprimer les valeurs manquantes", "D) C'est une question d'esthétique"],
+    "answer": "B",
+    "explanation": "K-means utilise la distance euclidienne. Si le revenu varie de 0 à 100 000 et l'âge de 0 à 100, le revenu domine totalement la distance. La normalisation (z-score, min-max) met toutes les variables sur la même échelle."
+  },
+  {
+    "id": "dm_013",
+    "question": "Vous devez prédire si un email est un spam ou non. De quel type d'apprentissage s'agit-il ?",
+    "options": ["A) Apprentissage non supervisé", "B) Apprentissage supervisé - classification binaire", "C) Apprentissage par renforcement", "D) Apprentissage semi-supervisé"],
+    "answer": "B",
+    "explanation": "La détection de spam est une classification binaire supervisée : le modèle apprend à partir d'exemples labellisés (spam/non-spam) pour prédire la classe de nouveaux emails. Les algorithmes courants : Naive Bayes, SVM, Random Forest."
+  },
+  {
+    "id": "dm_014",
+    "question": "Comment l'algorithme Naive Bayes justifie-t-il son qualificatif 'naive' (naïf) ?",
+    "options": ["A) Il est trop simple pour fonctionner", "B) Il suppose que tous les attributs sont conditionnellement indépendants sachant la classe, ce qui est rarement vrai en réalité", "C) Il ne fonctionne qu'avec 2 classes", "D) Il ignore les données d'entraînement"],
+    "answer": "B",
+    "explanation": "Le 'naive' vient de l'hypothèse d'indépendance conditionnelle : P(x₁,...,xₙ|C) = P(x₁|C)×...×P(xₙ|C). En pratique les features sont souvent corrélées, mais malgré cette hypothèse fausse, Naive Bayes fonctionne étonnamment bien."
+  },
+  {
+    "id": "dm_015",
+    "question": "Pourquoi Naive Bayes fonctionne-t-il bien pour la classification de texte malgré son hypothèse d'indépendance ?",
+    "options": ["A) Les mots sont vraiment indépendants", "B) Le but est le classement relatif des classes, pas l'estimation précise des probabilités ; l'erreur d'indépendance se compense partiellement", "C) Il triche sur les résultats", "D) Il utilise un réseau de neurones caché"],
+    "answer": "B",
+    "explanation": "En classification, on n'a besoin que de la classe avec la plus haute probabilité (argmax). Les erreurs d'estimation dues à l'hypothèse d'indépendance affectent toutes les classes de manière similaire, préservant l'ordre relatif."
+  },
+  {
+    "id": "dm_016",
+    "question": "Quand utilise-t-on un arbre de décision plutôt qu'une régression linéaire ?",
+    "options": ["A) Jamais, la régression est toujours meilleure", "B) Quand les relations entre variables sont non linéaires, avec des interactions complexes, et qu'on veut un modèle interprétable", "C) Quand les données sont trop petites", "D) Uniquement pour la classification"],
+    "answer": "B",
+    "explanation": "Les arbres de décision capturent des relations non linéaires et des interactions entre variables sans les spécifier explicitement. Ils sont naturellement interprétables (règles IF-THEN), contrairement à la régression qui suppose la linéarité."
+  },
+  {
+    "id": "dm_017",
+    "question": "Comment un arbre de décision choisit-il la meilleure variable de split ?",
+    "options": ["A) En choisissant la première variable", "B) En maximisant le gain d'information (ou minimisant l'impureté de Gini) après la division", "C) En tirant au sort", "D) En utilisant la variable avec le plus de valeurs"],
+    "answer": "B",
+    "explanation": "À chaque nœud, l'arbre teste toutes les variables et tous les seuils possibles, choisissant celui qui donne le meilleur gain d'information (réduction d'impureté). Gini et l'entropie sont les critères les plus utilisés."
+  },
+  {
+    "id": "dm_018",
+    "question": "Pourquoi un arbre de décision non élagué (overfitted) a-t-il de mauvaises performances en généralisation ?",
+    "options": ["A) Il est trop petit", "B) Il mémorise le bruit et les particularités des données d'entraînement, créant des règles trop spécifiques qui ne se généralisent pas", "C) Il est trop rapide", "D) Il n'utilise pas assez de variables"],
+    "answer": "B",
+    "explanation": "Un arbre trop profond crée des feuilles avec très peu d'exemples, mémorisant le bruit. L'élagage (pruning) supprime les branches qui n'améliorent pas significativement la performance sur un set de validation."
+  },
+  {
+    "id": "dm_019",
+    "question": "Comment le Random Forest réduit-il le surapprentissage par rapport à un arbre de décision unique ?",
+    "options": ["A) En utilisant un seul arbre très grand", "B) En combinant de nombreux arbres entraînés sur des sous-ensembles aléatoires de données et de features (bagging)", "C) En supprimant les features", "D) En augmentant la profondeur maximale"],
+    "answer": "B",
+    "explanation": "Le Random Forest construit N arbres sur des échantillons bootstrap + un sous-ensemble aléatoire de features à chaque split. La diversité des arbres réduit la variance (surapprentissage) tout en gardant un faible biais."
+  },
+  {
+    "id": "dm_020",
+    "question": "Pourquoi le Random Forest sélectionne-t-il un sous-ensemble aléatoire de features (√p) à chaque split ?",
+    "options": ["A) Pour accélérer le calcul uniquement", "B) Pour décorréler les arbres : si une feature domine, tous les arbres l'utiliseraient en premier, réduisant la diversité", "C) Parce que toutes les features ne sont pas disponibles", "D) C'est une convention sans raison"],
+    "answer": "B",
+    "explanation": "Sans randomisation des features, une variable très prédictive serait choisie au premier split de chaque arbre, les rendant tous similaires. La randomisation force la diversité, essentielle pour que l'ensemble soit meilleur que chaque arbre."
+  },
+  {
+    "id": "dm_021",
+    "question": "Comment le boosting (AdaBoost, Gradient Boosting) diffère-t-il du bagging (Random Forest) ?",
+    "options": ["A) Ils sont identiques", "B) Le bagging entraîne des arbres en parallèle indépendamment ; le boosting les entraîne séquentiellement en corrigeant les erreurs du précédent", "C) Le boosting est toujours plus lent", "D) Le bagging ne fonctionne qu'avec des arbres"],
+    "answer": "B",
+    "explanation": "Le bagging (Random Forest) construit des arbres indépendants en parallèle. Le boosting construit les arbres séquentiellement : chaque nouvel arbre se concentre sur les exemples mal prédits par les arbres précédents."
+  },
+  {
+    "id": "dm_022",
+    "question": "Pourquoi XGBoost et LightGBM dominent-ils les compétitions de Machine Learning (Kaggle) ?",
+    "options": ["A) Ils sont les plus faciles à utiliser", "B) Ils implémentent le gradient boosting avec des optimisations (parallelisation, régularisation, missing values handling) et excellent sur des données tabulaires", "C) Ils utilisent du deep learning", "D) Ils ne nécessitent pas de preprocessing"],
+    "answer": "B",
+    "explanation": "XGBoost/LightGBM optimisent le gradient boosting avec : croissance par niveau/feuille, régularisation L1/L2, gestion native des valeurs manquantes, parallelisation, et early stopping. Dominants sur les données tabulaires."
+  },
+  {
+    "id": "dm_023",
+    "question": "Comment la validation croisée (k-fold) donne-t-elle une estimation plus fiable que un simple train/test split ?",
+    "options": ["A) Elle est plus rapide", "B) Chaque observation est utilisée à la fois pour l'entraînement et le test sur K itérations, réduisant la variance de l'estimation", "C) Elle supprime le besoin de données de test", "D) Elle augmente la taille du dataset"],
+    "answer": "B",
+    "explanation": "Le k-fold divise les données en K parts. Chaque part sert de test une fois pendant que les K-1 autres servent d'entraînement. La moyenne des K scores est plus fiable qu'un seul split qui dépend du hasard de la répartition."
+  },
+  {
+    "id": "dm_024",
+    "question": "Pourquoi la courbe ROC est-elle plus informative que la simple accuracy ?",
+    "options": ["A) Elle est plus jolie", "B) Elle montre le compromis taux de vrais positifs / taux de faux positifs à tous les seuils, révélant les performances sur des classes déséquilibrées", "C) Elle calcule plus vite", "D) Elle remplace les métriques"],
+    "answer": "B",
+    "explanation": "L'accuracy peut être trompeuse (99% sur un dataset 99% classe A). La courbe ROC trace TPR vs FPR à tous les seuils, et l'AUC résume la capacité globale. Un AUC de 0.5 = aléatoire, 1.0 = parfait."
+  },
+  {
+    "id": "dm_025",
+    "question": "Vous avez un dataset avec 99% de transactions normales et 1% de fraudes. Pourquoi l'accuracy est-elle trompeuse ici ?",
+    "options": ["A) Elle est trop basse", "B) Un modèle qui prédit toujours 'normal' atteint 99% d'accuracy mais ne détecte aucune fraude", "C) L'accuracy ne fonctionne pas avec des pourcentages", "D) Il faut utiliser uniquement le recall"],
+    "answer": "B",
+    "explanation": "Sur un dataset très déséquilibré, un modèle trivial (toujours la classe majoritaire) a une accuracy élevée mais inutile. Le F1-score, la precision-recall curve ou le SMOTE sont plus adaptés pour évaluer sur les classes minoritaires."
+  },
+  {
+    "id": "dm_026",
+    "question": "Comment la technique du SMOTE aide-t-elle à traiter les classes déséquilibrées ?",
+    "options": ["A) En supprimant les exemples de la classe majoritaire", "B) En générant des exemples synthétiques de la classe minoritaire par interpolation entre voisins proches", "C) En dupliquant les exemples existants", "D) En ignorant le problème"],
+    "answer": "B",
+    "explanation": "SMOTE (Synthetic Minority Over-sampling) crée de nouveaux exemples synthétiques sur les segments entre un point minoritaire et ses k voisins les plus proches. Cela augmente la représentation minoritaire sans simple duplication."
+  },
+  {
+    "id": "dm_027",
+    "question": "Pourquoi le 'Feature Selection' est-il crucial avant d'entraîner un modèle ?",
+    "options": ["A) Pour utiliser toutes les données possibles", "B) Il réduit le surapprentissage, accélère l'entraînement et améliore l'interprétabilité en éliminant les variables bruitées ou redondantes", "C) Pour supprimer les lignes", "D) C'est optionnel"],
+    "answer": "B",
+    "explanation": "Trop de features (surtout bruitées) causent la malédiction de la dimensionnalité et l'overfitting. Le feature selection (filter, wrapper, embedded) retient les variables les plus prédictives, améliorant performance et interprétabilité."
+  },
+  {
+    "id": "dm_028",
+    "question": "Quelle est la différence entre filter, wrapper et embedded methods pour le feature selection ?",
+    "options": ["A) Elles sont identiques", "B) Filter = statistique indépendante du modèle ; Wrapper = test de sous-ensembles via le modèle ; Embedded = sélection intégrée à l'entraînement (Lasso)", "C) Filter = supprimer ; Wrapper = ajouter ; Embedded = les deux", "D) Wrapper est toujours meilleur"],
+    "answer": "B",
+    "explanation": "Filter (corrélation, chi2) évalue chaque feature indépendamment. Wrapper (RFE, forward) teste des combinaisons de features via le modèle. Embedded (Lasso, tree importance) sélectionne pendant l'entraînement du modèle."
+  },
+  {
+    "id": "dm_029",
+    "question": "Comment la PCA (Principal Component Analysis) réduit-elle la dimensionnalité ?",
+    "options": ["A) En supprimant aléatoirement des colonnes", "B) En projetant les données sur les axes de variance maximale, conservant le plus d'information dans moins de dimensions", "C) En moyennant toutes les features", "D) En sélectionnant les features les plus corrélées"],
+    "answer": "B",
+    "explanation": "La PCA trouve les directions orthogonales de variance maximale (composantes principales). En gardant les K premières composantes, on préserve le maximum de variance (information) dans K dimensions au lieu de N."
+  },
+  {
+    "id": "dm_030",
+    "question": "Pourquoi la PCA est-elle sensible à la normalisation des données ?",
+    "options": ["A) Elle ne l'est pas", "B) Les variables à grande échelle ont une variance naturellement plus grande, dominant les composantes principales indépendamment de leur importance réelle", "C) La normalisation détruit les informations", "D) La PCA fonctionne mieux sans normalisation"],
+    "answer": "B",
+    "explanation": "La PCA maximise la variance. Une variable variant de 0 à 10000 domine une variable variant de 0 à 1 même si cette dernière est plus informative. La standardisation (z-score) donne un poids égal à chaque variable."
+  },
+  {
+    "id": "dm_031",
+    "question": "Comment l'algorithme SVM (Support Vector Machine) trouve-t-il la frontière de décision optimale ?",
+    "options": ["A) En minimisant les erreurs uniquement", "B) En trouvant l'hyperplan qui maximise la marge (distance) entre les deux classes les plus proches", "C) En passant par le maximum de points", "D) En utilisant la distance euclidienne simple"],
+    "answer": "B",
+    "explanation": "Le SVM maximise la marge entre l'hyperplan séparateur et les points les plus proches de chaque classe (support vectors). Une grande marge améliore la généralisation. Le kernel trick permet de séparer des données non linéairement séparables."
+  },
+  {
+    "id": "dm_032",
+    "question": "Quel est le rôle du 'kernel trick' dans les SVM ?",
+    "options": ["A) Accélérer les calculs", "B) Projeter implicitement les données dans un espace de dimension supérieure où elles deviennent linéairement séparables", "C) Réduire la dimensionnalité", "D) Supprimer les outliers"],
+    "answer": "B",
+    "explanation": "Le kernel trick calcule le produit scalaire dans un espace de haute dimension sans y projeter explicitement. Le kernel RBF (gaussien) transforme un problème non séparable en 2D en un problème séparable dans un espace infini."
+  },
+  {
+    "id": "dm_033",
+    "question": "Quand le paramètre C d'un SVM est très grand, que se passe-t-il ?",
+    "options": ["A) Le modèle ignore les erreurs", "B) Le modèle pénalise fortement les erreurs de classification, risquant le surapprentissage (frontière très contournée)", "C) La marge devient infinie", "D) Le kernel est désactivé"],
+    "answer": "B",
+    "explanation": "Un C élevé pénalise fortement les violations de marge. Le SVM crée une frontière très précise sur les données d'entraînement, mais potentiellement surajustée. Un C faible permet des violations pour une frontière plus lisse et mieux généralisante."
+  },
+  {
+    "id": "dm_034",
+    "question": "Comment l'algorithme k-NN (k-plus proches voisins) classe-t-il un nouveau point ?",
+    "options": ["A) En trouvant le centroïde le plus proche", "B) En regardant la classe majoritaire parmi ses k voisins les plus proches dans l'espace des features", "C) En utilisant une frontière de décision linéaire", "D) En calculant une probabilité a priori"],
+    "answer": "B",
+    "explanation": "Le k-NN est un algorithme 'lazy' : il ne construit pas de modèle. Pour un nouveau point, il trouve les k points d'entraînement les plus proches et attribue la classe majoritaire (ou la moyenne en régression). Simple mais coûteux à l'inférence."
+  },
+  {
+    "id": "dm_035",
+    "question": "Pourquoi un k trop petit dans k-NN (ex: k=1) conduit-il au surapprentissage ?",
+    "options": ["A) Il n'y a pas de surapprentissage possible", "B) Avec k=1, le point est classé selon son unique voisin le plus proche, sensible au bruit et aux outliers", "C) Un petit k est toujours meilleur", "D) k=1 est équivalent à un arbre de décision"],
+    "answer": "B",
+    "explanation": "k=1 signifie que la frontière de décision est très irrégulière, épousant chaque point. Un point de bruit crée une 'île' de classification. Un k plus grand lisse la frontière en considérant un voisinage plus large."
+  },
+  {
+    "id": "dm_036",
+    "question": "Comment la régression linéaire estime-t-elle les coefficients optimaux ?",
+    "options": ["A) Par tâtonnement aléatoire", "B) En minimisant la somme des carrés des résidus (MSE) via la méthode des moindres carrés ordinaires", "C) En maximisant la vraisemblance", "D) En utilisant un gradient stochastique uniquement"],
+    "answer": "B",
+    "explanation": "La méthode OLS (Ordinary Least Squares) trouve les coefficients qui minimisent Σ(y - ŷ)². La solution analytique existe : β = (X'X)⁻¹X'y. La descente de gradient est une alternative pour les grands datasets."
+  },
+  {
+    "id": "dm_037",
+    "question": "Pourquoi la régularisation Lasso (L1) peut-elle supprimer des features alors que Ridge (L2) ne le peut pas ?",
+    "options": ["A) Lasso est plus puissant", "B) La pénalité L1 pousse les coefficients exactement à zéro (sélection de features), L2 les réduit mais jamais à zéro", "C) Ridge ne fonctionne pas en régression", "D) Lasso est toujours meilleur"],
+    "answer": "B",
+    "explanation": "La pénalité L1 (|β|) a des coins au niveau zéro dans l'espace des paramètres, permettant des coefficients exactement nuls (feature selection). La pénalité L2 (β²) est lisse et ne produit que des coefficients proches de zéro, jamais nuls."
+  },
+  {
+    "id": "dm_038",
+    "question": "Comment le biais et la variance contribuent-ils à l'erreur totale d'un modèle ?",
+    "options": ["A) Ils ne sont pas liés", "B) Erreur totale = Biais² + Variance + Bruit irréductible (compromis biais-variance)", "C) Biais et variance sont synonymes", "D) L'erreur totale est uniquement due au biais"],
+    "answer": "B",
+    "explanation": "Le biais mesure l'erreur systématique (modèle trop simple). La variance mesure la sensibilité aux données d'entraînement (modèle trop complexe). Le compromis : réduire le biais augmente souvent la variance, et inversement."
+  },
+  {
+    "id": "dm_039",
+    "question": "Dans un modèle de régression linéaire, comment interpréter un coefficient de 2.5 pour la variable 'surface' ?",
+    "options": ["A) La surface est 2.5 fois plus importante que les autres variables", "B) Chaque unité supplémentaire de surface augmente la prédiction de 2.5 unités, toutes choses égales par ailleurs", "C) Le modèle a 2.5% de précision", "D) La corrélation est de 2.5"],
+    "answer": "B",
+    "explanation": "En régression linéaire, le coefficient β représente l'effet marginal : +1 unité de surface → +2.5 unités de la variable cible (prix), en tenant constantes toutes les autres variables (ceteris paribus)."
+  },
+  {
+    "id": "dm_040",
+    "question": "Pourquoi le R² ajusté est-il préféré au R² pour comparer des modèles avec différents nombres de variables ?",
+    "options": ["A) Il est plus facile à calculer", "B) Le R² augmente mécaniquement avec l'ajout de variables ; le R² ajusté pénalise l'ajout de variables non informatives", "C) Le R² ajusté est toujours plus élevé", "D) Ils sont interchangeables"],
+    "answer": "B",
+    "explanation": "Le R² ne diminue jamais en ajoutant des variables, même aléatoires. Le R² ajusté pénalise par le nombre de prédicteurs : R²adj = 1 - (1-R²)(n-1)/(n-p-1). Un modèle avec trop de variables inutiles aura un R²adj plus bas."
+  },
+  {
+    "id": "dm_041",
+    "question": "Comment détecter la multicolinéarité dans un modèle de régression ?",
+    "options": ["A) En regardant le R²", "B) Via le VIF (Variance Inflation Factor) : un VIF > 5-10 indique une forte corrélation entre prédicteurs", "C) En comptant les variables", "D) En traçant les résidus"],
+    "answer": "B",
+    "explanation": "Le VIF mesure combien la variance d'un coefficient est gonflée par la corrélation avec les autres prédicteurs. VIF = 1/(1-R²_j). Un VIF > 5-10 indique une multicolinéarité problématique qui rend les coefficients instables."
+  },
+  {
+    "id": "dm_042",
+    "question": "Vous devez identifier les clients susceptibles de quitter votre service (churn). Quel algorithme est le plus adapté et pourquoi ?",
+    "options": ["A) K-means, pour regrouper les clients", "B) Gradient Boosting (XGBoost/LightGBM) sur des features d'utilisation, excellent pour les données tabulaires avec interactions complexes", "C) Réseau de neurones convolutif", "D) Apriori"],
+    "answer": "B",
+    "explanation": "Le Gradient Boosting excelle sur les données tabulaires de churn (features d'utilisation, démographie, historique). Il capture les interactions non linéaires, gère les features mixtes et fournit l'importance des variables pour l'interprétabilité."
+  },
+  {
+    "id": "dm_043",
+    "question": "Comment l'analyse en composantes principales (ACP) peut-elle révéler des outliers ?",
+    "options": ["A) Elle ne peut pas", "B) Les outliers se projettent souvent loin du centre sur les premières composantes, formant des points isolés dans le nuage projeté", "C) En comptant les composantes", "D) En supprimant automatiquement les outliers"],
+    "answer": "B",
+    "explanation": "Les outliers influencent fortement les directions de variance maximale. Sur les graphiques des composantes principales (score plot), les outliers apparaissent comme des points éloignés du nuage principal, facilement identifiables visuellement."
+  },
+  {
+    "id": "dm_044",
+    "question": "Pourquoi l'algorithme Isolation Forest est-il efficace pour la détection d'anomalies ?",
+    "options": ["A) Il isole les serveurs en panne", "B) Les anomalies étant rares et différentes, elles nécessitent moins de splits pour être isolées dans l'arbre (chemin court = anomalie)", "C) Il utilise un réseau de neurones", "D) Il compare chaque point à la moyenne"],
+    "answer": "B",
+    "explanation": "L'Isolation Forest construit des arbres aléatoires et mesure la longueur du chemin pour isoler chaque point. Les anomalies, étant rares et atypiques, sont isolées en peu de splits (chemin court). Le score d'anomalie est basé sur cette longueur."
+  },
+  {
+    "id": "dm_045",
+    "question": "Comment le coefficient de silhouette évalue-t-il la qualité d'un clustering ?",
+    "options": ["A) En mesurant la forme des clusters", "B) En comparant la cohésion intra-cluster (proximité au sein du cluster) et la séparation inter-cluster (distance aux autres clusters)", "C) En comptant le nombre de clusters", "D) En mesurant le temps de calcul"],
+    "answer": "B",
+    "explanation": "Le coefficient de silhouette pour chaque point = (b-a)/max(a,b), où a = distance moyenne intra-cluster et b = distance moyenne au cluster le plus proche. Un score proche de 1 = clustering de bonne qualité."
+  },
+  {
+    "id": "dm_046",
+    "question": "Pourquoi l'algorithme EM (Expectation-Maximization) est-il utilisé pour les modèles de mélange gaussien (GMM) ?",
+    "options": ["A) C'est le seul algorithme possible", "B) Il alterne entre estimation des appartenances aux clusters (E-step) et mise à jour des paramètres des gaussiennes (M-step) jusqu'à convergence", "C) Il ne fonctionne qu'avec des gaussiennes", "D) Il est plus rapide que K-means"],
+    "answer": "B",
+    "explanation": "EM pour les GMM : E-step calcule la probabilité a posteriori d'appartenance de chaque point à chaque gaussienne. M-step met à jour les moyennes, variances et proportions en maximisant la vraisemblance. Itère jusqu'à convergence."
+  },
+  {
+    "id": "dm_047",
+    "question": "Comment le PageRank, initialement conçu pour le web, peut-il être utilisé en Data Mining ?",
+    "options": ["A) Il ne sert que pour les pages web", "B) Pour identifier les nœuds les plus influents dans n'importe quel graphe (réseaux sociaux, citations, fraudes)", "C) Pour classer des données tabulaires", "D) Pour compresser les données"],
+    "answer": "B",
+    "explanation": "Le PageRank est un algorithme général de centralité dans les graphes. En Data Mining, il identifie les entités les plus influentes dans les réseaux sociaux, les publications les plus citées, ou les comptes suspects dans les réseaux de fraude."
+  },
+  {
+    "id": "dm_048",
+    "question": "Vous devez analyser un dataset avec 500 features et 1000 lignes. Pourquoi est-ce un problème de 'malédiction de la dimensionnalité' ?",
+    "options": ["A) Il y a trop de lignes", "B) Avec plus de features que d'observations, les distances deviennent peu discriminantes et le modèle surajuste facilement", "C) 500 features est un nombre normal", "D) C'est un problème de stockage uniquement"],
+    "answer": "B",
+    "explanation": "En haute dimension, les distances entre points convergent vers la même valeur, rendant les algorithmes basés sur la distance (k-NN, K-means) inefficaces. Avec p > n, les modèles ont trop de paramètres par rapport aux données."
+  },
+  {
+    "id": "dm_049",
+    "question": "Comment le 'Grid Search' et le 'Random Search' diffèrent-ils pour l'optimisation des hyperparamètres ?",
+    "options": ["A) Ils sont identiques", "B) Grid teste toutes les combinaisons (exhaustif) ; Random échantillonne aléatoirement, souvent plus efficace quand peu d'hyperparamètres importants", "C) Random est toujours meilleur", "D) Grid ne fonctionne qu'avec un seul paramètre"],
+    "answer": "B",
+    "explanation": "Le Grid Search explore toutes les combinaisons (coûteux si beaucoup d'hyperparamètres). Le Random Search échantillonne aléatoirement. Bergstra & Bengio (2012) ont montré que Random est souvent aussi bon avec moins d'essais."
+  },
+  {
+    "id": "dm_050",
+    "question": "Pourquoi l'analyse des résidus est-elle importante après une régression linéaire ?",
+    "options": ["A) Pour vérifier que les résidus sont nuls", "B) Pour vérifier les hypothèses : normalité, homoscédasticité (variance constante) et absence de pattern (indépendance)", "C) Pour compter le nombre d'erreurs", "D) Pour augmenter le R²"],
+    "answer": "B",
+    "explanation": "L'analyse des résidus vérifie les hypothèses de la régression : résidus distribués normalement autour de zéro, variance constante (homoscédasticité), et absence de structure (pattern = modèle incomplet). Violation = résultats non fiables."
+  },
+  {
+    "id": "dm_051",
+    "question": "Comment la 'descente de gradient stochastique' (SGD) accélère-t-elle l'entraînement sur les grands datasets ?",
+    "options": ["A) En utilisant tout le dataset à chaque étape", "B) En mettant à jour les paramètres après chaque exemple individuel (ou mini-batch), au lieu d'attendre tout le dataset", "C) En supprimant les données inutiles", "D) En augmentant le learning rate"],
+    "answer": "B",
+    "explanation": "Le SGD met à jour les poids après chaque exemple (ou mini-batch de 32-256), permettant des milliers de mises à jour par epoch au lieu d'une seule. Plus rapide pour converger approximativement, avec du bruit bénéfique pour éviter les minima locaux."
+  },
+  {
+    "id": "dm_052",
+    "question": "Pourquoi le 'learning rate' est-il l'hyperparamètre le plus critique en descente de gradient ?",
+    "options": ["A) Il n'a pas d'importance", "B) Trop grand = divergence ou oscillation ; trop petit = convergence lente ou blocage dans un minimum local", "C) Il doit toujours être à 0.01", "D) Il dépend uniquement du dataset"],
+    "answer": "B",
+    "explanation": "Le learning rate contrôle la taille des pas dans l'espace des paramètres. Trop grand : les pas sautent par-dessus les minima (divergence). Trop petit : convergence très lente. Les schedulers (cosine, warmup) adaptent le LR pendant l'entraînement."
+  },
+  {
+    "id": "dm_053",
+    "question": "Comment la technique du 'Early Stopping' prévient-elle le surapprentissage ?",
+    "options": ["A) En arrêtant le programme", "B) En surveillant la performance sur un set de validation et en arrêtant l'entraînement quand elle cesse de s'améliorer", "C) En limitant le nombre de features", "D) En réduisant le dataset"],
+    "answer": "B",
+    "explanation": "L'early stopping monitor la loss de validation à chaque epoch. Quand elle ne s'améliore plus pendant N epochs (patience), l'entraînement s'arrête et les meilleurs poids sont restaurés. Simple et efficace contre l'overfitting."
+  },
+  {
+    "id": "dm_054",
+    "question": "Pourquoi le 'Gradient Boosting' est-il sensible au surapprentissage contrairement au Random Forest ?",
+    "options": ["A) Il ne l'est pas", "B) Chaque arbre corrige les erreurs du précédent, donc les erreurs/bruit sont aussi progressivement 'apprises' si le learning rate est trop élevé", "C) Il utilise trop de features", "D) Il ne fonctionne qu'avec des petits datasets"],
+    "answer": "B",
+    "explanation": "Le boosting apprend séquentiellement : chaque arbre fit les résidus du précédent, incluant le bruit. Le Random Forest est parallèle et réduit la variance par moyenne. Le boosting nécessite un faible learning rate et un nombre d'arbres contrôlé."
+  },
+  {
+    "id": "dm_055",
+    "question": "Comment l'algorithme Apriori calcule-t-il la 'confidence' d'une règle {A} → {B} ?",
+    "options": ["A) P(A et B) / P(B)", "B) P(A et B) / P(A) — la proportion des transactions contenant A qui contiennent aussi B", "C) P(A) × P(B)", "D) P(B) / P(A)"],
+    "answer": "B",
+    "explanation": "La confidence = support(A∪B) / support(A). Parmi toutes les transactions contenant A, quelle proportion contient aussi B ? Confidence = 0.8 signifie que 80% des acheteurs de A achètent aussi B."
+  },
+  {
+    "id": "dm_056",
+    "question": "Pourquoi les 'outliers' faussent-ils les résultats de K-means ?",
+    "options": ["A) Ils n'ont aucun effet", "B) K-means minimise les distances aux centroïdes ; un outlier très éloigné attire le centroïde vers lui, déformant le cluster", "C) Les outliers sont toujours bien classés", "D) K-means supprime automatiquement les outliers"],
+    "answer": "B",
+    "explanation": "K-means minimise la somme des distances au carré. Les outliers contribuent disproportionnément (distance² élevée). Un seul outlier peut déplacer le centroïde significativement. K-medoids (PAM) est plus robuste car il utilise des points réels comme centres."
+  },
+  {
+    "id": "dm_057",
+    "question": "Comment la méthode 't-SNE' se distingue-t-elle de la PCA pour la visualisation ?",
+    "options": ["A) Elles sont identiques", "B) t-SNE préserve les structures locales (voisins proches restent proches) tandis que la PCA préserve la variance globale", "C) t-SNE est toujours meilleure", "D) La PCA est plus moderne"],
+    "answer": "B",
+    "explanation": "t-SNE convertit les distances en probabilités conditionnelles et optimise la divergence KL pour que les voisins proches en haute dimension restent proches en 2D. Il révèle des clusters locaux que la PCA (linéaire) ne peut pas capturer."
+  },
+  {
+    "id": "dm_058",
+    "question": "Pourquoi t-SNE ne doit-il pas être utilisé pour des conclusions quantitatives ?",
+    "options": ["A) Il est trop lent", "B) Il ne préserve ni les distances globales ni les densités ; les tailles de clusters et distances entre clusters ne sont pas interprétables", "C) Il est imprécis", "D) Il fonctionne uniquement en 3D"],
+    "answer": "B",
+    "explanation": "t-SNE optimise la structure locale. Les distances entre clusters éloignés n'ont pas de signification. La taille apparente des clusters dépend de la perplexité. Il est excellent pour la visualisation exploratoire, pas pour le quantitatif."
+  },
+  {
+    "id": "dm_059",
+    "question": "Comment le 'Hierarchical Clustering' (dendrogramme) détermine-t-il le nombre optimal de clusters ?",
+    "options": ["A) En comptant les feuilles de l'arbre", "B) En coupant le dendrogramme à la hauteur où la distance entre fusions augmente brusquement (plus grand saut)", "C) Le nombre est toujours 2", "D) En utilisant la profondeur de l'arbre"],
+    "answer": "B",
+    "explanation": "Le dendrogramme montre les fusions successives. La hauteur représente la distance entre clusters fusionnés. Un saut important de distance indique qu'on fusionne des clusters très différents. Couper juste avant ce saut donne le K optimal."
+  },
+  {
+    "id": "dm_060",
+    "question": "Quelle est la différence entre le linkage 'single', 'complete' et 'average' en clustering hiérarchique ?",
+    "options": ["A) Single = distance max ; Complete = distance min", "B) Single = min distance entre points des clusters ; Complete = max distance ; Average = distance moyenne", "C) Ils sont identiques", "D) Single est toujours meilleur"],
+    "answer": "B",
+    "explanation": "Single linkage (minimum) crée des clusters allongés (chaining effect). Complete linkage (maximum) crée des clusters compacts. Average linkage (moyenne) est un compromis. Ward minimise l'inertie intra-cluster à chaque fusion."
+  },
+  {
+    "id": "dm_061",
+    "question": "Pourquoi le 'Decision Stump' (arbre de profondeur 1) est-il utile dans AdaBoost ?",
+    "options": ["A) Il est suffisant seul", "B) Un classifieur faible (légèrement meilleur que le hasard) combiné séquentiellement avec pondération forme un classifieur fort", "C) Il est plus rapide qu'un réseau de neurones", "D) Il gère mieux les outliers"],
+    "answer": "B",
+    "explanation": "AdaBoost prouve que combiner des weak learners (accuracy > 50%) avec des poids adaptés produit un strong learner. Chaque stump corrige les erreurs du précédent en augmentant le poids des exemples mal classés."
+  },
+  {
+    "id": "dm_062",
+    "question": "Comment la métrique 'Gini Importance' évalue-t-elle l'importance des features dans un Random Forest ?",
+    "options": ["A) En mesurant la pureté des feuilles", "B) En sommant la réduction d'impureté de Gini apportée par chaque feature sur tous les arbres de la forêt", "C) En comptant le nombre de fois où la feature est utilisée", "D) En calculant la corrélation avec la cible"],
+    "answer": "B",
+    "explanation": "La Gini Importance (Mean Decrease Impurity) accumule la réduction de Gini chaque fois qu'une feature est utilisée pour un split, moyennée sur tous les arbres. Plus la réduction est grande, plus la feature est importante."
+  },
+  {
+    "id": "dm_063",
+    "question": "Pourquoi la 'Permutation Importance' est-elle plus fiable que la Gini Importance ?",
+    "options": ["A) Elle est plus rapide", "B) Elle mesure directement l'impact sur la performance quand une feature est aléatoirement permutée, sans biais vers les features à haute cardinalité", "C) Elle ne nécessite pas de set de test", "D) Elle est plus facile à calculer"],
+    "answer": "B",
+    "explanation": "La Gini Importance est biaisée en faveur des features à haute cardinalité (plusieurs seuils possibles). La Permutation Importance mélange aléatoirement une feature et mesure la baisse de performance. Baisse forte = feature importante."
+  },
+  {
+    "id": "dm_064",
+    "question": "Comment les 'SHAP values' expliquent-elles une prédiction individuelle ?",
+    "options": ["A) En montrant uniquement la feature la plus importante", "B) En attribuant à chaque feature sa contribution marginale à la prédiction, basée sur la théorie des jeux coopératifs (Shapley values)", "C) En remplaçant le modèle par un plus simple", "D) En utilisant la moyenne globale"],
+    "answer": "B",
+    "explanation": "Les SHAP values calculent la contribution de chaque feature à une prédiction spécifique, en tenant compte de toutes les interactions. La somme des SHAP = prédiction - valeur de base. Théoriquement justifiées et localement exactes."
+  },
+  {
+    "id": "dm_065",
+    "question": "Pourquoi les 'Partial Dependence Plots' (PDP) peuvent-ils être trompeurs avec des features corrélées ?",
+    "options": ["A) Ils ne fonctionnent pas avec des corrélations", "B) Ils montrent l'effet marginal en forçant des combinaisons de features impossibles en réalité (ex: âge=20 ET expérience=30 ans)", "C) Ils sont trop complexes", "D) Ils ignorent les features non linéaires"],
+    "answer": "B",
+    "explanation": "Les PDP font varier une feature tout en moyennant sur les autres. Si l'âge et l'expérience sont corrélés, créer des combinaisons impossibles (jeune avec 30 ans d'expérience) génère des prédictions dans des zones irréalistes de l'espace des features."
+  },
+  {
+    "id": "dm_066",
+    "question": "Comment le 'Local Outlier Factor' (LOF) détecte-t-il les anomalies ?",
+    "options": ["A) En fixant un seuil global", "B) En comparant la densité locale d'un point à celle de ses voisins ; une densité significativement plus basse = anomalie", "C) En mesurant la distance au centroïde global", "D) En utilisant un réseau de neurones"],
+    "answer": "B",
+    "explanation": "Le LOF compare la densité autour d'un point à la densité de ses k voisins. Un point dans une région clairsemée par rapport à ses voisins (densité locale faible) est considéré comme outlier. Adaptatif aux clusters de densités variables."
+  },
+  {
+    "id": "dm_067",
+    "question": "Pourquoi le 'Stratified K-Fold' est-il nécessaire pour les datasets déséquilibrés ?",
+    "options": ["A) Il est plus rapide", "B) Il garantit que chaque fold conserve la même proportion de classes que le dataset complet", "C) Il augmente les données minoritaires", "D) Il supprime la classe majoritaire"],
+    "answer": "B",
+    "explanation": "Le K-Fold standard peut créer des folds sans aucune donnée minoritaire (ex: 0 fraudes). Le Stratified K-Fold maintient la proportion de chaque classe dans chaque fold, assurant une évaluation fiable sur toutes les classes."
+  },
+  {
+    "id": "dm_068",
+    "question": "Comment l'algorithme C4.5 améliore-t-il l'arbre de décision ID3 original ?",
+    "options": ["A) En utilisant la distance euclidienne", "B) En utilisant le gain ratio (normalisé) au lieu du gain d'information, en gérant les valeurs continues et les valeurs manquantes", "C) En limitant la profondeur à 3", "D) En supprimant les features catégorielles"],
+    "answer": "B",
+    "explanation": "C4.5 améliore ID3 : il utilise le gain ratio (corrigé du biais vers les features à many values), gère les attributs continus (seuils optimaux) et les valeurs manquantes. Il ajoute aussi l'élagage pour éviter le surapprentissage."
+  },
+  {
+    "id": "dm_069",
+    "question": "Pourquoi le 'One-Hot Encoding' peut-il créer des problèmes avec les variables catégorielles à haute cardinalité ?",
+    "options": ["A) Il ne fonctionne pas avec les catégories", "B) Il crée une dimension par modalité (milliers de colonnes), augmentant la dimensionnalité et la rareté", "C) Il supprime des catégories", "D) Il est trop lent"],
+    "answer": "B",
+    "explanation": "Une variable avec 1000 catégories crée 1000 colonnes binaires. Cela augmente drastiquement la dimensionnalité (malédiction), la rareté (matrice creuse) et le temps de calcul. Target encoding ou hashing sont des alternatives."
+  },
+  {
+    "id": "dm_070",
+    "question": "Comment le 'Target Encoding' résout-il le problème de la haute cardinalité ?",
+    "options": ["A) En supprimant les catégories rares", "B) En remplaçant chaque catégorie par la moyenne de la cible pour cette catégorie, réduisant à une seule colonne numérique", "C) En créant plus de colonnes", "D) En utilisant un hash"],
+    "answer": "B",
+    "explanation": "Le target encoding remplace chaque catégorie par la moyenne de la variable cible (ex: code postal → taux de fraude moyen). Une seule colonne au lieu de milliers. Nécessite du regularization (smoothing, CV) pour éviter le data leakage."
+  },
+  {
+    "id": "dm_071",
+    "question": "Pourquoi la 'P-value' est-elle critiquée dans les tests statistiques du Data Mining ?",
+    "options": ["A) Elle est trop facile à calculer", "B) Elle ne mesure pas la probabilité que l'hypothèse soit vraie, mais la probabilité d'observer ces données sous H0, et est sensible à la taille d'échantillon", "C) Elle est toujours correcte", "D) Elle ne fonctionne qu'avec des petits échantillons"],
+    "answer": "B",
+    "explanation": "La p-value est souvent mal interprétée. Elle ne dit PAS que la probabilité que l'effet soit réel est de 95%. Avec de grands échantillons, des effets minuscules et sans importance pratique deviennent statistiquement significatifs."
+  },
+  {
+    "id": "dm_072",
+    "question": "Comment l'algorithme CART construit-il ses splits par rapport à C4.5 ?",
+    "options": ["A) Il utilise le gain ratio", "B) CART utilise l'index de Gini, ne fait que des splits binaires, et gère classification ET régression dans le même arbre", "C) CART fait des splits multi-branches", "D) CART ne gère pas les variables continues"],
+    "answer": "B",
+    "explanation": "CART (Classification and Regression Trees) utilise l'impureté de Gini, fait toujours des splits binaires (oui/non), et gère les deux tâches. C4.5 fait des splits multi-branches et utilise l'entropie. CART est la base de scikit-learn."
+  },
+  {
+    "id": "dm_073",
+    "question": "Pourquoi la 'Log Loss' (Cross-Entropy) est-elle meilleure que l'accuracy pour optimiser un classifieur probabiliste ?",
+    "options": ["A) Elle est plus simple", "B) Elle pénalise les mauvaises prédictions confiantes, encourageant des probabilités bien calibrées", "C) Elle est toujours plus élevée", "D) Elle ne fonctionne qu'avec 2 classes"],
+    "answer": "B",
+    "explanation": "La Log Loss = -Σ(y·log(p) + (1-y)·log(1-p)). Prédire 0.99 pour une classe fausse coûte cher. L'accuracy ne distingue pas une prédiction à 0.51 d'une à 0.99. La Log Loss encourage des probabilités calibrées."
+  },
+  {
+    "id": "dm_074",
+    "question": "Comment la technique du 'Bagging' (Bootstrap Aggregating) réduit-elle la variance d'un modèle ?",
+    "options": ["A) En utilisant un seul modèle complexe", "B) En entraînant plusieurs modèles sur des échantillons bootstrap et en moyennant leurs prédictions", "C) En ajoutant du bruit aux données", "D) En réduisant le nombre de features"],
+    "answer": "B",
+    "explanation": "Le bagging crée N échantillons bootstrap (tirage avec remise), entraîne un modèle sur chacun, et moyenne les prédictions. La moyenne de N estimateurs bruités mais non biaisés réduit la variance d'un facteur ~N."
+  },
+  {
+    "id": "dm_075",
+    "question": "Pourquoi l'analyse 'Market Basket' utilise-t-elle souvent un seuil de lift > 1 plutôt que juste support et confidence ?",
+    "options": ["A) Le lift est plus facile à calculer", "B) Le lift détecte les associations réellement intéressantes en éliminant les règles trivialement vraies dues à la popularité de l'item", "C) Le support est inutile", "D) La confidence est toujours fiable"],
+    "answer": "B",
+    "explanation": "Une règle {pain} → {lait} peut avoir une haute confiance car le lait est populaire, pas à cause d'une vraie association. Le lift > 1 confirme que l'achat de pain augmente la probabilité d'achat de lait au-delà de la popularité du lait."
+  },
+  {
+    "id": "dm_076",
+    "question": "Comment le 'Stacking' (Stacked Generalization) combine-t-il plusieurs modèles ?",
+    "options": ["A) En les moyennant", "B) En utilisant les prédictions des modèles de base comme features d'un méta-modèle qui apprend la meilleure combinaison", "C) En choisissant le meilleur modèle", "D) En les exécutant séquentiellement"],
+    "answer": "B",
+    "explanation": "Le stacking entraîne K modèles de base (divers), collecte leurs prédictions sur un set de validation, puis entraîne un méta-modèle (meta-learner) sur ces prédictions. Le méta-modèle apprend quelle combinaison de modèles fonctionne le mieux."
+  },
+  {
+    "id": "dm_077",
+    "question": "Pourquoi l'UMAP est-il souvent préféré à t-SNE pour la visualisation moderne ?",
+    "options": ["A) Il est plus ancien", "B) UMAP préserve mieux la structure globale, est plus rapide, permet de transformer de nouveaux points et a une base mathématique plus solide", "C) Il ne fonctionne qu'en 2D", "D) Il est moins précis"],
+    "answer": "B",
+    "explanation": "UMAP (Uniform Manifold Approximation) préserve mieux les distances globales que t-SNE, est nettement plus rapide, supporte la transformation de nouveaux points (fit_transform), et peut réduire à plus de 2 dimensions."
+  },
+  {
+    "id": "dm_078",
+    "question": "Comment le 'Time Series Mining' diffère-t-il du Data Mining classique ?",
+    "options": ["A) Il est identique", "B) L'ordre temporel est essentiel : les données ont une autocorrélation, une saisonnalité et une tendance qui violent l'hypothèse d'indépendance", "C) Il ne fonctionne qu'avec des dates", "D) Il est plus simple"],
+    "answer": "B",
+    "explanation": "Les séries temporelles ont des dépendances temporelles (aujourd'hui dépend d'hier), une saisonnalité (ventes de Noël) et des tendances. Les méthodes classiques supposant l'indépendance des observations ne s'appliquent pas directement."
+  },
+  {
+    "id": "dm_079",
+    "question": "Pourquoi la 'Data Leakage' (fuite de données) est-elle une erreur critique en Data Mining ?",
+    "options": ["A) Elle provoque des erreurs système", "B) Des informations du set de test (ou futures) sont involontairement disponibles pendant l'entraînement, gonflant artificiellement les performances", "C) Elle supprime des données", "D) Elle est facilement détectable"],
+    "answer": "B",
+    "explanation": "La fuite de données peut être : normaliser avant le split (statistiques de test dans train), utiliser des features post-événement (statut à j+30 pour prédire à j), ou dupliquer des patients entre train et test. Les résultats sont trompeurs."
+  },
+  {
+    "id": "dm_080",
+    "question": "Comment les 'Ensemble Methods' améliorent-ils la robustesse par rapport à un modèle unique ?",
+    "options": ["A) Ils ne l'améliorent pas", "B) La combinaison de modèles divers réduit la variance (bagging), le biais (boosting), ou les deux (stacking) selon la méthode", "C) Ils utilisent plus de données", "D) Ils sont toujours plus rapides"],
+    "answer": "B",
+    "explanation": "La sagesse de la foule : des modèles individuellement imparfaits mais divers forment un ensemble plus robuste. Bagging réduit la variance, Boosting réduit le biais, Stacking apprend la combinaison optimale. 'None of us is as smart as all of us.'"
+  },
+  {
+    "id": "dm_081",
+    "question": "Pourquoi la 'Cross-Validation Imbriquée' (Nested CV) est-elle nécessaire pour une évaluation non biaisée ?",
+    "options": ["A) La CV simple est suffisante", "B) La CV imbriqué sépare la sélection d'hyperparamètres (boucle interne) de l'évaluation finale (boucle externe), évitant le biais d'optimisme", "C) Elle est plus rapide", "D) Elle remplace le set de test"],
+    "answer": "B",
+    "explanation": "Si on tune les hyperparamètres sur le même CV qu'on utilise pour l'évaluation, la performance est optimiste (on a choisi les meilleurs pour ce split). Le nested CV isole le tuning (inner) de l'évaluation (outer), donnant une estimation non biaisée."
+  },
+  {
+    "id": "dm_082",
+    "question": "Comment l'algorithme LOESS/LOWESS permet-il de visualiser des tendances non linéaires ?",
+    "options": ["A) En ajustant une droite globale", "B) En ajustant des régressions locales pondérées sur des sous-ensembles de points voisins, créant une courbe lisse adaptative", "C) En utilisant un polynôme global de haut degré", "D) En supprimant les outliers"],
+    "answer": "B",
+    "explanation": "LOESS (LOcally Estimated Scatterplot Smoothing) ajuste des régressions pondérées sur des fenêtres locales de données. Chaque point est estimé à partir de ses voisins proches, créant une courbe souple qui suit la tendance sans hypothèse de forme."
+  },
+  {
+    "id": "dm_083",
+    "question": "Pourquoi le 'Labeled LDA' est-il utilisé en Data Mining textuel ?",
+    "options": ["A) Pour étiqueter automatiquement les documents", "B) Pour extraire des thèmes (topics) supervisés, où chaque topic correspond à une catégorie ou label connu", "C) Pour compresser les textes", "D) Pour traduire les documents"],
+    "answer": "B",
+    "explanation": "Le Labeled LDA contraint les topics à correspondre aux labels existants, contrairement au LDA standard qui découvre des topics non supervisés. Utile quand on veut interpréter les topics dans le contexte de catégories connues."
+  },
+  {
+    "id": "dm_084",
+    "question": "Comment le 'Frequent Pattern Growth' compresse-t-il les transactions ?",
+    "options": ["A) En utilisant zip", "B) Dans un FP-tree où les préfixes communs sont partagés, un compteur agrégeant les occurrences de chaque chemin", "C) En supprimant les items rares", "D) En convertissant en nombres"],
+    "answer": "B",
+    "explanation": "Le FP-tree est une structure compacte où les items fréquents sont ordonnés et les préfixes communs sont partagés. Si 100 transactions contiennent {lait, pain}, le chemin lait→pain a un compteur de 100 au lieu de 100 copies."
+  },
+  {
+    "id": "dm_085",
+    "question": "Pourquoi la 'Stratified Sampling' est-elle importante dans les enquêtes par sondage en Data Mining ?",
+    "options": ["A) Elle est plus rapide", "B) Elle garantit que chaque sous-groupe de la population est représenté proportionnellement dans l'échantillon", "C) Elle augmente la taille de l'échantillon", "D) Elle supprime les outliers"],
+    "answer": "B",
+    "explanation": "Le stratified sampling divise la population en strates (âge, région, revenu) et échantillonne dans chaque strate proportionnellement. Cela garantit que même les groupes minoritaires sont représentés, réduisant le biais d'échantillonnage."
+  },
+  {
+    "id": "dm_086",
+    "question": "Comment le 'Elliptic Envelope' détecte-t-il les outliers dans les données ?",
+    "options": ["A) En dessinant des ellipses au hasard", "B) En ajustant une ellipse (distribution gaussienne multivariée) aux données et en identifiant les points en dehors des contours de confiance", "C) En utilisant K-means", "D) En calculant la distance au centroïde uniquement"],
+    "answer": "B",
+    "explanation": "L'Elliptic Envelope ajuste un Minimum Covariance Determinant (MCD) robuste et trace des ellipses de confiance (ex: 95%). Les points hors de l'ellipse sont outliers. Adapté aux distributions approximativement gaussiennes."
+  },
+  {
+    "id": "dm_087",
+    "question": "Pourquoi l''information mutuelle' est-elle utile pour le feature selection avec des variables non linéaires ?",
+    "options": ["A) Elle est plus rapide que la corrélation", "B) Elle capture les dépendances non linéaires entre variables, contrairement à la corrélation de Pearson qui ne mesure que les relations linéaires", "C) Elle fonctionne uniquement avec des variables linéaires", "D) Elle remplace toutes les autres métriques"],
+    "answer": "B",
+    "explanation": "L'information mutuelle mesure la réduction d'incertitude d'une variable connaissant l'autre, sans hypothèse de linéarité. Deux variables peuvent avoir une corrélation de 0 mais une information mutuelle élevée (relation non linéaire)."
+  },
+  {
+    "id": "dm_088",
+    "question": "Comment le 'DBSCAN' avec les paramètres eps=0.5 et min_samples=5 se comporte-t-il face à des clusters de densités différentes ?",
+    "options": ["A) Il les détecte tous parfaitement", "B) Il a des difficultés car un seul eps ne peut pas capturer des clusters denses ET lâches simultanément", "C) Il ajuste eps automatiquement", "D) Il ignore la densité"],
+    "answer": "B",
+    "explanation": "DBSCAN utilise un eps global. Si un cluster est dense (points à distance < 0.3) et un autre lâche (distance < 0.8), un eps de 0.5 fusionnera le cluster lâche ou ignorera le cluster dense. HDBSCAN résout cela avec des densités variables."
+  },
+  {
+    "id": "dm_089",
+    "question": "Pourquoi l'analyse 'Survival Analysis' est-elle considérée comme du Data Mining spécialisé ?",
+    "options": ["A) Elle analyse la survie des entreprises", "B) Elle modélise le temps avant un événement en gérant la censure (données incomplètes), applicable en médecine, maintenance et customer churn", "C) Elle est identique à la régression", "D) Elle ne fonctionne qu'avec des données médicales"],
+    "answer": "B",
+    "explanation": "Le Survival Analysis modélise le délai avant un événement (décès, panne, churn) tout en gérant la censure (clients pas encore partis). Le Kaplan-Meier et le Cox model sont les méthodes de base, applicables bien au-delà du médical."
+  },
+  {
+    "id": "dm_090",
+    "question": "Comment le 'Prophet' de Facebook se distingue-t-il des méthodes classiques de prévision ?",
+    "options": ["A) Il utilise uniquement l'ARIMA", "B) Il décompose automatiquement tendance, saisonnalité et jours fériés avec un modèle additif robuste aux données manquantes et aux outliers", "C) Il nécessite des données parfaites", "D) Il ne gère pas les jours fériés"],
+    "answer": "B",
+    "explanation": "Prophet utilise un modèle additif : y = trend + yearly_seasonality + weekly_seasonality + holidays + error. Il gère les données manquantes, les changements de tendance et les jours fériés spécifiques, sans tuning expert."
+  },
+  {
+    "id": "dm_091",
+    "question": "Pourquoi l'ANOVA est-elle utilisée comme méthode de filter en feature selection ?",
+    "options": ["A) Elle visualise les données", "B) Elle teste si la moyenne d'une feature diffère significativement entre les classes, identifiant les features discriminantes", "C) Elle remplace le modèle", "D) Elle ne fonctionne qu'avec 2 classes"],
+    "answer": "B",
+    "explanation": "L'ANOVA (F-test) teste H0 : les moyennes de la feature sont égales dans chaque classe. Une faible p-value indique que la feature varie significativement selon la classe et est donc potentiellement discriminante pour la classification."
+  },
+  {
+    "id": "dm_092",
+    "question": "Comment le 'One-Class SVM' fonctionne-t-il pour la détection d'anomalies ?",
+    "options": ["A) Comme un SVM classique", "B) Il apprend une frontière qui englobe les données normales, séparant l'espace normal du reste", "C) Il classifie en deux classes", "D) Il nécessite des exemples d'anomalies"],
+    "answer": "B",
+    "explanation": "Le One-Class SVM est entraîné uniquement sur des données normales. Il trouve l'hyperplan qui sépare les données de l'origine dans l'espace des features, avec un paramètre ν contrôlant la fraction d'outliers autorisée."
+  },
+  {
+    "id": "dm_093",
+    "question": "Pourquoi la 'Transformation Log' est-elle souvent appliquée aux variables asymétriques (skewed) ?",
+    "options": ["A) Pour les rendre plus jolies", "B) Elle réduit l'asymétrie, rapprochant la distribution de la normale et améliorant les modèles supposant la normalité (régression, PCA)", "C) Elle supprime les outliers", "D) Elle est obligatoire"],
+    "answer": "B",
+    "explanation": "Les variables asymétriques (ex: revenus avec longue queue droite) violent l'hypothèse de normalité. Le log(x) comprime les valeurs extrêmes et symétrise la distribution. Essentiel avant la régression linéaire ou la PCA."
+  },
+  {
+    "id": "dm_094",
+    "question": "Comment le 'Chi-Square Test' évalue-t-il l'indépendance entre deux variables catégorielles ?",
+    "options": ["A) En calculant leur corrélation", "B) En comparant les fréquences observées aux fréquences attendues sous l'hypothèse d'indépendance", "C) En mesurant la distance entre les catégories", "D) En utilisant une régression"],
+    "answer": "B",
+    "explanation": "Le test du Chi² calcule χ² = Σ(O-E)²/E, où O = fréquences observées et E = fréquences attendues si indépendantes. Si χ² est grand, les variables ne sont pas indépendantes. Utile pour le feature selection catégoriel."
+  },
+  {
+    "id": "dm_095",
+    "question": "Pourquoi le 'Label Encoding' peut-il induire un biais dans les modèles linéaires ?",
+    "options": ["A) Il supprime des catégories", "B) Il assigne des nombres ordonnés (0,1,2) à des catégories sans ordre naturel, que le modèle interprète comme une relation ordinale", "C) Il est trop simple", "D) Il ne fonctionne pas avec les arbres"],
+    "answer": "B",
+    "explanation": "Encoder 'Paris'=0, 'Lyon'=1, 'Marseille'=2 implique un ordre (Marseille > Lyon > Paris) qui n'existe pas. Les modèles linéaires et k-NN utilisent cette fausse ordinalité. Les arbres de décision y sont moins sensibles."
+  },
+  {
+    "id": "dm_096",
+    "question": "Comment le 'Voting Classifier' combine-t-il les prédictions de plusieurs modèles ?",
+    "options": ["A) En utilisant uniquement le meilleur", "B) Hard voting = majorité des classes prédites ; Soft voting = moyenne des probabilités prédites", "C) En moyennant les features", "D) En choisissant aléatoirement"],
+    "answer": "B",
+    "explanation": "Le hard voting prend la classe majoritaire parmi tous les modèles (démocratie). Le soft voting moyenne les probabilités et choisit la classe avec la plus haute probabilité moyenne. Le soft voting est généralement meilleur."
+  },
+  {
+    "id": "dm_097",
+    "question": "Pourquoi la 'confusion matrix' est-elle indispensable pour un problème multi-classe ?",
+    "options": ["A) L'accuracy est suffisante", "B) Elle montre quelles classes sont confondues entre elles, révélant les patterns d'erreur que l'accuracy globale masque", "C) Elle remplace les métriques", "D) Elle ne fonctionne qu'en binaire"],
+    "answer": "B",
+    "explanation": "En multi-classe, l'accuracy globale masque les problèmes. La matrice 10×10 montre que le modèle confond souvent 'chat' et 'chien' mais jamais 'chat' et 'voiture'. Ces insights guident l'amélioration ciblée du modèle."
+  },
+  {
+    "id": "dm_098",
+    "question": "Comment l'algorithme 'OPTICS' améliore-t-il DBSCAN ?",
+    "options": ["A) Il est identique", "B) Il crée un ordering des points par densité atteignable, permettant d'extraire des clusters de densités variables avec un seul passage", "C) Il est plus rapide", "D) Il ne nécessite aucun paramètre"],
+    "answer": "B",
+    "explanation": "OPTICS (Ordering Points To Identify the Clustering Structure) ne fixe pas un eps unique mais crée un reachability plot. Les clusters de différentes densités apparaissent comme des 'vallées' de différentes profondeurs dans ce plot."
+  },
+  {
+    "id": "dm_099",
+    "question": "Pourquoi le 'Feature Engineering' reste-t-il souvent plus impactant que le choix du modèle ?",
+    "options": ["A) Les modèles sont tous identiques", "B) Un modèle simple avec des features bien conçues (expertise métier) surpasse souvent un modèle complexe sur des features brutes", "C) Le feature engineering est plus facile", "D) C'est une question de goût"],
+    "answer": "B",
+    "explanation": "Les features encapsulent la connaissance métier (ratio revenu/dette, jours depuis dernier achat, fréquence relative). Un gradient boosting avec de bonnes features bat un deep learning sur features brutes tabulaires. Le data > le modèle."
+  },
+  {
+    "id": "dm_100",
+    "question": "Vous devez analyser un graphe de réseau social pour identifier des communautés. Quel algorithme est le plus adapté ?",
+    "options": ["A) K-means sur les features", "B) Louvain ou Leiden (modularité) pour détecter des communautés dans le graphe en optimisant la modularité", "C) Apriori sur les arêtes", "D) Régression linéaire sur les degrés"],
+    "answer": "B",
+    "explanation": "Les algorithmes de détection de communautés (Louvain, Leiden, Label Propagation) optimisent la modularité — une mesure de la densité des connexions intra-communauté par rapport à l'attendu. Louvain est rapide et scalable pour les grands graphes."
+  }
+]

@@ -1,0 +1,702 @@
+[
+  {
+    "id": "dl_001",
+    "question": "Pourquoi un réseau de neurones profond peut-il apprendre des représentations hiérarchiques qu'un réseau peu profond ne peut pas ?",
+    "options": ["A) Il a plus de paramètres", "B) Chaque couche apprend une abstraction de niveau supérieur (bords → textures → formes → objets), impossible à capturer en une seule couche", "C) Il est plus rapide", "D) Il utilise moins de mémoire"],
+    "answer": "B",
+    "explanation": "Les couches profondes apprennent une hiérarchie de caractéristiques : les premières détectent des bords, les suivantes des textures, puis des motifs, puis des objets. Cette composition hiérarchique nécessite de la profondeur."
+  },
+  {
+    "id": "dl_002",
+    "question": "Que se passe-t-il si le learning rate est trop élevé pendant l'entraînement ?",
+    "options": ["A) Le modèle converge plus vite", "B) Les mises à jour de poids sont trop grandes, la loss oscille ou diverge sans jamais converger", "C) Le modèle devient plus précis", "D) L'entraînement est plus stable"],
+    "answer": "B",
+    "explanation": "Un LR trop élevé fait 'sauter' par-dessus les minima de la loss. Le gradient fait de trop grands pas dans l'espace des paramètres. La loss peut osciller (bouncing) ou même diverger (explode). On observe cela sur le loss curve."
+  },
+  {
+    "id": "dl_003",
+    "question": "Comment la fonction ReLU résout-elle le problème du 'vanishing gradient' par rapport à sigmoid ?",
+    "options": ["A) Elle est plus rapide", "B) Son gradient est constant (1) pour les valeurs positives, pas de réduction exponentielle à travers les couches", "C) Elle a une borne supérieure", "D) Elle est toujours positive"],
+    "answer": "B",
+    "explanation": "Sigmoid a un gradient max de 0.25, qui se multiplie à chaque couche : 0.25^50 ≈ 0. ReLU a un gradient de 1 pour x > 0, ne décroissant pas à travers les couches. C'est la clé qui a permis l'entraînement des réseaux profonds."
+  },
+  {
+    "id": "dl_004",
+    "question": "Pourquoi le 'dying ReLU' peut-il ruiner l'entraînement d'un réseau ?",
+    "options": ["A) Les neurones produisent trop de valeurs", "B) Si un neurone ReLU reçoit toujours des entrées négatives, son gradient est 0 et il ne s'update plus jamais (neurone mort)", "C) Les valeurs positives sont trop grandes", "D) Il y a trop de neurones actifs"],
+    "answer": "B",
+    "explanation": "Pour x < 0, ReLU(x) = 0 et gradient = 0. Si les poids poussent toujours l'entrée dans la zone négative, le neurone ne reçoit plus aucun gradient et ne peut plus apprendre. Leaky ReLU (petite pente négative) prévient cela."
+  },
+  {
+    "id": "dl_005",
+    "question": "Comment le Dropout empêche-t-il le surapprentissage ?",
+    "options": ["A) En supprimant des données d'entraînement", "B) En désactivant aléatoirement un pourcentage de neurones à chaque passe, forçant le réseau à ne dépendre d'aucun neurone individuel", "C) En augmentant le learning rate", "D) En ajoutant du bruit aux données"],
+    "answer": "B",
+    "explanation": "Le Dropout désactive aléatoirement des neurones (ex: 50%) pendant l'entraînement. Le réseau ne peut pas 'compter' sur un neurone spécifique et doit distribuer l'information. À l'inférence, tous les neurones sont actifs (scaling)."
+  },
+  {
+    "id": "dl_006",
+    "question": "Pourquoi la Batch Normalization accélère-t-elle l'entraînement ?",
+    "options": ["A) Elle normalise les données d'entrée", "B) Elle normalise les activations de chaque couche, réduisant le covariate shift interne et permettant un learning rate plus élevé", "C) Elle supprime les couches inutiles", "D) Elle augmente la taille du batch"],
+    "answer": "B",
+    "explanation": "La Batch Norm normalise les activations (moyenne=0, variance=1) dans chaque mini-batch. Cela stabilise la distribution des entrées de chaque couche (reduce internal covariate shift), permettant un LR plus élevé et une convergence plus rapide."
+  },
+  {
+    "id": "dl_007",
+    "question": "Comment les convolutions capturent-elles des patterns spatiaux dans les images ?",
+    "options": ["A) En connectant chaque pixel à chaque neurone", "B) Un filtre de petite taille (3×3) glisse sur l'image, détectant des patterns locaux (bords, textures) partageant les mêmes poids", "C) En réduisant la taille de l'image uniquement", "D) En utilisant des couches fully-connected"],
+    "answer": "B",
+    "explanation": "Les filtres convolutionnels (3×3, 5×5) partagent les mêmes poids sur toute l'image (weight sharing). Chaque filtre détecte un pattern local. Le défilement (sliding window) couvre toute l'image, capturant la translation invariance."
+  },
+  {
+    "id": "dl_008",
+    "question": "Pourquoi les réseaux convolutifs utilisent-ils le 'padding' ?",
+    "options": ["A) Pour décorer les bords de l'image", "B) Pour éviter que les convolutions successives réduisent la taille spatiale, en ajoutant des zéros sur les bords", "C) Pour accélérer le calcul", "D) Pour augmenter le nombre de filtres"],
+    "answer": "B",
+    "explanation": "Sans padding, chaque convolution 3×3 réduit la dimension de 2. Après 10 couches, une image 32×32 deviendrait 12×12. Le 'same padding' ajoute des zéros pour préserver la taille spatiale à travers les couches."
+  },
+  {
+    "id": "dl_009",
+    "question": "Comment le Max Pooling réduit-il la dimensionnalité tout en préservant l'information clé ?",
+    "options": ["A) En moyennant les valeurs", "B) En sélectionnant la valeur maximale dans chaque fenêtre (2×2), conservant le pattern le plus fort et apportant une invariance à la translation", "C) En ajoutant les valeurs", "D) En supprimant les valeurs les plus faibles globalement"],
+    "answer": "B",
+    "explanation": "Le Max Pooling prend le max dans chaque fenêtre 2×2, divisant la taille par 2. Il conserve la caractéristique dominante dans chaque région et rend le modèle robuste aux petits décalages spatiaux (translation invariance)."
+  },
+  {
+    "id": "dl_010",
+    "question": "Pourquoi le Transfer Learning est-il si efficace avec les CNNs pré-entraînés sur ImageNet ?",
+    "options": ["A) ImageNet est le seul dataset utile", "B) Les couches initiales apprennent des features génériques (bords, textures) réutilisables ; seules les couches finales nécessitent un fine-tuning spécifique", "C) Il ne fonctionne qu'avec des images", "D) Il supprime le besoin de données"],
+    "answer": "B",
+    "explanation": "Les premières couches des CNNs apprennent des features universelles (détecteurs de Gabor, textures) applicables à tout domaine visuel. On gèle ces couches et fine-tune seulement les dernières sur notre tâche spécifique avec peu de données."
+  },
+  {
+    "id": "dl_011",
+    "question": "Comment les LSTM résolent-elles le problème de la mémoire à long terme des RNNs classiques ?",
+    "options": ["A) En ajoutant plus de couches", "B) Via des gates (forget, input, output) qui contrôlent sélectivement quelles informations garder, modifier ou oublier dans la cell state", "C) En utilisant des convolutions", "D) En augmentant le learning rate"],
+    "answer": "B",
+    "explanation": "Les LSTM utilisent 3 gates : forget (quoi oublier du passé), input (quelle nouvelle info stocker), output (quoi émettre). Le cell state agit comme une 'conveyor belt' où l'information circit avec peu de transformations, évitant le vanishing gradient."
+  },
+  {
+    "id": "dl_012",
+    "question": "Pourquoi le mécanisme d'attention est-il plus performant que les RNNs pour les séquences longues ?",
+    "options": ["A) Il est plus ancien", "B) Il accède directement à n'importe quelle position (O(1)) au lieu de traverser séquentiellement toute la séquence (O(n))", "C) Il utilise moins de paramètres", "D) Il fonctionne uniquement en anglais"],
+    "answer": "B",
+    "explanation": "Les RNNs doivent traiter les tokens un par un, perdant l'information des tokens distants. L'attention connecte chaque position à toutes les autres en parallèle, capturant les dépendances longues distances sans dégradation."
+  },
+  {
+    "id": "dl_013",
+    "question": "Comment le 'Self-Attention' calcule-t-il les poids d'attention entre les mots d'une phrase ?",
+    "options": ["A) En comptant les mots communs", "B) Via Query, Key, Value : chaque mot projette un vecteur Q, K, V ; l'attention est le softmax de Q·K^T / √d, appliqué à V", "C) En utilisant la distance entre les mots", "D) En regardant le dictionnaire"],
+    "answer": "B",
+    "explanation": "Le self-attention : chaque token génère Q(uery), K(ey), V(alue). Le score d'attention entre token i et j = softmax(Qi·Kj^T / √d_k). Ce score pondère les Values. Le résultat est la somme pondérée des Values de tous les tokens."
+  },
+  {
+    "id": "dl_014",
+    "question": "Pourquoi le Transformer divise-t-il l'attention en plusieurs 'têtes' (Multi-Head Attention) ?",
+    "options": ["A) Pour accélérer le calcul", "B) Chaque tête peut se spécialiser sur différents types de relations (syntaxe, sémantique, position) dans des sous-espaces distincts", "C) Pour réduire le nombre de paramètres", "D) Pour gérer des phrases plus longues"],
+    "answer": "B",
+    "explanation": "Le Multi-Head Attention divise la dimension en H têtes (ex: 8 têtes de 64 dim). Chaque tête apprend indépendamment des patterns de relation différents. Une tête peut capturer les sujets-verbes, une autre les adjectifs-noms."
+  },
+  {
+    "id": "dl_015",
+    "question": "Comment le ResNet (Residual Network) permet-il d'entraîner des réseaux de plus de 100 couches ?",
+    "options": ["A) En utilisant des learnings rates très faibles", "B) Via les skip connections : l'entrée d'un bloc est ajoutée à sa sortie, offrant un chemin direct pour le gradient", "C) En supprimant les couches inutiles", "D) En utilisant des batch sizes plus grands"],
+    "answer": "B",
+    "explanation": "Les skip connections (x + F(x)) permettent au gradient de 'sauter' des couches via l'addition. Le réseau n'apprend que le résidu F(x) = H(x) - x. Même si F(x)=0, l'information passe directement via l'identité."
+  },
+  {
+    "id": "dl_016",
+    "question": "Pourquoi la loss function Cross-Entropy est-elle standard en classification ?",
+    "options": ["A) Elle est la plus simple", "B) Elle produit un gradient fort même pour des prédictions proches de la bonne réponse, évitant les plateaux d'apprentissage", "C) Elle ne fonctionne qu'avec 2 classes", "D) Elle est la seule disponible"],
+    "answer": "B",
+    "explanation": "La Cross-Entropy -log(p) a un gradient = p - 1 pour la bonne classe. Même quand p = 0.95, le gradient est -0.05 (non nul). La MSE aurait un gradient de 0.05×0.95 ≈ 0.0025 pour sigmoid, créant un plateau d'apprentissage."
+  },
+  {
+    "id": "dl_017",
+    "question": "Comment la technique du 'Data Augmentation' améliore-t-elle la généralisation en vision par ordinateur ?",
+    "options": ["A) En ajoutant plus de données manuellement", "B) En créant des variantes réalistes (rotations, flips, crops, changements de couleur) qui augmentent artificiellement la diversité du dataset", "C) En supprimant les images de mauvaise qualité", "D) En compressant les images"],
+    "answer": "B",
+    "explanation": "Le Data Augmentation applique des transformations aléatoires (horizontal flip, rotation ±15°, brightness jitter, random crop) pendant l'entraînement. Le modèle voit des variantes à chaque epoch, apprenant des features invariantes à ces transformations."
+  },
+  {
+    "id": "dl_018",
+    "question": "Pourquoi les GANs (Generative Adversarial Networks) sont-ils difficiles à entraîner ?",
+    "options": ["A) Ils sont trop simples", "B) Le générateur et le discriminateur doivent s'équilibrer ; si l'un domine, l'autre ne peut plus apprendre (mode collapse, oscillation)", "C) Ils nécessitent trop de données", "D) Ils ne fonctionnent qu'avec des images"],
+    "answer": "B",
+    "explanation": "L'entraînement GAN est un équilibre délicat : si D devient trop fort, G ne reçoit aucun gradient utile. Si G trouve une seule sortie qui trompe D, il produit toujours la même chose (mode collapse). Des techniques (WGAN, progressive growing) stabilisent."
+  },
+  {
+    "id": "dl_019",
+    "question": "Comment le 'Gradient Penalty' dans WGAN-GP stabilise-t-il l'entraînement des GANs ?",
+    "options": ["A) En ajoutant une pénalité sur les gradients du discriminateur pour forcer la norme à 1 (contrainte Lipschitz)", "B) En supprimant les grands gradients", "C) En augmentant le learning rate", "D) En utilisant plus de couches"],
+    "answer": "A",
+    "explanation": "WGAN-GP ajoute un terme λ·E[(||∇D(x̃)||₂ - 1)²] à la loss du discriminateur, pénalisant les gradients dont la norme s'écarte de 1. Cela satisfait la contrainte Lipschitz-1 de manière douce, stabilisant considérablement l'entraînement."
+  },
+  {
+    "id": "dl_020",
+    "question": "Pourquoi l'Autoencoder Variationnel (VAE) génère-t-il des résultats plus flous qu'un GAN ?",
+    "options": ["A) Il est moins puissant", "B) Il optimise la likelihood (MSE + KL), qui pénalise les pixels aberrants, favorisant des moyennes lisses ; le GAN optimise le réalisme via le discriminateur", "C) Il ne peut pas générer d'images", "D) Il utilise moins de paramètres"],
+    "answer": "B",
+    "explanation": "Le VAE minimise la reconstruction MSE + KL divergence. La MSE punit les pixels extrêmes, produisant des moyennes floues. Le GAN n'a pas de loss pixel-wise mais un discriminateur qui évalue le réalisme global, produisant des images plus nettes."
+  },
+  {
+    "id": "dl_021",
+    "question": "Comment la technique du 'Gradient Clipping' prévient-elle l'explosion du gradient ?",
+    "options": ["A) En supprimant les gradients", "B) En plafonnant la norme du gradient à un seuil maximal, empêchant les mises à jour de poids trop importantes", "C) En augmentant le learning rate", "D) En ajoutant des couches"],
+    "answer": "B",
+    "explanation": "Le gradient clipping (par norme ou par valeur) limite la magnitude du gradient avant la mise à jour des poids. Si ||gradient|| > threshold, il est re-scalé. Essentiel pour les RNNs et Transformers où les gradients peuvent exploser."
+  },
+  {
+    "id": "dl_022",
+    "question": "Pourquoi l'optimizer Adam est-il le choix par défaut dans la plupart des projets Deep Learning ?",
+    "options": ["A) Il est le seul disponible", "B) Il combine momentum (accumulation du passé) et adaptation du learning rate par paramètre, convergeant rapidement avec peu de tuning", "C) Il ne nécessite pas de learning rate", "D) Il est toujours le plus précis"],
+    "answer": "B",
+    "explanation": "Adam combine momentum (moyenne exponentielle des gradients passés) et RMSprop (adaptation du LR par dimension). Il converge souvent 2-5x plus vite que SGD avec moins de tuning du learning rate. Le défaut β₁=0.9, β₂=0.999 fonctionne bien."
+  },
+  {
+    "id": "dl_023",
+    "question": "Quand utiliseriez-vous SGD avec Momentum plutôt qu'Adam ?",
+    "options": ["A) Jamais", "B) Pour la généralisation finale : SGD+momentum trouve souvent de meilleurs minima plats qu'Adam, au prix d'un tuning plus fin", "C) Quand le dataset est petit", "D) Pour les réseaux de neurones récurrents uniquement"],
+    "answer": "B",
+    "explanation": "Adam converge plus vite mais peut 's'enfermer' dans des minima pointus (mauvaise généralisation). Le SGD avec momentum et schedule trouve des minima plus plats (meilleure généralisation). Courant : warmup avec Adam, switch SGD final."
+  },
+  {
+    "id": "dl_024",
+    "question": "Comment la couche d'Embedding transforme-t-elle un mot en vecteur ?",
+    "options": ["A) En comptant les lettres du mot", "B) En associant chaque mot unique à un vecteur dense de dimension d appris pendant l'entraînement", "C) En utilisant un one-hot encoding", "D) En calculant le hash du mot"],
+    "answer": "B",
+    "explanation": "La couche Embedding est une lookup table : chaque mot (index entier) est mappé à un vecteur dense (ex: 300 dimensions). Ces vecteurs sont appris par rétropropagation, capturant des relations sémantiques (roi-homme+femme ≈ reine)."
+  },
+  {
+    "id": "dl_025",
+    "question": "Pourquoi le 'Positional Encoding' est-il nécessaire dans le Transformer ?",
+    "options": ["A) Pour accélérer le calcul", "B) Le self-attention est permutation-invariant (sans notion d'ordre) ; le positional encoding injecte l'information de position dans les embeddings", "C) Pour gérer les mots inconnus", "D) Pour réduire la dimensionnalité"],
+    "answer": "B",
+    "explanation": "L'attention traite tous les tokens en parallèle sans notion d'ordre. Le positional encoding (sinusoidal ou appris) ajoute un signal de position à chaque embedding. Sans lui, 'le chien mord l'homme' et 'l'homme mord le chien' seraient identiques."
+  },
+  {
+    "id": "dl_026",
+    "question": "Comment le mécanisme de 'Masked Self-Attention' fonctionne-t-il dans le décodeur du Transformer ?",
+    "options": ["A) Il masque les tokens inconnus", "B) Il empêche chaque position d'attendre sur les positions futures (triangle inférieur), simulant le décodage autorégressif", "C) Il supprime les mots rares", "D) Il cache les embeddings de position"],
+    "answer": "B",
+    "explanation": "Le masked attention met -∞ dans les positions futures du score d'attention (avant softmax → 0). Pour prédire le token 5, seuls les tokens 1-4 sont visibles. Cela garantit le décodage causal (un mot à la fois, de gauche à droite)."
+  },
+  {
+    "id": "dl_027",
+    "question": "Pourquoi le fine-tuning de BERT pour une tâche spécifique nécessite-t-il si peu de données ?",
+    "options": ["A) BERT est petit", "B) BERT a déjà appris une compréhension riche du langage pendant le pré-entraînement ; le fine-tuning ajuste seulement la couche finale", "C) Il ne fonctionne qu'avec des petits datasets", "D) Il ne nécessite pas de GPU"],
+    "answer": "B",
+    "explanation": "BERT est pré-entraîné sur des milliards de mots (MLM + NSP). Il a déjà capturé la syntaxe, la sémantique et les relations. Le fine-tuning sur ~1000 exemples étiquetés suffit pour adapter ces représentations riches à une tâche spécifique."
+  },
+  {
+    "id": "dl_028",
+    "question": "Comment l'architecture U-Net est-elle optimisée pour la segmentation d'images ?",
+    "options": ["A) Elle utilise uniquement des couches de pooling", "B) Via des skip connections entre l'encodeur et le décodeur, combinant contexte global et localisation fine", "C) Elle ne fonctionne qu'avec des images médicales", "D) Elle supprime les couches convolutives"],
+    "answer": "B",
+    "explanation": "L'U-Net concatène les features de l'encodeur (détails spatiaux fins) avec celles du décodeur (contexte sémantique global) via des skip connections. Cela résout le trade-off localisation vs contexte de la segmentation."
+  },
+  {
+    "id": "dl_029",
+    "question": "Pourquoi la 'Dilated Convolution' (convolution à trou) est-elle utile pour la segmentation ?",
+    "options": ["A) Elle accélère le calcul", "B) Elle augmente le champ réceptif sans réduire la résolution spatiale, capturant le contexte global pixel-par-pixel", "C) Elle réduit le nombre de paramètres", "D) Elle fonctionne uniquement en noir et blanc"],
+    "answer": "B",
+    "explanation": "La dilatation insère des zéros entre les poids du filtre (trous). Un filtre 3×3 avec dilatation=2 a un champ réceptif de 5×5 sans downsampling. Cela permet d'agréger du contexte global tout en maintenant la résolution de sortie."
+  },
+  {
+    "id": "dl_030",
+    "question": "Comment la fonction de loss 'Focal Loss' améliore-t-elle la détection d'objets dans les datasets déséquilibrés ?",
+    "options": ["A) En augmentant les exemples rares", "B) En réduisant la loss des exemples faciles (bien classés) pour concentrer l'apprentissage sur les exemples rares et difficiles", "C) En supprimant les exemples faciles", "D) En augmentant le learning rate"],
+    "answer": "B",
+    "explanation": "La Focal Loss = -α(1-p)^γ·log(p). Quand p est élevé (exemple facile), (1-p)^γ → 0, réduisant la contribution à quasi-zéro. Le modèle se concentre sur les exemples difficiles (détecter les petits objets rares dans la détection)."
+  },
+  {
+    "id": "dl_031",
+    "question": "Pourquoi l'architecture 'Encoder-Decoder' avec attention est-elle standard en traduction automatique ?",
+    "options": ["A) Elle est la plus rapide", "B) L'encodeur comprime la phrase source, le décodeur génère la cible en 'regardant' les parties pertinentes de la source via l'attention", "C) Elle ne fonctionne qu'avec deux langues", "D) Elle ne nécessite pas de données parallèles"],
+    "answer": "B",
+    "explanation": "L'encodeur produit des représentations contextuelles de chaque mot source. Le décodeur, à chaque étape, utilise l'attention pour identifier les mots sources les plus pertinents. Cela résout le bottleneck du vecteur context unique."
+  },
+  {
+    "id": "dl_032",
+    "question": "Comment le mécanisme de 'Beam Search' améliore-t-il la génération de texte par rapport au greedy decoding ?",
+    "options": ["A) Il est plus rapide", "B) Il garde les K meilleures séquences candidates à chaque étape au lieu de choisir le token le plus probable immédiatement", "C) Il utilise un réseau de neurones plus grand", "D) Il ignore les tokens rares"],
+    "answer": "B",
+    "explanation": "Le greedy decoding choisit le meilleur token à chaque étape (localement optimal). Le Beam Search (K=5) garde les K séquences les plus probables et les étend toutes. Le choix localement sous-optimal peut mener à une meilleure séquence globale."
+  },
+  {
+    "id": "dl_033",
+    "question": "Pourquoi la 'Weight Decay' (L2 regularization) est-elle importante pour la généralisation ?",
+    "options": ["A) Elle augmente la taille des poids", "B) Elle pénalise les poids élevés, les poussant vers des valeurs plus petites et empêchant le modèle de mémoriser le bruit", "C) Elle accélère l'entraînement", "D) Elle supprime les features inutiles"],
+    "answer": "B",
+    "explanation": "La weight decay ajoute λΣw² à la loss. Les poids élevés sont pénalisés, poussant le modèle vers des solutions plus simples (poids proches de zéro). Cela empêche le réseau de 'mémoriser' les données d'entraînement avec des poids extrêmes."
+  },
+  {
+    "id": "dl_034",
+    "question": "Comment les '1x1 Convolutions' (Network-in-Network) peuvent-elles réduire la dimensionnalité ?",
+    "options": ["A) Elles ne font rien", "B) Elles combinent les canaux sans toucher la dimension spatiale, réduisant le nombre de canaux (ex: 256 → 64)", "C) Elles réduisent la taille de l'image", "D) Elles augmentent le nombre de filtres"],
+    "answer": "B",
+    "explanation": "Une convolution 1×1 avec 64 filtres sur un tenseur (H, W, 256) produit (H, W, 64). Elle effectue une combinaison linéaire des canaux à chaque position spatiale indépendamment, servant de bottleneck dimensionnel."
+  },
+  {
+    "id": "dl_035",
+    "question": "Pourquoi le 'Mixed Precision Training' accélère-t-il l'entraînement sans perte de qualité ?",
+    "options": ["A) Il réduit la taille du dataset", "B) Il utilise FP16 pour les calculs (2x plus rapide sur GPU) et FP32 pour les accumulations critiques, gardant la précision numérique", "C) Il supprime des couches", "D) Il utilise moins de données"],
+    "answer": "B",
+    "explanation": "Le mixed precision fait les forward/backward en FP16 (2x throughput sur Tensor Cores) mais maintient un master copy FP32 des poids pour la précision. Le loss scaling évite les underflows. Accélération de 1.5-3x sans perte de qualité."
+  },
+  {
+    "id": "dl_036",
+    "question": "Comment le 'Gradient Accumulation' permet-il d'entraîner avec de grands batch sizes sur un GPU limité ?",
+    "options": ["A) En augmentant la mémoire GPU", "B) En accumulant les gradients sur plusieurs mini-batchs avant de faire une seule mise à jour des poids", "C) En compressant les gradients", "D) En utilisant plusieurs GPU"],
+    "answer": "B",
+    "explanation": "Au lieu de traiter 128 exemples d'un coup (OOM), on traite 8 batches de 16, accumulant les gradients. Après 8 itérations, on fait une seule step d'optimisation. Effet équivalent à batch_size=128 avec la mémoire de 16."
+  },
+  {
+    "id": "dl_037",
+    "question": "Pourquoi le 'Learning Rate Warmup' est-il crucial pour l'entraînement des Transformers ?",
+    "options": ["A) Les Transformers n'en ont pas besoin", "B) Les premières itérations ont des gradients instables (initialisation aléatoire) ; un LR progressivement croissant stabilise le début d'entraînement", "C) Il accélère la fin de l'entraînement", "D) Il est uniquement pour les GANs"],
+    "answer": "B",
+    "explanation": "Les Transformers sont sensibles à l'initialisation. Un LR élevé dès le début peut créer des mises à jour destructrices. Le warmup augmente linéairement le LR de 0 à la valeur cible sur les N premiers pas, laissant le modèle se stabiliser."
+  },
+  {
+    "id": "dl_038",
+    "question": "Comment la technique du 'Gradient Checkpointing' réduit-elle la mémoire GPU ?",
+    "options": ["A) En compressant les gradients", "B) En ne stockant que certaines activations intermédiaires et en les recalculant lors du backward pass", "C) En utilisant moins de couches", "D) En réduisant le batch size"],
+    "answer": "B",
+    "explanation": "Normalement, toutes les activations sont stockées pour le backward pass. Le checkpointing ne sauvegarde que certaines (ex: 1 sur 4) et recalcule les autres au besoin. Memory ↓ 60-70% au prix de ~30% plus de calcul."
+  },
+  {
+    "id": "dl_039",
+    "question": "Pourquoi les 'Residual Connections' (skip connections) préviennent-elles la dégradation dans les réseaux très profonds ?",
+    "options": ["A) Elles ajoutent plus de paramètres", "B) Elles offrent un chemin direct (identité) pour le gradient, permettant aux couches d'apprendre des corrections résiduelles plutôt que des transformations complètes", "C) Elles réduisent le nombre de couches", "D) Elles normalisent les activations"],
+    "answer": "B",
+    "explanation": "Sans skip, chaque couche doit apprendre H(x) directement. Avec skip, elle apprend F(x) = H(x) - x (résidu). Si aucune correction n'est nécessaire, F(x) → 0 est facile à apprendre. Le gradient peut toujours remonter via x + F(x)."
+  },
+  {
+    "id": "dl_040",
+    "question": "Comment les 'Depthwise Separable Convolutions' de MobileNet réduisent-elles le coût computationnel ?",
+    "options": ["A) En utilisant moins de couleurs", "B) En décomposant la convolution standard en une convolution spatiale par canal (depthwise) suivie d'une 1×1 (pointwise), divisant le coût par 8-9x", "C) En réduisant la taille de l'image uniquement", "D) En supprimant des filtres"],
+    "answer": "B",
+    "explanation": "Une conv 3×3 sur 256 canaux : 3×3×256×256 = 590K params. Depthwise separable : 3×3×256 (depthwise) + 1×1×256×256 (pointwise) = 2.3K + 65K = 67K. Division par ~9 du coût avec une perte de précision minime."
+  },
+  {
+    "id": "dl_041",
+    "question": "Pourquoi la 'Layer Normalization' est-elle préférée à la Batch Normalization dans les Transformers ?",
+    "options": ["A) Elle est plus rapide", "B) Elle normalise sur les features (pas le batch), fonctionnant avec n'importe quelle taille de batch et indépendamment des autres samples", "C) Elle est plus simple", "D) La Batch Norm ne fonctionne pas en NLP"],
+    "answer": "B",
+    "explanation": "La Layer Norm normalise chaque sample indépendamment sur ses features. Contrairement à Batch Norm (dépend du batch), elle fonctionne avec batch_size=1, les séquences de longueur variable, et n'a pas besoin de running statistics."
+  },
+  {
+    "id": "dl_042",
+    "question": "Comment le mécanisme de 'Copy Mechanism' (pointer-network) permet-il de gérer les mots hors vocabulaire ?",
+    "options": ["A) En ignorant les mots inconnus", "B) En apprenant à 'copier' directement un mot de l'entrée vers la sortie, contournant le vocabulaire fixe", "C) En agrandissant le vocabulaire", "D) En remplaçant par un token UNK"],
+    "answer": "B",
+    "explanation": "Le copy mechanism peut générer un mot soit depuis le vocabulaire (génération) soit en copiant un mot de l'entrée (pointage). Pratique pour les noms propres, URLs ou nombres qui n'apparaissent pas dans le vocabulaire fixe."
+  },
+  {
+    "id": "dl_043",
+    "question": "Pourquoi le 'Teacher Forcing' accélère-t-il l'entraînement des RNNs mais peut-il poser problème à l'inférence ?",
+    "options": ["A) Il est trop rapide", "B) Il alimente le vrai token à chaque étape pendant l'entraînement, mais à l'inférence le modèle doit utiliser ses propres prédictions (exposure bias)", "C) Il ne fonctionne qu'avec les Transformers", "D) Il supprime le besoin de validation"],
+    "answer": "B",
+    "explanation": "Le Teacher Forcing donne le bon token précédent à chaque étape d'entraînement (convergence rapide). Mais à l'inférence, le modèle s'alimente de ses propres prédictions. Une petite erreur se propage et s'amplifie (exposure bias)."
+  },
+  {
+    "id": "dl_044",
+    "question": "Comment les 'Convolutional LSTM' (ConvLSTM) combinent-elles vision et temporalité ?",
+    "options": ["A) En alternant CNN et LSTM", "B) En remplaçant les multiplications matricielles du LSTM par des convolutions, capturant les patterns spatio-temporels", "C) En utilisant des convolutions 3D uniquement", "D) En ajoutant du pooling"],
+    "answer": "B",
+    "explanation": "Le ConvLSTM remplace les fully-connected du LSTM par des convolutions dans les gates. Les états cachés sont des feature maps 2D. Cela capture les dynamiques spatio-temporelles (prédiction de pluie sur cartes météo, vidéos)."
+  },
+  {
+    "id": "dl_045",
+    "question": "Pourquoi les architectures 'Siamese Networks' sont-elles utilisées pour la vérification de signature ?",
+    "options": ["A) Elles sont plus rapides", "B) Deux branches identiques comparent deux images et produisent un score de similarité, apprenant la notion de 'même' vs 'différent'", "C) Elles détectent les signatures", "D) Elles génèrent des signatures"],
+    "answer": "B",
+    "explanation": "Le réseau siamois passe les deux images par le même réseau (poids partagés), produisant deux embeddings. La distance entre les embeddings indique si c'est la même personne. Contrasteive loss ou triplet loss entraîne cette similarité."
+  },
+  {
+    "id": "dl_046",
+    "question": "Comment le mécanisme de 'Spatial Dropout' diffère-t-il du Dropout standard pour les CNNs ?",
+    "options": ["A) Il est plus aléatoire", "B) Il drop des canaux entiers (feature maps) au lieu de pixels individuels, forçant le réseau à ne pas dépendre d'un seul canal", "C) Il fonctionne uniquement en 3D", "D) Il est moins efficace"],
+    "answer": "B",
+    "explanation": "Le Spatial Dropout (DropBlock) désactive des feature maps entières plutôt que des pixels isolés. Les pixels adjacents étant fortement corrélés, le dropout standard est peu efficace. Droper un canal entier force une redondance entre canaux."
+  },
+  {
+    "id": "dl_047",
+    "question": "Pourquoi le 'Curriculum Learning' améliore-t-il la convergence ?",
+    "options": ["A) Il est obligatoire", "B) En présentant d'abord les exemples simples puis progressivement les difficiles, comme un programme scolaire", "C) Il supprime les exemples difficiles", "D) Il réduit la taille du dataset"],
+    "answer": "B",
+    "explanation": "Le Curriculum Learning organise les données par difficulté croissante. Les exemples simples permettent d'initialiser le modèle dans une bonne région de l'espace des paramètres, accélérant l'apprentissage des patterns complexes ensuite."
+  },
+  {
+    "id": "dl_048",
+    "question": "Comment le mécanisme de 'Group Normalization' résout-il les limitations de la Batch Normalization ?",
+    "options": ["A) Il est identique", "B) Il divise les canaux en groupes et normalise dans chaque groupe, indépendant de la taille du batch", "C) Il utilise le batch entier", "D) Il ne fonctionne qu'avec les CNNs"],
+    "answer": "B",
+    "explanation": "Group Norm divise les canaux en G groupes et normalise dans chaque groupe (mean/var par groupe). Contrairement à Batch Norm, elle ne dépend pas du batch size. Utile pour la détection/segmentation où le batch size est souvent 1-2."
+  },
+  {
+    "id": "dl_049",
+    "question": "Pourquoi le 'Label Smoothing' améliore-t-il la généralisation en classification ?",
+    "options": ["A) Il supprime les labels incertains", "B) Au de softmax à 100% pour la bonne classe, il distribue une petite probabilité (ex: 0.1) aux autres classes, évitant l'overconfidence", "C) Il augmente le nombre de classes", "D) Il remplace les labels par du texte"],
+    "answer": "B",
+    "explanation": "Au lieu de [1, 0, 0], le label smoothing crée [0.9, 0.05, 0.05]. Cela empêche le modèle d'être absolument certain (logit très élevé) et améliore la calibration des probabilités. La loss pousse vers des logits plus modestes."
+  },
+  {
+    "id": "dl_050",
+    "question": "Comment le 'Cosine Annealing' (Cosine Schedule) varie-t-il le learning rate ?",
+    "options": ["A) Linéairement", "B) En suivant une courbe cosinus de décroissance douce du LR initial vers zéro, souvent avec des redémarrages périodiques", "C) Par incréments constants", "D) Aléatoirement"],
+    "answer": "B",
+    "explanation": "Le cosine annealing suit η(t) = η_min + 0.5(η_max - η_min)(1 + cos(πt/T)). La décroissance est lente au début, rapide au milieu, lisse à la fin. Les warm restarts (SGDR) permettent de 'réveiller' l'entraînement périodiquement."
+  },
+  {
+    "id": "dl_051",
+    "question": "Pourquoi la 'Dense Connection' dans DenseNet améliore-t-elle le flux d'information par rapport à ResNet ?",
+    "options": ["A) Elle est plus simple", "B) Chaque couche reçoit les feature maps de TOUTES les couches précédentes (concaténation), pas seulement la précédente", "C) Elle utilise moins de mémoire", "D) Elle est plus rapide"],
+    "answer": "B",
+    "explanation": "DenseNet concatène les sorties de toutes les couches précédentes (L(L+1)/2 connections au lieu de L). Chaque couche reçoit un 'knowledge collective' complet. Le gradient peut circuler directement vers n'importe quelle couche antérieure."
+  },
+  {
+    "id": "dl_052",
+    "question": "Comment les 'Transformers Vision' (ViT) traitent-ils une image sans convolutions ?",
+    "options": ["A) Ils ne fonctionnent pas avec des images", "B) L'image est découpée en patches (16×16), linéairement projetés en tokens, puis traités par un Transformer standard", "C) Ils utilisent des RNNs", "D) Ils convertissent l'image en texte"],
+    "answer": "B",
+    "explanation": "ViT découpe l'image en patches 16×16 (comme des 'mots'), les projette en embeddings, ajoute un CLS token et des positional embeddings, puis applique un Transformer encoder standard. Les self-attentions capturent les relations entre patches."
+  },
+  {
+    "id": "dl_053",
+    "question": "Pourquoi les 'Diffusion Models' génèrent-ils des images plus diverses que les GANs ?",
+    "options": ["A) Ils sont plus lents", "B) Ils modélisent explicitement la distribution de probabilité, couvrant tous les modes au lieu de se concentrer sur les modes dominants", "C) Ils utilisent plus de paramètres", "D) Ils sont plus récents"],
+    "answer": "B",
+    "explanation": "Les GANs peuvent souffrir du mode collapse (générer toujours des visages similaires). Les Diffusion Models apprennent à inverser un processus de britage, couvrant toute la distribution. Cela produit plus de diversité au prix d'une génération plus lente."
+  },
+  {
+    "id": "dl_054",
+    "question": "Comment la technique du 'LoRA' (Low-Rank Adaptation) permet-elle un fine-tuning efficace des grands modèles ?",
+    "options": ["A) En supprimant des couches", "B) En ajoutant de petites matrices de rang faible (A×B) aux poids originaux, entraînant seulement ces matrices (0.1% des paramètres)", "C) En réduisant la taille du modèle", "D) En utilisant un dataset plus petit"],
+    "answer": "B",
+    "explanation": "LoRA décompose le delta de poids en deux petites matrices : ΔW = A×B où A∈R^(d×r) et B∈R^(r×d) avec r << d. Seuls A et B sont entraînés (quelques pourcents des params), les poids originaux restent gelés. Efficace et composable."
+  },
+  {
+    "id": "dl_055",
+    "question": "Pourquoi le 'Flash Attention' accélère-t-il significativement les Transformers ?",
+    "options": ["A) Il ignore certains tokens", "B) Il réorganise les calculs d'attention pour maximiser les accès SRAM (rapide) et minimiser les lectures HBM (lent), sans approximation", "C) Il réduit le nombre de têtes", "D) Il utilise des GPUs plus puissants"],
+    "answer": "B",
+    "explanation": "Flash Attention divise Q, K, V en blocs et effectue l'attention par blocs dans le SRAM rapide du GPU, évitant la materialisation de la grande matrice d'attention N×N en HBM. Exact (pas d'approximation) mais 2-4x plus rapide."
+  },
+  {
+    "id": "dl_056",
+    "question": "Comment le 'RLHF' (Reinforcement Learning from Human Feedback) améliore-t-il les LLMs ?",
+    "options": ["A) En ajoutant plus de données d'entraînement", "B) En entraînant un modèle de récompense sur les préférences humaines, puis en optimisant le LLM via PPO pour maximiser cette récompense", "C) En utilisant uniquement du supervised learning", "D) En réduisant la taille du modèle"],
+    "answer": "B",
+    "explanation": "RLHF : 1) Collecter des comparaisons humaines de réponses, 2) Entraîner un Reward Model sur ces préférences, 3) Fine-tuner le LLM avec PPO pour maximiser le score du Reward Model tout en restant proche du modèle initial (KL penalty)."
+  },
+  {
+    "id": "dl_057",
+    "question": "Pourquoi la quantification (Quantization) INT8 est-elle utilisée pour déployer les modèles sur mobile ?",
+    "options": ["A) Elle améliore la précision", "B) Elle réduit la taille du modèle de 4x (FP32 → INT8) et accélère l'inférence sur hardware supportant INT8", "C) Elle est obligatoire", "D) Elle fonctionne uniquement sur GPU"],
+    "answer": "B",
+    "explanation": "La quantification convertit les poids FP32 (4 octets) en INT8 (1 octet) : modèle 4x plus petit, inférence 2-4x plus rapide. La perte de précision est minime avec la quantification post-training ou le quantization-aware training."
+  },
+  {
+    "id": "dl_058",
+    "question": "Comment les 'State Space Models' (Mamba, S4) se comparent-ils aux Transformers pour les longues séquences ?",
+    "options": ["A) Ils sont identiques", "B) Ils offrent une complexité linéaire O(n) au lieu de O(n²) pour les Transformers, avec un état caché compressé capturant le contexte long", "C) Ils sont moins performants", "D) Ils ne fonctionnent qu'avec des images"],
+    "answer": "B",
+    "explanation": "Les SSMs (Mamba, S4) maintiennent un état caché qui se met à jour linéairement avec la longueur de séquence. L'attention du Transformer compare chaque paire de tokens (O(n²)). Les SSMs sont plus efficaces pour les séquences très longues."
+  },
+  {
+    "id": "dl_059",
+    "question": "Pourquoi le 'KV Cache' est-il essentiel pour la génération rapide des LLMs ?",
+    "options": ["A) Il cache les mots générés", "B) Il stocke les Key et Value des tokens passés pour éviter de les recalculer à chaque nouveau token généré", "C) Il compresse le modèle", "D) Il remplace le positional encoding"],
+    "answer": "B",
+    "explanation": "Sans KV cache, générer le token N+1 nécessite de recalculer l'attention sur tous les N tokens précédents. Le KV cache stocke les K,V de chaque token passé. Seul le nouveau token nécessite un calcul. Gain de temps considérable."
+  },
+  {
+    "id": "dl_060",
+    "question": "Comment l'algorithme de 'Backpropagation' calcule-t-il les gradients à travers les couches ?",
+    "options": ["A) De l'entrée vers la sortie", "B) En appliquant la règle de dérivation en chaîne (chain rule) de la sortie vers l'entrée, couche par couche", "C) En estimant les gradients aléatoirement", "D) En utilisant des dérivées secondes uniquement"],
+    "answer": "B",
+    "explanation": "La backpropagation calcule ∂Loss/∂w pour chaque poids en appliquant le chain rule : ∂L/∂w_l = ∂L/∂a_l × ∂a_l/∂w_l. Le gradient de la loss par rapport aux couches profondes est le produit des gradients locaux de chaque couche."
+  },
+  {
+    "id": "dl_061",
+    "question": "Pourquoi les 'GRU' sont-elles parfois préférées aux LSTM ?",
+    "options": ["A) Elles sont plus performantes", "B) Elles ont moins de paramètres (2 gates au lieu de 3) et entraînement plus rapide, avec des performances souvent comparables", "C) Elles n'ont pas de gates", "D) Elles fonctionnent uniquement en NLP"],
+    "answer": "B",
+    "explanation": "Le GRU fusionne les gates forget et input en une seule gate update. Moins de paramètres = entraînement plus rapide et moins de surapprentissage sur les données limitées. Les performances sont souvent très proches des LSTM."
+  },
+  {
+    "id": "dl_062",
+    "question": "Comment les 'Squeeze-and-Excitation' (SE) blocks améliorent-ils les CNNs ?",
+    "options": ["A) En compressant les images", "B) En apprenant à pondérer l'importance de chaque canal via un mécanisme d'attention de canal (squeeze global → excitation par canal)", "C) En ajoutant des couches de pooling", "D) En supprimant les filtres inutiles"],
+    "answer": "B",
+    "explanation": "Le SE block : Global Average Pooling (squeeze spatial) → FC → ReLU → FC → Sigmoid, produisant un poids par canal. Les features sont repondérées : canaux importants amplifiés, canaux bruités supprimés. Attention de canal apprise."
+  },
+  {
+    "id": "dl_063",
+    "question": "Pourquoi le 'Xavier/Glorot Initialization' est-elle cruciale pour les réseaux profonds ?",
+    "options": ["A) Elle accélère le GPU", "B) Elle initialise les poids pour que la variance des activations et gradients soit préservée à travers les couches au début de l'entraînement", "C) Elle initialise tous les poids à zéro", "D) Elle n'a pas d'impact"],
+    "answer": "B",
+    "explanation": "Xavier init les poids avec variance 2/(fan_in + fan_out). Cela garantit qu'au début, les activations ni les gradients n'explosent ni ne s'évanouissent. Pour ReLU, He initialization (2/fan_in) est préférable. L'initialisation zéro = pas d'apprentissage."
+  },
+  {
+    "id": "dl_064",
+    "question": "Comment le 'Neural Architecture Search' (NAS) automatise-t-il la conception de réseaux ?",
+    "options": ["A) En utilisant des templates prédéfinis", "B) En cherchant automatiquement la meilleure architecture (couches, connexions) via renforcement learning, évolution ou gradient", "C) En copiant les architectures existantes", "D) En ajoutant aléatoirement des couches"],
+    "answer": "B",
+    "explanation": "Le NAS explore l'espace des architectures : un contrôleur (RL) ou un algorithme évolutionnaire propose des architectures, les entraîne, et utilise la performance comme récompense. EfficientNAS et DARTS rendent cela praticable."
+  },
+  {
+    "id": "dl_065",
+    "question": "Pourquoi le 'Softmax Temperature' influence-t-il la diversité de la génération de texte ?",
+    "options": ["A) Il change la langue", "B) Température basse = distribution pointue (déterministe) ; température haute = distribution plate (diversité/creativité)", "C) Il contrôle la longueur du texte", "D) Il n'a aucun effet"],
+    "answer": "B",
+    "explanation": "Softmax avec température T : P(i) = exp(logit_i/T) / Σexp(logit_j/T). T < 1 : le token le plus probable domine (texte répétitif). T > 1 : les tokens sont plus équiprobables (texte créatif mais potentiellement incohérent)."
+  },
+  {
+    "id": "dl_066",
+    "question": "Comment le 'Top-K Sampling' et le 'Top-P (Nucleus) Sampling' contrôlent-ils la génération ?",
+    "options": ["A) Ils sont identiques", "B) Top-K garde les K tokens les plus probables ; Top-P garde le plus petit ensemble cumulant P% de probabilité (dynamique)", "C) Ils suppriment les tokens rares", "D) Ils augmentent la probabilité du meilleur token"],
+    "answer": "B",
+    "explanation": "Top-K=50 garde toujours les 50 meilleurs tokens. Top-P=0.9 garde un nombre variable de tokens cumulant 90% de probabilité (peu de tokens si la distribution est pointue, beaucoup si elle est plate). Le Top-P est plus adaptatif."
+  },
+  {
+    "id": "dl_067",
+    "question": "Pourquoi la 'Double Descent' contredit-elle le compromis classique biais-variance ?",
+    "options": ["A) Elle le confirme", "B) Au-delà du surapprentissage, ajouter encore plus de paramètres peut de nouveau améliorer les performances (seconde descente)", "C) Elle n'existe pas", "D) Elle ne concerne que les modèles linéaires"],
+    "answer": "B",
+    "explanation": "La double descente montre que la test loss monte (overfitting) puis redescend quand le modèle devient surparamétrisé. Les réseaux très larges peuvent interpoler les données d'entraînement parfaitement tout en généralisant bien."
+  },
+  {
+    "id": "dl_068",
+    "question": "Comment les 'Adversarial Attacks' exploitent-elles les réseaux de neurones ?",
+    "options": ["A) En ajoutant beaucoup de bruit", "B) En ajoutant des perturbations imperceptibles calculées pour maximiser l'erreur de classification", "C) En supprimant des pixels", "D) En inversant l'image"],
+    "answer": "B",
+    "explanation": "Les attaques adversariales (FGSM, PGD) calculent la direction qui maximise la loss (gradient sign) et ajoutent une petite perturbation ε dans cette direction. L'image modifiée est visuellement identique mais mal classée. Révèle la fragilité des réseaux."
+  },
+  {
+    "id": "dl_069",
+    "question": "Pourquoi le 'Adversarial Training' améliore-t-il la robustesse ?",
+    "options": ["A) En ignorant les attaques", "B) En incluant des exemples adversariaux dans l'entraînement, le modèle apprend à résister aux perturbations malveillantes", "C) En ajoutant plus de couches", "D) En utilisant un learning rate plus élevé"],
+    "answer": "B",
+    "explanation": "L'adversarial training génère des exemples perturbés à chaque epoch et les ajoute au dataset d'entraînement. Le modèle apprend à produire les mêmes prédictions pour des entrées proches. MADRY: min_max optimization."
+  },
+  {
+    "id": "dl_070",
+    "question": "Comment le 'Knowledge Distillation' compresse-t-il un grand modèle en un petit ?",
+    "options": ["A) En supprimant des couches", "B) Le petit modèle (student) apprend à reproduire les 'soft probabilities' du grand modèle (teacher), capturant plus d'information que les hard labels", "C) En réduisant le vocabulaire", "D) En utilisant moins de données"],
+    "answer": "B",
+    "explanation": "Le teacher produit des soft probabilities (ex: [0.7, 0.2, 0.1] au lieu de [1, 0, 0]). Les petites probabilités contiennent de l'information (classe 2 et 3 sont plus proches que 1 et 3). Le student apprend cette structure fine via KL divergence."
+  },
+  {
+    "id": "dl_071",
+    "question": "Pourquoi les 'Object Detection' models comme YOLO sont-ils plus rapides que les approches basées sur les Region Proposals ?",
+    "options": ["A) Ils utilisent moins de couches", "B) Ils font la détection en une seule passe (dense prediction) au lieu de générer des régions candidates puis les classifier séparément", "C) Ils ignorent les petits objets", "D) Ils fonctionnent uniquement sur CPU"],
+    "answer": "B",
+    "explanation": "YOLO divise l'image en grille et prédit simultanément bounding boxes + classes pour chaque cellule. Les approches R-CNN (Selective Search → CNN → SVM) font 2 passes. YOLO atteint 45-155 FPS au lieu de ~7 FPS pour Faster R-CNN."
+  },
+  {
+    "id": "dl_072",
+    "question": "Comment le mécanisme de 'Non-Maximum Suppression' (NMS) fonctionne-t-il en détection d'objets ?",
+    "options": ["A) Il supprime les objets sans classe", "B) Il élimine les bounding boxes redondantes en gardant celle avec le plus haut score et en supprimant les boxes trop chevauchantes", "C) Il ajoute des boxes manquantes", "D) Il trie les boxes par taille"],
+    "answer": "B",
+    "explanation": "Le NMS : 1) Trier les boxes par score de confiance, 2) Garder la meilleure, 3) Supprimer toutes les boxes avec IoU > seuil (ex: 0.5) avec elle, 4) Répéter. Cela élimine les multiples détections du même objet."
+  },
+  {
+    "id": "dl_073",
+    "question": "Pourquoi l'architecture 'Attention is All You Need' a-t-elle révolutionné le NLP ?",
+    "options": ["A) Elle est la première architecture neuronale", "B) Elle a remplacé les RNNs par le self-attention pur, permettant un parallélisme total et capturant mieux les dépendances longues", "C) Elle ne fonctionne qu'en anglais", "D) Elle est plus petite que les RNNs"],
+    "answer": "B",
+    "explanation": "Le Transformer de Vaswani et al. (2017) élimine les RNNs, permettant un entraînement parallèle massif sur GPU. Le self-attention capture les dépendances entre tous les tokens en O(1) hops. C'est la base de BERT, GPT et tous les LLMs modernes."
+  },
+  {
+    "id": "dl_074",
+    "question": "Comment les 'Variational Autoencoders' apprennent-ils un espace latent continu ?",
+    "options": ["A) En compressant les données sans contrainte", "B) En forçant la distribution latente à suivre une gaussienne (KL divergence), assurant que l'espace est continu et interpolable", "C) En utilisant des convolutions", "D) En supprimant le décodeur"],
+    "answer": "B",
+    "explanation": "Le VAE encode en (μ, σ) et échantillonne z = μ + σ·ε (reparameterization trick). La loss = reconstruction + KL(q(z|x) || N(0,1)). La KL force l'espace à être continu : des points proches dans le latent space génèrent des images similaires."
+  },
+  {
+    "id": "dl_075",
+    "question": "Pourquoi la 'Reparameterization Trick' est-elle nécessaire pour entraîner un VAE ?",
+    "options": ["A) Pour accélérer le calcul", "B) L'échantillonnage z ~ N(μ, σ) est non différentiable ; le trick z = μ + σ·ε avec ε ~ N(0,1) rend le gradient passable à travers μ et σ", "C) Pour stabiliser les activations", "D) Pour éviter le surapprentissage"],
+    "answer": "B",
+    "explanation": "L'échantillonnage direct bloque la backpropagation (opération stochastique non différentiable). Le reparameterization z = μ + σ·ε déplace la stochasticité dans ε, et μ, σ sont déterministes. Le gradient peut passer via μ et σ."
+  },
+  {
+    "id": "dl_076",
+    "question": "Comment le 'CLIP' de OpenAI connecte-t-il vision et langage ?",
+    "options": ["A) En traduisant les images en texte", "B) En entraînant conjointement un encodeur d'image et un encodeur de texte à aligner les représentations d'image-texte correspondants", "C) En utilisant uniquement des convolutions", "D) En générant des légendes"],
+    "answer": "B",
+    "explanation": "CLIP (Contrastive Language-Image Pre-training) aligne les embeddings d'images et de textes dans un espace partagé. Entraîné sur 400M paires image-texte, il peut classer des images via des descriptions textuelles sans labels spécifiques."
+  },
+  {
+    "id": "dl_077",
+    "question": "Pourquoi le 'Prompt Engineering' est-il devenu une compétence clé avec les LLMs ?",
+    "options": ["A) Les LLMs sont trop lents", "B) Le même modèle peut accomplir des tâches très différentes selon la formulation du prompt, sans réentraînement", "C) C'est une mode passagère", "D) Les LLMs ne fonctionnent qu'avec des prompts spécifiques"],
+    "answer": "B",
+    "explanation": "Les LLMs sont des generalists : avec un prompt bien formulé, GPT-4 peut traduire, résumer, coder, analyser. Le prompt engineering optimise la formulation (few-shot, chain-of-thought, role-playing) pour extraire la meilleure performance."
+  },
+  {
+    "id": "dl_078",
+    "question": "Comment le 'Chain-of-Thought Prompting' améliore-t-il le raisonnement des LLMs ?",
+    "options": ["A) En utilisant des prompts plus courts", "B) En demandant au modèle de détailler son raisonnement étape par étape, améliorant significativement les tâches logiques et mathématiques", "C) En ajoutant plus de données d'entraînement", "D) En utilisant un modèle plus grand"],
+    "answer": "B",
+    "explanation": "Le CoT prompting ('Let's think step by step') force le modèle à décomposer le problème en étapes intermédiaires. Cela améliore les tâches multi-steps car chaque étape génère des tokens qui guident le raisonnement suivant."
+  },
+  {
+    "id": "dl_079",
+    "question": "Pourquoi le 'Distributed Data Parallel' (DDP) est-il standard pour l'entraînement multi-GPU ?",
+    "options": ["A) Il est le plus simple", "B) Chaque GPU a une copie du modèle et un shard des données ; les gradients sont synchronisés (all-reduce) pour un entraînement équivalent à un seul GPU", "C) Il divise le modèle entre les GPUs", "D) Il fonctionne uniquement avec 2 GPUs"],
+    "answer": "B",
+    "explanation": "DDP réplique le modèle sur N GPUs, chaque GPU traite un batch différent, et les gradients sont moyennés via all-reduce. C'est transparent (même résultat que batch_size×N) et scalable linéairement en throughput."
+  },
+  {
+    "id": "dl_080",
+    "question": "Comment le 'Model Parallelism' (tensor/pipeline parallel) diffère-t-il du Data Parallelism ?",
+    "options": ["A) Ils sont identiques", "B) Le Data Parallelism duplique le modèle ; le Model Parallelism divise le modèle sur plusieurs GPUs (couches ou tensors répartis)", "C) Le Model Parallelism est toujours meilleur", "D) Le Model Parallelism ne fonctionne pas"],
+    "answer": "B",
+    "explanation": "Le Data Parallelism copie le même modèle sur chaque GPU (même modèle, données différentes). Le Model Parallelism partitionne un modèle trop grand pour un GPU : Pipeline Parallelism (couches réparties) ou Tensor Parallelism (matrices découpées)."
+  },
+  {
+    "id": "dl_081",
+    "question": "Pourquoi la 'Scaling Law' est-elle fondamentale pour comprendre les LLMs ?",
+    "options": ["A) Elle n'est pas importante", "B) La performance suit une loi de puissance prévisible avec la taille du modèle, la quantité de données et le compute (Kaplan et al., 2020)", "C) Elle prouve que les petits modèles sont meilleurs", "D) Elle ne s'applique qu'aux Transformers"],
+    "answer": "B",
+    "explanation": "Les scaling laws montrent que la loss L décroit comme une loi de puissance : L ∝ (N_data)^-α ou L ∝ (N_params)^-β. Plus de données, plus de paramètres, plus de compute = meilleure performance. Guide le dimensionnement des LLMs."
+  },
+  {
+    "id": "dl_082",
+    "question": "Comment la 'Mixture of Experts' (MoE) permet-elle de scaling les modèles efficacement ?",
+    "options": ["A) En utilisant un seul expert", "B) En activant seulement un sous-ensemble de paramètres (experts) par token, multipliant la capacité sans augmenter proportionnellement le coût computationnel", "C) En réduisant la taille du modèle", "D) En utilisant moins de données"],
+    "answer": "B",
+    "explanation": "MoE (ex: Mixtral 8x7B) a N experts (sous-réseaux) et un router qui sélectionne K experts par token (K=2 sur 8). Seuls les experts sélectionnés sont calculés. Capacité totale = 47B params, mais seulement ~13B actifs par token."
+  },
+  {
+    "id": "dl_083",
+    "question": "Pourquoi la 'DPO' (Direct Preference Optimization) simplifie-t-elle le RLHF ?",
+    "options": ["A) Elle supprime le besoin de données humaines", "B) Elle élimine le reward model séparé en optimisant directement les préférences avec une loss analytique sur les paires chosen/rejected", "C) Elle est moins performante", "D) Elle nécessite plus de GPU"],
+    "answer": "B",
+    "explanation": "DPO reformule le RLHF comme un problème de classification : maximiser la log-likelihood de la réponse choisie sur la rejetée, avec une référence au modèle initial. Plus simple, plus stable, pas de reward model ni de PPO à tuner."
+  },
+  {
+    "id": "dl_084",
+    "question": "Comment les 'Vision-Language Models' (LLaVA, GPT-4V) combinent-ils compréhension d'image et de texte ?",
+    "options": ["A) En alternant vision et langage", "B) Un encodeur visuel projette les features d'image dans l'espace latent du LLM, qui traite ensuite image et texte ensemble", "C) En convertissant les images en texte", "D) En utilisant deux modèles séparés"],
+    "answer": "B",
+    "explanation": "Les VLMs utilisent un encodeur visuel (CLIP ViT) pour extraire des features d'image, projetées via un adapter dans l'espace du LLM. Le LLM traite les tokens visuels et textuels de manière unifiée, comprenant les deux modalités."
+  },
+  {
+    "id": "dl_085",
+    "question": "Pourquoi le 'Speculative Decoding' accélère-t-il la génération des LLMs ?",
+    "options": ["A) Il génère moins de tokens", "B) Un petit modèle rapide génère des candidats, le grand modèle les vérifie en parallèle, acceptant ou rejetant plusieurs tokens d'un coup", "C) Il utilise un modèle plus petit uniquement", "D) Il réduit la taille du vocabulaire"],
+    "answer": "B",
+    "explanation": "Le speculative decoding : un draft model (petit, rapide) génère K tokens candidats. Le target model (grand) les évalue en parallèle. Les tokens corrects sont acceptés. Si le draft model est bon, on obtient 2-3x d'accélération sans perte de qualité."
+  },
+  {
+    "id": "dl_086",
+    "question": "Comment la technique du 'Retrieval-Augmented Generation' (RAG) améliore-t-elle les LLMs ?",
+    "options": ["A) En remplaçant le LLM", "B) En récupérant des documents pertinents depuis une base de connaissances et en les injectant dans le contexte du LLM pour des réponses factuelles", "C) En augmentant la taille du modèle", "D) En utilisant un modèle plus petit"],
+    "answer": "B",
+    "explanation": "Le RAG : 1) Encoder la question, 2) Retrouver les K documents les plus pertinents (vector search), 3) Injecter question + documents dans le prompt du LLM. Cela fournit des informations à jour et réduit les hallucinations."
+  },
+  {
+    "id": "dl_087",
+    "question": "Pourquoi le 'Embedding' de mots capture-t-il des relations sémantiques ?",
+    "options": ["A) Par magie", "B) Des mots apparaissant dans des contextes similaires obtiennent des vecteurs proches (distributional hypothesis : 'you shall know a word by the company it keeps')", "C) Parce qu'ils sont classés alphabétiquement", "D) Grâce à une base de données de synonymes"],
+    "answer": "B",
+    "explanation": "Les embeddings (Word2Vec, GloVe) capturent que des mots partageant des contextes similaires ont des sens proches. 'Roi' et 'Reine' apparaissent dans des contextes similaires (royauté, pouvoir), donc leurs vecteurs sont proches."
+  },
+  {
+    "id": "dl_088",
+    "question": "Comment le 'Batch Size' influence-t-il la qualité de l'entraînement ?",
+    "options": ["A) Plus grand est toujours meilleur", "B) Batch size grand = gradient stable mais généralisation moindre ; petit = gradient bruité mais meilleure exploration et généralisation", "C) Il n'a aucun impact", "D) La taille optimale est toujours 32"],
+    "answer": "B",
+    "explanation": "Un grand batch donne un gradient précis (stable) mais peut converger vers des minima pointus (mauvaise généralisation). Un petit batch introduit du bruit bénéfique qui aide à explorer l'espace et trouver des minima plats (meilleure généralisation)."
+  },
+  {
+    "id": "dl_089",
+    "question": "Pourquoi les 'Recurrent Neural Networks' sont-ils tombés en désuétude au profit des Transformers ?",
+    "options": ["A) Ils sont trop anciens", "B) Leur traitement séquentiel empêche la parallélisation, et ils souffrent du vanishing gradient sur les longues séquences", "C) Ils ne fonctionnent qu'avec du texte", "D) Ils sont trop précis"],
+    "answer": "B",
+    "explanation": "Les RNNs traitent les tokens un par un (pas de parallélisme GPU). Sur les séquences longues, le gradient s'évanouit malgré LSTM/GRU. Les Transformers traitent tous les tokens en parallèle et accèdent directement à chaque position."
+  },
+  {
+    "id": "dl_090",
+    "question": "Comment la 'Weight Tying' (partage des poids) entre embedding et softmax est-elle bénéfique ?",
+    "options": ["A) Elle est obligatoire", "B) La même matrice sert pour encoder les mots en entrée et prédire les mots en sortie, réduisant les paramètres et améliorant la qualité des embeddings", "C) Elle double les paramètres", "D) Elle ne fonctionne qu'avec les RNNs"],
+    "answer": "B",
+    "explanation": "Le weight tying utilise la même matrice pour l'embedding d'entrée et la projection de sortie du softmax. Si 'chat' doit être prédit en sortie, le même vecteur sert de cible. Réduit les paramètres de |vocab|×d et améliore la cohérence."
+  },
+  {
+    "id": "dl_091",
+    "question": "Pourquoi les modèles comme GPT utilisent-ils un décodeur-only au lieu d'un encodeur-décodeur ?",
+    "options": ["A) Pour des raisons historiques", "B) L'autorégression (prédire le token suivant) est suffisante pour la génération, et l'architecture plus simple est plus facile à scaling", "C) Les encodeurs sont obsolètes", "D) Les décodeurs sont plus précis"],
+    "answer": "B",
+    "explanation": "GPT prédit le token suivant (next token prediction) avec un décodeur causal. Cette tâche simple mais scalable transforme toute tâche en génération de texte. L'architecture decoder-only est plus simple à scaling que encoder-decoder."
+  },
+  {
+    "id": "dl_092",
+    "question": "Comment le 'Grouped Query Attention' (GQA) optimise-t-il l'attention des LLMs ?",
+    "options": ["A) En regroupant les questions des utilisateurs", "B) En partageant les K,V entre plusieurs têtes Q, réduisant le KV cache et accélérant l'inférence sans perte significative de qualité", "C) En supprimant des têtes d'attention", "D) En augmentant la dimension des têtes"],
+    "answer": "B",
+    "explanation": "GQA assigne G groupes de K,V partagés par H têtes Query (G < H). Au lieu de H paires K,V distinctes (MHA), seulement G paires. Réduit le KV cache de H/G fois, accélère le chargement mémoire. Utilisé dans Llama 2, Mistral."
+  },
+  {
+    "id": "dl_093",
+    "question": "Pourquoi le 'Prompt Tuning' et le 'Prefix Tuning' sont-ils plus efficaces que le full fine-tuning ?",
+    "options": ["A) Ils sont plus performants", "B) Ils entraînent seulement quelques tokens virtuels (prompt/prefix) au lieu de tous les poids, réduisant les paramètres de 1000x", "C) Ils fonctionnent sans données", "D) Ils remplacent complètement le fine-tuning"],
+    "answer": "B",
+    "explanation": "Le prompt tuning apprend un petit vecteur (few tokens virtuels) préfixé à l'entrée. Tous les poids du LLM restent gelés. Seuls quelques milliers de paramètres sont entraînés (vs milliards). Très efficace pour le multi-task sur un même LLM."
+  },
+  {
+    "id": "dl_094",
+    "question": "Comment la technique du 'SentencePiece' ou 'BPE' tokenise-t-elle le texte pour les LLMs ?",
+    "options": ["A) En séparant par espaces uniquement", "B) En fusionnant itérativement les paires de caractères les plus fréquentes en sous-mots, gérant les mots rares et inconnus", "C) En utilisant un dictionnaire fixe", "D) En convertissant chaque lettre en nombre"],
+    "answer": "B",
+    "explanation": "BPE commence au niveau caractère et fusionne itérativement les paires les plus fréquentes (t+h → th, th+e → the). Les mots fréquents sont des tokens entiers, les mots rares sont décomposés en sous-mots connus. Pas de token UNK."
+  },
+  {
+    "id": "dl_095",
+    "question": "Pourquoi la 'Constitutional AI' d'Anthropic est-elle une approche éthique pour les LLMs ?",
+    "options": ["A) Elle utilise des lois existantes", "B) Le modèle s'auto-évalue et se corrige selon un ensemble de principes constitutionnels, réduisant les outputs nuisibles", "C) Elle supprime le besoin d'humains", "D) Elle est obligatoire par loi"],
+    "answer": "B",
+    "explanation": "La Constitutional AI : le modèle génère une réponse, s'évalue selon des principes ('Est-ce utile? Honnête? Inoffensif?'), se critique et se corrige. Ce processus d'auto-amélioration itératif réduit les comportements nuisibles."
+  },
+  {
+    "id": "dl_096",
+    "question": "Comment le 'Continuous Pre-Training' maintient-il un LLM à jour ?",
+    "options": ["A) En le ré-entraînant de zéro", "B) En continuant le pré-entraînement sur de nouvelles données avec un learning rate réduit, intégrant les connaissances récentes", "C) En changeant l'architecture", "D) En ajoutant des couches"],
+    "answer": "B",
+    "explanation": "Le continuous pre-training poursuit l'entraînement du LLM sur des données récentes (nouvelles du mois, nouveaux documents) avec un LR plus faible pour ne pas oublier les connaissances anciennes (catastrophic forgetting)."
+  },
+  {
+    "id": "dl_097",
+    "question": "Pourquoi les LLMs 'hallucinent-ils' et comment peut-on mitiger ce problème ?",
+    "options": ["A) Ils sont programmés pour mentir", "B) Ils prédisent le token le plus plausible, pas le vrai ; mitigation : RAG, grounding, vérification factuelle et self-consistency", "C) Le problème est insoluble", "D) En augmentant la température"],
+    "answer": "B",
+    "explanation": "Les LLMs génèrent du texte statistiquement plausible mais pas nécessairement factuel. Mitigations : RAG (injecter des faits), chain-of-thought verification, self-consistency (générer N fois et voter), et contraintes de format."
+  },
+  {
+    "id": "dl_098",
+    "question": "Comment les 'Mixture of Experts' résolvent-elles le compromis entre capacité et coût computationnel ?",
+    "options": ["A) En réduisant la capacité", "B) Avec N experts dont seulement K sont activés par input, on obtient N× capacité au coût de K× computation", "C) En utilisant un seul expert massif", "D) En ignorant le coût computationnel"],
+    "answer": "B",
+    "explanation": "Un MoE avec 8 experts et top-2 routing : le modèle a 8× plus de paramètres qu'un modèle dense, mais chaque token n'active que 2 experts. Capacité énorme pour l'apprentissage, coût computationnel maîtrisé à l'inférence."
+  },
+  {
+    "id": "dl_099",
+    "question": "Pourquoi le 'In-context Learning' (few-shot) est-il une capacité émergente des grands modèles ?",
+    "options": ["A) Il est présent dans tous les modèles", "B) Il n'émerge qu'à partir d'une certaine taille de modèle, où le modèle apprend à partir d'exemples dans le prompt sans mise à jour des poids", "C) C'est une fonctionnalité programmée", "D) Il fonctionne uniquement avec 1 exemple"],
+    "answer": "B",
+    "explanation": "L'in-context learning est une capacité émergente : les petits modèles ne savent pas apprendre d'exemples dans le prompt. À partir d'une certaine échelle (quelques milliards de params), le modèle infère la tâche des exemples sans gradient update."
+  },
+  {
+    "id": "dl_100",
+    "question": "Vous devez choisir une architecture pour un système de classification d'images médicales avec 500 images annotées. Quelle approche est la plus raisonnable ?",
+    "options": ["A) Entraîner un ViT de zéro", "B) Transfer learning : utiliser un ResNet50 pré-entraîné sur ImageNet, geler les premières couches et fine-tuner les dernières", "C) K-means sur les pixels", "D) Un MLP simple sur les pixels bruts"],
+    "answer": "B",
+    "explanation": "Avec seulement 500 images, entraîner de zéro est impossible (surapprentissage garanti). Le transfer learning avec un CNN pré-entraîné (ResNet50) réutilise les features visuelles génériques et fine-tune sur les spécificités médicales avec peu de données."
+  }
+]

@@ -1,0 +1,702 @@
+[
+  {
+    "id": "et_001",
+    "question": "Pourquoi le biais algorithmique est-il souvent qualifié de 'biais miroir' ?",
+    "options": ["A) L'algorithme se regarde dans un miroir", "B) Les modèles reflètent et amplifient les biais présents dans les données d'entraînement issues de la société", "C) Le biais est toujours visible", "D) C'est un terme technique sans sens"],
+    "answer": "B",
+    "explanation": "Les algorithmes apprennent sur des données historiques qui contiennent les préjugés humains (discrimination à l'embauche, biais judiciaires). Le modèle ne fait que refléter ces biais, parfois en les amplifiant."
+  },
+  {
+    "id": "et_002",
+    "question": "En 2018, Amazon a dû abandonner un outil de recrutement par IA. Pourquoi ?",
+    "options": ["A) Il était trop lent", "B) Il pénalisait systématiquement les candidatures féminines car entraîné sur 10 ans de recrutements historiques dominés par des hommes", "C) Il ne fonctionnait qu'en anglais", "D) Il coûtait trop cher"],
+    "answer": "B",
+    "explanation": "L'outil d'Amazon, entraîné sur des CV de 10 ans (majoritairement masculins dans la tech), a appris à pénaliser les termes liés aux femmes ('women's chess club'). Cas d'école de biais historique reproduit par machine learning."
+  },
+  {
+    "id": "et_003",
+    "question": "Comment le logiciel COMPAS utilisé dans la justice américaine a-t-il été critiqué ?",
+    "options": ["A) Il était trop complexe", "B) Une enquête de ProPublica a montré qu'il classait faussement les délinquants noirs comme 'à haut risque' plus souvent que les blancs", "C) Il ne fonctionnait pas", "D) Il était trop cher"],
+    "answer": "B",
+    "explanation": "COMPAS (Correctional Offender Management Profiling for Alternative Sanctions) prédisait le risque de récidive. ProPublica (2016) a révélé : faux positifs 2x plus élevés pour les Noirs. Débat sur l'équité prédictive vs calibration."
+  },
+  {
+    "id": "et_004",
+    "question": "Pourquoi le RGPD (GDPR) inclut-il un 'droit à l'explication' pour les décisions automatisées ?",
+    "options": ["A) Pour compliquer les entreprises", "B) Tout individu a le droit de comprendre comment une décision algorithmique le concernant a été prise", "C) C'est optionnel", "D) Il ne concerne que les entreprises européennes"],
+    "answer": "B",
+    "explanation": "L'article 22 du RGPD donne le droit de ne pas être soumis à une décision entièrement automatisée. L'article 13-15 exige des informations sur la logique involved. Cela pousse vers des modèles interprétables ou des méthodes d'explication."
+  },
+  {
+    "id": "et_005",
+    "question": "Comment l'IA peut-elle perpétuer les stéréotypes de genre dans la génération d'images ?",
+    "options": ["A) Elle ne le peut pas", "B) Les modèles entraînés sur des données web reproduisent les associations stéréotypées (femme = infirmière, homme = médecin)", "C) C'est un bug aléatoire", "D) Seuls les modèles anciens sont concernés"],
+    "answer": "B",
+    "explanation": "DALL-E, Midjourney et Stable Diffusion peuvent associer 'CEO' à des hommes et 'assistant' à des femmes car leurs données d'entraînement (web) contiennent ces biais. Sans correction, l'IA amplifie et normalise ces stéréotypes."
+  },
+  {
+    "id": "et_006",
+    "question": "Pourquoi les 'deepfakes' soulèvent-ils des préoccupations éthiques majeures ?",
+    "options": ["A) Ils sont de mauvaise qualité", "B) Ils permettent de créer des vidéos fausses mais réalistes, facilitant la désinformation, le chantage et la manipulation politique", "C) Ils sont trop chers", "D) Ils ne concernent que les célébrités"],
+    "answer": "B",
+    "explanation": "Les deepfakes (GANs, diffusion) génèrent des vidéos synthétiques réalistes. Utilisés pour la désinformation politique, la pornographie non consensuelle et la fraude. La détection devient une course à l'armement technologique."
+  },
+  {
+    "id": "et_007",
+    "question": "Qu'est-ce que l'IA 'Explainable' (XAI) et pourquoi est-elle importante ?",
+    "options": ["A) Une IA qui parle beaucoup", "B) Des méthodes pour rendre les décisions des modèles complexes compréhensibles par les humains (SHAP, LIME, attention maps)", "C) Une IA qui explique ses bugs", "D) Un framework de test"],
+    "answer": "B",
+    "explanation": "L'XAI (Explainable AI) comprend des méthodes post-hoc (SHAP, LIME), des modèles intrinsèquement interprétables (arbres de décision), et des visualisations. Essentiel pour la confiance, la conformité réglementaire et le debugging."
+  },
+  {
+    "id": "et_008",
+    "question": "Pourquoi la 'surveillance de masse' par IA est-elle controversée ?",
+    "options": ["A) Elle est inefficace", "B) La reconnaissance faciale à grande échelle permet un suivi individuel sans consentement, menaçant la vie privée et la liberté", "C) Elle ne fonctionne pas en extérieur", "D) Seules les dictatures l'utilisent"],
+    "answer": "B",
+    "explanation": "La reconnaissance faciale (Clearview AI, Hikvision) permet d'identifier des individus en temps réel dans l'espace public. Sans cadre légal strict, cela crée un outil de surveillance de masse. Des villes (San Francisco) l'ont interdite."
+  },
+  {
+    "id": "et_009",
+    "question": "Comment le concept de 'fairness' (équité) est-il mathématiquement impossible à satisfaire simultanément ?",
+    "options": ["A) Ce n'est pas le cas", "B) Le théorème d'impossibilité de Chouldechova/Friedler montre que la parité démographique, la calibration et l'égalité des faux positifs sont mutuellement incompatibles", "C) L'équité est facile à définir", "D) Seul le biais importe"],
+    "answer": "B",
+    "explanation": "Il est mathématiquement impossible de satisfaire simultanément : equal opportunity (TPR égal), calibration (fiabilité égale) et demographic parity (taux de prédiction égal). Choisir une métrique d'équité est un choix éthique, pas technique."
+  },
+  {
+    "id": "et_010",
+    "question": "Pourquoi la reconnaissance faciale a-t-elle des taux d'erreur plus élevés pour les personnes à peau foncée ?",
+    "options": ["A) C'est un mythe", "B) Les datasets d'entraînement sont surreprésentés en visages à peau claire, et les algorithmes sont moins performants sur des teints sous-représentés", "C) La peau foncée bloque les capteurs", "D) C'est un problème hardware"],
+    "answer": "B",
+    "explanation": "L'étude Gender Shades (Buolamwini & Gebru, 2018) a montré que les taux d'erreur de reconnaissance faciale étaient 10-100x plus élevés pour les femmes noires. Les datasets (LFW, IJB-A) contenaient 77-83% de visages à peau claire."
+  },
+  {
+    "id": "et_011",
+    "question": "Comment le 'data colonialism' menace-t-il les pays en développement ?",
+    "options": ["A) Il n'existe pas", "B) Les entreprises extractent les données de ces pays sans compensation ni contrôle local, reproduisant des schémas coloniaux d'exploitation", "C) C'est un problème uniquement économique", "D) Il concerne uniquement les matières premières"],
+    "answer": "B",
+    "explanation": "Le data colonialism : les GAFAM extraient les données des pays du Sud (comportements, santé, agriculture) sans consentement éclairé ni partage de valeur. Les modèles entraînés servent les pays du Nord, pas les communautés source."
+  },
+  {
+    "id": "et_012",
+    "question": "Pourquoi la 'transparence algorithmique' est-elle nécessaire mais insuffisante ?",
+    "options": ["A) Elle est inutile", "B) Publier le code ne suffit pas : il faut aussi les données, le contexte d'utilisation et la gouvernance pour une vraie responsabilité", "C) La transparence résout tout", "D) Les entreprises sont déjà transparentes"],
+    "answer": "B",
+    "explanation": "La transparence du code seul est insuffisante : un modèle est le produit de ses données, de son entraînement, de son déploiement et de son contexte d'usage. Une IA responsable nécessite transparence + auditabilité + gouvernance + recours."
+  },
+  {
+    "id": "et_013",
+    "question": "Comment les LLMs peuvent-ils générer de la désinformation à grande échelle ?",
+    "options": ["A) Ils ne peuvent pas mentir", "B) Ils génèrent du texte plausible mais faux (hallucinations), automatisable à grande échelle pour des campagnes de désinformation", "C) C'est un bug rare", "D) Seuls les petits modèles hallucinent"],
+    "answer": "B",
+    "explanation": "Les LLMs produisent du texte statistiquement plausible mais factuellement incorrect. Cette capacité, combinée à la scalabilité, permet de générer des milliers d'articles faux, commentaires et avis. Les bots de désinformation deviennent indétectables."
+  },
+  {
+    "id": "et_014",
+    "question": "Pourquoi le consentement éclairé est-il difficile à obtenir pour l'utilisation des données personnelles par l'IA ?",
+    "options": ["A) Les gens ne savent pas lire", "B) Les CGU sont illisibles, les usages futurs imprévisibles et les données combinées révèlent plus que ce à quoi l'utilisateur a consenti", "C) Le consentement n'est pas nécessaire", "D) C'est un problème résolu"],
+    "answer": "B",
+    "explanation": "Les CGU font en moyenne 5000 mots. Personne ne lit. De plus, l'utilisateur ne peut pas anticiper toutes les combinaisons futures de ses données. Le consentement 'éclairé' est une fiction légale dans la pratique."
+  },
+  {
+    "id": "et_015",
+    "question": "Comment le 'AI Act' de l'Union européenne classifie-t-il les systèmes d'IA ?",
+    "options": ["A) En 2 catégories", "B) En 4 niveaux de risque : inacceptable (interdit), élevé (strict), limité (transparence), minimal (libre)", "C) Par pays d'origine", "D) Par taille du modèle"],
+    "answer": "B",
+    "explanation": "L'AI Act (2024) classe les IA : risque inacceptable (score social, manipulation) = interdit ; risque élevé (recrutement, justice, santé) = conformité stricte ; risque limité (chatbots) = obligation de transparence ; minimal = libre."
+  },
+  {
+    "id": "et_016",
+    "question": "Pourquoi les 'algorithmes de recommandation' sont-ils accusés de polarisation ?",
+    "options": ["A) Ils sont trop neutres", "B) En optimisant l'engagement, ils montrent du contenu de plus en plus extrême (radicalisation progressive), créant des chambres d'écho", "C) Ils fonctionnent mal", "D) Seuls les réseaux sociaux sont concernés"],
+    "answer": "B",
+    "explanation": "Les algorithmes optimisent le temps passé. Le contenu émotionnel et extrême génère plus d'engagement. L'utilisateur reçoit progressivement du contenu de plus en plus radical. YouTube, Facebook et TikTok sont accusés de cette dérive."
+  },
+  {
+    "id": "et_017",
+    "question": "Comment le 'Ghost Work' (travail fantôme) est-il lié à l'éthique de l'IA ?",
+    "options": ["A) C'est un film d'horreur", "B) Des milliers de travailleurs (Southeast Asia, Afrique) annotent les données et modèrent le contenu pour les IA, dans des conditions souvent précaires", "C) C'est un concept théorique", "D) Il ne concerne que les pays riches"],
+    "answer": "B",
+    "explanation": "Derrière chaque 'IA automatique', il y a des travailleurs humains (data labelers, content moderators) payés quelques dollars de l'heure pour annoter des données ou filtrer du contenu traumatisant. Le 'Human in the loop' invisible."
+  },
+  {
+    "id": "et_018",
+    "question": "Pourquoi le 'droit à l'oubli' numérique est-il difficile à appliquer aux modèles d'IA ?",
+    "options": ["A) Ce n'est pas un vrai droit", "B) Une fois les données absorbées dans les poids d'un modèle, il est extrêmement difficile de les 'désapprendre' sélectivement", "C) Les entreprises le font déjà", "D) Il suffit de supprimer la base de données"],
+    "answer": "B",
+    "explanation": "Le 'machine unlearning' est un problème de recherche actif. Les données d'une personne sont distribuées dans des millions de poids. Supprimer une donnée sans réentraîner tout le modèle est actuellement impossible. Le RGPD exige pourtant cette capacité."
+  },
+  {
+    "id": "et_019",
+    "question": "Comment l''AI alignment' (alignement de l'IA) tente-t-il de résoudre le problème des objectifs mal spécifiés ?",
+    "options": ["A) En arrêtant le développement de l'IA", "B) En cherchant à aligner les objectifs de l'IA sur les valeurs humaines, évitant les comportements techniquement corrects mais indésirables", "C) En utilisant des lois uniquement", "D) C'est un problème résolu"],
+    "answer": "B",
+    "explanation": "Le problème de l'alignement : une IA optimisant un objectif mal défini peut produire des résultats catastrophiques (paperclip maximizer). L'alignement vise à garantir que l'IA poursuit réellement ce que les humains veulent, pas ce qu'ils ont littéralement demandé."
+  },
+  {
+    "id": "et_020",
+    "question": "Pourquoi les 'autonomous weapons' (armes autonomes) font-elles l'objet d'un débat international ?",
+    "options": ["A) Elles n'existent pas", "B) Confier la décision de tuer à un algorithme pose des questions éthiques fondamentales sur la responsabilité et la dignité humaine", "C) C'est un problème uniquement militaire", "D) Elles sont déjà interdites partout"],
+    "answer": "B",
+    "explanation": "Les armes autonomes Lethal (LAWS) peuvent sélectionner et engager des cibles sans supervision humaine. Qui est responsable d'une erreur ? L'ingénieur ? Le commandant ? L'algorithme ? L'ONU débat d'un traité d'interdiction depuis 2013."
+  },
+  {
+    "id": "et_021",
+    "question": "Comment le 'racial bias' dans les algorithmes de crédit affecte-t-il les minorités ?",
+    "options": ["A) Ce n'est pas réel", "B) Des variables proxy (code postal, nom) reproduisent indirectement la discrimination raciale interdite par la loi", "C) Les banques ne utilisent pas d'IA", "D) Seul le revenu est pris en compte"],
+    "answer": "B",
+    "explanation": "Même sans utiliser la race (illégal), les algorithmes utilisent des proxies (code postal = quartier ségrégué, école = statut socio-économique racialisé). Le résultat est une discrimination indirecte mais réelle. Apple Card (2019) en a été accusé."
+  },
+  {
+    "id": "et_022",
+    "question": "Pourquoi le 'Trolley Problem' est-il pertinent pour les voitures autonomes ?",
+    "options": ["A) C'est un jeu", "B) En cas d'accident inévitable, l'algorithme doit choisir entre plusieurs options morales (protéger les passagers vs les piétons)", "C) Les voitures autonomes n'auront jamais d'accidents", "D) C'est un problème uniquement théorique"],
+    "answer": "B",
+    "explanation": "L'Experience MIT Moral Machine a collecté des millions de choix moraux. Les réponses varient selon la culture. Doit-on coder une morale universelle ? Locale ? Qui décide ? L'ingénieur, l'entreprise, le législateur, l'acheteur ?"
+  },
+  {
+    "id": "et_023",
+    "question": "Comment le 'model stealing' (vol de modèle) pose-t-il un problème de propriété intellectuelle ?",
+    "options": ["A) Ce n'est pas possible", "B) En interrogeant une API, un attaquant peut reconstruire un modèle proche du vôtre, volant votre propriété intellectuelle et vos données", "C) Seuls les petits modèles peuvent être volés", "D) C'est légal partout"],
+    "answer": "B",
+    "explanation": "Le model extraction attaque une API en envoyant des milliers de requêtes et en collectant les réponses pour entraîner un 'clone'. Cela vole la propriété intellectuelle, peut reproduire les données d'entraînement (privacy), et contourne les paywalls."
+  },
+  {
+    "id": "et_024",
+    "question": "Pourquoi les 'AI-generated content' posent-ils un problème de droit d'auteur ?",
+    "options": ["A) L'IA ne crée rien de nouveau", "B) Les modèles sont entraînés sur des oeuvres protégées sans compensation aux auteurs, et le statut des oeuvres générées est juridiquement flou", "C) Le droit d'auteur ne s'applique pas au numérique", "D) C'est un problème résolu"],
+    "answer": "B",
+    "explanation": "Stable Diffusion s'est entraîné sur des milliards d'images (Laion-5B) sans consentement des artistes. Les oeuvres générées portent parfois la signature d'artistes existants. Les procès (Getty vs Stability AI, NYT vs OpenAI) trancheront."
+  },
+  {
+    "id": "et_025",
+    "question": "Comment le 'digital divide' (fracture numérique) est-il amplifié par l'IA ?",
+    "options": ["A) L'IA réduit les inégalités", "B) Les communautés sans accès à l'IA (langue non supportée, absence d'internet, illettrisme numérique) sont exclues des bénéfices et marginalisées", "C) Tout le monde a accès à l'IA", "D) La fracture numérique est un mythe"],
+    "answer": "B",
+    "explanation": "L'IA est majoritairement entraînée en anglais, optimisée pour les utilisateurs connectés et alphabétisés. Les 3000+ langues sans données, les régions sans internet et les personnes âgées sont doublement exclues : pas de bénéfice + décisions prises pour eux."
+  },
+  {
+    "id": "et_026",
+    "question": "Pourquoi l''AI safety' est-il un champ de recherche à part entière ?",
+    "options": ["A) C'est de la science-fiction", "B) Les systèmes d'IA puissants peuvent causer des dommages involontaires à grande échelle (erreur médicale, crash financier, panne de réseau)", "C) Les IA sont déjà sûres", "D) C'est uniquement théorique"],
+    "answer": "B",
+    "explanation": "L'AI safety étudie comment prévenir les accidents : bousculades de trading algorithmique (Flash Crash 2010), erreurs de diagnostic médical, biais de justice. Le risque augmente avec l'autonomie et l'échelle des systèmes."
+  },
+  {
+    "id": "et_027",
+    "question": "Comment le 'privacy paradox' se manifeste-t-il dans l'utilisation de l'IA ?",
+    "options": ["A) Les gens protègent trop leurs données", "B) Les utilisateurs disent se soucier de la vie privée mais fournissent volontairement leurs données pour des services gratuits", "C) Personne ne se soucie de la vie privée", "D) C'est un mythe"],
+    "answer": "B",
+    "explanation": "Le privacy paradox : 90% des utilisateurs se disent préoccupés par la vie privée, mais acceptent toutes les conditions d'utilisation et partagent librement sur les réseaux sociaux. Le confort immédiat l'emporte sur les risques abstraits."
+  },
+  {
+    "id": "et_028",
+    "question": "Pourquoi le 'human-in-the-loop' (HITL) est-il recommandé pour les systèmes critiques ?",
+    "options": ["A) Les humains sont plus rapides", "B) Garder un humain dans la boucle de décision permet de capturer les cas limites, les nuances éthiques et de maintenir la responsabilité", "C) C'est moins cher", "D) L'IA ne peut pas fonctionner seule"],
+    "answer": "B",
+    "explanation": "Le HITL garde un humain comme validateur final pour les décisions critiques (diagnostic médical, décision judiciaire, weapon systems). L'IA recommande, l'humain décide. Réduit le risque d'erreur systématique et maintient la responsabilité."
+  },
+  {
+    "id": "et_029",
+    "question": "Comment les 'carbon emissions' de l'entraînement des LLMs posent-elles un problème environnemental ?",
+    "options": ["A) L'IA ne consomme pas d'énergie", "B) L'entraînement de GPT-3 a émis ~552 tonnes de CO2, l'équivalent de 120 voitures sur leur durée de vie", "C) Seul l'entraînement consomme", "D) Le cloud est neutre en carbone"],
+    "answer": "B",
+    "explanation": "L'entraînement des grands modèles (GPT-3: 552t CO2, GPT-4 estimé 10x+) consomme des milliers de GPU pendant des semaines. L'inférence à l'échelle mondiale ajoute aussi. La question : le bénéfice social justifie-t-il l'empreinte carbone ?"
+  },
+  {
+    "id": "et_030",
+    "question": "Pourquoi le 'annotation bias' affecte-t-il les datasets d'entraînement ?",
+    "options": ["A) Les annotations sont toujours correctes", "B) Les annotateurs humains projettent leurs propres biais culturels et cognitifs dans les labels qu'ils créent", "C) C'est un problème uniquement technique", "D) Les machines annotent mieux"],
+    "answer": "B",
+    "explanation": "Les labels reflètent le jugement des annotateurs, influencé par leur culture, leur âge, leur langue. ImageNet contenait des labels offensants. Les annotations 'toxicité' varient selon les cultures. Le label = vérité humaine, pas vérité absolue."
+  },
+  {
+    "id": "et_031",
+    "question": "Comment le 'membership inference attack' menace-t-il la confidentialité des données d'entraînement ?",
+    "options": ["A) Elle ne menace rien", "B) Un attaquant peut déterminer si les données d'une personne spécifique ont été utilisées pour entraîner le modèle", "C) C'est un type de piratage classique", "D) Seuls les petits modèles sont vulnérables"],
+    "answer": "B",
+    "explanation": "L'attaque par inférence d'appartenance explope le fait qu'un modèle répond légèrement différemment aux données d'entraînement vs les nouvelles données. Un attaquant peut déterminer si le dossier médical de quelqu'un est dans le dataset."
+  },
+  {
+    "id": "et_032",
+    "question": "Pourquoi le 'AI nationalism' (nationalisme de l'IA) émerge-t-il ?",
+    "options": ["A) L'IA est identique partout", "B) Les nations investissent massivement pour dominer l'IA, craignant une dépendance technologique et géopolitique", "C) C'est un concept imaginaire", "D) Seuls les États-Unis et la Chine sont concernés"],
+    "answer": "B",
+    "explanation": "La course à l'IA (US, Chine, EU, Inde) est comparée à la course spatiale. Qui contrôle l'IA contrôle l'économie future. Export controls sur les GPU (US vers Chine), investissements massifs (EU AI Act + fonds). La souveraineté numérique en jeu."
+  },
+  {
+    "id": "et_033",
+    "question": "Comment le 'algorithmic accountability' diffère-t-il de la transparence ?",
+    "options": ["A) C'est la même chose", "B) La transparence = voir le code ; l'accountability = être responsable des conséquences et pouvoir être tenu responsable", "C) L'accountability est moins important", "D) Seules les entreprises publiques sont concernées"],
+    "answer": "B",
+    "explanation": "Transparence = ouvrir le code/données. Accountability = mécanismes d'audit, responsabilité légale, voies de recours pour les personnes affectées. Un système peut être transparent mais sans accountability (qui paie en cas d'erreur ?)."
+  },
+  {
+    "id": "et_034",
+    "question": "Pourquoi les 'sentiment analysis' tools peuvent-ils être biaisés culturellement ?",
+    "options": ["A) Ils sont parfaits", "B) La notion de 'positif' ou 'négatif' varie selon les cultures, et les modèles entraînés sur des données occidentales mal interprètent d'autres cultures", "C) Seule la langue anglaise est concernée", "D) Le sentiment est universel"],
+    "answer": "B",
+    "explanation": "L'ironie, le sarcasme, la politesse indirecte varient culturellement. Un modèle entraîné sur des reviews américaines peut classer un compliment japonais indirect comme négatif. L'analyse de sentiment n'est pas culturellement neutre."
+  },
+  {
+    "id": "et_035",
+    "question": "Comment le 'profiling algorithmique' peut-il violer la dignité humaine ?",
+    "options": ["A) Il est toujours neutre", "B) Réduire une personne à un ensemble de caractéristiques prédictives nie sa complexité et son libre arbitre", "C) C'est un concept philosophique sans impact réel", "D) Seules les données anonymisées sont utilisées"],
+    "answer": "B",
+    "explanation": "Le profiling réduit l'individu à un vecteur de features et des probabilités. Une personne peut se voir refuser un crédit non sur ses actes mais sur ce que l'algorithme prédit qu'elle fera. Jugement sur potentialité, pas sur réalité."
+  },
+  {
+    "id": "et_036",
+    "question": "Pourquoi le 'data minimization' est-il un principe éthique fondamental ?",
+    "options": ["A) Moins de données = moins de coûts", "B) Ne collecter que les données strictement nécessaires réduit les risques de violation de vie privée et d'abus", "C) C'est uniquement une bonne pratique technique", "D) Plus de données est toujours mieux"],
+    "answer": "B",
+    "explanation": "Le principe de minimisation (RGPD Article 5) : collecter uniquement ce qui est nécessaire. Chaque donnée supplémentaire est un risque (fuite, abus, re-identification). Le machine learning pousse dans le sens inverse (plus de données = mieux)."
+  },
+  {
+    "id": "et_037",
+    "question": "Comment les 'AI-generated voices' menacent-elles la sécurité des personnes ?",
+    "options": ["A) Elles sont trop robotiques pour tromper", "B) Le clonage vocal permet d'imiter la voix de n'importe qui pour des arnaques téléphoniques ou des fake calls", "C) Seules les voix de célébrités peuvent être clonées", "D) C'est légal partout"],
+    "answer": "B",
+    "explanation": "Avec 3 secondes d'audio, un modèle peut cloner une voix. Utilisé pour des arnaques ('Maman, j'ai eu un accident, envoie de l'argent'), des faux appels de PDG et de la désinformation. La détection vocale synthétique est en retard."
+  },
+  {
+    "id": "et_038",
+    "question": "Pourquoi l''AI auditing' (audit algorithmique) est-il nécessaire ?",
+    "options": ["A) Les algorithmes sont auto-régulés", "B) Des audits indépendants vérifient les performances, les biais et la conformité des systèmes d'IA, comme un audit financier", "C) C'est une perte de temps", "D) Seules les entreprises publiques en ont besoin"],
+    "answer": "B",
+    "explanation": "L'audit algorithmique examine les données d'entrée, le modèle, les outputs et les impacts réels. Il vérifie l'équité entre groupes, la performance sur les cas limites et la conformité légale. Indépendant, périodique, avec résultats publics."
+  },
+  {
+    "id": "et_039",
+    "question": "Comment le 'automation bias' affecte-t-il le jugement humain ?",
+    "options": ["A) Il rend les humains plus critiques", "B) Les humains ont tendance à accepter les recommandations de l'IA sans les remettre en question, même quand l'IA se trompe", "C) Il améliore les décisions", "D) Seuls les non-experts sont affectés"],
+    "answer": "B",
+    "explanation": "L'automation bias : face à une recommandation algorithmique, même les experts réduisent leur vigilance. En médecine, les radiologues acceptent plus facilement un diagnostic IA erroné qu'une opinion collégiale. Le HITL ne fonctionne que si l'humain résiste."
+  },
+  {
+    "id": "et_040",
+    "question": "Pourquoi le 'consentement des données de formation' est-il un sujet brûlant pour les créateurs de contenu ?",
+    "options": ["A) Les créateurs sont d'accord", "B) Les LLMs sont entraînés sur des textes, images et codes sans le consentement de leurs créateurs", "C) C'est légal partout", "D) Seules les grandes entreprises sont concernées"],
+    "answer": "B",
+    "explanation": "GPT-4 a été entraîné sur du contenu web, des livres et du code sans consentement. Les créateurs (auteurs, artistes, développeurs) demandent un opt-out et une compensation. Le NYT a poursuivi OpenAI. Le fair use est contesté."
+  },
+  {
+    "id": "et_041",
+    "question": "Comment le 'digital manipulation' des enfants par les assistants vocaux est-il perçu ?",
+    "options": ["A) Ce n'est pas un problème", "B) Les enfants développent une relation affective avec des assistants (Alexa) qui sont conçus pour fidéliser, pas éduquer", "C) Seuls les adolescents sont affectés", "D) Les assistants vocaux sont neutres"],
+    "answer": "B",
+    "explanation": "Les enfants traitent parfois Alexa comme un ami. L'assistant est conçu pour vendre (recommandations). Le langage poli n'est pas nécessaire ('Alexa, fais ça'). Impact sur le développement social et la compréhension du monde numérique."
+  },
+  {
+    "id": "et_042",
+    "question": "Pourquoi le 'feedback loop' entre IA et société est-il un cercle vicieux ?",
+    "options": ["A) Ce n'est pas un problème", "B) Les biais de l'IA influencent le comportement humain qui produit de nouvelles données biaisées qui réentraînent l'IA", "C) L'IA s'améliore toujours", "D) Les humains ne changent pas de comportement"],
+    "answer": "B",
+    "explanation": "Exemple : un algorithme de crédit pénalise un quartier → les habitants ne peuvent pas investir → le quartier se dégrade → les nouvelles données confirment le 'risque' → l'algorithme renforce la pénalisation. Boucle auto-renforçante."
+  },
+  {
+    "id": "et_043",
+    "question": "Comment l'IA peut-elle renforcer les inégalités dans l'éducation ?",
+    "options": ["A) Elle les réduit", "B) Les étudiants des écoles riches ont accès aux meilleurs outils IA, augmentant l'écart avec ceux des écoles sous-équipées", "C) L'IA est gratuite pour tous", "D) Seules les universités sont concernées"],
+    "answer": "B",
+    "explanation": "ChatGPT Plus (20$/mois), Copilot, les outils de rédaction IA sont payants. Les étudiants privilégiés ont des assistants IA performants, les autres n'ont que les versions gratuites limitées. La fracture numérique s'élargit."
+  },
+  {
+    "id": "et_044",
+    "question": "Pourquoi le 'right to repair' s'étend-il aux algorithmes ?",
+    "options": ["A) Les algorithmes ne se cassent pas", "B) Les utilisateurs veulent comprendre et corriger les décisions algorithmiques qui les affectent (scoring de crédit, recrutement)", "C) C'est uniquement pour le hardware", "D) Les entreprises le permettent déjà"],
+    "answer": "B",
+    "explanation": "Le droit à la réparation algorithmique : accéder à la logique de décision, contester une décision et obtenir une correction. Le RGPD (art. 22) donne un droit de contestation des décisions automatisées avec effet juridique."
+  },
+  {
+    "id": "et_045",
+    "question": "Comment l'IA dans les RH peut-elle discriminer les candidats ?",
+    "options": ["A) Elle est parfaitement neutre", "B) L'analyse vidéo d'entretiens (expressions, voix) pénalise les candidats neuro-atypiques, non natifs ou anxieux", "C) Seul le CV est analysé", "D) Les RH ne utilisent pas d'IA"],
+    "answer": "B",
+    "explanation": "Les outils d'analyse d'entretiens vidéo (HireVue) analysent les expressions faciales et le ton. Pénalisent les personnes neurodivergentes, les non-natifs (accent), les anxieux. L'expressivité n'est pas une mesure de compétence."
+  },
+  {
+    "id": "et_046",
+    "question": "Pourquoi les 'model cards' et 'datasheets' sont-ils importants pour la transparence ?",
+    "options": ["A) Ce sont des cartes à jouer", "B) Ils documentent les performances, limites, biais connus et conditions d'utilisation d'un modèle et de ses données", "C) C'est du marketing", "D) Seules les entreprises publiques les utilisent"],
+    "answer": "B",
+    "explanation": "Les Model Cards (Mitchell et al.) et Datasheets (Gebru et al.) standardisent la documentation : performance par sous-groupe, conditions d'entraînement, limitations, usages recommandés et déconseillés. Comme une notice médicale pour l'IA."
+  },
+  {
+    "id": "et_047",
+    "question": "Comment le 'predictive policing' peut-il créer un biais auto-renforçant ?",
+    "options": ["A) Il est neutre", "B) L'algorithme envoie plus de police dans les zones 'à risque' → plus d'arrestations → plus de données confirmant le risque → boucle", "C) Il réduit la criminalité", "D) Il fonctionne parfaitement"],
+    "answer": "B",
+    "explanation": "PredPol et HunchLab analysent les données historiques de crime. Mais les données reflètent les politiques de police (sur-police dans les quartiers minoritaires). Plus de police → plus d'arrestations → l'algorithme confirme. Biais systémique auto-renforçant."
+  },
+  {
+    "id": "et_048",
+    "question": "Pourquoi le 'consent fatigue' mine-t-il la protection des données ?",
+    "options": ["A) Les gens aiment cliquer sur des bannières", "B) Les utilisateurs épuisés par les popups de consentement cliquent 'Accepter tout' sans lire, vidant le consentement de sa substance", "C) Le consentement est toujours éclairé", "D) C'est un problème mineur"],
+    "answer": "B",
+    "explanation": "L'utilisateur moyen voit des dizaines de bannières de cookies par jour. La fatigue décisionnelle pousse à 'Accepter tout'. Le consentement devient un formulaire légal, pas un choix éclairé. Le RGPD a paradoxalement worsened l'expérience."
+  },
+  {
+    "id": "et_049",
+    "question": "Comment les 'generative AI watermarks' tentent-ils de résoudre le problème du deepfake ?",
+    "options": ["A) Ils ne fonctionnent pas", "B) Ils intègrent un signal invisible dans le contenu généré pour pouvoir l'identifier ultérieurement comme synthétique", "C) Ils sont visibles à l'oeil nu", "D) Seules les images peuvent avoir des watermarks"],
+    "answer": "B",
+    "explanation": "Les watermarks (Google SynthID, C2PA) intègrent un signal imperceptible dans les pixels/audio généré. Un détecteur peut identifier le contenu synthétique. Problème : adoption volontaire, robustesse aux transformations et contournement."
+  },
+  {
+    "id": "et_050",
+    "question": "Pourquoi les 'bias bounty programs' émergent-ils dans l'industrie ?",
+    "options": ["A) Les entreprises aiment payer", "B) Ils récompensent les chercheurs qui découvrent des biais dans les systèmes d'IA, comme les bug bounties pour la sécurité", "C) C'est du marketing", "D) Seules les startups les utilisent"],
+    "answer": "B",
+    "explanation": "Les bias bounties (Twitter/X, Google) récompensent financièrement la découverte de biais. Décloisonnent l'audit : chercheurs indépendants, ONG et utilisateurs peuvent signaler les biais. Transparence et responsabilité incitées."
+  },
+  {
+    "id": "et_051",
+    "question": "Comment l'IA peut-elle impacter la santé mentale des utilisateurs ?",
+    "options": ["A) Elle est toujours bénéfique", "B) Les filtres de beauté IA, les standards de beauté générés et la comparaison sociale dégradent l'image corporelle", "C) Seuls les adultes sont affectés", "D) L'IA n'a aucun effet psychologique"],
+    "answer": "B",
+    "explanation": "Les filtres Snapchat/Instagram modifient les visages (lissage, agrandissement des yeux). Les adolescents comparent leur vrai visage aux versions filtrées (snapchat dysmorphia). Les influencers IA (Lil Miquela) créent des standards impossibles."
+  },
+  {
+    "id": "et_052",
+    "question": "Pourquoi le 'human dignity' est-il un principe fondamental de l'éthique de l'IA ?",
+    "options": ["A) C'est un concept dépassé", "B) L'IA ne doit jamais réduire une personne à un objet de données ou un score, ni la priver de son autonomie décisionnelle", "C) C'est uniquement religieux", "D) Ce n'est pas applicable à la technologie"],
+    "answer": "B",
+    "explanation": "La dignité humaine (UNESCO, Déclaration universelle des droits bioéthiques) interdit de traiter les personnes comme des moyens. L' scoring social (interdit en Chine par certains, expérimenté ailleurs) viole ce principe en réduisant l'humain à un score."
+  },
+  {
+    "id": "et_053",
+    "question": "Comment les modèles de langage reproduisent-ils les préjugés sexistes ?",
+    "options": ["A) Ils sont neutres", "B) Les embeddings associent 'programmeur' à 'homme' et 'infirmier' à 'femme', reflétant les statistiques des données d'entraînement", "C) Seul le contenu explicite est biaisé", "D) Le biais a été éliminé"],
+    "answer": "B",
+    "explanation": "Bolukbasi et al. (2016) ont montré : embedding('programmeur') - embedding('homme') + embedding('femme') ≈ 'femme au foyer'. Ces associations sont incorporées dans les représentations vectorielles. Debiasing existe mais est partiel."
+  },
+  {
+    "id": "et_054",
+    "question": "Pourquoi le 'red teaming' est-il devenu essentiel pour les LLMs ?",
+    "options": ["A) C'est un sport", "B) Des équipes simulent des attaques pour découvrir les vulnérabilités (génération de contenu nuisible, contournement des filtres) avant le déploiement", "C) C'est optionnel", "D) Seuls les modèles militaires en ont besoin"],
+    "answer": "B",
+    "explanation": "Le red teaming systématique (OpenAI, Anthropic) teste les LLMs : tentatives de jailbreak, prompts malveillants, extraction de données d'entraînement, génération de contenu nuisible. Les résultats alimentent les filtres de sécurité."
+  },
+  {
+    "id": "et_055",
+    "question": "Comment l'IA peut-elle menacer les emplois de manière éthiquement problématique ?",
+    "options": ["A) Elle crée toujours plus d'emplois", "B) L'automatisation remplace des travailleurs sans transition ni reconversion, affectant disproportionnellement les emplois peu qualifiés", "C) Seuls les emplois manuels sont concernés", "D) C'est un processus naturel"],
+    "answer": "B",
+    "explanation": "L'IA menace 300M d'emplois (Goldman Sachs, 2023). Les travailleurs peu qualifiés sont les plus affectés. Le problème éthique : les bénéfices vont aux entreprises, les coûts aux travailleurs. Sans politique de transition, cela aggrave les inégalités."
+  },
+  {
+    "id": "et_056",
+    "question": "Pourquoi la 'concentration du pouvoir' dans l'IA est-elle préoccupante ?",
+    "options": ["A) Le pouvoir est bien distribué", "B) Quelques entreprises (OpenAI, Google, Meta) contrôlent les modèles les plus puissants, concentrant un pouvoir sociétal sans précédent", "C) C'est un problème uniquement économique", "D) L'open source résout tout"],
+    "answer": "B",
+    "explanation": "GPT-4, Gemini et Claude sont contrôlés par quelques entreprises. Elles décident ce que les modèles peuvent dire, ne pas dire, et à qui. Un pouvoir de censure et de shaping de l'opinion sans précédent historique. L'open source comme contre-pouvoir."
+  },
+  {
+    "id": "et_057",
+    "question": "Comment les 'federated learning' protègent-ils la vie privée ?",
+    "options": ["A) En supprimant les données", "B) Le modèle s'entraîne localement sur l'appareil de chaque utilisateur ; seuls les gradients agrégés et anonymisés sont partagés", "C) En chiffrant tout", "D) En utilisant des données synthétiques uniquement"],
+    "answer": "B",
+    "explanation": "Le federated learning (Google Gboard) entraîne le modèle sur l'appareil sans envoyer les données brutes. Seuls les gradients (mises à jour) sont agrégés. Combine avec differential privacy pour garantir qu'aucune donnée individuelle ne fuit."
+  },
+  {
+    "id": "et_058",
+    "question": "Pourquoi le 'differential privacy' est-il la gold standard pour la protection des données ?",
+    "options": ["A) Il supprime les données", "B) Il ajoute un bruit calibré pour garantir mathématiquement qu'aucun individu ne peut être identifié dans les résultats agrégés", "C) Il chiffre les données", "D) Il est trop lent pour être utilisé"],
+    "answer": "B",
+    "explanation": "La differential privacy (Dwork et al.) garantit que la présence ou l'absence d'un individu dans le dataset modifie la probabilité de tout output par au plus un facteur e^ε. ε petit = forte privacy. Apple, Google et le US Census l'utilisent."
+  },
+  {
+    "id": "et_059",
+    "question": "Comment le 'AI ethics washing' menace-t-il la confiance du public ?",
+    "options": ["A) Ce n'est pas un problème", "B) Les entreprises publient des principes éthiques sans les implémenter réellement, créant une illusion de responsabilité", "C) Toutes les entreprises sont sincères", "D) C'est un progrès suffisant"],
+    "answer": "B",
+    "explanation": "L'ethics washing : publier des chartes éthiques, créer des comités d'éthique (puis les dissoudre), sans changement réel. Google a licencié ses chercheurs en éthique (Timnit Gebru, Margaret Mitchell). L'écart entre principes et pratique nuit à la confiance."
+  },
+  {
+    "id": "et_060",
+    "question": "Pourquoi les 'algorithmic impact assessments' (AIA) sont-ils nécessaires avant le déploiement ?",
+    "options": ["A) Ils ralentissent l'innovation", "B) Ils évaluent les risques potentiels (biais, discrimination, impact social) d'un système avant son déploiement, comme une étude d'impact environnemental", "C) Ils sont trop chers", "D) Les développeurs connaissent déjà les risques"],
+    "answer": "B",
+    "explanation": "L'AIA (recommandé par le Canada, l'OCDE) documente : objectif du système, données utilisées, impacts potentiels sur les droits humains, mesures d'atténuation et plan de monitoring. Obligatoire pour les IA à haut risque dans l'AI Act."
+  },
+  {
+    "id": "et_061",
+    "question": "Comment les 'AI-generated medical advice' peuvent-ils être dangereux ?",
+    "options": ["A) Ils sont toujours fiables", "B) Les LLMs peuvent fournir des diagnostics incorrects avec un ton assuré, les patients retardant une consultation réelle", "C) Seuls les modèles médicaux sont utilisés", "D) Les patients vérifient toujours"],
+    "answer": "B",
+    "explanation": "ChatGPT peut donner un diagnostic plausible mais faux avec conviction. Le patient retarde ou évite la consultation. Babysitter problem : l'utilisateur fait confiance à l'IA sans vérification. L'IA médicale doit être validée cliniquement."
+  },
+  {
+    "id": "et_062",
+    "question": "Pourquoi la 'diversity in AI teams' est-elle essentielle pour réduire les biais ?",
+    "options": ["A) C'est uniquement de la discrimination positive", "B) Des équipes diverses (genre, ethnicité, culture) identifient des biais que des équipes homogènes ne remarqueraient pas", "C) La diversité n'a pas d'impact technique", "D) Seules les compétences comptent"],
+    "answer": "B",
+    "explanation": "Les biais sont souvent invisibles pour ceux qui n'en sont pas victimes. L'équipe HP qui n'a pas testé sa webcam sur des peaux foncées, l'équipe Apple qui n'a pas pensé aux cycles menstruels irréguliers. La diversité des perspectives est un outil de qualité."
+  },
+  {
+    "id": "et_063",
+    "question": "Comment les 'smart cities' et l'IA posent-elles des problèmes de surveillance ?",
+    "options": ["A) Elles améliorent seulement la vie", "B) Les capteurs IoT, caméras et analyse IA permettent un suivi continu des citoyens dans l'espace public", "C) Les citoyens sont d'accord", "D) C'est uniquement pour le trafic"],
+    "answer": "B",
+    "explanation": "Les smart cities collectent en continu : déplacements (GPS, caméras), consommations (eau, énergie), interactions sociales. Sans consentement explicite, chaque citoyen est tracé. L'équilibre efficacité urbaine vs vie privée est délicat."
+  },
+  {
+    "id": "et_064",
+    "question": "Pourquoi les 'children's data' sont-ils particulièrement sensibles pour l'IA ?",
+    "options": ["A) Les enfants n'utilisent pas l'IA", "B) Les enfants sont vulnérables, leurs données peuvent les affecter toute leur vie, et ils ne peuvent pas donner un consentement éclairé", "C) C'est un problème uniquement pour les réseaux sociaux", "D) Les données des enfants ne sont pas collectées"],
+    "answer": "B",
+    "explanation": "Les données collectées sur un enfant (cognitives, comportementales) pourraient l'affecter pendant 80 ans. Le profilage prédictif d'enfants (orientation, risques) peut créer des prophéties auto-réalisatrices. COPPA et RGPD protègent partiellement."
+  },
+  {
+    "id": "et_065",
+    "question": "Comment les 'AI chatbots' dans le domaine de la santé mentale peuvent-ils être dangereux ?",
+    "options": ["A) Ils sont très utiles", "B) Ils peuvent donner des conseils inappropriés à des personnes vulnérables et retarder la consultation d'un professionnel", "C) Ils remplacent les thérapeutes", "D) Seuls les adultes sont concernés"],
+    "answer": "B",
+    "explanation": "Woebot, Wysa et ChatGPT offrent du soutien psychologique. Risques : conseils inadaptés (un LLM ne détecte pas toujours la gravité), faux sentiment de thérapie (retard de consultation), attachement émotionnel au bot. Un thérapeute est irremplacable."
+  },
+  {
+    "id": "et_066",
+    "question": "Pourquoi le 'open source AI' est-il un débat éthique et non seulement technique ?",
+    "options": ["A) L'open source est toujours bon", "B) Open-sourcer un modèle puissant permet la recherche et l'auditabilité mais aussi les usages malveillants (armes biologique, deepfake)", "C) Les modèles fermés sont toujours sûrs", "D) C'est un débat uniquement technique"],
+    "answer": "B",
+    "explanation": "Le dilemme : open source = transparence + innovation démocratique MAIS aussi diffusion d'outils potentiellement dangereux. Meta (LLaMA) et Mistral open-sourcent, OpenAI et Anthropic gardent fermé. Le débat n'est pas résolu."
+  },
+  {
+    "id": "et_067",
+    "question": "Comment l'IA peut-elle manipuler le comportement électoral ?",
+    "options": ["A) Elle n'a aucun impact politique", "B) Le micro-targeting politique, les deepfakes de candidats et la désinformation personnalisée manipulent les électeurs", "C) Seules les publicités TV influencent", "D) C'est un mythe"],
+    "answer": "B",
+    "explanation": "Cambridge Analytica a utilisé les données Facebook pour du micro-targeting psychologique. Les deepfakes politiques (Obama deepfake 2018) montrent le potentiel. L'IA permet de personnaliser la désinformation à l'échelle individuelle."
+  },
+  {
+    "id": "et_068",
+    "question": "Pourquoi le 'AI governance' ne doit-il pas être uniquement laissé aux ingénieurs ?",
+    "options": ["A) Les ingénieurs sont les plus qualifiés", "B) L'IA affecte la société entière ; la gouvernance doit inclure juristes, éthiciens, sociologues, citoyens et personnes affectées", "C) C'est trop complexe pour les non-techniciens", "D) Seules les entreprises savent"],
+    "answer": "B",
+    "explanation": "Les décisions IA (autoriser quoi, où, comment) sont des choix sociétaux, pas techniques. Le biais est un concept social, pas mathématique. La gouvernance doit être multi-stakeholder : ingénieurs + juristes + citoyens + ONG + régulateurs."
+  },
+  {
+    "id": "et_069",
+    "question": "Comment les 'model extraction attacks' menacent-ils la confidentialité ?",
+    "options": ["A) Ils ne sont pas possibles", "B) En interrogeant le modèle de manière systématique, un attaquant peut reconstruire les données d'entraînement (noms, numéros)", "C) Seuls les modèles publics sont vulnérables", "D) C'est un problème théorique"],
+    "answer": "B",
+    "explanation": "Les attaques par extraction (Carlini et al.) montrent que les LLMs peuvent 'régurgiter' des données d'entraînement (numéros de carte, emails, adresses). L'entraînement sur des données privées sans protection est un risque majeur."
+  },
+  {
+    "id": "et_070",
+    "question": "Pourquoi le 'AI Hallucination' n'est pas qu'un bug mais un problème éthique ?",
+    "options": ["A) C'est juste un bug à corriger", "B) Présenter des informations fausses comme des faits peut causer des dommages réels (diagnostic faux, décision juridique erronée)", "C) Les utilisateurs savent que l'IA peut se tromper", "D) C'est un problème mineur"],
+    "answer": "B",
+    "explanation": "Un avocat a soumis des cas juridiques inventés par ChatGPT au tribunal (Mata v. Avianca, 2023). Un hallucination en médecine peut tuer. Le problème éthique : l'IA génère du faux avec le même ton assuré que le vrai."
+  },
+  {
+    "id": "et_071",
+    "question": "Comment les 'predatory algorithms' ciblent-ils les populations vulnérables ?",
+    "options": ["A) Ils sont neutres", "B) Les algorithmes identifient et ciblent les personnes vulnérables (endettement, dépendance) avec des offres exploitantes", "C) C'est de la publicité normale", "D) Seules les personnes âgées sont ciblées"],
+    "answer": "B",
+    "explanation": "Les algorithmes de publicité ciblent les personnes endettées avec des crédits à taux élevé, les joueurs compulsifs avec des casinos, les personnes isolées avec des arnaques sentimentales. L'optimisation du profit exploite la vulnérabilité."
+  },
+  {
+    "id": "et_072",
+    "question": "Pourquoi les 'AI principles' des entreprises sont-ils critiqués ?",
+    "options": ["A) Ils sont trop stricts", "B) Auto-régulation sans enforcement : les entreprises définissent leurs propres règles sans conséquence en cas de violation", "C) Ils sont obligatoires", "D) Ils sont tous identiques"],
+    "answer": "B",
+    "explanation": "Google ('Don't be evil'), Microsoft, OpenAI publient des principes. Mais sans enforcement externe, audit indépendant ou sanction, ce sont des engagements volontaires révocables. L'AI Act est la réponse réglementaire à l'insuffisance de l'auto-régulation."
+  },
+  {
+    "id": "et_073",
+    "question": "Comment les 'data trusts' pourraient-ils résoudre le problème du consentement ?",
+    "options": ["A) En supprimant le consentement", "B) Des tiers de confiance gèrent les données au nom des individus, négociant les conditions d'utilisation avec les entreprises", "C) C'est déjà en place", "D) Les entreprises se régulent"],
+    "answer": "B",
+    "explanation": "Les data trusts : des organisations indépendantes détiennent et gèrent les données pour le bénéfice des individus. Elles négocient les termes, vérifient la conformité et peuvent révoquer l'accès. Le citoyen délègue la gestion à un expert de confiance."
+  },
+  {
+    "id": "et_074",
+    "question": "Pourquoi les 'algorithmic trading systems' posent-ils un risque systémique ?",
+    "options": ["A) Ils sont stables", "B) Des algorithmes interagissant à haute vitesse peuvent créer des flash crashes en millisecondes, menaçant la stabilité financière", "C) Ils sont surveillés", "D) Le risque est nul"],
+    "answer": "B",
+    "explanation": "Le Flash Crash du 6 mai 2010 : le Dow Jones a perdu 1000 points en 5 minutes. Des algorithmes de trading HST se sont déclenchés en cascade. L'IA financière peut créer des feedback loops mortelles à une échelle et vitesse impossibles pour les humains."
+  },
+  {
+    "id": "et_075",
+    "question": "Comment l'IA dans l'assurance peut-elle discriminer indirectement ?",
+    "options": ["A) Elle est neutre", "B) En utilisant des variables proxy (code postal, habitudes d'achat), l'IA peut prédire la race ou la classe sociale sans les mentionner explicitement", "C) Seul le risque réel est pris en compte", "D) L'assurance ne utilise pas d'IA"],
+    "answer": "B",
+    "explanation": "L'assurance IA utilise des milliers de variables ( télematique driving, achats en ligne, réseaux sociaux). Ces données proxy peuvent révéler la race, la religion ou le statut social. Le scoring de 'risque' devient un scoring social déguisé."
+  },
+  {
+    "id": "et_076",
+    "question": "Pourquoi le 'techno-solutionism' est-il critiqué par les éthiciens de l'IA ?",
+    "options": ["A) La technologie résout tout", "B) Croire que chaque problème social a une solution technique ignore les causes structurelles et peut aggraver le problème", "C) C'est un concept sans fondement", "D) Seuls les sceptiques critiquent"],
+    "answer": "B",
+    "explanation": "Le techno-solutionisme (Evgeny Morozov) : utiliser l'IA pour résoudre des problèmes sociaux complexes sans traiter les causes (pauvreté, inégalités). Un algorithme de prédiction de criminalité ne résout pas la pauvreté, il la masque."
+  },
+  {
+    "id": "et_077",
+    "question": "Comment les 'AI systems in warfare' soulèvent-ils des questions de responsabilité ?",
+    "options": ["A) La responsabilité est claire", "B) Si une IA autonome commet une erreur (frappe civile), qui est responsable : l'ingénieur, le commandant, le fabricant, l'IA ?", "C) Les militaires assument toujours", "D) Le droit international est clair"],
+    "answer": "B",
+    "explanation": "Le gap de responsabilité : l'ingénieur dit 'j'ai codé l'algorithme', le commandant dit 'j'ai approuvé l'utilisation', le fabricant dit 'c'est un outil'. Personne n'assume. Le droit de la guerre (Geneve) requiert un responsable humain identifiable."
+  },
+  {
+    "id": "et_078",
+    "question": "Pourquoi la 'palette bias' dans les datasets de vision est-elle problématique ?",
+    "options": ["A) Les images sont neutres", "B) Les mariages occidentaux sont photographiés en mode 'célébration', les mariages traditionnels africains comme 'exotiques'", "C) Seule la qualité des images compte", "D) C'est un problème de résolution"],
+    "answer": "B",
+    "explanation": "Google Photos a classifié des personnes noires comme 'gorilles' (2015). ImageNet contenait des catégories offensantes. Les datasets de vision reflètent le point de vue occidental : 'normal' = occidental, 'autre' = exotique/menaçant."
+  },
+  {
+    "id": "et_079",
+    "question": "Comment les 'terms of service' des IA créatives affectent-ils les artistes ?",
+    "options": ["A) Ils protègent les artistes", "B) Les plateformes IA utilisent les oeuvres téléchargées pour entraîner des modèles concurrents sans compensation", "C) C'est légal et équitable", "D) Les artistes sont d'accord"],
+    "answer": "B",
+    "explanation": "DeviantArt, ArtStation et d'autres plateformes voient leurs oeuvres scraper pour Stable Diffusion/Midjourney. Les ToS permettent l'utilisation des données. Les artistes n'ont pas d'opt-out simple. Le mouvement 'No AI' émerge."
+  },
+  {
+    "id": "et_080",
+    "question": "Pourquoi les 'AI hallucinations in legal contexts' sont-elles particulièrement dangereuses ?",
+    "options": ["A) Le droit est simple", "B) Les LLMs inventent des lois, des précédents jurisprudentiels et des citations qui n'existent pas, pouvant induire des juges et avocats en erreur", "C) Les avocats vérifient toujours", "D) C'est un problème rare"],
+    "answer": "B",
+    "explanation": "En 2023, un avocat new-yorkais a soumis un brief avec 6 cas jurisprudentiels entièrement inventés par ChatGPT. Le juge a sanctionné. Les LLMs inventent des lois plausibles avec des citations fausses. Danger réel pour le système judiciaire."
+  },
+  {
+    "id": "et_081",
+    "question": "Comment le 'data labeling exploitation' soulève-t-il des questions de justice globale ?",
+    "options": ["A) Les labelers sont bien payés", "B) Des travailleurs au Kenya et aux Philippines annotent du contenu traumatisant (CSAM, violence) pour 1-2$/heure pour les entreprises de la Silicon Valley", "C) C'est un travail normal", "D) Les labels sont faits par des machines"],
+    "answer": "B",
+    "explanation": "TIME (2023) a révélé que des travailleurs kenyans de Sama (sous-traitant d'OpenAI) lisaient du contenu extrêmement traumatisant pour 1-3$/heure pour entraîner les filtres de ChatGPT. PTSD, burnout. Le coût humain caché des 'IA sûres'."
+  },
+  {
+    "id": "et_082",
+    "question": "Pourquoi l''intelligence artificielle générale' (AGI) est-elle un sujet éthique ?",
+    "options": ["A) C'est de la science-fiction", "B) Une IA égale ou supérieure à l'humain dans toutes les tâches poserait des questions existentielles sur le contrôle et l'alignement", "C) L'AGI est déjà là", "D) C'est uniquement technique"],
+    "answer": "B",
+    "explanation": "L'AGI (artificial general intelligence) serait capable de tout apprentissage humain. Questions : peut-on la contrôler ? Que veut-elle ? Comment aligner ses objectifs ? Le 'existential risk' est débattu : certains (Bostrom, Yudkowsky) l'estiment réel."
+  },
+  {
+    "id": "et_083",
+    "question": "Comment les 'sentiment analysis' des employés posent-ils un problème de surveillance ?",
+    "options": ["A) C'est pour leur bien", "B) Analyser les emails et messages des employés pour détecter le 'burnout' ou la 'démotivation' sans leur consentement est une surveillance intrusive", "C) Les employés sont d'accord", "D) C'est légal partout"],
+    "answer": "B",
+    "explanation": "Les outils (Humu, Aware) analysent les emails/Slack pour la 'sentiment'. Score d'engagement par employé. Le problème : surveillance constante,impact psychologique, et que le 'burnout' est un problème organisationnel, pas individuel."
+  },
+  {
+    "id": "et_084",
+    "question": "Pourquoi les 'bias in medical AI' peuvent-ils coûter des vies ?",
+    "options": ["A) L'IA médicale est parfaite", "B) Un modèle entraîné sur des données majoritairement masculines peut manquer des symptômes de crise cardiaque chez les femmes", "C) Les symptômes sont identiques pour tous", "D) Les médecins ne se fient pas à l'IA"],
+    "answer": "B",
+    "explanation": "Les symptômes de crise cardiaque diffèrent entre sexes (femmes : nausée, fatigue ; hommes : douleur thoracique). Un modèle entraîné sur des hommes peut rater les signes féminins. Optum's algorithm attribuait moins de soins aux patients noirs à même niveau de risque."
+  },
+  {
+    "id": "et_085",
+    "question": "Comment les 'deep nudification' tools portent-ils atteinte à la dignité ?",
+    "options": ["A) Ce sont des outils de divertissement", "B) Ils génèrent des images de nudité non consensuelles à partir de photos normales, constituant une forme de violence sexuelle numérique", "C) C'est légal", "D) Seules les célébrités sont ciblées"],
+    "answer": "B",
+    "explanation": "Les outils de déshabillage IA (DeepNude, etc.) créent des nus synthétiques sans consentement. 95% des victimes sont des femmes. Utilisés pour le chantage, le harcèlement et la vengeance. Plusieurs pays ont criminalisé cette pratique."
+  },
+  {
+    "id": "et_086",
+    "question": "Pourquoi l''AI literacy' (alphabétisation IA) est-elle un enjeu démocratique ?",
+    "options": ["A) Tout le monde comprend l'IA", "B) Les citoyens doivent comprendre les bases de l'IA pour participer démocratiquement aux débats sur son encadrement", "C) C'est uniquement pour les ingénieurs", "D) L'IA se régule elle-même"],
+    "answer": "B",
+    "explanation": "Sans compréhension de base, les citoyens ne peuvent pas peser sur les décisions IA (surveillance, emploi, santé). L'AI Act impose l'AI literacy pour les providers. L'éducation du grand public est un enjeu démocratique fondamental."
+  },
+  {
+    "id": "et_087",
+    "question": "Comment le 'robot tax' (taxe sur les robots) tente-t-il de résoudre l'impact de l'IA sur l'emploi ?",
+    "options": ["A) C'est une taxe sur les jouets", "B) En taxant les entreprises qui remplacent des travailleurs par l'IA, les fonds financent la reconversion et le revenu universel", "C) C'est déjà en place", "D) C'est une idée absurde"],
+    "answer": "B",
+    "explanation": "Proposé par Bill Gates et débattu à l'UE : taxer l'automatisation pour financer la transition (formation, revenu universel). L'idée : si un robot remplace un humain, l'entreprise paie l'équivalent de l'impôt perdu. Controversé mais de plus en plus discuté."
+  },
+  {
+    "id": "et_088",
+    "question": "Pourquoi le 'cookie consent' est-il un échec du point de vue éthique ?",
+    "options": ["A) Il fonctionne parfaitement", "B) Les 'dark patterns' (bouton Accepter gros, Refuser caché) manipulent le choix, rendant le consentement illusoire", "C) Les cookies sont inoffensifs", "D) C'est un problème mineur"],
+    "answer": "B",
+    "explanation": "Les dark patterns : 'Accepter' en gros bleu, 'Refuser' en petit gris caché. L'utilisateur pressé clique 'Accepter'. Le consentement éclairé est une fiction. La CNIL sanctionne ces pratiques mais elles restent omniprésentes."
+  },
+  {
+    "id": "et_089",
+    "question": "Comment les 'social credit systems' illustrent-ils le danger du scoring algorithmique ?",
+    "options": ["A) Ils sont inoffensifs", "B) Ils notent chaque citoyen sur ses comportements, restreignant l'accès aux services selon le score, menant à une surveillance totale", "C) Ils n'existent pas", "D) Ils améliorent la société"],
+    "answer": "B",
+    "explanation": "Le crédit social chinois attribue un score basé sur les achats, fréquentations, comportements. Bas score = voyage restreint, crédit refusé. Danger : normalisation de la surveillance, punition sans procès, conformisme forcé."
+  },
+  {
+    "id": "et_090",
+    "question": "Pourquoi les 'AI in education' doivent-elles être régulées ?",
+    "options": ["A) L'IA est bénéfique en éducation", "B) Les systèmes de surveillance des élèves (proctoring AI) et les systèmes de notation automatique peuvent être biaisés et stigmatisants", "C) L'éducation n'utilise pas d'IA", "D) C'est un problème futur"],
+    "answer": "B",
+    "explanation": "Les proctoring AI (Proctorio) suivent le regard, détectent les 'mouvements suspects'. Biaisés contre les élèves à peau foncée et les neuro-atypiques. Les systèmes de notation automatique pénalisent les styles d'écriture non standard."
+  },
+  {
+    "id": "et_091",
+    "question": "Comment les 'AI systems in immigration' peuvent-ils violer les droits humains ?",
+    "options": ["A) Ils sont neutres", "B) L'IA utilisée pour les vérifications aux frontières et l'évaluation des demandes d'asile peut être biaisée et opaquer, sans recours effectif", "C) Seul le droit international s'applique", "D) Les réfugiés ne sont pas affectés"],
+    "answer": "B",
+    "explanation": "iBorderCtrl (EU) utilisait un détecteur de mensonge IA sur les migrants. Les algorithmes de visa (Australia, Canada) notent les demandeurs sans transparence. Une erreur = renvoi vers le danger. OPAQUE + irréversible = violation potentielle des droits."
+  },
+  {
+    "id": "et_092",
+    "question": "Pourquoi les 'large language models' sont-ils accusés de plagiat ?",
+    "options": ["A) Ils créent du contenu original", "B) Ils régurgitent parfois des passages quasi-identiques de leurs données d'entraînement sans attribution", "C) C'est impossible techniquement", "D) Seuls les petits modèles copient"],
+    "answer": "B",
+    "explanation": "Les LLMs peuvent reproduire presque mot à mot des passages de leurs données d'entraînement (livres, articles). Dans certains cas, le 'training data extraction attack' a récupéré des paragraphes entiers de livres sous copyright."
+  },
+  {
+    "id": "et_093",
+    "question": "Comment les 'AI hiring tools' peuvent-ils discriminer les personnes handicapées ?",
+    "options": ["A) Ils sont accessibles", "B) Les tests en ligne (jeux cognitifs, analyse vidéo) pénalisent les personnes avec TDAH, autisme ou troubles moteurs", "C) Les personnes handicapées ne postulent pas", "D) Les lois interdisent déjà cela"],
+    "answer": "B",
+    "explanation": "Les jeux cognitifs d'embauche (Pymetrics) mesurent la 'personnalité idéale'. L'analyse vidéo pénalise les expressions non standard (autisme). Les tests chronométrés désavantagent les TDAH. Le 'fit' algorithmique est un filtre discriminatoire."
+  },
+  {
+    "id": "et_094",
+    "question": "Pourquoi le 'AI in criminal justice' est-il difficile à justifier éthiquement ?",
+    "options": ["A) Il est toujours impartial", "B) Les enjeux (liberté individuelle) sont si élevés que tout taux d'erreur est inacceptable, et la responsabilité est diluée", "C) Les juges font aussi des erreurs", "D) C'est un progrès indiscutable"],
+    "answer": "B",
+    "explanation": "En justice, une erreur = emprisonnement injuste. Le taux d'erreur de COMPAS (~40% de faux positifs pour les Noirs) est inacceptable dans ce contexte. Le juge peut être tenu responsable, pas l'algorithme. La presumption d'innocence est menacée."
+  },
+  {
+    "id": "et_095",
+    "question": "Comment les 'synthetic data' peuvent-ils aider à résoudre les problèmes de confidentialité ?",
+    "options": ["A) Ils créent des données fausses", "B) Ils génèrent des données statistiquement réalistes mais sans lien avec des individus réels, permettant l'entraînement sans risque de fuite", "C) Ils sont toujours biaisés", "D) Ils ne peuvent pas remplacer les vraies données"],
+    "answer": "B",
+    "explanation": "Les données synthétiques (CTGAN, SDV) reproduisent les statistiques du dataset original sans contenir de données individuelles. Permettent l'entraînement de modèles sans risque de fuite de données personnelles. Attention : elles peuvent aussi reproduire les biais."
+  },
+  {
+    "id": "et_096",
+    "question": "Pourquoi les 'AI ethics boards' ont-ils du mal à être efficaces ?",
+    "options": ["A) Ils sont très puissants", "B] Ils manquent de pouvoir contraignant, les entreprises peuvent ignorer leurs recommandations et les membres peuvent être licenciés", "C) Ils n'existent pas", "D) Ils sont trop indépendants"],
+    "answer": "B",
+    "explanation": "Google AI Ethics Board dissous en 2019, chercheurs en éthique licenciés. Meta's Oversight Board n'a que des recommandations. Le problème : l'organe éthique n'a pas de veto. Pouvoir consultatif sans pouvoir contraignant = faible efficacité."
+  },
+  {
+    "id": "et_097",
+    "question": "Comment les 'AI systems in agriculture' peuvent-ils affecter les petits exploitants ?",
+    "options": ["A) Ils sont bénéfiques pour tous", "B) Les solutions IA sont coûteuses et conçues pour les grandes exploitations, creusant l'écart avec les petits agriculteurs", "C) Les petits exploitants n'ont pas besoin d'IA", "D] C'est un problème uniquement africain"],
+    "answer": "B",
+    "explanation": "Les outils IA agricoles (John Deere, precision farming) coûtent des milliers de dollars et nécessitent des infrastructures (connectivité, GPS). Les petits exploitants des pays en développement sont exclus. L'IA renforce l'avantage des grands."
+  },
+  {
+    "id": "et_098",
+    "question": "Pourquoi les 'AI-generated scientific papers' menacent-ils l'intégrité de la recherche ?",
+    "options": ["A) C'est un progrès", "B] Des papiers entièrement générés par IA sont soumis à des conférences, polluant la littérature scientifique de résultats potentiellement faux", "C) Les reviewers détectent toujours l'IA", "D) C'est marginal"],
+    "answer": "B",
+    "explanation": "Des centaines de papiers IA ont été acceptés dans des conférences et journaux. Certains contiennent des données inventées, des citations fausses et des conclusions non vérifiées. Cela menace la confiance dans la littérature scientifique."
+  },
+  {
+    "id": "et_099",
+    "question": "Comment les 'emotional AI' (affective computing) portent-elles atteinte à l'intimité ?",
+    "options": ["A) Elles sont inoffensives", "B) Elles prétendent lire les émotions (caméra, voix) sans fondement scientifique solide, envahissant la sphère émotionnelle privée", "C) Les émotions sont publiques", "D) C'est un gadget inoffensif"],
+    "answer": "B",
+    "explanation": "L'affective computing prétend détecter joie, tristesse, colère via caméra/micro. La science derrière est controversée : les expressions faciales ne sont pas universelles (variabilité culturelle). Utilisé en entretiens, classe : surveillance émotionnelle."
+  },
+  {
+    "id": "et_100",
+    "question": "Vous concevez un système IA de recrutement. Quelles mesures éthiques sont indispensables ?",
+    "options": ["A) Aucune mesure spéciale", "B) Audit d'équité par groupe protégé, explicabilité des décisions, droit de recours humain, exclusion des variables proxy, documentation Model Card", "C) Utiliser l'IA telle quelle", "D) Seulement un disclaimer legal"],
+    "answer": "B",
+    "explanation": "Un recrutement IA éthique nécessite : audit d'équité (parité par genre/ethnicité/âge), modèles interprétables (l'IA doit expliquer pourquoi), recours humain (le candidat peut contester), exclusion des proxies (code postal, nom), et documentation complète."
+  }
+]

@@ -1,0 +1,702 @@
+[
+  {
+    "id": "sr_001",
+    "question": "Comment un système de recommandation collaboratif devine-t-il qu'un utilisateur aimera un film qu'il n'a jamais vu ?",
+    "options": ["A) En analysant les métadonnées du film", "B) En trouvant des utilisateurs aux goûts similaires et en recommandant ce que ces derniers ont apprécié", "C) En tirant au hasard", "D) En demandant à l'utilisateur"],
+    "answer": "B",
+    "explanation": "Le filtrage collaboratif part du principe que les utilisateurs qui ont partagé des préférences par le passé partageront aussi des préférences futures. Il recommande les items appréciés par les 'voisins' similaires."
+  },
+  {
+    "id": "sr_002",
+    "question": "Pourquoi le 'cold start' est-il un problème majeur dans les systèmes de recommandation ?",
+    "options": ["A) Le serveur met trop de temps à démarrer", "B) Les nouveaux utilisateurs ou items n'ont pas assez d'interactions pour générer des recommandations pertinentes", "C) L'algorithme est trop lent", "D) Les données sont trop volumineuses"],
+    "answer": "B",
+    "explanation": "Le cold start touche les nouveaux utilisateurs (sans historique de notes), les nouveaux items (jamais notés) ou le système lui-même (pas assez de données). Sans interactions, les algorithmes collaboratifs ne peuvent pas fonctionner."
+  },
+  {
+    "id": "sr_003",
+    "question": "Parmi ces approches, laquelle résout le mieux le cold start pour les nouveaux utilisateurs ?",
+    "options": ["A) Le filtrage collaboratif pur", "B) Demander à l'utilisateur de noter quelques items initiaux (onboarding) et combiner avec le contenu", "C) Ne rien recommander", "D) Recommander les items les plus populaires uniquement"],
+    "answer": "B",
+    "explanation": "L'onboarding (noter quelques items favoris) crée rapidement un profil initial. Combiné avec les features de contenu (genre, tags), le système hybride peut déjà produire des recommandations pertinentes."
+  },
+  {
+    "id": "sr_004",
+    "question": "Comment fonctionne la factorisation de matrices (Matrix Factorization) dans les recommandations ?",
+    "options": ["A) Elle multiplie les matrices entre elles", "B) Elle décompose la matrice utilisateur-item en deux matrices de facteurs latents de dimension réduite qui capturent les préférences cachées", "C) Elle supprime les zéros de la matrice", "D) Elle trie les lignes par ordre alphabétique"],
+    "answer": "B",
+    "explanation": "La factorisation (SVD, ALS) décompose la matrice creuse utilisateur-item en deux matrices denses (users × k facteurs et k facteurs × items). Les facteurs latents capturent des caractéristiques cachées des préférences."
+  },
+  {
+    "id": "sr_005",
+    "question": "Quelle est la différence fondamentale entre le filtrage basé contenu et le filtrage collaboratif ?",
+    "options": ["A) Ils sont identiques", "B) Le contenu recommande des items similaires à ce que l'utilisateur a aimé ; le collaboratif recommande ce que des utilisateurs similaires ont aimé", "C) Le collaboratif utilise les métadonnées, le contenu les notes", "D) Le contenu est plus ancien"],
+    "answer": "B",
+    "explanation": "Le content-based utilise les caractéristiques des items (genre, description) pour recommander des items similaires à ceux déjà aimés. Le collaboratif utilise les patterns de notes des utilisateurs similaires."
+  },
+  {
+    "id": "sr_006",
+    "question": "Dans un système de recommandation, que signifie le 'filter bubble' (bulle de filtre) ?",
+    "options": ["A) Un bug technique du filtre", "B) L'utilisateur est enfermé dans un cercle de recommandations similaires, ne découvrant jamais de nouveaux horizons", "C) Le filtre supprime les mauvaises recommandations", "D) Une technique d'optimisation"],
+    "answer": "B",
+    "explanation": "La bulle de filtre se crée quand le système ne recommande que des items très similaires aux préférences passées, limitant la découverte. L'utilisateur est enfermé dans un écho de ses propres goûts."
+  },
+  {
+    "id": "sr_007",
+    "question": "Comment la technique du 'Serendipity' améliore-t-elle l'expérience de recommandation ?",
+    "options": ["A) En recommandant les items les plus chers", "B) En introduisant des recommandations inattendues mais pertinentes qui surprennent positivement l'utilisateur", "C) En triant par ordre alphabétique", "D) En supprimant les items populaires"],
+    "answer": "B",
+    "explanation": "La sérendipité introduit des items surprenants mais pertinents, cassant la monotonie des recommandations attendues. Cela améliore l'engagement et la découverte, évitant le filter bubble."
+  },
+  {
+    "id": "sr_008",
+    "question": "Pourquoi la métrique RMSE est-elle insuffisante pour évaluer un système de recommandation en production ?",
+    "options": ["A) Elle est trop facile à calculer", "B) Elle mesure la précision numérique des prédictions mais pas la pertinence perçue, la diversité ni l'engagement utilisateur", "C) Elle ne fonctionne qu'en offline", "D) Elle est trop complexe"],
+    "answer": "B",
+    "explanation": "Le RMSE minimise l'erreur de prédiction sur les items connus, mais ne reflète pas si les recommandations sont utiles, diversifiées, ou si elles génèrent du clic/achat. Les métriques business (CTR, conversion) sont aussi nécessaires."
+  },
+  {
+    "id": "sr_009",
+    "question": "Comment calcule-t-on la similarité cosinus entre deux utilisateurs ?",
+    "options": ["A) En additionnant leurs notes", "B) En divisant le produit scalaire de leurs vecteurs de notes par le produit de leurs normes", "C) En calculant la distance physique entre eux", "D) En comparant leurs âges"],
+    "answer": "B",
+    "explanation": "La similarité cosinus = (A·B) / (||A|| × ||B||). Elle mesure l'angle entre les vecteurs de notes des deux utilisateurs. Une valeur de 1 = goûts identiques, 0 = indépendants, -1 = opposés."
+  },
+  {
+    "id": "sr_010",
+    "question": "Vous remarquez que votre système recommande toujours les mêmes blockbusters populaires. Comment résoudre ce problème ?",
+    "options": ["A) Supprimer les items populaires", "B) Introduire des métriques de diversité et de nouveauté dans la fonction de ranking pour promouvoir les items moins connus mais pertinents", "C) Arrêter le système de recommandation", "D) Recommander uniquement des items aléatoires"],
+    "answer": "B",
+    "explanation": "Le problème de popularité bias est résolu en ajoutant des pénalités pour les items trop populaires et en optimisant non seulement la pertinence mais aussi la diversité (MLT, DPP) et la nouveauté dans le ranking final."
+  },
+  {
+    "id": "sr_011",
+    "question": "Dans le contexte des recommandations, que mesure la métrique 'Coverage' ?",
+    "options": ["A) Le pourcentage du code testé", "B) La proportion d'items du catalogue qui peuvent être recommandés à au moins un utilisateur", "C) La vitesse du système", "D) Le nombre de clics"],
+    "answer": "B",
+    "explanation": "La coverage (couverture) mesure la fraction du catalogue d'items qui apparaît dans les recommandations. Une faible coverage indique que le système ignore une grande partie du catalogue, limitant la découverte."
+  },
+  {
+    "id": "sr_012",
+    "question": "Comment l'algorithme Word2Vec peut-il être détourné pour des recommandations d'articles ?",
+    "options": ["A) En lisant les articles à voix haute", "B) En traitant les séquences d'articles consultés comme des 'phrases' et les articles comme des 'mots', capturant les co-occurrences (Item2Vec)", "C) En traduisant les articles en anglais", "D) En comptant les mots de chaque article"],
+    "answer": "B",
+    "explanation": "Item2Vec applique Word2Vec aux séquences de navigation : chaque article est un mot, chaque session est une phrase. Les embeddings capturés reflètent la similarité comportementale entre items."
+  },
+  {
+    "id": "sr_013",
+    "question": "Pourquoi les systèmes de recommandation modernes utilisent-ils des approches hybrides ?",
+    "options": ["A) Pour être plus lents", "B) Pour combiner les forces du content-based (pas de cold start item) et du collaboratif (découverte hors profil) en compensant leurs faiblesses respectives", "C) Pour utiliser plus de serveurs", "D) C'est une mode passagère"],
+    "answer": "B",
+    "explanation": "Les systèmes hybrides combinent plusieurs approches : le content-based gère le cold start item et l'explicabilité, le collaboratif capture les patterns de comportement, et le knowledge-based ajoute des contraintes expertes."
+  },
+  {
+    "id": "sr_014",
+    "question": "Comment l'algorithme ALS (Alternating Least Squares) optimise-t-il la factorisation de matrices ?",
+    "options": ["A) En résolvant les deux matrices simultanément", "B) En fixant alternativement une matrice et en résolvant l'autre par moindres carrés, de manière itérative jusqu'à convergence", "C) En utilisant un réseau de neurones", "D) En tirant des valeurs aléatoires"],
+    "answer": "B",
+    "explanation": "ALS fixe la matrice utilisateur et résout la matrice item par moindres carrés, puis inversement. En alternant, il converge vers un optimum local. Avantage : chaque étape est un problème convexe et parallélisable."
+  },
+  {
+    "id": "sr_015",
+    "question": "Dans un graphique de connaissances utilisé pour les recommandations, quel est le rôle des 'triplets' ?",
+    "options": ["A) Ils représentent des groupes de trois utilisateurs", "B) Ils stockent des relations sous forme (entité, relation, entité), enrichissant les recommandations avec du contexte sémantique", "C) Ils calculent des pourcentages", "D) Ils trient les résultats"],
+    "answer": "B",
+    "explanation": "Les triplets (head, relation, tail) comme (Utilisateur, a_aimé, Film) ou (Film, réalisé_par, Réalisateur) enrichissent les recommandations avec des relations sémantiques et permettent le raisonnement sur le graphe."
+  },
+  {
+    "id": "sr_016",
+    "question": "Comment Netflix a-t-il révolutionné le domaine des systèmes de recommandation ?",
+    "options": ["A) En inventant le filtrage collaboratif", "B) En organisant le Netflix Prize (2006-2009) qui a popularisé la factorisation de matrices et les approches hybrides", "C) En supprimant les recommandations", "D) En utilisant uniquement les avis critiques"],
+    "answer": "B",
+    "explanation": "Le Netflix Prize a offert 1M$ pour améliorer leur algorithme de 10%. Les gagnants (BellKor) ont combiné de nombreux modèles (SVD, RBM, k-NN), popularisant les approches ensemble et la factorisation de matrices."
+  },
+  {
+    "id": "sr_017",
+    "question": "Pourquoi le problème de 'sparsity' affecte-t-il particulièrement les systèmes collaboratifs ?",
+    "options": ["A) Les données sont trop denses", "B) La matrice utilisateur-item est très creuse (< 1% remplie), rendant les similarités peu fiables", "C) Le serveur manque d'espace", "D) Les utilisateurs notent trop d'items"],
+    "answer": "B",
+    "explanation": "Sur des catalogues de millions d'items, chaque utilisateur n'en note qu'une infime fraction. La matrice est < 1% remplie, rendant les calculs de similarité fragiles et les prédictions imprécises pour les items peu notés."
+  },
+  {
+    "id": "sr_018",
+    "question": "Comment l'approche 'Deep Learning' (ex: Neural Collaborative Filtering) améliore-t-elle les recommandations ?",
+    "options": ["A) En remplaçant complètement les méthodes classiques", "B) En apprenant des représentations non linéaires des interactions utilisateur-item, capturant des patterns complexes que les méthodes linéaires ne voient pas", "C) En étant plus rapide à l'inférence", "D) En nécessitant moins de données"],
+    "answer": "B",
+    "explanation": "Les réseaux de neurones (NCF, DeepFM) apprennent des fonctions non linéaires d'interaction entre les embeddings utilisateurs et items, capturant des relations complexes que la simple multiplication de la factorisation ne peut modéliser."
+  },
+  {
+    "id": "sr_019",
+    "question": "Dans un système de recommandation basé sur le contenu, comment les TF-IDF aident-ils à décrire un film ?",
+    "options": ["A) En comptant les acteurs du film", "B) En identifiant les mots distinctifs de la description du film, pondérés par leur rareté dans le corpus", "C) En mesurant la durée du film", "D) En triant par date de sortie"],
+    "answer": "B",
+    "explanation": "TF-IDF (Term Frequency - Inverse Document Frequency) crée un vecteur où chaque mot de la description est pondéré : fréquent dans ce film mais rare dans tous les films. Cela capture les caractéristiques distinctives."
+  },
+  {
+    "id": "sr_020",
+    "question": "Pourquoi les 'implicit feedback' (clics, vues) sont-ils plus abondants mais plus difficiles à exploiter que les ratings explicites ?",
+    "options": ["A) Ils sont trop anciens", "B) L'absence d'interaction ne signifie pas un dislike, et les signaux positifs ont des niveaux de confiance variables", "C) Ils sont illisibles", "D) Ils ne contiennent aucune information"],
+    "answer": "B",
+    "explanation": "Les signaux implicites (clic, durée de vue, achat) sont abondants mais ambigus : ne pas cliquer n'est pas un dislike. Le niveau d'intérêt varie (un clic accidentel vs un achat). Des modèles spécifiques (BPR, WMF) les exploitent."
+  },
+  {
+    "id": "sr_021",
+    "question": "Comment l'algorithme BPR (Bayesian Personalized Ranking) optimise-t-il les recommandations avec feedback implicite ?",
+    "options": ["A) En prédisant les notes exactes", "B) En optimisant le classement relatif : pour chaque utilisateur, il apprend que les items interagis doivent être classés avant les non-interagis", "C) En supprimant les items populaires", "D) En regroupant les utilisateurs par âge"],
+    "answer": "B",
+    "explanation": "BPR ne prédit pas une note absolue mais optimise l'ordre relatif des items. Pour un triplet (utilisateur, item_positif, item_négatif), il maximise la probabilité que l'item positif soit classé avant le négatif."
+  },
+  {
+    "id": "sr_022",
+    "question": "Quel est l'avantage d'un système de recommandation 'session-based' par rapport à un système traditionnel ?",
+    "options": ["A) Il nécessite plus de données", "B) Il fonctionne sans profil utilisateur persistant, idéal pour les utilisateurs anonymes ou les nouvelles sessions", "C) Il est plus lent", "D) Il ne fonctionne qu'avec des utilisateurs connectés"],
+    "answer": "B",
+    "explanation": "Les systèmes session-based analysent les actions de la session en cours (clics récents) pour recommander sans historique utilisateur. Crucial pour le e-commerce où beaucoup d'utilisateurs ne sont pas connectés."
+  },
+  {
+    "id": "sr_023",
+    "question": "Comment les RNNs et GRU4Rec améliorent-ils les recommandations session-based ?",
+    "options": ["A) En ignorant l'ordre des clics", "B) Ils modélisent la séquence temporelle des clics dans la session, capturant l'évolution des intentions de l'utilisateur", "C) Ils trient les items par prix", "D) Ils nécessitent moins de calcul"],
+    "answer": "B",
+    "explanation": "GRU4Rec utilise des GRU (Gated Recurrent Units) pour modéliser la séquence d'actions dans une session. Il capture que cliquer sur un smartphone puis une coque suggère un intent différent que l'inverse."
+  },
+  {
+    "id": "sr_024",
+    "question": "Pourquoi la métrique NDCG est-elle privilégiée pour évaluer les recommandations triées ?",
+    "options": ["A) Elle est facile à comprendre", "B) Elle pénalise les items pertinents placés en bas de la liste en utilisant un discount logarithmique sur la position", "C) Elle ne fonctionne qu'avec 10 items", "D) Elle ignore l'ordre des recommandations"],
+    "answer": "B",
+    "explanation": "Le NDCG (Normalized Discounted Cumulative Gain) accorde plus d'importance aux items pertinents en haut de la liste. Le discount logarithmique pénalise la pertinence par la position : un item pertinent en position 10 vaut moins qu'en position 1."
+  },
+  {
+    "id": "sr_025",
+    "question": "Dans un système de recommandation, que se passe-t-il si on optimise uniquement pour le taux de clic (CTR) ?",
+    "options": ["A) Les recommandations s'améliorent toujours", "B) Le système tend vers des recommandations 'clickbait', sacrifiant la satisfaction à long terme pour l'engagement immédiat", "C) Les utilisateurs deviennent plus heureux", "D) Le catalogue entier est couvert"],
+    "answer": "B",
+    "explanation": "Optimiser uniquement le CTR pousse le système vers des items à fort taux de clic (titres racoleurs, images aguicheuses) mais faible valeur réelle. Cela dégrade la satisfaction long terme et la confiance des utilisateurs."
+  },
+  {
+    "id": "sr_026",
+    "question": "Comment le modèle 'Wide & Deep' de Google combine-t-il deux types d'apprentissage ?",
+    "options": ["A) En utilisant deux serveurs séparés", "B) Le composant Wide (régression linéaire) mémorise les règles fréquentes, le Deep (réseau de neurones) généralise les patterns complexes", "C) En utilisant uniquement du deep learning", "D) En éliminant les features manuelles"],
+    "answer": "B",
+    "explanation": "Wide & Deep combine un composant linéaire (mémorisation de co-occurrences comme 'si hamburger ET frites → ketchup') et un réseau de neurones (généralisation à des combinaisons inédites). Les deux sont joints à la couche finale."
+  },
+  {
+    "id": "sr_027",
+    "question": "Pourquoi la technique du 'negative sampling' est-elle essentielle dans les systèmes à feedback implicite ?",
+    "options": ["A) Pour supprimer les avis négatifs", "B) Car tous les items non interagis ne sont pas négatifs, il faut échantillonner des négatifs représentatifs pour un apprentissage efficace", "C) Pour accélérer les calculs uniquement", "D) Pour éliminer les doublons"],
+    "answer": "B",
+    "explanation": "Avec le feedback implicite, l'absence d'interaction ne signifie pas un dislike. Le negative sampling sélectionne judicieusement des items non interagis comme 'négatifs' pour l'entraînement, évitant de traiter tout le catalogue."
+  },
+  {
+    "id": "sr_028",
+    "question": "Comment l'attention mécanisme (ex: SASRec) améliore-t-il les recommandations séquentielles ?",
+    "options": ["A) En attirant l'attention des utilisateurs avec des notifications", "B) En pondérant automatiquement l'importance de chaque action passée selon sa pertinence pour prédire la prochaine action", "C) En supprimant les actions anciennes", "D) En triant par popularité"],
+    "answer": "B",
+    "explanation": "Le self-attention (SASRec) assigne un poids à chaque item de l'historique selon sa pertinence pour prédire le prochain. Les items récents ou contextuellement liés reçoivent plus d'attention, sans la decay rigide des RNNs."
+  },
+  {
+    "id": "sr_029",
+    "question": "Dans le contexte des recommandations musicales, comment Spotify utilise-t-il les 'audio features' ?",
+    "options": ["A) En analysant uniquement les paroles", "B) En extrayant des caractéristiques acoustiques (tempo, dansabilité, énergie) pour recommander des morceaux au profil sonore similaire", "C) En demandant aux artistes de choisir les recommandations", "D) En triant par durée du morceau"],
+    "answer": "B",
+    "explanation": "Spotify extrait des audio features (danceability, energy, valence, tempo, acousticness) via l'API et les combine avec les signaux collaboratifs (playlists, écoutes) pour des recommandations hybrides précises."
+  },
+  {
+    "id": "sr_030",
+    "question": "Pourquoi le 'exploration vs exploitation' est-il un dilemme central dans les recommandations ?",
+    "options": ["A) Explorer coûte trop cher", "B) Exploiter maximise la satisfaction immédiate (recommander le connu), explorer découvre de nouveaux intérêts mais risque de déplaire temporairement", "C) L'exploration est toujours meilleure", "D) L'exploitation est impossible"],
+    "answer": "B",
+    "explanation": "L'exploitation recommande ce que le système est sûr que l'utilisateur aimera. L'explication teste de nouveaux items pour affiner le profil. Trop d'exploitation = bulle de filtre. Trop d'exploration = recommandations irritantes."
+  },
+  {
+    "id": "sr_031",
+    "question": "Comment le 'Multi-Armed Bandit' est-il appliqué aux recommandations ?",
+    "options": ["A) En jouant aux machines à sous", "B) En équilibrant exploration/exploitation : chaque bras = une stratégie de recommandation, l'algorithme apprend laquelle maximise la récompense", "C) En sélectionnant toujours le bras le plus populaire", "D) En ignorant les retours utilisateurs"],
+    "answer": "B",
+    "explanation": "Le Multi-Armed Bandit (UCB, Thompson Sampling) assigne chaque stratégie de recommandation à un bras. Il explore les bras sous-représentés et exploite les plus performants, maximisant la récompense cumulée."
+  },
+  {
+    "id": "sr_032",
+    "question": "Comment l'algorithme PageRank peut-il être détourné pour des recommandations ?",
+    "options": ["A) En classant les utilisateurs par popularité", "B) En construisant un graphe item-item et en identifiant les items les plus 'influents' dans le réseau de co-visites", "C) En comptant les pages web", "D) En triant par date de création"],
+    "answer": "B",
+    "explanation": "ItemRank applique PageRank sur un graphe où les nœuds sont les items et les arêtes sont les co-visites. Les items avec le plus haut score sont ceux centraux dans les parcours de navigation, indiquant leur importance."
+  },
+  {
+    "id": "sr_033",
+    "question": "Pourquoi la 'matrice de confusion' est-elle insuffisante pour évaluer un système de recommandation ?",
+    "options": ["A) Elle est trop complexe", "B) Elle évalue la classification binaire (pertinent/non pertinent) mais ignore la position dans la liste et l'ordre des résultats", "C) Elle ne fonctionne pas avec les notes", "D) Elle est obsolète"],
+    "answer": "B",
+    "explanation": "La matrice de confusion (TP, FP, TN, FN) ne capture pas l'ordre des recommandations. Or dans un top-N, la position est cruciale : un item pertinent en position 1 vaut beaucoup plus qu'en position 50. NDCG et MAP sont plus adaptés."
+  },
+  {
+    "id": "sr_034",
+    "question": "Comment le modèle 'Two-Tower' (Dual-Encoder) fonctionne-t-il pour les recommandations à grande échelle ?",
+    "options": ["A) Il utilise deux serveurs physiques", "B) Une tour encode l'utilisateur, l'autre encode l'item ; leur produit scalaire donne le score de pertinence, permettant un ranking rapide sur tout le catalogue", "C) Il compare deux utilisateurs entre eux", "D) Il duplique les données"],
+    "answer": "B",
+    "explanation": "Le Two-Tower encode séparément user et item en embeddings denses. Le score de recommandation est le produit scalaire. L'avantage : les embeddings item peuvent être pré-calculés et indexés (ANN) pour un ranking sur des millions d'items."
+  },
+  {
+    "id": "sr_035",
+    "question": "Pourquoi les systèmes de recommandation doivent-ils gérer le concept de 'position bias' ?",
+    "options": ["A) Pour centrer les résultats", "B) Les items en haut de la liste reçoivent plus de clics simplement grâce à leur position, pas grâce à leur pertinence réelle", "C) Les items en bas sont toujours meilleurs", "D) La position n'a aucun impact"],
+    "answer": "B",
+    "explanation": "Le position bias fait que les utilisateurs cliquent davantage sur les premiers résultats, même si des résultats plus pertinents existent plus bas. Cela biaise les données d'apprentissage. Des modèles (IPS, position-bias debiasing) corrigent ce biais."
+  },
+  {
+    "id": "sr_036",
+    "question": "Comment Amazon recommande-t-il 'Les clients qui ont acheté X ont aussi acheté Y' ?",
+    "options": ["A) En utilisant les descriptions des produits", "B) Via l'analyse des co-achats : les items fréquemment achetés ensemble forment les recommandations (item-to-item collaborative filtering)", "C) En demandant aux vendeurs", "D) En triant par prix"],
+    "answer": "B",
+    "explanation": "Amazon utilise l'item-to-item collaborative filtering : pour chaque item acheté, le système trouve les items les plus fréquemment co-achetés par les mêmes clients. C'est un filtrage collaboratif basé sur les items (item-based)."
+  },
+  {
+    "id": "sr_037",
+    "question": "Quelle est la différence entre user-based et item-based collaborative filtering ?",
+    "options": ["A) Ils sont identiques", "B) User-based compare les utilisateurs entre eux ; item-based compare les items entre eux via leurs patterns de notation", "C) User-based utilise le contenu, item-based le collaboratif", "D) Item-based est toujours meilleur"],
+    "answer": "B",
+    "explanation": "Le user-based CF trouve des utilisateurs similaires et recommande ce qu'ils ont aimé. L'item-based CF trouve des items similaires à ceux déjà aimés. L'item-based est souvent plus stable car les similarités item-item changent moins."
+  },
+  {
+    "id": "sr_038",
+    "question": "Comment le 'Knowledge Graph' enrichit-il les recommandations par rapport au collaboratif pur ?",
+    "options": ["A) En remplaçant les données collaboratives", "B) En ajoutant des relations sémantiques (réalisateur, genre, lieu) qui permettent de raisonner et d'expliquer les recommandations", "C) En supprimant les métadonnées", "D) En utilisant moins de données"],
+    "answer": "B",
+    "explanation": "Le Knowledge Graph connecte items et utilisateurs via des relations sémantiques (film → acteur → autres films). Cela permet des recommandations explicables ('Vous aimerez ce film car vous aimez cet acteur') et gère le cold start."
+  },
+  {
+    "id": "sr_039",
+    "question": "Pourquoi la 'diversité' des recommandations est-elle importante pour la rétention utilisateur ?",
+    "options": ["A) Pour afficher plus de résultats", "B) Des recommandations trop similaires ennuient l'utilisateur ; la diversité maintient l'intérêt et augmente la probabilité de trouver un item pertinent", "C) Elle réduit les coûts de calcul", "D) Elle est uniquement esthétique"],
+    "answer": "B",
+    "explanation": "Une liste de 10 recommandations quasi identiques (même genre, même époque) offre peu de chances de surprendre. La diversité (ILS inverse, catégories variées) maintient l'engagement et couvre plusieurs intentions possibles."
+  },
+  {
+    "id": "sr_040",
+    "question": "Comment le modèle 'DeepFM' combine-t-il les features dans les recommandations ?",
+    "options": ["A) En utilisant uniquement un réseau profond", "B) Il fusionne un composant FM (Factorization Machine pour les interactions de bas ordre) et un DNN (pour les interactions de haut ordre) partageant le même input", "C) En ignorant les features catégorielles", "D) En utilisant un seul embedding"],
+    "answer": "B",
+    "explanation": "DeepFM combine en parallèle une FM (captures les interactions de paires de features) et un réseau profond (captures les interactions complexes multi-features). Ils partagent les embeddings, sans feature engineering manuel."
+  },
+  {
+    "id": "sr_041",
+    "question": "Dans un système de recommandation, que mesure la métrique 'Novelty' ?",
+    "options": ["A) La nouveauté technologique du système", "B) Dans quelle mesure le système recommande des items que l'utilisateur n'aurait pas découverts par lui-même", "C) La vitesse de recommandation", "D) Le prix des items"],
+    "answer": "B",
+    "explanation": "La novelty mesure si les recommandations sont des découvertes inattendues pour l'utilisateur (items peu populaires, hors de sa zone de confort). Elle est souvent calculée comme l'inverse de la popularité des items recommandés."
+  },
+  {
+    "id": "sr_042",
+    "question": "Pourquoi l'architecture 'Retrieval + Ranking' en deux étapes est-elle standard dans l'industrie ?",
+    "options": ["A) Pour ralentir le système", "B) Le retrieval filtre rapidement des millions d'items à quelques centaines, puis le ranking précis classe les meilleurs avec un modèle complexe", "C) Pour utiliser deux équipes différentes", "D) Parce qu'un seul modèle ne fonctionne pas"],
+    "answer": "B",
+    "explanation": "Un catalogue de millions d'items ne peut être scoré par un modèle complexe en temps réel. Le retrieval (ANN, Two-Tower) pré-sélectionne ~1000 candidats en <50ms. Le ranking (DeepFM, DIN) les ordonne finement en ~100ms."
+  },
+  {
+    "id": "sr_043",
+    "question": "Comment les 'Graph Neural Networks' (GNN) améliorent-ils les recommandations ?",
+    "options": ["A) En dessinant des graphiques", "B) En propageant les informations dans le graphe utilisateur-item pour capturer des patterns relationnels profonds au-delà des interactions directes", "C) En supprimant les arêtes", "D) En triant les nœuds par taille"],
+    "answer": "B",
+    "explanation": "Les GNN (PinSage, LightGCN) propagent les embeddings à travers le graphe bipartite utilisateur-item. Après K couches, chaque nœud agrège l'information de ses voisins K-hop, capturant des similarités structurelles profondes."
+  },
+  {
+    "id": "sr_044",
+    "question": "Quel est le rôle du 'Re-ranking' dans un pipeline de recommandation ?",
+    "options": ["A) Reclasser les résultats après le ranking initial en intégrant des contraintes business (diversité, fraîcheur, équité)", "B) Supprimer les mauvais résultats", "C) Recommencer le ranking depuis zéro", "D) Afficher les résultats en ordre inverse"],
+    "answer": "A",
+    "explanation": "Le re-ranking ajuste la liste finale de recommandations en appliquant des règles business : garantir la diversité, promouvoir les nouveaux items, assurer l'équité entre fournisseurs, éviter les contenus inappropriés."
+  },
+  {
+    "id": "sr_045",
+    "question": "Comment fonctionne le 'Context-Aware Recommendation' ?",
+    "options": ["A) En ignorant le contexte", "B) En intégrant des variables contextuelles (heure, lieu, appareil, météo) dans le modèle pour adapter les recommandations à la situation", "C) En recommandant uniquement selon la géolocalisation", "D) En utilisant le contexte uniquement pour les publicités"],
+    "answer": "B",
+    "explanation": "Les systèmes context-aware intègrent des dimensions situationnelles : un café le matin vs un restaurant le soir, une musique calme le dimanche vs énergique en soirée. Les Tensor Factorization et les Deep models capturent ces dimensions."
+  },
+  {
+    "id": "sr_046",
+    "question": "Pourquoi la métrique MAP (Mean Average Precision) est-elle utile pour les recommandations ?",
+    "options": ["A) Elle affiche les résultats sur une carte", "B) Elle évalue la qualité du classement en moyenne sur tous les utilisateurs, pénalisant les items pertinents placés bas", "C) Elle mesure le temps de réponse", "D) Elle compte le nombre de recommandations"],
+    "answer": "B",
+    "explanation": "MAP calcule la Average Precision pour chaque utilisateur (moyenne des precisions à chaque position où un item pertinent est trouvé) puis la moyenne sur tous les utilisateurs. Elle évalue à la fois la pertinence et l'ordre."
+  },
+  {
+    "id": "sr_047",
+    "question": "Comment le modèle 'DIN' (Deep Interest Network) d'Alibaba gère-t-il les intérêts diversifiés des utilisateurs ?",
+    "options": ["A) En ignorant l'historique", "B) Via un mécanisme d'attention qui active uniquement les parties pertinentes de l'historique selon le candidat, sans utiliser tout l'historique uniformément", "C) En supprimant les anciens intérêts", "D) En utilisant un seul embedding fixe"],
+    "answer": "B",
+    "explanation": "DIN utilise l'attention locale : pour chaque item candidat, il pondère les items de l'historique selon leur pertinence. L'intérêt de l'utilisateur est dynamique et dépend du candidat, capturant la diversité des intérêts."
+  },
+  {
+    "id": "sr_048",
+    "question": "Dans les recommandations, que signifie le 'selection bias' ?",
+    "options": ["A) L'utilisateur sélectionne trop d'items", "B) Les données d'entraînement contiennent uniquement les items que le système a déjà recommandés, créant un biais circulaire", "C) Le système sélectionne les meilleurs utilisateurs", "D) Les items sont sélectionnés manuellement"],
+    "answer": "B",
+    "explanation": "Le selection bias survient car les utilisateurs ne notent/interagissent qu'avec les items recommandés par le système précédent. Le nouveau modèle apprend sur ces données biaisées, renforce les mêmes recommandations, et boucle."
+  },
+  {
+    "id": "sr_049",
+    "question": "Pourquoi le 'online learning' (mise à jour en temps réel) améliore-t-il les recommandations par rapport au batch learning ?",
+    "options": ["A) Il est plus facile à implémenter", "B) Il capture immédiatement les changements de préférences (tendances, saisonnalité) sans attendre le réentraînement nocturne", "C) Il nécessite moins de données", "D) Il supprime le besoin de stockage"],
+    "answer": "B",
+    "explanation": "L'online learning met à jour le modèle à chaque interaction, capturant les tendances émergentes, les effets saisonniers et les changements de goût. Le batch learning attend le réentraînement complet, créant un décalage."
+  },
+  {
+    "id": "sr_050",
+    "question": "Comment le 'Collaborative Filtering basé sur les voisinages' calcule-t-il une prédiction pour un utilisateur ?",
+    "options": ["A) En moyennant toutes les notes du catalogue", "B) En combinant pondérément les notes des k utilisateurs les plus similaires pour l'item cible", "C) En utilisant uniquement la note moyenne de l'item", "D) En tirant au hasard"],
+    "answer": "B",
+    "explanation": "Le k-NN collaboratif identifie les k utilisateurs les plus similaires (cosinus, Pearson) ayant noté l'item cible. La prédiction est la moyenne pondérée de leurs notes, où les poids sont les similarités avec l'utilisateur actif."
+  },
+  {
+    "id": "sr_051",
+    "question": "Pourquoi l'évaluation 'offline' des systèmes de recommandation est-elle trompeuse ?",
+    "options": ["A) Elle est trop précise", "B) Les métriques offline (RMSE, NDCG) sur données historiques ne capturent pas l'impact réel sur le comportement utilisateur (engagement, rétention, conversion)", "C) Elle fonctionne uniquement en ligne", "D) Elle nécessite trop de données"],
+    "answer": "B",
+    "explanation": "L'évaluation offline mesure la qualité technique sur des données historiques, mais ne reflète pas l'impact business : les utilisateurs cliquent-ils plus ? achètent-ils plus ? reviennent-ils ? Seul l'A/B testing en production le confirme."
+  },
+  {
+    "id": "sr_052",
+    "question": "Comment le 'AutoRec' utilise-t-il les autoencodeurs pour les recommandations ?",
+    "options": ["A) Il encode automatiquement les utilisateurs", "B) Il apprend à reconstruire le vecteur partiel de notes d'un utilisateur/item, les valeurs reconstruites comblant les notes manquantes", "C) Il supprime les notes existantes", "D) Il trie les items par pertinence"],
+    "answer": "B",
+    "explanation": "AutoRec prend en entrée le vecteur partiel de notes d'un utilisateur (ou item), le compresse dans un espace latent puis le reconstruit. Les valeurs reconstruites aux positions vides sont les notes prédites."
+  },
+  {
+    "id": "sr_053",
+    "question": "Dans quel cas un système de recommandation 'knowledge-based' est-il préférable au collaboratif ?",
+    "options": ["A) Pour les films populaires", "B) Pour les achats complexes et rares (immobilier, voiture, équipement industriel) où l'historique collaboratif est insuffisant", "C) Pour les livres", "D) Pour les musiques"],
+    "answer": "B",
+    "explanation": "Les systèmes knowledge-based utilisent des règles expertes et des contraintes (budget, caractéristiques techniques) plutôt que l'historique. Idéal pour les achats rares et complexes où peu de données collaboratives existent."
+  },
+  {
+    "id": "sr_054",
+    "question": "Comment les 'Variational Autoencoders' (VAE) comme Mult-VAE améliorent-ils les recommandations ?",
+    "options": ["A) En variant les résultats", "B) En modélisant une distribution de probabilité sur les préférences latentes, permettant une génération stochastique de recommandations diverses", "C) En compressant les images", "D) En triant par date"],
+    "answer": "B",
+    "explanation": "Mult-VAE modélise les préférences comme une distribution (pas un point fixe). L'échantillonnage dans cette distribution produit des recommandations diversifiées tout en restant pertinentes, atténuant la bulle de filtre."
+  },
+  {
+    "id": "sr_055",
+    "question": "Pourquoi les 'conversational recommender systems' représentent-ils l'avenir des recommandations ?",
+    "options": ["A) Ils sont plus simples à implémenter", "B) Ils permettent un dialogue itératif où l'utilisateur affine ses préférences à travers la conversation, résolvant l'ambiguïté de l'intention", "C) Ils remplacent les chatbots", "D) Ils ne nécessitent pas de données"],
+    "answer": "B",
+    "explanation": "Les systèmes conversationnels posent des questions et ajustent les recommandations en temps réel. L'utilisateur peut dire 'moins cher', 'plus moderne', 'comme X mais en mieux', permettant une personnalisation progressive et naturelle."
+  },
+  {
+    "id": "sr_056",
+    "question": "Comment le 'A/B testing' permet-il de valider un nouveau modèle de recommandation ?",
+    "options": ["A) En comparant les deux modèles offline", "B) En exposant le nouveau modèle à un groupe test et l'ancien à un groupe contrôle, puis en mesurant l'impact sur les métriques business réelles", "C) En demandant aux développeurs leur avis", "D) En lançant le nouveau modèle pour tout le monde"],
+    "answer": "B",
+    "explanation": "L'A/B testing divise aléatoirement les utilisateurs en deux groupes : contrôle (ancien modèle) et traitement (nouveau modèle). On compare les métriques business (CTR, conversion, rétention) pour déterminer statistiquement le meilleur."
+  },
+  {
+    "id": "sr_057",
+    "question": "Pourquoi la similarité de Jaccard est-elle parfois préférée au cosinus pour les données binaires ?",
+    "options": ["A) Elle est plus rapide", "B) Elle ignore les co-absences (0,0) qui gonflent artificiellement la similarité cosinus dans les données creuses", "C) Elle fonctionne uniquement avec des notes", "D) Elle est plus ancienne"],
+    "answer": "B",
+    "explanation": "La Jaccard = |A∩B| / |A∪B| ne compte que les co-présences. Dans les données creuses (achats), deux utilisateurs qui n'ont rien acheté en commun ne sont pas 'similaires' parce qu'ils ont des milliers de zéros en commun."
+  },
+  {
+    "id": "sr_058",
+    "question": "Comment le modèle 'LightFM' combine-t-il les approches content-based et collaboratives ?",
+    "options": ["A) En alternant les deux approches", "B) En intégrant les features utilisateur et item directement dans la factorisation de matrices comme des régularisateurs des embeddings", "C) En ignorant les features", "D) En utilisant deux modèles séparés"],
+    "answer": "B",
+    "explanation": "LightFM étend la factorisation de matrices en intégrant les métadonnées (features utilisateur et item) dans le calcul des embeddings. Les embeddings sont des sommes de features, permettant de gérer le cold start."
+  },
+  {
+    "id": "sr_059",
+    "question": "Pourquoi les 'Transformers' (BERT4Rec, SASRec) surpassent-ils les RNNs pour les recommandations séquentielles ?",
+    "options": ["A) Ils sont plus anciens", "B) Ils captent les dépendances longues distances via le self-attention et parallélisent mieux le calcul que les RNNs séquentiels", "C) Ils nécessitent moins de paramètres", "D) Ils fonctionnent uniquement avec du texte"],
+    "answer": "B",
+    "explanation": "Les Transformers captent les relations entre tous les items de la séquence simultanément (pas de vanishing gradient), parallélisent les calculs (GPU), et via le self-attention pondèrent l'importance de chaque item pour la prédiction."
+  },
+  {
+    "id": "sr_060",
+    "question": "Dans un système de recommandation d'e-commerce, pourquoi séparer les recommandations 'homepage', 'product page' et 'cart page' ?",
+    "options": ["A) Pour des raisons esthétiques", "B) Chaque contexte a un intent différent : découverte (homepage), comparaison/complément (product page), up-sell/cross-sell (cart page)", "C) Pour utiliser trois modèles différents sans raison", "D) Pour limiter le nombre de recommandations"],
+    "answer": "B",
+    "explanation": "Sur la homepage, l'utilisateur explore (trending, personalized). Sur une page produit, il compare ou cherche des compléments (similaires, accessoires). Dans le panier, on cross-sell (items fréquemment achetés ensemble). Chaque contexte est distinct."
+  },
+  {
+    "id": "sr_061",
+    "question": "Comment les 'GNNs' comme PinSage de Pinterest parcourent-ils le graphe pour générer des recommandations ?",
+    "options": ["A) En visitant tous les nœuds", "B) Via des random walks pondérés depuis un nœud cible, agrégeant les features des voisins visités pour enrichir l'embedding du pin", "C) En supprimant les arêtes inutiles", "D) En triant les nœuds par degré"],
+    "answer": "B",
+    "explanation": "PinSage effectue des random walks sur le graphe pin-board pour sampler le voisinage de chaque pin. Les features des voisins visités sont agrégées (convolution graphique) pour créer des embeddings riches, scalables à des milliards de pins."
+  },
+  {
+    "id": "sr_062",
+    "question": "Pourquoi le 'metric learning' (ex: CML) est-il pertinent pour les recommandations ?",
+    "options": ["A) Il mesure les performances du système", "B) Il apprend un espace métrique où la distance entre utilisateur et item pertinent est minimisée, naturellement adapté au ranking", "C) Il remplace toutes les métriques d'évaluation", "D) Il est uniquement théorique"],
+    "answer": "B",
+    "explanation": "Le Collaborative Metric Learning (CML) apprend un espace où les items aimés sont proches de l'utilisateur et les items non aimés sont éloignés. La distance euclidienne naturelle produit un ranking : plus proche = plus pertinent."
+  },
+  {
+    "id": "sr_063",
+    "question": "Comment fonctionne le 'Slate Recommendation' par rapport aux recommandations individuelles ?",
+    "options": ["A) Il recommande sur une ardoise physique", "B) Il optimise l'ensemble de la liste de recommandations (le slate) globalement plutôt que chaque item indépendamment", "C) Il trie les items par ordre alphabétique", "D) Il recommande un seul item à la fois"],
+    "answer": "B",
+    "explanation": "Le Slate Recommendation optimise la liste complète en tenant compte des interactions entre items (redondance, complémentarité). Plutôt que scorer N items indépendamment, il cherche la meilleure combinaison de K items."
+  },
+  {
+    "id": "sr_064",
+    "question": "Pourquoi les 'fairness-aware recommendations' sont-elles devenues un sujet de recherche important ?",
+    "options": ["A) Pour rendre les recommandations plus rapides", "B) Pour garantir que le système ne discrimine pas certains groupes (créateurs, utilisateurs, catégories) dans les recommandations", "C) Pour éliminer le filtrage collaboratif", "D) Pour des raisons de performance"],
+    "answer": "B",
+    "explanation": "Les algorithmes peuvent pénaliser certains créateurs (moins exposés) ou utilisateurs (recommandations de moindre qualité). Les fairness-aware re-ranking assurent une exposition équitable entre fournisseurs et une qualité égale entre groupes d'utilisateurs."
+  },
+  {
+    "id": "sr_065",
+    "question": "Comment l'algorithmo d'Instagram recommande-t-il les posts dans le feed ?",
+    "options": ["A) Par ordre chronologique uniquement", "B) Via un ranking basé sur des signaux (affinité avec l'auteur, type de contenu, fraîcheur, probabilité d'engagement)", "C) En sélectionnant les posts les plus populaires mondialement", "D) En tirant au hasard"],
+    "answer": "B",
+    "explanation": "Instagram utilise un modèle de ranking qui combine l'affinité utilisateur-auteur (historique d'interactions), le type de contenu (vidéo, photo, stories), la fraîcheur du post et la prédiction d'engagement (like, comment, share)."
+  },
+  {
+    "id": "sr_066",
+    "question": "Pourquoi les embeddings appris par des modèles de recommandation peuvent-ils servir au transfer learning ?",
+    "options": ["A) Ils ne contiennent aucune information", "B) Les embeddings item capturent des caractéristiques sémantiques utiles pour d'autres tâches (classification, clustering, recherche)", "C) Le transfer learning est impossible en recommandation", "D) Ils sont trop spécifiques au domaine"],
+    "answer": "B",
+    "explanation": "Les embeddings item (Word2Vec, GraphSAGE, Two-Tower) capturent des similarités comportementales riches. Un embedding de film appris pour la recommandation encode le genre, le style, l'audience — utile pour la classification ou la recherche."
+  },
+  {
+    "id": "sr_067",
+    "question": "Comment le 'inverse propensity scoring' (IPS) corrige-il le biais dans les recommandations ?",
+    "options": ["A) En inversant les recommandations", "B) En pondérant chaque interaction par l'inverse de la probabilité qu'elle ait été exposée, compensant le fait que les items non recommandés n'ont pas de données", "C) En supprimant les items populaires", "D) En ajoutant du bruit"],
+    "answer": "B",
+    "explanation": "IPS corrige le selection bias en pondérant chaque observation par 1/P(exposure). Un item rarement exposé mais cliqué reçoit un poids élevé, compensant le fait que le système précédent ne le recommandait pas assez."
+  },
+  {
+    "id": "sr_068",
+    "question": "Pourquoi la technique du 'temperature scaling' dans le softmax est-elle utilisée pour la diversité ?",
+    "options": ["A) Pour refroidir les serveurs", "B) Une température élevée lisse la distribution des scores, permettant aux items moins dominants d'être sélectionnés, augmentant la diversité", "C) Elle trie les items par date", "D) Elle accélère le calcul"],
+    "answer": "B",
+    "explanation": "Le softmax avec haute température (T>1) rend la distribution plus uniforme : les différences de scores entre items sont atténuées. Des items avec des scores plus faibles ont plus de chances d'être sélectionnés, augmentant la diversité."
+  },
+  {
+    "id": "sr_069",
+    "question": "Comment le 'candidate generation' fonctionne-t-il dans un système de recommandation à l'échelle de YouTube ?",
+    "options": ["A) En scorant tous les milliards de vidéos", "B) Via un modèle deep learning rapide qui réduit les milliards de vidéos à quelques centaines de candidats via nearest neighbor search sur les embeddings", "C) En demandant aux créateurs de suggérer", "D) En triant par nombre de vues uniquement"],
+    "answer": "B",
+    "explanation": "YouTube utilise un modèle deep learning qui génère des embeddings utilisateur et vidéo. Le candidate retrieval utilise un nearest neighbor search (ANN) sur ces embeddings pour trouver les centaines de vidéos les plus pertinentes rapidement."
+  },
+  {
+    "id": "sr_070",
+    "question": "Quel est l'inconvénient majeur de la 'matrix factorization' classique face au deep learning ?",
+    "options": ["A) Elle est trop rapide", "B) Elle ne capture que des interactions linéaires entre utilisateurs et items, ignorant les relations non linéaires et les features complexes", "C) Elle nécessite trop de RAM", "D) Elle ne fonctionne qu'avec des petits datasets"],
+    "answer": "B",
+    "explanation": "La MF classique modélise la préférence comme le produit scalaire de deux vecteurs latents (linéaire). Les réseaux de neurones capturent des interactions non linéaires et intègrent facilement des features auxiliaires (âge, contexte, etc.)."
+  },
+  {
+    "id": "sr_071",
+    "question": "Pourquoi la 'calibration' des recommandations est-elle importante ?",
+    "options": ["A) Pour calibrer les moniteurs", "B) La distribution des catégories recommandées doit refléter les intérêts réels de l'utilisateur, pas les sur-représenter", "C) Pour afficher les bons prix", "D) Pour synchroniser les serveurs"],
+    "answer": "B",
+    "explanation": "Si un utilisateur aime 60% de films d'action et 40% de comédies, les recommandations devraient refléter cette proportion. Sans calibration, le système peut sur-représsenter une catégorie (80% action) au détriment de l'autre."
+  },
+  {
+    "id": "sr_072",
+    "question": "Comment le 'Learning to Rank' (LTR) est-il appliqué aux recommandations ?",
+    "options": ["A) En apprenant à trier les items selon un ordre optimal défini par les signaux d'engagement observés", "B) En classant les utilisateurs par ordre d'importance", "C) En triant par date de création", "D) En utilisant un tri alphabétique"],
+    "answer": "A",
+    "explanation": "Le LTR (pointwise, pairwise, listwise) apprend une fonction de scoring qui ordonne les items pour maximiser les métriques de ranking (NDCG, MAP). Pairwise est le plus courant : il apprend que item_A doit être avant item_B."
+  },
+  {
+    "id": "sr_073",
+    "question": "Pourquoi un système de recommandation doit-il gérer le 'concept drift' ?",
+    "options": ["A) Les goûts des utilisateurs évoluent dans le temps, le modèle doit s'adapter en continu", "B) Le hardware change", "C) Les algorithmes deviennent obsolètes", "D) Le design du site change"],
+    "answer": "A",
+    "explanation": "Le concept drift correspond à l'évolution des préférences : saisonnalité (vetements d'été en juillet), tendances (mode), changement de vie (naissance d'un enfant). Le modèle doit se mettre à jour pour rester pertinent."
+  },
+  {
+    "id": "sr_074",
+    "question": "Comment le 'cross-domain recommendation' permet-il de résoudre le cold start ?",
+    "options": ["A) En recommandant des noms de domaine Internet", "B) En transférant les connaissances d'un domaine riche en données (films) vers un domaine pauvre (livres) via des ponts partagés", "C) En fusionnant tous les domaines", "D) En ignorant les nouveaux domaines"],
+    "answer": "B",
+    "explanation": "Le cross-domain transfer utilise les patterns appris dans un domaine source riche (beaucoup de notes de films) pour améliorer les recommandations dans un domaine cible pauvre (peu de notes de livres), via des utilisateurs ou items partagés."
+  },
+  {
+    "id": "sr_075",
+    "question": "Pourquoi le 'Feedback Loop' (boucle de rétroaction) est-il un problème dans les systèmes de recommandation ?",
+    "options": ["A) Les utilisateurs donnent trop de feedback", "B) Le système recommande → l'utilisateur interagit → le système renforce ces recommandations → les alternatives disparaissent progressivement", "C) Le feedback est trop rapide", "D) Les serveurs bouclent les requêtes"],
+    "answer": "B",
+    "explanation": "La boucle de feedback amplifie les biais : le système recommande A → l'utilisateur clique sur A → le système renforce A → B n'est jamais vu ni recommandé. Sans exploration forcée, la diversité s'effondre progressivement."
+  },
+  {
+    "id": "sr_076",
+    "question": "Comment le modèle 'DIEN' (Deep Interest Evolution Network) améliore-t-il le DIN ?",
+    "options": ["A) En ajoutant plus de couches", "B) En modélisant l'évolution temporelle des intérêts via un GRU avec attention, capturant comment les intérêts changent au fil du temps", "C) En supprimant l'attention", "D) En utilisant moins de features"],
+    "answer": "B",
+    "explanation": "DIEN ajoute un composant GRU sur les embeddings d'intérêt pour capturer l'évolution temporelle : l'intérêt pour les jouets enfants → jeux vidéo → électronique. Le GRU avec attention modélise cette trajectoire d'évolution."
+  },
+  {
+    "id": "sr_077",
+    "question": "Dans les recommandations vidéo, pourquoi la durée de visionnage est-elle un signal plus riche que le simple clic ?",
+    "options": ["A) Elle est plus facile à mesurer", "B) Le clic peut être accidentel ou trompeur ; la durée de visionnage (watch time) reflète un engagement réel et une satisfaction authentique", "C) Les clics sont toujours trompeurs", "D) La durée est l'unique métrique importante"],
+    "answer": "B",
+    "explanation": "YouTube et Netflix utilisent le watch time/completion rate comme signal principal. Un clic suivi d'un abandon après 5 secondes indique un contenu non pertinent. Une complétion à 90% indique une forte satisfaction."
+  },
+  {
+    "id": "sr_078",
+    "question": "Comment le 'Meta-Learning' peut-il améliorer les recommandations pour les nouveaux utilisateurs ?",
+    "options": ["A) En apprenant plus lentement", "B) En apprenant à initialiser rapidement un bon modèle personnel à partir de très peu d'interactions (few-shot learning)", "C) En ignorant les nouveaux utilisateurs", "D) En utilisant un modèle global unique"],
+    "answer": "B",
+    "explanation": "Le meta-learning (MAML, MeLU) apprend une bonne initialisation de paramètres qui s'adapte rapidement avec peu de données. Pour un nouvel utilisateur, 3-5 interactions suffisent pour personnaliser le modèle efficacement."
+  },
+  {
+    "id": "sr_079",
+    "question": "Pourquoi les 'RecBole' et autres frameworks de recommandation sont-ils utiles pour la recherche ?",
+    "options": ["A) Ils remplacent les chercheurs", "B) Ils fournissent des implémentations standardisées, des datasets unifiés et des protocoles d'évaluation reproductibles", "C) Ils sont uniquement commerciaux", "D) Ils limitent la créativité"],
+    "answer": "B",
+    "explanation": "Des frameworks comme RecBole, LibRec ou Cornac offrent des implémentations de dizaines d'algorithmes, des benchmarks reproductibles et des datasets standardisés, permettant des comparaisons justes et accélérant la recherche."
+  },
+  {
+    "id": "sr_080",
+    "question": "Comment le modèle 'MIND' (Multi-Interest Network) gère-t-il les utilisateurs aux intérêts multiples ?",
+    "options": ["A) En choisissant un seul intérêt principal", "B) Via un mécanisme de routing dynamique qui extrait multiples vecteurs d'intérêt, chacun capturant un aspect différent des préférences", "C) En ignorant les intérêts secondaires", "D) En fusionnant tous les intérêts en un seul vecteur"],
+    "answer": "B",
+    "explanation": "MIND extrait K vecteurs d'intérêt (multi-interest embeddings) via capsule routing. Chaque vecteur capture un aspect (sport, cuisine, tech). Pour chaque item candidat, seul le vecteur d'intérêt le plus pertinent est utilisé."
+  },
+  {
+    "id": "sr_081",
+    "question": "Pourquoi les 'visual recommendations' sont-elles importantes dans la mode et le design ?",
+    "options": ["A) Elles sont plus faciles à implémenter", "B) L'aspect visuel est le critère principal dans ces domaines ; les CNNs extraient les features visuelles (couleur, style, motif) pour recommander des items similaires", "C) Elles nécessitent moins de données", "D) Elles remplacent les descriptions textuelles"],
+    "answer": "B",
+    "explanation": "Dans la mode, les utilisateurs jugent d'abord visuellement. Les CNNs extraient des embeddings visuels (style, couleur, coupe) des images de vêtements, permettant des recommandations 'visuellement similaires' même sans données collaboratives."
+  },
+  {
+    "id": "sr_082",
+    "question": "Comment le modèle 'FM' (Factorization Machine) généralise-t-il la matrix factorization ?",
+    "options": ["A) En factorisant des matrices plus grandes", "B) Il modélise toutes les interactions entre paires de features (pas seulement user-item) via des produits de vecteurs latents", "C) En utilisant plus de facteurs", "D) En ignorant les features catégorielles"],
+    "answer": "B",
+    "explanation": "La FM capture les interactions entre TOUTES les paires de features (user × item, user × contexte, item × catégorie) via des vecteurs latents, pas seulement l'interaction user-item de la matrix factorization classique."
+  },
+  {
+    "id": "sr_083",
+    "question": "Pourquoi l''explicabilité' des recommandations est-elle devenue une exigence ?",
+    "options": ["A) Pour des raisons de debug uniquement", "B) Les utilisateurs et régulateurs exigent de comprendre pourquoi un item est recommandé (RGPD, confiance, transparence)", "C) Pour ralentir le système", "D) C'est une mode passagère"],
+    "answer": "B",
+    "explanation": "L'explicabilité ('Parce que vous avez aimé X', 'Trending dans votre région') augmente la confiance utilisateur, répond aux exigences réglementaires (RGPD droit d'explication) et améliore la satisfaction même quand la recommandation n'est pas parfaite."
+  },
+  {
+    "id": "sr_084",
+    "question": "Comment les 'session-based RNNs' gèrent-ils la longueur variable des sessions ?",
+    "options": ["A) En tronquant toutes les sessions à la même longueur", "B) Via le mécanisme récurrent : chaque action est traitée séquentiellement, l'état caché accumule l'information peu importe la longueur", "C) En ignorant les sessions longues", "D) En divisant les sessions en sous-sessions"],
+    "answer": "B",
+    "explanation": "Les RNNs/GRUs traitent les événements un par un, mettant à jour l'état caché. La longueur variable est gérée naturellement : on arrête quand la session se termine. L'état final résume toute la session, courte ou longue."
+  },
+  {
+    "id": "sr_085",
+    "question": "Pourquoi le 'Approximate Nearest Neighbor' (ANN) est-il crucial dans les systèmes de recommandation à l'échelle ?",
+    "options": ["A) Pour trouver les voisins exacts", "B) Car chercher les K plus proches parmi des millions d'embeddings est trop lent ; ANN (FAISS, HNSW) offre un compromis vitesse/précision acceptable", "C) Pour compresser les embeddings", "D) Pour générer les embeddings"],
+    "answer": "B",
+    "explanation": "Le nearest neighbor exact sur des millions d'items est O(N). Les index ANN (FAISS, HNSW, Annoy) pré-structurent les embeddings pour retrouver les K plus proches en O(log N) avec une précision de 95-99%, rendant le retrieval possible."
+  },
+  {
+    "id": "sr_086",
+    "question": "Comment le modèle 'NGCF' (Neural Graph Collaborative Filtering) exploite-t-il la structure du graphe ?",
+    "options": ["A) En ignorant les arêtes", "B) En propageant les embeddings à travers les couches du graphe utilisateur-item pour capturer des signaux collaboratifs de haut ordre", "C) En supprimant les utilisateurs isolés", "D) En ajoutant des arêtes aléatoires"],
+    "answer": "B",
+    "explanation": "NGCF propage les embeddings via des couches de convolution graphique. À chaque couche, les embeddings utilisateur agrègent les embeddings des items interagis et inversement, capturant des similarités collaboratives multi-hop."
+  },
+  {
+    "id": "sr_087",
+    "question": "Pourquoi les 'reciprocal recommendations' sont-ils nécessaires sur les sites de rencontre ?",
+    "options": ["A) Pour recommander des lieux de rencontre", "B) La recommandation doit satisfaire les deux parties : A doit plaire à B ET B doit plaire à A (préférence réciproque)", "C) Pour doubler le nombre de recommandations", "D) Pour des raisons de sécurité"],
+    "answer": "B",
+    "explanation": "Contrairement au e-commerce (unilatéral), les sites de rencontre nécessitent une recommandation bilatérale. Le système doit prédire la compatibilité mutuelle (A aimera B ET B aimera A), un problème plus complexe que le ranking classique."
+  },
+  {
+    "id": "sr_088",
+    "question": "Comment le 'Sequential Pattern Mining' contribue-t-il aux recommandations ?",
+    "options": ["A) En minant les données pour trouver de l'or", "B) En découvrant des motifs fréquents dans les séquences d'achats (A puis B puis C) pour prédire le prochain achat probable", "C) En comptant les séquences de clics", "D) En triant les séquences par longueur"],
+    "answer": "B",
+    "explanation": "Le sequential pattern mining (PrefixSpan, GSP) découvre des séquences fréquentes : 'les clients qui achètent un lit puis une table de nuit achètent ensuite une lampe'. Ces règles séquentielles alimentent les recommandations."
+  },
+  {
+    "id": "sr_089",
+    "question": "Pourquoi le 'multi-objective optimization' est-il nécessaire dans les recommandations industrielles ?",
+    "options": ["A) Il n'y a qu'un seul objectif", "B) Les plateformes optimisent simultanément plusieurs objectifs parfois contradictoires (engagement, revenu, satisfaction, diversité)", "C) Pour utiliser plus de GPU", "D) C'est une exigence légale"],
+    "answer": "B",
+    "explanation": "Une plateforme vidéo veut maximiser le watch time (engagement), mais aussi la satisfaction (retention long terme), le revenu (abonnements), et la diversité. Ces objectifs peuvent être contradictoires et nécessitent un compromis (Pareto)."
+  },
+  {
+    "id": "sr_090",
+    "question": "Comment les 'bandit algorithms' adaptent-ils les recommandations en temps réel ?",
+    "options": ["A) En jouant aux bandits manchots", "B) Ils mettent à jour les probabilités de recommandation après chaque interaction, équilibrant exploration et exploitation en continu", "C) En fixant les recommandations une fois pour toutes", "D) En utilisant uniquement les données historiques"],
+    "answer": "B",
+    "explanation": "Les bandits (UCB, Thompson Sampling) mettent à jour les distributions de probabilité après chaque clic/non-clic. Ils explorent les items incertains et exploitent les items performants, s'adaptant en temps réel aux retours."
+  },
+  {
+    "id": "sr_091",
+    "question": "Pourquoi le 'POSO' (Piecewise Linear Interest Network) est-il adapté aux recommandations en temps réel ?",
+    "options": ["A) Il est plus lent", "B) Il ajuste dynamiquement les poids du réseau selon les features de l'utilisateur, sans réentraînement, via des fonctions d'activation conditionnelles", "C) Il supprime les features", "D) Il fonctionne uniquement en batch"],
+    "answer": "B",
+    "explanation": "POSO modifie les poids du réseau en fonction des features utilisateur en temps réel. Pas besoin de réentraîner pour adapter les recommandations : le comportement du modèle change dynamiquement selon l'utilisateur."
+  },
+  {
+    "id": "sr_092",
+    "question": "Comment les 'contrastive learning' techniques améliorent-elles les recommandations avec peu de données ?",
+    "options": ["A) En contrastant les couleurs", "B) En apprenant des représentations robustes via des paires positives/négatives, même avec peu d'interactions supervisées", "C) En supprimant les données", "D) En ajoutant du bruit uniquement"],
+    "answer": "B",
+    "explanation": "Le contrastive learning (CL4Rec, SGL) crée des vues augmentées des interactions et rapproche les représentations des vues du même utilisateur/item tout en éloignant les autres. Efficace même avec des données très creuses."
+  },
+  {
+    "id": "sr_093",
+    "question": "Dans les recommandations de news, pourquoi la fraîcheur (freshness) est-elle plus critique que dans l'e-commerce ?",
+    "options": ["A) Les news sont moins importantes", "B) Les articles d'actualité ont une durée de vie très courte (heures) ; un article d'hier est souvent obsolète, contrairement à un produit intemporel", "C) Les serveurs de news sont plus rapides", "D) Les utilisateurs de news sont plus exigeants"],
+    "answer": "B",
+    "explanation": "Les news ont une décroissance de pertinence très rapide. Un article publié il y a 6 heures est souvent déjà obsolète. Le système doit capturer les signaux de fraîcheur et les tendances émergentes en temps réel."
+  },
+  {
+    "id": "sr_094",
+    "question": "Pourquoi le 'group recommendation' est-il plus complexe que la recommandation individuelle ?",
+    "options": ["A) Il y a plus de données", "B) Il faut agréger les préférences de plusieurs membres du groupe, qui peuvent être contradictoires (aventure vs comédie romantique)", "C) Les groupes sont toujours petits", "D) C'est la même chose"],
+    "answer": "B",
+    "explanation": "Le group recommendation doit résoudre l'agrégation de préférences individuelles : average (moyenne), least misery (satisfaire le plus difficile), ou maximum (plaire au maximum). Chaque stratégie a des compromis différents."
+  },
+  {
+    "id": "sr_095",
+    "question": "Comment les modèles de 'recommandation conversationnels' utilisent-ils le NLP ?",
+    "options": ["A) Pour traduire les recommandations", "B) Pour comprendre les préférences exprimées en langage naturel et générer des explications textuelles des recommandations", "C) Pour compter les mots", "D) Pour supprimer les mots inutiles"],
+    "answer": "B",
+    "explanation": "Les systèmes conversationnels utilisent le NLP pour comprendre 'Je cherche un film d'action avec Tom Cruise des années 90' et extraire les critères de recherche. Ils génèrent aussi des explications naturelles des recommandations."
+  },
+  {
+    "id": "sr_096",
+    "question": "Pourquoi le 'privacy-preserving recommendation' est-il un enjeu croissant ?",
+    "options": ["A) Les données sont trop volumineuses", "B) Les réglementations (RGPD, CCPA) et la sensibilisation des utilisateurs exigent de recommander sans exploiter des données personnelles sensibles", "C) Pour des raisons de performance", "D) Les données sont de mauvaise qualité"],
+    "answer": "B",
+    "explanation": "Le privacy-preserving recommendation utilise des techniques (federated learning, differential privacy, on-device ML) pour générer des recommandations personnalisées sans envoyer les données brutes au serveur, protégeant la vie privée."
+  },
+  {
+    "id": "sr_097",
+    "question": "Comment le 'reinforcement learning' modélise-t-il la recommandation comme un processus séquentiel ?",
+    "options": ["A) En renforceant les mauvaises recommandations", "B) L'état = profil actuel, l'action = recommandation, la récompense = engagement futur, optimisant le gain cumulé sur plusieurs étapes", "C) En ignorant les interactions passées", "D) En utilisant uniquement la dernière action"],
+    "answer": "B",
+    "explanation": "Le RL modélise la recommandation comme un MDP : chaque recommandation modifie l'état futur de l'utilisateur. L'objectif est de maximiser la récompense cumulée (engagement long terme), pas seulement la récompense immédiate."
+  },
+  {
+ "id": "sr_098",
+    "question": "Pourquoi le 'recbole' et 'cornac' facilitent-ils le benchmarking des systèmes de recommandation ?",
+    "options": ["A) Ils fournissent des serveurs gratuits", "B) Ils unifient les datasets, les protocoles de split et les métriques d'évaluation, rendant les comparaisons entre papiers de recherche justes et reproductibles", "C) Ils remplacent le besoin de publier", "D) Ils sont obligatoires"],
+    "answer": "B",
+    "explanation": "Ces frameworks standardisent le pipeline expérimental : mêmes splits de données, mêmes métriques, mêmes hyperparamètres de base. Cela permet de comparer objectivement les algorithmes sans biais d'implémentation."
+  },
+  {
+    "id": "sr_099",
+    "question": "Comment le 'federated recommendation system' protège-t-il la vie privée des utilisateurs ?",
+    "options": ["A) En chiffrant toutes les données", "B) Le modèle s'entraîne sur l'appareil de l'utilisateur sans envoyer les données brutes ; seuls les gradients agrégés et anonymisés sont partagés", "C) En supprimant les données après usage", "D) En utilisant un VPN"],
+    "answer": "B",
+    "explanation": "Le federated learning pour les recommandations entraîne le modèle localement sur chaque appareil. Seuls les gradients (agrégés via secure aggregation) remontent au serveur. Les données personnelles ne quittent jamais l'appareil."
+  },
+  {
+    "id": "sr_100",
+    "question": "Vous devez concevoir un système de recommandation pour une plateforme de streaming musicale. Quelle architecture complète proposez-vous ?",
+    "options": ["A) Un simple tri par popularité", "B) Retrieval (Two-Tower + ANN pour des millions de titres) → Ranking (DeepFM avec features audio, contexte, historique) → Re-ranking (diversité, fraîcheur) → A/B test continu", "C) Un filtrage collaboratif basique", "D) Un système de recherche par mots-clés"],
+    "answer": "B",
+    "explanation": "L'architecture industrielle combine : retrieval rapide via Two-Tower + FAISS, ranking précis avec DeepFM (audio features + contexte temporel + historique séquentiel), re-ranking (diversité artistique, nouveautés), et validation continue par A/B testing."
+  }
+]

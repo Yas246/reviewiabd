@@ -14,6 +14,7 @@ interface QuizTimerProps {
   initialTime: number; // in seconds
   timeLimit?: number; // in seconds
   onTimeUp?: () => void;
+  onTimeUpdate?: (currentTime: number) => void;
   isPaused?: boolean;
   onTogglePause?: () => void;
   className?: string;
@@ -26,6 +27,7 @@ export function QuizTimer({
   initialTime,
   timeLimit,
   onTimeUp,
+  onTimeUpdate,
   isPaused = false,
   onTogglePause,
   className,
@@ -53,12 +55,13 @@ export function QuizTimer({
           onTimeUp?.();
         }
 
+        onTimeUpdate?.(newTime);
         return newTime;
       });
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [isPaused, mode, timeLimit, onTimeUp]);
+  }, [isPaused, mode, timeLimit, onTimeUp, onTimeUpdate]);
 
   const remainingPercentage = timeLimit
     ? (time / timeLimit) * 100

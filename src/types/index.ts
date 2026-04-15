@@ -88,6 +88,7 @@ export interface QuizSession {
   timeLimit?: number; // in seconds (for exam mode)
   timeRemaining?: number; // in seconds
   examId?: string; // Link to the SavedExam if this is an exam attempt
+  exerciseId?: string; // Link to the SavedExercise if this is an offline exercise
   practiceQuizId?: string; // Link to the SavedPracticeQuiz if this is a practice quiz
   generationProgress?: {
     requestedCount: number;

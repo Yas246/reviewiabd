@@ -90,7 +90,7 @@ export default function HomePage() {
   const [recentSessions, setRecentSessions] = useState<QuizSession[]>([]);
 
   useEffect(() => {
-    const checkOnboarding = async () => {
+    const init = async () => {
       const completed = await storageService.isOnboardingCompleted();
       setChecking(false);
 
@@ -108,7 +108,7 @@ export default function HomePage() {
       await loadRecentSessions();
     };
 
-    checkOnboarding();
+    init();
   }, []);
 
   const loadStatistics = async () => {

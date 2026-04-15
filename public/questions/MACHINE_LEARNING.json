@@ -1,0 +1,1502 @@
+[
+  {
+    "id": "ml-001",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle est la différence principale entre l'apprentissage supervisé et l'apprentissage non supervisé ?",
+    "answers": [
+      { "id": "ml-001-a", "text": "L'apprentissage supervisé utilise des données étiquetées, tandis que le non supervisé utilise des données non étiquetées", "isCorrect": true },
+      { "id": "ml-001-b", "text": "L'apprentissage supervisé est plus rapide que le non supervisé", "isCorrect": false },
+      { "id": "ml-001-c", "text": "L'apprentissage non supervisé nécessite plus de données", "isCorrect": false },
+      { "id": "ml-001-d", "text": "Il n'y a aucune différence entre les deux", "isCorrect": false }
+    ],
+    "explanation": "L'apprentissage supervisé utilise des données d'entraînement avec des étiquettes (labels) connues pour apprendre une fonction de mappage entrée-sortie. L'apprentissage non supervisé travaille sur des données sans étiquettes et cherche à découvrir des structures cachées dans les données.",
+    "difficulty": "easy",
+    "tags": ["supervisé", "non supervisé", "fondamentaux"]
+  },
+  {
+    "id": "ml-002",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel algorithme est utilisé pour résoudre un problème de classification binaire ?",
+    "answers": [
+      { "id": "ml-002-a", "text": "Régression linéaire", "isCorrect": false },
+      { "id": "ml-002-b", "text": "Régression logistique", "isCorrect": true },
+      { "id": "ml-002-c", "text": "K-means", "isCorrect": false },
+      { "id": "ml-002-d", "text": "ACP (Analyse en Composantes Principales)", "isCorrect": false }
+    ],
+    "explanation": "La régression logistique est un algorithme de classification qui modélise la probabilité qu'une observation appartienne à une classe. Malgré son nom, elle est utilisée pour la classification et non la régression. La régression linéaire prédit des valeurs continues, K-means est un algorithme de clustering (non supervisé), et l'ACP est une technique de réduction de dimension.",
+    "difficulty": "easy",
+    "tags": ["classification", "régression logistique", "algorithmes"]
+  },
+  {
+    "id": "ml-003",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Que mesure la précision (accuracy) d'un modèle de classification ?",
+    "answers": [
+      { "id": "ml-003-a", "text": "Le rapport entre les vrais positifs et tous les positifs prédits", "isCorrect": false },
+      { "id": "ml-003-b", "text": "Le rapport entre les vrais positifs et tous les positifs réels", "isCorrect": false },
+      { "id": "ml-003-c", "text": "Le pourcentage de prédictions correctes sur l'ensemble des prédictions", "isCorrect": true },
+      { "id": "ml-003-d", "text": "La moyenne harmonique entre la précision et le rappel", "isCorrect": false }
+    ],
+    "explanation": "La précision (accuracy) = (VP + VN) / (VP + VN + FP + FN). Elle mesure le pourcentage total de prédictions correctes. L'option A décrit la précision (precision), l'option B décrit le rappel (recall), et l'option D décrit le F1-score.",
+    "difficulty": "easy",
+    "tags": ["métriques", "accuracy", "évaluation"]
+  },
+  {
+    "id": "ml-004",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le surapprentissage (overfitting) ?",
+    "answers": [
+      { "id": "ml-004-a", "text": "Le modèle performe mal sur les données d'entraînement et de test", "isCorrect": false },
+      { "id": "ml-004-b", "text": "Le modèle performe très bien sur les données d'entraînement mais mal sur les nouvelles données", "isCorrect": true },
+      { "id": "ml-004-c", "text": "Le modèle est trop simple pour capturer les patterns", "isCorrect": false },
+      { "id": "ml-004-d", "text": "Le modèle converge trop lentement", "isCorrect": false }
+    ],
+    "explanation": "Le surapprentissage se produit quand un modèle apprend le bruit et les détails spécifiques des données d'entraînement au lieu des patterns généraux. Cela résulte en une excellente performance sur les données d'entraînement mais une mauvaise généralisation. L'option C décrit le sous-apprentissage (underfitting).",
+    "difficulty": "easy",
+    "tags": ["overfitting", "généralisation", "biais-variance"]
+  },
+  {
+    "id": "ml-005",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle technique permet de réduire le surapprentissage dans un arbre de décision ?",
+    "answers": [
+      { "id": "ml-005-a", "text": "Augmenter la profondeur maximale de l'arbre", "isCorrect": false },
+      { "id": "ml-005-b", "text": "L'élagage (pruning)", "isCorrect": true },
+      { "id": "ml-005-c", "text": "Supprimer les données d'entraînement", "isCorrect": false },
+      { "id": "ml-005-d", "text": "Utiliser uniquement des variables catégorielles", "isCorrect": false }
+    ],
+    "explanation": "L'élagage (pruning) consiste à retirer des branches de l'arbre qui n'apportent pas assez d'information, réduisant ainsi la complexité du modèle et le surapprentissage. Augmenter la profondeur maximale ferait l'inverse (plus de surapprentissage).",
+    "difficulty": "easy",
+    "tags": ["arbre de décision", "pruning", "overfitting"]
+  },
+  {
+    "id": "ml-006",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans la validation croisée k-fold, que représente k ?",
+    "answers": [
+      { "id": "ml-006-a", "text": "Le nombre de features dans le dataset", "isCorrect": false },
+      { "id": "ml-006-b", "text": "Le nombre de fois que le modèle est entraîné", "isCorrect": false },
+      { "id": "ml-006-c", "text": "Le nombre de partitions (folds) dans lesquelles les données sont divisées", "isCorrect": true },
+      { "id": "ml-006-d", "text": "Le nombre de classes dans un problème de classification", "isCorrect": false }
+    ],
+    "explanation": "Dans la validation croisée k-fold, les données sont divisées en k partitions de taille égale. Le modèle est entraîné k fois, chaque fois en utilisant k-1 partitions pour l'entraînement et la partition restante pour le test. La performance finale est la moyenne des k itérations.",
+    "difficulty": "easy",
+    "tags": ["validation croisée", "k-fold", "évaluation"]
+  },
+  {
+    "id": "ml-007",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est le rôle de la fonction de coût (loss function) dans l'apprentissage automatique ?",
+    "answers": [
+      { "id": "ml-007-a", "text": "Elle mesure l'écart entre les prédictions du modèle et les valeurs réelles", "isCorrect": true },
+      { "id": "ml-007-b", "text": "Elle initialise les poids du modèle", "isCorrect": false },
+      { "id": "ml-007-c", "text": "Elle normalise les données d'entrée", "isCorrect": false },
+      { "id": "ml-007-d", "text": "Elle divise les données en ensembles d'entraînement et de test", "isCorrect": false }
+    ],
+    "explanation": "La fonction de coût (ou fonction de perte) quantifie l'erreur du modèle. L'objectif de l'entraînement est de minimiser cette fonction. Par exemple, l'erreur quadratique moyenne (MSE) pour la régression ou l'entropie croisée pour la classification.",
+    "difficulty": "easy",
+    "tags": ["loss function", "optimisation", "fondamentaux"]
+  },
+  {
+    "id": "ml-008",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel algorithme utilise le concept de marge maximale pour la classification ?",
+    "answers": [
+      { "id": "ml-008-a", "text": "K-plus proches voisins (KNN)", "isCorrect": false },
+      { "id": "ml-008-b", "text": "Naive Bayes", "isCorrect": false },
+      { "id": "ml-008-c", "text": "Support Vector Machine (SVM)", "isCorrect": true },
+      { "id": "ml-008-d", "text": "Arbre de décision", "isCorrect": false }
+    ],
+    "explanation": "Le SVM cherche à trouver l'hyperplan qui sépare les classes avec la plus grande marge possible entre les points les plus proches de chaque classe (vecteurs de support). Cette marge maximale assure une meilleure généralisation.",
+    "difficulty": "easy",
+    "tags": ["SVM", "classification", "marge"]
+  },
+  {
+    "id": "ml-009",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que la normalisation des données (feature scaling) ?",
+    "answers": [
+      { "id": "ml-009-a", "text": "Transformer les variables catégorielles en numériques", "isCorrect": false },
+      { "id": "ml-009-b", "text": "Mettre toutes les features sur une échelle comparable (ex: entre 0 et 1)", "isCorrect": true },
+      { "id": "ml-009-c", "text": "Supprimer les valeurs aberrantes", "isCorrect": false },
+      { "id": "ml-009-d", "text": "Ajouter de nouvelles features au dataset", "isCorrect": false }
+    ],
+    "explanation": "La normalisation (ou mise à l'échelle) consiste à ramener les variables numériques sur une échelle commune, par exemple entre 0 et 1 (min-max scaling) ou avec moyenne 0 et écart-type 1 (standardisation). C'est important pour les algorithmes sensibles à l'échelle comme KNN, SVM ou la descente de gradient.",
+    "difficulty": "easy",
+    "tags": ["preprocessing", "normalisation", "feature scaling"]
+  },
+  {
+    "id": "ml-010",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle est la différence entre la régression linéaire simple et la régression linéaire multiple ?",
+    "answers": [
+      { "id": "ml-010-a", "text": "La régression simple utilise une seule variable explicative, la régression multiple en utilise plusieurs", "isCorrect": true },
+      { "id": "ml-010-b", "text": "La régression simple est plus précise que la multiple", "isCorrect": false },
+      { "id": "ml-010-c", "text": "La régression multiple ne peut pas modéliser de relations linéaires", "isCorrect": false },
+      { "id": "ml-010-d", "text": "Il n'y a aucune différence", "isCorrect": false }
+    ],
+    "explanation": "La régression linéaire simple modélise la relation entre une variable dépendante (Y) et une seule variable indépendante (X). La régression linéaire multiple étend cela à plusieurs variables indépendantes (X1, X2, ..., Xn).",
+    "difficulty": "easy",
+    "tags": ["régression", "linéaire", "fondamentaux"]
+  },
+  {
+    "id": "ml-011",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Que représente le coefficient R² dans une régression linéaire ?",
+    "answers": [
+      { "id": "ml-011-a", "text": "Le nombre de variables indépendantes dans le modèle", "isCorrect": false },
+      { "id": "ml-011-b", "text": "La proportion de la variance de la variable cible expliquée par le modèle", "isCorrect": true },
+      { "id": "ml-011-c", "text": "La pente de la droite de régression", "isCorrect": false },
+      { "id": "ml-011-d", "text": "L'erreur moyenne absolue du modèle", "isCorrect": false }
+    ],
+    "explanation": "Le coefficient de détermination R² mesure la proportion de la variance de la variable dépendante qui est expliquée par les variables indépendantes. R² = 1 signifie un ajustement parfait, R² = 0 signifie que le modèle n'explique aucune variance.",
+    "difficulty": "medium",
+    "tags": ["régression", "R²", "métriques"]
+  },
+  {
+    "id": "ml-012",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans l'algorithme KNN, que se passe-t-il si k = 1 ?",
+    "answers": [
+      { "id": "ml-012-a", "text": "Le modèle prédit la classe majoritaire de tous les voisins", "isCorrect": false },
+      { "id": "ml-012-b", "text": "Le modèle prédit la classe du point le plus proche", "isCorrect": true },
+      { "id": "ml-012-c", "text": "Le modèle fait la moyenne de toutes les classes", "isCorrect": false },
+      { "id": "ml-012-d", "text": "Le modèle ignore les données d'entraînement", "isCorrect": false }
+    ],
+    "explanation": "Avec k = 1, l'algorithme KNN assigne à un nouveau point la classe de son plus proche voisin dans l'espace des features. Cela rend le modèle très sensible au bruit et au surapprentissage.",
+    "difficulty": "easy",
+    "tags": ["KNN", "classification", "hyperparamètres"]
+  },
+  {
+    "id": "ml-013",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est le principe de base de l'algorithme Naive Bayes ?",
+    "answers": [
+      { "id": "ml-013-a", "text": "Maximiser la marge entre les classes", "isCorrect": false },
+      { "id": "ml-013-b", "text": "Appliquer le théorème de Bayes avec l'hypothèse d'indépendance conditionnelle entre les features", "isCorrect": true },
+      { "id": "ml-013-c", "text": "Construire un arbre de décision optimal", "isCorrect": false },
+      { "id": "ml-013-d", "text": "Minimiser la distance intra-cluster", "isCorrect": false }
+    ],
+    "explanation": "Naive Bayes utilise le théorème de Bayes pour calculer la probabilité a posteriori de chaque classe. Il est dit 'naive' car il suppose que toutes les features sont conditionnellement indépendantes entre elles, ce qui simplifie les calculs.",
+    "difficulty": "easy",
+    "tags": ["Naive Bayes", "probabilités", "classification"]
+  },
+  {
+    "id": "ml-014",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle métrique est la plus adaptée pour évaluer un modèle sur un dataset déséquilibré ?",
+    "answers": [
+      { "id": "ml-014-a", "text": "Accuracy", "isCorrect": false },
+      { "id": "ml-014-b", "text": "F1-score", "isCorrect": true },
+      { "id": "ml-014-c", "text": "Erreur absolue moyenne", "isCorrect": false },
+      { "id": "ml-014-d", "text": "R²", "isCorrect": false }
+    ],
+    "explanation": "Sur un dataset déséquilibré, l'accuracy peut être trompeuse (un modèle qui prédit toujours la classe majoritaire peut avoir une accuracy élevée). Le F1-score, moyenne harmonique de la précision et du rappel, donne une meilleure évaluation de la performance sur la classe minoritaire.",
+    "difficulty": "medium",
+    "tags": ["métriques", "déséquilibre", "F1-score"]
+  },
+  {
+    "id": "ml-015",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que la descente de gradient stochastique (SGD) ?",
+    "answers": [
+      { "id": "ml-015-a", "text": "Une méthode qui utilise toutes les données à chaque itération", "isCorrect": false },
+      { "id": "ml-015-b", "text": "Une méthode d'optimisation qui met à jour les paramètres après chaque exemple d'entraînement", "isCorrect": true },
+      { "id": "ml-015-c", "text": "Un algorithme de clustering", "isCorrect": false },
+      { "id": "ml-015-d", "text": "Une technique de régularisation", "isCorrect": false }
+    ],
+    "explanation": "La descente de gradient stochastique (SGD) est une variante de la descente de gradient qui met à jour les paramètres du modèle après chaque exemple d'entraînement individuel, plutôt que d'utiliser l'ensemble complet des données. Cela rend les mises à jour plus fréquentes mais plus bruitées, ce qui peut aider à échapper aux minima locaux.",
+    "difficulty": "medium",
+    "tags": ["optimisation", "gradient", "SGD"]
+  },
+  {
+    "id": "ml-016",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est l'effet du paramètre de régularisation lambda (λ) dans la régression Ridge ?",
+    "answers": [
+      { "id": "ml-016-a", "text": "Il augmente le nombre de features", "isCorrect": false },
+      { "id": "ml-016-b", "text": "Il pénalise les coefficients élevés pour réduire le surapprentissage", "isCorrect": true },
+      { "id": "ml-016-c", "text": "Il augmente la vitesse de convergence", "isCorrect": false },
+      { "id": "ml-016-d", "text": "Il sélectionne automatiquement les meilleures features", "isCorrect": false }
+    ],
+    "explanation": "La régression Ridge ajoute un terme de pénalité λ||w||² à la fonction de coût, qui pénalise les coefficients (poids) élevés. Plus λ est grand, plus les coefficients sont contraints vers zéro, ce qui réduit la complexité du modèle et le surapprentissage.",
+    "difficulty": "medium",
+    "tags": ["régularisation", "Ridge", "overfitting"]
+  },
+  {
+    "id": "ml-017",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle est la différence entre la régression Ridge et la régression Lasso ?",
+    "answers": [
+      { "id": "ml-017-a", "text": "Ridge utilise la norme L2, Lasso utilise la norme L1", "isCorrect": true },
+      { "id": "ml-017-b", "text": "Ridge effectue une sélection de features, Lasso non", "isCorrect": false },
+      { "id": "ml-017-c", "text": "Il n'y a aucune différence", "isCorrect": false },
+      { "id": "ml-017-d", "text": "Lasso est toujours préférable à Ridge", "isCorrect": false }
+    ],
+    "explanation": "La régression Ridge pénalise avec la norme L2 (somme des carrés des coefficients), tandis que Lasso utilise la norme L1 (somme des valeurs absolues). La norme L1 peut réduire certains coefficients exactement à zéro, effectuant ainsi une sélection de features automatique, contrairement à Ridge.",
+    "difficulty": "medium",
+    "tags": ["régularisation", "Lasso", "Ridge", "L1 vs L2"]
+  },
+  {
+    "id": "ml-018",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que l'ensemble learning (apprentissage d'ensemble) ?",
+    "answers": [
+      { "id": "ml-018-a", "text": "Entraîner un seul modèle très complexe", "isCorrect": false },
+      { "id": "ml-018-b", "text": "Combiner plusieurs modèles pour obtenir de meilleures performances", "isCorrect": true },
+      { "id": "ml-018-c", "text": "Utiliser uniquement des réseaux de neurones", "isCorrect": false },
+      { "id": "ml-018-d", "text": "Entraîner sur un ensemble de données très petit", "isCorrect": false }
+    ],
+    "explanation": "L'apprentissage d'ensemble combine les prédictions de plusieurs modèles (apprenants de base) pour produire une prédiction finale meilleure que celle de n'importe quel modèle individuel. Les méthodes populaires incluent le Bagging (Random Forest), le Boosting (AdaBoost, Gradient Boosting) et le Stacking.",
+    "difficulty": "easy",
+    "tags": ["ensemble", "bagging", "boosting"]
+  },
+  {
+    "id": "ml-019",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Comment le Random Forest construit-il ses arbres de décision ?",
+    "answers": [
+      { "id": "ml-019-a", "text": "Chaque arbre utilise toutes les données et toutes les features", "isCorrect": false },
+      { "id": "ml-019-b", "text": "Chaque arbre est entraîné sur un sous-ensemble aléatoire des données et des features", "isCorrect": true },
+      { "id": "ml-019-c", "text": "Tous les arbres partagent les mêmes paramètres", "isCorrect": false },
+      { "id": "ml-019-d", "text": "Un seul arbre est construit puis dupliqué", "isCorrect": false }
+    ],
+    "explanation": "Le Random Forest utilise le Bagging : chaque arbre est entraîné sur un échantillon bootstrap (tirage avec remise) des données. De plus, à chaque split, seul un sous-ensemble aléatoire des features est considéré. Cette double randomisation réduit la corrélation entre les arbres et améliore la généralisation.",
+    "difficulty": "medium",
+    "tags": ["Random Forest", "bagging", "arbres"]
+  },
+  {
+    "id": "ml-020",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle est la différence entre Bagging et Boosting ?",
+    "answers": [
+      { "id": "ml-020-a", "text": "Le Bagging entraîne les modèles en parallèle, le Boosting les entraîne séquentiellement", "isCorrect": true },
+      { "id": "ml-020-b", "text": "Le Boosting est toujours plus rapide que le Bagging", "isCorrect": false },
+      { "id": "ml-020-c", "text": "Le Bagging pondère les modèles, le Boosting non", "isCorrect": false },
+      { "id": "ml-020-d", "text": "Il n'y a aucune différence", "isCorrect": false }
+    ],
+    "explanation": "Le Bagging (Bootstrap Aggregating) entraîne plusieurs modèles indépendamment en parallèle sur des sous-ensembles différents. Le Boosting entraîne les modèles séquentiellement, chaque nouveau modèle corrigeant les erreurs du précédent. Le Boosting pondère les observations difficiles, pas les modèles.",
+    "difficulty": "medium",
+    "tags": ["ensemble", "bagging", "boosting"]
+  },
+  {
+    "id": "ml-021",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Que mesure l'indice de Gini dans un arbre de décision ?",
+    "answers": [
+      { "id": "ml-021-a", "text": "La profondeur de l'arbre", "isCorrect": false },
+      { "id": "ml-021-b", "text": "Le degré d'impureté d'un nœud", "isCorrect": true },
+      { "id": "ml-021-c", "text": "Le nombre de feuilles", "isCorrect": false },
+      { "id": "ml-021-d", "text": "La variance des prédictions", "isCorrect": false }
+    ],
+    "explanation": "L'indice de Gini mesure l'impureté d'un nœud dans un arbre de décision. Gini = 0 signifie un nœud pur (toutes les observations appartiennent à la même classe). Gini = 0.5 (pour 2 classes) signifie une répartition égale. L'algorithme cherche les splits qui minimisent l'indice de Gini.",
+    "difficulty": "medium",
+    "tags": ["arbre de décision", "Gini", "impureté"]
+  },
+  {
+    "id": "ml-022",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que la validation croisée leave-one-out (LOOCV) ?",
+    "answers": [
+      { "id": "ml-022-a", "text": "Diviser les données en 2 parties égales", "isCorrect": false },
+      { "id": "ml-022-b", "text": "Utiliser un seul point comme ensemble de test à chaque itération", "isCorrect": true },
+      { "id": "ml-022-c", "text": "Supprimer la moitié des features", "isCorrect": false },
+      { "id": "ml-022-d", "text": "Laisser de côté les valeurs aberrantes", "isCorrect": false }
+    ],
+    "explanation": "LOOCV est un cas particulier de la validation croisée k-fold où k = n (le nombre d'observations). À chaque itération, un seul point est utilisé comme ensemble de test et tous les autres comme ensemble d'entraînement. Cela donne une estimation très précise mais est coûteux en calcul.",
+    "difficulty": "medium",
+    "tags": ["validation croisée", "LOOCV", "évaluation"]
+  },
+  {
+    "id": "ml-023",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est le problème du curseur de la dimensionnalité (curse of dimensionality) ?",
+    "answers": [
+      { "id": "ml-023-a", "text": "Les modèles deviennent trop simples quand le nombre de features augmente", "isCorrect": false },
+      { "id": "ml-023-b", "text": "Le volume de l'espace croît si vite que les données deviennent éparses, rendant les distances moins significatives", "isCorrect": true },
+      { "id": "ml-023-c", "text": "Les algorithmes convergent trop vite en haute dimension", "isCorrect": false },
+      { "id": "ml-023-d", "text": "Il n'y a pas assez de features disponibles", "isCorrect": false }
+    ],
+    "explanation": "En haute dimension, l'espace des features croît exponentiellement, rendant les données de plus en plus éparses. Les mesures de distance perdent leur signification (tous les points tendent à être à la même distance), ce qui affecte particulièrement les algorithmes basés sur la distance comme KNN.",
+    "difficulty": "medium",
+    "tags": ["dimensionnalité", "features", "distance"]
+  },
+  {
+    "id": "ml-024",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle technique de sélection de features utilise le score d'importance des features d'un Random Forest ?",
+    "answers": [
+      { "id": "ml-024-a", "text": "Sélection par filtrage (filter method)", "isCorrect": false },
+      { "id": "ml-024-b", "text": "Sélection encapsulée (wrapper method)", "isCorrect": false },
+      { "id": "ml-024-c", "text": "Sélection intégrée (embedded method)", "isCorrect": true },
+      { "id": "ml-024-d", "text": "ACP (PCA)", "isCorrect": false }
+    ],
+    "explanation": "L'importance des features dans un Random Forest est calculée pendant l'entraînement du modèle (en mesurant la diminution moyenne d'impureté). C'est une méthode intégrée (embedded) car la sélection est effectuée pendant l'apprentissage du modèle, contrairement aux méthodes de filtrage (avant) ou encapsulées (autour du modèle).",
+    "difficulty": "medium",
+    "tags": ["sélection de features", "Random Forest", "feature importance"]
+  },
+  {
+    "id": "ml-025",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans l'algorithme K-means, comment les centroïdes sont-ils mis à jour ?",
+    "answers": [
+      { "id": "ml-025-a", "text": "En choisissant les points les plus éloignés", "isCorrect": false },
+      { "id": "ml-025-b", "text": "En calculant la moyenne des points assignés à chaque cluster", "isCorrect": true },
+      { "id": "ml-025-c", "text": "En sélectionnant le point médian aléatoirement", "isCorrect": false },
+      { "id": "ml-025-d", "text": "En utilisant la médiane des points", "isCorrect": false }
+    ],
+    "explanation": "À chaque itération de K-means, après avoir assigné chaque point au cluster dont le centroïde est le plus proche, les centroïdes sont recalculés comme la moyenne de tous les points assignés au cluster. C'est ce qui donne son nom à l'algorithme (K-means = K moyennes).",
+    "difficulty": "easy",
+    "tags": ["K-means", "clustering", "centroïdes"]
+  },
+  {
+    "id": "ml-026",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que la matrice de confusion ?",
+    "answers": [
+      { "id": "ml-026-a", "text": "Un tableau qui résume les performances d'un modèle de classification", "isCorrect": true },
+      { "id": "ml-026-b", "text": "Une matrice des corrélations entre features", "isCorrect": false },
+      { "id": "ml-026-c", "text": "Un graphique de la loss pendant l'entraînement", "isCorrect": false },
+      { "id": "ml-026-d", "text": "Un tableau des hyperparamètres optimaux", "isCorrect": false }
+    ],
+    "explanation": "La matrice de confusion est un tableau qui montre les vrais positifs (VP), vrais négatifs (VN), faux positifs (FP) et faux négatifs (FN). Elle permet de calculer l'accuracy, la précision, le rappel, le F1-score et de visualiser les erreurs du modèle.",
+    "difficulty": "easy",
+    "tags": ["matrice de confusion", "évaluation", "classification"]
+  },
+  {
+    "id": "ml-027",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel hyperparamètre contrôle le compromis biais-variance dans un modèle ?",
+    "answers": [
+      { "id": "ml-027-a", "text": "Le learning rate uniquement", "isCorrect": false },
+      { "id": "ml-027-b", "text": "La complexité du modèle (ex: profondeur d'un arbre, C dans SVM)", "isCorrect": true },
+      { "id": "ml-027-c", "text": "La taille du dataset", "isCorrect": false },
+      { "id": "ml-027-d", "text": "Le nombre de classes", "isCorrect": false }
+    ],
+    "explanation": "Le compromis biais-variance est contrôlé par la complexité du modèle. Un modèle trop simple aura un biais élevé (underfitting), un modèle trop complexe aura une variance élevée (overfitting). La profondeur d'un arbre, le paramètre C dans SVM, ou le nombre de voisins k dans KNN sont des exemples d'hyperparamètres qui contrôlent ce compromis.",
+    "difficulty": "medium",
+    "tags": ["biais-variance", "hyperparamètres", "compromis"]
+  },
+  {
+    "id": "ml-028",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le seuil de décision (decision threshold) dans une classification binaire ?",
+    "answers": [
+      { "id": "ml-028-a", "text": "Le nombre minimum de features nécessaires", "isCorrect": false },
+      { "id": "ml-028-b", "text": "La valeur de probabilité au-dessus de laquelle on prédit la classe positive", "isCorrect": true },
+      { "id": "ml-028-c", "text": "La valeur maximale de la loss", "isCorrect": false },
+      { "id": "ml-028-d", "text": "Le nombre d'époques d'entraînement", "isCorrect": false }
+    ],
+    "explanation": "Le seuil de décision détermine à partir de quelle probabilité prédite on classe une observation dans la classe positive. Par défaut il est de 0.5, mais il peut être ajusté pour privilégier la précision (seuil élevé) ou le rappel (seuil bas), selon le problème.",
+    "difficulty": "medium",
+    "tags": ["classification", "seuil", "probabilités"]
+  },
+  {
+    "id": "ml-029",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle courbe permet de visualiser le compromis entre le taux de vrais positifs et le taux de faux positifs ?",
+    "answers": [
+      { "id": "ml-029-a", "text": "La courbe de validation", "isCorrect": false },
+      { "id": "ml-029-b", "text": "La courbe ROC (Receiver Operating Characteristic)", "isCorrect": true },
+      { "id": "ml-029-c", "text": "La courbe d'apprentissage", "isCorrect": false },
+      { "id": "ml-029-d", "text": "La courbe de loss", "isCorrect": false }
+    ],
+    "explanation": "La courbe ROC trace le taux de vrais positifs (sensibilité) en fonction du taux de faux positifs (1-spécificité) pour différents seuils de décision. L'Aire Sous la Courbe (AUC-ROC) résume la performance globale du modèle : 1.0 = parfait, 0.5 = aléatoire.",
+    "difficulty": "medium",
+    "tags": ["ROC", "AUC", "évaluation"]
+  },
+  {
+    "id": "ml-030",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est le rôle de l'hyperparamètre C dans un SVM ?",
+    "answers": [
+      { "id": "ml-030-a", "text": "Il détermine le nombre de clusters", "isCorrect": false },
+      { "id": "ml-030-b", "text": "Il contrôle le compromis entre une marge large et la classification correcte des points", "isCorrect": true },
+      { "id": "ml-030-c", "text": "Il fixe le nombre de features", "isCorrect": false },
+      { "id": "ml-030-d", "text": "Il détermine la profondeur de l'arbre", "isCorrect": false }
+    ],
+    "explanation": "Le paramètre C est le paramètre de régularisation du SVM. Un C faible permet une marge plus large et tolère plus d'erreurs de classification (plus de biais, moins de variance). Un C élevé essaie de classer correctement tous les points (moins de biais, plus de variance).",
+    "difficulty": "medium",
+    "tags": ["SVM", "hyperparamètres", "régularisation"]
+  },
+  {
+    "id": "ml-031",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est le noyau (kernel) le plus couramment utilisé dans un SVM pour des données non linéairement séparables ?",
+    "answers": [
+      { "id": "ml-031-a", "text": "Le noyau linéaire", "isCorrect": false },
+      { "id": "ml-031-b", "text": "Le noyau RBF (Radial Basis Function)", "isCorrect": true },
+      { "id": "ml-031-c", "text": "Le noyau polynomial de degré 1", "isCorrect": false },
+      { "id": "ml-031-d", "text": "Le noyau sigmoid", "isCorrect": false }
+    ],
+    "explanation": "Le noyau RBF (ou noyau gaussien) est le plus utilisé car il peut mapper les données dans un espace de dimension infinie, permettant de séparer des données très complexes. Il a un seul hyperparamètre (gamma) à régler, ce qui le rend pratique.",
+    "difficulty": "medium",
+    "tags": ["SVM", "kernel", "RBF"]
+  },
+  {
+    "id": "ml-032",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle est la différence entre un paramètre et un hyperparamètre ?",
+    "answers": [
+      { "id": "ml-032-a", "text": "Les paramètres sont appris pendant l'entraînement, les hyperparamètres sont définis avant", "isCorrect": true },
+      { "id": "ml-032-b", "text": "Ce sont la même chose", "isCorrect": false },
+      { "id": "ml-032-c", "text": "Les hyperparamètres sont appris automatiquement", "isCorrect": false },
+      { "id": "ml-032-d", "text": "Les paramètres sont toujours des entiers", "isCorrect": false }
+    ],
+    "explanation": "Les paramètres (poids, biais) sont appris par le modèle pendant l'entraînement via l'optimisation. Les hyperparamètres (learning rate, profondeur d'arbre, k dans KNN) sont définis avant l'entraînement et contrôlent le processus d'apprentissage. Le réglage des hyperparamètres se fait par grid search, random search ou optimisation bayésienne.",
+    "difficulty": "easy",
+    "tags": ["paramètres", "hyperparamètres", "fondamentaux"]
+  },
+  {
+    "id": "ml-033",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le Gradient Boosting ?",
+    "answers": [
+      { "id": "ml-033-a", "text": "Une méthode qui entraîne des arbres séquentiellement, chaque arbre corrigeant les erreurs résiduelles du précédent", "isCorrect": true },
+      { "id": "ml-033-b", "text": "Une méthode qui entraîne tous les arbres en parallèle", "isCorrect": false },
+      { "id": "ml-033-c", "text": "Un algorithme qui utilise uniquement des réseaux de neurones", "isCorrect": false },
+      { "id": "ml-033-d", "text": "Une technique de réduction de dimension", "isCorrect": false }
+    ],
+    "explanation": "Le Gradient Boosting construit des arbres de décision séquentiellement. Chaque nouvel arbre est entraîné sur les résidus (erreurs) du modèle combiné précédent. L'algorithme minimise une fonction de perte en suivant la direction opposée du gradient. XGBoost, LightGBM et CatBoost sont des implémentations populaires.",
+    "difficulty": "medium",
+    "tags": ["gradient boosting", "ensemble", "XGBoost"]
+  },
+  {
+    "id": "ml-034",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est le rôle du learning rate dans la descente de gradient ?",
+    "answers": [
+      { "id": "ml-034-a", "text": "Il contrôle la taille des pas de mise à jour des paramètres", "isCorrect": true },
+      { "id": "ml-034-b", "text": "Il détermine le nombre d'époques", "isCorrect": false },
+      { "id": "ml-034-c", "text": "Il fixe le nombre de couches du réseau", "isCorrect": false },
+      { "id": "ml-034-d", "text": "Il calcule la fonction d'activation", "isCorrect": false }
+    ],
+    "explanation": "Le learning rate (taux d'apprentissage) contrôle l'amplitude des mises à jour des paramètres : θ = θ - α·∇J(θ). Un learning rate trop grand peut faire diverger l'algorithme, un trop petit rend la convergence très lente ou peut piéger le modèle dans un minimum local.",
+    "difficulty": "easy",
+    "tags": ["learning rate", "optimisation", "gradient"]
+  },
+  {
+    "id": "ml-035",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que l'analyse en composantes principales (ACP / PCA) ?",
+    "answers": [
+      { "id": "ml-035-a", "text": "Un algorithme de classification supervisée", "isCorrect": false },
+      { "id": "ml-035-b", "text": "Une technique de réduction de dimension qui projette les données sur les axes de variance maximale", "isCorrect": true },
+      { "id": "ml-035-c", "text": "Une méthode de clustering hiérarchique", "isCorrect": false },
+      { "id": "ml-035-d", "text": "Un algorithme de détection d'anomalies", "isCorrect": false }
+    ],
+    "explanation": "L'ACP identifie les directions (composantes principales) qui capturent le maximum de variance dans les données. En projetant les données sur les premières composantes, on réduit la dimensionnalité tout en préservant l'information maximale. C'est une technique non supervisée.",
+    "difficulty": "easy",
+    "tags": ["PCA", "réduction de dimension", "ACP"]
+  },
+  {
+    "id": "ml-036",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Que signifie l'acronyme AUC et que mesure-t-elle ?",
+    "answers": [
+      { "id": "ml-036-a", "text": "Automatic Underlying Computation - mesure la vitesse de calcul", "isCorrect": false },
+      { "id": "ml-036-b", "text": "Area Under the Curve - mesure la capacité de discrimination globale d'un classificateur binaire", "isCorrect": true },
+      { "id": "ml-036-c", "text": "Average Uncertainty Coefficient - mesure l'incertitude", "isCorrect": false },
+      { "id": "ml-036-d", "text": "Adjusted Uniform Classification - mesure la normalisation", "isCorrect": false }
+    ],
+    "explanation": "L'AUC (Area Under the ROC Curve) mesure la performance globale d'un classificateur binaire. AUC = 1.0 indique un modèle parfait, AUC = 0.5 indique un modèle aléatoire. Elle représente la probabilité que le modèle classe un exemple positif aléatoire plus haut qu'un exemple négatif aléatoire.",
+    "difficulty": "medium",
+    "tags": ["AUC", "ROC", "métriques"]
+  },
+  {
+    "id": "ml-037",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle est la différence entre un modèle paramétrique et un modèle non paramétrique ?",
+    "answers": [
+      { "id": "ml-037-a", "text": "Un modèle paramétrique suppose une forme fonctionnelle fixe, un non paramétrique non", "isCorrect": true },
+      { "id": "ml-037-b", "text": "Les modèles non paramétriques n'ont aucun paramètre", "isCorrect": false },
+      { "id": "ml-037-c", "text": "Les modèles paramétriques sont toujours plus performants", "isCorrect": false },
+      { "id": "ml-037-d", "text": "Il n'y a pas de différence pratique", "isCorrect": false }
+    ],
+    "explanation": "Un modèle paramétrique (régression linéaire, Naive Bayes) suppose une forme fonctionnelle fixe avec un nombre fixe de paramètres. Un modèle non paramétrique (KNN, arbre de décision) n'a pas de forme fonctionnelle prédéfinie et sa complexité croît avec les données. 'Non paramétrique' ne signifie pas 'sans paramètre'.",
+    "difficulty": "medium",
+    "tags": ["paramétrique", "non paramétrique", "fondamentaux"]
+  },
+  {
+    "id": "ml-038",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Pourquoi utilise-t-on l'encodage one-hot pour les variables catégorielles ?",
+    "answers": [
+      { "id": "ml-038-a", "text": "Pour réduire le nombre de features", "isCorrect": false },
+      { "id": "ml-038-b", "text": "Pour éviter que le modèle interprète les catégories comme ayant un ordre numérique", "isCorrect": true },
+      { "id": "ml-038-c", "text": "Pour augmenter la vitesse d'entraînement", "isCorrect": false },
+      { "id": "ml-038-d", "text": "Pour éliminer les valeurs manquantes", "isCorrect": false }
+    ],
+    "explanation": "L'encodage one-hot crée une colonne binaire par catégorie unique (1 si la catégorie est présente, 0 sinon). Cela empêche le modèle d'inférer un ordre entre les catégories (ex: 'Rouge'=1, 'Bleu'=2, 'Vert'=3 impliquerait faussement Vert > Bleu > Rouge).",
+    "difficulty": "easy",
+    "tags": ["encodage", "one-hot", "preprocessing"]
+  },
+  {
+    "id": "ml-039",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que l'apprentissage par renforcement (reinforcement learning) ?",
+    "answers": [
+      { "id": "ml-039-a", "text": "Un apprentissage où le modèle reçoit des récompenses ou punitions selon ses actions", "isCorrect": true },
+      { "id": "ml-039-b", "text": "Un apprentissage sur des données étiquetées", "isCorrect": false },
+      { "id": "ml-039-c", "text": "Un apprentissage qui regroupe les données similaires", "isCorrect": false },
+      { "id": "ml-039-d", "text": "Un apprentissage qui transfère les connaissances d'un domaine à un autre", "isCorrect": false }
+    ],
+    "explanation": "L'apprentissage par renforcement est un paradigme où un agent interagit avec un environnement, prend des actions et reçoit des récompenses ou punitions. L'objectif est de maximiser la récompense cumulative. Exemples : AlphaGo, robotique, conduite autonome. B décrit le supervisé, C le non supervisé, D le transfer learning.",
+    "difficulty": "easy",
+    "tags": ["renforcement", "agent", "récompense"]
+  },
+  {
+    "id": "ml-040",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le dropout et dans quel contexte est-il utilisé ?",
+    "answers": [
+      { "id": "ml-040-a", "text": "Une technique de suppression aléatoire de neurones pendant l'entraînement pour éviter le surapprentissage", "isCorrect": true },
+      { "id": "ml-040-b", "text": "Une méthode pour supprimer des features peu importantes", "isCorrect": false },
+      { "id": "ml-040-c", "text": "Un algorithme de clustering", "isCorrect": false },
+      { "id": "ml-040-d", "text": "Une technique d'augmentation de données", "isCorrect": false }
+    ],
+    "explanation": "Le dropout est une technique de régularisation pour les réseaux de neurones. Pendant l'entraînement, une fraction des neurones est désactivée aléatoirement à chaque passe. Cela empêche les neurones de trop co-adapter leurs poids et force le réseau à apprendre des représentations plus robustes.",
+    "difficulty": "medium",
+    "tags": ["dropout", "régularisation", "réseaux de neurones"]
+  },
+  {
+    "id": "ml-041",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel algorithme de clustering ne nécessite pas de spécifier le nombre de clusters à l'avance ?",
+    "answers": [
+      { "id": "ml-041-a", "text": "K-means", "isCorrect": false },
+      { "id": "ml-041-b", "text": "DBSCAN", "isCorrect": true },
+      { "id": "ml-041-c", "text": "K-medoids", "isCorrect": false },
+      { "id": "ml-041-d", "text": "Clustering hiérarchique agglomératif", "isCorrect": false }
+    ],
+    "explanation": "DBSCAN (Density-Based Spatial Clustering of Applications with Noise) découvre les clusters basés sur la densité des points. Il détermine automatiquement le nombre de clusters et peut identifier les points de bruit. K-means et K-medoids nécessitent k en entrée. Le clustering hiérarchique nécessite un seuil de coupe.",
+    "difficulty": "medium",
+    "tags": ["DBSCAN", "clustering", "densité"]
+  },
+  {
+    "id": "ml-042",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le théorème No Free Lunch en machine learning ?",
+    "answers": [
+      { "id": "ml-042-a", "text": "Tous les algorithmes sont gratuits", "isCorrect": false },
+      { "id": "ml-042-b", "text": "Aucun algorithme ne surpasse tous les autres sur tous les problèmes possibles", "isCorrect": true },
+      { "id": "ml-042-c", "text": "Les modèles simples sont toujours meilleurs", "isCorrect": false },
+      { "id": "ml-042-d", "text": "Le deep learning résout tous les problèmes", "isCorrect": false }
+    ],
+    "explanation": "Le théorème No Free Lunch stipule qu'en moyennant sur tous les problèmes possibles, aucun algorithme d'apprentissage ne fait mieux qu'un autre. En pratique, cela signifie qu'il faut choisir l'algorithme adapté au problème spécifique et aux données disponibles. Il n'existe pas d'algorithme universellement supérieur.",
+    "difficulty": "medium",
+    "tags": ["théorème", "No Free Lunch", "fondamentaux"]
+  },
+  {
+    "id": "ml-043",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle est la fonction d'activation la plus utilisée dans les couches cachées des réseaux de neurones profonds ?",
+    "answers": [
+      { "id": "ml-043-a", "text": "Sigmoïde", "isCorrect": false },
+      { "id": "ml-043-b", "text": "ReLU (Rectified Linear Unit)", "isCorrect": true },
+      { "id": "ml-043-c", "text": "Tanh", "isCorrect": false },
+      { "id": "ml-043-d", "text": "Softmax", "isCorrect": false }
+    ],
+    "explanation": "ReLU (f(x) = max(0, x)) est la fonction d'activation la plus utilisée dans les couches cachées car elle est simple, rapide à calculer et résout le problème de la disparition du gradient. Sigmoïde et Tanh souffrent de ce problème dans les réseaux profonds. Softmax est utilisé en couche de sortie pour la classification multi-classes.",
+    "difficulty": "easy",
+    "tags": ["activation", "ReLU", "réseaux de neurones"]
+  },
+  {
+    "id": "ml-044",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le SMOTE et quand l'utilise-t-on ?",
+    "answers": [
+      { "id": "ml-044-a", "text": "Un algorithme de clustering pour les grands datasets", "isCorrect": false },
+      { "id": "ml-044-b", "text": "Une technique de suréchantillonnage pour traiter les datasets déséquilibrés", "isCorrect": true },
+      { "id": "ml-044-c", "text": "Une méthode de sélection de features", "isCorrect": false },
+      { "id": "ml-044-d", "text": "Un algorithme de réduction de dimension", "isCorrect": false }
+    ],
+    "explanation": "SMOTE (Synthetic Minority Over-sampling Technique) génère des exemples synthétiques de la classe minoritaire en interpolant entre les points existants. Cela aide à équilibrer le dataset sans simple duplication, améliorant la performance des modèles sur les classes minoritaires.",
+    "difficulty": "medium",
+    "tags": ["SMOTE", "déséquilibre", "suréchantillonnage"]
+  },
+  {
+    "id": "ml-045",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle est la différence entre un type I (faux positif) et un type II (faux négatif) ?",
+    "answers": [
+      { "id": "ml-045-a", "text": "Type I : rejeter H0 alors qu'elle est vraie. Type II : ne pas rejeter H0 alors qu'elle est fausse", "isCorrect": true },
+      { "id": "ml-045-b", "text": "Type I et Type II sont identiques", "isCorrect": false },
+      { "id": "ml-045-c", "text": "Type I : accepter H0. Type II : rejeter H0", "isCorrect": false },
+      { "id": "ml-045-d", "text": "Type I concerne la régression, Type II la classification", "isCorrect": false }
+    ],
+    "explanation": "En statistiques et ML : un faux positif (Type I) prédit un effet qui n'existe pas (ex: diagnostic positif alors que le patient est sain). Un faux négatif (Type II) rate un effet qui existe (ex: diagnostic négatif alors que le patient est malade). Le choix du seuil de décision dépend du coût relatif de chaque type d'erreur.",
+    "difficulty": "medium",
+    "tags": ["erreurs", "Type I", "Type II", "statistiques"]
+  },
+  {
+    "id": "ml-046",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que la méthode elbow (méthode du coude) en clustering ?",
+    "answers": [
+      { "id": "ml-046-a", "text": "Une technique pour choisir le nombre optimal de clusters K", "isCorrect": true },
+      { "id": "ml-046-b", "text": "Une méthode d'entraînement des réseaux de neurones", "isCorrect": false },
+      { "id": "ml-046-c", "text": "Une technique de prétraitement des données", "isCorrect": false },
+      { "id": "ml-046-d", "text": "Un algorithme de classification", "isCorrect": false }
+    ],
+    "explanation": "La méthode du coude trace l'inertie intra-cluster en fonction de K. Le 'coude' dans la courbe indique le K optimal : ajouter plus de clusters n'apporte plus beaucoup de réduction d'inertie. C'est une méthode heuristique visuelle pour déterminer le nombre de clusters dans K-means.",
+    "difficulty": "easy",
+    "tags": ["clustering", "elbow", "K-means"]
+  },
+  {
+    "id": "ml-047",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que l'apprentissage semi-supervisé ?",
+    "answers": [
+      { "id": "ml-047-a", "text": "Un apprentissage qui utilise uniquement des données étiquetées", "isCorrect": false },
+      { "id": "ml-047-b", "text": "Un apprentissage qui combine un petit ensemble de données étiquetées avec un grand ensemble de données non étiquetées", "isCorrect": true },
+      { "id": "ml-047-c", "text": "Un apprentissage sans aucune donnée", "isCorrect": false },
+      { "id": "ml-047-d", "text": "Un apprentissage qui n'utilise que des données non étiquetées", "isCorrect": false }
+    ],
+    "explanation": "L'apprentissage semi-supervisé combine une petite quantité de données étiquetées (coûteuses à obtenir) avec une grande quantité de données non étiquetées (faciles à obtenir). Il exploite la structure des données non étiquetées pour améliorer l'apprentissage. Utile quand l'étiquetage est coûteux (diagnostic médical, analyse juridique).",
+    "difficulty": "easy",
+    "tags": ["semi-supervisé", "étiquettes", "fondamentaux"]
+  },
+  {
+    "id": "ml-048",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Que signifie le terme 'epoch' dans l'entraînement d'un modèle ?",
+    "answers": [
+      { "id": "ml-048-a", "text": "Le nombre de couches dans le réseau", "isCorrect": false },
+      { "id": "ml-048-b", "text": "Un passage complet de l'ensemble des données d'entraînement à travers le modèle", "isCorrect": true },
+      { "id": "ml-048-c", "text": "Le nombre de features dans le dataset", "isCorrect": false },
+      { "id": "ml-048-d", "text": "La taille du batch", "isCorrect": false }
+    ],
+    "explanation": "Une epoch correspond à un passage complet de toutes les données d'entraînement à travers le modèle. L'entraînement se fait généralement sur plusieurs epochs. Le nombre d'epochs est un hyperparamètre : trop peu = underfitting, trop = overfitting. On utilise souvent l'early stopping pour trouver le bon moment.",
+    "difficulty": "easy",
+    "tags": ["epoch", "entraînement", "fondamentaux"]
+  },
+  {
+    "id": "ml-049",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle est la différence entre batch gradient descent et mini-batch gradient descent ?",
+    "answers": [
+      { "id": "ml-049-a", "text": "Batch utilise toutes les données, mini-batch utilise des petits sous-ensembles", "isCorrect": true },
+      { "id": "ml-049-b", "text": "Mini-batch est toujours moins précis", "isCorrect": false },
+      { "id": "ml-049-c", "text": "Batch est plus rapide", "isCorrect": false },
+      { "id": "ml-049-d", "text": "Il n'y a pas de différence", "isCorrect": false }
+    ],
+    "explanation": "La batch gradient descent calcule le gradient sur l'ensemble complet des données avant chaque mise à jour (précis mais lent). La mini-batch utilise des sous-ensembles (ex: 32, 64, 128 exemples) : c'est un compromis entre la stabilité du batch et la rapidité du stochastique. C'est la méthode la plus utilisée en pratique.",
+    "difficulty": "medium",
+    "tags": ["gradient", "batch", "optimisation"]
+  },
+  {
+    "id": "ml-050",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le Data Leakage (fuite de données) ?",
+    "answers": [
+      { "id": "ml-050-a", "text": "Quand des informations du jeu de test ou de la cible sont utilisées dans l'entraînement", "isCorrect": true },
+      { "id": "ml-050-b", "text": "Quand le dataset est trop petit", "isCorrect": false },
+      { "id": "ml-050-c", "text": "Quand les features sont corrélées entre elles", "isCorrect": false },
+      { "id": "ml-050-d", "text": "Quand le modèle est trop simple", "isCorrect": false }
+    ],
+    "explanation": "Le data leakage se produit quand des informations qui ne seraient pas disponibles au moment de la prédiction sont utilisées pendant l'entraînement. Cela conduit à des performances artificiellement élevées en validation mais des échecs en production. Exemples : normaliser avant le split, utiliser des features futures.",
+    "difficulty": "medium",
+    "tags": ["data leakage", "préprocessing", "bonnes pratiques"]
+  },
+  {
+    "id": "ml-051",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le score silhouette en clustering ?",
+    "answers": [
+      { "id": "ml-051-a", "text": "Une mesure de la qualité du clustering entre -1 et 1", "isCorrect": true },
+      { "id": "ml-051-b", "text": "Le nombre de clusters optimal", "isCorrect": false },
+      { "id": "ml-051-c", "text": "La vitesse de convergence", "isCorrect": false },
+      { "id": "ml-051-d", "text": "La variance expliquée", "isCorrect": false }
+    ],
+    "explanation": "Le score silhouette mesure à quel point un point est similaire à son propre cluster (cohésion) par rapport aux autres clusters (séparation). Il varie de -1 (mauvais clustering) à +1 (excellent clustering). Un score de 0 indique des clusters qui se chevauchent.",
+    "difficulty": "medium",
+    "tags": ["silhouette", "clustering", "évaluation"]
+  },
+  {
+    "id": "ml-052",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est l'avantage principal de XGBoost par rapport au Gradient Boosting classique ?",
+    "answers": [
+      { "id": "ml-052-a", "text": "XGBoost n'utilise pas d'arbres de décision", "isCorrect": false },
+      { "id": "ml-052-b", "text": "XGBoost intègre une régularisation, un traitement des valeurs manquantes et un entraînement parallèle", "isCorrect": true },
+      { "id": "ml-052-c", "text": "XGBoost ne peut faire que de la classification", "isCorrect": false },
+      { "id": "ml-052-d", "text": "XGBoost est un algorithme non supervisé", "isCorrect": false }
+    ],
+    "explanation": "XGBoost (eXtreme Gradient Boosting) améliore le Gradient Boosting classique en ajoutant : la régularisation L1/L2 pour éviter le surapprentissage, le traitement natif des valeurs manquantes, le parallelisme dans la construction des arbres, et le pruning optimisé. C'est l'un des algorithmes les plus performants pour les données tabulaires.",
+    "difficulty": "medium",
+    "tags": ["XGBoost", "gradient boosting", "performance"]
+  },
+  {
+    "id": "ml-053",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que l'early stopping ?",
+    "answers": [
+      { "id": "ml-053-a", "text": "Arrêter l'entraînement quand la performance sur le jeu de validation cesse de s'améliorer", "isCorrect": true },
+      { "id": "ml-053-b", "text": "Arrêter le modèle s'il fait une erreur", "isCorrect": false },
+      { "id": "ml-053-c", "text": "Arrêter la collecte de données", "isCorrect": false },
+      { "id": "ml-053-d", "text": "Arrêter le preprocessing", "isCorrect": false }
+    ],
+    "explanation": "L'early stopping surveille la performance sur un jeu de validation pendant l'entraînement. Quand cette performance ne s'améliore plus pendant un certain nombre d'epochs (patience), l'entraînement est arrêté. Cela empêche le surapprentissage et économise du temps de calcul.",
+    "difficulty": "easy",
+    "tags": ["early stopping", "overfitting", "entraînement"]
+  },
+  {
+    "id": "ml-054",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle est la différence entre la corrélation de Pearson et celle de Spearman ?",
+    "answers": [
+      { "id": "ml-054-a", "text": "Pearson mesure une relation linéaire, Spearman mesure une relation monotone", "isCorrect": true },
+      { "id": "ml-054-b", "text": "Elles sont identiques", "isCorrect": false },
+      { "id": "ml-054-c", "text": "Spearman est uniquement pour les données catégorielles", "isCorrect": false },
+      { "id": "ml-054-d", "text": "Pearson est plus robuste aux outliers", "isCorrect": false }
+    ],
+    "explanation": "La corrélation de Pearson mesure la force de la relation linéaire entre deux variables continues. La corrélation de Spearman est basée sur les rangs et mesure toute relation monotone (pas seulement linéaire). Spearman est plus robuste aux valeurs aberrantes.",
+    "difficulty": "medium",
+    "tags": ["corrélation", "Pearson", "Spearman"]
+  },
+  {
+    "id": "ml-055",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que la transformation logistique (sigmoid) dans la régression logistique ?",
+    "answers": [
+      { "id": "ml-055-a", "text": "Une fonction qui transforme n'importe quelle valeur réelle en une probabilité entre 0 et 1", "isCorrect": true },
+      { "id": "ml-055-b", "text": "Une fonction qui transforme les données en 0 ou 1", "isCorrect": false },
+      { "id": "ml-055-c", "text": "Une méthode de normalisation", "isCorrect": false },
+      { "id": "ml-055-d", "text": "Un algorithme de clustering", "isCorrect": false }
+    ],
+    "explanation": "La fonction sigmoid σ(z) = 1/(1+e^(-z)) transforme n'importe quelle valeur réelle en une probabilité entre 0 et 1. C'est elle qui permet à la régression logistique de produire des probabilités. Elle a une forme en 'S' centrée en z=0 où σ(0)=0.5.",
+    "difficulty": "medium",
+    "tags": ["sigmoid", "régression logistique", "probabilités"]
+  },
+  {
+    "id": "ml-056",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le transfer learning ?",
+    "answers": [
+      { "id": "ml-056-a", "text": "Transférer des données d'un dataset à un autre", "isCorrect": false },
+      { "id": "ml-056-b", "text": "Utiliser les connaissances apprises sur une tâche pour améliorer l'apprentissage sur une autre tâche", "isCorrect": true },
+      { "id": "ml-056-c", "text": "Copier le code d'un modèle existant", "isCorrect": false },
+      { "id": "ml-056-d", "text": "Changer d'algorithme en cours d'entraînement", "isCorrect": false }
+    ],
+    "explanation": "Le transfer learning consiste à réutiliser un modèle pré-entraîné sur une grande quantité de données et à l'adapter à une nouvelle tâche avec moins de données. Très utilisé en vision par ordinateur (ResNet, VGG pré-entraînés sur ImageNet) et en NLP (BERT, GPT). Cela réduit considérablement le temps et les données nécessaires.",
+    "difficulty": "easy",
+    "tags": ["transfer learning", "pré-entraînement", "fine-tuning"]
+  },
+  {
+    "id": "ml-057",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle métrique est utilisée pour évaluer un modèle de régression ?",
+    "answers": [
+      { "id": "ml-057-a", "text": "L'erreur quadratique moyenne (MSE)", "isCorrect": true },
+      { "id": "ml-057-b", "text": "L'accuracy", "isCorrect": false },
+      { "id": "ml-057-c", "text": "Le F1-score", "isCorrect": false },
+      { "id": "ml-057-d", "text": "L'AUC-ROC", "isCorrect": false }
+    ],
+    "explanation": "Le MSE (Mean Squared Error) = (1/n)Σ(yi - ŷi)² est une métrique de régression qui pénalise fortement les grandes erreurs. Les métriques Accuracy, F1-score et AUC-ROC sont des métriques de classification. D'autres métriques de régression incluent MAE et RMSE.",
+    "difficulty": "easy",
+    "tags": ["MSE", "régression", "métriques"]
+  },
+  {
+    "id": "ml-058",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le bootstrapping en machine learning ?",
+    "answers": [
+      { "id": "ml-058-a", "text": "Créer de nouveaux datasets par échantillonnage avec remise", "isCorrect": true },
+      { "id": "ml-058-b", "text": "Supprimer les valeurs manquantes", "isCorrect": false },
+      { "id": "ml-058-c", "text": "Normaliser les données", "isCorrect": false },
+      { "id": "ml-058-d", "text": "Augmenter la taille du réseau", "isCorrect": false }
+    ],
+    "explanation": "Le bootstrapping consiste à créer de nouveaux échantillons en tirant aléatoirement avec remise dans le dataset original. Chaque échantillon bootstrap a la même taille que l'original mais peut contenir des duplicatas. C'est la base du Bagging (Random Forest) et de l'estimation d'intervalles de confiance.",
+    "difficulty": "medium",
+    "tags": ["bootstrapping", "échantillonnage", "bagging"]
+  },
+  {
+    "id": "ml-059",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que l'hypothèse nulle (H0) ?",
+    "answers": [
+      { "id": "ml-059-a", "text": "L'hypothèse qu'il existe une différence significative", "isCorrect": false },
+      { "id": "ml-059-b", "text": "L'hypothèse par défaut qu'il n'y a pas d'effet ou de différence significative", "isCorrect": true },
+      { "id": "ml-059-c", "text": "L'hypothèse que le modèle est parfait", "isCorrect": false },
+      { "id": "ml-059-d", "text": "L'hypothèse que les données sont normales", "isCorrect": false }
+    ],
+    "explanation": "L'hypothèse nulle (H0) postule l'absence d'effet ou de différence. Les tests statistiques cherchent à déterminer si les données fournissent suffisamment de preuves pour rejeter H0. Exemple : H0 = 'il n'y a pas de différence de moyenne entre les deux groupes'. L'hypothèse alternative H1 affirme le contraire.",
+    "difficulty": "medium",
+    "tags": ["statistiques", "hypothèse nulle", "tests"]
+  },
+  {
+    "id": "ml-060",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que la cross-entropie (entropie croisée) ?",
+    "answers": [
+      { "id": "ml-060-a", "text": "Une mesure de désordre dans les données", "isCorrect": false },
+      { "id": "ml-060-b", "text": "Une fonction de perte utilisée pour les problèmes de classification", "isCorrect": true },
+      { "id": "ml-060-c", "text": "Une méthode de clustering", "isCorrect": false },
+      { "id": "ml-060-d", "text": "Un algorithme de réduction de dimension", "isCorrect": false }
+    ],
+    "explanation": "La cross-entropie mesure la divergence entre la distribution de probabilité prédite et la distribution réelle. Elle est utilisée comme fonction de perte dans les problèmes de classification : -Σ yi·log(ŷi). Plus la prédiction est éloignée de la réalité, plus la cross-entropie est élevée.",
+    "difficulty": "medium",
+    "tags": ["cross-entropie", "loss", "classification"]
+  },
+  {
+    "id": "ml-061",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le polynomial kernel dans un SVM ?",
+    "answers": [
+      { "id": "ml-061-a", "text": "Un noyau qui permet de séparer des données avec des frontières polynomiales", "isCorrect": true },
+      { "id": "ml-061-b", "text": "Un noyau qui ne fonctionne que pour les données linéaires", "isCorrect": false },
+      { "id": "ml-061-c", "text": "Un algorithme de régression polynomiale", "isCorrect": false },
+      { "id": "ml-061-d", "text": "Une technique d'augmentation de données", "isCorrect": false }
+    ],
+    "explanation": "Le noyau polynomial K(x,y) = (x·y + c)^d transforme implicitement les données dans un espace de dimension supérieure où des séparations polynomiales deviennent possibles. Le paramètre d contrôle le degré du polynôme. Il est utile quand la frontière de décision a une forme courbe.",
+    "difficulty": "medium",
+    "tags": ["SVM", "kernel polynomial", "noyau"]
+  },
+  {
+    "id": "ml-062",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que la validation hold-out ?",
+    "answers": [
+      { "id": "ml-062-a", "text": "Diviser les données une seule fois en ensemble d'entraînement et de test", "isCorrect": true },
+      { "id": "ml-062-b", "text": "Utiliser toutes les données pour l'entraînement", "isCorrect": false },
+      { "id": "ml-062-c", "text": "Faire 10 validations croisées", "isCorrect": false },
+      { "id": "ml-062-d", "text": "Garder les données les plus difficiles", "isCorrect": false }
+    ],
+    "explanation": "La validation hold-out est la méthode la plus simple : on divise aléatoirement les données en deux (ou trois) ensembles. Typiquement 70/30 ou 80/20 pour entraînement/test. C'est rapide mais la performance dépend fortement du split aléatoire. La validation croisée est plus robuste.",
+    "difficulty": "easy",
+    "tags": ["hold-out", "validation", "split"]
+  },
+  {
+    "id": "ml-063",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle est la différence entre l'entropie et l'indice de Gini comme critère de split ?",
+    "answers": [
+      { "id": "ml-063-a", "text": "Gini est plus rapide à calculer, l'entropie est plus informative mais plus coûteuse", "isCorrect": true },
+      { "id": "ml-063-b", "text": "Ils sont mathématiquement identiques", "isCorrect": false },
+      { "id": "ml-063-c", "text": "Gini est utilisé uniquement pour la régression", "isCorrect": false },
+      { "id": "ml-063-d", "text": "L'entropie est obsolète", "isCorrect": false }
+    ],
+    "explanation": "L'entropie utilise des logarithmes : -Σ pi·log2(pi), tandis que Gini utilise : 1 - Σ pi². Les deux mesurent l'impureté mais Gini est plus rapide car il n'utilise pas de log. En pratique, ils donnent des résultats très similaires. Gini est le défaut dans scikit-learn.",
+    "difficulty": "medium",
+    "tags": ["entropie", "Gini", "arbre de décision"]
+  },
+  {
+    "id": "ml-064",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le One-vs-Rest (OvR) dans la classification multi-classes ?",
+    "answers": [
+      { "id": "ml-064-a", "text": "Entraîner un classificateur binaire par classe, chaque classificateur distinguant sa classe de toutes les autres", "isCorrect": true },
+      { "id": "ml-064-b", "text": "Entraîner un seul classificateur pour toutes les classes", "isCorrect": false },
+      { "id": "ml-064-c", "text": "Ignorer les classes minoritaires", "isCorrect": false },
+      { "id": "ml-064-d", "text": "Regrouper toutes les classes en une seule", "isCorrect": false }
+    ],
+    "explanation": "La stratégie One-vs-Rest (OvR) ou One-vs-All entraîne N classificateurs binaires pour N classes. Chaque classificateur prédit si un exemple appartient à sa classe ou non. Lors de la prédiction, tous les classificateurs sont consultés et celui avec le score le plus élevé l'emporte.",
+    "difficulty": "medium",
+    "tags": ["multi-classes", "OvR", "classification"]
+  },
+  {
+    "id": "ml-065",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le Grid Search ?",
+    "answers": [
+      { "id": "ml-065-a", "text": "Une recherche visuelle sur un graphique", "isCorrect": false },
+      { "id": "ml-065-b", "text": "Une technique d'optimisation des hyperparamètres qui teste systématiquement toutes les combinaisons", "isCorrect": true },
+      { "id": "ml-065-c", "text": "Un algorithme de clustering spatial", "isCorrect": false },
+      { "id": "ml-065-d", "text": "Une méthode de sélection de features", "isCorrect": false }
+    ],
+    "explanation": "Le Grid Search teste exhaustivement toutes les combinaisons d'hyperparamètres dans une grille prédéfinie. Ex: si on teste C=[0.1, 1, 10] et kernel=['linear', 'rbf'], il teste 6 combinaisons. C'est simple mais coûteux en temps. Le Random Search est une alternative plus efficace qui échantillonne aléatoirement.",
+    "difficulty": "easy",
+    "tags": ["grid search", "hyperparamètres", "optimisation"]
+  },
+  {
+    "id": "ml-066",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est le problème du gradient qui disparaît (vanishing gradient) ?",
+    "answers": [
+      { "id": "ml-066-a", "text": "Le gradient devient trop grand", "isCorrect": false },
+      { "id": "ml-066-b", "text": "Le gradient devient si petit que les couches initiales du réseau apprennent très lentement", "isCorrect": true },
+      { "id": "ml-066-c", "text": "Le gradient est nul dès la première itération", "isCorrect": false },
+      { "id": "ml-066-d", "text": "Le gradient ne converge jamais", "isCorrect": false }
+    ],
+    "explanation": "Le vanishing gradient se produit dans les réseaux profonds quand la rétropropagation fait passer le gradient à travers de nombreuses couches avec des fonctions d'activation comme sigmoid ou tanh. Le gradient diminue exponentiellement, rendant les premières couches presque impossibles à entraîner. ReLU et le batch normalization aident à résoudre ce problème.",
+    "difficulty": "medium",
+    "tags": ["vanishing gradient", "deep learning", "rétropropagation"]
+  },
+  {
+    "id": "ml-067",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que l'augmentation de données (data augmentation) ?",
+    "answers": [
+      { "id": "ml-067-a", "text": "Supprimer des données pour améliorer la qualité", "isCorrect": false },
+      { "id": "ml-067-b", "text": "Générer de nouvelles données à partir des données existantes par des transformations", "isCorrect": true },
+      { "id": "ml-067-c", "text": "Collecter plus de données réelles", "isCorrect": false },
+      { "id": "ml-067-d", "text": "Fusionner deux datasets", "isCorrect": false }
+    ],
+    "explanation": "L'augmentation de données crée de nouveaux exemples d'entraînement en appliquant des transformations aux données existantes. En vision par ordinateur : rotation, flip, zoom, changement de couleur. En NLP : synonymes, paraphrase. Cela augmente artificiellement la taille du dataset et améliore la généralisation.",
+    "difficulty": "easy",
+    "tags": ["data augmentation", "préprocessing", "généralisation"]
+  },
+  {
+    "id": "ml-068",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que l'inertie intra-cluster dans l'algorithme K-means ?",
+    "answers": [
+      { "id": "ml-068-a", "text": "La somme des distances entre chaque point et le centroïde de son cluster", "isCorrect": true },
+      { "id": "ml-068-b", "text": "La distance entre les centroïdes", "isCorrect": false },
+      { "id": "ml-068-c", "text": "Le nombre de points par cluster", "isCorrect": false },
+      { "id": "ml-068-d", "text": "La variance totale des données", "isCorrect": false }
+    ],
+    "explanation": "L'inertie intra-cluster (ou Within-Cluster Sum of Squares, WCSS) mesure la somme des distances au carré entre chaque point et le centroïde de son cluster. K-means cherche à minimiser cette inertie. Elle diminue quand K augmente, c'est pourquoi on utilise la méthode du coude pour choisir K.",
+    "difficulty": "medium",
+    "tags": ["K-means", "inertie", "clustering"]
+  },
+  {
+    "id": "ml-069",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que la recherche dichotomique (binary search) a en commun avec la recherche d'hyperparamètres ?",
+    "answers": [
+      { "id": "ml-069-a", "text": "Rien du tout", "isCorrect": false },
+      { "id": "ml-069-b", "text": "L'optimisation bayésienne s'inspire de la recherche intelligente en utilisant les résultats précédents pour guider la recherche", "isCorrect": true },
+      { "id": "ml-069-c", "text": "Le grid search est aussi rapide que la recherche dichotomique", "isCorrect": false },
+      { "id": "ml-069-d", "text": "Les hyperparamètres sont toujours binaires", "isCorrect": false }
+    ],
+    "explanation": "L'optimisation bayésienne des hyperparamètres construit un modèle probabiliste de la fonction objectif et l'utilise pour choisir les prochains hyperparamètres à tester, de manière intelligente. Comme la recherche dichotomique exploite la structure du problème, l'optimisation bayésienne exploite les observations précédentes pour guider la recherche.",
+    "difficulty": "hard",
+    "tags": ["optimisation bayésienne", "hyperparamètres", "recherche"]
+  },
+  {
+    "id": "ml-070",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que la distribution normale (gaussienne) et pourquoi est-elle importante en ML ?",
+    "answers": [
+      { "id": "ml-070-a", "text": "Une distribution en forme de cloche où la moyenne, médiane et mode sont égaux, fondamentale pour de nombreux algorithmes", "isCorrect": true },
+      { "id": "ml-070-b", "text": "Une distribution uniforme entre 0 et 1", "isCorrect": false },
+      { "id": "ml-070-c", "text": "Une distribution qui n'existe pas en pratique", "isCorrect": false },
+      { "id": "ml-070-d", "text": "Une distribution uniquement utilisée en deep learning", "isCorrect": false }
+    ],
+    "explanation": "La distribution normale N(μ,σ²) est caractérisée par sa moyenne μ et son écart-type σ. Elle est importante car de nombreux algorithmes (régression linéaire, LDA, Naive Bayes gaussien) supposent des données normalement distribuées. Le théorème central limite justifie sa fréquence dans la nature.",
+    "difficulty": "easy",
+    "tags": ["distribution normale", "statistiques", "gaussienne"]
+  },
+  {
+    "id": "ml-071",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle est la différence entre une caractéristique (feature) et une étiquette (label) ?",
+    "answers": [
+      { "id": "ml-071-a", "text": "Les features sont les variables d'entrée, les labels sont les sorties à prédire", "isCorrect": true },
+      { "id": "ml-071-b", "text": "Ce sont des synonymes", "isCorrect": false },
+      { "id": "ml-071-c", "text": "Les labels sont des variables d'entrée", "isCorrect": false },
+      { "id": "ml-071-d", "text": "Les features sont toujours numériques", "isCorrect": false }
+    ],
+    "explanation": "En apprentissage supervisé, les features (caractéristiques) sont les variables d'entrée utilisées pour la prédiction (ex: taille, poids, âge). Les labels (étiquettes) sont les valeurs cibles que le modèle doit apprendre à prédire (ex: prix d'une maison, catégorie d'un email).",
+    "difficulty": "easy",
+    "tags": ["features", "labels", "fondamentaux"]
+  },
+  {
+    "id": "ml-072",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le Split de données typique pour l'entraînement, la validation et le test ?",
+    "answers": [
+      { "id": "ml-072-a", "text": "100% entraînement", "isCorrect": false },
+      { "id": "ml-072-b", "text": "Environ 70% entraînement, 15% validation, 15% test", "isCorrect": true },
+      { "id": "ml-072-c", "text": "50% entraînement, 50% test", "isCorrect": false },
+      { "id": "ml-072-d", "text": "30% entraînement, 70% test", "isCorrect": false }
+    ],
+    "explanation": "Le split classique est 70/15/15 ou 60/20/20. L'ensemble d'entraînement apprend les paramètres, l'ensemble de validation ajuste les hyperparamètres et détecte le surapprentissage, l'ensemble de test évalue la performance finale du modèle sur des données jamais vues.",
+    "difficulty": "easy",
+    "tags": ["split", "entraînement", "validation", "test"]
+  },
+  {
+    "id": "ml-073",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est le rôle de la fonction softmax dans un réseau de neurones ?",
+    "answers": [
+      { "id": "ml-073-a", "text": "Convertir des scores bruts en probabilités qui somment à 1 pour la classification multi-classes", "isCorrect": true },
+      { "id": "ml-073-b", "text": "Accélérer l'entraînement", "isCorrect": false },
+      { "id": "ml-073-c", "text": "Réduire le surapprentissage", "isCorrect": false },
+      { "id": "ml-073-d", "text": "Normaliser les données d'entrée", "isCorrect": false }
+    ],
+    "explanation": "Softmax convertit un vecteur de scores en un vecteur de probabilités : softmax(zi) = e^zi / Σe^zj. Les probabilités somment à 1. Elle est utilisée en couche de sortie des réseaux de neurones pour la classification multi-classes. La classe prédite est celle avec la probabilité maximale.",
+    "difficulty": "medium",
+    "tags": ["softmax", "classification", "probabilités"]
+  },
+  {
+    "id": "ml-074",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que l'inférence en machine learning ?",
+    "answers": [
+      { "id": "ml-074-a", "text": "La phase d'entraînement du modèle", "isCorrect": false },
+      { "id": "ml-074-b", "text": "L'utilisation d'un modèle entraîné pour faire des prédictions sur de nouvelles données", "isCorrect": true },
+      { "id": "ml-074-c", "text": "La collecte de données", "isCorrect": false },
+      { "id": "ml-074-d", "text": "Le réglage des hyperparamètres", "isCorrect": false }
+    ],
+    "explanation": "L'inférence est la phase où le modèle entraîné est utilisé pour faire des prédictions sur de nouvelles données non vues. C'est distinct de l'entraînement (apprentissage des paramètres). En production, l'inférence doit être rapide et efficace, d'où l'importance de l'optimisation du modèle.",
+    "difficulty": "easy",
+    "tags": ["inférence", "prédiction", "production"]
+  },
+  {
+    "id": "ml-075",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que la régression polynomiale ?",
+    "answers": [
+      { "id": "ml-075-a", "text": "Un modèle qui ajuste une relation non linéaire en ajoutant des termes polynomiaux aux features", "isCorrect": true },
+      { "id": "ml-075-b", "text": "Un algorithme de classification", "isCorrect": false },
+      { "id": "ml-075-c", "text": "Un type de clustering", "isCorrect": false },
+      { "id": "ml-075-d", "text": "Une technique de réduction de dimension", "isCorrect": false }
+    ],
+    "explanation": "La régression polynomiale étend la régression linéaire en ajoutant des puissances des features : y = β₀ + β₁x + β₂x² + ... + βₙxⁿ. Bien que le modèle soit non linéaire dans les features, il reste linéaire dans les paramètres, ce qui permet d'utiliser les mêmes méthodes d'optimisation.",
+    "difficulty": "medium",
+    "tags": ["régression polynomiale", "non linéaire", "features"]
+  },
+  {
+    "id": "ml-076",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle est la différence entre l'apprentissage online et l'apprentissage batch ?",
+    "answers": [
+      { "id": "ml-076-a", "text": "Online met à jour le modèle après chaque exemple, batch utilise tout le dataset", "isCorrect": true },
+      { "id": "ml-076-b", "text": "Online est toujours plus précis", "isCorrect": false },
+      { "id": "ml-076-c", "text": "Batch est plus rapide pour les flux de données", "isCorrect": false },
+      { "id": "ml-076-d", "text": "Il n'y a pas de différence", "isCorrect": false }
+    ],
+    "explanation": "L'apprentissage online (incrémental) met à jour le modèle à chaque nouvel exemple, adapté aux flux de données en temps réel. L'apprentissage batch utilise l'ensemble complet des données (ou des mini-batchs). Online est adaptatif mais instable, batch est stable mais nécessite toutes les données.",
+    "difficulty": "medium",
+    "tags": ["online learning", "batch", "flux de données"]
+  },
+  {
+    "id": "ml-077",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le clustering hiérarchique ?",
+    "answers": [
+      { "id": "ml-077-a", "text": "Un algorithme qui construit un dendrogramme en fusionnant ou divisant progressivement les clusters", "isCorrect": true },
+      { "id": "ml-077-b", "text": "Un algorithme qui nécessite de fixer K à l'avance", "isCorrect": false },
+      { "id": "ml-077-c", "text": "Une méthode supervisée", "isCorrect": false },
+      { "id": "ml-077-d", "text": "Un algorithme qui fonctionne uniquement en 2D", "isCorrect": false }
+    ],
+    "explanation": "Le clustering hiérarchique agglomératif commence avec chaque point comme cluster, puis fusionne itérativement les clusters les plus proches. Le résultat est un dendrogramme (arbre) qu'on peut couper à différents niveaux pour obtenir différents nombres de clusters. Aucune valeur de K n'est requise à l'avance.",
+    "difficulty": "medium",
+    "tags": ["clustering hiérarchique", "dendrogramme", "agglomératif"]
+  },
+  {
+    "id": "ml-078",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le concept de 'feature engineering' ?",
+    "answers": [
+      { "id": "ml-078-a", "text": "Supprimer toutes les features", "isCorrect": false },
+      { "id": "ml-078-b", "text": "Créer de nouvelles features à partir des données existantes pour améliorer les performances du modèle", "isCorrect": true },
+      { "id": "ml-078-c", "text": "Utiliser uniquement des features aléatoires", "isCorrect": false },
+      { "id": "ml-078-d", "text": "Réduire le nombre de features au maximum", "isCorrect": false }
+    ],
+    "explanation": "Le feature engineering est l'art de créer de nouvelles variables à partir des données brutes pour aider le modèle à mieux apprendre. Exemples : extraire le jour de la semaine d'une date, calculer un ratio entre deux variables, combiner des features. C'est souvent l'étape la plus impactante dans un projet ML.",
+    "difficulty": "easy",
+    "tags": ["feature engineering", "preprocessing", "features"]
+  },
+  {
+    "id": "ml-079",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est le principe de l'algorithme AdaBoost ?",
+    "answers": [
+      { "id": "ml-079-a", "text": "Entraîner des classificateurs faibles séquentiellement en pondérant plus les exemples mal classés", "isCorrect": true },
+      { "id": "ml-079-b", "text": "Entraîner tous les classificateurs en parallèle", "isCorrect": false },
+      { "id": "ml-079-c", "text": "Utiliser uniquement des arbres très profonds", "isCorrect": false },
+      { "id": "ml-079-d", "text": "Réduire la dimension des données", "isCorrect": false }
+    ],
+    "explanation": "AdaBoost (Adaptive Boosting) combine des classificateurs faibles (souvent des decision stumps - arbres de profondeur 1). Après chaque itération, les exemples mal classés reçoivent un poids plus élevé. Le modèle final est une combinaison pondérée de tous les classificateurs faibles.",
+    "difficulty": "medium",
+    "tags": ["AdaBoost", "boosting", "ensemble"]
+  },
+  {
+    "id": "ml-080",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que la détection d'anomalies (anomaly detection) ?",
+    "answers": [
+      { "id": "ml-080-a", "text": "Identifier des observations qui s'écartent significativement du comportement normal", "isCorrect": true },
+      { "id": "ml-080-b", "text": "Classer les données en catégories", "isCorrect": false },
+      { "id": "ml-080-c", "text": "Regrouper les données similaires", "isCorrect": false },
+      { "id": "ml-080-d", "text": "Prédire des valeurs continues", "isCorrect": false }
+    ],
+    "explanation": "La détection d'anomalies identifie les points de données qui sont inhabituels ou différents de la majorité. Techniques : Isolation Forest, One-Class SVM, autoencodeurs. Applications : détection de fraude, monitoring de systèmes, cybersécurité. Peut être supervisée (si on a des exemples d'anomalies) ou non supervisée.",
+    "difficulty": "easy",
+    "tags": ["anomalies", "détection", "outliers"]
+  },
+  {
+    "id": "ml-081",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le support d'une règle d'association ?",
+    "answers": [
+      { "id": "ml-081-a", "text": "La proportion de transactions contenant l'ensemble d'items", "isCorrect": true },
+      { "id": "ml-081-b", "text": "La probabilité conditionnelle", "isCorrect": false },
+      { "id": "ml-081-c", "text": "La confiance dans la règle", "isCorrect": false },
+      { "id": "ml-081-d", "text": "Le lift de la règle", "isCorrect": false }
+    ],
+    "explanation": "Le support = fréquence d'apparition de l'ensemble d'items dans les transactions. Support({A,B}) = P(A∩B). Un support élevé signifie que la combinaison est fréquente. L'algorithme Apriori utilise un seuil de support minimum pour filtrer les règles d'association pertinentes.",
+    "difficulty": "medium",
+    "tags": ["règles d'association", "support", "Apriori"]
+  },
+  {
+    "id": "ml-082",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que la stratification dans le split de données ?",
+    "answers": [
+      { "id": "ml-082-a", "text": "Mélanger aléatoirement les données", "isCorrect": false },
+      { "id": "ml-082-b", "text": "Maintenir la même proportion de classes dans chaque sous-ensemble", "isCorrect": true },
+      { "id": "ml-082-c", "text": "Supprimer les classes minoritaires", "isCorrect": false },
+      { "id": "ml-082-d", "text": "Convertir les données en format binaire", "isCorrect": false }
+    ],
+    "explanation": "La stratification garantit que chaque sous-ensemble (train, validation, test) maintient la même proportion de classes que le dataset original. C'est crucial pour les datasets déséquilibrés, sinon un split aléatoire pourrait mettre tous les exemples d'une classe dans un seul sous-ensemble.",
+    "difficulty": "medium",
+    "tags": ["stratification", "split", "déséquilibre"]
+  },
+  {
+    "id": "ml-083",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que l'analyse discriminante linéaire (LDA) ?",
+    "answers": [
+      { "id": "ml-083-a", "text": "Une technique de classification et de réduction de dimension supervisée qui maximise la séparabilité des classes", "isCorrect": true },
+      { "id": "ml-083-b", "text": "Un algorithme de clustering", "isCorrect": false },
+      { "id": "ml-083-c", "text": "Une méthode non supervisée", "isCorrect": false },
+      { "id": "ml-083-d", "text": "Un algorithme de régression", "isCorrect": false }
+    ],
+    "explanation": "LDA est à la fois un classificateur et une technique de réduction de dimension. Contrairement à l'ACP qui maximise la variance totale, LDA maximise la séparation entre les classes (maximise la variance inter-classe, minimise la variance intra-classe). C'est supervisé car il utilise les labels.",
+    "difficulty": "medium",
+    "tags": ["LDA", "discriminante", "réduction de dimension"]
+  },
+  {
+    "id": "ml-084",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le permutation importance ?",
+    "answers": [
+      { "id": "ml-084-a", "text": "Mélanger aléatoirement une feature et mesurer la baisse de performance du modèle", "isCorrect": true },
+      { "id": "ml-084-b", "text": "Supprimer définitivement une feature", "isCorrect": false },
+      { "id": "ml-084-c", "text": "Ajouter des features aléatoires", "isCorrect": false },
+      { "id": "ml-084-d", "text": "Permuter les lignes du dataset", "isCorrect": false }
+    ],
+    "explanation": "La permutation importance mesure l'importance d'une feature en permutant aléatoirement ses valeurs et en observant la baisse de performance. Si la permutation d'une feature entraîne une forte baisse, elle est importante. Cette méthode est modèle-agnostique et peut être appliquée à n'importe quel modèle entraîné.",
+    "difficulty": "medium",
+    "tags": ["permutation importance", "features", "interprétabilité"]
+  },
+  {
+    "id": "ml-085",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que la normalisation par lots (Batch Normalization) ?",
+    "answers": [
+      { "id": "ml-085-a", "text": "Normaliser les sorties de chaque couche d'un réseau de neurones pendant l'entraînement", "isCorrect": true },
+      { "id": "ml-085-b", "text": "Normaliser les données d'entrée une seule fois", "isCorrect": false },
+      { "id": "ml-085-c", "text": "Un algorithme de clustering", "isCorrect": false },
+      { "id": "ml-085-d", "text": "Une technique d'augmentation de données", "isCorrect": false }
+    ],
+    "explanation": "Batch Normalization normalise les activations de chaque couche pour chaque mini-batch : (x - μ_batch) / σ_batch. Cela stabilise et accélère l'entraînement, permet des learning rates plus élevés, et réduit le problème du vanishing gradient. C'est devenu un composant standard des réseaux profonds.",
+    "difficulty": "medium",
+    "tags": ["batch normalization", "réseaux de neurones", "normalisation"]
+  },
+  {
+    "id": "ml-086",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le learning curve (courbe d'apprentissage) ?",
+    "answers": [
+      { "id": "ml-086-a", "text": "Un graphique montrant la performance du modèle en fonction de la taille des données d'entraînement", "isCorrect": true },
+      { "id": "ml-086-b", "text": "Un graphique du learning rate", "isCorrect": false },
+      { "id": "ml-086-c", "text": "La vitesse d'exécution du modèle", "isCorrect": false },
+      { "id": "ml-086-d", "text": "Le nombre de features", "isCorrect": false }
+    ],
+    "explanation": "La courbe d'apprentissage trace la performance (score d'entraînement et score de validation) en fonction de la taille du jeu d'entraînement. Si les deux courbes convergent vers un score bas, il y a underfitting (biais). S'il y a un grand écart, il y a overfitting (variance). Cela aide à diagnostiquer s'il faut plus de données ou un modèle plus complexe.",
+    "difficulty": "medium",
+    "tags": ["learning curve", "diagnostic", "biais-variance"]
+  },
+  {
+    "id": "ml-087",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que la transformation Box-Cox ?",
+    "answers": [
+      { "id": "ml-087-a", "text": "Une transformation pour rendre les données plus proches d'une distribution normale", "isCorrect": true },
+      { "id": "ml-087-b", "text": "Une technique d'encodage", "isCorrect": false },
+      { "id": "ml-087-c", "text": "Un algorithme de classification", "isCorrect": false },
+      { "id": "ml-087-d", "text": "Une méthode de clustering", "isCorrect": false }
+    ],
+    "explanation": "La transformation Box-Cox est une famille de transformations paramétriques : y(λ) = (x^λ - 1) / λ. Elle trouve automatiquement le meilleur λ pour rapprocher la distribution d'une distribution normale. C'est utile quand les algorithmes supposent la normalité (régression linéaire, ANOVA). Ne s'applique qu'aux données strictement positives.",
+    "difficulty": "hard",
+    "tags": ["Box-Cox", "transformation", "normalité"]
+  },
+  {
+    "id": "ml-088",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le t-SNE (t-Distributed Stochastic Neighbor Embedding) ?",
+    "answers": [
+      { "id": "ml-088-a", "text": "Un algorithme de classification", "isCorrect": false },
+      { "id": "ml-088-b", "text": "Une technique de visualisation non linéaire qui projette des données de haute dimension en 2D ou 3D", "isCorrect": true },
+      { "id": "ml-088-c", "text": "Un algorithme de clustering", "isCorrect": false },
+      { "id": "ml-088-d", "text": "Une méthode de régression", "isCorrect": false }
+    ],
+    "explanation": "t-SNE est une technique de réduction de dimension non linéaire spécialisée pour la visualisation. Il préserve les relations de voisinage locale : les points proches en haute dimension restent proches en 2D/3D. Le paramètre perplexité contrôle le nombre de voisins considérés. Attention : les distances entre clusters en t-SNE ne sont pas toujours interprétables.",
+    "difficulty": "medium",
+    "tags": ["t-SNE", "visualisation", "réduction de dimension"]
+  },
+  {
+    "id": "ml-089",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est le lien entre le théorème de Bayes et le machine learning ?",
+    "answers": [
+      { "id": "ml-089-a", "text": "Le théorème de Bayes est à la base des modèles probabilistes et permet de mettre à jour les croyances avec de nouvelles observations", "isCorrect": true },
+      { "id": "ml-089-b", "text": "Il n'y a aucun lien", "isCorrect": false },
+      { "id": "ml-089-c", "text": "Le théorème de Bayes est uniquement utilisé en statistiques", "isCorrect": false },
+      { "id": "ml-089-d", "text": "Bayes a inventé le deep learning", "isCorrect": false }
+    ],
+    "explanation": "Le théorème de Bayes P(H|D) = P(D|H)·P(H)/P(D) est fondamental en ML. Il permet de calculer la probabilité a posteriori d'une hypothèse H (classe, paramètre) étant donné les données D. C'est la base de Naive Bayes, de l'inférence bayésienne, des processus gaussiens, et de l'optimisation bayésienne.",
+    "difficulty": "medium",
+    "tags": ["Bayes", "probabilités", "inférence"]
+  },
+  {
+    "id": "ml-090",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que la matrice de covariance ?",
+    "answers": [
+      { "id": "ml-090-a", "text": "Un tableau montrant la variance de chaque feature", "isCorrect": false },
+      { "id": "ml-090-b", "text": "Une matrice symétrique contenant les covariances entre toutes les paires de features", "isCorrect": true },
+      { "id": "ml-090-c", "text": "La matrice des poids d'un réseau de neurones", "isCorrect": false },
+      { "id": "ml-090-d", "text": "Un tableau de classification", "isCorrect": false }
+    ],
+    "explanation": "La matrice de covariance Σ est une matrice carrée où Σij = cov(Xi, Xj). Sur la diagonale, on trouve les variances. Hors diagonale, les covariances mesurent comment deux variables varient ensemble. Elle est utilisée dans l'ACP (valeurs propres de la matrice de covariance), l'analyse discriminante, et la détection de multicolinéarité.",
+    "difficulty": "medium",
+    "tags": ["covariance", "matrice", "statistiques"]
+  },
+  {
+    "id": "ml-091",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que l'erreur absolue moyenne (MAE) et comment diffère-t-elle du MSE ?",
+    "answers": [
+      { "id": "ml-091-a", "text": "MAE = moyenne des |yi - ŷi|, pénalise linéairement les erreurs, contrairement au MSE qui pénalise quadratiquement", "isCorrect": true },
+      { "id": "ml-091-b", "text": "MAE et MSE sont identiques", "isCorrect": false },
+      { "id": "ml-091-c", "text": "MAE est utilisé uniquement pour la classification", "isCorrect": false },
+      { "id": "ml-091-d", "text": "MAE pénalise plus les grandes erreurs que MSE", "isCorrect": false }
+    ],
+    "explanation": "MAE = (1/n)Σ|yi - ŷi| et MSE = (1/n)Σ(yi - ŷi)². MAE est plus robuste aux outliers car elle pénalise linéairement, tandis que MSE pénalise quadratiquement (les grandes erreurs ont un impact disproportionné). MAE est plus interprétable (en unités de la variable cible).",
+    "difficulty": "medium",
+    "tags": ["MAE", "MSE", "métriques", "régression"]
+  },
+  {
+    "id": "ml-092",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le score de information mutuelle pour la sélection de features ?",
+    "answers": [
+      { "id": "ml-092-a", "text": "Une mesure de la dépendance mutuelle entre deux variables", "isCorrect": true },
+      { "id": "ml-092-b", "text": "Une mesure de la variance", "isCorrect": false },
+      { "id": "ml-092-c", "text": "Un algorithme de clustering", "isCorrect": false },
+      { "id": "ml-092-d", "text": "Une méthode d'encodage", "isCorrect": false }
+    ],
+    "explanation": "L'information mutuelle MI(X,Y) mesure la quantité d'information obtenue sur Y en observant X. MI = 0 signifie que X et Y sont indépendantes. Plus MI est élevé, plus la feature X est informative pour prédire Y. Contrairement à la corrélation, elle capture les relations non linéaires. C'est une méthode de filtrage (filter method).",
+    "difficulty": "hard",
+    "tags": ["information mutuelle", "sélection de features", "filtrage"]
+  },
+  {
+    "id": "ml-093",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que l'algorithme Isolation Forest ?",
+    "answers": [
+      { "id": "ml-093-a", "text": "Un algorithme de classification supervisée", "isCorrect": false },
+      { "id": "ml-093-b", "text": "Un algorithme de détection d'anomalies basé sur le principe que les anomalies sont plus faciles à isoler", "isCorrect": true },
+      { "id": "ml-093-c", "text": "Un algorithme de réduction de dimension", "isCorrect": false },
+      { "id": "ml-094-d", "text": "Un algorithme de régression", "isCorrect": false }
+    ],
+    "explanation": "Isolation Forest détecte les anomalies en construisant des arbres aléatoires. Les anomalies, étant rares et différentes, nécessitent moins de splits pour être isolées (chemin plus court dans l'arbre). Le score d'anomalie est basé sur la longueur du chemin moyen. Plus le chemin est court, plus le point est susceptible d'être une anomalie.",
+    "difficulty": "medium",
+    "tags": ["Isolation Forest", "anomalies", "détection"]
+  },
+  {
+    "id": "ml-094",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le coefficient de corrélation et son domaine de valeurs ?",
+    "answers": [
+      { "id": "ml-094-a", "text": "Un nombre entre 0 et 1 mesurant la variance", "isCorrect": false },
+      { "id": "ml-094-b", "text": "Un nombre entre -1 et 1 mesurant la force et la direction d'une relation linéaire", "isCorrect": true },
+      { "id": "ml-094-c", "text": "Un nombre entre 0 et 100", "isCorrect": false },
+      { "id": "ml-094-d", "text": "Un nombre entre -∞ et +∞", "isCorrect": false }
+    ],
+    "explanation": "Le coefficient de corrélation de Pearson r varie de -1 (corrélation négative parfaite) à +1 (corrélation positive parfaite). r = 0 indique l'absence de corrélation linéaire (mais pas nécessairement d'indépendance). |r| > 0.8 est généralement considéré comme une forte corrélation.",
+    "difficulty": "easy",
+    "tags": ["corrélation", "Pearson", "statistiques"]
+  },
+  {
+    "id": "ml-095",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que la régularisation Elastic Net ?",
+    "answers": [
+      { "id": "ml-095-a", "text": "Une combinaison des pénalités L1 (Lasso) et L2 (Ridge)", "isCorrect": true },
+      { "id": "ml-095-b", "text": "Une régularisation uniquement L1", "isCorrect": false },
+      { "id": "ml-095-c", "text": "Une régularisation uniquement L2", "isCorrect": false },
+      { "id": "ml-095-d", "text": "Une méthode sans régularisation", "isCorrect": false }
+    ],
+    "explanation": "Elastic Net combine les pénalités L1 et L2 : Loss + λ₁||w||₁ + λ₂||w||². Elle bénéficie de la sélection de features du Lasso et de la stabilité du Ridge. Elle est particulièrement utile quand les features sont corrélées entre elles, un cas où le Lasso seul est instable.",
+    "difficulty": "medium",
+    "tags": ["Elastic Net", "régularisation", "L1", "L2"]
+  },
+  {
+    "id": "ml-096",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le rééchantillonnage (resampling) et quelles en sont les méthodes ?",
+    "answers": [
+      { "id": "ml-096-a", "text": "Collecter plus de données", "isCorrect": false },
+      { "id": "ml-096-b", "text": "Des techniques comme la validation croisée et le bootstrap qui réutilisent les données de multiples façons", "isCorrect": true },
+      { "id": "ml-096-c", "text": "Supprimer des données", "isCorrect": false },
+      { "id": "ml-096-d", "text": "Augmenter la taille des images", "isCorrect": false }
+    ],
+    "explanation": "Le rééchantillonnage regroupe les techniques qui tirent plusieurs échantillons des données pour estimer la performance du modèle ou sa variabilité. Méthodes principales : validation croisée k-fold, LOOCV, bootstrap, répétées k-fold. Ces méthodes donnent une estimation plus fiable que le simple hold-out.",
+    "difficulty": "medium",
+    "tags": ["resampling", "validation croisée", "bootstrap"]
+  },
+  {
+    "id": "ml-097",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le modèle de mélange gaussien (GMM) ?",
+    "answers": [
+      { "id": "ml-097-a", "text": "Un modèle probabiliste qui suppose que les données sont générées par un mélange de plusieurs distributions gaussiennes", "isCorrect": true },
+      { "id": "ml-097-b", "text": "Un algorithme de classification supervisée", "isCorrect": false },
+      { "id": "ml-097-c", "text": "Un réseau de neurones", "isCorrect": false },
+      { "id": "ml-097-d", "text": "Une méthode de régression", "isCorrect": false }
+    ],
+    "explanation": "Le GMM modélise les données comme un mélange de K distributions gaussiennes. Contrairement à K-means qui fait une assignation dure, le GMM assigne chaque point à chaque cluster avec une probabilité (assignation douce). Il est optimisé par l'algorithme EM (Expectation-Maximization).",
+    "difficulty": "medium",
+    "tags": ["GMM", "clustering", "probabiliste"]
+  },
+  {
+    "id": "ml-098",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est le principe de l'algorithme Expectation-Maximization (EM) ?",
+    "answers": [
+      { "id": "ml-098-a", "text": "Alterner entre une étape E (estimer les variables latentes) et une étape M (maximiser la vraisemblance)", "isCorrect": true },
+      { "id": "ml-098-b", "text": "Entraîner un réseau de neurones", "isCorrect": false },
+      { "id": "ml-098-c", "text": "Réduire la dimension des données", "isCorrect": false },
+      { "id": "ml-098-d", "text": "Classer les données", "isCorrect": false }
+    ],
+    "explanation": "L'algorithme EM est un algorithme itératif pour l'estimation de paramètres avec variables latentes. Étape E : calculer l'espérance des variables latentes sachant les paramètres courants. Étape M : maximiser la vraisemblance en mettant à jour les paramètres. Il converge vers un maximum local. Utilisé dans GMM, HMM, et l'imputation de données manquantes.",
+    "difficulty": "hard",
+    "tags": ["EM", "Expectation-Maximization", "variables latentes"]
+  },
+  {
+    "id": "ml-099",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le pipeline en machine learning ?",
+    "answers": [
+      { "id": "ml-099-a", "text": "Un seul algorithme très complexe", "isCorrect": false },
+      { "id": "ml-099-b", "text": "Une chaîne de transformations et d'un modèle qui s'exécutent séquentiellement de manière automatisée", "isCorrect": true },
+      { "id": "ml-099-c", "text": "Un flux de données en temps réel", "isCorrect": false },
+      { "id": "ml-099-d", "text": "Un réseau de neurones", "isCorrect": false }
+    ],
+    "explanation": "Un pipeline enchaîne des étapes de preprocessing (normalisation, encodage, sélection de features) et un estimateur final. Avantages : code plus propre, évite le data leakage (les transformations sont ajustées uniquement sur le fold d'entraînement), facilite la reproductibilité et le déploiement. scikit-learn propose la classe Pipeline.",
+    "difficulty": "easy",
+    "tags": ["pipeline", "preprocessing", "bonnes pratiques"]
+  },
+  {
+    "id": "ml-100",
+    "domain": "MACHINE_LEARNING",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que l'apprentissage actif (active learning) ?",
+    "answers": [
+      { "id": "ml-100-a", "text": "Un apprentissage où le modèle choisit les données qu'il veut que l'expert étiquette", "isCorrect": true },
+      { "id": "ml-100-b", "text": "Un apprentissage où toutes les données sont étiquetées d'avance", "isCorrect": false },
+      { "id": "ml-100-c", "text": "Un apprentissage non supervisé", "isCorrect": false },
+      { "id": "ml-100-d", "text": "Un apprentissage par renforcement", "isCorrect": false }
+    ],
+    "explanation": "L'apprentissage actif permet au modèle de sélectionner les exemples les plus informatifs à étiqueter par un expert humain. Stratégies : incertitude (points où le modèle est le moins sûr), diversité, représentativité. Cela réduit le nombre d'étiquettes nécessaires tout en maintenant une bonne performance.",
+    "difficulty": "medium",
+    "tags": ["active learning", "étiquetage", "efficacité"]
+  }
+]

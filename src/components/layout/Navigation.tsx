@@ -49,7 +49,6 @@ const navLinks: NavLink[] = [
     href: "/offline",
     label: "Hors Ligne",
     icon: WifiOff,
-    requiresOnboarding: true,
   },
   {
     href: "/exams",

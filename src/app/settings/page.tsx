@@ -33,7 +33,7 @@ export default function SettingsPage() {
 
   useEffect(() => {
     const loadSettings = async () => {
-      console.log('[Settings] Loading settings...');
+      console.log("[Settings] Loading settings...");
       try {
         // Initialize notification service
         await notificationService.init();
@@ -52,7 +52,7 @@ export default function SettingsPage() {
         }
         setLoading(false);
       } catch (error) {
-        console.error('[Settings] Failed to load settings:', error);
+        console.error("[Settings] Failed to load settings:", error);
         setLoading(false);
       }
     };
@@ -62,11 +62,17 @@ export default function SettingsPage() {
 
   const handleSave = async () => {
     setIsSaving(true);
-    console.log('[Settings] Saving settings...');
-    console.log('[Settings] Provider:', provider);
-    console.log('[Settings] OpenRouter API Key:', apiKey ? apiKey.substring(0, 10) + "..." : "empty");
-    console.log('[Settings] Gemini API Key:', geminiApiKey ? geminiApiKey.substring(0, 10) + "..." : "empty");
-    console.log('[Settings] Model:', selectedModel);
+    console.log("[Settings] Saving settings...");
+    console.log("[Settings] Provider:", provider);
+    console.log(
+      "[Settings] OpenRouter API Key:",
+      apiKey ? apiKey.substring(0, 10) + "..." : "empty",
+    );
+    console.log(
+      "[Settings] Gemini API Key:",
+      geminiApiKey ? geminiApiKey.substring(0, 10) + "..." : "empty",
+    );
+    console.log("[Settings] Model:", selectedModel);
     try {
       await storageService.saveSettings({
         apiKey,
@@ -82,10 +88,10 @@ export default function SettingsPage() {
         onboardingCompleted: true,
         updatedAt: new Date(),
       });
-      console.log('[Settings] Settings saved successfully');
+      console.log("[Settings] Settings saved successfully");
       alert("Paramètres sauvegardés !");
     } catch (error) {
-      console.error('[Settings] Failed to save settings:', error);
+      console.error("[Settings] Failed to save settings:", error);
       alert("Erreur lors de la sauvegarde des paramètres");
     } finally {
       setIsSaving(false);
@@ -99,7 +105,9 @@ export default function SettingsPage() {
     if (newValue && !notificationService.isEnabled()) {
       const granted = await notificationService.requestPermission();
       if (!granted) {
-        alert("Les notifications nécessitent votre permission pour fonctionner. Vous pouvez les activer dans les paramètres de votre navigateur.");
+        alert(
+          "Les notifications nécessitent votre permission pour fonctionner. Vous pouvez les activer dans les paramètres de votre navigateur.",
+        );
         return;
       }
     }
@@ -114,12 +122,12 @@ export default function SettingsPage() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `review-iabd-backup-${new Date().toISOString().split('T')[0]}.json`;
+      a.download = `review-iabd-backup-${new Date().toISOString().split("T")[0]}.json`;
       a.click();
       URL.revokeObjectURL(url);
       alert("Données exportées avec succès !");
     } catch (error) {
-      console.error('[Settings] Export failed:', error);
+      console.error("[Settings] Export failed:", error);
       alert("Erreur lors de l'export des données");
     }
   };
@@ -138,7 +146,7 @@ export default function SettingsPage() {
         alert("Données importées avec succès !");
         window.location.reload();
       } catch (error) {
-        console.error('[Settings] Import failed:', error);
+        console.error("[Settings] Import failed:", error);
         alert("Erreur lors de l'import des données");
       }
     };
@@ -146,13 +154,17 @@ export default function SettingsPage() {
   };
 
   const handleClearData = async () => {
-    if (confirm("Êtes-vous sûr de vouloir supprimer toutes les données locales ?")) {
+    if (
+      confirm("Êtes-vous sûr de vouloir supprimer toutes les données locales ?")
+    ) {
       try {
         await storageService.clearAllData();
-        alert("Données supprimées. Vous allez être redirigé vers l'onboarding.");
+        alert(
+          "Données supprimées. Vous allez être redirigé vers l'onboarding.",
+        );
         window.location.href = "/onboarding";
       } catch (error) {
-        console.error('[Settings] Failed to clear data:', error);
+        console.error("[Settings] Failed to clear data:", error);
         alert("Erreur lors de la suppression des données");
       }
     }
@@ -168,7 +180,9 @@ export default function SettingsPage() {
       <div className="min-h-screen flex flex-col bg-paper-primary">
         <Navigation />
         <main className="flex-1 flex items-center justify-center">
-          <p className="font-mono text-ink-muted">Chargement des paramètres...</p>
+          <p className="font-mono text-ink-muted">
+            Chargement des paramètres...
+          </p>
         </main>
       </div>
     );
@@ -199,53 +213,61 @@ export default function SettingsPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <label
                     className={`flex items-center gap-3 p-4 rounded border cursor-pointer transition-all ${
-                      provider === 'openrouter'
-                        ? 'border-accent bg-accent/10'
-                        : 'border-paper-dark hover:border-accent/50'
+                      provider === "openrouter"
+                        ? "border-accent bg-accent/10"
+                        : "border-paper-dark hover:border-accent/50"
                     }`}
                   >
                     <input
                       type="radio"
                       name="provider"
                       value="openrouter"
-                      checked={provider === 'openrouter'}
-                      onChange={(e) => setProvider(e.target.value as AIProvider)}
+                      checked={provider === "openrouter"}
+                      onChange={(e) =>
+                        setProvider(e.target.value as AIProvider)
+                      }
                       className="sr-only"
                     />
                     <div>
                       <div className="font-mono text-sm">OpenRouter</div>
-                      <div className="text-xs text-ink-muted">Plusieurs modèles disponibles</div>
+                      <div className="text-xs text-ink-muted">
+                        Plusieurs modèles disponibles
+                      </div>
                     </div>
                   </label>
 
                   <label
                     className={`flex items-center gap-3 p-4 rounded border cursor-pointer transition-all ${
-                      provider === 'gemini'
-                        ? 'border-accent bg-accent/10'
-                        : 'border-paper-dark hover:border-accent/50'
+                      provider === "gemini"
+                        ? "border-accent bg-accent/10"
+                        : "border-paper-dark hover:border-accent/50"
                     }`}
                   >
                     <input
                       type="radio"
                       name="provider"
                       value="gemini"
-                      checked={provider === 'gemini'}
-                      onChange={(e) => setProvider(e.target.value as AIProvider)}
+                      checked={provider === "gemini"}
+                      onChange={(e) =>
+                        setProvider(e.target.value as AIProvider)
+                      }
                       className="sr-only"
                     />
                     <div>
                       <div className="font-mono text-sm">Google Gemini</div>
-                      <div className="text-xs text-ink-muted">Gemini 2.5 Flash</div>
+                      <div className="text-xs text-ink-muted">Gemini/Gemma</div>
                     </div>
                   </label>
                 </div>
               </div>
 
               {/* API Key fields - conditional based on provider */}
-              {provider === 'openrouter' ? (
+              {provider === "openrouter" ? (
                 <div className="space-y-3">
                   <div>
-                    <label className="font-medium block mb-2">Clé API OpenRouter</label>
+                    <label className="font-medium block mb-2">
+                      Clé API OpenRouter
+                    </label>
                     <input
                       type="password"
                       value={apiKey}
@@ -269,7 +291,9 @@ export default function SettingsPage() {
               ) : (
                 <div className="space-y-3">
                   <div>
-                    <label className="font-medium block mb-2">Clé API Google</label>
+                    <label className="font-medium block mb-2">
+                      Clé API Google
+                    </label>
                     <input
                       type="password"
                       value={geminiApiKey}
@@ -305,24 +329,26 @@ export default function SettingsPage() {
                 {models
                   .filter((model) => model.provider === provider)
                   .map((model) => (
-                  <button
-                    key={model.id}
-                    onClick={() => setSelectedModel(model.id)}
-                    className={`w-full p-3 rounded border text-left transition-all flex items-center justify-between ${
-                      selectedModel === model.id
-                        ? "border-accent bg-accent/10"
-                        : "border-paper-dark hover:border-accent/50"
-                    }`}
-                  >
-                    <span className="font-mono text-sm">{model.name}</span>
-                    {model.free && (
-                      <span className="text-xs px-2 py-1 bg-green-500/10 text-green-500 rounded">GRATUIT</span>
-                    )}
-                    {selectedModel === model.id && (
-                      <span className="text-accent text-sm">✓</span>
-                    )}
-                  </button>
-                ))}
+                    <button
+                      key={model.id}
+                      onClick={() => setSelectedModel(model.id)}
+                      className={`w-full p-3 rounded border text-left transition-all flex items-center justify-between ${
+                        selectedModel === model.id
+                          ? "border-accent bg-accent/10"
+                          : "border-paper-dark hover:border-accent/50"
+                      }`}
+                    >
+                      <span className="font-mono text-sm">{model.name}</span>
+                      {model.free && (
+                        <span className="text-xs px-2 py-1 bg-green-500/10 text-green-500 rounded">
+                          GRATUIT
+                        </span>
+                      )}
+                      {selectedModel === model.id && (
+                        <span className="text-accent text-sm">✓</span>
+                      )}
+                    </button>
+                  ))}
 
                 {/* Custom Model Input - OpenRouter */}
                 {provider === "openrouter" && (
@@ -346,22 +372,27 @@ export default function SettingsPage() {
                         className="text-accent hover:underline"
                       >
                         la liste complète
-                      </a>.
+                      </a>
+                      .
                     </p>
-                    {customOpenRouterModel && selectedModel !== customOpenRouterModel && (
-                      <button
-                        onClick={() => setSelectedModel(customOpenRouterModel)}
-                        className="mt-2 text-xs text-accent hover:underline"
-                      >
-                        Utiliser ce modèle custom
-                      </button>
-                    )}
-                    {selectedModel === customOpenRouterModel && customOpenRouterModel && (
-                      <span className="inline-flex items-center gap-1 mt-2 text-xs px-2 py-1 bg-accent/10 text-accent rounded">
-                        <span>CUSTOM</span>
-                        <span>✓</span>
-                      </span>
-                    )}
+                    {customOpenRouterModel &&
+                      selectedModel !== customOpenRouterModel && (
+                        <button
+                          onClick={() =>
+                            setSelectedModel(customOpenRouterModel)
+                          }
+                          className="mt-2 text-xs text-accent hover:underline"
+                        >
+                          Utiliser ce modèle custom
+                        </button>
+                      )}
+                    {selectedModel === customOpenRouterModel &&
+                      customOpenRouterModel && (
+                        <span className="inline-flex items-center gap-1 mt-2 text-xs px-2 py-1 bg-accent/10 text-accent rounded">
+                          <span>CUSTOM</span>
+                          <span>✓</span>
+                        </span>
+                      )}
                   </div>
                 )}
 
@@ -387,26 +418,30 @@ export default function SettingsPage() {
                         className="text-accent hover:underline"
                       >
                         la documentation Gemini
-                      </a>.
+                      </a>
+                      .
                     </p>
-                    {customGeminiModel && selectedModel !== customGeminiModel && (
-                      <button
-                        onClick={() => setSelectedModel(customGeminiModel)}
-                        className="mt-2 text-xs text-accent hover:underline"
-                      >
-                        Utiliser ce modèle custom
-                      </button>
-                    )}
-                    {selectedModel === customGeminiModel && customGeminiModel && (
-                      <span className="inline-flex items-center gap-1 mt-2 text-xs px-2 py-1 bg-accent/10 text-accent rounded">
-                        <span>CUSTOM</span>
-                        <span>✓</span>
-                      </span>
-                    )}
+                    {customGeminiModel &&
+                      selectedModel !== customGeminiModel && (
+                        <button
+                          onClick={() => setSelectedModel(customGeminiModel)}
+                          className="mt-2 text-xs text-accent hover:underline"
+                        >
+                          Utiliser ce modèle custom
+                        </button>
+                      )}
+                    {selectedModel === customGeminiModel &&
+                      customGeminiModel && (
+                        <span className="inline-flex items-center gap-1 mt-2 text-xs px-2 py-1 bg-accent/10 text-accent rounded">
+                          <span>CUSTOM</span>
+                          <span>✓</span>
+                        </span>
+                      )}
                   </div>
                 )}
 
-                {models.filter((model) => model.provider === provider).length === 0 && (
+                {models.filter((model) => model.provider === provider)
+                  .length === 0 && (
                   <p className="text-center text-ink-muted text-sm py-4">
                     Aucun modèle disponible pour ce fournisseur
                   </p>
@@ -451,16 +486,15 @@ export default function SettingsPage() {
                     max="50"
                     step="5"
                     value={offlineQuestions}
-                    onChange={(e) => setOfflineQuestions(parseInt(e.target.value))}
+                    onChange={(e) =>
+                      setOfflineQuestions(parseInt(e.target.value))
+                    }
                     className="w-24 px-3 py-2 bg-paper-secondary border border-paper-dark rounded font-mono text-sm focus:outline-none focus:border-accent"
                   />
                 </div>
 
                 <div className="pt-4 border-t border-paper-dark">
-                  <BatchSizeSlider
-                    value={batchSize}
-                    onChange={setBatchSize}
-                  />
+                  <BatchSizeSlider value={batchSize} onChange={setBatchSize} />
                 </div>
               </div>
             </CardContent>

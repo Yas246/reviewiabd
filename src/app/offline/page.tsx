@@ -8,7 +8,7 @@ import { Card, CardContent, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { DomainSelector } from "@/components/features/DomainSelector";
 import { Badge } from "@/components/ui/Badge";
-import { Domain, SavedExercise } from "@/types";
+import { Domain, QuizSession, SavedExercise } from "@/types";
 import { Download, Wifi, WifiOff, CheckCircle } from "lucide-react";
 import { indexedDBService } from "@/services/IndexedDBService";
 import { aiServiceFactory } from "@/services/AIServiceFactory";
@@ -28,6 +28,7 @@ export default function OfflinePage() {
   const [loading, setLoading] = useState(true);
   const [questionCount, setQuestionCount] = useState(10);
   const [isOnline, setIsOnline] = useState(true);
+  const [activeSessions, setActiveSessions] = useState<Map<string, QuizSession>>(new Map());
 
   useEffect(() => {
     const loadSettingsAndExercises = async () => {
@@ -45,6 +46,19 @@ export default function OfflinePage() {
         const allExercises = await indexedDBService.getAllExercises();
         console.log('[Offline] Loaded', allExercises.length, 'exercises');
         setExercises(allExercises);
+
+        // Load active (in-progress or paused) sessions for offline exercises
+        const sessionsMap = new Map<string, QuizSession>();
+        const inProgress = await indexedDBService.getSessionsByStatus("IN_PROGRESS");
+        const paused = await indexedDBService.getSessionsByStatus("PAUSED");
+        for (const s of [...inProgress, ...paused]) {
+          if (s.type === "offline" && s.exerciseId) {
+            sessionsMap.set(s.exerciseId, s);
+          }
+        }
+        setActiveSessions(sessionsMap);
+        console.log('[Offline] Found', sessionsMap.size, 'active sessions');
+
         setLoading(false);
       } catch (error) {
         console.error('[Offline] Failed to load settings/exercises:', error);
@@ -141,6 +155,7 @@ export default function OfflinePage() {
         currentIndex: 0,
         status: "IN_PROGRESS" as any,
         startedAt: new Date(),
+        exerciseId: exercise.id,
       });
 
       // Update background task and send notification
@@ -186,7 +201,7 @@ export default function OfflinePage() {
       // Mark as used
       await indexedDBService.markExerciseUsed(exerciseId);
 
-      // Create session
+      // Create session with exerciseId for resume tracking
       const sessionId = `offline-${Date.now()}`;
       await indexedDBService.saveSession({
         id: sessionId,
@@ -197,6 +212,7 @@ export default function OfflinePage() {
         currentIndex: 0,
         status: "IN_PROGRESS" as any,
         startedAt: new Date(),
+        exerciseId: exercise.id,
       });
 
       console.log('[Offline] Session created:', sessionId);
@@ -205,6 +221,22 @@ export default function OfflinePage() {
     } catch (error) {
       console.error('[Offline] Failed to start exercise:', error);
       alert("Erreur lors du démarrage de l'exercice");
+    }
+  };
+
+  const handleResumeExercise = (sessionId: string) => {
+    window.location.href = `/quiz?session=${sessionId}`;
+  };
+
+  const handleRestartExercise = async (exerciseId: string, oldSessionId: string) => {
+    try {
+      // Delete the old session
+      await indexedDBService.deleteSession(oldSessionId);
+      // Start fresh
+      await handleStartExercise(exerciseId);
+    } catch (error) {
+      console.error('[Offline] Failed to restart exercise:', error);
+      alert("Erreur lors du redémarrage");
     }
   };
 
@@ -325,47 +357,92 @@ export default function OfflinePage() {
             </Card>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {exercises.map((exercise) => (
-                <Card key={exercise.id} hoverable>
-                  <CardContent>
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <CardTitle className="text-base">
-                          {exercise.domain.replace(/_/g, " ")}
-                        </CardTitle>
-                        <p className="text-sm text-ink-muted">
-                          {exercise.questions.length} questions
-                        </p>
+              {exercises.map((exercise) => {
+                const activeSession = activeSessions.get(exercise.id);
+                const answeredCount = activeSession
+                  ? Object.keys(activeSession.userAnswers).length
+                  : 0;
+                const totalQuestions = exercise.questions.length;
+
+                return (
+                  <Card key={exercise.id} hoverable>
+                    <CardContent>
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <CardTitle className="text-base">
+                            {exercise.domain.replace(/_/g, " ")}
+                          </CardTitle>
+                          <p className="text-sm text-ink-muted">
+                            {totalQuestions} questions
+                          </p>
+                        </div>
+                        {activeSession ? (
+                          <Badge variant="default">
+                            {answeredCount}/{totalQuestions}
+                          </Badge>
+                        ) : (
+                          <Badge variant={exercise.used ? "default" : "success"}>
+                            {exercise.used ? "Utilisé" : <><CheckCircle className="w-3 h-3 mr-1" />Prêt</>}
+                          </Badge>
+                        )}
                       </div>
-                      <Badge variant={exercise.used ? "default" : "success"}>
-                        {exercise.used ? "Utilisé" : <><CheckCircle className="w-3 h-3 mr-1" />Prêt</>}
-                      </Badge>
-                    </div>
 
-                    <p className="font-mono text-xs text-ink-muted mb-4">
-                      Ajouté le {new Date(exercise.createdAt).toLocaleDateString("fr-FR")}
-                    </p>
+                      <p className="font-mono text-xs text-ink-muted mb-4">
+                        Ajouté le {new Date(exercise.createdAt).toLocaleDateString("fr-FR")}
+                      </p>
 
-                    <div className="flex gap-2">
-                      <Button
-                        variant="primary"
-                        className="flex-1"
-                        size="sm"
-                        onClick={() => handleStartExercise(exercise.id)}
-                      >
-                        Commencer
-                      </Button>
-                      <Button
-                        variant="secondary"
-                        size="sm"
-                        onClick={() => handleDeleteExercise(exercise.id)}
-                      >
-                        Supprimer
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+                      {activeSession ? (
+                        <div className="space-y-2">
+                          <Button
+                            variant="primary"
+                            className="w-full"
+                            size="sm"
+                            onClick={() => handleResumeExercise(activeSession.id)}
+                          >
+                            Continuer ({answeredCount}/{totalQuestions})
+                          </Button>
+                          <div className="flex gap-2">
+                            <Button
+                              variant="secondary"
+                              className="flex-1"
+                              size="sm"
+                              onClick={() => handleRestartExercise(exercise.id, activeSession.id)}
+                            >
+                              Recommencer
+                            </Button>
+                            <Button
+                              variant="secondary"
+                              className="flex-1"
+                              size="sm"
+                              onClick={() => handleDeleteExercise(exercise.id)}
+                            >
+                              Supprimer
+                            </Button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="flex gap-2">
+                          <Button
+                            variant="primary"
+                            className="flex-1"
+                            size="sm"
+                            onClick={() => handleStartExercise(exercise.id)}
+                          >
+                            Commencer
+                          </Button>
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            onClick={() => handleDeleteExercise(exercise.id)}
+                          >
+                            Supprimer
+                          </Button>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                );
+              })}
             </div>
           )}
         </div>

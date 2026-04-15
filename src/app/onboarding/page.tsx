@@ -135,6 +135,29 @@ export default function OnboardingPage() {
     }
   };
 
+  const handleSkip = async () => {
+    setIsLoading(true);
+    try {
+      await storageService.saveSettings({
+        apiKey: "",
+        geminiApiKey: "",
+        provider: "openrouter",
+        model: "google/gemma-4-31b-it:free",
+        defaultModel: "google/gemma-4-31b-it:free",
+        onboardingCompleted: true,
+        notifyOnComplete: false,
+        offlineQuestionsPerDomain: 10,
+        batchSize: 10,
+        updatedAt: new Date(),
+      });
+      router.push("/");
+    } catch {
+      setError("Erreur lors de la sauvegarde. Réessayez.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-paper-primary w-full">
       <Navigation />
@@ -498,6 +521,28 @@ export default function OnboardingPage() {
             {step === 1 ? "Continuer" : "Terminer"}
           </Button>
         </div>
+
+        {/* Skip onboarding */}
+        {step === 1 && (
+          <div className="mt-8 border-t border-paper-dark pt-6 text-center">
+            <p className="text-sm text-ink-secondary mb-4">
+              Vous avez déjà accès à <strong>1000 questions offline</strong>{" "}
+              (10 domaines × 100 questions). Vous pourrez configurer votre clé
+              API plus tard dans les{" "}
+              <a href="/settings" className="text-accent hover:underline">
+                Paramètres
+              </a>{" "}
+              pour générer des questions personnalisées.
+            </p>
+            <button
+              onClick={handleSkip}
+              disabled={isLoading}
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg border border-paper-dark bg-paper-secondary text-sm font-mono text-ink-secondary hover:border-accent hover:text-accent hover:bg-accent/5 active:scale-[0.98] transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Continuer plus tard →
+            </button>
+          </div>
+        )}
       </main>
 
       {/* Help Modal */}
