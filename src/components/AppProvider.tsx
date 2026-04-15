@@ -73,8 +73,19 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   // Show loading state while initializing
   if (!isInitialized) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-paper-primary">
-        <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin"></div>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-paper-primary gap-6">
+        <div className="flex flex-col items-center gap-2">
+          <h1
+            className="text-3xl font-bold text-ink-primary tracking-tight"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            Review IABD
+          </h1>
+          <p className="text-sm text-ink-muted font-mono">Chargement...</p>
+        </div>
+        <div className="w-48 h-1 rounded-full bg-(--paper-primary) border border-(--ink-muted)/20 overflow-hidden">
+          <div className="loading-bar h-full rounded-full bg-(--accent-vivid)" />
+        </div>
       </div>
     );
   }
