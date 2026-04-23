@@ -20,7 +20,7 @@ const DOMAIN_FILES: Record<string, string> = {
   NLP: "/questions/NLP.json",
 };
 
-const LOADED_FLAG = "preloaded_questions_v4";
+const LOADED_FLAG = "preloaded_questions_v5";
 
 // ============================================
 // RAW FORMAT (from JSON files)
@@ -54,7 +54,20 @@ function isSimpleFormat(raw: RawQuestion): raw is RawQuestionSimple {
 }
 
 /**
+ * Shuffle an array using Fisher-Yates, returning a new array.
+ */
+function shuffleArray<T>(arr: T[]): T[] {
+  const result = [...arr];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
+
+/**
  * Transform raw question data (simple or full format) into the app's Question interface.
+ * Shuffles answer order so the correct answer isn't always the same position.
  */
 function transformQuestion(raw: RawQuestion, domain: string): Question {
   if (isSimpleFormat(raw)) {
@@ -65,16 +78,19 @@ function transformQuestion(raw: RawQuestion, domain: string): Question {
     // Strip "A) ", "B) ", etc. prefix from option text
     const stripPrefix = (opt: string) => opt.replace(/^[A-D]\)\s*/i, "").trim();
 
+    // Build answers then shuffle
+    const answers = raw.options.map((opt, i) => ({
+      id: `${raw.id}_${String.fromCharCode(97 + i)}`,
+      text: stripPrefix(opt),
+      isCorrect: i === correctIndex,
+    }));
+
     return {
       id: raw.id,
       domain: domain as Domain,
       type: QuestionType.SINGLE_CHOICE,
       question: raw.question,
-      answers: raw.options.map((opt, i) => ({
-        id: `${raw.id}_${String.fromCharCode(97 + i)}`,
-        text: stripPrefix(opt),
-        isCorrect: i === correctIndex,
-      })),
+      answers: shuffleArray(answers),
       explanation: raw.explanation,
       difficulty: "medium" as const,
       tags: [domain.toLowerCase()],
@@ -82,13 +98,14 @@ function transformQuestion(raw: RawQuestion, domain: string): Question {
     };
   }
 
-  // Already in full format
+  // Already in full format — shuffle answers
   return {
     ...raw,
     domain: raw.domain as Domain,
     type: (raw.type as QuestionType) || QuestionType.SINGLE_CHOICE,
     difficulty: (raw.difficulty as "easy" | "medium" | "hard") || "medium",
     tags: raw.tags || [],
+    answers: shuffleArray(raw.answers),
     createdAt: new Date(),
   };
 }
