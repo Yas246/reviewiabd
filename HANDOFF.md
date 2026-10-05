@@ -1,6 +1,34 @@
 # HANDOFF.md : Review IABD
 
-Dernière mise à jour : 2026-10-05 (section Cheat Sheets : 8 fiches, 292 entrées, page avec recherche)
+Dernière mise à jour : 2026-10-05 (BASE COMMITTÉE + prête pour Vercel ; phase suivante : design nouveau avec Taste Skills)
+
+## Commits locaux effectués (2026-10-05) — dépôt propre
+
+- b567a10 fix : thème Tailwind 4 complet, scrollbar thémée, en-têtes sécurité et version centralisée
+- 94af710 fix sw : pré-cache des chunks de chaque page, workers en network-first, cache runtimes
+- b0ee29e feat : app offline-first (banque locale, formats multi/VF/trous/code/cas pratiques, cahier d'erreurs, SRS, streaks, import sans clé API, épreuves réelles, cheat sheets)
+- 6ed9a40 contenu : 1400 questions validées sur 14 matières et 8 cheat sheets (348 entrées)
+- 8d99ae2 docs : README à jour, HANDOFF, spécifications, scripts qualité et build Vercel
+- PAS de push (origin non synchronisé, décision utilisateur). PAS de mention IA dans les messages.
+
+## Vercel : prêt
+
+- vercel.json : buildCommand = npm run setup:runtimes && npm run build (télécharge et
+  installe les runtimes Python/R/SQL dans public/runtimes au build, car le dossier est
+  gitignoré en local). En-têtes COOP/COEP servis par next.config.
+- Le SW (v3.4.3) s'active en production : l'app déployée est utilisable hors ligne après
+  une première visite + préchargement des runtimes dans Paramètres.
+- Suite à une mise à jour déployée : caches SW purgés → re-précharger les runtimes une
+  fois en ligne.
+
+## Phase suivante : DESIGN NOUVEAU (pas un redesign)
+
+- Utilisateur valide la base committée ; il lancera la phase design avec les Taste
+  Skills (design-taste-frontend etc.), AUTORISATION donnée pour rechercher en ligne des
+  designs adaptés (révision/examen, sombre académique actuel « Laboratory at Night »).
+- Contrainte à respecter : ne pas casser le offline (SW, runtimes), la banque locale,
+  le cahier d'erreurs/SRS, ni l'import. Thème dark only actuel à remplacer par le
+  nouveau design (variables CSS centralisées : globals.css + @theme).
 
 ## Cheat Sheets (demande utilisateur)
 
