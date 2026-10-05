@@ -1,0 +1,206 @@
+{
+  "id": "SQL",
+  "title": "SQL",
+  "description": "Tout le langage : requêtes, opérateurs, jointures, agrégations, CASE, sous-requêtes, fonctions, transactions, index et optimisation.",
+  "sections": [
+    {
+      "title": "Interroger une table",
+      "items": [
+        {
+          "what": "Ordre logique d'une requête",
+          "code": "SELECT colonnes\nFROM table\nWHERE condition_lignes\nGROUP BY colonnes_groupe\nHAVING condition_groupes\nORDER BY tri\nLIMIT 10;"
+        },
+        {
+          "what": "Valeurs distinctes",
+          "code": "SELECT DISTINCT ville FROM clients;"
+        },
+        {
+          "what": "Filtrer du texte avec LIKE",
+          "code": "SELECT * FROM clients WHERE nom LIKE 'A%';",
+          "note": "% = n'importe quoi, _ = un seul caractère. 'A%' commence par A, '%son' finit par son."
+        },
+        {
+          "what": "BETWEEN, IN",
+          "code": "SELECT * FROM clients WHERE age BETWEEN 25 AND 35;\nSELECT * FROM clients WHERE ville IN ('Cotonou', 'Porto-Novo');"
+        },
+        {
+          "what": "Gérer les NULL",
+          "code": "SELECT * FROM clients WHERE revenu IS NULL;\nSELECT * FROM clients WHERE revenu IS NOT NULL;",
+          "note": "Jamais = NULL : NULL n'est égal à rien, même pas à lui-même. COALESCE(col, 0) remplace NULL par 0."
+        }
+      ]
+    },
+    {
+      "title": "Opérateurs logiques",
+      "items": [
+        {
+          "what": "AND, OR, NOT",
+          "code": "SELECT * FROM clients\nWHERE age > 30 AND (ville = 'Cotonou' OR ville = 'Parakou');",
+          "note": "Priorité : NOT s'évalue avant AND, qui s'évalue avant OR. Les parenthèses l'emportent sur tout : écris-les sans hésiter."
+        },
+        {
+          "what": "CASE WHEN : logique dans le SELECT",
+          "code": "SELECT nom,\n  CASE\n    WHEN revenu >= 1000 THEN 'élevé'\n    WHEN revenu >= 500 THEN 'moyen'\n    ELSE 'faible'\n  END AS tranche\nFROM clients;"
+        }
+      ]
+    },
+    {
+      "title": "Jointures",
+      "items": [
+        {
+          "what": "INNER JOIN : seulement les correspondances",
+          "code": "SELECT c.nom, cmd.montant\nFROM clients c\nINNER JOIN commandes cmd ON cmd.client_id = c.id;"
+        },
+        {
+          "what": "LEFT JOIN : toute la table de gauche",
+          "code": "SELECT c.nom, cmd.montant\nFROM clients c\nLEFT JOIN commandes cmd ON cmd.client_id = c.id;",
+          "note": "Les clients sans commande apparaissent avec montant NULL."
+        },
+        {
+          "what": "Trouver les lignes sans correspondance",
+          "code": "SELECT c.nom\nFROM clients c\nLEFT JOIN commandes cmd ON cmd.client_id = c.id\nWHERE cmd.id IS NULL;",
+          "note": "Classique « clients sans aucune commande »."
+        }
+      ]
+    },
+    {
+      "title": "Agrégation",
+      "items": [
+        {
+          "what": "Fonctions d'agrégation",
+          "code": "SELECT COUNT(*), AVG(revenu), SUM(revenu), MIN(age), MAX(age)\nFROM clients;",
+          "note": "AVG/SUM/AVG ignorent les NULL automatiquement ; COUNT(*) compte toutes les lignes, COUNT(col) ignore les NULL."
+        },
+        {
+          "what": "GROUP BY : agrégat par groupe",
+          "code": "SELECT ville, COUNT(*) AS nb_clients, AVG(revenu) AS revenu_moyen\nFROM clients\nGROUP BY ville;"
+        },
+        {
+          "what": "HAVING : filtre APRÈS agrégation",
+          "code": "SELECT ville, COUNT(*) AS nb\nFROM clients\nGROUP BY ville\nHAVING COUNT(*) > 5;",
+          "note": "WHERE filtre les lignes AVANT regroupement, HAVING filtre les groupes APRÈS."
+        }
+      ]
+    },
+    {
+      "title": "Sous-requêtes et ensembles",
+      "items": [
+        {
+          "what": "Sous-requête dans le WHERE",
+          "code": "SELECT nom FROM clients\nWHERE revenu > (SELECT AVG(revenu) FROM clients);"
+        },
+        {
+          "what": "IN et EXISTS",
+          "code": "SELECT nom FROM clients\nWHERE id IN (SELECT client_id FROM commandes WHERE montant > 50000);\n\nSELECT nom FROM clients c\nWHERE EXISTS (SELECT 1 FROM commandes cmd WHERE cmd.client_id = c.id);"
+        },
+        {
+          "what": "UNION : empiler deux résultats",
+          "code": "SELECT nom FROM clients_2025\nUNION\nSELECT nom FROM clients_2026;",
+          "note": "UNION supprime les doublons ; UNION ALL les garde (plus rapide)."
+        }
+      ]
+    },
+    {
+      "title": "Fonctions utiles",
+      "items": [
+        {
+          "what": "Fonctions de texte",
+          "code": "SELECT UPPER(nom), LOWER(nom), LENGTH(nom),\n       SUBSTR(nom, 1, 3), TRIM('  x  '), REPLACE(nom, 'a', 'o')\nFROM clients;"
+        },
+        {
+          "what": "COALESCE : première valeur non NULL",
+          "code": "SELECT COALESCE(revenu, 0) AS revenu_sans_null FROM clients;"
+        }
+      ]
+    },
+    {
+      "title": "Modifier les données",
+      "items": [
+        {
+          "what": "INSERT : insérer des lignes",
+          "code": "INSERT INTO clients (nom, age, ville) VALUES ('Alice', 25, 'Cotonou');"
+        },
+        {
+          "what": "UPDATE : mettre à jour (toujours avec WHERE)",
+          "code": "UPDATE clients SET revenu = 1200 WHERE id = 4;",
+          "note": "Un UPDATE sans WHERE modifie TOUTE la table."
+        },
+        {
+          "what": "DELETE : supprimer (toujours avec WHERE)",
+          "code": "DELETE FROM clients WHERE id = 99;"
+        }
+      ]
+    },
+    {
+      "title": "Créer et structurer",
+      "items": [
+        {
+          "what": "Types de données courants",
+          "note": "INTEGER (entier), REAL/DECIMAL (décimal ; DECIMAL pour l'argent), TEXT/VARCHAR(n) (texte), DATE/DATETIME, BOOLEAN."
+        },
+        {
+          "what": "CREATE TABLE avec contraintes",
+          "code": "CREATE TABLE clients (\n  id INTEGER PRIMARY KEY,\n  nom TEXT NOT NULL,\n  age INTEGER CHECK (age >= 0),\n  ville TEXT,\n  UNIQUE (nom, ville)\n);"
+        },
+        {
+          "what": "Clé étrangère",
+          "code": "CREATE TABLE commandes (\n  id INTEGER PRIMARY KEY,\n  client_id INTEGER REFERENCES clients(id),\n  montant REAL\n);"
+        },
+        {
+          "what": "ALTER et DROP",
+          "code": "ALTER TABLE clients ADD COLUMN email TEXT;\nDROP TABLE clients;",
+          "note": "DROP supprime la table ET ses données : irréversible."
+        },
+        {
+          "what": "Normalisation : 1NF, 2NF, 3NF",
+          "note": "1NF : valeurs atomiques (pas de listes dans une cellule). 2NF : tout attribut dépend de la clé entière. 3NF : aucun attribut ne dépend d'un attribut non clé. But : éliminer redondance et anomalies."
+        }
+      ]
+    },
+    {
+      "title": "Transactions et ACID",
+      "items": [
+        {
+          "what": "Transaction : tout ou rien",
+          "code": "BEGIN;\nUPDATE comptes SET solde = solde - 100 WHERE id = 1;\nUPDATE comptes SET solde = solde + 100 WHERE id = 2;\nCOMMIT;",
+          "note": "En cas de problème : ROLLBACK annule tout depuis le BEGIN."
+        },
+        {
+          "what": "Les 4 propriétés ACID",
+          "note": "Atomicité (tout ou rien), Cohérence (les règles restent vraies), Isolation (transactions sans interférence), Durabilité (validé = persistant)."
+        }
+      ]
+    },
+    {
+      "title": "Index et optimisation",
+      "items": [
+        {
+          "what": "Créer un index",
+          "code": "CREATE INDEX idx_cmd_client ON commandes(client_id);",
+          "note": "Accélère les filtres et jointures sur la colonne ; ralentit légèrement les écritures."
+        },
+        {
+          "what": "Quand une requête est lente",
+          "note": "1) Vérifier le plan avec EXPLAIN. 2) Indexer les colonnes de filtre et de jointure. 3) Éviter SELECT * : ne prendre que les colonnes utiles. 4) Filtrer au maximum (LIMIT, dates). 5) Pré-calculer dans une table agrégée ou vue matérialisée pour les analyses répétées."
+        },
+        {
+          "what": "Vue : une requête enregistrée",
+          "code": "CREATE VIEW revenus_par_ville AS\nSELECT ville, AVG(revenu) AS moy FROM clients GROUP BY ville;"
+        }
+      ]
+    },
+    {
+      "title": "ETL et entrepôt",
+      "items": [
+        {
+          "what": "Les 3 étapes ETL",
+          "note": "Extract : extraire des sources. Transform : nettoyer, convertir, homogénéiser, dédupliquer. Load : charger dans l'entrepôt (data warehouse)."
+        },
+        {
+          "what": "Schéma en étoile",
+          "note": "Une table de FAITS (ventes, interactions) entourée de tables de DIMENSIONS (client, produit, temps), optimisée pour l'analyse (OLAP) et non pour les transactions (OLTP)."
+        }
+      ]
+    }
+  ]
+}

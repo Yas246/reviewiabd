@@ -1,702 +1,3702 @@
 [
   {
     "id": "dw_001",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce qu'un entrepôt de données (Data Warehouse) ?",
-    "options": ["A) Une base de données relationnelle classique", "B) Un système centralisé de stockage de données historiques orienté analyse", "C) Un outil de visualisation de données", "D) Un langage de programmation pour les bases de données"],
-    "answer": "B",
-    "explanation": "Un Data Warehouse est un système centralisé conçu pour stocker, organiser et analyser de grandes quantités de données historiques provenant de sources multiples, dans le but de soutenir la prise de décision."
+    "answers": [
+      {
+        "id": "dw_001_a",
+        "text": "Une base de données relationnelle classique",
+        "isCorrect": false,
+        "note": "Confusion fréquente : une base relationnelle classique est optimisée pour les transactions du quotidien, pas pour l'analyse historique."
+      },
+      {
+        "id": "dw_001_c",
+        "text": "Un outil de visualisation de données",
+        "isCorrect": false,
+        "note": "Cette option confond le stockage analytique avec les outils de restitution comme les dashboards, qui ne font qu'exploiter les données."
+      },
+      {
+        "id": "dw_001_b",
+        "text": "Un système centralisé de stockage de données historiques orienté analyse",
+        "isCorrect": true,
+        "note": "C'est exact : un entrepôt de données centralise des données historiques intégrées pour soutenir l'analyse et la prise de décision."
+      },
+      {
+        "id": "dw_001_d",
+        "text": "Un langage de programmation pour les bases de données",
+        "isCorrect": false,
+        "note": "Piège de vocabulaire : le Data Warehouse est un système de stockage, pas un langage comme SQL ou Python."
+      }
+    ],
+    "explanation": "Un Data Warehouse est un système centralisé conçu pour stocker, organiser et analyser de grandes quantités de données historiques provenant de sources multiples, dans le but de soutenir la prise de décision.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_002",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qui est considéré comme le père du Data Warehousing ?",
-    "options": ["A) Edgar F. Codd", "B) Bill Inmon", "C) Ralph Kimball", "D) Jeff Bezos"],
-    "answer": "B",
-    "explanation": "Bill Inmon est reconnu comme le père du Data Warehousing. Il a défini le concept dans les années 1990 et propose une approche ascendante (top-down) pour la construction d'entrepôts de données."
+    "answers": [
+      {
+        "id": "dw_002_a",
+        "text": "Edgar F. Codd",
+        "isCorrect": false,
+        "note": "Codd est le père du modèle relationnel ; cette réponse empiète sur un autre chapitre fondateur des bases de données."
+      },
+      {
+        "id": "dw_002_d",
+        "text": "Jeff Bezos",
+        "isCorrect": false,
+        "note": "Réponse volontairement saugrenue : Bezos est un entrepreneur du e-commerce, sans contribution théorique au Data Warehousing."
+      },
+      {
+        "id": "dw_002_c",
+        "text": "Ralph Kimball",
+        "isCorrect": false,
+        "note": "Kimball est une figure majeure de la modélisation dimensionnelle, mais le titre de père du Data Warehousing revient à Inmon."
+      },
+      {
+        "id": "dw_002_b",
+        "text": "Bill Inmon",
+        "isCorrect": true,
+        "note": "Exact : Bill Inmon, qui a défini l'entrepôt de données dès les années 1990, est unanimement appelé le père du Data Warehousing."
+      }
+    ],
+    "explanation": "Bill Inmon est reconnu comme le père du Data Warehousing. Il a défini le concept dans les années 1990 et préconise une approche descendante (top-down) : construire d'abord l'entrepôt global de l'entreprise, puis en dériver les datamarts.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_003",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Quelle est la différence principale entre l'approche de Bill Inmon et celle de Ralph Kimball ?",
-    "options": ["A) Inmon utilise le NoSQL, Kimball utilise le SQL", "B) Inmon propose une approche top-down, Kimball une approche bottom-up", "C) Kimball travaille uniquement avec des fichiers plats", "D) Il n'y a aucune différence entre les deux approches"],
-    "answer": "B",
-    "explanation": "Bill Inmon propose une approche top-down (construire l'entrepôt global d'abord, puis les datamarts), tandis que Ralph Kimball propose une approche bottom-up (construire des datamarts progressivement pour former l'entrepôt)."
+    "answers": [
+      {
+        "id": "dw_003_b",
+        "text": "Inmon propose une approche top-down, Kimball une approche bottom-up",
+        "isCorrect": true,
+        "note": "Exact : Inmon construit l'entrepôt global avant les datamarts (top-down), Kimball part des datamarts (bottom-up)."
+      },
+      {
+        "id": "dw_003_a",
+        "text": "Inmon utilise le NoSQL, Kimball utilise le SQL",
+        "isCorrect": false,
+        "note": "Les deux approches s'appuient historiquement sur le relationnel ; la différence porte sur la démarche de construction, pas la technologie."
+      },
+      {
+        "id": "dw_003_c",
+        "text": "Kimball travaille uniquement avec des fichiers plats",
+        "isCorrect": false,
+        "note": "Kimball n'a jamais limité son approche aux fichiers plats : il prône la modélisation dimensionnelle en étoile."
+      },
+      {
+        "id": "dw_003_d",
+        "text": "Il n'y a aucune différence entre les deux approches",
+        "isCorrect": false,
+        "note": "Cette négation est fausse : la séquence de construction (entrepôt d'abord ou datamarts d'abord) distingue profondément les deux écoles."
+      }
+    ],
+    "explanation": "Bill Inmon propose une approche top-down (construire l'entrepôt global d'abord, puis les datamarts), tandis que Ralph Kimball propose une approche bottom-up (construire des datamarts progressivement pour former l'entrepôt).",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_004",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce qu'un Data Mart ?",
-    "options": ["A) Un marché de données en ligne", "B) Un sous-ensemble d'un Data Warehouse orienté vers un département spécifique", "C) Un algorithme de nettoyage de données", "D) Un format de fichier pour les bases de données"],
-    "answer": "B",
-    "explanation": "Un Data Mart est un sous-ensemble spécialisé d'un Data Warehouse, conçu pour répondre aux besoins spécifiques d'un département ou d'une unité fonctionnelle (marketing, RH, finance, etc.)."
+    "answers": [
+      {
+        "id": "dw_004_a",
+        "text": "Un marché de données en ligne",
+        "isCorrect": false,
+        "note": "Contre-sens littéral sur le mot « market » : il ne s'agit pas d'une place de marché mais d'un sous-ensemble de l'entrepôt."
+      },
+      {
+        "id": "dw_004_b",
+        "text": "Un sous-ensemble d'un Data Warehouse orienté vers un département spécifique",
+        "isCorrect": true,
+        "note": "Exact : le Data Mart est un sous-ensemble de l'entrepôt dédié aux besoins d'un département comme le marketing ou la finance."
+      },
+      {
+        "id": "dw_004_c",
+        "text": "Un algorithme de nettoyage de données",
+        "isCorrect": false,
+        "note": "Le nettoyage relève de l'étape de transformation de l'ETL ; le Data Mart est une structure de stockage analytique."
+      },
+      {
+        "id": "dw_004_d",
+        "text": "Un format de fichier pour les bases de données",
+        "isCorrect": false,
+        "note": "Aucun lien avec un format : c'est une base de données analytique spécialisée par domaine métier."
+      }
+    ],
+    "explanation": "Un Data Mart est un sous-ensemble spécialisé d'un Data Warehouse, conçu pour répondre aux besoins spécifiques d'un département ou d'une unité fonctionnelle (marketing, RH, finance, etc.).",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_005",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce qu'un schéma en étoile (Star Schema) ?",
-    "options": ["A) Un schéma de sécurité des données", "B) Une modélisation avec une table de fait centrale entourée de tables de dimensions", "C) Un algorithme de classification", "D) Un format de graphique"],
-    "answer": "B",
-    "explanation": "Le schéma en étoile est un modèle de données dimensionnel où une table de fait centrale est reliée directement à plusieurs tables de dimensions, formant visuellement une étoile."
+    "answers": [
+      {
+        "id": "dw_005_a",
+        "text": "Un schéma de sécurité des données",
+        "isCorrect": false,
+        "note": "Confusion avec les politiques de sécurité : le schéma en étoile est un modèle de modélisation dimensionnelle."
+      },
+      {
+        "id": "dw_005_c",
+        "text": "Un algorithme de classification",
+        "isCorrect": false,
+        "note": "La classification relève du machine learning ; ici on parle de structuration des tables d'un entrepôt."
+      },
+      {
+        "id": "dw_005_b",
+        "text": "Une modélisation avec une table de fait centrale entourée de tables de dimensions",
+        "isCorrect": true,
+        "note": "Exact : la table de faits centrale reliée directement aux dimensions dessine une étoile, modèle canonique de Kimball."
+      },
+      {
+        "id": "dw_005_d",
+        "text": "Un format de graphique utilisé pour représenter des données en trois dimensions",
+        "isCorrect": false,
+        "note": "Le mot « schéma » désigne ici l'organisation des tables, pas un type de représentation graphique."
+      }
+    ],
+    "explanation": "Le schéma en étoile est un modèle de données dimensionnel où une table de fait centrale est reliée directement à plusieurs tables de dimensions, formant visuellement une étoile.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_006",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Quelle est la différence entre un schéma en étoile et un schéma en flocon (Snowflake Schema) ?",
-    "options": ["A) Le schéma en flocon est plus simple", "B) Le schéma en étoile normalise les dimensions, le flocon ne les normalise pas", "C) Le schéma en flocon normalise les tables de dimensions en sous-dimensions", "D) Il n'y a aucune différence"],
-    "answer": "C",
-    "explanation": "Le schéma en flocon (Snowflake) est une extension du schéma en étoile où les tables de dimensions sont normalisées en sous-dimensions, ce qui réduit la redondance mais complexifie les requêtes."
+    "answers": [
+      {
+        "id": "dw_006_a",
+        "text": "Le schéma en flocon est plus simple",
+        "isCorrect": false,
+        "note": "C'est l'inverse : les jointures supplémentaires du flocon le rendent plus complexe à interroger que l'étoile."
+      },
+      {
+        "id": "dw_006_b",
+        "text": "Le schéma en étoile normalise les dimensions, le flocon ne les normalise pas",
+        "isCorrect": false,
+        "note": "Proposition inversée : c'est bien le flocon qui normalise les dimensions, tandis que l'étoile les garde dénormalisées."
+      },
+      {
+        "id": "dw_006_d",
+        "text": "Il n'y a aucune différence",
+        "isCorrect": false,
+        "note": "Les deux schémas se distinguent précisément par le degré de normalisation des tables de dimensions."
+      },
+      {
+        "id": "dw_006_c",
+        "text": "Le schéma en flocon normalise les tables de dimensions en sous-dimensions",
+        "isCorrect": true,
+        "note": "Exact : le flocon normalise chaque dimension en sous-tables hiérarchiques, réduisant la redondance au prix de jointures supplémentaires."
+      }
+    ],
+    "explanation": "Le schéma en flocon (Snowflake) est une extension du schéma en étoile où les tables de dimensions sont normalisées en sous-dimensions, ce qui réduit la redondance mais complexifie les requêtes.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_007",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que l'ETL dans le contexte du Data Warehousing ?",
-    "options": ["A) Extract, Transform, Load", "B) Evaluate, Test, Launch", "C) Execute, Track, Log", "D) Enable, Transfer, Link"],
-    "answer": "A",
-    "explanation": "ETL signifie Extract, Transform, Load. C'est le processus d'extraction des données de sources multiples, leur transformation (nettoyage, formatage) et leur chargement dans le Data Warehouse."
+    "answers": [
+      {
+        "id": "dw_007_a",
+        "text": "Extract, Transform, Load",
+        "isCorrect": true,
+        "note": "Exact : Extract, Transform, Load décrit l'extraction des sources, leur transformation puis leur chargement dans l'entrepôt."
+      },
+      {
+        "id": "dw_007_b",
+        "text": "Evaluate, Test, Launch",
+        "isCorrect": false,
+        "note": "Cet acronyme inventé joue sur les sonorités : le E d'ETL signifie bien Extract, l'extraction des données sources."
+      },
+      {
+        "id": "dw_007_c",
+        "text": "Execute, Track, Log",
+        "isCorrect": false,
+        "note": "Décryptage erroné : l'ETL désigne un pipeline de données, pas des opérations d'exécution et de journalisation."
+      },
+      {
+        "id": "dw_007_d",
+        "text": "Enable, Transfer, Link",
+        "isCorrect": false,
+        "note": "Acronyme fictif : retenir le triptyque extraction, transformation, chargement suffit à écarter cette distraction."
+      }
+    ],
+    "explanation": "ETL signifie Extract, Transform, Load. C'est le processus d'extraction des données de sources multiples, leur transformation (nettoyage, formatage) et leur chargement dans le Data Warehouse.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_008",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce qu'une table de fait dans un Data Warehouse ?",
-    "options": ["A) Une table qui stocke les métadonnées", "B) Une table qui contient les mesures et métriques quantitatives liées à des événements commerciaux", "C) Une table qui contient uniquement les descriptions textuelles", "D) Une table temporaire utilisée pendant l'ETL"],
-    "answer": "B",
-    "explanation": "Une table de fait contient les mesures quantitatives (chiffre d'affaires, quantités, durées) associées à des événements ou transactions commerciales, reliées aux dimensions par des clés étrangères."
+    "answers": [
+      {
+        "id": "dw_008_a",
+        "text": "Une table qui stocke les métadonnées",
+        "isCorrect": false,
+        "note": "Les métadonnées décrivent les données ; la table de faits, elle, contient les mesures numériques de l'activité."
+      },
+      {
+        "id": "dw_008_b",
+        "text": "Une table qui contient les mesures et métriques quantitatives liées à des événements commerciaux",
+        "isCorrect": true,
+        "note": "Exact : la table de faits stocke les mesures quantitatives comme les ventes, reliées aux dimensions par des clés étrangères."
+      },
+      {
+        "id": "dw_008_c",
+        "text": "Une table qui contient uniquement les descriptions textuelles",
+        "isCorrect": false,
+        "note": "Les descriptions textuelles relèvent des tables de dimensions ; les faits sont numériques et mesurables."
+      },
+      {
+        "id": "dw_008_d",
+        "text": "Une table temporaire utilisée pendant l'ETL",
+        "isCorrect": false,
+        "note": "La zone de travail temporaire de l'alimentation est le staging area, distinct de la table de faits définitive."
+      }
+    ],
+    "explanation": "Une table de fait contient les mesures quantitatives (chiffre d'affaires, quantités, durées) associées à des événements ou transactions commerciales, reliées aux dimensions par des clés étrangères.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_009",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce qu'une dimension lente à variation (Slowly Changing Dimension - SCD) ?",
-    "options": ["A) Une dimension dont les données changent très fréquemment", "B) Une dimension dont les attributs changent occasionnellement dans le temps", "C) Une dimension qui ne change jamais", "D) Un type de graphique pour visualiser les changements"],
-    "answer": "B",
-    "explanation": "Les SCD (Slowly Changing Dimensions) gèrent les changements occasionnels des attributs dimensionnels. Il existe plusieurs types (SCD Type 1, 2, 3) selon la stratégie de gestion de l'historique."
+    "answers": [
+      {
+        "id": "dw_009_a",
+        "text": "Une dimension dont les données changent très fréquemment",
+        "isCorrect": false,
+        "note": "Des changements très fréquents relèvent du flux opérationnel ; les SCD concernent justement des évolutions lentes et occasionnelles."
+      },
+      {
+        "id": "dw_009_c",
+        "text": "Une dimension qui ne change jamais",
+        "isCorrect": false,
+        "note": "Une dimension immuable ne nécessiterait aucune gestion particulière : le concept de SCD naît du changement réel des attributs."
+      },
+      {
+        "id": "dw_009_b",
+        "text": "Une dimension dont les attributs changent occasionnellement dans le temps",
+        "isCorrect": true,
+        "note": "Exact : les SCD traitent les attributs qui évoluent occasionnellement, avec des stratégies de types 1, 2 et 3 pour l'historique."
+      },
+      {
+        "id": "dw_009_d",
+        "text": "Un type de graphique pour visualiser les changements",
+        "isCorrect": false,
+        "note": "Contre-sens total : c'est un mécanisme de gestion des changements de dimensions, sans rapport avec la visualisation."
+      }
+    ],
+    "explanation": "Les SCD (Slowly Changing Dimensions) gèrent les changements occasionnels des attributs dimensionnels. Il existe plusieurs types (SCD Type 1, 2, 3) selon la stratégie de gestion de l'historique.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_010",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le SCD Type 2 ?",
-    "options": ["A) On écrase l'ancienne valeur sans garder l'historique", "B) On ajoute une nouvelle ligne pour conserver l'historique complet", "C) On ajoute une nouvelle colonne pour la valeur précédente", "D) On supprime la dimension"],
-    "answer": "B",
-    "explanation": "Le SCD Type 2 conserve l'historique complet en ajoutant une nouvelle ligne avec les nouvelles valeurs et en utilisant des colonnes de date de début/fin de validité pour tracer les changements."
+    "answers": [
+      {
+        "id": "dw_010_a",
+        "text": "On écrase l'ancienne valeur sans garder l'historique",
+        "isCorrect": false,
+        "note": "Écraser l'ancienne valeur sans garder d'historique correspond au Type 1, pas au Type 2."
+      },
+      {
+        "id": "dw_010_d",
+        "text": "On supprime la dimension",
+        "isCorrect": false,
+        "note": "Supprimer la dimension n'est une stratégie de gestion de l'historique dans aucun type de SCD."
+      },
+      {
+        "id": "dw_010_c",
+        "text": "On ajoute une nouvelle colonne pour la valeur précédente",
+        "isCorrect": false,
+        "note": "Ajouter une colonne pour la valeur précédente est la stratégie du Type 3, limitée à une seule version antérieure."
+      },
+      {
+        "id": "dw_010_b",
+        "text": "On ajoute une nouvelle ligne pour conserver l'historique complet",
+        "isCorrect": true,
+        "note": "Exact : le Type 2 insère une nouvelle ligne avec dates de validité, conservant l'historique complet des valeurs."
+      }
+    ],
+    "explanation": "Le SCD Type 2 conserve l'historique complet en ajoutant une nouvelle ligne avec les nouvelles valeurs et en utilisant des colonnes de date de début/fin de validité pour tracer les changements.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_011",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le ODS (Operational Data Store) ?",
-    "options": ["A) Un système de stockage pour les données opérationnelles en temps réel", "B) Un entrepôt de données historiques", "C) Un langage de requêtage", "D) Un algorithme d'optimisation"],
-    "answer": "A",
-    "explanation": "L'ODS est un système de stockage intermédiaire qui contient des données opérationnelles actuelles et intégrées, utilisé pour les requêtes en temps réel avant que les données ne soient transférées au Data Warehouse."
+    "answers": [
+      {
+        "id": "dw_011_a",
+        "text": "Un système de stockage pour les données opérationnelles en temps réel",
+        "isCorrect": true,
+        "note": "Exact : l'ODS stocke des données opérationnelles récentes et intégrées, utiles pour des consultations quasi temps réel."
+      },
+      {
+        "id": "dw_011_b",
+        "text": "Un entrepôt de données historiques",
+        "isCorrect": false,
+        "note": "Les données historiques profondes relèvent du Data Warehouse ; l'ODS garde des données fraîches et volatiles."
+      },
+      {
+        "id": "dw_011_c",
+        "text": "Un langage de requêtage",
+        "isCorrect": false,
+        "note": "Un ODS est un magasin de données, pas un langage : le requêtage passe par SQL ou des outils BI."
+      },
+      {
+        "id": "dw_011_d",
+        "text": "Un algorithme d'optimisation",
+        "isCorrect": false,
+        "note": "Aucun rapport avec un algorithme : c'est un composant d'architecture intermédiaire entre les sources et l'entrepôt."
+      }
+    ],
+    "explanation": "L'ODS est un système de stockage intermédiaire qui contient des données opérationnelles actuelles et intégrées, utilisé pour les requêtes en temps réel avant que les données ne soient transférées au Data Warehouse.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_012",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Quelle est la différence entre un Data Warehouse et un Data Lake ?",
-    "options": ["A) Ils sont identiques", "B) Le Data Warehouse stocke des données structurées avec un schéma défini, le Data Lake stocke des données brutes de tout type", "C) Le Data Lake est plus sécurisé", "D) Le Data Warehouse ne peut stocker que des images"],
-    "answer": "B",
-    "explanation": "Le Data Warehouse utilise un schéma à l'écriture (schema-on-write) pour des données structurées, tandis que le Data Lake utilise un schéma à la lecture (schema-on-read) et accepte des données structurées, semi-structurées et non structurées."
+    "answers": [
+      {
+        "id": "dw_012_a",
+        "text": "Ils sont identiques et interchangeables dans tous les cas d'usage analytiques",
+        "isCorrect": false,
+        "note": "Les deux coexistent précisément parce qu'ils servent des besoins différents : structuré gouverné contre brut exploratoire."
+      },
+      {
+        "id": "dw_012_b",
+        "text": "Le Data Warehouse stocke des données structurées avec un schéma défini, le Data Lake stocke des données brutes de tout type",
+        "isCorrect": true,
+        "note": "Exact : l'entrepôt impose un schéma à l'écriture sur données structurées, le lac stocke du brut de tout type, schéma à la lecture."
+      },
+      {
+        "id": "dw_012_c",
+        "text": "Le Data Lake est plus sécurisé car il chiffre nativement toutes les données brutes stockées",
+        "isCorrect": false,
+        "note": "La sécurité dépend de la gouvernance mise en place, pas du type de plateforme : c'est un faux critère de différenciation."
+      },
+      {
+        "id": "dw_012_d",
+        "text": "Le Data Warehouse ne peut stocker que des images",
+        "isCorrect": false,
+        "note": "Réduction absurde : l'entrepôt stocke des données structurées d'affaires, bien loin des seules images."
+      }
+    ],
+    "explanation": "Le Data Warehouse utilise un schéma à l'écriture (schema-on-write) pour des données structurées, tandis que le Data Lake utilise un schéma à la lecture (schema-on-read) et accepte des données structurées, semi-structurées et non structurées.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_013",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le Cube OLAP ?",
-    "options": ["A) Un outil de visualisation 3D", "B) Une structure multidimensionnelle permettant des analyses rapides selon plusieurs axes", "C) Un algorithme de clustering", "D) Un format de fichier compressé"],
-    "answer": "B",
-    "explanation": "Un Cube OLAP est une structure de données multidimensionnelle qui permet d'analyser les données selon plusieurs dimensions (temps, géographie, produit) avec des opérations comme le drill-down, roll-up et slice."
+    "answers": [
+      {
+        "id": "dw_013_a",
+        "text": "Un outil de visualisation 3D réservé aux présentations de données scientifiques",
+        "isCorrect": false,
+        "note": "Le mot « cube » évoque la 3D, mais il s'agit d'une structure de données multidimensionnelle, pas d'un rendu graphique."
+      },
+      {
+        "id": "dw_013_c",
+        "text": "Un algorithme de clustering pour regrouper automatiquement les données similaires",
+        "isCorrect": false,
+        "note": "Le clustering est une technique d'apprentissage non supervisé ; le cube OLAP appartient à l'analyse décisionnelle."
+      },
+      {
+        "id": "dw_013_b",
+        "text": "Une structure multidimensionnelle permettant des analyses rapides selon plusieurs axes",
+        "isCorrect": true,
+        "note": "Exact : le cube OLAP organise les mesures selon plusieurs axes comme le temps ou le produit, pour des analyses rapides."
+      },
+      {
+        "id": "dw_013_d",
+        "text": "Un format de fichier compressé utilisé pour archiver les données volumineuses",
+        "isCorrect": false,
+        "note": "Confusion avec la compression de fichiers : le cube est une modélisation multidimensionnelle, pas un format."
+      }
+    ],
+    "explanation": "Un Cube OLAP est une structure de données multidimensionnelle qui permet d'analyser les données selon plusieurs dimensions (temps, géographie, produit) avec des opérations comme le drill-down, roll-up et slice.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_014",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Quelle est la différence entre OLTP et OLAP ?",
-    "options": ["A) OLTP est pour l'analyse, OLAP pour les transactions", "B) OLTP gère les transactions quotidiennes, OLAP gère l'analyse décisionnelle", "C) OLTP et OLAP sont des synonymes", "D) OLAP est plus rapide que OLTP pour les mises à jour"],
-    "answer": "B",
-    "explanation": "OLTP (Online Transaction Processing) gère les opérations transactionnelles quotidiennes (INSERT, UPDATE), tandis que OLAP (Online Analytical Processing) est optimisé pour les requêtes analytiques complexes et l'aide à la décision."
+    "answers": [
+      {
+        "id": "dw_014_a",
+        "text": "OLTP est pour l'analyse, OLAP pour les transactions",
+        "isCorrect": false,
+        "note": "Définitions inversées : OLTP traite les transactions du quotidien, OLAP est dédié à l'analyse décisionnelle."
+      },
+      {
+        "id": "dw_014_d",
+        "text": "OLAP est plus rapide que OLTP pour les mises à jour",
+        "isCorrect": false,
+        "note": "Les mises à jour transactionnelles sont le domaine d'excellence d'OLTP ; OLAP privilégie la lecture analytique."
+      },
+      {
+        "id": "dw_014_c",
+        "text": "OLTP et OLAP sont des synonymes",
+        "isCorrect": false,
+        "note": "Les deux acronymes diffèrent par une lettre et une vocation : transactionnel contre analytique."
+      },
+      {
+        "id": "dw_014_b",
+        "text": "OLTP gère les transactions quotidiennes, OLAP gère l'analyse décisionnelle",
+        "isCorrect": true,
+        "note": "Exact : OLTP gère les opérations quotidiennes d'écriture, OLAP optimise les requêtes complexes d'aide à la décision."
+      }
+    ],
+    "explanation": "OLTP (Online Transaction Processing) gère les opérations transactionnelles quotidiennes (INSERT, UPDATE), tandis que OLAP (Online Analytical Processing) est optimisé pour les requêtes analytiques complexes et l'aide à la décision.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_015",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Que signifie l'opération 'Drill-down' en OLAP ?",
-    "options": ["A) Remonter à un niveau d'agrégation supérieur", "B) Naviguer vers un niveau de détail plus fin dans la hiérarchie", "C) Supprimer des données du cube", "D) Fusionner deux cubes"],
-    "answer": "B",
-    "explanation": "Le Drill-down consiste à naviguer d'un niveau agrégé vers un niveau plus détaillé dans la hiérarchie d'une dimension (ex: de l'année vers le mois, du pays vers la ville)."
+    "answers": [
+      {
+        "id": "dw_015_b",
+        "text": "Naviguer vers un niveau de détail plus fin dans la hiérarchie",
+        "isCorrect": true,
+        "note": "Exact : le drill-down descend dans la hiérarchie, par exemple de l'année vers le trimestre puis le mois."
+      },
+      {
+        "id": "dw_015_a",
+        "text": "Remonter à un niveau d'agrégation supérieur",
+        "isCorrect": false,
+        "note": "Décrire la remontée vers un niveau agrégé définit le roll-up, opération inverse du drill-down."
+      },
+      {
+        "id": "dw_015_c",
+        "text": "Supprimer des données du cube",
+        "isCorrect": false,
+        "note": "Le mot suggère le forage vers le détail : aucune opération OLAP ne supprime les données du cube."
+      },
+      {
+        "id": "dw_015_d",
+        "text": "Fusionner deux cubes",
+        "isCorrect": false,
+        "note": "La fusion de cubes n'existe pas parmi les opérations OLAP classiques comme drill, roll-up, slice et dice."
+      }
+    ],
+    "explanation": "Le Drill-down consiste à naviguer d'un niveau agrégé vers un niveau plus détaillé dans la hiérarchie d'une dimension (ex: de l'année vers le mois, du pays vers la ville).",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_016",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Roll-up' en OLAP ?",
-    "options": ["A) Descendre dans la hiérarchie des dimensions", "B) Remonter à un niveau d'agrégation supérieur", "C) Créer un nouveau cube", "D) Exporter les données"],
-    "answer": "B",
-    "explanation": "Le Roll-up est l'opération inverse du drill-down : elle consiste à agréger les données en remontant dans la hiérarchie d'une dimension (ex: du mois vers l'année, de la ville vers le pays)."
+    "answers": [
+      {
+        "id": "dw_016_a",
+        "text": "Descendre dans la hiérarchie des dimensions",
+        "isCorrect": false,
+        "note": "Descendre dans la hiérarchie décrit le drill-down ; le roll-up fait exactement le chemin inverse."
+      },
+      {
+        "id": "dw_016_b",
+        "text": "Remonter à un niveau d'agrégation supérieur",
+        "isCorrect": true,
+        "note": "Exact : le roll-up agrège les données en remontant la hiérarchie, par exemple du mois vers l'année."
+      },
+      {
+        "id": "dw_016_c",
+        "text": "Créer un nouveau cube",
+        "isCorrect": false,
+        "note": "Le roll-up reformule l'agrégation dans le cube existant ; il ne crée aucun nouvel objet."
+      },
+      {
+        "id": "dw_016_d",
+        "text": "Exporter les données",
+        "isCorrect": false,
+        "note": "L'export est une fonction d'outil de restitution, sans lien avec l'agrégation multidimensionnelle."
+      }
+    ],
+    "explanation": "Le Roll-up est l'opération inverse du drill-down : elle consiste à agréger les données en remontant dans la hiérarchie d'une dimension (ex: du mois vers l'année, de la ville vers le pays).",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_017",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que la granularité dans un Data Warehouse ?",
-    "options": ["A) La taille du stockage physique", "B) Le niveau de détail auquel les données sont stockées dans les tables de faits", "C) Le nombre de dimensions", "D) La vitesse de chargement"],
-    "answer": "B",
-    "explanation": "La granularité désigne le niveau de détail des données stockées. Une granularité fine (transaction individuelle) permet plus d'analyses mais consomme plus d'espace qu'une granularité grossière (agrégats quotidiens)."
+    "answers": [
+      {
+        "id": "dw_017_a",
+        "text": "La taille du stockage physique",
+        "isCorrect": false,
+        "note": "La granularité est un choix logique de finesse des données, indépendant de la taille du stockage physique."
+      },
+      {
+        "id": "dw_017_c",
+        "text": "Le nombre de dimensions nécessaires pour modéliser les processus métier",
+        "isCorrect": false,
+        "note": "Le nombre d'axes d'analyse ne définit pas la granularité, qui mesure le niveau de détail des faits."
+      },
+      {
+        "id": "dw_017_b",
+        "text": "Le niveau de détail auquel les données sont stockées dans les tables de faits",
+        "isCorrect": true,
+        "note": "Exact : la granularité fixe le niveau de détail stocké dans la table de faits, de la ligne de vente à l'agrégat."
+      },
+      {
+        "id": "dw_017_d",
+        "text": "La vitesse de chargement des données pendant les fenêtres d'alimentation",
+        "isCorrect": false,
+        "note": "La vitesse de chargement est une performance ETL ; la granularité est un choix de conception des faits."
+      }
+    ],
+    "explanation": "La granularité désigne le niveau de détail des données stockées. Une granularité fine (transaction individuelle) permet plus d'analyses mais consomme plus d'espace qu'une granularité grossière (agrégats quotidiens).",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_018",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce qu'une mesure additive dans une table de faits ?",
-    "options": ["A) Une mesure qui ne peut pas être additionnée", "B) Une mesure qui peut être additionnée sur toutes les dimensions", "C) Une mesure qui n'est stockée que dans une seule dimension", "D) Une mesure temporelle"],
-    "answer": "B",
-    "explanation": "Une mesure additive peut être sommée sur toutes les dimensions (ex: le chiffre d'affaires). Les mesures semi-additives ne peuvent l'être que sur certaines dimensions (ex: le solde bancaire ne s'additionne pas dans le temps)."
+    "answers": [
+      {
+        "id": "dw_018_a",
+        "text": "Une mesure qui ne peut pas être additionnée",
+        "isCorrect": false,
+        "note": "C'est la définition inverse : une mesure non additive, comme un ratio, ne se somme pas."
+      },
+      {
+        "id": "dw_018_d",
+        "text": "Une mesure temporelle",
+        "isCorrect": false,
+        "note": "La dimension temporelle est un axe d'analyse ; l'additivité est une propriété de la mesure elle-même."
+      },
+      {
+        "id": "dw_018_c",
+        "text": "Une mesure qui n'est stockée que dans une seule dimension",
+        "isCorrect": false,
+        "note": "Additionnable sur une seule dimension décrirait une mesure semi-additive, pas une mesure pleinement additive."
+      },
+      {
+        "id": "dw_018_b",
+        "text": "Une mesure qui peut être additionnée sur toutes les dimensions",
+        "isCorrect": true,
+        "note": "Exact : le chiffre d'affaires, mesure additive typique, se somme sur toutes les dimensions, dont le temps."
+      }
+    ],
+    "explanation": "Une mesure additive peut être sommée sur toutes les dimensions (ex: le chiffre d'affaires). Les mesures semi-additives ne peuvent l'être que sur certaines dimensions (ex: le solde bancaire ne s'additionne pas dans le temps).",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_019",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce qu'une dimension de conformation (Conformed Dimension) ?",
-    "options": ["A) Une dimension qui change fréquemment", "B) Une dimension standardisée partagée entre plusieurs Data Marts", "C) Une dimension qui ne contient qu'une seule colonne", "D) Une dimension temporaire"],
-    "answer": "B",
-    "explanation": "Les dimensions de conformation sont des dimensions standardisées (comme la dimension Temps ou Produit) partagées entre différents Data Marts pour garantir la cohérence analytique à travers l'organisation."
+    "answers": [
+      {
+        "id": "dw_019_b",
+        "text": "Une dimension standardisée partagée entre plusieurs Data Marts",
+        "isCorrect": true,
+        "note": "Exact : la dimension de conformation est standardisée et partagée entre datamarts, garantissant des analyses cohérentes."
+      },
+      {
+        "id": "dw_019_a",
+        "text": "Une dimension qui change fréquemment",
+        "isCorrect": false,
+        "note": "La fréquence de changement concerne les SCD ; la conformité concerne le partage entre processus métier."
+      },
+      {
+        "id": "dw_019_c",
+        "text": "Une dimension qui ne contient qu'une seule colonne",
+        "isCorrect": false,
+        "note": "Le nombre de colonnes n'a aucun rapport : une dimension de conformation est riche et partagée."
+      },
+      {
+        "id": "dw_019_d",
+        "text": "Une dimension temporaire",
+        "isCorrect": false,
+        "note": "Au contraire, c'est une dimension stable et durable, pivot de la cohérence entre datamarts."
+      }
+    ],
+    "explanation": "Les dimensions de conformation sont des dimensions standardisées (comme la dimension Temps ou Produit) partagées entre différents Data Marts pour garantir la cohérence analytique à travers l'organisation.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_020",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le processus de nettoyage de données (Data Cleansing) dans l'ETL ?",
-    "options": ["A) Supprimer toutes les données", "B) Détecter et corriger les données incorrectes, incomplètes ou incohérentes", "C) Compresser les données", "D) Chiffrer les données"],
-    "answer": "B",
-    "explanation": "Le nettoyage de données consiste à identifier et corriger les erreurs, valeurs manquantes, doublons et incohérences dans les données sources avant leur chargement dans le Data Warehouse."
+    "answers": [
+      {
+        "id": "dw_020_a",
+        "text": "Supprimer toutes les données",
+        "isCorrect": false,
+        "note": "Supprimer l'intégralité des données serait l'exact contraire du but : on corrige, on ne détruit pas."
+      },
+      {
+        "id": "dw_020_b",
+        "text": "Détecter et corriger les données incorrectes, incomplètes ou incohérentes",
+        "isCorrect": true,
+        "note": "Exact : le nettoyage détecte et corrige erreurs, valeurs manquantes, doublons et incohérences avant le chargement."
+      },
+      {
+        "id": "dw_020_c",
+        "text": "Compresser les données pour réduire l'espace de stockage utilisé",
+        "isCorrect": false,
+        "note": "La compression est une technique de stockage ; le nettoyage est une étape de qualité des données."
+      },
+      {
+        "id": "dw_020_d",
+        "text": "Chiffrer les données pour protéger leur confidentialité pendant les transferts",
+        "isCorrect": false,
+        "note": "Le chiffrement protège la confidentialité, il ne corrige ni les erreurs ni les incohérences des données."
+      }
+    ],
+    "explanation": "Le nettoyage de données consiste à identifier et corriger les erreurs, valeurs manquantes, doublons et incohérences dans les données sources avant leur chargement dans le Data Warehouse.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_021",
-    "question": "Quelle est la différence entre un Data Warehouse et un Data Mart ?",
-    "options": ["A) Le Data Mart est plus grand que le Data Warehouse", "B) Le Data Warehouse couvre toute l'entreprise, le Data Mart est spécialisé par département", "C) Le Data Mart utilise uniquement le NoSQL", "D) Il n'y a aucune différence"],
-    "answer": "B",
-    "explanation": "Le Data Warehouse est un entrepôt global couvrant l'ensemble de l'entreprise, tandis que le Data Mart est un sous-ensemble spécialisé pour un département ou une fonction spécifique (marketing, finance, etc.)."
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle est la différence entre un Data Mart et un Data Warehouse ?",
+    "answers": [
+      {
+        "id": "dw_021_a",
+        "text": "Le Data Mart est plus grand que le Data Warehouse",
+        "isCorrect": false,
+        "note": "Hiérarchie inversée : le Data Mart est un sous-ensemble de l'entrepôt, donc nécessairement plus petit."
+      },
+      {
+        "id": "dw_021_c",
+        "text": "Le Data Mart utilise uniquement le NoSQL",
+        "isCorrect": false,
+        "note": "Les deux reposent classiquement sur le relationnel ; la différence est de périmètre, pas de technologie."
+      },
+      {
+        "id": "dw_021_b",
+        "text": "Le Data Warehouse couvre toute l'entreprise, le Data Mart est spécialisé par département",
+        "isCorrect": true,
+        "note": "Exact : l'entrepôt couvre toute l'entreprise tandis que le Data Mart dessert un département spécifique."
+      },
+      {
+        "id": "dw_021_d",
+        "text": "Il n'y a aucune différence",
+        "isCorrect": false,
+        "note": "Le périmètre, global contre départemental, constitue la différence essentielle entre les deux structures."
+      }
+    ],
+    "explanation": "Le Data Warehouse est un entrepôt global couvrant l'ensemble de l'entreprise, tandis que le Data Mart est un sous-ensemble spécialisé pour un département ou une fonction spécifique (marketing, finance, etc.).",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_022",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le MOLAP ?",
-    "options": ["A) Multidimensional OLAP - stockage des données dans des structures multidimensionnelles", "B) Mobile OLAP - analyse sur appareils mobiles", "C) Minimal OLAP - version simplifiée", "D) Multiple OLAP - plusieurs serveurs OLAP"],
-    "answer": "A",
-    "explanation": "MOLAP (Multidimensional OLAP) stocke les données dans des structures multidimensionnelles pré-calculées (cubes), offrant des performances de requête très rapides mais avec une rigidité structurelle."
+    "answers": [
+      {
+        "id": "dw_022_d",
+        "text": "Multiple OLAP - plusieurs serveurs OLAP",
+        "isCorrect": false,
+        "note": "Jeu de mots trompeur : le M de MOLAP signifie Multidimensional, en référence aux cubes pré-calculés."
+      },
+      {
+        "id": "dw_022_b",
+        "text": "Mobile OLAP - analyse sur appareils mobiles",
+        "isCorrect": false,
+        "note": "L'analyse mobile existe mais ne définit pas MOLAP, dont la spécificité est le stockage multidimensionnel."
+      },
+      {
+        "id": "dw_022_c",
+        "text": "Minimal OLAP - version simplifiée",
+        "isCorrect": false,
+        "note": "Acronyme inventé : MOLAP n'est pas une version simplifiée mais un mode de stockage en cubes."
+      },
+      {
+        "id": "dw_022_a",
+        "text": "Multidimensional OLAP - stockage des données dans des structures multidimensionnelles",
+        "isCorrect": true,
+        "note": "Exact : MOLAP stocke les données dans des structures multidimensionnelles pré-calculées, très rapides en requêtage."
+      }
+    ],
+    "explanation": "MOLAP (Multidimensional OLAP) stocke les données dans des structures multidimensionnelles pré-calculées (cubes), offrant des performances de requête très rapides mais avec une rigidité structurelle.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_023",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le ROLAP ?",
-    "options": ["A) Relational OLAP - analyse OLAP sur des bases de données relationnelles", "B) Rapid OLAP - version accélérée", "C) Remote OLAP - analyse à distance", "D) Real-time OLAP - analyse en temps réel"],
-    "answer": "A",
-    "explanation": "ROLAP (Relational OLAP) effectue les analyses OLAP directement sur des bases de données relationnelles, sans pré-calcul de cubes. Plus flexible mais généralement plus lent que MOLAP."
+    "answers": [
+      {
+        "id": "dw_023_a",
+        "text": "Relational OLAP - analyse OLAP sur des bases de données relationnelles",
+        "isCorrect": true,
+        "note": "Exact : ROLAP exécute l'analyse OLAP directement sur une base relationnelle, sans cubes pré-calculés."
+      },
+      {
+        "id": "dw_023_b",
+        "text": "Rapid OLAP - version accélérée",
+        "isCorrect": false,
+        "note": "Paradoxe attirant : ROLAP est en général plus lent que MOLAP ; le R signifie Relational."
+      },
+      {
+        "id": "dw_023_c",
+        "text": "Remote OLAP - analyse à distance",
+        "isCorrect": false,
+        "note": "L'accès à distance est une question de réseau ; le R de ROLAP désigne le stockage relationnel."
+      },
+      {
+        "id": "dw_023_d",
+        "text": "Real-time OLAP - analyse en temps réel",
+        "isCorrect": false,
+        "note": "Le temps réel est une autre caractéristique : ROLAP signifie Relational OLAP, analyse sur base relationnelle."
+      }
+    ],
+    "explanation": "ROLAP (Relational OLAP) effectue les analyses OLAP directement sur des bases de données relationnelles, sans pré-calcul de cubes. Plus flexible mais généralement plus lent que MOLAP.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_024",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le HOLAP ?",
-    "options": ["A) Hybrid OLAP - combine MOLAP et ROLAP", "B) High-speed OLAP - version rapide", "C) Hierarchical OLAP - analyse hiérarchique", "D) Hosted OLAP - OLAP dans le cloud"],
-    "answer": "A",
-    "explanation": "HOLAP (Hybrid OLAP) combine les avantages du MOLAP (performance) et du ROLAP (flexibilité) en utilisant des cubes pré-calculés pour les données fréquemment accédées et le relationnel pour le reste."
+    "answers": [
+      {
+        "id": "dw_024_b",
+        "text": "High-speed OLAP - version rapide",
+        "isCorrect": false,
+        "note": "La promesse de vitesse est séduisante mais le H de HOLAP signifie Hybrid."
+      },
+      {
+        "id": "dw_024_a",
+        "text": "Hybrid OLAP - combine MOLAP et ROLAP",
+        "isCorrect": true,
+        "note": "Exact : HOLAP combine les cubes MOLAP pour la vitesse et le relationnel ROLAP pour le détail volumineux."
+      },
+      {
+        "id": "dw_024_c",
+        "text": "Hierarchical OLAP - analyse hiérarchique",
+        "isCorrect": false,
+        "note": "Les hiérarchies existent dans toutes les approches OLAP ; le H signifie ici Hybrid."
+      },
+      {
+        "id": "dw_024_d",
+        "text": "Hosted OLAP - OLAP dans le cloud",
+        "isCorrect": false,
+        "note": "L'hébergement ne définit pas HOLAP, qui combine stockage multidimensionnel et relationnel."
+      }
+    ],
+    "explanation": "HOLAP (Hybrid OLAP) combine les avantages du MOLAP (performance) et du ROLAP (flexibilité) en utilisant des cubes pré-calculés pour les données fréquemment accédées et le relationnel pour le reste.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_025",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce qu'une dimension de temps (Time Dimension) ?",
-    "options": ["A) Une dimension qui mesure la durée des requêtes", "B) Une dimension essentielle contenant les attributs temporels (jour, mois, année, trimestre)", "C) Un chronomètre intégré au Data Warehouse", "D) Une dimension qui expire automatiquement"],
-    "answer": "B",
-    "explanation": "La dimension de temps est une dimension de conformation universelle contenant les attributs calendaires (date, jour, mois, trimestre, année, jour férié, etc.) nécessaire à presque toute analyse décisionnelle."
+    "answers": [
+      {
+        "id": "dw_025_a",
+        "text": "Une dimension qui mesure la durée des requêtes",
+        "isCorrect": false,
+        "note": "Confusion entre attribut d'analyse et métrique de performance : la dimension temps sert d'axe calendaire."
+      },
+      {
+        "id": "dw_025_c",
+        "text": "Un chronomètre intégré au Data Warehouse",
+        "isCorrect": false,
+        "note": "Image plaisante mais erronée : c'est une table de dimensions contenant les attributs calendaires."
+      },
+      {
+        "id": "dw_025_b",
+        "text": "Une dimension essentielle contenant les attributs temporels (jour, mois, année, trimestre)",
+        "isCorrect": true,
+        "note": "Exact : la dimension temps porte les attributs calendaires comme jour, mois, trimestre et année, clés des analyses."
+      },
+      {
+        "id": "dw_025_d",
+        "text": "Une dimension qui expire automatiquement",
+        "isCorrect": false,
+        "note": "Aucune expiration : les dates passées restent stockées, c'est même là que réside leur valeur analytique."
+      }
+    ],
+    "explanation": "La dimension de temps est une dimension de conformation universelle contenant les attributs calendaires (date, jour, mois, trimestre, année, jour férié, etc.) nécessaire à presque toute analyse décisionnelle.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_026",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Quel est le rôle du métadata dans un Data Warehouse ?",
-    "options": ["A) Stocker les données brutes", "B) Décrire la structure, la source et la qualité des données stockées", "C) Accélérer les requêtes", "D) Sécuriser l'accès"],
-    "answer": "B",
-    "explanation": "Les métadonnées (metadata) décrivent les données du Data Warehouse : leur origine, leur structure, leur signification, les règles de transformation appliquées et la qualité des données."
+    "answers": [
+      {
+        "id": "dw_026_a",
+        "text": "Stocker les données brutes",
+        "isCorrect": false,
+        "note": "Les données brutes sont stockées ailleurs ; les métadonnées décrivent ces données au lieu de les contenir."
+      },
+      {
+        "id": "dw_026_d",
+        "text": "Sécuriser l'accès aux données sensibles par des rôles et des droits",
+        "isCorrect": false,
+        "note": "La sécurité est un mécanisme à part ; les métadonnées documentent structure, origine et qualité."
+      },
+      {
+        "id": "dw_026_c",
+        "text": "Accélérer les requêtes grâce à des index calculés automatiquement",
+        "isCorrect": false,
+        "note": "Ce sont les index et agrégats qui accélèrent ; les métadonnées informent et documentent."
+      },
+      {
+        "id": "dw_026_b",
+        "text": "Décrire la structure, la source et la qualité des données stockées",
+        "isCorrect": true,
+        "note": "Exact : les métadonnées décrivent la structure, la provenance, les transformations et la qualité des données."
+      }
+    ],
+    "explanation": "Les métadonnées (metadata) décrivent les données du Data Warehouse : leur origine, leur structure, leur signification, les règles de transformation appliquées et la qualité des données.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_027",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que la 'Business Intelligence' (BI) ?",
-    "options": ["A) Un type d'intelligence artificielle", "B) Un ensemble de technologies et méthodes pour transformer les données en informations décisionnelles", "C) Un langage de programmation", "D) Un système d'exploitation"],
-    "answer": "B",
-    "explanation": "La Business Intelligence regroupe les technologies, applications et pratiques de collecte, intégration, analyse et présentation des données pour soutenir la prise de décision dans l'entreprise."
+    "answers": [
+      {
+        "id": "dw_027_b",
+        "text": "Un ensemble de technologies et méthodes pour transformer les données en informations décisionnelles",
+        "isCorrect": true,
+        "note": "Exact : la BI regroupe technologies et méthodes pour transformer les données en informations décisionnelles."
+      },
+      {
+        "id": "dw_027_a",
+        "text": "Un type d'intelligence artificielle",
+        "isCorrect": false,
+        "note": "Le mot « intelligence » induit en erreur : la BI analyse le passé connu, elle n'apprend pas comme l'IA."
+      },
+      {
+        "id": "dw_027_c",
+        "text": "Un langage de programmation spécialisé dans l'analyse statistique avancée",
+        "isCorrect": false,
+        "note": "La BI est un ensemble de technologies et de processus, pas un langage au sens de Python ou SQL."
+      },
+      {
+        "id": "dw_027_d",
+        "text": "Un système d'exploitation dédié aux serveurs de bases de données",
+        "isCorrect": false,
+        "note": "Catégorie fausse : la BI fonctionne au-dessus des systèmes d'exploitation, dans la couche décisionnelle."
+      }
+    ],
+    "explanation": "La Business Intelligence regroupe les technologies, applications et pratiques de collecte, intégration, analyse et présentation des données pour soutenir la prise de décision dans l'entreprise.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_028",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce qu'un KPI dans le contexte du Data Warehousing ?",
-    "options": ["A) Key Product Index - indice de produit", "B) Key Performance Indicator - indicateur de performance clé", "C) Knowledge Process Integration", "D) Kernel Programming Interface"],
-    "answer": "B",
-    "explanation": "Un KPI (Key Performance Indicator) est une mesure quantifiable utilisée pour évaluer la performance par rapport à un objectif stratégique. Les Data Warehouse fournissent les données pour calculer ces KPIs."
+    "answers": [
+      {
+        "id": "dw_028_a",
+        "text": "Key Product Index - indice de produit",
+        "isCorrect": false,
+        "note": "Variante inventée qui sonne bien : le P de KPI signifie Performance, pas Product."
+      },
+      {
+        "id": "dw_028_b",
+        "text": "Key Performance Indicator - indicateur de performance clé",
+        "isCorrect": true,
+        "note": "Exact : un KPI (Key Performance Indicator) mesure la performance par rapport à un objectif stratégique."
+      },
+      {
+        "id": "dw_028_c",
+        "text": "Knowledge Process Integration",
+        "isCorrect": false,
+        "note": "Acronyme fictif : le KPI est un indicateur mesurable, pas une intégration de processus."
+      },
+      {
+        "id": "dw_028_d",
+        "text": "Kernel Programming Interface",
+        "isCorrect": false,
+        "note": "Terme emprunté au monde système : en décisionnel, KPI désigne un indicateur de performance."
+      }
+    ],
+    "explanation": "Un KPI (Key Performance Indicator) est une mesure quantifiable utilisée pour évaluer la performance par rapport à un objectif stratégique. Les Data Warehouse fournissent les données pour calculer ces KPIs.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_029",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce qu'un Tableau de Bord (Dashboard) en BI ?",
-    "options": ["A) Le panneau de contrôle d'un serveur", "B) Une interface visuelle présentant les KPIs et métriques clés de l'entreprise", "C) Un écran de connexion", "D) Un outil de développement"],
-    "answer": "B",
-    "explanation": "Un Dashboard est une interface visuelle qui affiche les indicateurs clés (KPIs), graphiques et métriques en temps réel ou quasi-réel, permettant aux décideurs de suivre la performance de l'organisation."
+    "answers": [
+      {
+        "id": "dw_029_a",
+        "text": "Le panneau de contrôle d'un serveur",
+        "isCorrect": false,
+        "note": "Confusion matérielle : le dashboard décisionnel est une interface d'indicateurs, pas une console d'administration."
+      },
+      {
+        "id": "dw_029_c",
+        "text": "Un écran de connexion sécurisé pour accéder aux applications de l'entreprise",
+        "isCorrect": false,
+        "note": "L'écran de connexion donne accès au dashboard, elle n'en est pas une définition."
+      },
+      {
+        "id": "dw_029_b",
+        "text": "Une interface visuelle présentant les KPIs et métriques clés de l'entreprise",
+        "isCorrect": true,
+        "note": "Exact : le dashboard présente visuellement les KPIs et métriques clés pour piloter l'entreprise d'un coup d'oeil."
+      },
+      {
+        "id": "dw_029_d",
+        "text": "Un outil de développement destiné aux équipes informatiques techniques",
+        "isCorrect": false,
+        "note": "Un dashboard est une restitution destinée aux décideurs, pas un environnement de développement."
+      }
+    ],
+    "explanation": "Un Dashboard est une interface visuelle qui affiche les indicateurs clés (KPIs), graphiques et métriques en temps réel ou quasi-réel, permettant aux décideurs de suivre la performance de l'organisation.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_030",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Quelle est la caractéristique ACID dans le contexte des entrepôts de données ?",
-    "options": ["A) Atomique, Cohérent, Isolé, Durable", "B) Automatique, Centralisé, Intégré, Digital", "C) Analytique, Complexe, Intelligent, Dynamique", "D) Adaptatif, Convivial, Interactif, Détaillé"],
-    "answer": "A",
-    "explanation": "ACID (Atomicité, Cohérence, Isolation, Durabilité) garantit la fiabilité des transactions dans les bases de données, y compris les opérations d'ETL et de chargement du Data Warehouse."
+    "answers": [
+      {
+        "id": "dw_030_d",
+        "text": "Adaptatif, Convivial, Interactif, Détaillé",
+        "isCorrect": false,
+        "note": "Acronyme décoratif sans existence : ACID provient de la théorie des transactions des bases de données."
+      },
+      {
+        "id": "dw_030_b",
+        "text": "Automatique, Centralisé, Intégré, Digital",
+        "isCorrect": false,
+        "note": "Sons plausibles mais faux : les quatre garanties sont Atomicité, Cohérence, Isolation, Durabilité."
+      },
+      {
+        "id": "dw_030_c",
+        "text": "Analytique, Complexe, Intelligent, Dynamique",
+        "isCorrect": false,
+        "note": "Mots à la mode mais incorrects : ACID garantit la fiabilité transactionnelle, rien d'analytique là-dedans."
+      },
+      {
+        "id": "dw_030_a",
+        "text": "Atomique, Cohérent, Isolé, Durable",
+        "isCorrect": true,
+        "note": "Exact : ACID garantit Atomicité, Cohérence, Isolation et Durabilité des transactions, y compris lors des chargements."
+      }
+    ],
+    "explanation": "ACID (Atomicité, Cohérence, Isolation, Durabilité) garantit la fiabilité des transactions dans les bases de données, y compris les opérations d'ETL et de chargement du Data Warehouse.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_031",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que la dimension 'Junk' dans un Data Warehouse ?",
-    "options": ["A) Une dimension inutile", "B) Une dimension qui regroupe plusieurs indicateurs booléens et flags à faible cardinalité", "C) Une dimension corrompue", "D) Une dimension temporaire"],
-    "answer": "B",
-    "explanation": "La dimension Junk (poubelle) regroupe des attributs de faible cardinalité et des indicateurs booléens (flags Oui/Non) qui ne méritent pas leur propre dimension, afin de réduire l'encombrement de la table de faits."
+    "answers": [
+      {
+        "id": "dw_031_b",
+        "text": "Une dimension qui regroupe plusieurs indicateurs booléens et flags à faible cardinalité",
+        "isCorrect": true,
+        "note": "Exact : la dimension junk regroupe flags et indicateurs booléens de faible cardinalité dans une seule table."
+      },
+      {
+        "id": "dw_031_a",
+        "text": "Une dimension inutile que l'on peut supprimer sans perdre d'information",
+        "isCorrect": false,
+        "note": "Le mot « junk » est trompeur : cette dimension sert au contraire à ranger proprement des attributs orphelins."
+      },
+      {
+        "id": "dw_031_c",
+        "text": "Une dimension corrompue par des données erronées ou incohérentes",
+        "isCorrect": false,
+        "note": "Rien de corrompu : c'est un choix de modélisation assumé pour éviter une prolifération de mini-dimensions."
+      },
+      {
+        "id": "dw_031_d",
+        "text": "Une dimension temporaire utilisée seulement pendant le chargement",
+        "isCorrect": false,
+        "note": "La dimension junk est permanente dans le modèle, contrairement à une table de staging."
+      }
+    ],
+    "explanation": "La dimension Junk (poubelle) regroupe des attributs de faible cardinalité et des indicateurs booléens (flags Oui/Non) qui ne méritent pas leur propre dimension, afin de réduire l'encombrement de la table de faits.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_032",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que la dimension 'Degenerate' ?",
-    "options": ["A) Une dimension corrompue", "B) Une dimension qui n'a pas de table propre et dont la clé est dans la table de faits", "C) Une dimension qui disparaît", "D) Une dimension non relationnelle"],
-    "answer": "B",
-    "explanation": "Une dimension dégénérée n'a pas de table dimensionnelle séparée. Ses attributs (comme le numéro de transaction) sont stockés directement dans la table de faits car ils n'ont pas d'autres attributs associés."
+    "answers": [
+      {
+        "id": "dw_032_a",
+        "text": "Une dimension corrompue par des données erronées ou incohérentes",
+        "isCorrect": false,
+        "note": "Nouveau piège lexical : « dégénérée » ne signifie pas corrompue mais dépourvue de table propre."
+      },
+      {
+        "id": "dw_032_b",
+        "text": "Une dimension qui n'a pas de table propre et dont la clé est dans la table de faits",
+        "isCorrect": true,
+        "note": "Exact : la dimension dégénérée vit dans la table de faits sous forme de clé, comme le numéro de transaction."
+      },
+      {
+        "id": "dw_032_c",
+        "text": "Une dimension qui disparaît automatiquement du modèle après un certain temps",
+        "isCorrect": false,
+        "note": "Elle ne disparaît pas : sa clé est conservée dans la table de faits, simplement sans table dédiée."
+      },
+      {
+        "id": "dw_032_d",
+        "text": "Une dimension non relationnelle",
+        "isCorrect": false,
+        "note": "La dimension dégénérée reste un simple attribut relationnel de la table de faits."
+      }
+    ],
+    "explanation": "Une dimension dégénérée n'a pas de table dimensionnelle séparée. Ses attributs (comme le numéro de transaction) sont stockés directement dans la table de faits car ils n'ont pas d'autres attributs associés.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_033",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le Data Staging Area ?",
-    "options": ["A) La zone de visualisation des données", "B) Une zone de stockage temporaire pour les données pendant le processus ETL", "C) La zone de suppression des données", "D) La zone de sécurité"],
-    "answer": "B",
-    "explanation": "Le Staging Area est une zone de stockage temporaire où les données extraites des sources sont stockées avant d'être transformées et chargées dans le Data Warehouse."
+    "answers": [
+      {
+        "id": "dw_033_a",
+        "text": "La zone de visualisation des données",
+        "isCorrect": false,
+        "note": "La visualisation intervient en bout de chaîne ; le staging est en amont, pendant l'alimentation."
+      },
+      {
+        "id": "dw_033_c",
+        "text": "La zone de suppression des données",
+        "isCorrect": false,
+        "note": "On n'y supprime pas les données : on y dépose temporairement les extractions avant transformation."
+      },
+      {
+        "id": "dw_033_b",
+        "text": "Une zone de stockage temporaire pour les données pendant le processus ETL",
+        "isCorrect": true,
+        "note": "Exact : le staging area stocke temporairement les données extraites entre l'extraction et le chargement."
+      },
+      {
+        "id": "dw_033_d",
+        "text": "La zone de sécurité",
+        "isCorrect": false,
+        "note": "La sécurité transverse ne définit pas le staging, qui est une zone de travail temporaire de l'ETL."
+      }
+    ],
+    "explanation": "Le Staging Area est une zone de stockage temporaire où les données extraites des sources sont stockées avant d'être transformées et chargées dans le Data Warehouse.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_034",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le partitionnement dans un Data Warehouse ?",
-    "options": ["A) Diviser les données en morceaux pour améliorer les performances et la gestion", "B) Sécuriser les données", "C) Supprimer les doublons", "D) Compresser les données"],
-    "answer": "A",
-    "explanation": "Le partitionnement divise les grandes tables en segments plus petits et gérables (par plage de dates, par valeur, par hachage) pour améliorer les performances des requêtes et faciliter la maintenance."
+    "answers": [
+      {
+        "id": "dw_034_d",
+        "text": "Compresser les données pour réduire l'espace disque utilisé",
+        "isCorrect": false,
+        "note": "La compression réduit la taille, le partitionnement divise : ce sont deux optimisations distinctes."
+      },
+      {
+        "id": "dw_034_b",
+        "text": "Sécuriser les données par des contrôles d'accès renforcés",
+        "isCorrect": false,
+        "note": "On peut sécuriser une partition, mais l'objectif premier du découpage est la performance et la gestion."
+      },
+      {
+        "id": "dw_034_c",
+        "text": "Supprimer les doublons pour améliorer la qualité des données",
+        "isCorrect": false,
+        "note": "La déduplication relève de la qualité des données, pas du découpage physique des tables."
+      },
+      {
+        "id": "dw_034_a",
+        "text": "Diviser les données en morceaux pour améliorer les performances et la gestion",
+        "isCorrect": true,
+        "note": "Exact : partitionner découpe les grandes tables en segments, souvent par dates, pour accélérer requêtes et maintenance."
+      }
+    ],
+    "explanation": "Le partitionnement divise les grandes tables en segments plus petits et gérables (par plage de dates, par valeur, par hachage) pour améliorer les performances des requêtes et faciliter la maintenance.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_035",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que l'indexation bitmap dans un Data Warehouse ?",
-    "options": ["A) Un index pour les images", "B) Un index qui utilise des bits pour représenter la présence/absence de valeurs", "C) Un index visuel", "D) Un index temporel"],
-    "answer": "B",
-    "explanation": "L'index bitmap utilise des tableaux de bits (0/1) pour représenter la présence ou l'absence de chaque valeur distincte. Très efficace pour les colonnes à faible cardinalité dans les environnements Data Warehouse."
+    "answers": [
+      {
+        "id": "dw_035_b",
+        "text": "Un index qui utilise des bits pour représenter la présence/absence de valeurs",
+        "isCorrect": true,
+        "note": "Exact : l'index bitmap encode chaque valeur par des bits, très efficace sur les colonnes à faible cardinalité."
+      },
+      {
+        "id": "dw_035_a",
+        "text": "Un index pour les images et les contenus multimédias stockés",
+        "isCorrect": false,
+        "note": "Jeu de mots sur « bit » : rien à voir avec les images, c'est un encodage binaire des valeurs."
+      },
+      {
+        "id": "dw_035_c",
+        "text": "Un index visuel qui affiche les résultats sous forme graphique",
+        "isCorrect": false,
+        "note": "Un index est une structure de données interne, jamais un objet visuel."
+      },
+      {
+        "id": "dw_035_d",
+        "text": "Un index temporel optimisé pour les requêtes sur les dates",
+        "isCorrect": false,
+        "note": "Les index temporels existent, mais bitmap désigne l'encodage binaire des valeurs distinctes."
+      }
+    ],
+    "explanation": "L'index bitmap utilise des tableaux de bits (0/1) pour représenter la présence ou l'absence de chaque valeur distincte. Très efficace pour les colonnes à faible cardinalité dans les environnements Data Warehouse.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_036",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le Data Lineage ?",
-    "options": ["A) La lignée des données - traçabilité du parcours des données de la source à la cible", "B) Un algorithme de tri", "C) Un type de graphique", "D) Un langage de programmation"],
-    "answer": "A",
-    "explanation": "Le Data Lineage trace le parcours complet des données depuis leur source jusqu'à leur destination finale, incluant toutes les transformations subies, essentiel pour l'audit et la conformité réglementaire."
+    "answers": [
+      {
+        "id": "dw_036_b",
+        "text": "Un algorithme de tri utilisé pour ordonner les résultats de requêtes",
+        "isCorrect": false,
+        "note": "Le tri est une opération de base ; la lignée, elle, documente le parcours complet des données."
+      },
+      {
+        "id": "dw_036_a",
+        "text": "La lignée des données - traçabilité du parcours des données de la source à la cible",
+        "isCorrect": true,
+        "note": "Exact : le data lineage trace les données de la source à la cible, transformations incluses, pour l'audit."
+      },
+      {
+        "id": "dw_036_c",
+        "text": "Un type de graphique dédié à la visualisation des flux de données",
+        "isCorrect": false,
+        "note": "On peut visualiser la lignée, mais le concept est une traçabilité, pas un type de graphique."
+      },
+      {
+        "id": "dw_036_d",
+        "text": "Un langage de programmation propre aux entrepôts de données",
+        "isCorrect": false,
+        "note": "Aucun rapport : c'est une capacité de documentation et d'audit des flux de données."
+      }
+    ],
+    "explanation": "Le Data Lineage trace le parcours complet des données depuis leur source jusqu'à leur destination finale, incluant toutes les transformations subies, essentiel pour l'audit et la conformité réglementaire.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_037",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que la 'factless fact table' ?",
-    "options": ["A) Une table de faits sans données", "B) Une table de faits qui ne contient que des clés dimensionnelles, sans mesures numériques", "C) Une table de faits erronée", "D) Une table de faits temporaire"],
-    "answer": "B",
-    "explanation": "Une factless fact table (table de faits sans mesures) ne contient que des clés dimensionnelles. Elle sert à modéliser des événements ou des couvertures (ex: présence à un cours, disponibilité d'un produit)."
+    "answers": [
+      {
+        "id": "dw_037_a",
+        "text": "Une table de faits sans données",
+        "isCorrect": false,
+        "note": "La table contient des lignes formées de clés : elle est simplement dépourvue de mesures numériques."
+      },
+      {
+        "id": "dw_037_c",
+        "text": "Une table de faits erronée, contenant des mesures fausses ou incohérentes",
+        "isCorrect": false,
+        "note": "Rien d'erroné : c'est un choix de modélisation volontaire pour enregistrer des événements."
+      },
+      {
+        "id": "dw_037_b",
+        "text": "Une table de faits qui ne contient que des clés dimensionnelles, sans mesures numériques",
+        "isCorrect": true,
+        "note": "Exact : une table de faits sans mesures ne contient que des clés dimensionnelles, pour tracer des événements."
+      },
+      {
+        "id": "dw_037_d",
+        "text": "Une table de faits temporaire, utilisée seulement pendant le chargement",
+        "isCorrect": false,
+        "note": "Elle est définitive dans le modèle dimensionnel, pas une table de travail de l'ETL."
+      }
+    ],
+    "explanation": "Une factless fact table (table de faits sans mesures) ne contient que des clés dimensionnelles. Elle sert à modéliser des événements ou des couvertures (ex: présence à un cours, disponibilité d'un produit).",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_038",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Quels sont les deux types de factless fact tables ?",
-    "options": ["A) Les tables vides et les tables pleines", "B) Les tables d'événements et les tables de couverture", "C) Les tables temporaires et permanentes", "D) Les tables locales et globales"],
-    "answer": "B",
-    "explanation": "Les deux types sont : les tables d'événements (qui enregistrent qu'un événement s'est produit) et les tables de couverture (qui modélisent les combinaisons possibles entre dimensions)."
+    "answers": [
+      {
+        "id": "dw_038_a",
+        "text": "Les tables vides et les tables pleines",
+        "isCorrect": false,
+        "note": "Classification inventée : la distinction porte sur la nature de l'événement modélisé, pas sur le remplissage."
+      },
+      {
+        "id": "dw_038_d",
+        "text": "Les tables locales et globales",
+        "isCorrect": false,
+        "note": "Le périmètre géographique n'a rien à voir : la typologie distingue événements et couvertures."
+      },
+      {
+        "id": "dw_038_c",
+        "text": "Les tables temporaires et permanentes",
+        "isCorrect": false,
+        "note": "La persistance n'est pas le critère : les deux types sont permanents dans le modèle dimensionnel."
+      },
+      {
+        "id": "dw_038_b",
+        "text": "Les tables d'événements et les tables de couverture",
+        "isCorrect": true,
+        "note": "Exact : les factless tables sont d'événements, qui constatent un fait, ou de couverture, qui modélisent les combinaisons."
+      }
+    ],
+    "explanation": "Les deux types sont : les tables d'événements (qui enregistrent qu'un événement s'est produit) et les tables de couverture (qui modélisent les combinaisons possibles entre dimensions).",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_039",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Bridge Table' dans un Data Warehouse ?",
-    "options": ["A) Une table qui connecte deux Data Warehouses", "B) Une table d'association pour gérer les relations plusieurs-à-plusieurs entre faits et dimensions", "C) Une table de sauvegarde", "D) Une table de logs"],
-    "answer": "B",
-    "explanation": "La Bridge Table (table pont) résout les relations plusieurs-à-plusieurs entre une table de faits et une dimension, en utilisant des poids de répartition pour allouer correctement les mesures."
+    "answers": [
+      {
+        "id": "dw_039_b",
+        "text": "Une table d'association pour gérer les relations plusieurs-à-plusieurs entre faits et dimensions",
+        "isCorrect": true,
+        "note": "Exact : la table pont résout les relations plusieurs-à-plusieurs entre faits et dimensions, souvent avec des poids."
+      },
+      {
+        "id": "dw_039_a",
+        "text": "Une table qui connecte deux Data Warehouses",
+        "isCorrect": false,
+        "note": "Le pont relie des tables au sein du modèle dimensionnel, pas deux entrepôts entre eux."
+      },
+      {
+        "id": "dw_039_c",
+        "text": "Une table de sauvegarde utilisée pour restaurer les données perdues",
+        "isCorrect": false,
+        "note": "La sauvegarde relève de l'exploitation ; la table pont est un objet de modélisation."
+      },
+      {
+        "id": "dw_039_d",
+        "text": "Une table de logs qui journalise les accès aux données sensibles",
+        "isCorrect": false,
+        "note": "Les journaux techniques n'ont aucun lien : la table pont gère la cardinalité plusieurs-à-plusieurs."
+      }
+    ],
+    "explanation": "La Bridge Table (table pont) résout les relations plusieurs-à-plusieurs entre une table de faits et une dimension, en utilisant des poids de répartition pour allouer correctement les mesures.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_040",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que la 'Snowflake Schema' normalisation ?",
-    "options": ["A) La suppression des données dupliquées dans les tables de dimension", "B) La décomposition des dimensions en sous-dimensions normalisées", "C) Le chiffrement des données", "D) La compression des index"],
-    "answer": "B",
-    "explanation": "La normalisation en flocon décompose chaque table de dimension en sous-tables normalisées (ex: la dimension Produit peut être décomposée en sous-dimensions Marque, Catégorie, Fournisseur)."
+    "answers": [
+      {
+        "id": "dw_040_a",
+        "text": "La suppression des données dupliquées dans les tables de dimension",
+        "isCorrect": false,
+        "note": "La suppression des doublons est un effet de la normalisation, mais la définition est la décomposition des dimensions."
+      },
+      {
+        "id": "dw_040_b",
+        "text": "La décomposition des dimensions en sous-dimensions normalisées",
+        "isCorrect": true,
+        "note": "Exact : la normalisation flocon décompose les dimensions en sous-dimensions normalisées, hiérarchie après hiérarchie."
+      },
+      {
+        "id": "dw_040_c",
+        "text": "Le chiffrement des données",
+        "isCorrect": false,
+        "note": "Le chiffrement est un mécanisme de sécurité, sans rapport avec la normalisation dimensionnelle."
+      },
+      {
+        "id": "dw_040_d",
+        "text": "La compression des index",
+        "isCorrect": false,
+        "note": "La compression d'index est une optimisation physique ; le flocon est une réorganisation logique."
+      }
+    ],
+    "explanation": "La normalisation en flocon décompose chaque table de dimension en sous-tables normalisées (ex: la dimension Produit peut être décomposée en sous-dimensions Marque, Catégorie, Fournisseur).",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_041",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Quel outil est couramment utilisé comme moteur de Data Warehouse dans le cloud ?",
-    "options": ["A) Microsoft Excel", "B) Amazon Redshift / Google BigQuery / Snowflake", "C) Photoshop", "D) AutoCAD"],
-    "answer": "B",
-    "explanation": "Amazon Redshift, Google BigQuery et Snowflake sont parmi les plateformes de Data Warehouse cloud les plus populaires, offrant scalabilité, performance et gestion simplifiée."
+    "answers": [
+      {
+        "id": "dw_041_a",
+        "text": "Microsoft Excel, le tableur bureautique de Microsoft",
+        "isCorrect": false,
+        "note": "Excel est un tableur de bureau, incapable de jouer le rôle de moteur d'entrepôt à l'échelle."
+      },
+      {
+        "id": "dw_041_c",
+        "text": "Photoshop, l'outil d'édition d'images d'Adobe",
+        "isCorrect": false,
+        "note": "Hors sujet : Photoshop édite des images, il ne traite aucun entrepôt de données."
+      },
+      {
+        "id": "dw_041_b",
+        "text": "Amazon Redshift / Google BigQuery / Snowflake",
+        "isCorrect": true,
+        "note": "Exact : Redshift, BigQuery et Snowflake sont des moteurs d'entrepôt cloud massivement parallèles et managés."
+      },
+      {
+        "id": "dw_041_d",
+        "text": "AutoCAD, le logiciel de dessin assisté par ordinateur",
+        "isCorrect": false,
+        "note": "Logiciel de CAO pour le dessin technique, totalement étranger au décisionnel."
+      }
+    ],
+    "explanation": "Amazon Redshift, Google BigQuery et Snowflake sont parmi les plateformes de Data Warehouse cloud les plus populaires, offrant scalabilité, performance et gestion simplifiée.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_042",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Delta Load' dans un processus ETL ?",
-    "options": ["A) Charger toutes les données à chaque exécution", "B) Charger uniquement les données nouvelles ou modifiées depuis le dernier chargement", "C) Supprimer les anciennes données", "D) Fusionner deux entrepôts"],
-    "answer": "B",
-    "explanation": "Le Delta Load (chargement incrémental) ne charge que les données nouvelles ou modifiées depuis le dernier ETL, ce qui est plus efficace que le Full Load qui recharge toutes les données à chaque fois."
+    "answers": [
+      {
+        "id": "dw_042_a",
+        "text": "Charger toutes les données à chaque exécution",
+        "isCorrect": false,
+        "note": "Recharger l'intégralité décrit le full load, mode opposé du chargement incrémental."
+      },
+      {
+        "id": "dw_042_d",
+        "text": "Fusionner deux entrepôts",
+        "isCorrect": false,
+        "note": "La fusion d'entrepôts n'existe pas dans le vocabulaire ETL : delta signifie différence depuis le dernier chargement."
+      },
+      {
+        "id": "dw_042_c",
+        "text": "Supprimer les anciennes données",
+        "isCorrect": false,
+        "note": "Le delta load ne supprime rien : il charge le différentiel des données nouvelles ou modifiées."
+      },
+      {
+        "id": "dw_042_b",
+        "text": "Charger uniquement les données nouvelles ou modifiées depuis le dernier chargement",
+        "isCorrect": true,
+        "note": "Exact : le delta load est incrémental, il ne charge que les données nouvelles ou modifiées depuis la dernière exécution."
+      }
+    ],
+    "explanation": "Le Delta Load (chargement incrémental) ne charge que les données nouvelles ou modifiées depuis le dernier ETL, ce qui est plus efficace que le Full Load qui recharge toutes les données à chaque fois.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_043",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Full Load' dans un processus ETL ?",
-    "options": ["A) Charger uniquement les nouvelles données", "B) Charger l'ensemble des données depuis les sources à chaque exécution", "C) Supprimer puis recréer les tables", "D) Charger uniquement les métadonnées"],
-    "answer": "B",
-    "explanation": "Le Full Load recharge la totalité des données depuis les sources à chaque exécution du processus ETL. Simple mais coûteux en ressources, il est utilisé lors de la phase initiale ou pour des volumes modestes."
+    "answers": [
+      {
+        "id": "dw_043_b",
+        "text": "Charger l'ensemble des données depuis les sources à chaque exécution",
+        "isCorrect": true,
+        "note": "Exact : le full load recharge la totalité des données à chaque exécution, simple mais coûteux en ressources."
+      },
+      {
+        "id": "dw_043_a",
+        "text": "Charger uniquement les nouvelles données",
+        "isCorrect": false,
+        "note": "Ne charger que le nouveau décrit le delta load, son complémentaire exact."
+      },
+      {
+        "id": "dw_043_c",
+        "text": "Supprimer puis recréer les tables",
+        "isCorrect": false,
+        "note": "La reconstruction des tables peut accompagner un chargement complet mais n'en est pas la définition."
+      },
+      {
+        "id": "dw_043_d",
+        "text": "Charger uniquement les métadonnées",
+        "isCorrect": false,
+        "note": "Les métadonnées décrivent les données ; le full load porte sur le jeu de données entier."
+      }
+    ],
+    "explanation": "Le Full Load recharge la totalité des données depuis les sources à chaque exécution du processus ETL. Simple mais coûteux en ressources, il est utilisé lors de la phase initiale ou pour des volumes modestes.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_044",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce qu'un 'Surrogate Key' dans un Data Warehouse ?",
-    "options": ["A) Une clé de sécurité", "B) Un identifiant artificiel unique généré pour chaque ligne de dimension", "C) Une clé primaire de la source", "D) Un mot de passe"],
-    "answer": "B",
-    "explanation": "La clé de substitution (surrogate key) est un identifiant artificiel (souvent un entier auto-incrémenté) assigné à chaque enregistrement de dimension, indépendant des clés métier des systèmes sources."
+    "answers": [
+      {
+        "id": "dw_044_a",
+        "text": "Une clé de sécurité utilisée pour chiffrer les échanges",
+        "isCorrect": false,
+        "note": "Le mot « surrogate » n'a rien d'un mécanisme de sécurité : c'est un identifiant artificiel."
+      },
+      {
+        "id": "dw_044_b",
+        "text": "Un identifiant artificiel unique généré pour chaque ligne de dimension",
+        "isCorrect": true,
+        "note": "Exact : la clé de substitution est un identifiant artificiel auto-généré, indépendant des clés métier des sources."
+      },
+      {
+        "id": "dw_044_c",
+        "text": "Une clé primaire de la source",
+        "isCorrect": false,
+        "note": "Au contraire, la surrogate key se substitue à la clé naturelle de la source dans l'entrepôt."
+      },
+      {
+        "id": "dw_044_d",
+        "text": "Un mot de passe attribué à chaque utilisateur de l'entrepôt",
+        "isCorrect": false,
+        "note": "Confusion de registre totale : une clé d'identification de ligne n'est pas un secret d'authentification."
+      }
+    ],
+    "explanation": "La clé de substitution (surrogate key) est un identifiant artificiel (souvent un entier auto-incrémenté) assigné à chaque enregistrement de dimension, indépendant des clés métier des systèmes sources.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_045",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Pourquoi utilise-t-on des clés de substitution (surrogate keys) plutôt que les clés naturelles ?",
-    "options": ["A) Les clés naturelles sont trop longues", "B) Pour gérer les changements dimensionnels, l'intégration multi-sources et les performances", "C) Les clés naturelles n'existent pas", "D) Par convention uniquement"],
-    "answer": "B",
-    "explanation": "Les surrogate keys permettent de gérer les SCD (Slowly Changing Dimensions), d'intégrer des données de sources hétérogènes avec des clés différentes, et d'améliorer les performances de jointure."
+    "answers": [
+      {
+        "id": "dw_045_a",
+        "text": "Les clés naturelles sont trop longues",
+        "isCorrect": false,
+        "note": "La longueur des clés naturelles peut gêner, mais la vraie raison est la stabilité et l'homogénéité des identifiants."
+      },
+      {
+        "id": "dw_045_c",
+        "text": "Les clés naturelles n'existent pas dans les systèmes sources métier",
+        "isCorrect": false,
+        "note": "Les clés naturelles existent forcément : on les remplace dans l'entrepôt pour des raisons techniques précises."
+      },
+      {
+        "id": "dw_045_b",
+        "text": "Pour gérer les changements dimensionnels, l'intégration multi-sources et les performances",
+        "isCorrect": true,
+        "note": "Exact : elles gèrent les changements dimensionnels, l'intégration multi-sources et accélèrent les jointures."
+      },
+      {
+        "id": "dw_045_d",
+        "text": "Par convention uniquement, sans justification technique réelle",
+        "isCorrect": false,
+        "note": "C'est une décision d'ingénierie fondée, pas une simple habitude sans justification."
+      }
+    ],
+    "explanation": "Les surrogate keys permettent de gérer les SCD (Slowly Changing Dimensions), d'intégrer des données de sources hétérogènes avec des clés différentes, et d'améliorer les performances de jointure.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_046",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Data Profiling' ?",
-    "options": ["A) Créer des profils utilisateurs", "B) Analyser les données sources pour découvrir leur structure, qualité et caractéristiques", "C) Supprimer les profils inutiles", "D) Copier les données"],
-    "answer": "B",
-    "explanation": "Le Data Profiling est l'analyse systématique des données sources pour découvrir leur structure, les valeurs manquantes, les patterns, les plages de valeurs et les anomalies avant l'intégration."
+    "answers": [
+      {
+        "id": "dw_046_a",
+        "text": "Créer des profils utilisateurs",
+        "isCorrect": false,
+        "note": "Le mot « profil » induit en erreur : on profile les données sources, pas les utilisateurs."
+      },
+      {
+        "id": "dw_046_d",
+        "text": "Copier les données sources vers un entrepôt de stockage",
+        "isCorrect": false,
+        "note": "La copie est une opération neutre ; le profiling analyse structure et qualité des sources."
+      },
+      {
+        "id": "dw_046_c",
+        "text": "Supprimer les profils inutiles pour alléger les bases de données",
+        "isCorrect": false,
+        "note": "Réponse absurde : le profiling ne supprime rien, il mesure et documente."
+      },
+      {
+        "id": "dw_046_b",
+        "text": "Analyser les données sources pour découvrir leur structure, qualité et caractéristiques",
+        "isCorrect": true,
+        "note": "Exact : le data profiling analyse les sources, structure, patterns, anomalies et manquants, avant l'intégration."
+      }
+    ],
+    "explanation": "Le Data Profiling est l'analyse systématique des données sources pour découvrir leur structure, les valeurs manquantes, les patterns, les plages de valeurs et les anomalies avant l'intégration.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_047",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Change Data Capture' (CDC) ?",
-    "options": ["A) Un mécanisme pour capturer et suivre les changements dans les données sources", "B) Un outil de photographie numérique", "C) Un antivirus", "D) Un système de backup"],
-    "answer": "A",
-    "explanation": "Le CDC (Change Data Capture) identifie et capture les modifications (INSERT, UPDATE, DELETE) des données sources en temps réel ou quasi-réel pour les répliquer vers le Data Warehouse."
+    "answers": [
+      {
+        "id": "dw_047_a",
+        "text": "Un mécanisme pour capturer et suivre les changements dans les données sources",
+        "isCorrect": true,
+        "note": "Exact : le CDC capture les insertions, mises à jour et suppressions des sources pour les propager vers la cible."
+      },
+      {
+        "id": "dw_047_b",
+        "text": "Un outil de photographie numérique",
+        "isCorrect": false,
+        "note": "Contre-sens littéral sur « capture » : il s'agit de changements de données, pas d'images."
+      },
+      {
+        "id": "dw_047_c",
+        "text": "Un antivirus qui analyse les fichiers en temps réel",
+        "isCorrect": false,
+        "note": "Le CDC n'est pas un outil de sécurité mais un mécanisme de réplication des changements."
+      },
+      {
+        "id": "dw_047_d",
+        "text": "Un système de backup pour restaurer les données perdues",
+        "isCorrect": false,
+        "note": "La sauvegarde protège contre les pertes ; le CDC propage les changements vers la cible."
+      }
+    ],
+    "explanation": "Le CDC (Change Data Capture) identifie et capture les modifications (INSERT, UPDATE, DELETE) des données sources en temps réel ou quasi-réel pour les répliquer vers le Data Warehouse.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_048",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Master Data Management' (MDM) ?",
-    "options": ["A) La gestion des données de référence et critiques de l'entreprise", "B) Un système d'exploitation", "C) Un langage de programmation", "D) Un réseau social d'entreprise"],
-    "answer": "A",
-    "explanation": "Le MDM est une discipline qui vise à définir, gérer et maintenir les données de référence (clients, produits, employés) de manière cohérente et unique à travers toute l'organisation."
+    "answers": [
+      {
+        "id": "dw_048_b",
+        "text": "Un système d'exploitation",
+        "isCorrect": false,
+        "note": "Aucun lien : le MDM est une discipline de gestion des données de référence."
+      },
+      {
+        "id": "dw_048_a",
+        "text": "La gestion des données de référence et critiques de l'entreprise",
+        "isCorrect": true,
+        "note": "Exact : le MDM gère les données de référence comme les clients et produits, de façon unique et cohérente."
+      },
+      {
+        "id": "dw_048_c",
+        "text": "Un langage de programmation",
+        "isCorrect": false,
+        "note": "Le MDM mobilise des outils et des processus, il n'est pas un langage."
+      },
+      {
+        "id": "dw_048_d",
+        "text": "Un réseau social d'entreprise",
+        "isCorrect": false,
+        "note": "Association saugrenue entre données de référence et réseau social d'entreprise."
+      }
+    ],
+    "explanation": "Le MDM est une discipline qui vise à définir, gérer et maintenir les données de référence (clients, produits, employés) de manière cohérente et unique à travers toute l'organisation.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_049",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Data Governance' ?",
-    "options": ["A) Le gouvernement des données numériques", "B) L'ensemble des politiques, processus et standards pour gérer la qualité et la sécurité des données", "C) Un logiciel antivirus", "D) Une base de données gouvernementale"],
-    "answer": "B",
-    "explanation": "La Data Governance définit les politiques, responsabilités, standards et processus pour garantir la qualité, la sécurité, la conformité et la bonne utilisation des données dans l'organisation."
+    "answers": [
+      {
+        "id": "dw_049_a",
+        "text": "Le gouvernement des données numériques",
+        "isCorrect": false,
+        "note": "Jeu de mots sans fondement : la gouvernance est un cadre de politiques et responsabilités, pas un organe politique."
+      },
+      {
+        "id": "dw_049_c",
+        "text": "Un logiciel antivirus dédié à la protection des entrepôts",
+        "isCorrect": false,
+        "note": "La gouvernance encadre les usages ; elle n'est pas un logiciel de sécurité."
+      },
+      {
+        "id": "dw_049_b",
+        "text": "L'ensemble des politiques, processus et standards pour gérer la qualité et la sécurité des données",
+        "isCorrect": true,
+        "note": "Exact : la gouvernance définit politiques, standards et responsabilités pour la qualité et la sécurité des données."
+      },
+      {
+        "id": "dw_049_d",
+        "text": "Une base de données gouvernementale recensant les citoyens",
+        "isCorrect": false,
+        "note": "Contre-sens sur « governance » : ce n'est ni une institution ni une base de données publique."
+      }
+    ],
+    "explanation": "La Data Governance définit les politiques, responsabilités, standards et processus pour garantir la qualité, la sécurité, la conformité et la bonne utilisation des données dans l'organisation.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_050",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Data Quality' dans le contexte du Data Warehousing ?",
-    "options": ["A) La taille des données", "B) L'ensemble des mesures pour garantir l'exactitude, la complétude et la cohérence des données", "C) La vitesse de traitement", "D) Le design visuel"],
-    "answer": "B",
-    "explanation": "La Data Quality englobe les processus et mesures pour garantir que les données sont exactes, complètes, cohérentes, à jour et conformes aux règles métier avant et après leur intégration."
+    "answers": [
+      {
+        "id": "dw_050_a",
+        "text": "La taille des données stockées dans l'entrepôt décisionnel",
+        "isCorrect": false,
+        "note": "Le volume ne dit rien de la qualité : un petit jeu de données peut être faux, un grand être irréprochable."
+      },
+      {
+        "id": "dw_050_d",
+        "text": "Le design visuel des tableaux de bord décisionnels",
+        "isCorrect": false,
+        "note": "Le design concerne la restitution ; la qualité concerne l'exactitude des données elles-mêmes."
+      },
+      {
+        "id": "dw_050_c",
+        "text": "La vitesse de traitement des requêtes par le moteur",
+        "isCorrect": false,
+        "note": "La performance est un attribut système ; la qualité mesure exactitude, complétude et cohérence."
+      },
+      {
+        "id": "dw_050_b",
+        "text": "L'ensemble des mesures pour garantir l'exactitude, la complétude et la cohérence des données",
+        "isCorrect": true,
+        "note": "Exact : la qualité de données garantit exactitude, complétude, cohérence et conformité aux règles métier."
+      }
+    ],
+    "explanation": "La Data Quality englobe les processus et mesures pour garantir que les données sont exactes, complètes, cohérentes, à jour et conformes aux règles métier avant et après leur intégration.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_051",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Quelle est la différence entre 'Push' et 'Pull' dans les stratégies ETL ?",
-    "options": ["A) Push envoie les données depuis la source, Pull extrait les données depuis la cible", "B) Push est plus lent que Pull", "C) Pull ne fonctionne qu'avec des fichiers", "D) Il n'y a pas de différence"],
-    "answer": "A",
-    "explanation": "En mode Push, le système source envoie activement les données vers l'entrepôt. En mode Pull, le système ETL extrait les données depuis les sources. Le choix dépend de l'architecture et des contraintes."
+    "answers": [
+      {
+        "id": "dw_051_a",
+        "text": "Push envoie les données depuis la source, Pull extrait les données depuis la cible",
+        "isCorrect": true,
+        "note": "Exact : en Push la source pousse les données vers la cible, en Pull c'est la cible qui les extrait des sources."
+      },
+      {
+        "id": "dw_051_b",
+        "text": "Push est systématiquement plus lent que Pull dans tous les cas",
+        "isCorrect": false,
+        "note": "La vitesse dépend de l'implémentation et du contexte ; la différence fondamentale est le sens de l'initiative du transfert."
+      },
+      {
+        "id": "dw_051_c",
+        "text": "Pull ne fonctionne qu'avec des fichiers",
+        "isCorrect": false,
+        "note": "Le mode Pull fonctionne sur des bases, des API et bien d'autres sources, pas seulement des fichiers."
+      },
+      {
+        "id": "dw_051_d",
+        "text": "Il n'y a aucune différence entre les deux stratégies",
+        "isCorrect": false,
+        "note": "La différence est réelle et architecturale : qui prend l'initiative du transfert, la source ou la cible."
+      }
+    ],
+    "explanation": "En mode Push, c'est le système source qui transmet activement les données vers l'entrepôt ; en mode Pull, c'est le processus ETL qui vient extraire les données des sources. Le choix entre les deux dépend de l'architecture et des contraintes du projet.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_052",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Real-Time ETL' ou 'Streaming ETL' ?",
-    "options": ["A) Un ETL qui fonctionne uniquement en temps réel", "B) Un processus ETL qui traite les données en continu dès leur disponibilité", "C) Un ETL qui ne fonctionne que pendant les heures ouvrables", "D) Un ETL manuel"],
-    "answer": "B",
-    "explanation": "Le Streaming ETL traite les données en continu et en temps réel dès leur génération (via Kafka, Spark Streaming, etc.), contrairement à l'ETL batch qui traite les données par lots à intervalles réguliers."
+    "answers": [
+      {
+        "id": "dw_052_a",
+        "text": "Un ETL qui fonctionne uniquement en temps réel",
+        "isCorrect": false,
+        "note": "Formulation circulaire qui ne définit rien : l'essentiel est le traitement en continu dès la disponibilité des données."
+      },
+      {
+        "id": "dw_052_b",
+        "text": "Un processus ETL qui traite les données en continu dès leur disponibilité",
+        "isCorrect": true,
+        "note": "Exact : le streaming ETL traite les flux en continu dès leur émission, via des moteurs comme Kafka ou Spark."
+      },
+      {
+        "id": "dw_052_c",
+        "text": "Un ETL qui ne fonctionne que pendant les heures ouvrables",
+        "isCorrect": false,
+        "note": "Le traitement en fenêtre horaire décrit l'ETL batch planifié, à l'opposé du temps réel."
+      },
+      {
+        "id": "dw_052_d",
+        "text": "Un ETL manuel",
+        "isCorrect": false,
+        "note": "Un pipeline temps réel est hautement automatisé, à l'opposé du pilotage manuel."
+      }
+    ],
+    "explanation": "Le Streaming ETL traite les données en continu et en temps réel dès leur génération (via Kafka, Spark Streaming, etc.), contrairement à l'ETL batch qui traite les données par lots à intervalles réguliers.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_053",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Quels sont les outils ETL les plus populaires sur le marché ?",
-    "options": ["A) Word, Excel, PowerPoint", "B) Informatica PowerCenter, Talend, SSIS, Apache Airflow", "C) Photoshop, Illustrator", "D) Git, Docker, Kubernetes"],
-    "answer": "B",
-    "explanation": "Informatica PowerCenter, Talend, Microsoft SSIS et Apache Airflow sont parmi les outils ETL les plus utilisés dans l'industrie pour orchestrer les flux de données vers les Data Warehouses."
+    "answers": [
+      {
+        "id": "dw_053_a",
+        "text": "Word, Excel, PowerPoint",
+        "isCorrect": false,
+        "note": "Suite bureautique de productivité, sans aucune capacité d'orchestration de flux de données."
+      },
+      {
+        "id": "dw_053_c",
+        "text": "Photoshop, Illustrator",
+        "isCorrect": false,
+        "note": "Outils de création graphique, étrangers à l'intégration de données."
+      },
+      {
+        "id": "dw_053_b",
+        "text": "Informatica PowerCenter, Talend, SSIS, Apache Airflow",
+        "isCorrect": true,
+        "note": "Exact : Informatica PowerCenter, Talend, SSIS et Airflow sont des références de l'orchestration ETL."
+      },
+      {
+        "id": "dw_053_d",
+        "text": "Git, Docker, Kubernetes",
+        "isCorrect": false,
+        "note": "Outils du cycle DevOps, versioning, conteneurs et orchestration, pas d'intégration décisionnelle de données."
+      }
+    ],
+    "explanation": "Informatica PowerCenter, Talend, Microsoft SSIS et Apache Airflow sont parmi les outils ETL les plus utilisés dans l'industrie pour orchestrer les flux de données vers les Data Warehouses.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_054",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce qu'un 'Data Catalog' ?",
-    "options": ["A) Un catalogue de produits", "B) Un inventaire centralisé des actifs de données avec leur contexte et métadonnées", "C) Un catalogue de logiciels", "D) Une bibliothèque de code"],
-    "answer": "B",
-    "explanation": "Le Data Catalog est un inventaire centralisé qui référence tous les actifs de données de l'organisation avec leurs métadonnées, leur lignée, leur qualité et leur propriétaire, facilitant la découverte et la gouvernance."
+    "answers": [
+      {
+        "id": "dw_054_a",
+        "text": "Un catalogue de produits vendus par l'entreprise",
+        "isCorrect": false,
+        "note": "Confusion commerciale : le catalogue porte sur les actifs de données internes, pas sur des produits à vendre."
+      },
+      {
+        "id": "dw_054_d",
+        "text": "Une bibliothèque de code réutilisable pour les développeurs",
+        "isCorrect": false,
+        "note": "Une bibliothèque de code regroupe des fonctions ; le catalogue référence des jeux de données."
+      },
+      {
+        "id": "dw_054_c",
+        "text": "Un catalogue des logiciels installés sur le parc informatique",
+        "isCorrect": false,
+        "note": "Ce n'est pas un inventaire d'applications mais de données, avec leur contexte et leurs métadonnées."
+      },
+      {
+        "id": "dw_054_b",
+        "text": "Un inventaire centralisé des actifs de données avec leur contexte et métadonnées",
+        "isCorrect": true,
+        "note": "Exact : le data catalog inventorie les actifs de données avec métadonnées, lignée et propriétaire, pour les rendre trouvables."
+      }
+    ],
+    "explanation": "Le Data Catalog est un inventaire centralisé qui référence tous les actifs de données de l'organisation avec leurs métadonnées, leur lignée, leur qualité et leur propriétaire, facilitant la découverte et la gouvernance.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_055",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que la 'Data Mart virtualization' ?",
-    "options": ["A) Créer des Data Marts virtuels sans duplication physique des données", "B) Supprimer les Data Marts physiques", "C) Créer des copies physiques", "D) Un outil de réalité virtuelle"],
-    "answer": "A",
-    "explanation": "La virtualisation de Data Mart permet de créer des vues logiques (Data Marts virtuels) au-dessus du Data Warehouse sans dupliquer physiquement les données, réduisant les coûts de stockage et la complexité."
+    "answers": [
+      {
+        "id": "dw_055_a",
+        "text": "Créer des Data Marts virtuels sans duplication physique des données",
+        "isCorrect": true,
+        "note": "Exact : la virtualisation crée des datamarts logiques en vues, sans dupliquer physiquement les données."
+      },
+      {
+        "id": "dw_055_b",
+        "text": "Supprimer les Data Marts physiques",
+        "isCorrect": false,
+        "note": "La virtualisation ne supprime rien : elle propose une alternative logique à la duplication physique."
+      },
+      {
+        "id": "dw_055_c",
+        "text": "Créer des copies physiques",
+        "isCorrect": false,
+        "note": "Créer des copies physiques est l'approche classique, exactement opposée à la virtualisation."
+      },
+      {
+        "id": "dw_055_d",
+        "text": "Un outil de réalité virtuelle",
+        "isCorrect": false,
+        "note": "Jeu de mots sur « virtuel » : il s'agit de vues logiques, pas d'immersion 3D."
+      }
+    ],
+    "explanation": "La virtualisation de Data Mart permet de créer des vues logiques (Data Marts virtuels) au-dessus du Data Warehouse sans dupliquer physiquement les données, réduisant les coûts de stockage et la complexité.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_056",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Data Vault Modeling' ?",
-    "options": ["A) Un coffre-fort numérique", "B) Une méthode de modélisation orientée audit, traçabilité et agilité", "C) Un antivirus", "D) Un algorithme de chiffrement"],
-    "answer": "B",
-    "explanation": "Le Data Vault (inventé par Dan Linstedt) est une méthode de modélisation qui sépare les Hubs (clés métier), Links (relations) et Satellites (attributs historisés), offrant agilité, traçabilité et auditabilité."
+    "answers": [
+      {
+        "id": "dw_056_a",
+        "text": "Un coffre-fort numérique pour stocker les données confidentielles",
+        "isCorrect": false,
+        "note": "La métaphore du « vault » est séduisante mais Data Vault est une méthode de modélisation d'entrepôt."
+      },
+      {
+        "id": "dw_056_b",
+        "text": "Une méthode de modélisation orientée audit, traçabilité et agilité",
+        "isCorrect": true,
+        "note": "Exact : le Data Vault, avec ses Hubs, Links et Satellites, est une modélisation orientée audit, traçabilité et agilité."
+      },
+      {
+        "id": "dw_056_c",
+        "text": "Un antivirus protégeant les postes de travail",
+        "isCorrect": false,
+        "note": "Aucun rapport avec la sécurité des postes : c'est une architecture de modélisation d'entrepôt."
+      },
+      {
+        "id": "dw_056_d",
+        "text": "Un algorithme de chiffrement",
+        "isCorrect": false,
+        "note": "Le chiffrement protège les données ; Data Vault structure l'entrepôt pour l'audit et l'évolutivité."
+      }
+    ],
+    "explanation": "Le Data Vault (inventé par Dan Linstedt) est une méthode de modélisation qui sépare les Hubs (clés métier), Links (relations) et Satellites (attributs historisés), offrant agilité, traçabilité et auditabilité.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_057",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Quels sont les trois composants du Data Vault ?",
-    "options": ["A) Tables, Vues, Index", "B) Hubs, Links, Satellites", "C) Sources, Transformations, Cibles", "D) Données, Métadonnées, Index"],
-    "answer": "B",
-    "explanation": "Le modèle Data Vault est composé de Hubs (clés métier uniques), Links (relations entre hubs) et Satellites (attributs descriptifs et historisés des hubs et links)."
+    "answers": [
+      {
+        "id": "dw_057_a",
+        "text": "Tables, Vues, Index",
+        "isCorrect": false,
+        "note": "Ce sont des objets génériques de base de données, pas les briques conceptuelles du Data Vault."
+      },
+      {
+        "id": "dw_057_c",
+        "text": "Sources, Transformations, Cibles",
+        "isCorrect": false,
+        "note": "C'est la description d'un pipeline ETL ; le Data Vault a ses propres composants de modélisation."
+      },
+      {
+        "id": "dw_057_b",
+        "text": "Hubs, Links, Satellites",
+        "isCorrect": true,
+        "note": "Exact : les Hubs portent les clés métier, les Links les relations et les Satellites les attributs historisés."
+      },
+      {
+        "id": "dw_057_d",
+        "text": "Données, Métadonnées, Index",
+        "isCorrect": false,
+        "note": "Mélange de catégories génériques qui ne correspond pas à la structure du Data Vault."
+      }
+    ],
+    "explanation": "Le modèle Data Vault est composé de Hubs (clés métier uniques), Links (relations entre hubs) et Satellites (attributs descriptifs et historisés des hubs et links).",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_058",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Anchor Modeling' ?",
-    "options": ["A) Une méthode de modélisation orientée sixth forme normale pour une évolutivité maximale", "B) Un outil d'ancrage de bateaux", "C) Un framework JavaScript", "D) Une technique de compression"],
-    "answer": "A",
-    "explanation": "L'Anchor Modeling est une technique de modélisation basée sur la sixième forme normale, où chaque attribut est stocké dans sa propre table, offrant une flexibilité et une évolutivité maximales."
+    "answers": [
+      {
+        "id": "dw_058_d",
+        "text": "Une technique de compression des données historiques",
+        "isCorrect": false,
+        "note": "La normalisation poussée peut réduire la redondance, mais Anchor Modeling est une méthode de modélisation complète."
+      },
+      {
+        "id": "dw_058_b",
+        "text": "Un outil d'ancrage de bateaux",
+        "isCorrect": false,
+        "note": "Contre-sens littéral sur « anchor » : la métaphore nautique n'a rien à faire en modélisation de données."
+      },
+      {
+        "id": "dw_058_c",
+        "text": "Un framework JavaScript pour construire des interfaces web",
+        "isCorrect": false,
+        "note": "C'est une technique de modélisation de bases de données, indépendante des frameworks web."
+      },
+      {
+        "id": "dw_058_a",
+        "text": "Une méthode de modélisation orientée sixth forme normale pour une évolutivité maximale",
+        "isCorrect": true,
+        "note": "Exact : Anchor Modeling place chaque attribut dans sa propre table, en sixième forme normale, pour une évolutivité maximale."
+      }
+    ],
+    "explanation": "L'Anchor Modeling est une technique de modélisation basée sur la sixième forme normale, où chaque attribut est stocké dans sa propre table, offrant une flexibilité et une évolutivité maximales.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_059",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'ELT' par rapport à 'ETL' ?",
-    "options": ["A) C'est la même chose", "B) Les données sont d'abord chargées (Load) puis transformées (Transform) dans la cible", "C) ELT ne fait pas de transformation", "D) ELT fonctionne uniquement en batch"],
-    "answer": "B",
-    "explanation": "Dans l'approche ELT, les données brutes sont d'abord chargées dans le Data Warehouse, puis les transformations sont effectuées directement dans l'entrepôt en utilisant sa puissance de calcul."
+    "answers": [
+      {
+        "id": "dw_059_b",
+        "text": "Les données sont d'abord chargées (Load) puis transformées (Transform) dans la cible",
+        "isCorrect": true,
+        "note": "Exact : en ELT, on charge d'abord le brut dans la cible, puis on transforme avec la puissance de l'entrepôt."
+      },
+      {
+        "id": "dw_059_a",
+        "text": "C'est exactement la même chose avec un nom différent",
+        "isCorrect": false,
+        "note": "L'ordre des étapes change tout : transformer avant ou après le chargement n'a pas les mêmes implications."
+      },
+      {
+        "id": "dw_059_c",
+        "text": "ELT ne fait pas de transformation",
+        "isCorrect": false,
+        "note": "La transformation reste indispensable en ELT, elle est simplement déplacée après le chargement."
+      },
+      {
+        "id": "dw_059_d",
+        "text": "ELT fonctionne uniquement en batch",
+        "isCorrect": false,
+        "note": "L'ELT peut être batch ou continu : ce qui le définit est l'ordre, chargement puis transformation."
+      }
+    ],
+    "explanation": "Dans l'approche ELT, les données brutes sont d'abord chargées dans le Data Warehouse, puis les transformations sont effectuées directement dans l'entrepôt en utilisant sa puissance de calcul.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_060",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que la 'Data Warehouse Automation' ?",
-    "options": ["A) Automatiser entièrement la conception et le déploiement du Data Warehouse", "B) Supprimer les développeurs", "C) Automatiser uniquement les requêtes SQL", "D) Un robot physique"],
-    "answer": "A",
-    "explanation": "La Data Warehouse Automation utilise des outils (comme WhereScape, TimeXtender) pour automatiser la génération de code ETL, la modélisation et le déploiement, accélérant considérablement la mise en œuvre."
+    "answers": [
+      {
+        "id": "dw_060_b",
+        "text": "Supprimer les développeurs",
+        "isCorrect": false,
+        "note": "Formulation provocatrice : l'automatisation accélère le travail, elle ne vise pas à supprimer les équipes."
+      },
+      {
+        "id": "dw_060_a",
+        "text": "Automatiser entièrement la conception et le déploiement du Data Warehouse",
+        "isCorrect": true,
+        "note": "Exact : l'automatisation génère code ETL, modélisation et déploiement, accélérant fortement la mise en oeuvre."
+      },
+      {
+        "id": "dw_060_c",
+        "text": "Automatiser uniquement les requêtes SQL",
+        "isCorrect": false,
+        "note": "Réduction trop étroite : l'automatisation couvre conception, génération de code et déploiement complet."
+      },
+      {
+        "id": "dw_060_d",
+        "text": "Un robot physique chargé de maintenir les serveurs",
+        "isCorrect": false,
+        "note": "L'automatisation est logicielle : aucun bras robotisé dans la construction d'un entrepôt."
+      }
+    ],
+    "explanation": "La Data Warehouse Automation utilise des outils (comme WhereScape, TimeXtender) pour automatiser la génération de code ETL, la modélisation et le déploiement, accélérant considérablement la mise en œuvre.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_061",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Data Swamps' ?",
-    "options": ["A) Un Data Lake bien organisé", "B) Un Data Lake mal géré sans gouvernance, devenu inutilisable", "C) Un outil de nettoyage", "D) Une base de données performante"],
-    "answer": "B",
-    "explanation": "Un Data Swamp (marais de données) est un Data Lake qui a perdu son organisation et sa gouvernance, rendant les données difficiles à trouver, comprendre et utiliser. C'est le résultat d'un manque de catalogage."
+    "answers": [
+      {
+        "id": "dw_061_a",
+        "text": "Un Data Lake bien organisé",
+        "isCorrect": false,
+        "note": "C'est exactement l'inverse : le marais de données est un lac dégradé, faute de gouvernance."
+      },
+      {
+        "id": "dw_061_c",
+        "text": "Un outil de nettoyage",
+        "isCorrect": false,
+        "note": "Le mot évoque un état dégradé, pas un outil : un data swamp est un lac devenu inutilisable."
+      },
+      {
+        "id": "dw_061_b",
+        "text": "Un Data Lake mal géré sans gouvernance, devenu inutilisable",
+        "isCorrect": true,
+        "note": "Exact : sans gouvernance ni catalogage, un data lake devient un marais où nul ne trouve plus rien d'exploitable."
+      },
+      {
+        "id": "dw_061_d",
+        "text": "Une base de données performante",
+        "isCorrect": false,
+        "note": "Performance et marais de données sont incompatibles : le problème ici est l'absence d'organisation."
+      }
+    ],
+    "explanation": "Un Data Swamp (marais de données) est un Data Lake qui a perdu son organisation et sa gouvernance, rendant les données difficiles à trouver, comprendre et utiliser. C'est le résultat d'un manque de catalogage.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_062",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Data Mesh' ?",
-    "options": ["A) Un réseau de bases de données", "B) Une architecture décentralisée où chaque domaine possède et gère ses propres données comme un produit", "C) Un type de graphique", "D) Un protocole réseau"],
-    "answer": "B",
-    "explanation": "Le Data Mesh, concept de Zhamak Dehghani, est une architecture décentralisée où les données sont gérées par les domaines métier comme des produits, avec une gouvernance fédérée et une plateforme self-service."
+    "answers": [
+      {
+        "id": "dw_062_a",
+        "text": "Un réseau de bases de données",
+        "isCorrect": false,
+        "note": "Le mot « mesh » suggère un réseau technique ; le data mesh est une organisation sociotechnique par domaines."
+      },
+      {
+        "id": "dw_062_d",
+        "text": "Un protocole réseau dédié aux échanges de données massives",
+        "isCorrect": false,
+        "note": "Aucun protocole : c'est un paradigme d'architecture et de gouvernance des données."
+      },
+      {
+        "id": "dw_062_c",
+        "text": "Un type de graphique pour visualiser des réseaux",
+        "isCorrect": false,
+        "note": "La visualisation n'a rien à voir : le data mesh redistribue la propriété des données."
+      },
+      {
+        "id": "dw_062_b",
+        "text": "Une architecture décentralisée où chaque domaine possède et gère ses propres données comme un produit",
+        "isCorrect": true,
+        "note": "Exact : le data mesh décentralise la propriété des données, chaque domaine les gère comme un produit."
+      }
+    ],
+    "explanation": "Le Data Mesh, concept de Zhamak Dehghani, est une architecture décentralisée où les données sont gérées par les domaines métier comme des produits, avec une gouvernance fédérée et une plateforme self-service.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_063",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Quels sont les quatre piliers du Data Mesh ?",
-    "options": ["A) Collecter, Stocker, Analyser, Visualiser", "B) Orienté domaine, Données comme produit, Plateforme self-service, Gouvernance fédérée", "C) Sécurité, Performance, Scalabilité, Disponibilité", "D) Cloud, On-premise, Hybride, Edge"],
-    "answer": "B",
-    "explanation": "Les quatre piliers du Data Mesh sont : l'orientation domaine (domain ownership), les données comme produit (data as a product), la plateforme données self-service, et la gouvernance computationnelle fédérée."
+    "answers": [
+      {
+        "id": "dw_063_b",
+        "text": "Orienté domaine, Données comme produit, Plateforme self-service, Gouvernance fédérée",
+        "isCorrect": true,
+        "note": "Exact : domaines, données-produit, plateforme self-service et gouvernance fédérée sont les quatre piliers canoniques."
+      },
+      {
+        "id": "dw_063_a",
+        "text": "Collecter, Stocker, Analyser, Visualiser",
+        "isCorrect": false,
+        "note": "C'est le cycle de vie analytique classique, pas les piliers du paradigme data mesh."
+      },
+      {
+        "id": "dw_063_c",
+        "text": "Sécurité, Performance, Scalabilité, Disponibilité",
+        "isCorrect": false,
+        "note": "Exigences d'ingénierie génériques, sans lien avec la doctrine data mesh."
+      },
+      {
+        "id": "dw_063_d",
+        "text": "Cloud, On-premise, Hybride, Edge",
+        "isCorrect": false,
+        "note": "Typologie d'hébergement d'infrastructures, étrangère aux piliers du data mesh."
+      }
+    ],
+    "explanation": "Les quatre piliers du Data Mesh sont : l'orientation domaine (domain ownership), les données comme produit (data as a product), la plateforme données self-service, et la gouvernance computationnelle fédérée.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_064",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce qu'un 'Data Fabric' ?",
-    "options": ["A) Un tissu physique pour les serveurs", "B) Une architecture qui automatise l'intégration des données à travers tous les environnements via l'IA", "C) Un framework de développement", "D) Un langage de requête"],
-    "answer": "B",
-    "explanation": "Le Data Fabric est une architecture qui utilise l'IA et les métadonnées actives pour automatiser la découverte, l'intégration et la gouvernance des données à travers les environnements cloud et on-premise."
+    "answers": [
+      {
+        "id": "dw_064_a",
+        "text": "Un tissu physique pour les serveurs",
+        "isCorrect": false,
+        "note": "Contre-sens littéral sur « fabric » : aucune fibre textile dans cette architecture logicielle."
+      },
+      {
+        "id": "dw_064_b",
+        "text": "Une architecture qui automatise l'intégration des données à travers tous les environnements via l'IA",
+        "isCorrect": true,
+        "note": "Exact : le data fabric s'appuie sur les métadonnées actives et l'IA pour orchestrer l'intégration partout."
+      },
+      {
+        "id": "dw_064_c",
+        "text": "Un framework de développement d'applications analytiques",
+        "isCorrect": false,
+        "note": "Ce n'est pas un framework mais une architecture d'intégration et de gouvernance des données."
+      },
+      {
+        "id": "dw_064_d",
+        "text": "Un langage de requête pour interroger les données distribuées",
+        "isCorrect": false,
+        "note": "Le data fabric s'appuie sur des langages existants ; il n'en définit aucun."
+      }
+    ],
+    "explanation": "Le Data Fabric est une architecture qui utilise l'IA et les métadonnées actives pour automatiser la découverte, l'intégration et la gouvernance des données à travers les environnements cloud et on-premise.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_065",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Slowly Changing Dimension Type 3' ?",
-    "options": ["A) Ajout d'une nouvelle ligne", "B) Ajout d'une colonne pour stocker la valeur précédente", "C) Écrasement de la valeur actuelle", "D) Suppression de la dimension"],
-    "answer": "B",
-    "explanation": "Le SCD Type 3 ajoute une nouvelle colonne pour stocker la valeur précédente de l'attribut modifié. Cela permet de comparer uniquement la valeur actuelle et la précédente, sans historique complet."
+    "answers": [
+      {
+        "id": "dw_065_a",
+        "text": "Ajout d'une nouvelle ligne",
+        "isCorrect": false,
+        "note": "L'insertion d'une nouvelle ligne historisée est la marque du Type 2, pas du Type 3."
+      },
+      {
+        "id": "dw_065_c",
+        "text": "Écrasement de la valeur actuelle",
+        "isCorrect": false,
+        "note": "L'écrasement pur et simple correspond au Type 1, qui ne garde aucune trace."
+      },
+      {
+        "id": "dw_065_b",
+        "text": "Ajout d'une colonne pour stocker la valeur précédente",
+        "isCorrect": true,
+        "note": "Exact : le Type 3 ajoute une colonne dédiée à la valeur précédente, pour comparer actuel et antérieur."
+      },
+      {
+        "id": "dw_065_d",
+        "text": "Suppression de la dimension",
+        "isCorrect": false,
+        "note": "Aucun type de SCD ne supprime la dimension : chacun choisit juste une stratégie de mémorisation."
+      }
+    ],
+    "explanation": "Le SCD Type 3 ajoute une nouvelle colonne pour stocker la valeur précédente de l'attribut modifié. Cela permet de comparer uniquement la valeur actuelle et la précédente, sans historique complet.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_066",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Data Warehouse Bus Matrix' ?",
-    "options": ["A) Un outil de transport de données", "B) Une matrice qui relie les processus métier aux dimensions communes", "C) Un algorithme de routage", "D) Un standard de communication"],
-    "answer": "B",
-    "explanation": "La Bus Matrix (matrice de bus) est un outil de planification de Ralph Kimball qui croise les processus métier (lignes) avec les dimensions communes (colonnes) pour planifier l'architecture du Data Warehouse."
+    "answers": [
+      {
+        "id": "dw_066_a",
+        "text": "Un outil de transport de données",
+        "isCorrect": false,
+        "note": "La métaphore du « bus » peut évoquer le transport ; il s'agit d'un outil de planification de Kimball."
+      },
+      {
+        "id": "dw_066_d",
+        "text": "Un standard de communication",
+        "isCorrect": false,
+        "note": "Ce n'est pas un protocole de communication mais une matrice d'alignement processus-dimensions."
+      },
+      {
+        "id": "dw_066_c",
+        "text": "Un algorithme de routage",
+        "isCorrect": false,
+        "note": "Aucun routage calculé : la matrice se remplit à la main lors de la planification."
+      },
+      {
+        "id": "dw_066_b",
+        "text": "Une matrice qui relie les processus métier aux dimensions communes",
+        "isCorrect": true,
+        "note": "Exact : la bus matrix croise processus métier et dimensions partagées pour planifier l'entrepôt de façon cohérente."
+      }
+    ],
+    "explanation": "La Bus Matrix (matrice de bus) est un outil de planification de Ralph Kimball qui croise les processus métier (lignes) avec les dimensions communes (colonnes) pour planifier l'architecture du Data Warehouse.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_067",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce qu'un 'Audit Trail' dans un Data Warehouse ?",
-    "options": ["A) Un sentier de randonnée", "B) Un journal de traçabilité de toutes les opérations effectuées sur les données", "C) Un outil de test", "D) Un type d'index"],
-    "answer": "B",
-    "explanation": "L'Audit Trail (piste d'audit) enregistre toutes les opérations effectuées sur les données du Data Warehouse (qui, quand, quoi) pour garantir la traçabilité, la conformité réglementaire et la sécurité."
+    "answers": [
+      {
+        "id": "dw_067_b",
+        "text": "Un journal de traçabilité de toutes les opérations effectuées sur les données",
+        "isCorrect": true,
+        "note": "Exact : la piste d'audit journalise toutes les opérations, qui, quand et quoi, pour la conformité."
+      },
+      {
+        "id": "dw_067_a",
+        "text": "Un sentier de randonnée balisé dans les montagnes",
+        "isCorrect": false,
+        "note": "Traduction littérale amusante mais erronée : « trail » désigne ici une trace d'opérations."
+      },
+      {
+        "id": "dw_067_c",
+        "text": "Un outil de test automatisé pour valider les chargements",
+        "isCorrect": false,
+        "note": "Les tests valident un système ; la piste d'audit enregistre ce qui s'y passe."
+      },
+      {
+        "id": "dw_067_d",
+        "text": "Un type d'index accélérant les recherches dans les tables",
+        "isCorrect": false,
+        "note": "Un index accélère les recherches ; le journal d'audit enregistre les événements."
+      }
+    ],
+    "explanation": "L'Audit Trail (piste d'audit) enregistre toutes les opérations effectuées sur les données du Data Warehouse (qui, quand, quoi) pour garantir la traçabilité, la conformité réglementaire et la sécurité.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_068",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Data Warehouse Benchmarking' ?",
-    "options": ["A) Comparer les performances du Data Warehouse avec des standards de référence", "B) Créer des points de sauvegarde", "C) Mesurer la température des serveurs", "D) Évaluer le design visuel"],
-    "answer": "A",
-    "explanation": "Le Benchmarking consiste à mesurer et comparer les performances du Data Warehouse (temps de requête, throughput, disponibilité) avec des standards de l'industrie ou des périodes précédentes."
+    "answers": [
+      {
+        "id": "dw_068_b",
+        "text": "Créer des points de sauvegarde",
+        "isCorrect": false,
+        "note": "La sauvegarde protège les données ; le benchmark mesure et compare les performances."
+      },
+      {
+        "id": "dw_068_a",
+        "text": "Comparer les performances du Data Warehouse avec des standards de référence",
+        "isCorrect": true,
+        "note": "Exact : le benchmarking compare les performances de l'entrepôt à des standards de référence ou à l'historique."
+      },
+      {
+        "id": "dw_068_c",
+        "text": "Mesurer la température des serveurs",
+        "isCorrect": false,
+        "note": "La température est une métrique d'infrastructure anecdotique, pas un critère de benchmark décisionnel."
+      },
+      {
+        "id": "dw_068_d",
+        "text": "Évaluer le design visuel des rapports et tableaux de bord",
+        "isCorrect": false,
+        "note": "Le benchmarking décisionnel mesure requêtes et débits, pas l'esthétique des restitutions."
+      }
+    ],
+    "explanation": "Le Benchmarking consiste à mesurer et comparer les performances du Data Warehouse (temps de requête, throughput, disponibilité) avec des standards de l'industrie ou des périodes précédentes.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_069",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Materialized View' dans un Data Warehouse ?",
-    "options": ["A) Une vue qui existe physiquement avec des données pré-calculées", "B) Une vue qui n'existe pas", "C) Un type de table temporaire", "D) Un index spécial"],
-    "answer": "A",
-    "explanation": "Une vue matérialisée stocke physiquement le résultat d'une requête, évitant de recalculer les agrégations à chaque accès. Essentielle dans les Data Warehouse pour accélérer les requêtes analytiques fréquentes."
+    "answers": [
+      {
+        "id": "dw_069_c",
+        "text": "Un type de table temporaire",
+        "isCorrect": false,
+        "note": "Une vue matérialisée est persistante : c'est précisément elle qui stocke physiquement son résultat."
+      },
+      {
+        "id": "dw_069_b",
+        "text": "Une vue qui n'existe pas",
+        "isCorrect": false,
+        "note": "Le mot « matérialisée » signifie exactement l'inverse : elle existe physiquement."
+      },
+      {
+        "id": "dw_069_a",
+        "text": "Une vue qui existe physiquement avec des données pré-calculées",
+        "isCorrect": true,
+        "note": "Exact : la vue matérialisée stocke physiquement un résultat pré-calculé, évitant de le recalculer à chaque accès."
+      },
+      {
+        "id": "dw_069_d",
+        "text": "Un index spécial pour les colonnes à faible cardinalité",
+        "isCorrect": false,
+        "note": "Un index accélère l'accès aux lignes ; la vue matérialisée pré-calcule le résultat d'une requête entière."
+      }
+    ],
+    "explanation": "Une vue matérialisée stocke physiquement le résultat d'une requête, évitant de recalculer les agrégations à chaque accès. Essentielle dans les Data Warehouse pour accélérer les requêtes analytiques fréquentes.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_070",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Quel est l'avantage principal du Cloud Data Warehouse par rapport au on-premise ?",
-    "options": ["A) Il est plus lent", "B) L'élasticité, la scalabilité automatique et le modèle pay-as-you-go", "C) Il ne nécessite aucune configuration", "D) Il est gratuit"],
-    "answer": "B",
-    "explanation": "Le Cloud Data Warehouse offre une scalabilité élastique (ajuster les ressources à la demande), un modèle de paiement à l'usage (pay-as-you-go) et élimine la gestion de l'infrastructure physique."
+    "answers": [
+      {
+        "id": "dw_070_a",
+        "text": "Il est plus lent que les serveurs locaux",
+        "isCorrect": false,
+        "note": "Les moteurs managés offrent au contraire des performances compétitives grâce au traitement massivement parallèle."
+      },
+      {
+        "id": "dw_070_d",
+        "text": "Il est entièrement gratuit pour tous les usages",
+        "isCorrect": false,
+        "note": "Le cloud se paie à l'usage : la gratuité n'a jamais été sa promesse."
+      },
+      {
+        "id": "dw_070_c",
+        "text": "Il ne nécessite aucune configuration",
+        "isCorrect": false,
+        "note": "Une configuration simplifiée ne signifie pas nulle : service managé ne veut pas dire zéro réglage."
+      },
+      {
+        "id": "dw_070_b",
+        "text": "L'élasticité, la scalabilité automatique et le modèle pay-as-you-go",
+        "isCorrect": true,
+        "note": "Exact : élasticité, scalabilité automatique et paiement à l'usage constituent l'avantage décisif du cloud."
+      }
+    ],
+    "explanation": "Le Cloud Data Warehouse offre une scalabilité élastique (ajuster les ressources à la demande), un modèle de paiement à l'usage (pay-as-you-go) et élimine la gestion de l'infrastructure physique.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_071",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Data Warehouse as a Service' (DWaaS) ?",
-    "options": ["A) Un Data Warehouse géré par un prestataire dans le cloud", "B) Un service de conseil", "C) Un logiciel open source", "D) Un protocole réseau"],
-    "answer": "A",
-    "explanation": "Le DWaaS est un service cloud qui fournit un Data Warehouse complet et géré (infrastructure, maintenance, optimisation) sans nécessiter de matériel on-premise ni d'administration système."
+    "answers": [
+      {
+        "id": "dw_071_a",
+        "text": "Un Data Warehouse géré par un prestataire dans le cloud",
+        "isCorrect": true,
+        "note": "Exact : le DWaaS fournit un entrepôt entièrement managé par un prestataire cloud, sans infrastructure à gérer."
+      },
+      {
+        "id": "dw_071_b",
+        "text": "Un service de conseil",
+        "isCorrect": false,
+        "note": "Le conseil accompagne les projets ; le DWaaS est un service d'infrastructure consommable."
+      },
+      {
+        "id": "dw_071_c",
+        "text": "Un logiciel open source",
+        "isCorrect": false,
+        "note": "Le modèle as-a-Service est managé et facturé à l'usage, pas un logiciel libre à installer soi-même."
+      },
+      {
+        "id": "dw_071_d",
+        "text": "Un protocole réseau pour échanger des données",
+        "isCorrect": false,
+        "note": "Aucun protocole : c'est une offre de service cloud complète."
+      }
+    ],
+    "explanation": "Le DWaaS est un service cloud qui fournit un Data Warehouse complet et géré (infrastructure, maintenance, optimisation) sans nécessiter de matériel on-premise ni d'administration système.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_072",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que la 'Columnar Storage' (stockage en colonnes) ?",
-    "options": ["A) Stocker les données en colonnes plutôt qu'en lignes pour accélérer les requêtes analytiques", "B) Un design de tableur", "C) Un format d'affichage", "D) Un type de graphique"],
-    "answer": "A",
-    "explanation": "Le stockage en colonnes organise les données par colonne plutôt que par ligne, offrant une compression supérieure et des performances accrues pour les requêtes analytiques portant sur des colonnes spécifiques."
+    "answers": [
+      {
+        "id": "dw_072_b",
+        "text": "Un design de tableur pour présenter les données en grille",
+        "isCorrect": false,
+        "note": "L'analogie avec les colonnes d'un tableur est trompeuse : il s'agit d'un mode de stockage physique."
+      },
+      {
+        "id": "dw_072_a",
+        "text": "Stocker les données en colonnes plutôt qu'en lignes pour accélérer les requêtes analytiques",
+        "isCorrect": true,
+        "note": "Exact : le stockage en colonnes regroupe les valeurs par colonne, accélérant agrégations et compression analytique."
+      },
+      {
+        "id": "dw_072_c",
+        "text": "Un format d'affichage pour les écrans larges",
+        "isCorrect": false,
+        "note": "L'affichage n'a rien à voir : c'est l'organisation des octets sur disque qui change."
+      },
+      {
+        "id": "dw_072_d",
+        "text": "Un type de graphique en colonnes pour les comparaisons",
+        "isCorrect": false,
+        "note": "Les graphiques en colonnes existent, mais ici c'est du stockage de données, pas de la visualisation."
+      }
+    ],
+    "explanation": "Le stockage en colonnes organise les données par colonne plutôt que par ligne, offrant une compression supérieure et des performances accrues pour les requêtes analytiques portant sur des colonnes spécifiques.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_073",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Quelle est la différence entre le stockage en colonnes et en lignes ?",
-    "options": ["A) Ils sont identiques", "B) Le stockage en lignes est optimal pour l'OLTP, le stockage en colonnes pour l'OLAP", "C) Le stockage en colonnes est plus ancien", "D) Le stockage en lignes est plus compressé"],
-    "answer": "B",
-    "explanation": "Le stockage en lignes (row-based) est optimal pour les transactions OLTP (accès à des enregistrements complets). Le stockage en colonnes (columnar) est optimal pour l'OLAP (agrégations sur des colonnes spécifiques)."
+    "answers": [
+      {
+        "id": "dw_073_a",
+        "text": "Ils sont identiques et produisent les mêmes performances",
+        "isCorrect": false,
+        "note": "L'organisation physique diffère radicalement et détermine les performances de chaque charge de travail."
+      },
+      {
+        "id": "dw_073_c",
+        "text": "Le stockage en colonnes est plus ancien",
+        "isCorrect": false,
+        "note": "Historiquement, le stockage en lignes a précédé ; l'argument chronologique est de toute façon hors sujet."
+      },
+      {
+        "id": "dw_073_b",
+        "text": "Le stockage en lignes est optimal pour l'OLTP, le stockage en colonnes pour l'OLAP",
+        "isCorrect": true,
+        "note": "Exact : lignes pour les transactions OLTP qui lisent des enregistrements entiers, colonnes pour l'agrégation OLAP."
+      },
+      {
+        "id": "dw_073_d",
+        "text": "Le stockage en lignes est plus compressé",
+        "isCorrect": false,
+        "note": "C'est le stockage en colonnes qui compresse mieux, grâce à la répétition des valeurs par colonne."
+      }
+    ],
+    "explanation": "Le stockage en lignes (row-based) est optimal pour les transactions OLTP (accès à des enregistrements complets). Le stockage en colonnes (columnar) est optimal pour l'OLAP (agrégations sur des colonnes spécifiques).",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_074",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que la 'Data Deduplication' dans l'ETL ?",
-    "options": ["A) Doubler les données", "B) Identifier et supprimer les enregistrements en double", "C) Créer des copies de sauvegarde", "D) Fusionner toutes les données"],
-    "answer": "B",
-    "explanation": "La déduplication identifie et élimine les enregistrements en double lors du processus ETL, garantissant que chaque entité n'est représentée qu'une seule fois dans le Data Warehouse."
+    "answers": [
+      {
+        "id": "dw_074_a",
+        "text": "Doubler les données",
+        "isCorrect": false,
+        "note": "Antonyme exact : on élimine les doubles au lieu de les créer."
+      },
+      {
+        "id": "dw_074_d",
+        "text": "Fusionner toutes les données",
+        "isCorrect": false,
+        "note": "La fusion globale n'est pas l'objectif : on retire seulement les enregistrements redondants."
+      },
+      {
+        "id": "dw_074_c",
+        "text": "Créer des copies de sauvegarde",
+        "isCorrect": false,
+        "note": "Les sauvegardes créent volontairement des copies ; la déduplication supprime les doublons non désirés."
+      },
+      {
+        "id": "dw_074_b",
+        "text": "Identifier et supprimer les enregistrements en double",
+        "isCorrect": true,
+        "note": "Exact : la déduplication identifie et supprime les enregistrements en double pendant le processus ETL."
+      }
+    ],
+    "explanation": "La déduplication identifie et élimine les enregistrements en double lors du processus ETL, garantissant que chaque entité n'est représentée qu'une seule fois dans le Data Warehouse.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_075",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Data Enrichment' dans l'ETL ?",
-    "options": ["A) Appauvrir les données", "B) Ajouter des informations supplémentaires aux données existantes depuis des sources externes", "C) Supprimer des colonnes", "D) Compresser les données"],
-    "answer": "B",
-    "explanation": "Le Data Enrichment (enrichissement) consiste à ajouter des attributs ou informations supplémentaires aux données existantes en les croisant avec des sources externes (géolocalisation, données démographiques, etc.)."
+    "answers": [
+      {
+        "id": "dw_075_b",
+        "text": "Ajouter des informations supplémentaires aux données existantes depuis des sources externes",
+        "isCorrect": true,
+        "note": "Exact : l'enrichissement ajoute des informations externes comme la géolocalisation ou la démographie aux données existantes."
+      },
+      {
+        "id": "dw_075_a",
+        "text": "Appauvrir les données en retirant des informations utiles",
+        "isCorrect": false,
+        "note": "Antonyme littéral : enrichir ajoute de la valeur informationnelle, jamais l'inverse."
+      },
+      {
+        "id": "dw_075_c",
+        "text": "Supprimer des colonnes jugées inutiles dans les tables",
+        "isCorrect": false,
+        "note": "Supprimer des colonnes réduit l'information, à l'opposé de la logique d'enrichissement."
+      },
+      {
+        "id": "dw_075_d",
+        "text": "Compresser les données pour réduire l'espace de stockage",
+        "isCorrect": false,
+        "note": "La compression optimise le stockage ; l'enrichissement augmente le contenu informationnel."
+      }
+    ],
+    "explanation": "Le Data Enrichment (enrichissement) consiste à ajouter des attributs ou informations supplémentaires aux données existantes en les croisant avec des sources externes (géolocalisation, données démographiques, etc.).",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_076",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Schema-on-Write' ?",
-    "options": ["A) Définir le schéma au moment de l'écriture des données", "B) Définir le schéma au moment de la lecture", "C) Ne pas utiliser de schéma", "D) Un schéma automatique"],
-    "answer": "A",
-    "explanation": "Le Schema-on-Write exige que les données soient structurées selon un schéma prédéfini avant leur écriture dans le Data Warehouse, garantissant la qualité et la cohérence dès le chargement."
+    "answers": [
+      {
+        "id": "dw_076_b",
+        "text": "Définir le schéma au moment de la lecture",
+        "isCorrect": false,
+        "note": "C'est la définition du schema-on-read, concept opposé utilisé dans les data lakes."
+      },
+      {
+        "id": "dw_076_a",
+        "text": "Définir le schéma au moment de l'écriture des données",
+        "isCorrect": true,
+        "note": "Exact : le schéma est validé au moment de l'écriture, garantissant qualité et cohérence dès le chargement."
+      },
+      {
+        "id": "dw_076_c",
+        "text": "Ne pas utiliser de schéma",
+        "isCorrect": false,
+        "note": "Il y a au contraire un schéma strict, imposé avant toute écriture des données."
+      },
+      {
+        "id": "dw_076_d",
+        "text": "Un schéma automatique",
+        "isCorrect": false,
+        "note": "Le schéma n'est pas inféré automatiquement : il est défini à l'avance et contrôlé."
+      }
+    ],
+    "explanation": "Le Schema-on-Write exige que les données soient structurées selon un schéma prédéfini avant leur écriture dans le Data Warehouse, garantissant la qualité et la cohérence dès le chargement.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_077",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Schema-on-Read' ?",
-    "options": ["A) Définir le schéma au moment de l'écriture", "B) Interpréter le schéma au moment de la lecture des données", "C) Un schéma figé", "D) Un schéma invisible"],
-    "answer": "B",
-    "explanation": "Le Schema-on-Read (utilisé dans les Data Lakes) stocke les données brutes sans schéma prédéfini et applique la structure uniquement lors de la lecture, offrant une flexibilité maximale."
+    "answers": [
+      {
+        "id": "dw_077_a",
+        "text": "Définir le schéma au moment de l'écriture",
+        "isCorrect": false,
+        "note": "C'est la définition du schema-on-write, approche complémentaire et opposée."
+      },
+      {
+        "id": "dw_077_c",
+        "text": "Un schéma figé",
+        "isCorrect": false,
+        "note": "Un schéma figé s'applique à l'écriture ; à la lecture, la structure est interprétée à l'usage."
+      },
+      {
+        "id": "dw_077_b",
+        "text": "Interpréter le schéma au moment de la lecture des données",
+        "isCorrect": true,
+        "note": "Exact : le schema-on-read interprète la structure lors de la lecture des données, principe des data lakes."
+      },
+      {
+        "id": "dw_077_d",
+        "text": "Un schéma invisible",
+        "isCorrect": false,
+        "note": "Le schéma n'est pas invisible : il est appliqué au moment où l'on lit les données."
+      }
+    ],
+    "explanation": "Le Schema-on-Read (utilisé dans les Data Lakes) stocke les données brutes sans schéma prédéfini et applique la structure uniquement lors de la lecture, offrant une flexibilité maximale.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_078",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Data Mart Lifecycle' ?",
-    "options": ["A) La durée de vie du serveur", "B) Les phases de conception, développement, déploiement et maintenance d'un Data Mart", "C) Un cycle de nettoyage", "D) Un processus de suppression"],
-    "answer": "B",
-    "explanation": "Le Data Mart Lifecycle suit les phases de la méthode Kimball : planification, conception dimensionnelle, développement ETL, déploiement, et maintenance évolutive du Data Mart."
+    "answers": [
+      {
+        "id": "dw_078_a",
+        "text": "La durée de vie du serveur",
+        "isCorrect": false,
+        "note": "Le cycle de vie concerne le datamart en tant que produit analytique, pas le matériel serveur."
+      },
+      {
+        "id": "dw_078_d",
+        "text": "Un processus de suppression",
+        "isCorrect": false,
+        "note": "La suppression n'est qu'une phase finale éventuelle ; le cycle couvre conception jusqu'à maintenance."
+      },
+      {
+        "id": "dw_078_c",
+        "text": "Un cycle de nettoyage automatique des données obsolètes",
+        "isCorrect": false,
+        "note": "Le nettoyage est une étape ETL ; le cycle de vie du datamart est bien plus large."
+      },
+      {
+        "id": "dw_078_b",
+        "text": "Les phases de conception, développement, déploiement et maintenance d'un Data Mart",
+        "isCorrect": true,
+        "note": "Exact : le cycle de vie couvre conception, développement, déploiement et maintenance évolutive du datamart."
+      }
+    ],
+    "explanation": "Le Data Mart Lifecycle suit les phases de la méthode Kimball : planification, conception dimensionnelle, développement ETL, déploiement, et maintenance évolutive du Data Mart.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_079",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Conformed Fact' ?",
-    "options": ["A) Un fait qui a été vérifié", "B) Des mesures standardisées partagées entre plusieurs Data Marts", "C) Un fait temporaire", "D) Un fait unique"],
-    "answer": "B",
-    "explanation": "Les Conformed Facts sont des mesures (faits) standardisées et définies de manière identique à travers tous les Data Marts, garantissant la cohérence des résultats analytiques à l'échelle de l'entreprise."
+    "answers": [
+      {
+        "id": "dw_079_b",
+        "text": "Des mesures standardisées partagées entre plusieurs Data Marts",
+        "isCorrect": true,
+        "note": "Exact : les faits de conformation sont des mesures définies à l'identique et partagées entre datamarts."
+      },
+      {
+        "id": "dw_079_a",
+        "text": "Un fait qui a été vérifié",
+        "isCorrect": false,
+        "note": "La vérification est une étape de qualité ; la conformité ici désigne le partage d'une définition commune."
+      },
+      {
+        "id": "dw_079_c",
+        "text": "Un fait temporaire calculé pendant le chargement",
+        "isCorrect": false,
+        "note": "Au contraire, la mesure conforme est durable et standardisée dans toute l'organisation."
+      },
+      {
+        "id": "dw_079_d",
+        "text": "Un fait unique dans toute l'entreprise",
+        "isCorrect": false,
+        "note": "L'unicité n'est pas le critère : c'est l'homogénéité de la définition entre processus qui compte."
+      }
+    ],
+    "explanation": "Les Conformed Facts sont des mesures (faits) standardisées et définies de manière identique à travers tous les Data Marts, garantissant la cohérence des résultats analytiques à l'échelle de l'entreprise.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_080",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Microstrategy' ?",
-    "options": ["A) Une petite stratégie marketing", "B) Une plateforme de Business Intelligence et d'analytics", "C) Un langage de programmation", "D) Un algorithme d'optimisation"],
-    "answer": "B",
-    "explanation": "MicroStrategy est une plateforme enterprise de Business Intelligence offrant des capacités de reporting, de dashboards, d'analyses OLAP et de data discovery pour les organisations."
+    "answers": [
+      {
+        "id": "dw_080_a",
+        "text": "Une petite stratégie marketing",
+        "isCorrect": false,
+        "note": "Traduction naïve du nom : MicroStrategy est un éditeur logiciel, pas une tactique commerciale."
+      },
+      {
+        "id": "dw_080_b",
+        "text": "Une plateforme de Business Intelligence et d'analytics",
+        "isCorrect": true,
+        "note": "Exact : MicroStrategy est une plateforme de BI d'entreprise couvrant reporting, dashboards et analytique."
+      },
+      {
+        "id": "dw_080_c",
+        "text": "Un langage de programmation",
+        "isCorrect": false,
+        "note": "C'est un produit logiciel commercial, pas un langage de programmation."
+      },
+      {
+        "id": "dw_080_d",
+        "text": "Un algorithme d'optimisation",
+        "isCorrect": false,
+        "note": "La plateforme mobilise des algorithmes, elle n'est pas elle-même un algorithme."
+      }
+    ],
+    "explanation": "MicroStrategy est une plateforme enterprise de Business Intelligence offrant des capacités de reporting, de dashboards, d'analyses OLAP et de data discovery pour les organisations.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_081",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Operational BI' (BI Opérationnelle) ?",
-    "options": ["A) Utiliser la BI uniquement pour les opérations chirurgicales", "B) Intégrer l'analyse décisionnelle directement dans les processus opérationnels en temps réel", "C) Une BI manuelle", "D) Une BI pour les débutants"],
-    "answer": "B",
-    "explanation": "L'Operational BI intègre les analyses et indicateurs directement dans les processus opérationnels quotidiens, permettant des décisions en temps réel plutôt que des analyses post-facto."
+    "answers": [
+      {
+        "id": "dw_081_a",
+        "text": "Utiliser la BI uniquement pour les opérations chirurgicales",
+        "isCorrect": false,
+        "note": "Contre-sens sur « opérationnel » : il s'agit des processus métier quotidiens, pas de la chirurgie."
+      },
+      {
+        "id": "dw_081_c",
+        "text": "Une BI entièrement manuelle pilotée par les utilisateurs",
+        "isCorrect": false,
+        "note": "La BI opérationnelle est intégrée et souvent automatisée dans les processus, pas manuelle."
+      },
+      {
+        "id": "dw_081_b",
+        "text": "Intégrer l'analyse décisionnelle directement dans les processus opérationnels en temps réel",
+        "isCorrect": true,
+        "note": "Exact : la BI opérationnelle embarque l'analyse dans les processus métier pour décider en temps réel."
+      },
+      {
+        "id": "dw_081_d",
+        "text": "Une BI simplifiée destinée aux utilisateurs débutants",
+        "isCorrect": false,
+        "note": "Le mot « opérationnel » ne qualifie pas le niveau de l'utilisateur mais le contexte d'usage."
+      }
+    ],
+    "explanation": "L'Operational BI intègre les analyses et indicateurs directement dans les processus opérationnels quotidiens, permettant des décisions en temps réel plutôt que des analyses post-facto.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_082",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Ad-hoc Query' dans un Data Warehouse ?",
-    "options": ["A) Une requête prédéfinie", "B) Une requête spontanée créée à la demande par l'utilisateur pour répondre à un besoin spécifique", "C) Une requête automatique", "D) Une requête qui ne fonctionne jamais"],
-    "answer": "B",
-    "explanation": "Les requêtes ad-hoc sont créées spontanément par les utilisateurs pour explorer les données et répondre à des questions non prévues par les rapports standards, favorisant l'analyse exploratoire."
+    "answers": [
+      {
+        "id": "dw_082_a",
+        "text": "Une requête prédéfinie et planifiée par les développeurs",
+        "isCorrect": false,
+        "note": "Antonyme : une requête prédéfinie est planifiée, l'ad-hoc naît d'un besoin spontané."
+      },
+      {
+        "id": "dw_082_d",
+        "text": "Une requête qui ne fonctionne jamais",
+        "isCorrect": false,
+        "note": "Réponse absurde : la requête ad-hoc fonctionne, elle est simplement rédigée à la demande."
+      },
+      {
+        "id": "dw_082_c",
+        "text": "Une requête automatique exécutée à intervalles réguliers",
+        "isCorrect": false,
+        "note": "L'automatisation des requêtes existe, avec les jobs planifiés, mais définit l'inverse de l'ad-hoc."
+      },
+      {
+        "id": "dw_082_b",
+        "text": "Une requête spontanée créée à la demande par l'utilisateur pour répondre à un besoin spécifique",
+        "isCorrect": true,
+        "note": "Exact : la requête ad-hoc est rédigée spontanément par l'utilisateur pour répondre à un besoin ponctuel."
+      }
+    ],
+    "explanation": "Les requêtes ad-hoc sont créées spontanément par les utilisateurs pour explorer les données et répondre à des questions non prévues par les rapports standards, favorisant l'analyse exploratoire.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_083",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Data Warehouse Appliance' ?",
-    "options": ["A) Un appareil ménager connecté", "B) Un système intégré matériel-logiciel optimisé pour le Data Warehousing", "C) Une application mobile", "D) Un plugin navigateur"],
-    "answer": "B",
-    "explanation": "Un Data Warehouse Appliance (comme Teradata, Netezza) est un système qui combine matériel et logiciel pré-configurés et optimisés pour les charges de travail analytiques du Data Warehouse."
+    "answers": [
+      {
+        "id": "dw_083_b",
+        "text": "Un système intégré matériel-logiciel optimisé pour le Data Warehousing",
+        "isCorrect": true,
+        "note": "Exact : l'appliance combine matériel et logiciel pré-optimisés pour les charges analytiques, comme Teradata ou Netezza."
+      },
+      {
+        "id": "dw_083_a",
+        "text": "Un appareil ménager connecté",
+        "isCorrect": false,
+        "note": "Jeu de mots sur l'« appliance » électroménager : ici, c'est une plateforme intégrée matérielle et logicielle."
+      },
+      {
+        "id": "dw_083_c",
+        "text": "Une application mobile d'analyse de données",
+        "isCorrect": false,
+        "note": "Aucun lien avec le mobile : c'est un système complet d'entrepôt pré-intégré."
+      },
+      {
+        "id": "dw_083_d",
+        "text": "Un plugin navigateur pour visualiser des graphiques",
+        "isCorrect": false,
+        "note": "Un plugin de navigateur n'a ni la puissance ni le rôle d'une appliance analytique."
+      }
+    ],
+    "explanation": "Un Data Warehouse Appliance (comme Teradata, Netezza) est un système qui combine matériel et logiciel pré-configurés et optimisés pour les charges de travail analytiques du Data Warehouse.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_084",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Data Warehouse Modernization' ?",
-    "options": ["A) Peindre les serveurs", "B) Migrer et moderniser l'architecture du Data Warehouse vers le cloud et les nouvelles technologies", "C) Supprimer le Data Warehouse", "D) Changer le nom du Data Warehouse"],
-    "answer": "B",
-    "explanation": "La modernisation du Data Warehouse implique la migration vers le cloud, l'adoption de l'ELT, l'intégration du Machine Learning et l'utilisation de technologies modernes tout en préservant les investissements existants."
+    "answers": [
+      {
+        "id": "dw_084_a",
+        "text": "Peindre les serveurs pour les rafraîchir visuellement",
+        "isCorrect": false,
+        "note": "Réponse absurde : moderniser concerne l'architecture logicielle et les technologies, pas la peinture."
+      },
+      {
+        "id": "dw_084_b",
+        "text": "Migrer et moderniser l'architecture du Data Warehouse vers le cloud et les nouvelles technologies",
+        "isCorrect": true,
+        "note": "Exact : moderniser signifie migrer vers le cloud, adopter l'ELT et intégrer le machine learning."
+      },
+      {
+        "id": "dw_084_c",
+        "text": "Supprimer le Data Warehouse pour repartir de zéro",
+        "isCorrect": false,
+        "note": "La modernisation fait évoluer l'entrepôt, elle ne le supprime pas."
+      },
+      {
+        "id": "dw_084_d",
+        "text": "Changer le nom du Data Warehouse",
+        "isCorrect": false,
+        "note": "Renommer ne modernise rien : l'important est l'évolution technique de la plateforme."
+      }
+    ],
+    "explanation": "La modernisation du Data Warehouse implique la migration vers le cloud, l'adoption de l'ELT, l'intégration du Machine Learning et l'utilisation de technologies modernes tout en préservant les investissements existants.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_085",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Data Warehouse Testing' ?",
-    "options": ["A) Tester la résistance des serveurs", "B) Vérifier la qualité, l'exactitude et la performance des données et des processus ETL", "C) Tester la vitesse du réseau", "D) Tester l'interface utilisateur"],
-    "answer": "B",
-    "explanation": "Le Data Warehouse Testing inclut les tests de données (exactitude, complétude), les tests ETL (transformation correcte), les tests de performance (temps de requête) et les tests d'intégration."
+    "answers": [
+      {
+        "id": "dw_085_a",
+        "text": "Tester la résistance des serveurs",
+        "isCorrect": false,
+        "note": "La résistance matérielle relève des tests d'infrastructure, pas du test décisionnel."
+      },
+      {
+        "id": "dw_085_c",
+        "text": "Tester la vitesse du réseau entre les datacenters",
+        "isCorrect": false,
+        "note": "Le réseau est un composant parmi d'autres ; le test décisionnel vise données et processus ETL."
+      },
+      {
+        "id": "dw_085_b",
+        "text": "Vérifier la qualité, l'exactitude et la performance des données et des processus ETL",
+        "isCorrect": true,
+        "note": "Exact : le test couvre exactitude des données, conformité des transformations ETL et performances des requêtes."
+      },
+      {
+        "id": "dw_085_d",
+        "text": "Tester l'interface utilisateur",
+        "isCorrect": false,
+        "note": "Les tests d'interface existent, mais le test d'entrepôt se concentre sur les données et l'ETL."
+      }
+    ],
+    "explanation": "Le Data Warehouse Testing inclut les tests de données (exactitude, complétude), les tests ETL (transformation correcte), les tests de performance (temps de requête) et les tests d'intégration.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_086",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Slice' en OLAP ?",
-    "options": ["A) Couper le cube en morceaux physiques", "B) Sélectionner une seule valeur sur une dimension pour obtenir un sous-cube", "C) Fusionner des cubes", "D) Supprimer une dimension"],
-    "answer": "B",
-    "explanation": "L'opération Slice coupe le cube OLAP en fixant une valeur sur une dimension, produisant un sous-cube avec une dimension en moins (ex: fixer l'année=2024 pour voir toutes les données de 2024)."
+    "answers": [
+      {
+        "id": "dw_086_a",
+        "text": "Couper le cube en morceaux physiques",
+        "isCorrect": false,
+        "note": "Le slice opère logiquement sur le cube, il ne découpe aucun fichier physique."
+      },
+      {
+        "id": "dw_086_d",
+        "text": "Supprimer une dimension devenue inutile du modèle",
+        "isCorrect": false,
+        "note": "Le slice fige une valeur d'une dimension, ce qui réduit la vue sans supprimer l'axe du modèle."
+      },
+      {
+        "id": "dw_086_c",
+        "text": "Fusionner plusieurs cubes en un seul cube global",
+        "isCorrect": false,
+        "note": "La fusion n'est pas une opération OLAP : slice et dice sélectionnent des sous-espaces du cube."
+      },
+      {
+        "id": "dw_086_b",
+        "text": "Sélectionner une seule valeur sur une dimension pour obtenir un sous-cube",
+        "isCorrect": true,
+        "note": "Exact : le slice fixe une valeur sur une dimension, l'année 2024 par exemple, et produit un sous-cube."
+      }
+    ],
+    "explanation": "L'opération Slice coupe le cube OLAP en fixant une valeur sur une dimension, produisant un sous-cube avec une dimension en moins (ex: fixer l'année=2024 pour voir toutes les données de 2024).",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_087",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Dice' en OLAP ?",
-    "options": ["A) Jouer aux dés", "B) Sélectionner un sous-ensemble du cube en fixant des valeurs sur plusieurs dimensions", "C) Supprimer toutes les dimensions", "D) Dupliquer le cube"],
-    "answer": "B",
-    "explanation": "L'opération Dice sélectionne un sous-ensemble du cube en fixant des critères sur plusieurs dimensions simultanément (ex: année=2024 ET région=Europe ET catégorie=Électronique)."
+    "answers": [
+      {
+        "id": "dw_087_b",
+        "text": "Sélectionner un sous-ensemble du cube en fixant des valeurs sur plusieurs dimensions",
+        "isCorrect": true,
+        "note": "Exact : le dice fixe des critères sur plusieurs dimensions à la fois et extrait le sous-cube correspondant."
+      },
+      {
+        "id": "dw_087_a",
+        "text": "Jouer aux dés pour tirer des échantillons aléatoires",
+        "isCorrect": false,
+        "note": "Traduction littérale de « dice » : ici, c'est une opération de sélection multidimensionnelle."
+      },
+      {
+        "id": "dw_087_c",
+        "text": "Supprimer toutes les dimensions",
+        "isCorrect": false,
+        "note": "Supprimer les dimensions viderait le cube ; le dice en sélectionne un sous-ensemble."
+      },
+      {
+        "id": "dw_087_d",
+        "text": "Dupliquer le cube pour les environnements de test",
+        "isCorrect": false,
+        "note": "La duplication n'a rien à voir : le dice filtre le cube selon plusieurs critères simultanés."
+      }
+    ],
+    "explanation": "L'opération Dice sélectionne un sous-ensemble du cube en fixant des critères sur plusieurs dimensions simultanément (ex: année=2024 ET région=Europe ET catégorie=Électronique).",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_088",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Pivot' en OLAP ?",
-    "options": ["A) Tourner le cube", "B) Changer l'orientation des axes du cube en réorganisant les dimensions affichées", "C) Supprimer le cube", "D) Copier le cube"],
-    "answer": "B",
-    "explanation": "L'opération Pivot (rotation) change l'orientation du cube en permutant les axes, permettant de visualiser les mêmes données sous un angle différent (ex: échanger lignes et colonnes)."
+    "answers": [
+      {
+        "id": "dw_088_a",
+        "text": "Tourner physiquement le cube pour le stocker autrement",
+        "isCorrect": false,
+        "note": "Image trop littérale : on ne tourne pas physiquement le cube, on permute les axes d'affichage."
+      },
+      {
+        "id": "dw_088_b",
+        "text": "Changer l'orientation des axes du cube en réorganisant les dimensions affichées",
+        "isCorrect": true,
+        "note": "Exact : le pivot permute les dimensions affichées, offrant un nouvel angle de lecture des mêmes données."
+      },
+      {
+        "id": "dw_088_c",
+        "text": "Supprimer le cube une fois l'analyse terminée",
+        "isCorrect": false,
+        "note": "Aucune suppression : le pivot reformule la présentation dans le cube existant."
+      },
+      {
+        "id": "dw_088_d",
+        "text": "Copier le cube vers un autre entrepôt",
+        "isCorrect": false,
+        "note": "Le pivot ne duplique rien, il réorganise les axes de la vue."
+      }
+    ],
+    "explanation": "L'opération Pivot (rotation) change l'orientation du cube en permutant les axes, permettant de visualiser les mêmes données sous un angle différent (ex: échanger lignes et colonnes).",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_089",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Aggregate Navigation' ?",
-    "options": ["A) Naviguer sur Internet", "B) Diriger automatiquement les requêtes vers les tables d'agrégation appropriées", "C) Un GPS pour données", "D) Un algorithme de tri"],
-    "answer": "B",
-    "explanation": "L'Aggregate Navigation redirige automatiquement les requêtes analytiques vers les tables d'agrégation pré-calculées correspondantes, accélérant significativement les temps de réponse."
+    "answers": [
+      {
+        "id": "dw_089_a",
+        "text": "Naviguer sur Internet pour chercher des données",
+        "isCorrect": false,
+        "note": "Le mot « navigation » désigne ici la réorientation automatique des requêtes, pas la navigation web."
+      },
+      {
+        "id": "dw_089_c",
+        "text": "Un GPS pour données géospatiales de l'entrepôt",
+        "isCorrect": false,
+        "note": "Métaphore amusante mais fausse : c'est un mécanisme du moteur décisionnel, pas un positionnement."
+      },
+      {
+        "id": "dw_089_b",
+        "text": "Diriger automatiquement les requêtes vers les tables d'agrégation appropriées",
+        "isCorrect": true,
+        "note": "Exact : l'aggregate navigation redirige automatiquement les requêtes vers les tables d'agrégats pré-calculés."
+      },
+      {
+        "id": "dw_089_d",
+        "text": "Un algorithme de tri des résultats de requêtes",
+        "isCorrect": false,
+        "note": "Le tri organise des lignes ; la navigation d'agrégats choisit la meilleure table d'agrégation."
+      }
+    ],
+    "explanation": "L'Aggregate Navigation redirige automatiquement les requêtes analytiques vers les tables d'agrégation pré-calculées correspondantes, accélérant significativement les temps de réponse.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_090",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Data Warehouse Indexing Strategy' ?",
-    "options": ["A) Créer une table des matières", "B) Définir les stratégies d'indexation (bitmap, B-tree, columnstore) pour optimiser les requêtes", "C) Compter les index", "D) Supprimer les index"],
-    "answer": "B",
-    "explanation": "La stratégie d'indexation du Data Warehouse choisit les types d'index appropriés : bitmap pour les colonnes à faible cardinalité, B-tree pour les colonnes uniques, columnstore pour le stockage en colonnes."
+    "answers": [
+      {
+        "id": "dw_090_a",
+        "text": "Créer une table des matières",
+        "isCorrect": false,
+        "note": "Analogie documentaire trompeuse : l'indexation décisionnelle est une optimisation de structures de données."
+      },
+      {
+        "id": "dw_090_d",
+        "text": "Supprimer les index devenus inutiles après les chargements",
+        "isCorrect": false,
+        "note": "Supprimer les index dégraderait les requêtes : la stratégie consiste au contraire à bien les choisir."
+      },
+      {
+        "id": "dw_090_c",
+        "text": "Compter les index présents dans chaque table",
+        "isCorrect": false,
+        "note": "Compter n'optimise rien : la stratégie définit quel type d'index pour quelle colonne."
+      },
+      {
+        "id": "dw_090_b",
+        "text": "Définir les stratégies d'indexation (bitmap, B-tree, columnstore) pour optimiser les requêtes",
+        "isCorrect": true,
+        "note": "Exact : la stratégie combine bitmap, B-tree et columnstore selon la cardinalité et les requêtes visées."
+      }
+    ],
+    "explanation": "La stratégie d'indexation du Data Warehouse choisit les types d'index appropriés : bitmap pour les colonnes à faible cardinalité, B-tree pour les colonnes uniques, columnstore pour le stockage en colonnes.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_091",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Data Vault 2.0' ?",
-    "options": ["A) La deuxième version d'un coffre-fort", "B) Une évolution du Data Vault intégrant les méthodologies agiles, le NoSQL et le traitement temps réel", "C) Un format de fichier", "D) Un protocole de sécurité"],
-    "answer": "B",
-    "explanation": "Data Vault 2.0 étend le modèle original avec des méthodologies agiles, le support des bases de données NoSQL, le temps réel, et une architecture plus flexible adaptée aux environnements Big Data et cloud."
+    "answers": [
+      {
+        "id": "dw_091_b",
+        "text": "Une évolution du Data Vault intégrant les méthodologies agiles, le NoSQL et le traitement temps réel",
+        "isCorrect": true,
+        "note": "Exact : Data Vault 2.0 intègre méthodologies agiles, NoSQL et temps réel au modèle original."
+      },
+      {
+        "id": "dw_091_a",
+        "text": "La deuxième version d'un coffre-fort",
+        "isCorrect": false,
+        "note": "Poursuite du piège lexical du « vault » : il s'agit d'une évolution méthodologique, pas d'un coffre."
+      },
+      {
+        "id": "dw_091_c",
+        "text": "Un format de fichier pour échanger des données",
+        "isCorrect": false,
+        "note": "Data Vault 2.0 est une méthodologie de modélisation et d'architecture, pas un format de fichier."
+      },
+      {
+        "id": "dw_091_d",
+        "text": "Un protocole de sécurité pour les échanges",
+        "isCorrect": false,
+        "note": "La sécurité n'est pas l'objet : la version 2.0 élargit le modèle aux environnements Big Data."
+      }
+    ],
+    "explanation": "Data Vault 2.0 étend le modèle original avec des méthodologies agiles, le support des bases de données NoSQL, le temps réel, et une architecture plus flexible adaptée aux environnements Big Data et cloud.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_092",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Data Warehouse Capacity Planning' ?",
-    "options": ["A) Planifier la capacité émotionnelle", "B) Anticiper les besoins en stockage, calcul et réseau pour le Data Warehouse", "C) Planifier le nombre d'employés", "D) Un plan marketing"],
-    "answer": "B",
-    "explanation": "Le Capacity Planning anticipe la croissance des volumes de données, les besoins en puissance de calcul et en stockage pour dimensionner correctement l'infrastructure du Data Warehouse."
+    "answers": [
+      {
+        "id": "dw_092_a",
+        "text": "Planifier la capacité émotionnelle",
+        "isCorrect": false,
+        "note": "Détournement humoristique : la capacité planifiée est matérielle, stockage et calcul, jamais émotionnelle."
+      },
+      {
+        "id": "dw_092_b",
+        "text": "Anticiper les besoins en stockage, calcul et réseau pour le Data Warehouse",
+        "isCorrect": true,
+        "note": "Exact : le capacity planning anticipe stockage, calcul et réseau pour dimensionner l'entrepôt avant la croissance."
+      },
+      {
+        "id": "dw_092_c",
+        "text": "Planifier le nombre d'employés",
+        "isCorrect": false,
+        "note": "La gestion des effectifs relève des RH ; ici, on dimensionne l'infrastructure."
+      },
+      {
+        "id": "dw_092_d",
+        "text": "Un plan marketing pour promouvoir les données",
+        "isCorrect": false,
+        "note": "Le marketing n'a rien à voir : il s'agit d'une anticipation technique des ressources."
+      }
+    ],
+    "explanation": "Le Capacity Planning anticipe la croissance des volumes de données, les besoins en puissance de calcul et en stockage pour dimensionner correctement l'infrastructure du Data Warehouse.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_093",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Data Warehouse Security' ?",
-    "options": ["A) La sécurité physique des serveurs uniquement", "B) L'ensemble des mesures (contrôle d'accès, chiffrement, audit) pour protéger les données", "C) Un mot de passe unique", "D) Un antivirus"],
-    "answer": "B",
-    "explanation": "La sécurité du Data Warehouse englobe le contrôle d'accès basé sur les rôles (RBAC), le chiffrement des données au repos et en transit, le masquage des données sensibles et l'audit des accès."
+    "answers": [
+      {
+        "id": "dw_093_a",
+        "text": "La sécurité physique des serveurs uniquement",
+        "isCorrect": false,
+        "note": "Réduction trop étroite : la sécurité couvre aussi le contrôle d'accès logique, le chiffrement et l'audit."
+      },
+      {
+        "id": "dw_093_c",
+        "text": "Un mot de passe unique partagé par tous les utilisateurs",
+        "isCorrect": false,
+        "note": "Un mot de passe unique est une pratique faible, l'opposé d'une stratégie de sécurité complète."
+      },
+      {
+        "id": "dw_093_b",
+        "text": "L'ensemble des mesures (contrôle d'accès, chiffrement, audit) pour protéger les données",
+        "isCorrect": true,
+        "note": "Exact : la sécurité combine RBAC, chiffrement au repos et en transit, masquage et audit des accès."
+      },
+      {
+        "id": "dw_093_d",
+        "text": "Un antivirus installé sur les serveurs de l'entrepôt",
+        "isCorrect": false,
+        "note": "L'antivirus est un outil parmi d'autres ; la sécurité décisionnelle est une démarche globale."
+      }
+    ],
+    "explanation": "La sécurité du Data Warehouse englobe le contrôle d'accès basé sur les rôles (RBAC), le chiffrement des données au repos et en transit, le masquage des données sensibles et l'audit des accès.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_094",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Row-Level Security' dans un Data Warehouse ?",
-    "options": ["A) Sécuriser chaque ligne du code", "B) Restreindre l'accès à certaines lignes de données selon l'identité de l'utilisateur", "C) Sécuriser les rangées de serveurs", "D) Une sécurité automatique"],
-    "answer": "B",
-    "explanation": "Le Row-Level Security (RLS) contrôle l'accès au niveau des lignes, permettant à chaque utilisateur de voir uniquement les données qu'il est autorisé à consulter (ex: un manager ne voit que son département)."
+    "answers": [
+      {
+        "id": "dw_094_a",
+        "text": "Sécuriser chaque ligne du code",
+        "isCorrect": false,
+        "note": "Confusion entre ligne de code et ligne de données : le RLS filtre les lignes des tables."
+      },
+      {
+        "id": "dw_094_d",
+        "text": "Une sécurité automatique activée sans aucune configuration",
+        "isCorrect": false,
+        "note": "Formulation trop vague : le RLS applique des règles de filtrage par ligne selon l'identité de l'utilisateur."
+      },
+      {
+        "id": "dw_094_c",
+        "text": "Sécuriser les rangées de serveurs",
+        "isCorrect": false,
+        "note": "Contre-sens sur « row » : ce sont des lignes de données, pas des rangées de serveurs."
+      },
+      {
+        "id": "dw_094_b",
+        "text": "Restreindre l'accès à certaines lignes de données selon l'identité de l'utilisateur",
+        "isCorrect": true,
+        "note": "Exact : le RLS restreint les lignes visibles selon l'utilisateur, comme un manager limité à son département."
+      }
+    ],
+    "explanation": "Le Row-Level Security (RLS) contrôle l'accès au niveau des lignes, permettant à chaque utilisateur de voir uniquement les données qu'il est autorisé à consulter (ex: un manager ne voit que son département).",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_095",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Data Warehouse Refresh Rate' ?",
-    "options": ["A) La vitesse de rafraîchissement de l'écran", "B) La fréquence à laquelle les données du Data Warehouse sont mises à jour", "C) Un taux d'intérêt", "D) Un taux de change"],
-    "answer": "B",
-    "explanation": "Le Refresh Rate (taux de rafraîchissement) définit la fréquence de mise à jour des données : temps réel, horaire, quotidien, hebdomadaire. Le choix dépend des besoins analytiques et des contraintes techniques."
+    "answers": [
+      {
+        "id": "dw_095_b",
+        "text": "La fréquence à laquelle les données du Data Warehouse sont mises à jour",
+        "isCorrect": true,
+        "note": "Exact : le refresh rate définit la fréquence d'alimentation de l'entrepôt, du temps réel à l'hebdomadaire."
+      },
+      {
+        "id": "dw_095_a",
+        "text": "La vitesse de rafraîchissement de l'écran",
+        "isCorrect": false,
+        "note": "Amalgame avec la fréquence de rafraîchissement des écrans : ici, ce sont les données qu'on actualise."
+      },
+      {
+        "id": "dw_095_c",
+        "text": "Un taux d'intérêt appliqué aux crédits bancaires",
+        "isCorrect": false,
+        "note": "Le mot « rate » évoque la finance ; en décisionnel, il s'agit d'une fréquence de mise à jour."
+      },
+      {
+        "id": "dw_095_d",
+        "text": "Un taux de change entre deux devises étrangères",
+        "isCorrect": false,
+        "note": "Autre faux ami financier : aucune devise n'est impliquée dans le taux de rafraîchissement."
+      }
+    ],
+    "explanation": "Le Refresh Rate (taux de rafraîchissement) désigne la fréquence de mise à jour des données de l'entrepôt : temps réel, horaire, quotidien ou hebdomadaire, selon les besoins analytiques et les contraintes techniques de l'organisation.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_096",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Star Join Index' ?",
-    "options": ["A) Un index sur les étoiles", "B) Un index optimisé pour les jointures entre la table de faits et les tables de dimensions", "C) Un index pour les célébrités", "D) Un index temporel"],
-    "answer": "B",
-    "explanation": "Le Star Join Index est un index spécialisé qui pré-calcule les jointures entre la table de faits centrale et les tables de dimensions dans un schéma en étoile, accélérant les requêtes analytiques."
+    "answers": [
+      {
+        "id": "dw_096_a",
+        "text": "Un index sur les étoiles pour l'astronomie",
+        "isCorrect": false,
+        "note": "Jeu de mots astronomique : l'« étoile » désigne ici le schéma dimensionnel en étoile."
+      },
+      {
+        "id": "dw_096_b",
+        "text": "Un index optimisé pour les jointures entre la table de faits et les tables de dimensions",
+        "isCorrect": true,
+        "note": "Exact : le star join index pré-calcule les jointures faits-dimensions du schéma en étoile pour accélérer les requêtes."
+      },
+      {
+        "id": "dw_096_c",
+        "text": "Un index pour les célébrités du spectacle",
+        "isCorrect": false,
+        "note": "Second jeu de mots sur « star » : rien à voir avec les célébrités."
+      },
+      {
+        "id": "dw_096_d",
+        "text": "Un index temporel pour les requêtes sur les dates",
+        "isCorrect": false,
+        "note": "Les index temporels existent, mais le star join index cible les jointures en étoile."
+      }
+    ],
+    "explanation": "Le Star Join Index est un index spécialisé qui pré-calcule les jointures entre la table de faits centrale et les tables de dimensions dans un schéma en étoile, accélérant les requêtes analytiques.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_097",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Quel est le rôle du 'Data Steward' ?",
-    "options": ["A) Un steward de vol", "B) Une personne responsable de la qualité et de la gouvernance des données dans un domaine", "C) Un développeur", "D) Un administrateur réseau"],
-    "answer": "B",
-    "explanation": "Le Data Steward est responsable de la qualité, de la définition, de l'utilisation correcte et de la gouvernance des données dans un domaine métier spécifique de l'organisation."
+    "answers": [
+      {
+        "id": "dw_097_a",
+        "text": "Un steward de vol chargé de l'accueil en cabine",
+        "isCorrect": false,
+        "note": "Le mot « steward » évoque le personnel de cabine ; ici, c'est un rôle de gouvernance des données."
+      },
+      {
+        "id": "dw_097_c",
+        "text": "Un développeur d'applications métier",
+        "isCorrect": false,
+        "note": "Le développeur construit des solutions ; le data steward garantit la qualité et le bon usage des données."
+      },
+      {
+        "id": "dw_097_b",
+        "text": "Une personne responsable de la qualité et de la gouvernance des données dans un domaine",
+        "isCorrect": true,
+        "note": "Exact : le data steward est responsable de la qualité, des définitions et de la gouvernance des données de son domaine."
+      },
+      {
+        "id": "dw_097_d",
+        "text": "Un administrateur réseau des infrastructures",
+        "isCorrect": false,
+        "note": "L'administration réseau gère l'infrastructure, pas la qualité des données métier."
+      }
+    ],
+    "explanation": "Le Data Steward est responsable de la qualité, de la définition, de l'utilisation correcte et de la gouvernance des données dans un domaine métier spécifique de l'organisation.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_098",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Data Warehouse Metadata Management' ?",
-    "options": ["A) Gérer les métadonnées du Data Warehouse (structure, lignée, qualité)", "B) Supprimer les données", "C) Créer des bases de données", "D) Gérer les utilisateurs"],
-    "answer": "A",
-    "explanation": "La gestion des métadonnées du Data Warehouse documente la structure des données, les règles de transformation (technical metadata), leur signification métier (business metadata) et leur utilisation (operational metadata)."
+    "answers": [
+      {
+        "id": "dw_098_d",
+        "text": "Gérer les utilisateurs et leurs droits d'accès",
+        "isCorrect": false,
+        "note": "La gestion des utilisateurs relève de l'administration des accès, pas des métadonnées."
+      },
+      {
+        "id": "dw_098_b",
+        "text": "Supprimer les données obsolètes de l'entrepôt",
+        "isCorrect": false,
+        "note": "Supprimer est l'opposé de documenter : la gestion des métadonnées décrit les données."
+      },
+      {
+        "id": "dw_098_c",
+        "text": "Créer des bases de données",
+        "isCorrect": false,
+        "note": "La création de bases est une tâche d'administration ; le management des métadonnées documente et gouverne."
+      },
+      {
+        "id": "dw_098_a",
+        "text": "Gérer les métadonnées du Data Warehouse (structure, lignée, qualité)",
+        "isCorrect": true,
+        "note": "Exact : la gestion des métadonnées documente structure, lignée, signification et qualité des données de l'entrepôt."
+      }
+    ],
+    "explanation": "La gestion des métadonnées du Data Warehouse documente la structure des données, les règles de transformation (technical metadata), leur signification métier (business metadata) et leur utilisation (operational metadata).",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_099",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Reporting' dans le contexte du Data Warehouse ?",
-    "options": ["A) Faire un rapport de police", "B) La génération automatique de rapports structurés à partir des données de l'entrepôt", "C) Signaler des erreurs", "D) Un type de graphique"],
-    "answer": "B",
-    "explanation": "Le Reporting est la génération automatique de documents analytiques (tableaux, graphiques, KPIs) à partir des données du Data Warehouse, pouvant être planifiée ou à la demande."
+    "answers": [
+      {
+        "id": "dw_099_b",
+        "text": "La génération automatique de rapports structurés à partir des données de l'entrepôt",
+        "isCorrect": true,
+        "note": "Exact : le reporting génère automatiquement des rapports structurés, tableaux, graphiques et KPIs, depuis l'entrepôt."
+      },
+      {
+        "id": "dw_099_a",
+        "text": "Faire un rapport de police après un incident",
+        "isCorrect": false,
+        "note": "Traduction littérale de « report » : ici, c'est la production de rapports analytiques."
+      },
+      {
+        "id": "dw_099_c",
+        "text": "Signaler des erreurs aux équipes de support",
+        "isCorrect": false,
+        "note": "Le verbe « reporter » peut signifier signaler, mais en BI il s'agit de produire des rapports."
+      },
+      {
+        "id": "dw_099_d",
+        "text": "Un type de graphique en barres horizontales",
+        "isCorrect": false,
+        "note": "Le reporting mobilise des graphiques mais désigne le processus complet de production de rapports."
+      }
+    ],
+    "explanation": "Le Reporting est la génération automatique de documents analytiques (tableaux, graphiques, KPIs) à partir des données du Data Warehouse, pouvant être planifiée ou à la demande.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   },
   {
     "id": "dw_100",
+    "domain": "DATA_WAREHOUSING",
+    "type": "SINGLE_CHOICE",
     "question": "Qu'est-ce que le 'Self-Service BI' ?",
-    "options": ["A) Un service de restauration rapide", "B) Des outils permettant aux utilisateurs métier de créer leurs propres analyses sans dépendre de l'IT", "C) Un service bancaire", "D) Un service de livraison"],
-    "answer": "B",
-    "explanation": "Le Self-Service BI fournit aux utilisateurs métier des outils intuitifs (Tableau, Power BI, Looker) pour explorer les données, créer des rapports et des dashboards sans dépendre de l'équipe informatique."
+    "answers": [
+      {
+        "id": "dw_100_a",
+        "text": "Un service de restauration rapide en libre-service",
+        "isCorrect": false,
+        "note": "Jeu de mots sur le « self-service » de cafétéria : ici, l'autonomie concerne l'analyse de données."
+      },
+      {
+        "id": "dw_100_b",
+        "text": "Des outils permettant aux utilisateurs métier de créer leurs propres analyses sans dépendre de l'IT",
+        "isCorrect": true,
+        "note": "Exact : le self-service BI donne aux métier des outils pour analyser sans dépendre de l'équipe informatique."
+      },
+      {
+        "id": "dw_100_c",
+        "text": "Un service bancaire en ligne pour les clients",
+        "isCorrect": false,
+        "note": "Fausse piste bancaire : le « service » désigne l'autonomie des utilisateurs métier."
+      },
+      {
+        "id": "dw_100_d",
+        "text": "Un service de livraison de repas à domicile",
+        "isCorrect": false,
+        "note": "Aucune livraison : il s'agit d'outils d'analyse en autonomie pour les utilisateurs métier."
+      }
+    ],
+    "explanation": "Le Self-Service BI fournit aux utilisateurs métier des outils intuitifs (Tableau, Power BI, Looker) pour explorer les données, créer des rapports et des dashboards sans dépendre de l'équipe informatique.",
+    "difficulty": "medium",
+    "tags": [
+      "dw"
+    ]
   }
 ]

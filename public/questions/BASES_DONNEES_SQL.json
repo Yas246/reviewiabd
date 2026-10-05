@@ -1,0 +1,3438 @@
+[
+  {
+    "id": "sql_001",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans le modèle relationnel, à quoi correspond une « relation » ?",
+    "answers": [
+      {
+        "id": "sql_001_b",
+        "text": "À une table constituée de tuples (lignes) décrits par des attributs (colonnes)",
+        "isCorrect": true,
+        "note": "Juste : en relationnel, la relation est la table, ses lignes sont des tuples et ses colonnes des attributs."
+      },
+      {
+        "id": "sql_001_a",
+        "text": "À un lien de clé étrangère reliant deux tables entre elles",
+        "isCorrect": false,
+        "note": "Confusion entre la relation (la table elle-même) et l'association entre deux tables."
+      },
+      {
+        "id": "sql_001_c",
+        "text": "À un fichier séquentiel d'enregistrements non structurés",
+        "isCorrect": false,
+        "note": "Le modèle relationnel impose une structure rigoureuse en lignes et colonnes, pas des fichiers libres."
+      },
+      {
+        "id": "sql_001_d",
+        "text": "À une requête SQL enregistrée côté serveur",
+        "isCorrect": false,
+        "note": "Une requête stockée correspond à une vue, pas à la notion de relation."
+      }
+    ],
+    "explanation": "Dans le modèle relationnel de Codd, les données sont organisées en relations, c'est-à-dire des tables à deux dimensions. Chaque ligne est un tuple et chaque colonne est un attribut défini sur un domaine de valeurs.",
+    "difficulty": "easy",
+    "tags": [
+      "modele-relationnel",
+      "vocabulaire"
+    ]
+  },
+  {
+    "id": "sql_002",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Que désigne le domaine d'un attribut dans le modèle relationnel ?",
+    "answers": [
+      {
+        "id": "sql_002_b",
+        "text": "Le nom de la table à laquelle appartient l'attribut",
+        "isCorrect": false,
+        "note": "Le nom de la table relève du schéma, pas de la définition du domaine."
+      },
+      {
+        "id": "sql_002_a",
+        "text": "L'ensemble des valeurs autorisées pour cet attribut",
+        "isCorrect": true,
+        "note": "Juste : le domaine définit le type et les valeurs admises (par exemple entiers positifs, dates)."
+      },
+      {
+        "id": "sql_002_c",
+        "text": "La position de la colonne dans la structure de la table",
+        "isCorrect": false,
+        "note": "En théorie relationnelle, l'ordre des colonnes n'a pas d'importance et ne définit pas le domaine."
+      },
+      {
+        "id": "sql_002_d",
+        "text": "Le nombre maximum de lignes admises dans la table",
+        "isCorrect": false,
+        "note": "Aucune limite de lignes n'est attachée à un domaine ; celui-ci concerne les valeurs d'une colonne."
+      }
+    ],
+    "explanation": "Le domaine d'un attribut est l'ensemble fini ou infini des valeurs qu'il peut prendre : type de base, contraintes de format ou de plage. Chaque valeur d'un attribut est atomique et doit appartenir à son domaine.",
+    "difficulty": "easy",
+    "tags": [
+      "modele-relationnel",
+      "domaine"
+    ]
+  },
+  {
+    "id": "sql_003",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "FILL_BLANK",
+    "question": "Dans le modèle relationnel, la ___ d'une table est une colonne, ou une combinaison de colonnes, dont la valeur identifie de façon unique chaque ligne.",
+    "answers": [],
+    "blanks": [
+      {
+        "accepted": [
+          "clé primaire",
+          "cle primaire",
+          "primary key"
+        ]
+      }
+    ],
+    "explanation": "La clé primaire garantit l'unicité et l'existence (pas de NULL) de l'identifiant de chaque ligne. Elle peut être simple (une colonne) ou composée (plusieurs colonnes).",
+    "difficulty": "easy",
+    "tags": [
+      "modele-relationnel",
+      "cles"
+    ]
+  },
+  {
+    "id": "sql_004",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'affirme la contrainte d'intégrité référentielle sur la colonne commandes.client_id ?",
+    "answers": [
+      {
+        "id": "sql_004_c",
+        "text": "La colonne client_id ne peut jamais contenir de valeur NULL",
+        "isCorrect": false,
+        "note": "Une clé étrangère peut être NULL sauf si la contrainte NOT NULL est ajoutée explicitement."
+      },
+      {
+        "id": "sql_004_b",
+        "text": "Chaque valeur de client_id doit être unique dans la table commandes",
+        "isCorrect": false,
+        "note": "Un client peut passer plusieurs commandes : l'unicité n'est pas exigée pour une clé étrangère."
+      },
+      {
+        "id": "sql_004_a",
+        "text": "Chaque valeur de client_id doit exister dans la colonne clients.id",
+        "isCorrect": true,
+        "note": "Juste : une clé étrangère doit pointer vers une ligne existante de la table référencée."
+      },
+      {
+        "id": "sql_004_d",
+        "text": "Chaque valeur de clients.id doit exister dans commandes.client_id",
+        "isCorrect": false,
+        "note": "C'est l'inverse : c'est la table fille (commandes) qui est contrôlée, pas la table mère (clients)."
+      }
+    ],
+    "explanation": "L'intégrité référentielle impose que toute clé étrangère corresponde à une clé primaire existante dans la table référencée (ou soit NULL si la colonne l'admet). Elle empêche les commandes rattachées à des clients fantômes.",
+    "difficulty": "medium",
+    "tags": [
+      "modele-relationnel",
+      "integrite-referentielle"
+    ]
+  },
+  {
+    "id": "sql_005",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle phrase distingue correctement la clé primaire des autres clés candidates d'une relation ?",
+    "answers": [
+      {
+        "id": "sql_005_d",
+        "text": "Les clés candidates n'identifient les lignes que partiellement",
+        "isCorrect": false,
+        "note": "Une clé candidate identifie entièrement chaque ligne, sinon ce ne serait pas une clé."
+      },
+      {
+        "id": "sql_005_b",
+        "text": "La clé primaire accepte les doublons, contrairement aux clés candidates",
+        "isCorrect": false,
+        "note": "C'est l'inverse : clé primaire et clés candidates interdisent toutes les doublons."
+      },
+      {
+        "id": "sql_005_c",
+        "text": "Une relation ne peut jamais posséder plusieurs clés candidates",
+        "isCorrect": false,
+        "note": "Une table peut avoir plusieurs identifiants possibles : numéro d'étudiant et email par exemple."
+      },
+      {
+        "id": "sql_005_a",
+        "text": "La clé primaire est la clé candidate choisie pour identifier les lignes",
+        "isCorrect": true,
+        "note": "Juste : les autres clés candidates deviennent des clés uniques dites alternatives."
+      }
+    ],
+    "explanation": "Les clés candidates sont tous les attributs (ou groupes d'attributs) capables d'identifier chaque ligne de façon unique. On en choisit une comme clé primaire ; les autres restent des clés uniques alternatives.",
+    "difficulty": "medium",
+    "tags": [
+      "modele-relationnel",
+      "cles"
+    ]
+  },
+  {
+    "id": "sql_006",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Que garantit la contrainte UNIQUE appliquée à une colonne ?",
+    "answers": [
+      {
+        "id": "sql_006_a",
+        "text": "Chaque valeur de la colonne est différente de toutes les autres",
+        "isCorrect": true,
+        "note": "Juste : UNIQUE interdit les doublons sur la colonne, sans en faire obligatoirement la clé primaire."
+      },
+      {
+        "id": "sql_006_b",
+        "text": "La colonne ne peut jamais rester vide",
+        "isCorrect": false,
+        "note": "Interdire les NULL relève de NOT NULL ; selon les SGBD, UNIQUE tolère une ou plusieurs valeurs NULL."
+      },
+      {
+        "id": "sql_006_c",
+        "text": "La colonne référence obligatoirement une autre table",
+        "isCorrect": false,
+        "note": "Référencer une autre table est le rôle de FOREIGN KEY, pas de UNIQUE."
+      },
+      {
+        "id": "sql_006_d",
+        "text": "La colonne doit obligatoirement être de type numérique",
+        "isCorrect": false,
+        "note": "UNIQUE s'applique à tous les types : textes, dates, numéros de téléphone, etc."
+      }
+    ],
+    "explanation": "La contrainte UNIQUE garantit l'unicité des valeurs d'une colonne (ou d'un groupe de colonnes). Elle est utilisée pour les clés alternatives comme le numéro de sécurité sociale ou l'adresse email.",
+    "difficulty": "easy",
+    "tags": [
+      "modele-relationnel",
+      "contraintes"
+    ]
+  },
+  {
+    "id": "sql_007",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "TRUE_FALSE",
+    "question": "Une colonne déclarée comme clé primaire peut accepter la valeur NULL.",
+    "answers": [
+      {
+        "id": "sql_007_v",
+        "text": "Vrai",
+        "isCorrect": false,
+        "note": "Confusion avec une colonne ordinaire : une clé primaire, même composée, n'accepte aucune valeur NULL."
+      },
+      {
+        "id": "sql_007_f",
+        "text": "Faux",
+        "isCorrect": true,
+        "note": "Juste : la clé primaire doit identifier chaque ligne, sa valeur doit donc exister, être unique et jamais NULL."
+      }
+    ],
+    "explanation": "La clé primaire combine les contraintes UNIQUE et NOT NULL : chaque ligne doit posséder un identifiant existant et distinct. Une valeur NULL signifierait une ligne sans identité, ce que le modèle relationnel interdit.",
+    "difficulty": "easy",
+    "tags": [
+      "modele-relationnel",
+      "cle-primaire"
+    ]
+  },
+  {
+    "id": "sql_008",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Que fait le mot-clé DISTINCT dans une requête SELECT ?",
+    "answers": [
+      {
+        "id": "sql_008_a",
+        "text": "Il trie le résultat par ordre croissant sur la première colonne",
+        "isCorrect": false,
+        "note": "Le tri relève de ORDER BY, pas de DISTINCT."
+      },
+      {
+        "id": "sql_008_b",
+        "text": "Il élimine les lignes en double du résultat de la requête",
+        "isCorrect": true,
+        "note": "Juste : DISTINCT ne conserve qu'une occurrence de chaque combinaison de valeurs sélectionnées."
+      },
+      {
+        "id": "sql_008_c",
+        "text": "Il filtre les lignes selon une condition booléenne",
+        "isCorrect": false,
+        "note": "Le filtrage des lignes est le rôle de la clause WHERE."
+      },
+      {
+        "id": "sql_008_d",
+        "text": "Il compte le nombre de lignes renvoyées par la requête",
+        "isCorrect": false,
+        "note": "Compter les lignes est le rôle de la fonction d'agrégation COUNT."
+      }
+    ],
+    "explanation": "DISTINCT appliqué juste après SELECT supprime les doublons du résultat : seules les combinaisons de valeurs uniques sont conservées. Par exemple SELECT DISTINCT ville FROM clients renvoie chaque ville une seule fois.",
+    "difficulty": "easy",
+    "tags": [
+      "sql-interrogation",
+      "distinct"
+    ]
+  },
+  {
+    "id": "sql_009",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle condition sélectionne les clients dont le nom commence par « Kou » ?",
+    "answers": [
+      {
+        "id": "sql_009_a",
+        "text": "WHERE nom = 'Kou%'",
+        "isCorrect": false,
+        "note": "L'égalité cherche le nom littéral « Kou% » : le joker % ne fonctionne qu'avec LIKE."
+      },
+      {
+        "id": "sql_009_c",
+        "text": "WHERE nom LIKE '%Kou'",
+        "isCorrect": false,
+        "note": "Le joker placé avant cherche les noms qui finissent par « Kou », pas ceux qui commencent par."
+      },
+      {
+        "id": "sql_009_b",
+        "text": "WHERE nom LIKE 'Kou%'",
+        "isCorrect": true,
+        "note": "Juste : LIKE avec le joker % accepte tout suffixe après « Kou »."
+      },
+      {
+        "id": "sql_009_d",
+        "text": "WHERE nom LIKE '_Kou_'",
+        "isCorrect": false,
+        "note": "Le joker _ remplace un seul caractère : ce motif cherche un nom de cinq lettres contenant Kou au milieu."
+      }
+    ],
+    "explanation": "LIKE effectue une recherche par motif : % remplace une suite quelconque de caractères, _ un seul caractère. Le motif 'Kou%' correspond donc à tous les noms commençant par Kou.",
+    "difficulty": "medium",
+    "tags": [
+      "sql-interrogation",
+      "like"
+    ]
+  },
+  {
+    "id": "sql_010",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "CODE",
+    "question": "Affichez le nom et la ville des clients qui habitent à Cotonou, triés par nom dans l'ordre alphabétique croissant.",
+    "context": "La base d'une boutique contient deux tables : clients(id, nom, ville) et commandes(id, client_id, montant, date_commande).",
+    "answers": [],
+    "code": {
+      "language": "sql",
+      "setup": "CREATE TABLE clients (\n  id INTEGER PRIMARY KEY,\n  nom TEXT NOT NULL,\n  ville TEXT NOT NULL\n);\nCREATE TABLE commandes (\n  id INTEGER PRIMARY KEY,\n  client_id INTEGER NOT NULL REFERENCES clients(id),\n  montant REAL NOT NULL,\n  date_commande TEXT NOT NULL\n);\nINSERT INTO clients VALUES\n(1, 'Adjovi', 'Cotonou'),\n(2, 'Kossi', 'Parakou'),\n(3, 'Dossa', 'Cotonou'),\n(4, 'Aholou', 'Porto-Novo'),\n(5, 'Tossou', 'Parakou'),\n(6, 'Mensah', 'Cotonou');\nINSERT INTO commandes VALUES\n(1, 1, 25000, '2026-01-10'),\n(2, 3, 12000, '2026-01-12'),\n(3, 1, 8000, '2026-02-03'),\n(4, 2, 45000, '2026-02-15'),\n(5, 6, 9000, '2026-03-01'),\n(6, 3, 30000, '2026-03-07'),\n(7, 5, 15000, '2026-03-20');",
+      "starter": "-- Affichez nom et ville des clients de Cotonou :\nSELECT ...\nFROM clients\nWHERE ...\nORDER BY ... ;",
+      "solution": "SELECT nom, ville FROM clients WHERE ville = 'Cotonou' ORDER BY nom;",
+      "timeLimitMs": 10000,
+      "tests": []
+    },
+    "explanation": "La clause WHERE filtre les lignes sur la ville, puis ORDER BY nom trie le résultat en ordre alphabétique croissant (ordre par défaut). Trois clients de Cotonou sont attendus : Adjovi, Dossa et Mensah.",
+    "difficulty": "easy",
+    "tags": [
+      "sql-interrogation",
+      "select",
+      "where"
+    ]
+  },
+  {
+    "id": "sql_011",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Que renvoie la condition WHERE note = NULL en SQL standard ?",
+    "answers": [
+      {
+        "id": "sql_011_a",
+        "text": "Les lignes dont la note vaut NULL",
+        "isCorrect": false,
+        "note": "Piège classique : l'égalité avec NULL est indéterminée, cette condition ne renvoie rien."
+      },
+      {
+        "id": "sql_011_b",
+        "text": "Les lignes dont la note vaut zéro",
+        "isCorrect": false,
+        "note": "Zéro est une valeur connue, distincte de NULL : cette condition teste l'égalité avec 0 et pas l'absence de valeur."
+      },
+      {
+        "id": "sql_011_d",
+        "text": "Une erreur de syntaxe refusée à l'exécution",
+        "isCorrect": false,
+        "note": "La syntaxe est acceptée par le SGBD, mais la logique à trois valeurs rend la condition jamais vraie."
+      },
+      {
+        "id": "sql_011_c",
+        "text": "Aucune ligne, car toute comparaison avec NULL est indéterminée",
+        "isCorrect": true,
+        "note": "Juste : il faut écrire IS NULL pour tester l'absence de valeur."
+      }
+    ],
+    "explanation": "NULL représente une valeur inconnue ou absente : toute comparaison avec NULL (même NULL = NULL) donne un résultat indéterminé, jamais vrai. Pour tester l'absence de valeur, on écrit IS NULL, et IS NOT NULL pour son contraire.",
+    "difficulty": "medium",
+    "tags": [
+      "sql-interrogation",
+      "null"
+    ]
+  },
+  {
+    "id": "sql_012",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Que fait la clause ORDER BY salaire DESC ?",
+    "answers": [
+      {
+        "id": "sql_012_c",
+        "text": "Elle trie les lignes du salaire le plus grand au plus petit",
+        "isCorrect": true,
+        "note": "Juste : DESC signifie décroissant, ASC (par défaut) signifie croissant."
+      },
+      {
+        "id": "sql_012_b",
+        "text": "Elle supprime les lignes dont le salaire est en double",
+        "isCorrect": false,
+        "note": "Supprimer les doublons relève de DISTINCT, la clause ORDER BY ne modifie pas les lignes."
+      },
+      {
+        "id": "sql_012_a",
+        "text": "Elle trie les lignes du salaire le plus petit au plus grand",
+        "isCorrect": false,
+        "note": "L'ordre croissant est le comportement par défaut, obtenu avec ASC et pas avec DESC."
+      },
+      {
+        "id": "sql_012_d",
+        "text": "Elle compte les salaires supérieurs à la moyenne",
+        "isCorrect": false,
+        "note": "Compter et comparer à la moyenne relèvent des fonctions d'agrégation, pas du tri."
+      }
+    ],
+    "explanation": "ORDER BY trie le résultat final : ASC pour l'ordre croissant (par défaut), DESC pour l'ordre décroissant. On peut trier sur plusieurs colonnes, chacune avec son sens propre.",
+    "difficulty": "easy",
+    "tags": [
+      "sql-interrogation",
+      "order-by"
+    ]
+  },
+  {
+    "id": "sql_013",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle condition sélectionne les commandes passées à partir du 1er mars 2026 inclus ?",
+    "answers": [
+      {
+        "id": "sql_013_b",
+        "text": "WHERE date_commande > '2026-03-01'",
+        "isCorrect": false,
+        "note": "Strictement supérieur exclut la commande du 1er mars elle-même, qui doit pourtant apparaître."
+      },
+      {
+        "id": "sql_013_a",
+        "text": "WHERE date_commande >= '2026-03-01'",
+        "isCorrect": true,
+        "note": "Juste : l'opérateur supérieur ou égal inclut bien la date du 1er mars et toutes les suivantes."
+      },
+      {
+        "id": "sql_013_c",
+        "text": "WHERE date_commande <= '2026-03-01'",
+        "isCorrect": false,
+        "note": "Cet opérateur sélectionne les commandes antérieures ou égales, l'effet inverse de la demande."
+      },
+      {
+        "id": "sql_013_d",
+        "text": "WHERE date_commande LIKE '2026-03-01'",
+        "isCorrect": false,
+        "note": "LIKE sert aux motifs textuels ; ici il ne retiendrait que le seul jour du 1er mars."
+      }
+    ],
+    "explanation": "Avec des dates stockées au format ISO 'AAAA-MM-JJ', la comparaison >= retient toutes les commandes du 1er mars 2026 inclus et au-delà. L'opérateur strict > aurait écarté la journée du 1er mars.",
+    "difficulty": "easy",
+    "tags": [
+      "sql-interrogation",
+      "where",
+      "dates"
+    ]
+  },
+  {
+    "id": "sql_014",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Parmi ces affirmations sur les clauses d'une requête SELECT, lesquelles sont exactes ?",
+    "answers": [
+      {
+        "id": "sql_014_d",
+        "text": "LIMIT précise les tables interrogées par la requête",
+        "isCorrect": false,
+        "note": "Les tables sont indiquées dans FROM ; LIMIT borne le nombre de lignes renvoyées."
+      },
+      {
+        "id": "sql_014_b",
+        "text": "ORDER BY trie le résultat final de la requête",
+        "isCorrect": true,
+        "note": "Juste : ORDER BY est logiquement la dernière clause appliquée, juste avant l'affichage."
+      },
+      {
+        "id": "sql_014_c",
+        "text": "GROUP BY élimine les lignes en double du résultat",
+        "isCorrect": false,
+        "note": "Éliminer les doublons est le rôle de DISTINCT ; GROUP BY forme des groupes pour les calculs."
+      },
+      {
+        "id": "sql_014_a",
+        "text": "WHERE filtre les lignes individuellement avant le regroupement",
+        "isCorrect": true,
+        "note": "Juste : WHERE s'applique aux lignes de la table avant que GROUP BY ne forme les groupes."
+      }
+    ],
+    "explanation": "L'ordre logique d'exécution est : FROM, WHERE (filtre les lignes), GROUP BY (forme les groupes), HAVING (filtre les groupes), SELECT (projette les colonnes), ORDER BY (trie), LIMIT (tronque). WHERE agit avant l'agrégation, HAVING après.",
+    "difficulty": "medium",
+    "tags": [
+      "sql-interrogation",
+      "clauses"
+    ]
+  },
+  {
+    "id": "sql_015",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "FILL_BLANK",
+    "question": "Pour éliminer les lignes en double du résultat d'une requête, on place le mot-clé ___ juste après SELECT.",
+    "answers": [],
+    "blanks": [
+      {
+        "accepted": [
+          "distinct",
+          "DISTINCT"
+        ]
+      }
+    ],
+    "explanation": "SELECT DISTINCT ville FROM clients ne renvoie chaque ville qu'une seule fois. Attention : le mot-clé s'applique à la combinaison complète des colonnes projetées.",
+    "difficulty": "easy",
+    "tags": [
+      "sql-interrogation",
+      "distinct"
+    ]
+  },
+  {
+    "id": "sql_016",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Que renvoie une jointure interne (INNER JOIN) entre deux tables ?",
+    "answers": [
+      {
+        "id": "sql_016_a",
+        "text": "Toutes les lignes des deux tables, même sans correspondance",
+        "isCorrect": false,
+        "note": "Ce comportement correspond au FULL OUTER JOIN, pas à la jointure interne."
+      },
+      {
+        "id": "sql_016_b",
+        "text": "Uniquement les lignes de la première table citée",
+        "isCorrect": false,
+        "note": "La jointure interne combine les deux tables, elle ne conserve pas seulement la première."
+      },
+      {
+        "id": "sql_016_c",
+        "text": "Les lignes des deux tables qui vérifient la condition de jointure",
+        "isCorrect": true,
+        "note": "Juste : seules les paires de lignes appariées selon la condition ON sont conservées."
+      },
+      {
+        "id": "sql_016_d",
+        "text": "Uniquement les lignes sans correspondance des deux tables",
+        "isCorrect": false,
+        "note": "La jointure interne écarte justement les lignes sans correspondance."
+      }
+    ],
+    "explanation": "L'INNER JOIN produit une ligne pour chaque paire de lignes des deux tables qui satisfait la condition de jointure (par exemple une clé étrangère égale à la clé primaire). Les lignes non appariées disparaissent du résultat.",
+    "difficulty": "easy",
+    "tags": [
+      "jointures",
+      "inner-join"
+    ]
+  },
+  {
+    "id": "sql_017",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Que renvoie un LEFT JOIN entre la table Clients et la table Commandes ?",
+    "answers": [
+      {
+        "id": "sql_017_a",
+        "text": "Uniquement les clients qui ont passé au moins une commande",
+        "isCorrect": false,
+        "note": "Ce comportement est celui d'une jointure interne : il perdrait les clients sans commande."
+      },
+      {
+        "id": "sql_017_d",
+        "text": "Toutes les combinaisons possibles des lignes des deux tables",
+        "isCorrect": false,
+        "note": "Cela décrit le produit cartésien (CROSS JOIN), pas le LEFT JOIN."
+      },
+      {
+        "id": "sql_017_c",
+        "text": "Uniquement les commandes, qu'elles aient ou non un client",
+        "isCorrect": false,
+        "note": "Le LEFT JOIN ici met Clients à gauche : c'est cette table qui est intégralement conservée."
+      },
+      {
+        "id": "sql_017_b",
+        "text": "Tous les clients, avec des NULL pour ceux qui n'ont aucune commande",
+        "isCorrect": true,
+        "note": "Juste : le LEFT JOIN conserve toute la table de gauche et complète par NULL à droite."
+      }
+    ],
+    "explanation": "Le LEFT JOIN conserve toutes les lignes de la table de gauche. Quand aucune commande ne correspond à un client, les colonnes issues de Commandes sont remplies de NULL : c'est ainsi qu'on détecte les clients sans commande.",
+    "difficulty": "medium",
+    "tags": [
+      "jointures",
+      "left-join"
+    ]
+  },
+  {
+    "id": "sql_018",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Une requête entre Clients et Commandes renvoie des centaines de milliers de lignes au lieu de quelques centaines. Quelle en est la cause la plus probable ?",
+    "answers": [
+      {
+        "id": "sql_018_c",
+        "text": "Une condition de jointure oubliée, qui produit un produit cartésien accidentel",
+        "isCorrect": true,
+        "note": "Juste : sans condition ON/WHERE, chaque client est combiné à chaque commande."
+      },
+      {
+        "id": "sql_018_b",
+        "text": "Une colonne mal typée dans l'une des deux tables",
+        "isCorrect": false,
+        "note": "Un mauvais typage peut fausser les valeurs, mais n'explose pas le volume du résultat."
+      },
+      {
+        "id": "sql_018_a",
+        "text": "Une clause ORDER BY mal placée dans la requête",
+        "isCorrect": false,
+        "note": "ORDER BY ne change pas le nombre de lignes, il change seulement leur ordre."
+      },
+      {
+        "id": "sql_018_d",
+        "text": "Un index corrompu sur la clé primaire de Clients",
+        "isCorrect": false,
+        "note": "Un index défaillant dégrade les performances, il ne multiplie pas le nombre de lignes renvoyées."
+      }
+    ],
+    "explanation": "Si la condition de jointure est oubliée (ou écrite dans le WHERE d'une ancienne syntaxe avec une faute), le SGBD rapproche chaque ligne de la première table avec chaque ligne de la seconde : le résultat contient n fois m lignes. C'est le produit cartésien accidentel, erreur classique qui gonfle démesurément le résultat.",
+    "difficulty": "hard",
+    "tags": [
+      "jointures",
+      "produit-cartesien"
+    ]
+  },
+  {
+    "id": "sql_019",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "TRUE_FALSE",
+    "question": "Dans un LEFT JOIN, une ligne de la table de gauche sans correspondance à droite disparaît du résultat.",
+    "answers": [
+      {
+        "id": "sql_019_f",
+        "text": "Faux",
+        "isCorrect": true,
+        "note": "Juste : le LEFT JOIN garde toute la table de gauche et complète les colonnes de droite par des NULL."
+      },
+      {
+        "id": "sql_019_v",
+        "text": "Vrai",
+        "isCorrect": false,
+        "note": "C'est le comportement de la jointure interne : le LEFT JOIN conserve au contraire la ligne."
+      }
+    ],
+    "explanation": "Le LEFT JOIN (jointure externe gauche) garantit que chaque ligne de la table de gauche apparaît au moins une fois. Sans correspondance à droite, les colonnes de droite valent NULL ; c'est le moyen standard de lister les clients sans commande.",
+    "difficulty": "easy",
+    "tags": [
+      "jointures",
+      "left-join"
+    ]
+  },
+  {
+    "id": "sql_020",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans une table Employes(id, nom, manager_id), quel type de jointure permet d'afficher chaque employé à côté du nom de son manager ?",
+    "answers": [
+      {
+        "id": "sql_020_b",
+        "text": "Une jointure externe complète entre deux tables distinctes",
+        "isCorrect": false,
+        "note": "Il n'y a ici qu'une seule table : la jointure se fait de la table vers elle-même."
+      },
+      {
+        "id": "sql_020_a",
+        "text": "Une auto-jointure (self join) de la table Employes sur elle-même",
+        "isCorrect": true,
+        "note": "Juste : la table est jointe à elle-même via manager_id qui référence Employes.id."
+      },
+      {
+        "id": "sql_020_c",
+        "text": "Une jointure naturelle avec une seconde table Managers",
+        "isCorrect": false,
+        "note": "Aucune seconde table n'existe : le manager est un employé enregistré dans la même table."
+      },
+      {
+        "id": "sql_020_d",
+        "text": "Une union des lignes de la table avec leurs propres doublons",
+        "isCorrect": false,
+        "note": "L'union empile des lignes, elle n'apparie pas un employé avec son manager."
+      }
+    ],
+    "explanation": "Le self join joint une table à elle-même grâce à deux alias : SELECT e.nom, m.nom FROM Employes e JOIN Employes m ON e.manager_id = m.id. La colonne manager_id joue le rôle de clé étrangère vers la même table.",
+    "difficulty": "medium",
+    "tags": [
+      "jointures",
+      "self-join"
+    ]
+  },
+  {
+    "id": "sql_021",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Que renvoie un FULL OUTER JOIN entre deux tables ?",
+    "answers": [
+      {
+        "id": "sql_021_a",
+        "text": "Uniquement les lignes appariées des deux tables",
+        "isCorrect": false,
+        "note": "C'est la définition de la jointure interne, la plus restrictive des jointures."
+      },
+      {
+        "id": "sql_021_b",
+        "text": "Les lignes sans correspondance de la table de gauche seulement",
+        "isCorrect": false,
+        "note": "Le LEFT JOIN conserve la gauche, mais il ne conserve pas aussi la droite comme le fait le FULL."
+      },
+      {
+        "id": "sql_021_d",
+        "text": "Les lignes appariées, plus les lignes non appariées des deux tables complétées par des NULL",
+        "isCorrect": true,
+        "note": "Juste : le FULL OUTER JOIN conserve les deux côtés et comble les trous par des NULL."
+      },
+      {
+        "id": "sql_021_c",
+        "text": "Le double du nombre de lignes des deux tables",
+        "isCorrect": false,
+        "note": "Aucune jointure ne double systématiquement les tables ; le volume dépend des correspondances."
+      }
+    ],
+    "explanation": "Le FULL OUTER JOIN combine le LEFT JOIN et le RIGHT JOIN : chaque ligne des deux tables apparaît, appariée quand une correspondance existe, sinon complétée par des NULL du côté qui manque. Il sert à rapprocher deux ensembles en gardant les orphelins des deux côtés.",
+    "difficulty": "medium",
+    "tags": [
+      "jointures",
+      "outer-join"
+    ]
+  },
+  {
+    "id": "sql_022",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle est la particularité de la jointure naturelle (NATURAL JOIN) ?",
+    "answers": [
+      {
+        "id": "sql_022_d",
+        "text": "Elle renvoie le produit cartésien des deux tables",
+        "isCorrect": false,
+        "note": "Le produit cartésien est le CROSS JOIN, obtenu sans aucune condition de rapprochement."
+      },
+      {
+        "id": "sql_022_b",
+        "text": "Elle exige une clause ON explicite pour chaque colonne comparée",
+        "isCorrect": false,
+        "note": "C'est le contraire : la jointure naturelle se passe justement de clause ON."
+      },
+      {
+        "id": "sql_022_c",
+        "text": "Elle ne fonctionne qu'entre une clé primaire et une clé étrangère déclarée",
+        "isCorrect": false,
+        "note": "Elle se base sur les noms de colonnes, pas sur les contraintes déclarées dans le schéma."
+      },
+      {
+        "id": "sql_022_a",
+        "text": "Elle rapproche automatiquement les colonnes portant le même nom dans les deux tables",
+        "isCorrect": true,
+        "note": "Juste : la condition de jointure est déduite des noms identiques, sans clause ON."
+      }
+    ],
+    "explanation": "NATURAL JOIN apparie automatiquement les colonnes de même nom des deux tables et n'affiche qu'une seule copie de ces colonnes communes. Elle est pratique mais risquée : renommer une colonne change silencieusement le résultat.",
+    "difficulty": "medium",
+    "tags": [
+      "jointures",
+      "natural-join"
+    ]
+  },
+  {
+    "id": "sql_023",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "CODE",
+    "question": "Affichez le nom du client et le montant de chaque commande, triés par montant décroissant (les montants sont tous différents).",
+    "context": "La base d'une boutique contient deux tables : clients(id, nom, ville) et commandes(id, client_id, montant, date_commande).",
+    "answers": [],
+    "code": {
+      "language": "sql",
+      "setup": "CREATE TABLE clients (\n  id INTEGER PRIMARY KEY,\n  nom TEXT NOT NULL,\n  ville TEXT NOT NULL\n);\nCREATE TABLE commandes (\n  id INTEGER PRIMARY KEY,\n  client_id INTEGER NOT NULL REFERENCES clients(id),\n  montant REAL NOT NULL,\n  date_commande TEXT NOT NULL\n);\nINSERT INTO clients VALUES\n(1, 'Adjovi', 'Cotonou'),\n(2, 'Kossi', 'Parakou'),\n(3, 'Dossa', 'Cotonou'),\n(4, 'Aholou', 'Porto-Novo'),\n(5, 'Tossou', 'Parakou'),\n(6, 'Mensah', 'Cotonou');\nINSERT INTO commandes VALUES\n(1, 1, 25000, '2026-01-10'),\n(2, 3, 12000, '2026-01-12'),\n(3, 1, 8000, '2026-02-03'),\n(4, 2, 45000, '2026-02-15'),\n(5, 6, 9000, '2026-03-01'),\n(6, 3, 30000, '2026-03-07'),\n(7, 5, 15000, '2026-03-20');",
+      "starter": "-- Jointure entre clients et commandes :\nSELECT ...\nFROM clients c\nJOIN commandes co ON ...\nORDER BY ... ;",
+      "solution": "SELECT c.nom, co.montant FROM clients c JOIN commandes co ON co.client_id = c.id ORDER BY co.montant DESC;",
+      "timeLimitMs": 10000,
+      "tests": []
+    },
+    "explanation": "La jointure interne rapproche chaque commande de son client via client_id = id, puis ORDER BY montant DESC classe du plus gros au plus petit achat. Sept lignes sont attendues, la première étant la commande de Kossi à 45000.",
+    "difficulty": "medium",
+    "tags": [
+      "jointures",
+      "inner-join",
+      "order-by"
+    ]
+  },
+  {
+    "id": "sql_024",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "FILL_BLANK",
+    "question": "Complétez : SELECT nom FROM clients INNER JOIN commandes ___ clients.id = commandes.client_id ; le mot-clé qui introduit la condition de rapprochement est ___.",
+    "answers": [],
+    "blanks": [
+      {
+        "accepted": [
+          "on",
+          "ON"
+        ]
+      },
+      {
+        "accepted": [
+          "on",
+          "ON"
+        ]
+      }
+    ],
+    "explanation": "La clause ON introduit la condition de jointure, ici l'égalité entre la clé primaire et la clé étrangère. Sans elle, la jointure deviendrait un produit cartésien accidentel.",
+    "difficulty": "easy",
+    "tags": [
+      "jointures",
+      "inner-join"
+    ]
+  },
+  {
+    "id": "sql_025",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle différence existe-t-il entre COUNT(*) et COUNT(note) sur une table contenant des notes NULL ?",
+    "answers": [
+      {
+        "id": "sql_025_c",
+        "text": "COUNT(note) ignore les NULL, COUNT(*) compte toutes les lignes",
+        "isCorrect": true,
+        "note": "Juste : une fonction d'agrégation sur une colonne saute les NULL, COUNT(*) totalise les lignes."
+      },
+      {
+        "id": "sql_025_b",
+        "text": "COUNT(*) ignore les valeurs NULL, contrairement à COUNT(note)",
+        "isCorrect": false,
+        "note": "C'est l'inverse : COUNT(*) compte les lignes entières, y compris celles qui portent des NULL."
+      },
+      {
+        "id": "sql_025_a",
+        "text": "Les deux renvoient exactement le même résultat",
+        "isCorrect": false,
+        "note": "Ils ne coïncident que si la colonne ne contient aucun NULL, ce qui n'est pas le cas ici."
+      },
+      {
+        "id": "sql_025_d",
+        "text": "COUNT(note) ne compte que les valeurs distinctes de la colonne",
+        "isCorrect": false,
+        "note": "Ne compter les valeurs distinctes demanderait COUNT(DISTINCT note), une forme différente."
+      }
+    ],
+    "explanation": "COUNT(*) dénombre toutes les lignes du groupe, NULL compris. COUNT(colonne) dénombre seulement les lignes où la colonne est renseignée : cette distinction est essentielle pour calculer des taux de remplissage.",
+    "difficulty": "medium",
+    "tags": [
+      "agregation",
+      "count",
+      "null"
+    ]
+  },
+  {
+    "id": "sql_026",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans une requête avec GROUP BY, où placer le filtre qui ne garde que les groupes dont la moyenne dépasse 15 ?",
+    "answers": [
+      {
+        "id": "sql_026_a",
+        "text": "Dans la clause WHERE, avant le regroupement",
+        "isCorrect": false,
+        "note": "WHERE s'applique aux lignes individuelles et ne peut pas contenir de fonction d'agrégation."
+      },
+      {
+        "id": "sql_026_d",
+        "text": "Dans la clause HAVING, après la formation des groupes",
+        "isCorrect": true,
+        "note": "Juste : HAVING applique une condition sur le résultat des fonctions d'agrégation de chaque groupe."
+      },
+      {
+        "id": "sql_026_c",
+        "text": "Dans la clause LIMIT, pour limiter les groupes",
+        "isCorrect": false,
+        "note": "LIMIT borne le nombre de lignes renvoyées, sans critère de valeur."
+      },
+      {
+        "id": "sql_026_b",
+        "text": "Dans la clause ORDER BY, pour trier les moyennes",
+        "isCorrect": false,
+        "note": "ORDER BY trie le résultat final, il ne filtre aucun groupe."
+      }
+    ],
+    "explanation": "Les conditions portant sur un agrégat (AVG, COUNT, SUM...) s'écrivent dans HAVING, évalué après GROUP BY. WHERE, évalué avant, filtre les lignes individuelles et refuse les fonctions d'agrégation.",
+    "difficulty": "medium",
+    "tags": [
+      "agregation",
+      "having",
+      "group-by"
+    ]
+  },
+  {
+    "id": "sql_027",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "En mode strict, que se passe-t-il si le SELECT contient une colonne non agrégée absente du GROUP BY ?",
+    "answers": [
+      {
+        "id": "sql_027_a",
+        "text": "Le SGBD renvoie la première valeur rencontrée dans chaque groupe",
+        "isCorrect": false,
+        "note": "Certains SGBD tolérants agissent ainsi, mais le mode strict refuse la requête."
+      },
+      {
+        "id": "sql_027_c",
+        "text": "La colonne est automatiquement sommée pour chaque groupe",
+        "isCorrect": false,
+        "note": "Aucun SGBD ne transforme silencieusement une projection en somme."
+      },
+      {
+        "id": "sql_027_b",
+        "text": "Le SGBD rejette la requête : toute colonne non agrégée doit figurer dans le GROUP BY",
+        "isCorrect": true,
+        "note": "Juste : sinon on ne saurait quelle valeur du groupe afficher."
+      },
+      {
+        "id": "sql_027_d",
+        "text": "Seules les lignes contenant des NULL sont écartées du résultat",
+        "isCorrect": false,
+        "note": "Le traitement des NULL n'a aucun rapport avec la cohérence du GROUP BY."
+      }
+    ],
+    "explanation": "Quand on regroupe, chaque groupe produit une seule ligne : une colonne non agrégée doit donc avoir une valeur unique par groupe, ce que garantit seulement sa présence dans GROUP BY. Le mode strict (standard SQL, MySQL strict) rejette la requête sinon.",
+    "difficulty": "hard",
+    "tags": [
+      "agregation",
+      "group-by"
+    ]
+  },
+  {
+    "id": "sql_028",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quelles fonctions sont des fonctions d'agrégation SQL ?",
+    "answers": [
+      {
+        "id": "sql_028_d",
+        "text": "UPPER",
+        "isCorrect": false,
+        "note": "UPPER est une fonction scalaire de mise en majuscules : elle agit ligne par ligne, pas sur un groupe."
+      },
+      {
+        "id": "sql_028_b",
+        "text": "SUM",
+        "isCorrect": true,
+        "note": "Juste : SUM additionne les valeurs numériques de chaque groupe."
+      },
+      {
+        "id": "sql_028_c",
+        "text": "AVG",
+        "isCorrect": true,
+        "note": "Juste : AVG calcule la moyenne des valeurs non NULL de chaque groupe."
+      },
+      {
+        "id": "sql_028_a",
+        "text": "COUNT",
+        "isCorrect": true,
+        "note": "Juste : COUNT dénombre les lignes ou les valeurs non NULL d'un groupe."
+      }
+    ],
+    "explanation": "Les fonctions d'agrégation réduisent un ensemble de lignes à une seule valeur : COUNT, SUM, AVG, MIN, MAX. Les fonctions scalaires comme UPPER, LOWER ou ROUND traitent chaque ligne indépendamment.",
+    "difficulty": "easy",
+    "tags": [
+      "agregation",
+      "fonctions"
+    ]
+  },
+  {
+    "id": "sql_029",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle fonction SQL calcule la moyenne des valeurs non NULL d'une colonne numérique ?",
+    "answers": [
+      {
+        "id": "sql_029_d",
+        "text": "TOTAL()",
+        "isCorrect": false,
+        "note": "TOTAL() est spécifique à SQLite et renvoie une somme, pas une moyenne."
+      },
+      {
+        "id": "sql_029_b",
+        "text": "MOYENNE()",
+        "isCorrect": false,
+        "note": "Les fonctions SQL gardent leur nom anglais standard, MOYENNE() n'existe pas."
+      },
+      {
+        "id": "sql_029_c",
+        "text": "MEDIAN()",
+        "isCorrect": false,
+        "note": "La médiane n'est pas standard en SQL de base et ne calcule pas une moyenne."
+      },
+      {
+        "id": "sql_029_a",
+        "text": "AVG()",
+        "isCorrect": true,
+        "note": "Juste : AVG(montant) moyenne les valeurs renseignées de la colonne."
+      }
+    ],
+    "explanation": "AVG(colonne) retourne la moyenne des valeurs non NULL. Comme les NULL sont ignorés, AVG(valeur) ne vaut SUM(valeur)/COUNT(*) que si la colonne est entièrement renseignée.",
+    "difficulty": "easy",
+    "tags": [
+      "agregation",
+      "avg"
+    ]
+  },
+  {
+    "id": "sql_030",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "TRUE_FALSE",
+    "question": "WHERE filtre les lignes avant la formation des groupes, tandis que HAVING filtre les groupes après agrégation.",
+    "answers": [
+      {
+        "id": "sql_030_v",
+        "text": "Vrai",
+        "isCorrect": true,
+        "note": "Juste : WHERE agit ligne par ligne avant GROUP BY, HAVING agit sur les groupes une fois les agrégats calculés."
+      },
+      {
+        "id": "sql_030_f",
+        "text": "Faux",
+        "isCorrect": false,
+        "note": "Cette affirmation décrit exactement l'ordre logique d'exécution des deux clauses."
+      }
+    ],
+    "explanation": "L'ordre logique d'une requête groupée est : FROM, WHERE (écarte des lignes), GROUP BY (forme les groupes), HAVING (écarte des groupes), SELECT, ORDER BY. D'où la règle : condition de ligne en WHERE, condition d'agrégat en HAVING.",
+    "difficulty": "medium",
+    "tags": [
+      "agregation",
+      "where",
+      "having"
+    ]
+  },
+  {
+    "id": "sql_031",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Que renvoie la requête : SELECT nom FROM etudiants WHERE id IN (SELECT etudiant_id FROM notes WHERE valeur < 8) ?",
+    "answers": [
+      {
+        "id": "sql_031_c",
+        "text": "Les étudiants ayant obtenu au moins une note inférieure à 8",
+        "isCorrect": true,
+        "note": "Juste : il suffit d'une note sous 8 pour que l'identifiant figure dans l'ensemble du IN."
+      },
+      {
+        "id": "sql_031_b",
+        "text": "Les étudiants n'ayant aucune note enregistrée",
+        "isCorrect": false,
+        "note": "La sous-requête liste les étudiants notés en dessous de 8, pas les absents de la table notes."
+      },
+      {
+        "id": "sql_031_a",
+        "text": "Les étudiants dont toutes les notes sont inférieures à 8",
+        "isCorrect": false,
+        "note": "IN teste la présence d'au moins une occurrence : rien ne garantit que toutes les notes soient basses."
+      },
+      {
+        "id": "sql_031_d",
+        "text": "Une erreur, car deux tables apparaissent dans une même requête",
+        "isCorrect": false,
+        "note": "Les sous-requêtes sont faites pour interroger plusieurs tables dans une seule instruction."
+      }
+    ],
+    "explanation": "La sous-requête construit l'ensemble des identifiants d'étudiants ayant au moins une note sous 8 ; le IN filtre ensuite la table etudiants sur cet ensemble. Obtenir les étudiants dont toutes les notes sont basses exigerait une double négation (NOT EXISTS d'une note supérieure ou égale à 8).",
+    "difficulty": "medium",
+    "tags": [
+      "sous-requetes",
+      "in"
+    ]
+  },
+  {
+    "id": "sql_032",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle différence principale entre IN et EXISTS dans une sous-requête ?",
+    "answers": [
+      {
+        "id": "sql_032_b",
+        "text": "IN ne fonctionne qu'avec des nombres, EXISTS qu'avec du texte",
+        "isCorrect": false,
+        "note": "Les deux opérateurs s'appliquent à tous les types comparables."
+      },
+      {
+        "id": "sql_032_a",
+        "text": "IN compare à un ensemble de valeurs, EXISTS teste qu'au moins une ligne est produite",
+        "isCorrect": true,
+        "note": "Juste : EXISTS s'arrête dès la première ligne trouvée, souvent couplé à une sous-requête corrélée."
+      },
+      {
+        "id": "sql_032_c",
+        "text": "IN et EXISTS renvoient tous deux le nombre de lignes trouvées",
+        "isCorrect": false,
+        "note": "Les deux renvoient un booléen par ligne testée, jamais un compte."
+      },
+      {
+        "id": "sql_032_d",
+        "text": "EXISTS est obligatoirement écrit après la clause FROM",
+        "isCorrect": false,
+        "note": "EXISTS s'utilise dans le WHERE (ou le HAVING) d'une sous-requête, jamais après FROM."
+      }
+    ],
+    "explanation": "IN vérifie l'appartenance d'une valeur à la liste produite par la sous-requête. EXISTS vérifie simplement que la sous-requête (généralement corrélée à la ligne courante) renvoie au moins une ligne, ce qui permet au SGBD de s'arrêter dès la première correspondance.",
+    "difficulty": "hard",
+    "tags": [
+      "sous-requetes",
+      "in",
+      "exists"
+    ]
+  },
+  {
+    "id": "sql_033",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Que signifie la condition : WHERE salaire > ALL (SELECT salaire FROM employes WHERE departement = 'IA') ?",
+    "answers": [
+      {
+        "id": "sql_033_a",
+        "text": "Le salaire dépasse celui d'au moins un employé du département IA",
+        "isCorrect": false,
+        "note": "Dépasser au moins un salaire correspond à l'opérateur ANY, pas à ALL."
+      },
+      {
+        "id": "sql_033_c",
+        "text": "Le salaire dépasse la moyenne des salaires du département IA",
+        "isCorrect": false,
+        "note": "Comparer à la moyenne demanderait une sous-requête avec AVG, pas l'opérateur ALL."
+      },
+      {
+        "id": "sql_033_b",
+        "text": "Le salaire dépasse tous les salaires du département IA",
+        "isCorrect": true,
+        "note": "Juste : ALL exige que la comparaison soit vraie pour chaque valeur renvoyée."
+      },
+      {
+        "id": "sql_033_d",
+        "text": "La comparaison est ignorée si le département IA est vide",
+        "isCorrect": false,
+        "note": "Avec ALL, une sous-requête vide rend la condition vraie pour toutes les lignes, ce qui surprend beaucoup d'étudiants."
+      }
+    ],
+    "explanation": "> ALL impose que la comparaison soit vraie vis-à-vis de toutes les valeurs renvoyées : le salaire doit excéder le maximum du département. > ANY (ou SOME) suffit si un seul dépassement existe. Piège à retenir : une sous-requête vide rend ALL vrai et ANY faux.",
+    "difficulty": "hard",
+    "tags": [
+      "sous-requetes",
+      "all",
+      "any"
+    ]
+  },
+  {
+    "id": "sql_034",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Que doit renvoyer une sous-requête scalaire placée dans la clause SELECT ou comparée avec = ?",
+    "answers": [
+      {
+        "id": "sql_034_a",
+        "text": "Une table complète de plusieurs lignes et colonnes",
+        "isCorrect": false,
+        "note": "Une sous-requête de table s'utilise après FROM ou avec IN, pas comme une simple valeur."
+      },
+      {
+        "id": "sql_034_b",
+        "text": "Une liste de valeurs d'une seule colonne",
+        "isCorrect": false,
+        "note": "Une liste d'une colonne correspond au cas du IN, pas à la comparaison scalaire avec =."
+      },
+      {
+        "id": "sql_034_c",
+        "text": "Toujours la valeur NULL par convention",
+        "isCorrect": false,
+        "note": "Une sous-requête scalaire renvoie la valeur calculée, NULL n'est qu'un cas particulier."
+      },
+      {
+        "id": "sql_034_d",
+        "text": "Une seule valeur : une ligne d'une seule colonne",
+        "isCorrect": true,
+        "note": "Juste : la sous-requête scalaire se comporte comme une valeur unique dans l'expression."
+      }
+    ],
+    "explanation": "Une sous-requête scalaire retourne au plus une ligne d'une colonne : elle peut s'écrire partout où une valeur est attendue (SELECT, WHERE, HAVING). Exemple : SELECT nom, (SELECT AVG(valeur) FROM notes) AS moyenne_classe FROM etudiants.",
+    "difficulty": "medium",
+    "tags": [
+      "sous-requetes",
+      "scalaire"
+    ]
+  },
+  {
+    "id": "sql_035",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle instruction ajoute une nouvelle ligne dans une table ?",
+    "answers": [
+      {
+        "id": "sql_035_b",
+        "text": "INSERT INTO clients VALUES (...)",
+        "isCorrect": true,
+        "note": "Juste : INSERT INTO précise la table et VALUES fournit les valeurs de la nouvelle ligne."
+      },
+      {
+        "id": "sql_035_a",
+        "text": "ADD ROW INTO clients",
+        "isCorrect": false,
+        "note": "Cette syntaxe n'existe pas en SQL, l'ajout de lignes passe par INSERT."
+      },
+      {
+        "id": "sql_035_c",
+        "text": "NEW LINE clients SET (...)",
+        "isCorrect": false,
+        "note": "NEW LINE n'est pas un mot-clé SQL, et SET appartient à UPDATE."
+      },
+      {
+        "id": "sql_035_d",
+        "text": "UPDATE clients ADD (...)",
+        "isCorrect": false,
+        "note": "UPDATE modifie des lignes existantes, il n'en crée pas de nouvelles."
+      }
+    ],
+    "explanation": "INSERT INTO table (colonnes) VALUES (valeurs) crée une nouvelle ligne. Si la liste de colonnes est omise, il faut fournir une valeur pour chaque colonne de la table, dans l'ordre du schéma.",
+    "difficulty": "easy",
+    "tags": [
+      "modifications",
+      "insert"
+    ]
+  },
+  {
+    "id": "sql_036",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel risque encourt-on en exécutant UPDATE produits SET prix = prix * 0.9 sans clause WHERE ?",
+    "answers": [
+      {
+        "id": "sql_036_a",
+        "text": "Aucun, la mise à jour est automatiquement annulée sans WHERE",
+        "isCorrect": false,
+        "note": "Le SGBD exécute très bien un UPDATE sans WHERE, c'est justement le danger."
+      },
+      {
+        "id": "sql_036_c",
+        "text": "La remise de 10 % est appliquée à toutes les lignes de la table",
+        "isCorrect": true,
+        "note": "Juste : sans filtre, UPDATE et DELETE s'appliquent à l'intégralité de la table."
+      },
+      {
+        "id": "sql_036_b",
+        "text": "Une erreur de syntaxe signalée par le SGBD",
+        "isCorrect": false,
+        "note": "La syntaxe est valide : c'est une requête parfaitement légale et redoutable."
+      },
+      {
+        "id": "sql_036_d",
+        "text": "La colonne prix est supprimée de la table produits",
+        "isCorrect": false,
+        "note": "Supprimer une colonne relève de ALTER TABLE, pas d'un UPDATE."
+      }
+    ],
+    "explanation": "Sans WHERE, l'UPDATE touche chaque ligne de la table : tous les prix seraient diminués de 10 %, y compris ceux qui ne devaient pas changer. D'où la règle d'or : écrire d'abord le WHERE, et tester le filtre avec un SELECT avant de modifier.",
+    "difficulty": "hard",
+    "tags": [
+      "modifications",
+      "update"
+    ]
+  },
+  {
+    "id": "sql_037",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle différence principale entre DELETE FROM table et TRUNCATE TABLE ?",
+    "answers": [
+      {
+        "id": "sql_037_a",
+        "text": "DELETE est plus rapide que TRUNCATE pour vider une table entière",
+        "isCorrect": false,
+        "note": "C'est l'inverse : TRUNCATE est optimisé pour vider toute la table d'un coup."
+      },
+      {
+        "id": "sql_037_b",
+        "text": "TRUNCATE accepte un WHERE, DELETE refuse de filtrer",
+        "isCorrect": false,
+        "note": "C'est DELETE qui peut filtrer avec WHERE ; TRUNCATE ne filtre jamais."
+      },
+      {
+        "id": "sql_037_c",
+        "text": "TRUNCATE vide la table entière sans filtre, DELETE peut cibler des lignes et s'annuler dans une transaction",
+        "isCorrect": true,
+        "note": "Juste : DELETE est une DML journalisée ligne à ligne, TRUNCATE est une opération de table."
+      },
+      {
+        "id": "sql_037_d",
+        "text": "Les deux instructions sont strictement équivalentes dans tous les cas",
+        "isCorrect": false,
+        "note": "Leur journalisation, leur vitesse et leur annulabilité diffèrent sensiblement."
+      }
+    ],
+    "explanation": "DELETE supprime les lignes une à une, peut filtrer avec WHERE et s'annule avec ROLLBACK. TRUNCATE remet la table à vide presque instantanément (sans parcourir les lignes) mais ne filtre pas et, selon les SGBD, ne s'annule pas dans une transaction.",
+    "difficulty": "hard",
+    "tags": [
+      "modifications",
+      "delete",
+      "truncate"
+    ]
+  },
+  {
+    "id": "sql_038",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce qu'une transaction en SQL ?",
+    "answers": [
+      {
+        "id": "sql_038_a",
+        "text": "Une sauvegarde automatique planifiée de la base",
+        "isCorrect": false,
+        "note": "La sauvegarde est une opération d'administration, sans rapport avec le regroupement d'instructions."
+      },
+      {
+        "id": "sql_038_d",
+        "text": "Un verrou posé sur une seule ligne de la table",
+        "isCorrect": false,
+        "note": "Les verrous accompagnent l'exécution concurrente, ils ne définissent pas la transaction."
+      },
+      {
+        "id": "sql_038_c",
+        "text": "Un transfert de fichiers entre deux serveurs de bases de données",
+        "isCorrect": false,
+        "note": "La transaction concerne le SGBD local, pas le transport de fichiers."
+      },
+      {
+        "id": "sql_038_b",
+        "text": "Une suite d'instructions exécutées comme un bloc tout ou rien",
+        "isCorrect": true,
+        "note": "Juste : soit toutes les opérations sont validées, soit aucune ne l'est."
+      }
+    ],
+    "explanation": "Une transaction regroupe plusieurs opérations (par exemple un débit et un crédit) en un bloc indivisible. BEGIN la démarre, COMMIT la valide définitivement, ROLLBACK annule tout ce qui a été fait depuis le début.",
+    "difficulty": "easy",
+    "tags": [
+      "transactions",
+      "acid"
+    ]
+  },
+  {
+    "id": "sql_039",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "TRUE_FALSE",
+    "question": "L'instruction ROLLBACK annule toutes les modifications effectuées depuis le début de la transaction en cours.",
+    "answers": [
+      {
+        "id": "sql_039_f",
+        "text": "Faux",
+        "isCorrect": false,
+        "note": "C'est précisément le rôle du ROLLBACK : annuler intégralement la transaction non validée."
+      },
+      {
+        "id": "sql_039_v",
+        "text": "Vrai",
+        "isCorrect": true,
+        "note": "Juste : ROLLBACK remet la base dans l'état où elle était au dernier COMMIT ou au début de la transaction."
+      }
+    ],
+    "explanation": "ROLLBACK rejoue à l'envers toutes les modifications non validées : INSERT, UPDATE et DELETE de la transaction disparaissent. Une fois COMMIT exécuté, l'annulation n'est plus possible par ce moyen.",
+    "difficulty": "easy",
+    "tags": [
+      "transactions",
+      "rollback"
+    ]
+  },
+  {
+    "id": "sql_040",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "FILL_BLANK",
+    "question": "L'instruction ___ enregistre définitivement les modifications d'une transaction, tandis que ___ les annule toutes.",
+    "answers": [],
+    "blanks": [
+      {
+        "accepted": [
+          "commit",
+          "COMMIT"
+        ]
+      },
+      {
+        "accepted": [
+          "rollback",
+          "ROLLBACK"
+        ]
+      }
+    ],
+    "explanation": "COMMIT rend les modifications visibles et durables pour tous ; ROLLBACK restaure l'état antérieur à la transaction. Les deux clôturent la transaction en cours.",
+    "difficulty": "easy",
+    "tags": [
+      "transactions",
+      "commit",
+      "rollback"
+    ]
+  },
+  {
+    "id": "sql_041",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quelles propriétés composent l'acronyme ACID d'un SGBD transactionnel ?",
+    "answers": [
+      {
+        "id": "sql_041_c",
+        "text": "Isolation",
+        "isCorrect": true,
+        "note": "Juste : les transactions simultanées ne se perturbent pas mutuellement."
+      },
+      {
+        "id": "sql_041_d",
+        "text": "Distribution",
+        "isCorrect": false,
+        "note": "La distribution des données est une architecture, elle ne fait pas partie d'ACID ; la quatrième propriété est la durabilité."
+      },
+      {
+        "id": "sql_041_a",
+        "text": "Atomicité",
+        "isCorrect": true,
+        "note": "Juste : la transaction s'exécute entièrement ou pas du tout."
+      },
+      {
+        "id": "sql_041_b",
+        "text": "Cohérence",
+        "isCorrect": true,
+        "note": "Juste : la base passe d'un état valide à un autre état valide."
+      }
+    ],
+    "explanation": "ACID réunit Atomicité (tout ou rien), Cohérence (respect des contraintes), Isolation (transactions indépendantes) et Durabilité (les validations survivent aux pannes). Ces garanties distinguent un SGBD transactionnel d'un simple stockage de fichiers.",
+    "difficulty": "easy",
+    "tags": [
+      "transactions",
+      "acid"
+    ]
+  },
+  {
+    "id": "sql_042",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle propriété ACID garantit que la base passe d'un état conforme aux contraintes vers un autre état conforme ?",
+    "answers": [
+      {
+        "id": "sql_042_d",
+        "text": "La cohérence",
+        "isCorrect": true,
+        "note": "Juste : clés, contraintes et règles métier doivent rester respectées avant et après la transaction."
+      },
+      {
+        "id": "sql_042_b",
+        "text": "La durabilité",
+        "isCorrect": false,
+        "note": "La durabilité concerne la résistance aux pannes après validation."
+      },
+      {
+        "id": "sql_042_c",
+        "text": "L'isolation",
+        "isCorrect": false,
+        "note": "L'isolation concerne l'indépendance des transactions simultanées."
+      },
+      {
+        "id": "sql_042_a",
+        "text": "L'atomicité",
+        "isCorrect": false,
+        "note": "L'atomicité concerne le tout ou rien de la transaction, pas la validité de l'état final."
+      }
+    ],
+    "explanation": "La cohérence (C de ACID) impose que chaque transaction mène la base d'un état valide à un état valide : aucune contrainte de clé, d'intégrité ou de règle métier ne doit être violée au final. Elle s'appuie sur les contraintes déclarées dans le schéma.",
+    "difficulty": "medium",
+    "tags": [
+      "transactions",
+      "acid",
+      "coherence"
+    ]
+  },
+  {
+    "id": "sql_043",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'exige la première forme normale (1NF) ?",
+    "answers": [
+      {
+        "id": "sql_043_b",
+        "text": "Que chaque attribut non clé dépende de la clé primaire complète",
+        "isCorrect": false,
+        "note": "C'est l'exigence de la deuxième forme normale, pas de la première."
+      },
+      {
+        "id": "sql_043_a",
+        "text": "Des valeurs atomiques dans chaque attribut, sans groupes répétitifs",
+        "isCorrect": true,
+        "note": "Juste : une case du tableau ne doit contenir qu'une seule valeur indivisible."
+      },
+      {
+        "id": "sql_043_c",
+        "text": "L'absence de dépendance transitive entre attributs non clés",
+        "isCorrect": false,
+        "note": "C'est l'exigence de la troisième forme normale."
+      },
+      {
+        "id": "sql_043_d",
+        "text": "Qu'une seule table suffise à décrire tout le système",
+        "isCorrect": false,
+        "note": "La normalisation conduit au contraire à décomposer en plusieurs relations."
+      }
+    ],
+    "explanation": "La 1NF interdit les valeurs multiples dans une même case (liste de téléphones, ensemble de cours) et les groupes répétitifs. La solution consiste à créer une table séparée pour l'information répétée, reliée par clé étrangère.",
+    "difficulty": "easy",
+    "tags": [
+      "normalisation",
+      "1nf"
+    ]
+  },
+  {
+    "id": "sql_044",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "La table Notes(id_etudiant, id_cours, nom_etudiant, note), de clé primaire (id_etudiant, id_cours), n'est pas en deuxième forme normale. Pourquoi ?",
+    "answers": [
+      {
+        "id": "sql_044_c",
+        "text": "La colonne note n'est pas une valeur atomique",
+        "isCorrect": false,
+        "note": "Une note est une valeur simple et atomique : la 1NF est respectée sur cette colonne."
+      },
+      {
+        "id": "sql_044_b",
+        "text": "Une clé primaire composée de deux colonnes est interdite",
+        "isCorrect": false,
+        "note": "Les clés composées sont parfaitement légales, elles imposent simplement la vérification de la 2NF."
+      },
+      {
+        "id": "sql_044_a",
+        "text": "nom_etudiant dépend d'une partie de la clé seulement (id_etudiant)",
+        "isCorrect": true,
+        "note": "Juste : une dépendance partielle sur une clé composée viole la 2NF."
+      },
+      {
+        "id": "sql_044_d",
+        "text": "nom_etudiant dépend transitivement de la clé par l'intermédiaire d'un autre attribut non clé",
+        "isCorrect": false,
+        "note": "La dépendance décrite est partielle (sur une partie de la clé), elle relève de la 2NF et non de la 3NF."
+      }
+    ],
+    "explanation": "Avec une clé composée, la 2NF exige que chaque attribut non clé dépende de la clé entière. Ici nom_etudiant ne dépend que de id_etudiant : il faut extraire les données de l'étudiant dans une table Etudiants(id, nom) et garder dans Notes la note seule.",
+    "difficulty": "hard",
+    "tags": [
+      "normalisation",
+      "2nf"
+    ]
+  },
+  {
+    "id": "sql_045",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle dépendance la troisième forme normale (3NF) élimine-t-elle ?",
+    "answers": [
+      {
+        "id": "sql_045_a",
+        "text": "La dépendance des attributs non clés vis-à-vis de la clé primaire",
+        "isCorrect": false,
+        "note": "Cette dépendance directe sur la clé est exactement ce que la 3NF veut conserver."
+      },
+      {
+        "id": "sql_045_d",
+        "text": "La dépendance entre deux clés étrangères d'une même table",
+        "isCorrect": false,
+        "note": "Deux clés étrangères dans une table n'impliquent aucune dépendance à éliminer."
+      },
+      {
+        "id": "sql_045_c",
+        "text": "La dépendance d'un attribut vers une partie de la clé composée",
+        "isCorrect": false,
+        "note": "Les dépendances partielles sont éliminées par la deuxième forme normale."
+      },
+      {
+        "id": "sql_045_b",
+        "text": "La dépendance transitive d'un attribut non clé vers un autre attribut non clé",
+        "isCorrect": true,
+        "note": "Juste : la 3NF interdit les chaînes clé vers A vers B."
+      }
+    ],
+    "explanation": "La 3NF interdit qu'un attribut non clé dépende d'un autre attribut non clé. Exemple classique : dans Etudiant(id, nom, id_departement, nom_departement), nom_departement dépend de id_departement et non de l'étudiant : il faut une table Departements séparée.",
+    "difficulty": "medium",
+    "tags": [
+      "normalisation",
+      "3nf"
+    ]
+  },
+  {
+    "id": "sql_046",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans une table non normalisée où l'adresse du département est répétée pour chaque étudiant, corriger l'adresse oblige à la modifier sur toutes les lignes concernées. Comment s'appelle cette anomalie ?",
+    "answers": [
+      {
+        "id": "sql_046_b",
+        "text": "Anomalie de mise à jour",
+        "isCorrect": true,
+        "note": "Juste : la redondance impose de modifier plusieurs lignes, avec risque d'incohérence si l'on en oublie une."
+      },
+      {
+        "id": "sql_046_a",
+        "text": "Anomalie d'insertion",
+        "isCorrect": false,
+        "note": "L'anomalie d'insertion est l'impossibilité d'enregistrer une information sans l'objet principal (un département sans étudiant)."
+      },
+      {
+        "id": "sql_046_c",
+        "text": "Anomalie de suppression",
+        "isCorrect": false,
+        "note": "L'anomalie de suppression fait perdre une information en effaçant la dernière ligne qui la portait."
+      },
+      {
+        "id": "sql_046_d",
+        "text": "Anomalie de fréquence",
+        "isCorrect": false,
+        "note": "Ce terme ne fait pas partie de la typologie classique des anomalies de conception."
+      }
+    ],
+    "explanation": "La redondance engendre trois familles d'anomalies : insertion (impossible d'ajouter l'information seule), mise à jour (modifier la même donnée en plusieurs endroits) et suppression (perte d'information avec la dernière ligne). La normalisation fait disparaître les redondances et donc ces anomalies.",
+    "difficulty": "medium",
+    "tags": [
+      "normalisation",
+      "anomalies"
+    ]
+  },
+  {
+    "id": "sql_047",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "TRUE_FALSE",
+    "question": "Une relation en troisième forme normale ne contient plus aucune redondance de données.",
+    "answers": [
+      {
+        "id": "sql_047_v",
+        "text": "Vrai",
+        "isCorrect": false,
+        "note": "La 3NF supprime les dépendances transitives, mais des redondances résiduelles peuvent subsister (dépendances de clés composées entre elles par exemple)."
+      },
+      {
+        "id": "sql_047_f",
+        "text": "Faux",
+        "isCorrect": true,
+        "note": "Juste : la 3NF élimine les dépendances transitives ; les formes normales supérieures (BCNF, 4NF, 5NF) traitent les redondances restantes."
+      }
+    ],
+    "explanation": "La 3NF garantit que chaque attribut non clé dépend de la clé, de toute la clé et de rien que la clé (règle mnémotechnique). Elle élimine l'essentiel des redondances, mais pas toutes : d'où l'existence de BCNF et des formes normales supérieures.",
+    "difficulty": "medium",
+    "tags": [
+      "normalisation",
+      "3nf"
+    ]
+  },
+  {
+    "id": "sql_048",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "FILL_BLANK",
+    "question": "Une relation est en deuxième forme normale si elle est en première forme normale et si chaque attribut non clé dépend de ___ , et non d'une partie seulement de la clé primaire.",
+    "answers": [],
+    "blanks": [
+      {
+        "accepted": [
+          "toute la clé",
+          "la totalité de la clé",
+          "toute la clé primaire",
+          "la clé complète",
+          "la clé entière"
+        ]
+      }
+    ],
+    "explanation": "La 2NF vise les clés primaires composées : chaque attribut descriptif doit dépendre de l'ensemble de la clé. Un attribut qui ne dépend que d'une partie de la clé doit migrer vers une table dédiée à cette partie.",
+    "difficulty": "medium",
+    "tags": [
+      "normalisation",
+      "2nf"
+    ]
+  },
+  {
+    "id": "sql_049",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans le passage du MCD Merise au modèle relationnel, comment traduire une association binaire de cardinalités (0,n)-(1,1) ?",
+    "answers": [
+      {
+        "id": "sql_049_a",
+        "text": "En créant une table d'association supplémentaire avec les deux clés",
+        "isCorrect": false,
+        "note": "La table d'association est réservée aux cardinalités plusieurs-plusieurs des deux côtés."
+      },
+      {
+        "id": "sql_049_b",
+        "text": "En migrant la clé de l'entité côté (0,n) comme clé étrangère dans la table du côté (1,1)",
+        "isCorrect": true,
+        "note": "Juste : la clé étrangère se place du côté de la cardinalité maximale égale à 1."
+      },
+      {
+        "id": "sql_049_c",
+        "text": "En fusionnant obligatoirement les deux entités en une seule table",
+        "isCorrect": false,
+        "note": "La fusion n'est justifiée que dans certains cas d'association 1-1, pas ici avec un côté (0,n)."
+      },
+      {
+        "id": "sql_049_d",
+        "text": "En dupliquant la clé primaire dans les deux tables sans lien",
+        "isCorrect": false,
+        "note": "Sans clé étrangère déclarée, aucune intégrité référentielle ne garantit le lien."
+      }
+    ],
+    "explanation": "La règle de passage de Merise est simple : pour une association de type un-plusieurs, la clé de l'entité côté plusieurs migre comme clé étrangère dans la table côté cardinalité maximale 1. Une association plusieurs-plusieurs, elle, devient une table intermédiaire.",
+    "difficulty": "hard",
+    "tags": [
+      "conception",
+      "merise",
+      "mcd"
+    ]
+  },
+  {
+    "id": "sql_050",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Comment traduit-on en relationnel une association (0,n)-(0,n) entre les entités Etudiant et Cours ?",
+    "answers": [
+      {
+        "id": "sql_050_a",
+        "text": "Par une clé étrangère id_cours dans la table Etudiants",
+        "isCorrect": false,
+        "note": "Une seule clé étrangère limiterait un étudiant à un seul cours, ce qui contredit le (0,n) des deux côtés."
+      },
+      {
+        "id": "sql_050_b",
+        "text": "Par une clé étrangère id_etudiant dans la table Cours",
+        "isCorrect": false,
+        "note": "Ce sens limiterait un cours à un seul étudiant, ce qui contredit le (0,n) côté cours."
+      },
+      {
+        "id": "sql_050_c",
+        "text": "Par une table intermédiaire portant les deux clés étrangères",
+        "isCorrect": true,
+        "note": "Juste : Suivre(id_etudiant, id_cours) relie les deux tables en plusieurs-plusieurs."
+      },
+      {
+        "id": "sql_050_d",
+        "text": "Par la fusion des deux entités dans une seule table",
+        "isCorrect": false,
+        "note": "La fusion créerait une explosion de redondances entre étudiants et cours."
+      }
+    ],
+    "explanation": "Une association plusieurs-plusieurs devient une table d'association dont la clé primaire est la concaténation des deux identifiants (id_etudiant, id_cours). Les attributs propres à l'association (date d'inscription, note) se placent dans cette table intermédiaire.",
+    "difficulty": "easy",
+    "tags": [
+      "conception",
+      "merise",
+      "mcd"
+    ]
+  },
+  {
+    "id": "sql_051",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle clé primaire choisir pour la table d'association Suivre(id_etudiant, id_cours, date_inscription) ?",
+    "answers": [
+      {
+        "id": "sql_051_a",
+        "text": "date_inscription seule",
+        "isCorrect": false,
+        "note": "Plusieurs inscriptions peuvent tomber le même jour : la date n'identifie pas une inscription."
+      },
+      {
+        "id": "sql_051_b",
+        "text": "id_etudiant seule",
+        "isCorrect": false,
+        "note": "Un étudiant suit plusieurs cours : cette clé interdirait ses autres inscriptions."
+      },
+      {
+        "id": "sql_051_d",
+        "text": "Aucune, une table d'association se passe de clé primaire",
+        "isCorrect": false,
+        "note": "Toute relation doit posséder une clé primaire, y compris les tables d'association."
+      },
+      {
+        "id": "sql_051_c",
+        "text": "La clé composée (id_etudiant, id_cours)",
+        "isCorrect": true,
+        "note": "Juste : la concaténation des deux clés étrangères identifie chaque couple étudiant-cours."
+      }
+    ],
+    "explanation": "La clé primaire naturelle d'une table d'association est la composition des clés étrangères qui la relient aux deux entités. Si un même couple étudiant-cours peut se répéter (plusieurs sessions), on y ajoute un attribut discriminant comme la date ou un identifiant autonome.",
+    "difficulty": "medium",
+    "tags": [
+      "conception",
+      "cles-composees"
+    ]
+  },
+  {
+    "id": "sql_052",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "CODE",
+    "question": "Pour chaque étudiant, affichez son nom et sa moyenne des notes (colonne nommée moyenne), triés par moyenne décroissante puis par nom croissant.",
+    "context": "La base d'un département contient trois tables : etudiants(id, nom, filliere), cours(id, intitule, credits) et notes(id, etudiant_id, cours_id, valeur).",
+    "answers": [],
+    "code": {
+      "language": "sql",
+      "setup": "CREATE TABLE etudiants (\n  id INTEGER PRIMARY KEY,\n  nom TEXT NOT NULL,\n  filliere TEXT NOT NULL\n);\nCREATE TABLE cours (\n  id INTEGER PRIMARY KEY,\n  intitule TEXT NOT NULL,\n  credits INTEGER NOT NULL\n);\nCREATE TABLE notes (\n  id INTEGER PRIMARY KEY,\n  etudiant_id INTEGER NOT NULL REFERENCES etudiants(id),\n  cours_id INTEGER NOT NULL REFERENCES cours(id),\n  valeur REAL NOT NULL\n);\nINSERT INTO etudiants VALUES\n(1, 'Sena', 'IABD'),\n(2, 'Kevin', 'IABD'),\n(3, 'Awa', 'GC'),\n(4, 'Rock', 'IABD');\nINSERT INTO cours VALUES\n(1, 'Bases de donnees', 6),\n(2, 'Machine Learning', 6),\n(3, 'Reseaux', 4);\nINSERT INTO notes VALUES\n(1, 1, 1, 15),\n(2, 1, 2, 13),\n(3, 1, 3, 14),\n(4, 2, 1, 9),\n(5, 2, 3, 11),\n(6, 2, 2, 10),\n(7, 3, 1, 16),\n(8, 4, 2, 8),\n(9, 4, 1, 12);",
+      "starter": "-- Moyenne par étudiant :\nSELECT ...\nFROM etudiants e\nJOIN notes n ON ...\nGROUP BY ...\nORDER BY ... ;",
+      "solution": "SELECT e.nom, AVG(n.valeur) AS moyenne FROM etudiants e JOIN notes n ON n.etudiant_id = e.id GROUP BY e.id, e.nom ORDER BY moyenne DESC, e.nom;",
+      "timeLimitMs": 10000,
+      "tests": []
+    },
+    "explanation": "La jointure relie chaque note à son étudiant, GROUP BY par étudiant forme les groupes, AVG calcule la moyenne et le tri décroissant classe Awa (16) devant Sena (14), puis Kevin et Rock (10).",
+    "difficulty": "medium",
+    "tags": [
+      "agregation",
+      "group-by",
+      "join"
+    ]
+  },
+  {
+    "id": "sql_053",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "À quoi sert un index dans un SGBD ?",
+    "answers": [
+      {
+        "id": "sql_053_b",
+        "text": "À accélérer la recherche des lignes, comme le sommaire d'un livre",
+        "isCorrect": true,
+        "note": "Juste : l'index permet de retrouver les lignes sans balayer toute la table."
+      },
+      {
+        "id": "sql_053_a",
+        "text": "À compresser les données de la table pour économiser l'espace",
+        "isCorrect": false,
+        "note": "Un index occupe au contraire de l'espace supplémentaire, son but est la vitesse de recherche."
+      },
+      {
+        "id": "sql_053_c",
+        "text": "À trier physiquement les lignes de la table après chaque requête",
+        "isCorrect": false,
+        "note": "L'index est une structure annexe ordonnée, il ne réorganise pas physiquement la table."
+      },
+      {
+        "id": "sql_053_d",
+        "text": "À chiffrer les colonnes sensibles de la table",
+        "isCorrect": false,
+        "note": "Le chiffrement est un mécanisme de sécurité, sans lien avec l'indexation."
+      }
+    ],
+    "explanation": "Un index est une structure de recherche (généralement un arbre B) qui associe chaque valeur d'une colonne à l'emplacement des lignes correspondantes. Il évite le balayage complet de la table, au prix d'un espace disque et d'un coût de maintenance en écriture.",
+    "difficulty": "easy",
+    "tags": [
+      "performance",
+      "index"
+    ]
+  },
+  {
+    "id": "sql_054",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est le principal coût de la création d'un grand nombre d'index sur une table très écrite ?",
+    "answers": [
+      {
+        "id": "sql_054_b",
+        "text": "Les lectures sur les colonnes indexées deviennent plus lentes",
+        "isCorrect": false,
+        "note": "C'est l'inverse : les lectures filtrées sur une colonne indexée sont plus rapides."
+      },
+      {
+        "id": "sql_054_a",
+        "text": "Les INSERT, UPDATE et DELETE ralentissent, car chaque index doit être maintenu",
+        "isCorrect": true,
+        "note": "Juste : chaque écriture doit aussi mettre à jour toutes les structures d'index concernées."
+      },
+      {
+        "id": "sql_054_c",
+        "text": "L'ajout de nouvelles colonnes devient impossible",
+        "isCorrect": false,
+        "note": "ALTER TABLE ADD COLUMN fonctionne normalement quel que soit le nombre d'index."
+      },
+      {
+        "id": "sql_054_d",
+        "text": "La base consomme plus de bande passante réseau à chaque lecture",
+        "isCorrect": false,
+        "note": "Les index agissent sur le stockage et le calcul, pas sur le volume réseau des lectures."
+      }
+    ],
+    "explanation": "Chaque index accélère les lectures mais doit être mis à jour à chaque écriture sur la table. Sur une table très écrite (journal, capteurs), il faut donc limiter les index aux colonnes réellement filtrées ou jointes : c'est un compromis lecture contre écriture.",
+    "difficulty": "medium",
+    "tags": [
+      "performance",
+      "index"
+    ]
+  },
+  {
+    "id": "sql_055",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Sur quel type de colonne la création d'un index est-elle la plus rentable ?",
+    "answers": [
+      {
+        "id": "sql_055_a",
+        "text": "Une colonne booléenne ne comptant que deux valeurs distinctes",
+        "isCorrect": false,
+        "note": "Avec deux valeurs, l'index ne réduit presque rien : le balayage reste plus efficace."
+      },
+      {
+        "id": "sql_055_c",
+        "text": "Une colonne stockant des images en binaire",
+        "isCorrect": false,
+        "note": "Les gros objets binaires ne servent jamais de critère de recherche indexé."
+      },
+      {
+        "id": "sql_055_b",
+        "text": "Une colonne très souvent filtrée ou jointe, riche en valeurs distinctes",
+        "isCorrect": true,
+        "note": "Juste : forte sélectivité et usage fréquent dans WHERE/JOIN rendent l'index rentable."
+      },
+      {
+        "id": "sql_055_d",
+        "text": "Une colonne jamais utilisée dans les requêtes de l'application",
+        "isCorrect": false,
+        "note": "Indexer une colonne inutilisée ne coûte que du temps d'écriture et de l'espace."
+      }
+    ],
+    "explanation": "Un index est rentable quand la colonne porte des filtres (WHERE), des jointures (ON) ou des tris fréquents, et quand ses valeurs sont suffisamment variées pour éliminer la majorité des lignes. Indexer une colonne à deux valeurs (sexe, actif) n'apporte presque rien.",
+    "difficulty": "medium",
+    "tags": [
+      "performance",
+      "index"
+    ]
+  },
+  {
+    "id": "sql_056",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "TRUE_FALSE",
+    "question": "Chaque index supplémentaire sur une table ralentit les opérations INSERT, UPDATE et DELETE.",
+    "answers": [
+      {
+        "id": "sql_056_f",
+        "text": "Faux",
+        "isCorrect": false,
+        "note": "Les index n'accélèrent que les lectures ; en écriture, ils constituent une charge supplémentaire réelle."
+      },
+      {
+        "id": "sql_056_v",
+        "text": "Vrai",
+        "isCorrect": true,
+        "note": "Juste : chaque écriture doit aussi mettre à jour les arbres d'index concernés, ce qui ajoute du travail au SGBD."
+      }
+    ],
+    "explanation": "Un INSERT doit insérer la ligne mais aussi mettre à jour chaque index de la table ; un UPDATE doit modifier les index des colonnes changées. Les index se dimensionnent donc selon le rapport lectures/écritures de la table.",
+    "difficulty": "easy",
+    "tags": [
+      "performance",
+      "index"
+    ]
+  },
+  {
+    "id": "sql_057",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Que mesure la sélectivité d'une colonne dans une requête ?",
+    "answers": [
+      {
+        "id": "sql_057_a",
+        "text": "Le nombre d'index déjà posés sur cette colonne",
+        "isCorrect": false,
+        "note": "La sélectivité est une propriété des données, pas des structures d'index."
+      },
+      {
+        "id": "sql_057_d",
+        "text": "La taille en octets occupée par la colonne",
+        "isCorrect": false,
+        "note": "La taille physique ne définit pas la sélectivité, même si elle influence les coûts d'I/O."
+      },
+      {
+        "id": "sql_057_c",
+        "text": "La vitesse d'écriture dans cette colonne",
+        "isCorrect": false,
+        "note": "La sélectivité ne mesure aucune performance, elle décrit la répartition des valeurs."
+      },
+      {
+        "id": "sql_057_b",
+        "text": "Le rapport entre le nombre de valeurs distinctes et le nombre total de lignes",
+        "isCorrect": true,
+        "note": "Juste : proche de 1, la colonne est très sélective et un index sera efficace."
+      }
+    ],
+    "explanation": "La sélectivité d'un critère indique la fraction de lignes qu'il retient : une colonne d'identifiants (quasi toutes distinctes) est très sélective, un booléen ne l'est pas. L'optimiseur s'appuie sur ces statistiques pour choisir entre l'index et le balayage complet.",
+    "difficulty": "hard",
+    "tags": [
+      "performance",
+      "selectivite"
+    ]
+  },
+  {
+    "id": "sql_058",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Pourquoi éviter SELECT * dans une application en production ?",
+    "answers": [
+      {
+        "id": "sql_058_b",
+        "text": "On transporte des colonnes inutiles, ce qui alourdit les I/O et empêche les index couvrants",
+        "isCorrect": true,
+        "note": "Juste : projeter seulement les colonnes utiles réduit le volume et ouvre la voie aux index couvrants."
+      },
+      {
+        "id": "sql_058_a",
+        "text": "La syntaxe SELECT * est dépréciée dans le standard SQL",
+        "isCorrect": false,
+        "note": "SELECT * reste légal ; c'est une mauvaise pratique en production, pas une interdiction."
+      },
+      {
+        "id": "sql_058_c",
+        "text": "SELECT * supprime automatiquement les doublons du résultat",
+        "isCorrect": false,
+        "note": "SELECT * renvoie toutes les lignes ; seul DISTINCT élimine les doublons."
+      },
+      {
+        "id": "sql_058_d",
+        "text": "SELECT * verrouille la table entière en écriture pendant la lecture",
+        "isCorrect": false,
+        "note": "Le verrouillage dépend du niveau d'isolation, pas de la liste des colonnes projetées."
+      }
+    ],
+    "explanation": "Lister explicitement les colonnes nécessaires réduit les lectures disque et le trafic réseau, stabilise l'application face aux évolutions du schéma et permet au SGBD de répondre depuis un index couvrant sans lire la table. Sur une extraction massive, le gain est considérable.",
+    "difficulty": "easy",
+    "tags": [
+      "performance",
+      "select"
+    ]
+  },
+  {
+    "id": "sql_059",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel outil permet d'observer comment le SGBD compte exécuter une requête (balayage complet, index utilisé, ordre des jointures) ?",
+    "answers": [
+      {
+        "id": "sql_059_b",
+        "text": "Le journal des transactions",
+        "isCorrect": false,
+        "note": "Le journal enregistre les modifications pour la récupération, pas la stratégie d'exécution."
+      },
+      {
+        "id": "sql_059_a",
+        "text": "Le plan d'exécution, obtenu avec la commande EXPLAIN",
+        "isCorrect": true,
+        "note": "Juste : EXPLAIN (ou EXPLAIN ANALYZE) détaille les opérations estimées et leurs coûts."
+      },
+      {
+        "id": "sql_059_c",
+        "text": "La commande COMMIT",
+        "isCorrect": false,
+        "note": "COMMIT valide une transaction, il ne révèle rien sur l'exécution d'un SELECT."
+      },
+      {
+        "id": "sql_059_d",
+        "text": "Le dictionnaire des données",
+        "isCorrect": false,
+        "note": "Le dictionnaire décrit le schéma (tables, colonnes), pas l'exécution des requêtes."
+      }
+    ],
+    "explanation": "Le plan d'exécution montre les opérations choisies par l'optimiseur : balayage de table ou accès par index, type de jointure, tri, ordre des étapes, coût estimé. C'est le premier outil de diagnostic d'une requête lente, avant toute création d'index.",
+    "difficulty": "medium",
+    "tags": [
+      "performance",
+      "plan-execution"
+    ]
+  },
+  {
+    "id": "sql_060",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quelles actions peuvent accélérer sensiblement une requête SQL lente ?",
+    "answers": [
+      {
+        "id": "sql_060_d",
+        "text": "Ajouter un tri ORDER BY sur une colonne non indexée",
+        "isCorrect": false,
+        "note": "Trier une colonne non indexée impose une étape de tri supplémentaire qui coûte du temps."
+      },
+      {
+        "id": "sql_060_b",
+        "text": "Ne sélectionner que les colonnes réellement nécessaires",
+        "isCorrect": true,
+        "note": "Juste : moins de données lues et transportées, et possibilité d'index couvrant."
+      },
+      {
+        "id": "sql_060_c",
+        "text": "Ajouter une sous-requête corrélée dans la clause SELECT",
+        "isCorrect": false,
+        "note": "Une sous-requête corrélée réexécutée pour chaque ligne alourdit plutôt la requête."
+      },
+      {
+        "id": "sql_060_a",
+        "text": "Créer un index sur les colonnes utilisées dans les jointures et les filtres",
+        "isCorrect": true,
+        "note": "Juste : l'index remplace le balayage complet par un accès direct aux lignes utiles."
+      }
+    ],
+    "explanation": "Les leviers classiques d'optimisation : index sur les colonnes de filtre et de jointure, projection explicite au lieu de SELECT *, filtrage le plus tôt possible, suppression des sous-requêtes corrélées inutiles. Chaque modification se valide ensuite par comparaison des plans d'exécution.",
+    "difficulty": "medium",
+    "tags": [
+      "performance",
+      "optimisation"
+    ]
+  },
+  {
+    "id": "sql_061",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "FILL_BLANK",
+    "question": "Pour accélérer une requête, on place des index sur les colonnes utilisées dans les clauses ___ (filtres) et dans les conditions de ___.",
+    "answers": [],
+    "blanks": [
+      {
+        "accepted": [
+          "where",
+          "WHERE",
+          "filtre",
+          "filtres"
+        ]
+      },
+      {
+        "accepted": [
+          "jointure",
+          "jointures",
+          "join"
+        ]
+      }
+    ],
+    "explanation": "Les index servent d'abord aux critères de recherche : les colonnes du WHERE et les paires de colonnes des conditions ON de jointure. Indexer les colonnes de projection seules apporte beaucoup moins.",
+    "difficulty": "medium",
+    "tags": [
+      "performance",
+      "index"
+    ]
+  },
+  {
+    "id": "sql_062",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "CODE",
+    "question": "Pour chaque film ayant reçu au moins une interaction, affichez son titre et le nombre d'interactions (colonne nb), triés par nombre décroissant puis par titre croissant.",
+    "context": "Une plateforme de streaming contient trois tables : films(id, titre, genre, annee), utilisateurs(id, pseudo, pays) et interactions(id, film_id, utilisateur_id, type_interaction, duree_secondes).",
+    "answers": [],
+    "code": {
+      "language": "sql",
+      "setup": "CREATE TABLE films (\n  id INTEGER PRIMARY KEY,\n  titre TEXT NOT NULL,\n  genre TEXT NOT NULL,\n  annee INTEGER NOT NULL\n);\nCREATE TABLE utilisateurs (\n  id INTEGER PRIMARY KEY,\n  pseudo TEXT NOT NULL,\n  pays TEXT NOT NULL\n);\nCREATE TABLE interactions (\n  id INTEGER PRIMARY KEY,\n  film_id INTEGER NOT NULL REFERENCES films(id),\n  utilisateur_id INTEGER NOT NULL REFERENCES utilisateurs(id),\n  type_interaction TEXT NOT NULL,\n  duree_secondes INTEGER\n);\nINSERT INTO films VALUES\n(1, 'Sous les manguiers', 'drame', 2021),\n(2, 'La nuit de Cotonou', 'thriller', 2023),\n(3, 'Rires de Ganvie', 'comedie', 2022),\n(4, 'Codes sources', 'documentaire', 2024),\n(5, 'Zemidjan express', 'comedie', 2023),\n(6, 'Passage secret', 'drame', 2020);\nINSERT INTO utilisateurs VALUES\n(1, 'arielle', 'benin'),\n(2, 'bruno', 'togo'),\n(3, 'ching', 'benin'),\n(4, 'delphine', 'senegal'),\n(5, 'emanuel', 'benin');\nINSERT INTO interactions VALUES\n(1, 1, 1, 'vue', 5400),\n(2, 1, 2, 'vue', 4200),\n(3, 2, 1, 'vue', 3600),\n(4, 2, 3, 'vue', 3300),\n(5, 3, 3, 'vue', 5100),\n(6, 3, 4, 'vue', 4800),\n(7, 5, 1, 'vue', 2700),\n(8, 5, 2, 'vue', NULL),\n(9, 5, 3, 'vue', 2900),\n(10, 4, 4, 'vue', NULL),\n(11, 4, 1, 'vue', 2000);",
+      "starter": "-- Nombre d'interactions par film :\nSELECT ...\nFROM films f\nJOIN interactions i ON ...\nGROUP BY ...\nORDER BY ... ;",
+      "solution": "SELECT f.titre, COUNT(*) AS nb FROM films f JOIN interactions i ON i.film_id = f.id GROUP BY f.id, f.titre ORDER BY nb DESC, f.titre;",
+      "timeLimitMs": 10000,
+      "tests": []
+    },
+    "explanation": "La jointure interne écarte le film sans interaction, GROUP BY par film forme les groupes, COUNT(*) compte les lignes de chacun et le double tri classe Zemidjan express (3) en tête, puis les films à 2 par ordre alphabétique.",
+    "difficulty": "medium",
+    "tags": [
+      "agregation",
+      "group-by",
+      "join"
+    ]
+  },
+  {
+    "id": "sql_063",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce qu'une vue en SQL ?",
+    "answers": [
+      {
+        "id": "sql_063_a",
+        "text": "Une copie de sauvegarde d'une table à un instant donné",
+        "isCorrect": false,
+        "note": "La sauvegarde instantanée relève du backup, pas de la vue."
+      },
+      {
+        "id": "sql_063_c",
+        "text": "Un graphique affiché par l'application cliente",
+        "isCorrect": false,
+        "note": "La vue est un objet du SGBD, pas un élément d'interface graphique."
+      },
+      {
+        "id": "sql_063_b",
+        "text": "Une table virtuelle définie par une requête stockée dans la base",
+        "isCorrect": true,
+        "note": "Juste : CREATE VIEW enregistre la requête, les données restent dans les tables sources."
+      },
+      {
+        "id": "sql_063_d",
+        "text": "Un index multi-colonnes sur les clés étrangères",
+        "isCorrect": false,
+        "note": "L'index accélère les recherches, la vue simplifie et sécurise l'accès aux données."
+      }
+    ],
+    "explanation": "Une vue (CREATE VIEW) stocke une requête sous un nom et se consulte comme une table. Le SGBD exécute la requête sous-jacente à chaque consultation : la vue ne contient aucune donnée propre, sauf variante matérialisée.",
+    "difficulty": "easy",
+    "tags": [
+      "vues",
+      "definition"
+    ]
+  },
+  {
+    "id": "sql_064",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Pourquoi donner aux étudiants l'accès à une vue Notes_Publiques plutôt qu'à la table Notes ?",
+    "answers": [
+      {
+        "id": "sql_064_a",
+        "text": "Parce que la vue répond plus vite qu'une requête directe",
+        "isCorrect": false,
+        "note": "Une vue standard s'exécute à chaque appel : elle n'apporte aucun gain de vitesse."
+      },
+      {
+        "id": "sql_064_d",
+        "text": "Parce que la vue empêche les enseignants de corriger les notes",
+        "isCorrect": false,
+        "note": "Les enseignants conservent leurs propres droits sur la table ; la vue ne les concerne pas."
+      },
+      {
+        "id": "sql_064_c",
+        "text": "Parce que la vue augmente l'espace de stockage disponible",
+        "isCorrect": false,
+        "note": "Une vue standard ne stocke rien : elle ne change pas la capacité de la base."
+      },
+      {
+        "id": "sql_064_b",
+        "text": "Parce que la vue n'expose que les colonnes autorisées et masque les autres",
+        "isCorrect": true,
+        "note": "Juste : la vue sert d'écran de sécurité sans dupliquer les données."
+      }
+    ],
+    "explanation": "La vue filtre colonnes et lignes : elle peut n'exposer que id_etudiant, id_cours et valeur, en cachant par exemple les commentaires des jurys. On accorde le droit SELECT sur la vue seulement : les utilisateurs ne touchent jamais directement la table source.",
+    "difficulty": "medium",
+    "tags": [
+      "vues",
+      "securite"
+    ]
+  },
+  {
+    "id": "sql_065",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "TRUE_FALSE",
+    "question": "Une vue standard stocke physiquement les données qu'elle affiche.",
+    "answers": [
+      {
+        "id": "sql_065_v",
+        "text": "Vrai",
+        "isCorrect": false,
+        "note": "Seule la vue matérialisée stocke un résultat ; la vue standard exécute sa requête à chaque consultation."
+      },
+      {
+        "id": "sql_065_f",
+        "text": "Faux",
+        "isCorrect": true,
+        "note": "Juste : la vue standard n'est qu'une requête enregistrée, les données restent dans les tables sources."
+      }
+    ],
+    "explanation": "La vue standard est purement logique : à chaque SELECT sur la vue, le SGBD exécute la requête sous-jacente sur les tables. La vue matérialisée, elle, persiste le résultat et doit être rafraîchie, ce qui en fait un outil d'optimisation.",
+    "difficulty": "easy",
+    "tags": [
+      "vues",
+      "materialisee"
+    ]
+  },
+  {
+    "id": "sql_066",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle instruction accorde à l'utilisateur lecteur le droit de lire la table Clients ?",
+    "answers": [
+      {
+        "id": "sql_066_a",
+        "text": "GRANT SELECT ON Clients TO lecteur",
+        "isCorrect": true,
+        "note": "Juste : GRANT <droit> ON <objet> TO <utilisateur> est la syntaxe standard du contrôle d'accès."
+      },
+      {
+        "id": "sql_066_b",
+        "text": "ALLOW SELECT Clients TO lecteur",
+        "isCorrect": false,
+        "note": "ALLOW n'est pas un mot-clé SQL du contrôle d'accès standard."
+      },
+      {
+        "id": "sql_066_c",
+        "text": "PERMIT lecteur ON Clients SELECT",
+        "isCorrect": false,
+        "note": "PERMIT n'existe pas en SQL, l'ordre des mots est de toute façon incorrect."
+      },
+      {
+        "id": "sql_066_d",
+        "text": "GIVE SELECT TO lecteur FROM Clients",
+        "isCorrect": false,
+        "note": "GIVE n'est pas un mot-clé SQL et la structure ne correspond à aucune syntaxe standard."
+      }
+    ],
+    "explanation": "GRANT accorde un privilège (SELECT, INSERT, UPDATE, DELETE...) sur un objet (table, vue) à un utilisateur ou un rôle. REVOKE le retire. Le principe du moindre privilège consiste à n'accorder que les droits strictement nécessaires.",
+    "difficulty": "easy",
+    "tags": [
+      "droits",
+      "grant"
+    ]
+  },
+  {
+    "id": "sql_067",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Que fait l'instruction REVOKE UPDATE ON Produits FROM stagiaire ?",
+    "answers": [
+      {
+        "id": "sql_067_a",
+        "text": "Elle supprime la table Produits de la base",
+        "isCorrect": false,
+        "note": "Supprimer une table relève de DROP TABLE, pas de REVOKE."
+      },
+      {
+        "id": "sql_067_b",
+        "text": "Elle retire à stagiaire le droit de modifier la table Produits",
+        "isCorrect": true,
+        "note": "Juste : REVOKE annule le privilège précédemment accordé par GRANT."
+      },
+      {
+        "id": "sql_067_c",
+        "text": "Elle annule les mises à jour déjà effectuées par stagiaire",
+        "isCorrect": false,
+        "note": "REVOKE retire un droit futur : les modifications déjà validées restent en place."
+      },
+      {
+        "id": "sql_067_d",
+        "text": "Elle interdit à quiconque de modifier Produits",
+        "isCorrect": false,
+        "note": "REVOKE cible un utilisateur précis, elle ne retire pas les droits des autres comptes."
+      }
+    ],
+    "explanation": "REVOKE supprime un privilège accordé à un compte : stagiaire ne pourra plus exécuter d'UPDATE sur Produits, ses autres droits (SELECT par exemple) subsistent. La gestion des droits passe par GRANT et REVOKE, idéalement via des rôles.",
+    "difficulty": "medium",
+    "tags": [
+      "droits",
+      "revoke"
+    ]
+  },
+  {
+    "id": "sql_068",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "CODE",
+    "question": "Affichez le titre et l'année de sortie des films du genre « comedie », triés par année décroissante puis par titre croissant.",
+    "context": "La base d'une plateforme de VOD contient trois tables : films(id, titre, genre, annee), utilisateurs(id, pseudo, pays) et interactions(id, film_id, utilisateur_id, type_interaction, duree_secondes).",
+    "answers": [],
+    "code": {
+      "language": "sql",
+      "setup": "CREATE TABLE films (\n  id INTEGER PRIMARY KEY,\n  titre TEXT NOT NULL,\n  genre TEXT NOT NULL,\n  annee INTEGER NOT NULL\n);\nCREATE TABLE utilisateurs (\n  id INTEGER PRIMARY KEY,\n  pseudo TEXT NOT NULL,\n  pays TEXT NOT NULL\n);\nCREATE TABLE interactions (\n  id INTEGER PRIMARY KEY,\n  film_id INTEGER NOT NULL REFERENCES films(id),\n  utilisateur_id INTEGER NOT NULL REFERENCES utilisateurs(id),\n  type_interaction TEXT NOT NULL,\n  duree_secondes INTEGER\n);\nINSERT INTO films VALUES\n(1, 'Sous les manguiers', 'drame', 2021),\n(2, 'La nuit de Cotonou', 'thriller', 2023),\n(3, 'Rires de Ganvie', 'comedie', 2022),\n(4, 'Codes sources', 'documentaire', 2024),\n(5, 'Zemidjan express', 'comedie', 2023),\n(6, 'Passage secret', 'drame', 2020);\nINSERT INTO utilisateurs VALUES\n(1, 'arielle', 'benin'),\n(2, 'bruno', 'togo'),\n(3, 'ching', 'benin'),\n(4, 'delphine', 'senegal'),\n(5, 'emanuel', 'benin');\nINSERT INTO interactions VALUES\n(1, 1, 1, 'vue', 5400),\n(2, 1, 2, 'vue', 4200),\n(3, 2, 1, 'vue', 3600),\n(4, 2, 3, 'vue', 3300),\n(5, 3, 3, 'vue', 5100),\n(6, 3, 4, 'vue', 4800),\n(7, 5, 1, 'vue', 2700),\n(8, 5, 2, 'vue', NULL),\n(9, 5, 3, 'vue', 2900),\n(10, 4, 4, 'vue', NULL),\n(11, 4, 1, 'vue', 2000);",
+      "starter": "-- Films de genre « comedie » :\nSELECT ...\nFROM films\nWHERE ...\nORDER BY ... ;",
+      "solution": "SELECT titre, annee FROM films WHERE genre = 'comedie' ORDER BY annee DESC, titre ASC;",
+      "timeLimitMs": 10000,
+      "tests": []
+    },
+    "explanation": "Une requête de lecture se compose d'une projection (titre, annee), d'un filtre sur le genre avec WHERE et d'un tri multi-colonnes avec ORDER BY, chaque colonne pouvant porter son propre sens (DESC ou ASC).",
+    "difficulty": "easy",
+    "tags": [
+      "select",
+      "where",
+      "order-by"
+    ]
+  },
+  {
+    "id": "sql_069",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "La table commandes contient une clé étrangère déclarée ainsi : client_id INTEGER REFERENCES clients(id) ON DELETE CASCADE. Que se passe-t-il si on supprime le client numéro 7 ?",
+    "answers": [
+      {
+        "id": "sql_069_c",
+        "text": "Les commandes du client sont conservées avec une clé étrangère NULL",
+        "isCorrect": false,
+        "note": "Ce comportement correspond à ON DELETE SET NULL, pas à CASCADE."
+      },
+      {
+        "id": "sql_069_b",
+        "text": "La suppression est refusée tant que des commandes référencent ce client",
+        "isCorrect": false,
+        "note": "C'est le comportement par défaut (RESTRICT ou NO ACTION), pas celui de CASCADE."
+      },
+      {
+        "id": "sql_069_a",
+        "text": "Toutes les commandes de ce client sont supprimées automatiquement",
+        "isCorrect": true,
+        "note": "Juste : ON DELETE CASCADE propage la suppression aux lignes filles qui référencent le client."
+      },
+      {
+        "id": "sql_069_d",
+        "text": "Le client est marqué comme supprimé mais sa ligne reste en base",
+        "isCorrect": false,
+        "note": "La suppression logique nécessite une colonne dédiée (date_suppression), ce n'est pas une contrainte."
+      }
+    ],
+    "explanation": "L'option ON DELETE CASCADE demande au SGBD de supprimer automatiquement toutes les lignes de la table fille qui référencent la ligne mère supprimée. Sans cette option, la suppression serait refusée tant que des commandes existeraient pour ce client.",
+    "difficulty": "medium",
+    "tags": [
+      "contraintes",
+      "cle-etrangere",
+      "integrite-referentielle"
+    ]
+  },
+  {
+    "id": "sql_070",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Parmi ces instructions SQL, lesquelles appartiennent au langage de manipulation de données (DML) ?",
+    "answers": [
+      {
+        "id": "sql_070_c",
+        "text": "UPDATE",
+        "isCorrect": true,
+        "note": "Juste : UPDATE modifie les valeurs de lignes existantes."
+      },
+      {
+        "id": "sql_070_b",
+        "text": "CREATE TABLE",
+        "isCorrect": false,
+        "note": "CREATE TABLE définit la structure de la base : c'est du DDL, pas du DML."
+      },
+      {
+        "id": "sql_070_d",
+        "text": "DELETE",
+        "isCorrect": true,
+        "note": "Juste : DELETE supprime des lignes tout en conservant la structure de la table."
+      },
+      {
+        "id": "sql_070_a",
+        "text": "INSERT INTO",
+        "isCorrect": true,
+        "note": "Juste : INSERT ajoute des lignes, c'est une instruction de manipulation du contenu."
+      }
+    ],
+    "explanation": "Le DML regroupe SELECT, INSERT, UPDATE et DELETE, qui agissent sur le contenu des tables. Le DDL (CREATE, ALTER, DROP) modifie la structure et le DCL (GRANT, REVOKE) gère les privilèges.",
+    "difficulty": "medium",
+    "tags": [
+      "dml",
+      "instructions-sql"
+    ]
+  },
+  {
+    "id": "sql_071",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "FILL_BLANK",
+    "question": "Pour sélectionner les interactions dont la durée n'est pas renseignée, on écrit : WHERE duree_secondes ___ NULL.",
+    "blanks": [
+      {
+        "accepted": [
+          "IS",
+          "is"
+        ]
+      }
+    ],
+    "explanation": "NULL représente une valeur inconnue : elle ne peut pas être comparée avec l'opérateur =, qui renverrait toujours inconnu. Le test d'absence de valeur s'écrit obligatoirement IS NULL, et son contraire IS NOT NULL.",
+    "difficulty": "easy",
+    "tags": [
+      "null",
+      "where"
+    ]
+  },
+  {
+    "id": "sql_072",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "CODE",
+    "question": "Affichez le nom des étudiants qui ont obtenu au moins une note supérieure ou égale à 15, triés par nom croissant.",
+    "context": "La base d'un établissement contient trois tables : etudiants(id, nom, filliere), cours(id, intitule, credits) et notes(id, etudiant_id, cours_id, valeur).",
+    "answers": [],
+    "code": {
+      "language": "sql",
+      "setup": "CREATE TABLE etudiants (\n  id INTEGER PRIMARY KEY,\n  nom TEXT NOT NULL,\n  filliere TEXT NOT NULL\n);\nCREATE TABLE cours (\n  id INTEGER PRIMARY KEY,\n  intitule TEXT NOT NULL,\n  credits INTEGER NOT NULL\n);\nCREATE TABLE notes (\n  id INTEGER PRIMARY KEY,\n  etudiant_id INTEGER NOT NULL REFERENCES etudiants(id),\n  cours_id INTEGER NOT NULL REFERENCES cours(id),\n  valeur REAL NOT NULL\n);\nINSERT INTO etudiants VALUES\n(1, 'Sena', 'IABD'),\n(2, 'Kevin', 'IABD'),\n(3, 'Awa', 'GC'),\n(4, 'Rock', 'IABD');\nINSERT INTO cours VALUES\n(1, 'Bases de donnees', 6),\n(2, 'Machine Learning', 6),\n(3, 'Reseaux', 4);\nINSERT INTO notes VALUES\n(1, 1, 1, 15),\n(2, 1, 2, 13),\n(3, 1, 3, 14),\n(4, 2, 1, 9),\n(5, 2, 3, 11),\n(6, 2, 2, 10),\n(7, 3, 1, 16),\n(8, 4, 2, 8),\n(9, 4, 1, 12);",
+      "starter": "-- Étudiants avec au moins une note >= 15 :\nSELECT ...\nFROM etudiants\nWHERE id IN (...)\nORDER BY ... ;",
+      "solution": "SELECT nom FROM etudiants WHERE id IN (SELECT etudiant_id FROM notes WHERE valeur >= 15) ORDER BY nom;",
+      "timeLimitMs": 10000,
+      "tests": []
+    },
+    "explanation": "La sous-requête interne ramène les identifiants des étudiants concernés, et l'opérateur IN filtre la table externe sur cet ensemble. Un tri final sur le nom présente le résultat par ordre alphabétique.",
+    "difficulty": "medium",
+    "tags": [
+      "sous-requete",
+      "in",
+      "where"
+    ]
+  },
+  {
+    "id": "sql_073",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Avant d'entraîner un modèle d'IA, un audit du jeu de données révèle que 30 % des lignes n'ont pas de valeur pour la colonne age. Quelle caractéristique de qualité des données est ainsi mise en défaut ?",
+    "answers": [
+      {
+        "id": "sql_073_d",
+        "text": "La fraîcheur",
+        "isCorrect": false,
+        "note": "La fraîcheur (actualité) concerne l'ancienneté des données, pas leur remplissage."
+      },
+      {
+        "id": "sql_073_b",
+        "text": "La cohérence",
+        "isCorrect": false,
+        "note": "La cohérence concerne les contradictions entre valeurs, pas leur absence."
+      },
+      {
+        "id": "sql_073_c",
+        "text": "L'unicité",
+        "isCorrect": false,
+        "note": "L'unicité concerne les doublons, pas les valeurs manquantes."
+      },
+      {
+        "id": "sql_073_a",
+        "text": "La complétude",
+        "isCorrect": true,
+        "note": "Juste : la complétude mesure la proportion de valeurs réellement renseignées."
+      }
+    ],
+    "explanation": "La complétude exprime le fait que chaque attribut nécessaire est renseigné pour chaque enregistrement. Des valeurs manquantes en grand nombre dégradent l'apprentissage et doivent être traitées par imputation, collecte complémentaire ou exclusion raisonnée.",
+    "difficulty": "medium",
+    "tags": [
+      "qualite-des-donnees",
+      "ia",
+      "etl"
+    ]
+  },
+  {
+    "id": "sql_074",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "TRUE_FALSE",
+    "question": "Dans un schéma en étoile, la table de faits contient les mesures numériques à analyser et des clés étrangères pointant vers les tables de dimensions.",
+    "answers": [
+      {
+        "id": "sql_074_f",
+        "text": "Faux",
+        "isCorrect": false,
+        "note": "C'est précisément la définition du schéma en étoile : faits au centre, dimensions autour."
+      },
+      {
+        "id": "sql_074_v",
+        "text": "Vrai",
+        "isCorrect": true,
+        "note": "Juste : le centre de l'étoile est la table de faits, reliée aux dimensions qui décrivent le contexte d'analyse."
+      }
+    ],
+    "explanation": "Le schéma en étoile place une table de faits au centre, avec les mesures agrégeables (montants, quantités) et les clés étrangères. Chaque dimension (temps, produit, client, magasin) forme une table directement reliée à la table de faits.",
+    "difficulty": "medium",
+    "tags": [
+      "entrepot-de-donnees",
+      "schema-en-etoile"
+    ]
+  },
+  {
+    "id": "sql_075",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "FILL_BLANK",
+    "question": "La clause ___ filtre les groupes produits par GROUP BY, là où WHERE ne peut filtrer que les lignes individuelles.",
+    "blanks": [
+      {
+        "accepted": [
+          "HAVING",
+          "having"
+        ]
+      }
+    ],
+    "explanation": "WHERE s'applique avant la formation des groupes et ne peut donc pas contenir de fonction d'agrégation. HAVING s'applique après le GROUP BY et filtre les groupes selon une condition d'agrégat, par exemple SUM(montant) > 100000.",
+    "difficulty": "medium",
+    "tags": [
+      "group-by",
+      "having",
+      "agregation"
+    ]
+  },
+  {
+    "id": "sql_076",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "CODE",
+    "question": "Affichez le nom des clients qui n'ont passé aucune commande, triés par nom croissant.",
+    "context": "La base d'une boutique contient deux tables : clients(id, nom, ville) et commandes(id, client_id, montant, date_commande).",
+    "answers": [],
+    "code": {
+      "language": "sql",
+      "setup": "CREATE TABLE clients (\n  id INTEGER PRIMARY KEY,\n  nom TEXT NOT NULL,\n  ville TEXT NOT NULL\n);\nCREATE TABLE commandes (\n  id INTEGER PRIMARY KEY,\n  client_id INTEGER NOT NULL REFERENCES clients(id),\n  montant REAL NOT NULL,\n  date_commande TEXT NOT NULL\n);\nINSERT INTO clients VALUES\n(1, 'Adjovi', 'Cotonou'),\n(2, 'Kossi', 'Parakou'),\n(3, 'Dossa', 'Cotonou'),\n(4, 'Aholou', 'Porto-Novo'),\n(5, 'Tossou', 'Parakou'),\n(6, 'Mensah', 'Cotonou');\nINSERT INTO commandes VALUES\n(1, 1, 25000, '2026-01-10'),\n(2, 3, 12000, '2026-01-12'),\n(3, 1, 8000, '2026-02-03'),\n(4, 2, 45000, '2026-02-15'),\n(5, 6, 9000, '2026-03-01'),\n(6, 3, 30000, '2026-03-07'),\n(7, 5, 15000, '2026-03-20');",
+      "starter": "-- Clients sans aucune commande :\nSELECT ...\nFROM clients c\nLEFT JOIN commandes co ON ...\nWHERE ...\nORDER BY ... ;",
+      "solution": "SELECT c.nom FROM clients c LEFT JOIN commandes co ON co.client_id = c.id WHERE co.id IS NULL ORDER BY c.nom;",
+      "timeLimitMs": 10000,
+      "tests": []
+    },
+    "explanation": "Le LEFT JOIN conserve tous les clients même sans correspondance ; leurs colonnes de commandes valent alors NULL. Filtrer sur IS NULL isole exactement les clients restés sans commande.",
+    "difficulty": "medium",
+    "tags": [
+      "jointure",
+      "left-join",
+      "null"
+    ]
+  },
+  {
+    "id": "sql_077",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "CASE_STUDY",
+    "context": "Une boutique de Cotonou gère ses ventes dans une seule table Ventes(id_vente, date_vente, client_nom, client_telephone, client_ville, client_region, produits, montant_total). La colonne produits contient une liste texte du type « savon x3, riz x2 ». À chaque vente, le nom, le téléphone et la ville du client sont recopiés. Lors d'un changement de numéro de téléphone, l'équipe doit retrouver toutes les ventes du client pour tout corriger, et deux ventes d'un même client affichent parfois des téléphones différents. On ne peut pas non plus enregistrer un nouveau client qui n'a encore rien acheté.",
+    "question": "Analysez cette table et proposez une décomposition en troisième forme normale (3NF).",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Identifiez les anomalies présentes (insertion, mise à jour, suppression) et les formes normales violées.",
+        "answer": "Anomalie de mise à jour : le téléphone, recopié à chaque vente, devient incohérent quand il change (deux valeurs pour un même client). Anomalie d'insertion : impossible d'enregistrer un client sans vente. Anomalie de suppression : supprimer la dernière vente d'un client efface aussi ses coordonnées. La colonne produits contient une liste non atomique, ce qui viole la première forme normale. Le téléphone, la ville et la région dépendent du client, donc du nom du client et non de id_vente : dépendance transitive via client_nom, ce qui viole la troisième forme normale.",
+        "rubric": [
+          "cite l'anomalie de mise à jour avec l'exemple du téléphone",
+          "identifie la non-atomicité de la colonne produits (1NF)",
+          "repère la dépendance transitive client vers téléphone/ville/région (3NF)",
+          "distingue anomalies d'insertion et de suppression"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Proposez un schéma relationnel en 3NF avec les clés primaires et étrangères.",
+        "answer": "Clients(id_client, nom, telephone, id_ville) ; Villes(id_ville, nom_ville, region) ; Produits(id_produit, libelle, prix_unitaire) ; Ventes(id_vente, date_vente, id_client, montant_total) ; Lignes_vente(id_vente, id_produit, quantite). Clients.id_ville est une clé étrangère vers Villes, Ventes.id_client vers Clients, et Lignes_vente porte deux clés étrangères (vers Ventes et Produits) avec une clé primaire composée (id_vente, id_produit). La liste produits est ainsi décomposée en lignes atomiques.",
+        "rubric": [
+          "table Clients séparée avec id_client clé primaire",
+          "colonne produits décomposée en table Lignes_vente atomique",
+          "clés étrangères placées du côté cardinalité maximale 1",
+          "clé primaire composée pour Lignes_vente"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Expliquez pourquoi cette décomposition réduit les anomalies, et quel est son léger coût en lecture.",
+        "answer": "Chaque information n'est plus stockée qu'à un seul endroit : changer un numéro de téléphone se fait sur une seule ligne de Clients, un client peut exister sans vente et supprimer une vente ne perd plus ses coordonnées. Les redondances et donc les incohérences disparaissent. En contrepartie, reconstituer une vente complète exige des jointures entre Ventes, Lignes_vente, Produits et Clients, ce qui rend les requêtes de lecture un peu plus complexes.",
+        "rubric": [
+          "une seule place de stockage pour chaque donnée",
+          "insertion et suppression sans perte d'information",
+          "mention des jointures supplémentaires en lecture"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "Normaliser, c'est décomposer pour que chaque fait ne soit stocké qu'une fois : la 1NF rend les valeurs atomiques, la 2NF élimine les dépendances partielles de la clé, la 3NF élimine les dépendances transitives. Le coût se limite à des jointures supplémentaires à la lecture.",
+    "difficulty": "medium",
+    "tags": [
+      "normalisation",
+      "3nf",
+      "anomalies"
+    ]
+  },
+  {
+    "id": "sql_078",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "CASE_STUDY",
+    "context": "Dans une microfinance, un virement de 50000 FCFA du compte A (solde 120000) vers le compte B (solde 30000) s'effectue par deux mises à jour : UPDATE comptes SET solde = solde - 50000 WHERE id = 'A' ; puis UPDATE comptes SET solde = solde + 50000 WHERE id = 'B' ; Hier, une coupure de courant est survenue entre les deux mises à jour : le compte A a été débité mais le compte B n'a pas été crédité. Par ailleurs, pendant le virement, un autre guichet a pu lire un solde intermédiaire incohérent du compte A.",
+    "question": "Proposez une solution transactionnelle correcte et reliez chaque incident aux propriétés ACID qui l'auraient évité.",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Écrivez le déroulement correct du virement et montrez pourquoi les deux mises à jour doivent former une transaction unique.",
+        "answer": "BEGIN TRANSACTION ; UPDATE comptes SET solde = solde - 50000 WHERE id = 'A' ; UPDATE comptes SET solde = solde + 50000 WHERE id = 'B' ; COMMIT ; En cas d'erreur ou de panne avant le COMMIT, un ROLLBACK restitue le solde initial du compte A. L'atomicité impose que les deux écritures réussissent ensemble ou échouent ensemble : elles forment une seule unité de travail indissociable.",
+        "rubric": [
+          "BEGIN/COMMIT autour des deux mises à jour",
+          "ROLLBACK en cas d'erreur ou de panne",
+          "atomicité : les deux écritures sont indissociables"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Reliez chaque incident observé (débit sans crédit, lecture d'un solde intermédiaire) à la propriété ACID concernée.",
+        "answer": "Le débit sans crédit viole l'atomicité : une partie seulement de l'opération a survécu. La lecture d'un solde intermédiaire viole l'isolation : une autre session a vu un état non final. La cohérence garantit que les contraintes (solde toujours positif, somme des soldes inchangée) restent respectées avant et après la transaction. La durabilité assure qu'une fois le COMMIT émis, un nouveau incident technique ne perd pas le virement.",
+        "rubric": [
+          "atomicité pour le débit sans crédit",
+          "isolation pour la lecture intermédiaire",
+          "cohérence et durabilité explicitement mentionnées"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Que se passe-t-il si l'application exécute simplement les deux mises à jour à la suite, avec l'auto-commit activé ?",
+        "answer": "Chaque UPDATE forme alors sa propre transaction, validée immédiatement. Entre les deux, la base est dans un état incohérent visible par les autres sessions, et aucune annulation globale n'est possible si la deuxième échoue. Il faut désactiver l'auto-commit ou encadrer explicitement les deux instructions dans un bloc transactionnel.",
+        "rubric": [
+          "auto-commit valide chaque mise à jour séparément",
+          "impossibilité d'annuler globalement",
+          "nécessité d'une transaction explicite"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "Un débit et un crédit liés forment une seule unité de travail. La transaction (BEGIN, COMMIT, ROLLBACK) garantit l'atomicité, l'isolation vis-à-vis des autres sessions, la cohérence des contraintes et la durabilité après validation.",
+    "difficulty": "medium",
+    "tags": [
+      "transactions",
+      "acid",
+      "sql"
+    ]
+  },
+  {
+    "id": "sql_079",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "CODE",
+    "question": "Pour chaque client ayant dépensé plus de 40000 FCFA au total, affichez son nom et le total de ses commandes sous le nom total_depense, triés par total décroissant.",
+    "context": "La base d'une boutique contient deux tables : clients(id, nom, ville) et commandes(id, client_id, montant, date_commande).",
+    "answers": [],
+    "code": {
+      "language": "sql",
+      "setup": "CREATE TABLE clients (\n  id INTEGER PRIMARY KEY,\n  nom TEXT NOT NULL,\n  ville TEXT NOT NULL\n);\nCREATE TABLE commandes (\n  id INTEGER PRIMARY KEY,\n  client_id INTEGER NOT NULL REFERENCES clients(id),\n  montant REAL NOT NULL,\n  date_commande TEXT NOT NULL\n);\nINSERT INTO clients VALUES\n(1, 'Adjovi', 'Cotonou'),\n(2, 'Kossi', 'Parakou'),\n(3, 'Dossa', 'Cotonou'),\n(4, 'Aholou', 'Porto-Novo'),\n(5, 'Tossou', 'Parakou'),\n(6, 'Mensah', 'Cotonou');\nINSERT INTO commandes VALUES\n(1, 1, 25000, '2026-01-10'),\n(2, 3, 12000, '2026-01-12'),\n(3, 1, 8000, '2026-02-03'),\n(4, 2, 45000, '2026-02-15'),\n(5, 6, 9000, '2026-03-01'),\n(6, 3, 30000, '2026-03-07'),\n(7, 5, 15000, '2026-03-20');",
+      "starter": "-- Total dépensé par gros clients :\nSELECT ...\nFROM clients c\nJOIN commandes co ON ...\nGROUP BY ...\nHAVING ...\nORDER BY ... ;",
+      "solution": "SELECT c.nom, SUM(co.montant) AS total_depense FROM clients c JOIN commandes co ON co.client_id = c.id GROUP BY c.id, c.nom HAVING SUM(co.montant) > 40000 ORDER BY total_depense DESC;",
+      "timeLimitMs": 10000,
+      "tests": []
+    },
+    "explanation": "La jointure relie chaque commande à son client, le GROUP BY calcule la somme par client, HAVING ne garde que les groupes dont le total dépasse 40000 et ORDER BY classe ces totaux du plus grand au plus petit.",
+    "difficulty": "medium",
+    "tags": [
+      "group-by",
+      "having",
+      "jointure",
+      "sum"
+    ]
+  },
+  {
+    "id": "sql_080",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Parmi ces affirmations sur le schéma en étoile d'un entrepôt de données, lesquelles sont exactes ?",
+    "answers": [
+      {
+        "id": "sql_080_b",
+        "text": "Les dimensions sont décomposées en plusieurs tables hautement normalisées",
+        "isCorrect": false,
+        "note": "C'est la définition du schéma en flocon ; dans l'étoile, chaque dimension tient dans une seule table."
+      },
+      {
+        "id": "sql_080_c",
+        "text": "Les clés des dimensions constituent souvent la clé primaire de la table de faits",
+        "isCorrect": true,
+        "note": "Juste : la clé primaire des faits est en général la combinaison des clés étrangères des dimensions."
+      },
+      {
+        "id": "sql_080_d",
+        "text": "L'étoile réduit le nombre de jointures nécessaires aux analyses",
+        "isCorrect": true,
+        "note": "Juste : chaque dimension est à une seule jointure de la table de faits, ce qui accélère les agrégations."
+      },
+      {
+        "id": "sql_080_a",
+        "text": "La table de faits contient les mesures numériques à agréger",
+        "isCorrect": true,
+        "note": "Juste : montants, quantités et autres indicateurs vivent dans la table de faits."
+      }
+    ],
+    "explanation": "Le schéma en étoile place une table de faits (mesures et clés étrangères) au centre de dimensions dénormalisées à une jointure. Cette structure limite les chemins de jointure et accélère les requêtes analytiques des outils de BI.",
+    "difficulty": "medium",
+    "tags": [
+      "schema-en-etoile",
+      "entrepot-de-donnees"
+    ]
+  },
+  {
+    "id": "sql_081",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "CODE",
+    "question": "Affichez l'intitulé des cours ayant reçu au moins 3 notes, avec la moyenne de ces notes sous le nom moyenne, triés par moyenne décroissante.",
+    "context": "La base d'un établissement contient trois tables : etudiants(id, nom, filliere), cours(id, intitule, credits) et notes(id, etudiant_id, cours_id, valeur).",
+    "answers": [],
+    "code": {
+      "language": "sql",
+      "setup": "CREATE TABLE etudiants (\n  id INTEGER PRIMARY KEY,\n  nom TEXT NOT NULL,\n  filliere TEXT NOT NULL\n);\nCREATE TABLE cours (\n  id INTEGER PRIMARY KEY,\n  intitule TEXT NOT NULL,\n  credits INTEGER NOT NULL\n);\nCREATE TABLE notes (\n  id INTEGER PRIMARY KEY,\n  etudiant_id INTEGER NOT NULL REFERENCES etudiants(id),\n  cours_id INTEGER NOT NULL REFERENCES cours(id),\n  valeur REAL NOT NULL\n);\nINSERT INTO etudiants VALUES\n(1, 'Sena', 'IABD'),\n(2, 'Kevin', 'IABD'),\n(3, 'Awa', 'GC'),\n(4, 'Rock', 'IABD');\nINSERT INTO cours VALUES\n(1, 'Bases de donnees', 6),\n(2, 'Machine Learning', 6),\n(3, 'Reseaux', 4);\nINSERT INTO notes VALUES\n(1, 1, 1, 15),\n(2, 1, 2, 13),\n(3, 1, 3, 14),\n(4, 2, 1, 9),\n(5, 2, 3, 11),\n(6, 2, 2, 10),\n(7, 3, 1, 16),\n(8, 4, 2, 8),\n(9, 4, 1, 12);",
+      "starter": "-- Cours avec au moins 3 notes :\nSELECT ...\nFROM cours c\nJOIN notes n ON ...\nGROUP BY ...\nHAVING ...\nORDER BY ... ;",
+      "solution": "SELECT c.intitule, AVG(n.valeur) AS moyenne FROM cours c JOIN notes n ON n.cours_id = c.id GROUP BY c.id, c.intitule HAVING COUNT(*) >= 3 ORDER BY moyenne DESC;",
+      "timeLimitMs": 10000,
+      "tests": []
+    },
+    "explanation": "Le GROUP BY regroupe les notes par cours, AVG calcule la moyenne de chaque groupe et la condition HAVING COUNT(*) >= 3 écarte les cours insuffisamment évalués. Le tri décroissant classe les meilleures moyennes en premier.",
+    "difficulty": "hard",
+    "tags": [
+      "group-by",
+      "having",
+      "avg",
+      "count"
+    ]
+  },
+  {
+    "id": "sql_082",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans un entrepôt de données de ventes, que contient typiquement la table de faits Ventes ?",
+    "answers": [
+      {
+        "id": "sql_082_a",
+        "text": "Des mesures chiffrées et les clés étrangères vers les dimensions",
+        "isCorrect": true,
+        "note": "Juste : quantités et montants, reliés aux dimensions par des clés étrangères."
+      },
+      {
+        "id": "sql_082_b",
+        "text": "Les libellés détaillés du produit, de la ville et du client, sans chiffres",
+        "isCorrect": false,
+        "note": "Les attributs descriptifs vivent dans les tables de dimensions, pas dans les faits."
+      },
+      {
+        "id": "sql_082_c",
+        "text": "Des données brutes copiées telles quelles depuis les sources",
+        "isCorrect": false,
+        "note": "Les faits sont le résultat du nettoyage et de la transformation du pipeline ETL."
+      },
+      {
+        "id": "sql_082_d",
+        "text": "Uniquement le code SQL des tableaux de bord de la direction",
+        "isCorrect": false,
+        "note": "Les requêtes des tableaux de bord sont écrites sur le modèle, elles ne sont pas stockées dans les faits."
+      }
+    ],
+    "explanation": "La table de faits stocke les événements de l'activité sous forme de mesures agrégeables (quantité, montant, remise) associées à des clés étrangères vers les dimensions (produit, temps, magasin, client). C'est la table centrale du schéma en étoile.",
+    "difficulty": "medium",
+    "tags": [
+      "entrepot-de-donnees",
+      "schema-en-etoile",
+      "table-de-faits"
+    ]
+  },
+  {
+    "id": "sql_083",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "FILL_BLANK",
+    "question": "Pour comprendre pourquoi une requête est lente, on l'exécute après avoir ajouté le mot-clé ___, qui affiche le plan d'exécution estimé (balayage complet, usage d'index, nombre de lignes).",
+    "blanks": [
+      {
+        "accepted": [
+          "EXPLAIN",
+          "explain"
+        ]
+      }
+    ],
+    "explanation": "EXPLAIN (ou EXPLAIN QUERY PLAN selon le SGBD) ne renvoie pas les données mais le plan choisi par l'optimiseur : ordre des jointures, index utilisés ou ignorés, balayages complets. C'est le premier outil de diagnostic d'une requête lente.",
+    "difficulty": "medium",
+    "tags": [
+      "optimisation",
+      "explain",
+      "index"
+    ]
+  },
+  {
+    "id": "sql_084",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "CODE",
+    "question": "Affichez le titre des films dont le nombre d'interactions est strictement supérieur à la moyenne du nombre d'interactions de tous les films.",
+    "context": "La base d'une plateforme de VOD contient trois tables : films(id, titre, genre, annee), utilisateurs(id, pseudo, pays) et interactions(id, film_id, utilisateur_id, type_interaction, duree_secondes).",
+    "answers": [],
+    "code": {
+      "language": "sql",
+      "setup": "CREATE TABLE films (\n  id INTEGER PRIMARY KEY,\n  titre TEXT NOT NULL,\n  genre TEXT NOT NULL,\n  annee INTEGER NOT NULL\n);\nCREATE TABLE utilisateurs (\n  id INTEGER PRIMARY KEY,\n  pseudo TEXT NOT NULL,\n  pays TEXT NOT NULL\n);\nCREATE TABLE interactions (\n  id INTEGER PRIMARY KEY,\n  film_id INTEGER NOT NULL REFERENCES films(id),\n  utilisateur_id INTEGER NOT NULL REFERENCES utilisateurs(id),\n  type_interaction TEXT NOT NULL,\n  duree_secondes INTEGER\n);\nINSERT INTO films VALUES\n(1, 'Sous les manguiers', 'drame', 2021),\n(2, 'La nuit de Cotonou', 'thriller', 2023),\n(3, 'Rires de Ganvie', 'comedie', 2022),\n(4, 'Codes sources', 'documentaire', 2024),\n(5, 'Zemidjan express', 'comedie', 2023),\n(6, 'Passage secret', 'drame', 2020);\nINSERT INTO utilisateurs VALUES\n(1, 'arielle', 'benin'),\n(2, 'bruno', 'togo'),\n(3, 'ching', 'benin'),\n(4, 'delphine', 'senegal'),\n(5, 'emanuel', 'benin');\nINSERT INTO interactions VALUES\n(1, 1, 1, 'vue', 5400),\n(2, 1, 2, 'vue', 4200),\n(3, 2, 1, 'vue', 3600),\n(4, 2, 3, 'vue', 3300),\n(5, 3, 3, 'vue', 5100),\n(6, 3, 4, 'vue', 4800),\n(7, 5, 1, 'vue', 2700),\n(8, 5, 2, 'vue', NULL),\n(9, 5, 3, 'vue', 2900),\n(10, 4, 4, 'vue', NULL),\n(11, 4, 1, 'vue', 2000);",
+      "starter": "-- Films plus populaires que la moyenne :\nSELECT ...\nFROM films f\nJOIN interactions i ON ...\nGROUP BY ...\nHAVING COUNT(*) > (...);",
+      "solution": "SELECT f.titre FROM films f JOIN interactions i ON i.film_id = f.id GROUP BY f.id, f.titre HAVING COUNT(*) > (SELECT AVG(cnt) FROM (SELECT COUNT(*) AS cnt FROM interactions GROUP BY film_id));",
+      "timeLimitMs": 10000,
+      "tests": []
+    },
+    "explanation": "Le GROUP BY compte les interactions de chaque film, puis HAVING compare ce compteur au résultat d'une sous-requête qui calcule la moyenne des compteurs de tous les films. Seuls les films plus populaires que cette moyenne apparaissent.",
+    "difficulty": "hard",
+    "tags": [
+      "group-by",
+      "having",
+      "sous-requete"
+    ]
+  },
+  {
+    "id": "sql_085",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Dans un pipeline ETL alimentant un entrepôt de données, quelles opérations relèvent de la phase de transformation ?",
+    "answers": [
+      {
+        "id": "sql_085_a",
+        "text": "Dédupliquer les enregistrements clients provenant de plusieurs agences",
+        "isCorrect": true,
+        "note": "Juste : le dédoublonnage est une règle de nettoyage appliquée pendant la transformation."
+      },
+      {
+        "id": "sql_085_d",
+        "text": "Écrire les tables de dimensions dans le stockage analytique",
+        "isCorrect": false,
+        "note": "L'écriture dans l'entrepôt est la phase de chargement, la dernière étape du flux."
+      },
+      {
+        "id": "sql_085_c",
+        "text": "Convertir les dates hétérogènes au format unique de l'entrepôt",
+        "isCorrect": true,
+        "note": "Juste : l'harmonisation des formats est une transformation typique."
+      },
+      {
+        "id": "sql_085_b",
+        "text": "Récupérer les fichiers CSV quotidiens depuis le serveur des ventes",
+        "isCorrect": false,
+        "note": "La récupération des sources est la phase d'extraction, la première étape du flux."
+      }
+    ],
+    "explanation": "La transformation opère sur les données déjà extraites : nettoyage, dédoublonnage, harmonisation des formats, calculs et enrichissement. Extraire relève de la première étape et charger dans l'entrepôt de la dernière.",
+    "difficulty": "medium",
+    "tags": [
+      "etl",
+      "entrepot-de-donnees"
+    ]
+  },
+  {
+    "id": "sql_086",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Une requête filtre fréquemment les clients avec WHERE ville = 'Cotonou' AND nom LIKE 'K%' et les lectures sont jugées trop lentes. Quel index sera le plus efficace ?",
+    "answers": [
+      {
+        "id": "sql_086_b",
+        "text": "Trois index séparés sur ville, nom et identifiant",
+        "isCorrect": false,
+        "note": "L'optimiseur ne combinera au mieux que deux index, moins efficacement qu'un seul index composite."
+      },
+      {
+        "id": "sql_086_a",
+        "text": "Un index composite sur les colonnes (ville, nom)",
+        "isCorrect": true,
+        "note": "Juste : l'index composite sert les deux conditions en suivant l'ordre de ses colonnes."
+      },
+      {
+        "id": "sql_086_c",
+        "text": "Un index sur la colonne identifiant seule",
+        "isCorrect": false,
+        "note": "L'identifiant est déjà la clé primaire et donc déjà indexé ; la requête ne filtre pas dessus."
+      },
+      {
+        "id": "sql_086_d",
+        "text": "Un index sur la colonne telephone",
+        "isCorrect": false,
+        "note": "Une colonne absente du filtre et de la projection n'accélère pas cette requête."
+      }
+    ],
+    "explanation": "Un index composite sur (ville, nom) permet au SGBD de localiser directement les lignes satisfaisant les deux critères. Les colonnes indexées doivent correspondre aux colonnes réellement filtrées, dans un ordre cohérent avec la requête.",
+    "difficulty": "hard",
+    "tags": [
+      "index",
+      "optimisation",
+      "where"
+    ]
+  },
+  {
+    "id": "sql_087",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "TRUE_FALSE",
+    "question": "Une sous-requête corrélée, qui référence une colonne de la requête externe, s'exécute une seule fois avant le traitement de la requête externe.",
+    "answers": [
+      {
+        "id": "sql_087_v",
+        "text": "Vrai",
+        "isCorrect": false,
+        "note": "C'est le comportement d'une sous-requête simple et non corrélée, pas d'une corrélée."
+      },
+      {
+        "id": "sql_087_f",
+        "text": "Faux",
+        "isCorrect": true,
+        "note": "Juste : une sous-requête corrélée est réévaluée pour chaque ligne candidate de la requête externe, d'où son coût."
+      }
+    ],
+    "explanation": "La sous-requête corrélée dépend de la ligne courante de la requête externe : le SGBD la réexécute autant de fois qu'il y a de lignes à tester, ce qui devient coûteux sur de grandes tables. Une jointure ou une sous-requête non corrélée est souvent plus performante.",
+    "difficulty": "hard",
+    "tags": [
+      "sous-requete",
+      "performance"
+    ]
+  },
+  {
+    "id": "sql_088",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "CASE_STUDY",
+    "context": "Une chaîne de supermarchés béninoise (5 magasins, 3000 produits, 200000 clients fidélisés) veut analyser ses ventes : chiffre d'affaires par magasin, par produit, par jour et par tranche d'âge des clients. Les données arrivent des caisses (fichiers quotidiens) et du système de fidélité. L'équipe BI se plaint : les tableaux de bord exécutés directement sur la base transactionnelle sont lents et les jointures entre les tables normalisées du système de caisse sont complexes.",
+    "question": "Concevez le schéma en étoile d'un entrepôt de données pour cette chaîne et justifiez chaque choix.",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Définissez la table de faits : sa granularité, ses mesures et ses clés étrangères.",
+        "answer": "La granularité choisie est la ligne de ticket : une ligne de faits par produit vendu dans une transaction. Les mesures sont des valeurs agrégeables : quantite, montant_vente (quantite x prix), remise. La table Fait_Ventes porte quatre clés étrangères : id_date (vers Dim_Temps), id_produit, id_magasin et id_client. Sa clé primaire est en général la combinaison de ces clés étrangères complétée par l'identifiant de ticket.",
+        "rubric": [
+          "granularité explicite : une ligne par produit vendu",
+          "mesures numériques agrégeables citées",
+          "quatre clés étrangères vers les dimensions"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Listez les dimensions et quelques attributs utiles pour chacune.",
+        "answer": "Dim_Temps (jour, mois, trimestre, année, jour férié), Dim_Produit (libellé, catégorie, marque), Dim_Magasin (ville, région, surface), Dim_Client (tranche d'âge, sexe, quartier). Chaque dimension reçoit une clé de substitution (surrogate key) générée par l'entrepôt, indépendante des identifiants des sources, et des attributs dénormalisés pour être lisibles sans jointure supplémentaire.",
+        "rubric": [
+          "quatre dimensions cohérentes avec le besoin d'analyse",
+          "attributs analytiques pertinents par dimension",
+          "clés de substitution mentionnées"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Expliquez pourquoi l'étoile convient mieux ici qu'interroger directement la base opérationnelle normalisée.",
+        "answer": "Les analyses agrègent des millions de lignes de ventes : l'étoile met chaque dimension à une seule jointure de la table de faits, ce qui réduit le nombre de jointures et accélère les agrégations. Les dimensions dénormalisées se lisent d'un coup et se comprennent facilement pour les outils BI. Le système opérationnel, lui, reste optimisé pour les écritures transactionnelles du jour sans subir la charge des analyses.",
+        "rubric": [
+          "jointures réduites donc requêtes plus rapides",
+          "séparation analytique et opérationnel",
+          "agrégations facilitées pour la BI"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "Un entrepôt analytique se modélise autour d'une granularité de faits claire, de mesures agrégeables et de dimensions descriptives. Le schéma en étoile sacrifie la normalisation des dimensions pour la rapidité et la simplicité des analyses.",
+    "difficulty": "medium",
+    "tags": [
+      "schema-en-etoile",
+      "entrepot-de-donnees",
+      "bi"
+    ]
+  },
+  {
+    "id": "sql_089",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "CASE_STUDY",
+    "context": "La plateforme de VOD devient lente : le tableau de bord exécute SELECT f.titre, u.pseudo, i.type_interaction, i.duree_secondes FROM interactions i JOIN films f ON f.id = i.film_id JOIN utilisateurs u ON u.id = i.utilisateur_id ORDER BY i.duree_secondes DESC ; La table interactions contient 50 millions de lignes, films et utilisateurs quelques milliers seulement. L'administrateur constate dans EXPLAIN un balayage complet (SCAN) de la table interactions et aucune index sur les colonnes de jointure. Le tableau de bord n'affiche en réalité que les 20 lignes aux durées les plus longues et ne consomme pas toutes les colonnes.",
+    "question": "Diagnostiquez cette requête lente avec EXPLAIN et proposez au moins deux méthodes d'optimisation concrètes.",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Formulez le diagnostic précis à partir du plan d'exécution observé.",
+        "answer": "EXPLAIN (QUERY PLAN) révèle un balayage complet des 50 millions de lignes d'interactions alors que seules 20 lignes sont affichées, des jointures sans index sur interactions.film_id et interactions.utilisateur_id (donc des correspondances recherchées ligne à ligne), et un tri complet de toutes les lignes sur duree_secondes avant de n'en garder que 20. Le problème est structurel : aucun index ne guide les accès, et la requête traite bien plus de données qu'elle n'en exploite.",
+        "rubric": [
+          "balayage complet identifié via EXPLAIN",
+          "absence d'index sur les colonnes de jointure",
+          "tri complet pour seulement 20 lignes affichées"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Première méthode d'optimisation : quelles modifications d'index apportez-vous et à quel coût ?",
+        "answer": "Créer des index sur les colonnes de jointure : CREATE INDEX idx_interactions_film ON interactions(film_id) ; CREATE INDEX idx_interactions_user ON interactions(utilisateur_id) ; et éventuellement un index sur duree_secondes pour soutenir le tri. Les jointures passent de balayages complets à des recherches directes par index. Le coût est un ralentissement des INSERT/UPDATE/DELETE sur interactions et un espace disque supplémentaire, acceptable au regard du gain de lecture.",
+        "rubric": [
+          "index sur les colonnes de jointure film_id et utilisateur_id",
+          "syntaxe CREATE INDEX correcte",
+          "mention du coût en écriture et en espace"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Deuxième méthode d'optimisation : comment réduire le volume de données traité par la requête elle-même ?",
+        "answer": "Ajouter LIMIT 20 puisque le tableau de bord n'affiche que les 20 durées les plus longues, filtrer par période (WHERE date_interaction >= ...) si l'analyse est récente, ne projeter que les colonnes réellement affichées en évitant tout SELECT * dans les autres écrans, et précalculer un résumé (vue matérialisée ou table d'agrégats rafraîchie la nuit) pour les statistiques globales du tableau de bord.",
+        "rubric": [
+          "LIMIT et filtrage par période",
+          "projection minimale, éviter SELECT *",
+          "vue matérialisée ou table d'agrégats précalculés"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "Une requête lente se traite d'abord par le diagnostic (EXPLAIN : balayages, jointures, tris), puis par deux leviers complémentaires : donner au SGBD des index sur les colonnes de jointure et de tri, et réduire le volume traité avec une projection minimale, des filtres, un LIMIT et des agrégats précalculés.",
+    "difficulty": "hard",
+    "tags": [
+      "optimisation",
+      "index",
+      "explain",
+      "jointure"
+    ]
+  },
+  {
+    "id": "sql_090",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "CODE",
+    "question": "Pour chaque genre de film, affichez le genre et le nombre de films sous le nom nb_films, triés par nb_films décroissant puis par genre croissant.",
+    "context": "La base d'une plateforme de VOD contient une table films(id, titre, genre, annee).",
+    "answers": [],
+    "code": {
+      "language": "sql",
+      "setup": "CREATE TABLE films (\n  id INTEGER PRIMARY KEY,\n  titre TEXT NOT NULL,\n  genre TEXT NOT NULL,\n  annee INTEGER NOT NULL\n);\nINSERT INTO films VALUES\n(1, 'Sous les manguiers', 'drame', 2021),\n(2, 'La nuit de Cotonou', 'thriller', 2023),\n(3, 'Rires de Ganvie', 'comedie', 2022),\n(4, 'Codes sources', 'documentaire', 2024),\n(5, 'Zemidjan express', 'comedie', 2023),\n(6, 'Passage secret', 'drame', 2020);",
+      "starter": "-- Nombre de films par genre :\nSELECT ...\nFROM films\nGROUP BY ...\nORDER BY ... ;",
+      "solution": "SELECT genre, COUNT(*) AS nb_films FROM films GROUP BY genre ORDER BY nb_films DESC, genre ASC;",
+      "timeLimitMs": 10000,
+      "tests": []
+    },
+    "explanation": "Le GROUP BY forme un groupe par valeur distincte du genre et COUNT(*) compte les lignes de chaque groupe. L'alias créé avec AS peut être réutilisé dans le tri, et le second critère de tri départage les genres à égalité.",
+    "difficulty": "medium",
+    "tags": [
+      "group-by",
+      "count",
+      "agregation"
+    ]
+  },
+  {
+    "id": "sql_091",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Sur quelles colonnes la création d'un index est-elle généralement peu rentable ?",
+    "answers": [
+      {
+        "id": "sql_091_a",
+        "text": "Une colonne peu sélective, comme sexe avec deux valeurs distinctes",
+        "isCorrect": true,
+        "note": "Juste : avec très peu de valeurs distinctes, l'index n'élimine presque rien face au balayage."
+      },
+      {
+        "id": "sql_091_c",
+        "text": "Une colonne très sollicitée dans les clauses WHERE de jointure",
+        "isCorrect": false,
+        "note": "C'est au contraire le cas idéal : les colonnes de jointure sont les premières à indexer."
+      },
+      {
+        "id": "sql_091_d",
+        "text": "Une colonne de statut mise à jour à chaque requête sur une table très écrite",
+        "isCorrect": true,
+        "note": "Juste : chaque écriture devra aussi mettre à jour l'index, ce qui pénalise les transactions."
+      },
+      {
+        "id": "sql_091_b",
+        "text": "Une petite table de référence lue en entier à chaque requête",
+        "isCorrect": true,
+        "note": "Juste : balayer une petite table coûte moins cher que passer par un index."
+      }
+    ],
+    "explanation": "Un index se justifie quand il élimine beaucoup de lignes (forte sélectivité) sur des tables volumineuses peu écrites. Une colonne peu sélective, une petite table ou une colonne très mise à jour coûtent plus cher à maintenir qu'elles ne rapportent en lecture.",
+    "difficulty": "hard",
+    "tags": [
+      "index",
+      "optimisation",
+      "performance"
+    ]
+  },
+  {
+    "id": "sql_092",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Que désigne une lecture sale (dirty read) dans un SGBD transactionnel ?",
+    "answers": [
+      {
+        "id": "sql_092_c",
+        "text": "Voir des lignes apparaître ou disparaître entre deux requêtes",
+        "isCorrect": false,
+        "note": "C'est la lecture fantôme, une autre anomalie d'isolation."
+      },
+      {
+        "id": "sql_092_b",
+        "text": "Lire deux fois la même ligne et obtenir des valeurs différentes",
+        "isCorrect": false,
+        "note": "C'est la lecture non répétable, une autre anomalie d'isolation."
+      },
+      {
+        "id": "sql_092_a",
+        "text": "Lire des modifications qu'une autre transaction n'a pas encore validées",
+        "isCorrect": true,
+        "note": "Juste : la donnée lue peut disparaître si l'autre transaction est annulée."
+      },
+      {
+        "id": "sql_092_d",
+        "text": "Lire des données corrompues par une panne de disque",
+        "isCorrect": false,
+        "note": "La corruption physique relève de la fiabilité du stockage, pas du niveau d'isolation."
+      }
+    ],
+    "explanation": "Une lecture sale survient quand une transaction lit des valeurs modifiées mais non validées par une autre. Si cette autre transaction est annulée, la première a travaillé sur des données qui n'ont jamais existé. Un niveau d'isolation comme READ COMMITTED l'interdit.",
+    "difficulty": "hard",
+    "tags": [
+      "transactions",
+      "isolation",
+      "acid"
+    ]
+  },
+  {
+    "id": "sql_093",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "TRUE_FALSE",
+    "question": "Le mot-clé EXPLAIN fait exécuter la requête, renvoie son résultat complet puis affiche le temps exact d'exécution.",
+    "answers": [
+      {
+        "id": "sql_093_f",
+        "text": "Faux",
+        "isCorrect": true,
+        "note": "Juste : EXPLAIN affiche le plan (balayages, index, jointures) sans renvoyer les données ; l'exécution réelle mesure des variantes comme EXPLAIN ANALYZE."
+      },
+      {
+        "id": "sql_093_v",
+        "text": "Vrai",
+        "isCorrect": false,
+        "note": "EXPLAIN n'exécute pas la requête : il décrit seulement le plan d'exécution estimé par l'optimiseur."
+      }
+    ],
+    "explanation": "EXPLAIN est un outil de diagnostic statique : il montre comment le SGBD compte exécuter la requête (balayage complet ou par index, ordre des jointures, lignes estimées) sans l'exécuter. Des variantes comme EXPLAIN ANALYZE ajoutent la mesure réelle.",
+    "difficulty": "medium",
+    "tags": [
+      "explain",
+      "optimisation"
+    ]
+  },
+  {
+    "id": "sql_094",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "CODE",
+    "question": "Affichez le pseudo des utilisateurs ayant interagi avec au moins 3 films distincts, avec ce nombre sous le nom nb_films, triés par nb_films décroissant puis par pseudo croissant.",
+    "context": "La base d'une plateforme de VOD contient trois tables : films(id, titre, genre, annee), utilisateurs(id, pseudo, pays) et interactions(id, film_id, utilisateur_id, type_interaction, duree_secondes).",
+    "answers": [],
+    "code": {
+      "language": "sql",
+      "setup": "CREATE TABLE films (\n  id INTEGER PRIMARY KEY,\n  titre TEXT NOT NULL,\n  genre TEXT NOT NULL,\n  annee INTEGER NOT NULL\n);\nCREATE TABLE utilisateurs (\n  id INTEGER PRIMARY KEY,\n  pseudo TEXT NOT NULL,\n  pays TEXT NOT NULL\n);\nCREATE TABLE interactions (\n  id INTEGER PRIMARY KEY,\n  film_id INTEGER NOT NULL REFERENCES films(id),\n  utilisateur_id INTEGER NOT NULL REFERENCES utilisateurs(id),\n  type_interaction TEXT NOT NULL,\n  duree_secondes INTEGER\n);\nINSERT INTO films VALUES\n(1, 'Sous les manguiers', 'drame', 2021),\n(2, 'La nuit de Cotonou', 'thriller', 2023),\n(3, 'Rires de Ganvie', 'comedie', 2022),\n(4, 'Codes sources', 'documentaire', 2024),\n(5, 'Zemidjan express', 'comedie', 2023),\n(6, 'Passage secret', 'drame', 2020);\nINSERT INTO utilisateurs VALUES\n(1, 'arielle', 'benin'),\n(2, 'bruno', 'togo'),\n(3, 'ching', 'benin'),\n(4, 'delphine', 'senegal'),\n(5, 'emanuel', 'benin');\nINSERT INTO interactions VALUES\n(1, 1, 1, 'vue', 5400),\n(2, 1, 2, 'vue', 4200),\n(3, 2, 1, 'vue', 3600),\n(4, 2, 3, 'vue', 3300),\n(5, 3, 3, 'vue', 5100),\n(6, 3, 4, 'vue', 4800),\n(7, 5, 1, 'vue', 2700),\n(8, 5, 2, 'vue', NULL),\n(9, 5, 3, 'vue', 2900),\n(10, 4, 4, 'vue', NULL),\n(11, 4, 1, 'vue', 2000);",
+      "starter": "-- Utilisateurs de 3 films distincts ou plus :\nSELECT ...\nFROM utilisateurs u\nJOIN interactions i ON ...\nGROUP BY ...\nHAVING ...\nORDER BY ... ;",
+      "solution": "SELECT u.pseudo, COUNT(DISTINCT i.film_id) AS nb_films FROM utilisateurs u JOIN interactions i ON i.utilisateur_id = u.id GROUP BY u.id, u.pseudo HAVING COUNT(DISTINCT i.film_id) >= 3 ORDER BY nb_films DESC, u.pseudo ASC;",
+      "timeLimitMs": 10000,
+      "tests": []
+    },
+    "explanation": "La jointure relie chaque interaction à son utilisateur, le GROUP BY forme un groupe par utilisateur et COUNT(DISTINCT film_id) compte les films uniques plutôt que toutes les interactions. HAVING ne garde que les groupes atteignant 3 films distincts.",
+    "difficulty": "hard",
+    "tags": [
+      "group-by",
+      "having",
+      "count-distinct",
+      "jointure"
+    ]
+  },
+  {
+    "id": "sql_095",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans un pipeline ETL qui alimente un entrepôt de données, à quoi sert principalement la phase de transformation ?",
+    "answers": [
+      {
+        "id": "sql_095_d",
+        "text": "Sauvegarder les sources pour pouvoir rejouer le pipeline",
+        "isCorrect": false,
+        "note": "La sauvegarde des sources est une pratique utile mais distincte des trois étapes ETL."
+      },
+      {
+        "id": "sql_095_b",
+        "text": "Récupérer les données des sources par fichiers ou requêtes",
+        "isCorrect": false,
+        "note": "C'est le rôle de la phase d'extraction, la première étape du flux."
+      },
+      {
+        "id": "sql_095_c",
+        "text": "Stocker les données dans le stockage analytique final",
+        "isCorrect": false,
+        "note": "C'est le rôle de la phase de chargement, la dernière étape du flux."
+      },
+      {
+        "id": "sql_095_a",
+        "text": "Nettoyer, dédoublonner et normaliser les données extraites",
+        "isCorrect": true,
+        "note": "Juste : la transformation applique les règles de qualité entre l'extraction et le chargement."
+      }
+    ],
+    "explanation": "La transformation est l'étape intermédiaire : elle applique les règles de nettoyage (valeurs manquantes, doublons), harmonise les formats et calcule les indicateurs, pour que les données chargées dans l'entrepôt soient cohérentes et prêtes pour l'analyse.",
+    "difficulty": "medium",
+    "tags": [
+      "etl",
+      "entrepot-de-donnees"
+    ]
+  },
+  {
+    "id": "sql_096",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Parmi ces affirmations sur les vues SQL, lesquelles sont exactes ?",
+    "answers": [
+      {
+        "id": "sql_096_b",
+        "text": "Une vue standard recalcule sa requête de définition à chaque consultation",
+        "isCorrect": true,
+        "note": "Juste : la vue ne stocke rien, le SGBD rejoue sa requête à chaque interrogation."
+      },
+      {
+        "id": "sql_096_d",
+        "text": "Supprimer la table sous-jacente rend une vue simple inutilisable",
+        "isCorrect": true,
+        "note": "Juste : la vue dépend des tables de sa définition, sans elles la requête échoue."
+      },
+      {
+        "id": "sql_096_a",
+        "text": "Une vue peut restreindre l'accès à certaines colonnes ou lignes",
+        "isCorrect": true,
+        "note": "Juste : donner accès à la vue au lieu de la table applique le filtrage côté base."
+      },
+      {
+        "id": "sql_096_c",
+        "text": "Une vue occupe toujours autant d'espace disque que sa table source",
+        "isCorrect": false,
+        "note": "Une vue standard ne stocke que sa définition ; seule une vue matérialisée persiste les données."
+      }
+    ],
+    "explanation": "La vue est une table virtuelle définie par une requête : elle simplifie les requêtes complexes, applique la sécurité (colonnes et lignes visibles) et ne stocke pas de données, sauf version matérialisée. Elle reste dépendante des structures sous-jacentes.",
+    "difficulty": "hard",
+    "tags": [
+      "vues",
+      "securite"
+    ]
+  },
+  {
+    "id": "sql_097",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "FILL_BLANK",
+    "question": "Pour permettre à l'utilisateur lecteur de consulter la table Clients sans pouvoir la modifier, l'administrateur exécute : ___ SELECT ON Clients TO lecteur ;",
+    "blanks": [
+      {
+        "accepted": [
+          "GRANT",
+          "grant"
+        ]
+      }
+    ],
+    "explanation": "GRANT accorde un privilège précis, ici SELECT pour la lecture, sur un objet à un utilisateur ; REVOKE le retire. C'est l'application du principe du moindre privilège : ne donner que les droits strictement nécessaires.",
+    "difficulty": "medium",
+    "tags": [
+      "droits",
+      "dcl",
+      "securite"
+    ]
+  },
+  {
+    "id": "sql_098",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "CASE_STUDY",
+    "context": "Un groupe agroalimentaire béninois collecte chaque nuit : les fichiers CSV des ventes de 12 magasins (formats de dates hétérogènes, noms parfois en majuscules, parfois non), la base des retours clients d'un logiciel de support (clients enregistrés plusieurs fois) et une API météo. Tout doit alimenter chaque matin un entrepôt de données qui sert les tableaux de bord de la direction. Hier, le chargement a échoué à moitié : des ventes en double ont été intégrées et des dates invalides ont bloqué certaines lignes.",
+    "question": "Concevez un pipeline ETL robuste pour cette chaîne et corrigez les défauts observés.",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Décrivez la phase d'extraction : quelles sources, quels points de vigilance.",
+        "answer": "Extraction des CSV des magasins (chemins et noms de fichiers stables, contrôle de présence et de taille avant traitement), de la base support via requêtes incrémentales (horodatage de la dernière extraction pour ne reprendre que le nouveau), et de l'API météo avec gestion des échecs (délai d'attente, relances). Points de vigilance : encodage des fichiers, présence des colonnes attendues, volume anormal à signaler.",
+        "rubric": [
+          "trois sources identifiées avec leur mode d'accès",
+          "extraction incrémentale mentionnée",
+          "contrôles de présence et d'intégrité des fichiers"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Décrivez la phase de transformation : quelles règles appliquer pour corriger les défauts observés.",
+        "answer": "Normalisation des dates vers le format unique de l'entrepôt, avec rejet tracé des valeurs invalides plutôt que blocage. Dédoublonnage des clients par clé naturelle (téléphone ou courriel) ou rapprochement approximatif pour les variantes. Harmonisation de la casse des noms, validation des montants (positifs, bornés), et dérivation des clés vers les tables de dimensions du schéma en étoile.",
+        "rubric": [
+          "normalisation des dates avec gestion des rejets",
+          "dédoublonnage des clients",
+          "harmonisation de la casse et des formats",
+          "règles de validation des montants"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Décrivez la phase de chargement et le traitement des erreurs pour éviter un chargement à moitié fait.",
+        "answer": "Charger d'abord dans des tables de staging, puis insérer dans les faits et les dimensions au sein d'une transaction (tout ou rien), ou isoler les lignes rejetées dans une table d'erreurs avec compteur et alerte au-delà d'un seuil. Journaliser chaque exécution (débuts, fins, volumes, rejets) et rendre le chargement idempotent : rejouer un lot ne doit jamais créer de doublons.",
+        "rubric": [
+          "tables de staging avant l'entrepôt",
+          "transactionnalité du chargement (tout ou rien)",
+          "table de rejets, alertes et journalisation",
+          "relance idempotente sans doublons"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "Un pipeline ETL fiable sépare l'extraction (collecte contrôlée des sources), la transformation (nettoyage, dédoublonnage, formats) et le chargement (staging, transaction, journal des rejets). Chaque étape doit être rejouable sans créer de doublons.",
+    "difficulty": "hard",
+    "tags": [
+      "etl",
+      "entrepot-de-donnees",
+      "qualite-des-donnees"
+    ]
+  },
+  {
+    "id": "sql_099",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "CASE_STUDY",
+    "context": "Une startup de livraison à Cotonou prépare un modèle d'IA pour prédire le temps de livraison. Son jeu de données assemble 50000 livraisons, mais : la colonne quartier contient à la fois « Cotonou », « cotonou » et « COTONOU », 8 % des lignes n'ont pas de distance_km, environ 400 livraisons sont enregistrées deux fois, et quelques distances dépassent 500 km alors que la ville fait environ 15 km de rayon. Le premier modèle entraîné produit des prédictions absurdes.",
+    "question": "Établissez un plan de remédiation de la qualité des données avant tout réentraînement du modèle.",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Classez les défauts constatés selon les dimensions de qualité des données.",
+        "answer": "Casse incohérente du quartier : défaut de cohérence et de conformité du format. 8 % de distance_km absente : défaut de complétude. 400 livraisons dupliquées : défaut d'unicité. Distances de plus de 500 km dans une ville de 15 km de rayon : défaut de validité (valeurs aberrantes ou erreurs de saisie).",
+        "rubric": [
+          "complétude pour les valeurs manquantes",
+          "unicité pour les doublons",
+          "cohérence/conformité pour la casse",
+          "validité pour les valeurs aberrantes"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Proposez un traitement concret pour chaque défaut.",
+        "answer": "Harmoniser la casse et appuyer l'imputation sur un dictionnaire de quartiers de référence. Traiter distance_km par imputation raisonnée (par exemple la médiane des distances du même quartier) ou exclusion des lignes, après avoir vérifié l'importance de la variable pour le modèle. Dédupliquer par clé naturelle (identifiant de livraison ou horodatage + client + point de départ et d'arrivée). Borner les distances et corriger ou écarter les valeurs aberrantes justifiées, en journalisant chaque décision.",
+        "rubric": [
+          "règle d'harmonisation documentée (dictionnaire de quartiers)",
+          "imputation raisonnée ou exclusion argumentée",
+          "déduplication par clé naturelle",
+          "traitement des aberrations avec journalisation"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Expliquez l'impact attendu de cette remédiation sur le modèle et mentionnez une pratique de prévention.",
+        "answer": "Un jeu propre réduit le bruit et le biais d'apprentissage, améliore la généralisation et rend les métriques d'évaluation fiables : les prédictions absurdes provenaient de doublons surpondérés, de distances erronées et de quartiers fragmentés. En prévention : valider à la saisie (liste fermée de quartiers, champs obligatoires, bornes de plausibilité) et exécuter des contrôles automatiques de qualité en continu dans le pipeline d'ingestion.",
+        "rubric": [
+          "lien entre bruit, biais et qualité des prédictions",
+          "validation à la saisie",
+          "contrôles automatiques continus dans le pipeline"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "La qualité d'un modèle d'IA plafonne à celle de ses données : complétude, unicité, cohérence et validité se contrôlent à l'entrée (règles de saisie) et dans le pipeline (nettoyage automatisé, journal des rejets) avant tout réentraînement.",
+    "difficulty": "hard",
+    "tags": [
+      "qualite-des-donnees",
+      "ia",
+      "etl"
+    ]
+  },
+  {
+    "id": "sql_100",
+    "domain": "BASES_DONNEES_SQL",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quelles instructions SQL servent à administrer les privilèges des utilisateurs (langage de contrôle des données, DCL) ?",
+    "answers": [
+      {
+        "id": "sql_100_a",
+        "text": "GRANT",
+        "isCorrect": true,
+        "note": "Juste : GRANT accorde un privilège sur un objet à un utilisateur ou un rôle."
+      },
+      {
+        "id": "sql_100_c",
+        "text": "ALTER TABLE",
+        "isCorrect": false,
+        "note": "ALTER TABLE modifie la structure d'une table : c'est du DDL."
+      },
+      {
+        "id": "sql_100_d",
+        "text": "COMMIT",
+        "isCorrect": false,
+        "note": "COMMIT pilote les transactions, il ne gère pas les privilèges."
+      },
+      {
+        "id": "sql_100_b",
+        "text": "REVOKE",
+        "isCorrect": true,
+        "note": "Juste : REVOKE retire un privilège précédemment accordé."
+      }
+    ],
+    "explanation": "Le DCL administre les privilèges avec GRANT et REVOKE. ALTER TABLE relève du DDL et COMMIT du contrôle des transactions : trois familles d'instructions distinctes du SQL.",
+    "difficulty": "medium",
+    "tags": [
+      "dcl",
+      "droits",
+      "securite"
+    ]
+  }
+]

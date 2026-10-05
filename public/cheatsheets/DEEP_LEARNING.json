@@ -1,0 +1,254 @@
+{
+  "id": "DEEP_LEARNING",
+  "title": "Deep Learning",
+  "description": "Référence rapide : structure d'un réseau, activations, descente de gradient, rétropropagation, pertes, optimiseurs, régularisation, CNN et RNN/LSTM/Transformers.",
+  "sections": [
+    {
+      "title": "Structure d'un réseau de neurones",
+      "items": [
+        {
+          "what": "Anatomie : couches, neurones, poids, biais",
+          "code": "sortie = activation(Σ (poids_i × entrée_i) + biais)",
+          "note": "Chaque neurone fait une somme pondérée des entrées, ajoute un biais, puis applique une fonction d'activation (non linéarité)."
+        },
+        {
+          "what": "Les trois types de couches",
+          "note": "Couche d'entrée (une valeur par feature), couches cachées (le « deep » : plusieurs couches), couche de sortie (1 neurone régression, n neurones pour n classes)."
+        },
+        {
+          "what": "Compter les paramètres d'une couche",
+          "code": "# couche dense : entrées × neurones + neurones (biais)\n# Dense(10) sur entrée de 64 : 64×10 + 10 = 650 paramètres",
+          "note": "Plus de paramètres = plus de capacité, mais aussi plus de risque d'overfitting."
+        },
+        {
+          "what": "Réseau dense (fully connected)",
+          "code": "from tensorflow.keras import layers\nlayers.Dense(64, activation='relu')",
+          "note": "Chaque neurone est relié à TOUS les neurones de la couche précédente. Bloc de base des MLP."
+        },
+        {
+          "what": "Pourquoi la non-linéarité est indispensable",
+          "note": "Sans activation non linéaire, empiler des couches revient à une seule transformation linéaire : le réseau ne peut apprendre que des frontières droites."
+        }
+      ]
+    },
+    {
+      "title": "Fonctions d'activation",
+      "items": [
+        {
+          "what": "ReLU : le choix par défaut des couches cachées",
+          "code": "ReLU(x) = max(0, x)",
+          "note": "Rapide et simple, évite la disparition du gradient pour les valeurs positives. Piège : les « neurones morts » si x reste négatif."
+        },
+        {
+          "what": "Sigmoïde : sortie de classification binaire",
+          "code": "σ(x) = 1 / (1 + e^(-x))     # sortie dans (0, 1)",
+          "note": "Transforme n'importe quel nombre en probabilité. Un seul neurone de sortie avec sigmoïde = classification binaire."
+        },
+        {
+          "what": "Tanh : sigmoïde recentrée",
+          "code": "tanh(x) = (e^x - e^(-x)) / (e^x + e^(-x))   # sortie dans (-1, 1)",
+          "note": "Centrée en zéro (utile dans les RNN). Comme la sigmoïde, elle sature aux extrêmes et peut tuer le gradient."
+        },
+        {
+          "what": "Softmax : sortie de classification multiclasse",
+          "code": "softmax(z_i) = e^(z_i) / Σ e^(z_j)          # somme des sorties = 1",
+          "note": "Couche de sortie multiclasses uniquement : donne une distribution de probabilités sur les n classes."
+        },
+        {
+          "what": "Quelle activation où ? (résumé)",
+          "note": "Couches cachées : ReLU. Sortie binaire : sigmoïde (perte binaire). Sortie multiclasse : softmax (entropie croisée). Sortie régression : aucune (linéaire)."
+        }
+      ]
+    },
+    {
+      "title": "Descente de gradient et learning rate",
+      "items": [
+        {
+          "what": "Principe de la descente de gradient",
+          "code": "poids ← poids - learning_rate × ∂perte/∂poids",
+          "note": "On calcule le gradient de la perte (la pente de l'erreur) et on met à jour les poids dans le sens qui la fait baisser."
+        },
+        {
+          "what": "Le learning rate (taux d'apprentissage)",
+          "note": "Taille du pas de mise à jour. Trop grand : la perte oscille ou diverge. Trop petit : apprentissage très lent ou bloqué. C'est LE premier hyperparamètre à régler."
+        },
+        {
+          "what": "Batch / mini-batch / SGD stochastique",
+          "note": "Batch complet : gradient exact mais lent sur grands jeux de données. Mini-batch (32, 64, 128) : compromis standard. Stochastique : un exemple à la fois, bruité."
+        },
+        {
+          "what": "Époque et itération",
+          "note": "Une époque = le modèle a vu TOUTES les données d'entraînement une fois. Plusieurs itérations (batches) par époque. On entraîne typiquement sur 10 à 100 époques."
+        }
+      ]
+    },
+    {
+      "title": "Rétropropagation",
+      "items": [
+        {
+          "what": "Ce que fait la rétropropagation",
+          "note": "Algorithme qui calcule le gradient de la perte par rapport à CHAQUE poids : on propage l'erreur de la sortie vers l'entrée (règle de la chaîne), couche par couche en arrière."
+        },
+        {
+          "what": "Les deux passes d'une itération",
+          "code": "# 1. Forward : entrée → prédictions → perte\n# 2. Backward : gradients de la perte vers les premières couches\n#    puis mise à jour des poids",
+          "note": "En pratique vous n'écrivez jamais la rétropropagation : elle est implémentée (fit(), autograd). À comprendre pour l'examen."
+        },
+        {
+          "what": "Vanishing gradient (gradient qui s'évanouit)",
+          "note": "Dans un réseau profond, des gradients multipliés par des sigmoïdes saturées deviennent minuscules : les premières couches n'apprennent plus. Solution : ReLU, architectures résiduelles."
+        }
+      ]
+    },
+    {
+      "title": "Fonctions de perte",
+      "items": [
+        {
+          "what": "MSE : régression",
+          "code": "MSE = (1/n) × Σ (y_réel - y_prédit)²",
+          "note": "Erreur quadratique moyenne, pénalise fortement les grosses erreurs. Sortie linéaire, MSE pour prédire un nombre."
+        },
+        {
+          "what": "Entropie croisée binaire : classification binaire",
+          "code": "perte = -[y·log(p) + (1-y)·log(1-p)]",
+          "note": "Punit fortement une prédiction confiante et fausse. Couplée à la sigmoïde en sortie."
+        },
+        {
+          "what": "Entropie croisée catégorielle : multiclasse",
+          "code": "perte = -Σ y_i × log(p_i)",
+          "note": "Couplée à softmax en sortie. En Keras : 'sparse_categorical_crossentropy' si labels entiers, 'categorical_crossentropy' si labels one-hot."
+        },
+        {
+          "what": "Correspondance perte / problème (à retenir)",
+          "code": "régression            → MSE\nbinaire (sigmoïde)    → binary_crossentropy\nmulticlasse (softmax) → categorical_crossentropy",
+          "note": "Mauvais couple perte/sortie = apprentissage impossible. C'est un piège d'examen classique."
+        }
+      ]
+    },
+    {
+      "title": "Optimiseurs",
+      "items": [
+        {
+          "what": "SGD : descente de gradient simple",
+          "code": "poids ← poids - lr × gradient",
+          "note": "Le plus basique. Converge lentement et peut zigzaguer dans les vallées étroites."
+        },
+        {
+          "what": "SGD + momentum",
+          "code": "v ← β·v + gradient\npoids ← poids - lr × v",
+          "note": "Accumule une inertie sur les gradients passés : accélère dans la bonne direction, amortit les oscillations."
+        },
+        {
+          "what": "Adam : le choix par défaut",
+          "code": "model.compile(optimizer='adam', loss=...)",
+          "note": "Adapte le pas pour chaque poids (moyennes du gradient et de son carré). Robuste, rapide à converger, peu de réglage : commencer par Adam."
+        },
+        {
+          "what": "Quel optimiseur choisir ?",
+          "note": "Adam pour démarrer (lr = 0.001 par défaut). SGD + momentum pour de fins réglages en compétition. Les deux restent valides dans la plupart des cas."
+        }
+      ]
+    },
+    {
+      "title": "Régularisation",
+      "items": [
+        {
+          "what": "Dropout : désactiver des neurones au hasard",
+          "code": "layers.Dropout(0.5)   # éteint 50 % des neurones pendant l'entraînement",
+          "note": "Empêche la co-adaptation : le réseau ne peut pas tout mémoriser. À l'inférence, le dropout est désactivé."
+        },
+        {
+          "what": "Early stopping : arrêter au bon moment",
+          "code": "from tensorflow.keras.callbacks import EarlyStopping\nEarlyStopping(monitor='val_loss', patience=5,\n              restore_best_weights=True)",
+          "note": "Surveille la perte de validation et arrête quand elle remonte (patience = nb d'époques tolérées). Restaure les meilleurs poids."
+        },
+        {
+          "what": "Régularisation L2 (weight decay)",
+          "code": "layers.Dense(64, kernel_regularizer='l2')",
+          "note": "Ajoute la somme des carrés des poids à la perte : force des poids petits, modèle plus lisse, mieux généralisé."
+        },
+        {
+          "what": "Autres leviers anti-overfitting",
+          "note": "Plus de données, données augmentées (images : rotations, zooms), réduire la taille du réseau, batch normalization qui stabilise aussi l'entraînement."
+        }
+      ]
+    },
+    {
+      "title": "CNN : réseau convolutif (images)",
+      "items": [
+        {
+          "what": "Convolution : détecter des motifs locaux",
+          "code": "layers.Conv2D(32, (3, 3), activation='relu')",
+          "note": "Un filtre glisse sur l'image et détecte un motif (bord, coin, texture) où qu'il soit. Les premières couches voient des traits simples, les profondes des objets entiers."
+        },
+        {
+          "what": "Filtre (kernel) : la petite fenêtre de poids",
+          "note": "Petite matrice de poids (3×3 classique) apprise pendant l'entraînement. Un filtre = une carte de caractéristiques (feature map) en sortie."
+        },
+        {
+          "what": "Stride : le pas de déplacement",
+          "note": "De combien de pixels le filtre avance à chaque étape. Stride 1 : sortie presque même taille ; stride 2 : sortie réduite de moitié."
+        },
+        {
+          "what": "Padding : contrôler la taille de sortie",
+          "code": "layers.Conv2D(32, (3, 3), padding='same')",
+          "note": "'same' ajoute des zéros autour pour garder la taille d'entrée. 'valid' : pas de padding, l'image rétrécit à chaque convolution."
+        },
+        {
+          "what": "Pooling : résumer et réduire",
+          "code": "layers.MaxPooling2D((2, 2))",
+          "note": "Max pooling garde la valeur max de chaque zone 2×2 : réduit la taille (moins de calcul), rend la détection robuste aux petits décalages."
+        },
+        {
+          "what": "Fully connected : la décision finale",
+          "code": "layers.Flatten(),\nlayers.Dense(128, activation='relu'),\nlayers.Dense(10, activation='softmax')",
+          "note": "Architecture type CNN : convolutions + poolings extraient les motifs, Flatten met à plat, les couches denses classifient."
+        }
+      ]
+    },
+    {
+      "title": "RNN, LSTM, Transformers",
+      "items": [
+        {
+          "what": "RNN (réseau récurrent)",
+          "note": "Traite les séquences pas à pas en gardant un état caché (mémoire courte). Piège : oublie le long terme à cause du gradient qui s'évanouit."
+        },
+        {
+          "what": "LSTM (mémoire longue et courte)",
+          "note": "RNN amélioré avec des portes (oubli, entrée, sortie) : choisit quoi garder/oublier, retient les dépendances longues. Idéal texte, séries temporelles."
+        },
+        {
+          "what": "Attention",
+          "note": "Chaque élément regarde TOUS les autres et pondère leur importance : plus de traitement séquentiel ordonné, plus de longue dépendance."
+        },
+        {
+          "what": "Transformers",
+          "note": "Architectures basées uniquement sur l'attention (plus de récurrence), parallélisables et très performantes. Base des grands modèles de langage (BERT, GPT)."
+        }
+      ]
+    },
+    {
+      "title": "Overfitting en pratique",
+      "items": [
+        {
+          "what": "Le détecter sur les courbes d'apprentissage",
+          "code": "history = model.fit(..., validation_data=(X_val, y_val))\nplt.plot(history.history['loss'])\nplt.plot(history.history['val_loss'])",
+          "note": "La perte train continue de baisser alors que la perte validation remonte = overfitting. C'est le graphique à savoir lire."
+        },
+        {
+          "what": "Réduire la capacité du modèle",
+          "note": "Moins de couches ou moins de neurones : si le modèle est plus petit que le motif à apprendre, il ne peut pas mémoriser le bruit."
+        },
+        {
+          "what": "La combinaison gagnante",
+          "code": "model.fit(..., epochs=100,\n          callbacks=[EarlyStopping(patience=5)])",
+          "note": "Recette standard : early stopping + dropout + (souvent) plus de données. Augmenter les données reste le remède le plus efficace."
+        },
+        {
+          "what": "Overfitting vs underfitting (rappel)",
+          "note": "Train bon / validation mauvaise : overfitting → régulariser. Les deux mauvais : underfitting → modèle plus grand, entraîner plus longtemps, vérifier lr et prétraitement."
+        }
+      ]
+    }
+  ]
+}

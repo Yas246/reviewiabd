@@ -1,0 +1,236 @@
+{
+  "id": "BIG_DATA",
+  "title": "Big Data",
+  "description": "Référence rapide : les 5 V, Hadoop (HDFS, YARN, MapReduce), Spark, streaming avec Kafka, NoSQL, CAP, Hive, ETL massif et scalabilité.",
+  "sections": [
+    {
+      "title": "Les 5 V du Big Data",
+      "items": [
+        {
+          "what": "Les 3 V fondamentaux",
+          "note": "Volume (taille : téraoctets, pétaoctets), Vélocité (vitesse de production et de traitement : flux temps réel), Variété (formats hétérogènes : texte, JSON, images, capteurs, logs). Définition classique : des données qui dépassent les capacités d'une seule machine."
+        },
+        {
+          "what": "Veracity et Value (les 2 V complémentaires)",
+          "note": "Veracity : fiabilité et qualité des données (bruit, incertitude, données sales). Value : la valeur extraite ; les données n'ont d'intérêt que si elles servent à décider ou à prédire."
+        },
+        {
+          "what": "Pourquoi pas un simple serveur relationnel ?",
+          "note": "Volume trop grand pour un seul disque/mémoire, jointures et tri sur des milliards de lignes trop lents sur une machine. Principe du Big Data : rapprocher le calcul des données en répartissant les deux sur un cluster."
+        }
+      ]
+    },
+    {
+      "title": "Écosystème Hadoop",
+      "items": [
+        {
+          "what": "HDFS : stockage distribué en blocs répliqués",
+          "code": "hdfs dfs -mkdir /projet\nhdfs dfs -put ventes.csv /projet/\nhdfs dfs -ls /projet",
+          "note": "Un fichier est découpé en blocs de 128 Mo (par défaut), répliqués 3 fois sur des DataNodes ; le NameNode conserve les métadonnées. Une perte de machine ne perd aucune donnée."
+        },
+        {
+          "what": "YARN : gestion des ressources du cluster",
+          "note": "Le Resource Manager distribue CPU et mémoire entre les applications ; les Node Managers lancent les containers qui exécutent les tâches. MapReduce, Spark, Hive s'appuient tous sur YARN."
+        },
+        {
+          "what": "MapReduce : les phases Map, Shuffle et Reduce",
+          "note": "Map : transforme chaque enregistrement en paires (clé, valeur). Shuffle : regroupe les valeurs par clé et les envoie aux reducers. Reduce : agrège chaque clé. Chaque phase lit et écrit sur disque : c'est la lenteur de MapReduce."
+        },
+        {
+          "what": "Exemple type : compteur de mots",
+          "code": "# Map : chaque ligne -> paires (mot, 1)\ndef map(ligne):\n    for mot in ligne.split():\n        emit(mot, 1)\n\n# Reduce : somme des valeurs de chaque clé\ndef reduce(mot, valeurs):\n    emit(mot, sum(valeurs))",
+          "note": "Pour « chat chien chat » : Map donne (chat,1) (chien,1) (chat,1) ; Shuffle regroupe chat:[1,1] et chien:[1] ; Reduce donne chat=2, chien=1. C'est l'exemple canonique à savoir redonner."
+        },
+        {
+          "what": "Vue d'ensemble de l'écosystème",
+          "note": "HDFS stocke, YARN alloue les ressources, MapReduce/Spark calculent, Hive apporte le SQL, HBase le NoSQL colonnes. Hadoop est un socle, pas un seul outil."
+        }
+      ]
+    },
+    {
+      "title": "Spark",
+      "items": [
+        {
+          "what": "RDD : la structure de base",
+          "note": "Resilient Distributed Dataset : collection immuable, distribuée entre les nœuds, tolérante aux pannes grâce au lignage (le RDD garde la suite d'opérations qui l'a produit et peut la rejouer)."
+        },
+        {
+          "what": "DataFrame : RDD structuré avec schéma",
+          "code": "df = spark.read.csv('ventes.csv', header=True, inferSchema=True)\ndf.filter(df.montant > 100).groupBy('ville').count().show()",
+          "note": "API de haut niveau, colonnes nommées, optimisé par le moteur Catalyst. À préférer aux RDD bruts quand les données sont structurées."
+        },
+        {
+          "what": "Transformations (paresseuses) vs actions (déclenchantes)",
+          "code": "# transformation : rien ne s'exécute encore\nlignes = rdd.filter(lambda x: 'erreur' in x)\n\n# action : déclenche tout le calcul\nnb = lignes.count()",
+          "note": "Filter, map, groupBy sont des transformations (lazy) ; count, collect, save sont des actions. Spark construit le plan d'exécution et ne calcule qu'à l'action."
+        },
+        {
+          "what": "Pourquoi Spark est plus rapide que MapReduce",
+          "note": "Les données intermédiaires restent EN MÉMOIRE entre les étapes au lieu d'être écrites puis relues sur disque à chaque phase. Gains typiques : 10 à 100 fois plus rapide."
+        },
+        {
+          "what": "Architecture : driver et executors",
+          "note": "Le driver exécute le programme principal et planifie ; les executors exécutent les tâches en parallèle sur chaque nœud. Piège : collect() ramène TOUT sur le driver, à éviter sur de gros volumes."
+        },
+        {
+          "what": "Spark Streaming : le flux par micro-batchs",
+          "note": "Découpe le flux entrant en petits lots (ex : toutes les secondes) et applique les mêmes transformations que le batch. Structured Streaming est l'API moderne, basée sur les DataFrames."
+        }
+      ]
+    },
+    {
+      "title": "Streaming et Kafka",
+      "items": [
+        {
+          "what": "Kafka : bus de messages distribué",
+          "note": "Plateforme d'ingestion de flux : très haut débit, messages persistés sur disque. Découple les producteurs des consommateurs : chacun avance à son rythme."
+        },
+        {
+          "what": "Topics, producers, consumers",
+          "code": "producer.send('clics', {'user': 'u1', 'page': '/accueil'})\n\nconsumer.subscribe(['clics'])\nfor msg in consumer:\n    traiter(msg.value)",
+          "note": "Un topic est un canal nommé, découpé en partitions. Le producer écrit dans un topic, le consumer lit ; un consumer group répartit les partitions entre ses membres."
+        },
+        {
+          "what": "Offsets : position et rejeu",
+          "note": "Chaque message a un offset dans sa partition ; le consommateur mémorise sa position et peut rejouer les messages. Kafka garde les données plusieurs jours : rien ne disparaît après lecture."
+        },
+        {
+          "what": "Traitement du flux avec Spark Streaming",
+          "code": "flux = (spark.readStream\n    .format('kafka')\n    .option('subscribe', 'clics').load())\nres = flux.groupBy('page').count()\nres.writeStream.outputMode('complete').start()",
+          "note": "Chaîne type d'architecture temps réel : producteur -> Kafka -> Spark Streaming -> base ou tableau de bord. Micro-batchs réguliers, pas traitement message par message."
+        }
+      ]
+    },
+    {
+      "title": "NoSQL : les 4 familles",
+      "items": [
+        {
+          "what": "Clé-valeur : lookup ultra rapide",
+          "code": "redis.set('session:123', 'panier=3')\nredis.get('session:123')",
+          "note": "Exemples : Redis, DynamoDB. Cas d'usage : cache, sessions utilisateur, compteurs. Pas de requête sur la valeur : tout passe par la clé."
+        },
+        {
+          "what": "Documents : JSON flexible",
+          "code": "db.clients.insertOne({nom: 'Alice', ville: 'Cotonou', tags: ['vip']})\ndb.clients.find({ville: 'Cotonou'})",
+          "note": "Exemple : MongoDB. Cas d'usage : profils utilisateurs, catalogues produits. Schéma souple par document, champs imbriqués ; contre le relationnel : pas de jointures riches ni de schéma imposé."
+        },
+        {
+          "what": "Colonnes larges : écriture massive",
+          "note": "Exemples : Cassandra, HBase. Cas d'usage : séries temporelles, logs, mesures de capteurs : des millions d'écritures par jour, lecture par plage de lignes/colonnes. Modèle pensé pour la distribution, pas pour les jointures."
+        },
+        {
+          "what": "Graphes : parcours de relations",
+          "code": "// Neo4j, Cypher\nMATCH (a:Personne {nom:'Alice'})-[:AMIS*2]->(p)\nRETURN p",
+          "note": "Exemple : Neo4j. Cas d'usage : amis d'amis, détection de fraude, recommandations. Un parcours sur 3 niveaux est un simple parcours de graphe là où le relationnel demanderait des jointures en cascade très coûteuses."
+        },
+        {
+          "what": "Quand le relationnel reste le bon choix",
+          "note": "Données structurées stables, transactions complexes et forte cohérence (banque, comptabilité) : le relationnel garde l'ACID complet. Le NoSQL échange souvent jointures et cohérence immédiate contre scalabilité et disponibilité."
+        }
+      ]
+    },
+    {
+      "title": "Théorème CAP",
+      "items": [
+        {
+          "what": "Les 3 garanties",
+          "note": "Cohérence (Consistency) : tous les nœuds voient les mêmes données au même instant. Disponibilité (Availability) : chaque requête reçoit une réponse. Tolérance au partitionnement (Partition tolerance) : le système survit à une coupure du réseau entre nœuds."
+        },
+        {
+          "what": "L'impossibilité : C, A et P ne peuvent être garantis ensemble",
+          "note": "Dès qu'une partition réseau survient, il faut trancher : rester cohérent en refusant des requêtes (C), ou répondre quand même avec des données potentiellement périmées (A). Un système distribué doit tolérer les partitions, donc le vrai arbitrage est C contre A."
+        },
+        {
+          "what": "Exemples de systèmes classés",
+          "note": "CP (cohérence d'abord) : HBase, ZooKeeper, MongoDB sur configuration par défaut. AP (disponibilité d'abord) : Cassandra, DynamoDB, CouchDB. Un SGBD mono-serveur relationnel est vu comme CA, mais il ne fait pas face à des partitions réelles."
+        },
+        {
+          "what": "Cohérence à terme (eventual consistency)",
+          "note": "Compromis des systèmes AP : les répliques convergent vers la même valeur après un délai. Piège classique : lire une donnée tout juste écrite et obtenir l'ancienne valeur."
+        }
+      ]
+    },
+    {
+      "title": "Hive et HiveQL",
+      "items": [
+        {
+          "what": "Hive : du SQL traduit en jobs",
+          "note": "Entrepôt de données posé sur HDFS : une table = des fichiers dans un répertoire + un schéma en métastore. Chaque requête HiveQL est traduite en jobs MapReduce/Tez/Spark : on écrit du SQL, le cluster exécute."
+        },
+        {
+          "what": "Créer une table simple",
+          "code": "CREATE TABLE ventes (produit STRING, montant DOUBLE)\nROW FORMAT DELIMITED FIELDS TERMINATED BY ',';",
+          "note": "Table gérée par Hive : un DROP TABLE supprime aussi les données HDFS. Les données existantes sont déplacées dans l'emplacement de la table."
+        },
+        {
+          "what": "Table externe : données que Hive ne possède pas",
+          "code": "CREATE EXTERNAL TABLE ventes_ext (produit STRING, montant DOUBLE)\nROW FORMAT DELIMITED FIELDS TERMINATED BY ','\nLOCATION '/projet/ventes/';",
+          "note": "Piège d'examen : DROP sur une table EXTERNAL supprime seulement le schéma, les fichiers HDFS restent intacts. À utiliser quand plusieurs outils partagent les mêmes données."
+        },
+        {
+          "what": "Requête analytique = job distribué",
+          "code": "SELECT produit, SUM(montant) AS total\nFROM ventes\nGROUP BY produit;",
+          "note": "Syntaxe quasi SQL classique. Limites : pas de transactions ni d'UPDATE par ligne, les tables sont plutôt ajoutées ou réécrites par partition ; latence de plusieurs secondes, donc analyse et non temps réel."
+        },
+        {
+          "what": "Partitionner une table Hive",
+          "code": "CREATE TABLE ventes (produit STRING, montant DOUBLE)\nPARTITIONED BY (annee INT, mois INT);\n\nSELECT produit, SUM(montant) FROM ventes\nWHERE annee = 2024 AND mois = 5\nGROUP BY produit;",
+          "note": "Le WHERE sur les colonnes de partition élimine les répertoires inutiles (partition pruning) : on ne scanne que le mois demandé au lieu de toute la table."
+        }
+      ]
+    },
+    {
+      "title": "ETL à grande échelle",
+      "items": [
+        {
+          "what": "Pipeline distribué : Extract, Transform, Load",
+          "note": "Extract : ingérer des sources multiples (logs, bases, API, capteurs), souvent via Kafka ou Sqoop. Transform : nettoyer, joindre, agréger avec Spark/Hive. Load : écrire dans l'entrepôt ou le data lake, généralement en Parquet."
+        },
+        {
+          "what": "Qualité des données",
+          "note": "Contrôles systématiques : valeurs nulles, doublons, plages valides (age >= 0), cohérence des référentiels. Les lignes rejetées partent en quarantaine avec la raison du rejet, jamais perdues en silence."
+        },
+        {
+          "what": "Partitionnement des fichiers",
+          "code": "/data/ventes/annee=2024/mois=05/jour=01/part-0001.parquet",
+          "note": "Organiser les données par date (ou autre colonne de filtre fréquente) : chaque traitement ne lit que les partitions utiles. Piège : partitionner sur une colonne à trop de valeurs crée des milliers de micro-fichiers."
+        },
+        {
+          "what": "Idempotence et reprise",
+          "note": "Relancer le pipeline ne doit rien dupliquer : réécrire entièrement la partition de sortie plutôt que l'ajouter. Ordonnancement et surveillance via Airflow ou équivalent, avec alerte sur échec."
+        },
+        {
+          "what": "Formats de fichiers : Parquet et ORC",
+          "note": "Formats colonnaires compressés : ne lire que les colonnes demandées, compression efficace. Une agrégation sur 3 colonnes est bien plus rapide qu'en CSV, où il faut tout lire."
+        }
+      ]
+    },
+    {
+      "title": "Scalabilité",
+      "items": [
+        {
+          "what": "Scale-up vs scale-out",
+          "note": "Scale-up (vertical) : une seule machine plus puissante ; simple mais limité par la physique et le coût exponentiel. Scale-out (horizontal) : ajouter des machines standard ; c'est le choix du Big Data, au prix de la gestion de la répartition et des pannes."
+        },
+        {
+          "what": "Sharding : couper les données entre nœuds",
+          "code": "// MongoDB, activer le sharding\ndb.clients.createIndex({ville: 1})\nsh.shardCollection('boutique.clients', {ville: 1})",
+          "note": "Découpe horizontale d'une collection par clé de shard : chaque nœud ne porte qu'une partie des données. Bien choisir la clé pour répartir la charge, sinon un nœud « chaud » concentre tout."
+        },
+        {
+          "what": "Partitionnement : par plage ou par hash",
+          "note": "Par plage : dates croissantes faciles à localiser mais risque de point chaud sur la dernière partition. Par hash : répartition uniforme mais plus de requêtes par plage. Même idée côté calcul avec le partitionnement Spark/Hive."
+        },
+        {
+          "what": "Réplication : copier pour survivre",
+          "code": "hdfs dfs -setrep -w 3 /projet/ventes.csv",
+          "note": "Chaque donnée est copiée sur plusieurs nœuds (facteur 3 classique) : tolérance aux pannes et lectures rapprochées. Souvent un leader (écritures) et des réplicas (lectures), avec resynchronisation après panne."
+        },
+        {
+          "what": "Le trio gagnant d'un cluster",
+          "note": "Partitionner (répartir la charge), répliquer (tolérer les pannes), équilibrer (redistribuer quand un nœud arrive ou part). C'est ce trio qui remplace les garanties d'une machine unique."
+        }
+      ]
+    }
+  ]
+}

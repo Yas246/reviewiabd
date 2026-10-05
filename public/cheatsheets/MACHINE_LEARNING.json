@@ -1,0 +1,260 @@
+{
+  "id": "MACHINE_LEARNING",
+  "title": "Machine Learning",
+  "description": "Référence rapide : types de problèmes, workflow, métriques, surapprentissage, prétraitement et algorithmes classiques (scikit-learn).",
+  "sections": [
+    {
+      "title": "Types de problèmes",
+      "items": [
+        {
+          "what": "Apprentissage supervisé : données étiquetées (X + y)",
+          "note": "Le modèle apprend la relation entrées → sortie à partir d'exemples étiquetés. Deux familles : régression (valeur numérique) et classification (catégorie)."
+        },
+        {
+          "what": "Régression : prédire une valeur continue",
+          "code": "# prédire un prix, un salaire, une température...\ny = 150.0   # exemple : prix en k€",
+          "note": "La sortie est un nombre : on évalue avec MSE, RMSE, MAE ou R²."
+        },
+        {
+          "what": "Classification : prédire une catégorie",
+          "code": "# binaire : achète / n'achète pas, spam / non spam\n# multiclasses : chiffre 0-9, espèce de fleur",
+          "note": "La sortie est une classe (un label). On évalue avec accuracy, précision, rappel, F1, matrice de confusion."
+        },
+        {
+          "what": "Non supervisé : données SANS étiquettes",
+          "note": "On cherche une structure cachée : regrouper (clustering avec k-means), réduire la dimension (PCA). Pas de « bonne réponse » à prédire."
+        },
+        {
+          "what": "Apprentissage par renforcement",
+          "note": "Un agent apprend par essai-erreur avec récompenses/penalités (jeux, robotique). Pas au programme des TP, mais à connaître pour l'examen."
+        }
+      ]
+    },
+    {
+      "title": "Workflow complet",
+      "items": [
+        {
+          "what": "1. Charger les données",
+          "code": "import pandas as pd\ndf = pd.read_csv('donnees.csv')\ndf.head(), df.info(), df.describe()"
+        },
+        {
+          "what": "2. Séparer X (features) et y (cible)",
+          "code": "X = df.drop(columns=['achat'])\ny = df['achat']"
+        },
+        {
+          "what": "3. Split train / test",
+          "code": "from sklearn.model_selection import train_test_split\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42)",
+          "note": "Le test set ne doit JAMAIS servir à l'entraînement ni au réglage : il simule des données inconnues. 80/20 ou 70/30 classique."
+        },
+        {
+          "what": "4. Prétraiter (fit sur train uniquement)",
+          "code": "from sklearn.preprocessing import StandardScaler\nscaler = StandardScaler()\nX_train_s = scaler.fit_transform(X_train)\nX_test_s = scaler.transform(X_test)",
+          "note": "fit sur le train, transform sur le test : calculer la moyenne sur le test = fuite de données."
+        },
+        {
+          "what": "5. Entraîner, prédire, évaluer",
+          "code": "model.fit(X_train_s, y_train)\ny_pred = model.predict(X_test_s)\nmodel.score(X_test_s, y_test)"
+        },
+        {
+          "what": "Pipeline scikit-learn (tout enchaîné)",
+          "code": "from sklearn.pipeline import make_pipeline\npipe = make_pipeline(StandardScaler(), LogisticRegression())\npipe.fit(X_train, y_train)"
+        }
+      ]
+    },
+    {
+      "title": "Métriques de classification",
+      "items": [
+        {
+          "what": "Matrice de confusion (binaire)",
+          "code": "                 PRÉDICTION\n                 +1        0\nRÉEL      +1  |  VP  |  FN  |\n           0  |  FP  |  VN  |",
+          "note": "VP : vrais positifs bien prédits. FN : positifs ratés. FP : fausses alertes. VN : négatifs bien prédits."
+        },
+        {
+          "what": "Accuracy (exactitude)",
+          "code": "accuracy = (VP + VN) / (VP + VN + FP + FN)",
+          "note": "Proportion de bonnes prédictions. Piégeuse si classes déséquilibrées : 99 % de « non spam » → prédire toujours « non spam » donne 99 % d'accuracy."
+        },
+        {
+          "what": "Précision : des positifs prédits, combien sont justes ?",
+          "code": "précision = VP / (VP + FP)",
+          "note": "Répond à « quand je prédis +1, à quel point ai-je raison ? ». Pénalise les fausses alertes (FP)."
+        },
+        {
+          "what": "Rappel (recall) : des vrais positifs, combien sont trouvés ?",
+          "code": "rappel = VP / (VP + FN)",
+          "note": "Pénalise les positifs ratés (FN). Critique en détection de fraude ou diagnostic médical."
+        },
+        {
+          "what": "Score F1 : compromis précision / rappel",
+          "code": "F1 = 2 * (précision * rappel) / (précision + rappel)",
+          "note": "Moyenne harmonique : mauvais si l'une des deux est faible. À privilégier sur classes déséquilibrées."
+        },
+        {
+          "what": "Toutes les métriques d'un coup",
+          "code": "from sklearn.metrics import confusion_matrix, classification_report\nprint(confusion_matrix(y_test, y_pred))\nprint(classification_report(y_test, y_pred))"
+        }
+      ]
+    },
+    {
+      "title": "Métriques de régression",
+      "items": [
+        {
+          "what": "MSE et RMSE : erreur quadratique moyenne",
+          "code": "MSE = (1/n) * Σ(y_réel - y_prédit)²\nRMSE = √MSE",
+          "note": "Le carré pénalise fortement les grosses erreurs. RMSE = même unité que la cible, plus lisible."
+        },
+        {
+          "what": "MAE : erreur absolue moyenne",
+          "code": "MAE = (1/n) * Σ|y_réel - y_prédit|",
+          "note": "Moins sensible aux valeurs extrêmes que la MSE."
+        },
+        {
+          "what": "R² : part de variance expliquée",
+          "code": "from sklearn.metrics import r2_score, mean_squared_error\nr2_score(y_test, y_pred)\nmean_squared_error(y_test, y_pred)",
+          "note": "R² = 1 : parfait. R² = 0 : pas mieux que prédire la moyenne. Peut être négatif sur le test si le modèle est très mauvais."
+        }
+      ]
+    },
+    {
+      "title": "Surapprentissage et sous-apprentissage",
+      "items": [
+        {
+          "what": "Surapprentissage (overfitting)",
+          "note": "Signe : score très bon sur le train, nettement moins bon sur le test. Le modèle a mémorisé le bruit au lieu de généraliser."
+        },
+        {
+          "what": "Sous-apprentissage (underfitting)",
+          "note": "Signe : score mauvais partout (train ET test). Le modèle est trop simple pour capter la relation."
+        },
+        {
+          "what": "Remède au surapprentissage : régularisation L2 (Ridge)",
+          "note": "Ajoute à la perte une penalité sur le carré des poids : rétrécit les poids, modèle plus lisse et plus stable."
+        },
+        {
+          "what": "Régularisation L1 (Lasso)",
+          "note": "Pénalité sur la valeur absolue des poids : met certains poids à zéro exactement, donc sélectionne les variables."
+        },
+        {
+          "what": "Autres remèdes au surapprentissage",
+          "code": "# plus de données d'entraînement\n# early stopping : arrêter quand le score test se dégrade\n# validation croisée k-fold\nfrom sklearn.model_selection import cross_val_score\ncross_val_score(model, X, y, cv=5)",
+          "note": "cv=5 : on découpe en 5 blocs, chaque bloc sert une fois de test. Moyenne des 5 scores = estimation robuste."
+        },
+        {
+          "what": "Remède au sous-apprentissage",
+          "note": "Modèle plus complexe (plus de features, modèle non linéaire), moins de régularisation, mieux prétraiter les données."
+        }
+      ]
+    },
+    {
+      "title": "Biais et variance",
+      "items": [
+        {
+          "what": "Biais élevé = sous-apprentissage",
+          "note": "Modèle trop simple : il rate la vraie relation. Erreur grande et similaire sur train et test."
+        },
+        {
+          "what": "Variance élevée = surapprentissage",
+          "note": "Modèle trop sensible aux données d'entraînement : change beaucoup si on rééchantillonne. Écart train/test important."
+        },
+        {
+          "what": "Compromis biais-variance",
+          "note": "Diminuer l'un augmente souvent l'autre. L'objectif : le point d'équilibre qui minimise l'erreur totale sur données nouvelles."
+        }
+      ]
+    },
+    {
+      "title": "Normalisation et standardisation",
+      "items": [
+        {
+          "what": "Standardisation (z-score)",
+          "code": "x_std = (x - moyenne) / écart_type\nfrom sklearn.preprocessing import StandardScaler\nStandardScaler().fit_transform(X)",
+          "note": "Résultat centré en 0, écart-type 1. Choix par défaut pour les modèles linéaires, SVM, KNN, PCA."
+        },
+        {
+          "what": "Normalisation (min-max)",
+          "code": "x_norm = (x - x_min) / (x_max - x_min)\nfrom sklearn.preprocessing import MinMaxScaler\nMinMaxScaler().fit_transform(X)",
+          "note": "Ramène tout entre 0 et 1. Utile pour les réseaux de neurones ; sensible aux valeurs extrêmes."
+        },
+        {
+          "what": "Quand mettre à l'échelle ?",
+          "note": "Obligatoire dès que le modèle compare des distances ou des amplitudes (KNN, SVM, k-means, PCA, descente de gradient). Inutile pour les arbres et random forests."
+        }
+      ]
+    },
+    {
+      "title": "Encodage des variables catégorielles",
+      "items": [
+        {
+          "what": "Encodage binaire (2 catégories)",
+          "code": "df['achat_num'] = (df['achat'] == 'Oui').astype(int)  # 1/0\n# ou : map({'Oui': 1, 'Non': 0})",
+          "note": "True/False → 1/0. Rend la variable utilisable par un modèle numérique."
+        },
+        {
+          "what": "One-hot encoding (3 catégories ou +)",
+          "code": "pd.get_dummies(df, columns=['quartier'])\n# quartier → quartier_nord, quartier_sud, ... (0/1)",
+          "note": "Une colonne binaire par catégorie : évite de créer un ordre artificiel (nord=0 < sud=1 n'a pas de sens)."
+        },
+        {
+          "what": "Attention à la taille",
+          "note": "Une colonne à 1000 modalités → 1000 colonnes one-hot. Pour les arbres, un ordinal encoding suffit parfois."
+        }
+      ]
+    },
+    {
+      "title": "Algorithmes courants",
+      "items": [
+        {
+          "what": "Régression linéaire",
+          "note": "Trace la meilleure droite (y = a·x + b, un coefficient par feature). Simple, interprétable, base de la régression."
+        },
+        {
+          "what": "Régression logistique",
+          "note": "Classification binaire : combine les features en ligne droite puis passe par une sigmoïde pour donner une probabilité entre 0 et 1."
+        },
+        {
+          "what": "KNN (k plus proches voisins)",
+          "note": "Prédit la classe majoritaire des k voisins les plus proches. Nécessite des données mises à l'échelle ; lent en prédiction sur gros volumes."
+        },
+        {
+          "what": "SVM (machine à vecteurs de support)",
+          "note": "Trouve la frontière qui maximise la marge entre les classes. Le kernel permet des frontières non linéaires."
+        },
+        {
+          "what": "Arbre de décision",
+          "note": "Suite de questions « feature > seuil ? » jusqu'à une feuille. Très lisible, mais un arbre seul surapprend vite."
+        },
+        {
+          "what": "Random forest",
+          "note": "Ensemble de nombreux arbres entraînés sur des échantillons/votes : moyenne les prédictions, plus robuste et plus précis qu'un arbre seul."
+        },
+        {
+          "what": "k-means (clustering, non supervisé)",
+          "note": "Découpe les données en k groupes par distance au centre le plus proche. Il faut choisir k à l'avance et mettre à l'échelle."
+        },
+        {
+          "what": "PCA (réduction de dimension)",
+          "note": "Projette les données sur les axes qui gardent le maximum de variance. Standardiser AVANT le PCA."
+        }
+      ]
+    },
+    {
+      "title": "Exemple complet scikit-learn",
+      "items": [
+        {
+          "what": "Du CSV au score en 5 lignes",
+          "code": "from sklearn.model_selection import train_test_split\nfrom sklearn.ensemble import RandomForestClassifier\nX_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.2)\nmodel = RandomForestClassifier().fit(X_tr, y_tr)\nprint(model.score(X_te, y_te))",
+          "note": "fit sur train, score sur test : c'est LE squelette à savoir écrire de mémoire."
+        },
+        {
+          "what": "Prédire une nouvelle observation",
+          "code": "nouveau = [[35, 2500, 1]]          # mêmes colonnes que X\nmodel.predict(nouveau)             # classe prédite\nmodel.predict_proba(nouveau)       # probabilités par classe"
+        },
+        {
+          "what": "Régler un hyperparamètre",
+          "code": "from sklearn.model_selection import GridSearchCV\nGridSearchCV(RandomForestClassifier(),\n             {'n_estimators': [100, 200]}, cv=5).fit(X_tr, y_tr)",
+          "note": "Le réglage se fait par validation croisée sur le train, jamais sur le test."
+        }
+      ]
+    }
+  ]
+}

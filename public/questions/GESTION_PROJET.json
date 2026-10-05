@@ -1,0 +1,3582 @@
+[
+  {
+    "id": "gp_001",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est le rôle principal du chef de projet informatique ?",
+    "answers": [
+      {
+        "id": "gp_001_a",
+        "text": "Écrire la totalité du code du projet pour en garantir la qualité",
+        "isCorrect": false,
+        "note": "Confusion entre le rôle du développeur, qui produit le code, et celui du chef de projet, qui pilote l'ensemble."
+      },
+      {
+        "id": "gp_001_b",
+        "text": "Planifier, coordonner et piloter l'équipe pour atteindre les objectifs de coût, de délai et de qualité",
+        "isCorrect": true,
+        "note": "C'est bien la mission centrale du chef de projet : il organise le travail et arbitre les contraintes plutôt qu'il ne le réalise."
+      },
+      {
+        "id": "gp_001_c",
+        "text": "Définir seul l'architecture technique définitive de la solution",
+        "isCorrect": false,
+        "note": "C'est plutôt le rôle de l'architecte logiciel ; le chef de projet arbitre mais ne conçoit pas seul la solution."
+      },
+      {
+        "id": "gp_001_d",
+        "text": "Recruter et sanctionner quotidiennement les développeurs de l'équipe",
+        "isCorrect": false,
+        "note": "Le chef de projet anime l'équipe, mais la gestion hiérarchique et les sanctions relèvent du management des personnes."
+      }
+    ],
+    "explanation": "Le chef de projet est responsable de l'atteinte des objectifs du projet sous les contraintes de coût, de délai et de qualité. Il planifie, coordonne les acteurs, suit les risques et communique avec les parties prenantes, sans se substituer aux spécialistes techniques.",
+    "difficulty": "easy",
+    "tags": [
+      "chef-de-projet",
+      "role"
+    ]
+  },
+  {
+    "id": "gp_002",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "En gestion de projet, que désigne le « triangle de contraintes » ?",
+    "answers": [
+      {
+        "id": "gp_002_a",
+        "text": "Les trois documents clés du projet : cahier des charges, planning et budget",
+        "isCorrect": false,
+        "note": "Ces documents existent bien, mais le triangle de contraintes désigne les limitations du projet, pas ses livrables."
+      },
+      {
+        "id": "gp_002_b",
+        "text": "Les trois acteurs centraux : client, chef de projet et équipe de réalisation",
+        "isCorrect": false,
+        "note": "Confusion entre les parties prenantes du projet et les contraintes qui pèsent sur lui."
+      },
+      {
+        "id": "gp_002_c",
+        "text": "L'équilibre à trouver entre coût, délai et périmètre, qui conditionne la qualité livrée",
+        "isCorrect": true,
+        "note": "C'est la définition exacte : modifier un côté du triangle affecte les deux autres et la qualité finale."
+      },
+      {
+        "id": "gp_002_d",
+        "text": "Les trois grandes phases : analyse, développement et mise en production",
+        "isCorrect": false,
+        "note": "Confusion avec le cycle de vie du logiciel, alors que le triangle concerne les contraintes de pilotage."
+      }
+    ],
+    "explanation": "Le triangle de contraintes relie le coût, le délai et le périmètre du projet. Tout arbitrage sur l'un de ces axes impacte les autres, et la qualité résulte de cet équilibre. Le chef de projet l'utilise pour négocier les choix avec les parties prenantes.",
+    "difficulty": "medium",
+    "tags": [
+      "triple-contrainte",
+      "fondamentaux"
+    ]
+  },
+  {
+    "id": "gp_003",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans Scrum, qui est responsable de la maximisation de la valeur du produit et de la priorisation du Product Backlog ?",
+    "answers": [
+      {
+        "id": "gp_003_d",
+        "text": "L'équipe de développement en auto-organisation",
+        "isCorrect": false,
+        "note": "L'équipe choisit comment réaliser le travail, mais elle ne définit pas la valeur ni l'ordre des besoins."
+      },
+      {
+        "id": "gp_003_b",
+        "text": "Le Scrum Master",
+        "isCorrect": false,
+        "note": "Le Scrum Master facilite le processus et protège l'équipe, il ne décide pas des priorités du produit."
+      },
+      {
+        "id": "gp_003_c",
+        "text": "Le comité de pilotage du projet",
+        "isCorrect": false,
+        "note": "Le comité de pilotage existe dans les organisations classiques, Scrum confie cette responsabilité au Product Owner."
+      },
+      {
+        "id": "gp_003_a",
+        "text": "Le Product Owner",
+        "isCorrect": true,
+        "note": "Le Product Owner porte la vision du produit, ordonne le backlog et maximise la valeur délivrée."
+      }
+    ],
+    "explanation": "Le Product Owner est l'unique responsable de la valeur du produit. Il exprime et ordonne les éléments du Product Backlog pour optimiser la valeur délivrée à chaque sprint. Les autres rôles contribuent mais ne tranchent pas les priorités.",
+    "difficulty": "easy",
+    "tags": [
+      "scrum",
+      "product-owner"
+    ]
+  },
+  {
+    "id": "gp_004",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans Scrum, quelle est la mission principale du Scrum Master ?",
+    "answers": [
+      {
+        "id": "gp_004_b",
+        "text": "Faciliter l'application du cadre Scrum et lever les obstacles qui freinent l'équipe",
+        "isCorrect": true,
+        "note": "Le Scrum Master est un serviteur-leader : il protège le processus, coach et supprime les impedimenta."
+      },
+      {
+        "id": "gp_004_a",
+        "text": "Distribuer les tâches à chaque développeur au début du sprint",
+        "isCorrect": false,
+        "note": "L'équipe s'auto-organise et choisit elle-même comment se répartir le travail du Sprint Backlog."
+      },
+      {
+        "id": "gp_004_c",
+        "text": "Valider techniquement chaque livraison avant son intégration",
+        "isCorrect": false,
+        "note": "La qualité repose sur l'équipe et la Definition of Done, pas sur une validation hiérarchique par le Scrum Master."
+      },
+      {
+        "id": "gp_004_d",
+        "text": "Négocier le périmètre du produit avec les clients à chaque sprint",
+        "isCorrect": false,
+        "note": "La relation avec le client sur le périmètre relève du Product Owner, pas du Scrum Master."
+      }
+    ],
+    "explanation": "Le Scrum Master est un servant-leader au service de l'équipe et de l'organisation. Il garantit la bonne compréhension et l'application de Scrum, facilite les événements et aide à supprimer les obstacles. Il n'est ni un chef hiérarchique ni un chef technique.",
+    "difficulty": "medium",
+    "tags": [
+      "scrum",
+      "scrum-master"
+    ]
+  },
+  {
+    "id": "gp_005",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle caractéristique définit le mieux l'équipe de développement en Scrum ?",
+    "answers": [
+      {
+        "id": "gp_005_a",
+        "text": "Une équipe hiérarchisée où un développeur senior distribue le travail",
+        "isCorrect": false,
+        "note": "Scrum repose sur l'auto-organisation : personne au sein de l'équipe n'impose la répartition des tâches."
+      },
+      {
+        "id": "gp_005_d",
+        "text": "Une équipe pluridisciplinaire et auto-organisée qui construit l'incrément à chaque sprint",
+        "isCorrect": true,
+        "note": "C'est la définition Scrum : compétences variées, autonomie sur l'organisation du travail et responsabilité collective."
+      },
+      {
+        "id": "gp_005_c",
+        "text": "Une équipe homogène composée de développeurs au profil identique",
+        "isCorrect": false,
+        "note": "Au contraire, l'équipe doit être pluridisciplinaire pour transformer elle-même les besoins en incrément."
+      },
+      {
+        "id": "gp_005_b",
+        "text": "Une équipe externe qui exécute le plan validé par le Product Owner",
+        "isCorrect": false,
+        "note": "L'équipe n'exécute pas passivement un plan : elle construit le plan de sprint et décide de sa façon de travailler."
+      }
+    ],
+    "explanation": "L'équipe de développement Scrum est pluridisciplinaire : elle possède toutes les compétences nécessaires pour livrer un incrément. Elle est auto-organisée et collectivement responsable du résultat. Sa taille recommandée reste suffisamment petite pour rester agile.",
+    "difficulty": "medium",
+    "tags": [
+      "scrum",
+      "equipe"
+    ]
+  },
+  {
+    "id": "gp_006",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Que représente le Product Backlog dans Scrum ?",
+    "answers": [
+      {
+        "id": "gp_006_a",
+        "text": "La liste figée des fonctionnalités validées au lancement du projet",
+        "isCorrect": false,
+        "note": "Le backlog est vivant : il évolue en permanence avec les retours et les apprentissages du projet."
+      },
+      {
+        "id": "gp_006_b",
+        "text": "Le plan détaillé des tâches techniques réalisées pendant le sprint en cours",
+        "isCorrect": false,
+        "note": "Ce contenu correspond au Sprint Backlog, qui n'est qu'un sous-ensemble tiré du Product Backlog."
+      },
+      {
+        "id": "gp_006_c",
+        "text": "L'inventaire unique et ordonné des besoins du produit, tenu par le Product Owner",
+        "isCorrect": true,
+        "note": "C'est la source unique de travail du produit : une liste ordonnée par valeur, continuellement affinée."
+      },
+      {
+        "id": "gp_006_d",
+        "text": "Le registre des anomalies découvertes après la mise en production",
+        "isCorrect": false,
+        "note": "Les anomalies peuvent y figurer, mais le Product Backlog couvre l'ensemble des besoins, pas seulement les défauts."
+      }
+    ],
+    "explanation": "Le Product Backlog est l'unique source des besoins du produit. Il est ordonné par valeur, rendu visible et continuellement affiné par le Product Owner. Il évolue à chaque sprint selon les retours des utilisateurs et des parties prenantes.",
+    "difficulty": "medium",
+    "tags": [
+      "scrum",
+      "product-backlog"
+    ]
+  },
+  {
+    "id": "gp_007",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Que contient le Sprint Backlog ?",
+    "answers": [
+      {
+        "id": "gp_007_a",
+        "text": "L'ensemble des besoins du produit classés par valeur métier",
+        "isCorrect": false,
+        "note": "C'est le contenu du Product Backlog ; le Sprint Backlog n'en retient qu'une portion pour le sprint."
+      },
+      {
+        "id": "gp_007_d",
+        "text": "Les critères de recette officiels validés par le client final",
+        "isCorrect": false,
+        "note": "Les critères d'acceptation accompagnent les éléments du backlog, mais le Sprint Backlog est un plan de travail."
+      },
+      {
+        "id": "gp_007_c",
+        "text": "Le rapport d'avancement hebdomadaire destiné à la direction",
+        "isCorrect": false,
+        "note": "Le Sprint Backlog est un outil de travail de l'équipe, pas un rapport de gestion pour la hiérarchie."
+      },
+      {
+        "id": "gp_007_b",
+        "text": "Les éléments sélectionnés pour le sprint et le plan de travail élaboré par l'équipe",
+        "isCorrect": true,
+        "note": "Le Sprint Backlog associe l'objectif de sprint, les éléments choisis et la façon de les réaliser."
+      }
+    ],
+    "explanation": "Le Sprint Backlog est le plan du sprint construit par l'équipe de développement. Il contient les éléments du Product Backlog sélectionnés pour le sprint ainsi que le plan concret pour les transformer en incrément. Il appartient à l'équipe, qui le met à jour au fil du sprint.",
+    "difficulty": "medium",
+    "tags": [
+      "scrum",
+      "sprint-backlog"
+    ]
+  },
+  {
+    "id": "gp_008",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "À quelle condition un incrément est-il considéré comme terminé en Scrum ?",
+    "answers": [
+      {
+        "id": "gp_008_a",
+        "text": "Quand il est utilisable, conforme à la Definition of Done et potentiellement livrable",
+        "isCorrect": true,
+        "note": "Un incrément terminé respecte la Definition of Done et constitue un produit utilisable qui pourrait être livré."
+      },
+      {
+        "id": "gp_008_b",
+        "text": "Quand le code est entièrement écrit, même si les tests restent à faire",
+        "isCorrect": false,
+        "note": "Sans tests réalisés, l'élément ne peut pas être considéré comme terminé selon la Definition of Done."
+      },
+      {
+        "id": "gp_008_c",
+        "text": "Quand le client a accepté la facturation de la phase correspondante",
+        "isCorrect": false,
+        "note": "Confusion entre le suivi contractuel classique et la notion d'incrément de produit, qui est technique et fonctionnelle."
+      },
+      {
+        "id": "gp_008_d",
+        "text": "Quand le Product Owner a estimé tous les éléments restants du backlog",
+        "isCorrect": false,
+        "note": "L'estimation des éléments restants concerne l'affinage du backlog, pas l'état de l'incrément produit."
+      }
+    ],
+    "explanation": "Un incrément est la somme des éléments du backlog terminés au cours d'un sprint et des incréments précédents. Pour être terminé, il doit être utilisable et respecter la Definition of Done partagée par l'équipe. Chaque incrément est donc potentiellement livrable.",
+    "difficulty": "medium",
+    "tags": [
+      "scrum",
+      "increment",
+      "definition-of-done"
+    ]
+  },
+  {
+    "id": "gp_009",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle est la finalité du Daily Scrum ?",
+    "answers": [
+      {
+        "id": "gp_009_a",
+        "text": "Rendre compte au chef de projet du nombre d'heures passées par chacun",
+        "isCorrect": false,
+        "note": "Le Daily n'est pas une réunion de reporting : c'est une synchronisation entre équipiers pour eux-mêmes."
+      },
+      {
+        "id": "gp_009_c",
+        "text": "Synchroniser le travail de la journée et ajuster le plan du sprint entre développeurs",
+        "isCorrect": true,
+        "note": "Le Daily est une courte planification quotidienne de l'équipe : avancer ensemble vers l'objectif du sprint."
+      },
+      {
+        "id": "gp_009_b",
+        "text": "Démontrer l'incrément terminé aux parties prenantes du produit",
+        "isCorrect": false,
+        "note": "Cette démonstration a lieu lors de la Sprint Review, qui clôture le sprint en présence des parties prenantes."
+      },
+      {
+        "id": "gp_009_d",
+        "text": "Résoudre définitivement les obstacles techniques soulevés par l'équipe",
+        "isCorrect": false,
+        "note": "Le Daily identifie les obstacles ; leur résolution détaillée se fait après, avec les personnes concernées."
+      }
+    ],
+    "explanation": "Le Daily Scrum est un événement court d'environ quinze minutes réservé aux développeurs. Il sert à synchroniser les actions de la journée et à adapter le plan du sprint. Il ne s'agit ni d'un reporting de statut ni d'une séance de résolution de problèmes.",
+    "difficulty": "easy",
+    "tags": [
+      "scrum",
+      "daily-scrum"
+    ]
+  },
+  {
+    "id": "gp_010",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Que se passe-t-il pendant la Sprint Review ?",
+    "answers": [
+      {
+        "id": "gp_010_a",
+        "text": "L'équipe analyse son fonctionnement interne pour définir des axes d'amélioration",
+        "isCorrect": false,
+        "note": "Cette introspection collective est l'objet de la Sprint Retrospective, qui précède la fin du sprint."
+      },
+      {
+        "id": "gp_010_b",
+        "text": "Le Scrum Master attribue une note de performance à chaque développeur",
+        "isCorrect": false,
+        "note": "Scrum ne comporte aucune évaluation individuelle lors de ses événements ; la Review est tournée vers le produit."
+      },
+      {
+        "id": "gp_010_d",
+        "text": "L'équipe inspecte l'incrément avec les parties prenantes et adapte le Product Backlog",
+        "isCorrect": true,
+        "note": "La Review est une séance de travail sur le produit : démonstration, retours et ajustement du backlog."
+      },
+      {
+        "id": "gp_010_c",
+        "text": "L'équipe rédige le cahier des charges du sprint suivant avec le client",
+        "isCorrect": false,
+        "note": "Il n'y a pas de cahier des charges en Scrum ; les besoins vivent dans le Product Backlog, affiné en continu."
+      }
+    ],
+    "explanation": "La Sprint Review clôture le sprint en présence de l'équipe Scrum et des parties prenantes. L'incrément est présenté et discuté, et le Product Backlog est ajusté à la lumière des retours. Le but est de maximiser la valeur du prochain travail.",
+    "difficulty": "medium",
+    "tags": [
+      "scrum",
+      "sprint-review"
+    ]
+  },
+  {
+    "id": "gp_011",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est l'objectif de la Sprint Retrospective ?",
+    "answers": [
+      {
+        "id": "gp_011_a",
+        "text": "Présenter au client les nouvelles fonctionnalités développées pendant le sprint",
+        "isCorrect": false,
+        "note": "La présentation au client a lieu en Sprint Review ; la rétrospective est centrée sur le fonctionnement de l'équipe."
+      },
+      {
+        "id": "gp_011_d",
+        "text": "Vérifier la conformité de l'incrément aux critères d'acceptation de chaque récit",
+        "isCorrect": false,
+        "note": "Cette vérification se fait tout au long du sprint et se concrétise en Review, pas en rétrospective."
+      },
+      {
+        "id": "gp_011_c",
+        "text": "Réorganiser les éléments du Product Backlog selon la valeur attendue",
+        "isCorrect": false,
+        "note": "La priorisation du backlog est l'affaire du Product Owner, notamment lors de la Review ou de l'affinage."
+      },
+      {
+        "id": "gp_011_b",
+        "text": "Identifier des améliorations du fonctionnement de l'équipe à appliquer dès le sprint suivant",
+        "isCorrect": true,
+        "note": "La rétrospective inspecte les personnes, les processus et les outils pour planifier des améliorations concrètes."
+      }
+    ],
+    "explanation": "La Sprint Retrospective se déroule après la Review, en fin de sprint. L'équipe Scrum examine ce qui a bien fonctionné, ce qui a posé problème et comment s'améliorer. Elle aboutit à un plan d'amélioration concret pour le sprint suivant.",
+    "difficulty": "medium",
+    "tags": [
+      "scrum",
+      "retrospective"
+    ]
+  },
+  {
+    "id": "gp_012",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle proposition distingue correctement la Definition of Done des critères d'acceptation ?",
+    "answers": [
+      {
+        "id": "gp_012_a",
+        "text": "La Definition of Done est un référentiel de qualité commun à tous les éléments, les critères d'acceptation sont propres à chaque récit",
+        "isCorrect": true,
+        "note": "La DoD s'applique uniformément à tout incrément, tandis que chaque récit porte ses propres critères spécifiques."
+      },
+      {
+        "id": "gp_012_b",
+        "text": "La Definition of Done varie d'un récit à l'autre, les critères d'acceptation sont communs à tout le produit",
+        "isCorrect": false,
+        "note": "C'est exactement l'inverse : la DoD est partagée, les critères d'acceptation sont spécifiques à chaque élément."
+      },
+      {
+        "id": "gp_012_c",
+        "text": "La Definition of Done se limite au bon fonctionnement du code, les critères d'acceptation couvrent les tests",
+        "isCorrect": false,
+        "note": "La DoD englobe généralement codage, tests, intégration et documentation ; elle ne se limite pas au code."
+      },
+      {
+        "id": "gp_012_d",
+        "text": "La Definition of Done est fixée par le client, les critères d'acceptation par le Scrum Master",
+        "isCorrect": false,
+        "note": "La DoD est construite par l'équipe de développement ; le Scrum Master ne rédige ni l'une ni les autres."
+      }
+    ],
+    "explanation": "La Definition of Done est une convention commune de qualité applicable à tous les éléments du produit. Les critères d'acceptation décrivent, pour un récit donné, les conditions concrètes de validation métier. Un élément est terminé s'il satisfait à la fois la DoD et ses critères propres.",
+    "difficulty": "hard",
+    "tags": [
+      "scrum",
+      "definition-of-done",
+      "criteres-acceptation"
+    ]
+  },
+  {
+    "id": "gp_013",
+    "domain": "GESTION_PROJET",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Parmi les propositions suivantes, lesquelles expriment des valeurs du manifeste agile ?",
+    "answers": [
+      {
+        "id": "gp_013_d",
+        "text": "Le suivi strict du plan initial plutôt que la réponse au changement",
+        "isCorrect": false,
+        "note": "Le manifeste privilégie la réponse au changement : le plan initial sert de repère, pas de prison."
+      },
+      {
+        "id": "gp_013_b",
+        "text": "Une documentation exhaustive plutôt que le logiciel fonctionnel",
+        "isCorrect": false,
+        "note": "Le manifeste dit l'inverse : il privilégie le logiciel fonctionnel à une documentation exhaustive, sans exclure la documentation."
+      },
+      {
+        "id": "gp_013_a",
+        "text": "Les individus et leurs interactions plutôt que les processus et les outils",
+        "isCorrect": true,
+        "note": "C'est la première valeur du manifeste : privilégier les personnes et la communication directe."
+      },
+      {
+        "id": "gp_013_c",
+        "text": "La collaboration avec le client plutôt que la négociation contractuelle",
+        "isCorrect": true,
+        "note": "C'est la troisième valeur : construire avec le client plutôt que s'affronter sur le contrat."
+      }
+    ],
+    "explanation": "Le manifeste agile énonce quatre valeurs : les individus et leurs interactions, un logiciel fonctionnel, la collaboration avec le client et la réponse au changement. Chaque valeur est préférée à son contrepoint classique sans pour autant l'éliminer.",
+    "difficulty": "easy",
+    "tags": [
+      "agile",
+      "manifeste-agile"
+    ]
+  },
+  {
+    "id": "gp_014",
+    "domain": "GESTION_PROJET",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quelles actions relèvent du Scrum Master ?",
+    "answers": [
+      {
+        "id": "gp_014_a",
+        "text": "Aider l'équipe à supprimer les obstacles qui ralentissent son travail",
+        "isCorrect": true,
+        "note": "La levée des impedimenta est une responsabilité centrale du Scrum Master au service de l'équipe."
+      },
+      {
+        "id": "gp_014_b",
+        "text": "Faciliter les événements Scrum et veiller à leur efficacité",
+        "isCorrect": true,
+        "note": "Le Scrum Master veille à ce que les événements aient lieu, soient positifs et respectent le cadre temporel."
+      },
+      {
+        "id": "gp_014_d",
+        "text": "Rédiger les critères d'acceptation de chaque récit utilisateur",
+        "isCorrect": false,
+        "note": "Les critères d'acceptation sont surtout portés par le Product Owner avec l'équipe, pas par le Scrum Master."
+      },
+      {
+        "id": "gp_014_c",
+        "text": "Ordonner les éléments du Product Backlog selon la valeur métier",
+        "isCorrect": false,
+        "note": "La priorisation du backlog appartient exclusivement au Product Owner, porteur de la valeur."
+      }
+    ],
+    "explanation": "Le Scrum Master est responsable de l'efficacité de Scrum : il facilite les événements, coach l'équipe et l'organisation, et aide à supprimer les obstacles. Il ne priorise pas le backlog et ne rédige pas les exigences, qui relèvent du Product Owner.",
+    "difficulty": "medium",
+    "tags": [
+      "scrum",
+      "scrum-master"
+    ]
+  },
+  {
+    "id": "gp_015",
+    "domain": "GESTION_PROJET",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quelles sont les caractéristiques d'un Product Backlog bien géré ?",
+    "answers": [
+      {
+        "id": "gp_015_b",
+        "text": "Il évolue en continu au fil des retours utilisateurs et des apprentissages",
+        "isCorrect": true,
+        "note": "Le backlog est un artefact vivant, affiné à chaque sprint ; un backlog figé serait contraire à l'agile."
+      },
+      {
+        "id": "gp_015_a",
+        "text": "Il est ordonné : les éléments de plus forte valeur métier figurent en tête",
+        "isCorrect": true,
+        "note": "L'ordre par valeur permet à l'équipe de toujours travailler d'abord sur ce qui rapporte le plus."
+      },
+      {
+        "id": "gp_015_d",
+        "text": "Il est gelé après la phase de cadrage pour stabiliser le périmètre du projet",
+        "isCorrect": false,
+        "note": "Le gel du périmètre est une pratique classique ; en Scrum, le backlog s'adapte en permanence."
+      },
+      {
+        "id": "gp_015_c",
+        "text": "Il est unique : une seule liste de besoins fait référence pour tout le produit",
+        "isCorrect": true,
+        "note": "L'unicité du backlog évite les sources multiples d'exigences contradictoires."
+      }
+    ],
+    "explanation": "Un Product Backlog sain est unique, ordonné par valeur et continuellement affiné. Il reflète l'état le plus à jour de la connaissance du produit. Le gel du backlog contredit le principe d'adaptation du manifeste agile.",
+    "difficulty": "medium",
+    "tags": [
+      "scrum",
+      "product-backlog"
+    ]
+  },
+  {
+    "id": "gp_016",
+    "domain": "GESTION_PROJET",
+    "type": "TRUE_FALSE",
+    "question": "Affirmation : dans une approche incrémentale, le produit est découpé en tranches fonctionnelles livrées successivement, chacune ajoutant une capacité à ce qui existe déjà.",
+    "answers": [
+      {
+        "id": "gp_016_v",
+        "text": "Vrai",
+        "isCorrect": true,
+        "note": "C'est exactement le principe incrémental : chaque livraison enrichit le produit déjà utilisé, tranches après tranches."
+      },
+      {
+        "id": "gp_016_f",
+        "text": "Faux",
+        "isCorrect": false,
+        "note": "Refuser cette définition reviendrait à confondre incrémental avec itératif, qui retravaille une même version."
+      }
+    ],
+    "explanation": "L'approche incrémentale construit le produit par ajouts successifs de fonctionnalités complètes et utilisables. Chaque incrément s'empile sur les précédents sans les remettre en cause. C'est le mode de livraison naturel des frameworks comme Scrum.",
+    "difficulty": "easy",
+    "tags": [
+      "agile",
+      "incremental"
+    ]
+  },
+  {
+    "id": "gp_017",
+    "domain": "GESTION_PROJET",
+    "type": "TRUE_FALSE",
+    "question": "Affirmation : le Daily Scrum est une réunion de statut où les développeurs rendent compte de leurs heures passées devant le chef de projet.",
+    "answers": [
+      {
+        "id": "gp_017_f",
+        "text": "Faux",
+        "isCorrect": true,
+        "note": "Le Daily est une synchronisation entre équipiers pour ajuster le plan du sprint ; il n'est pas un reporting de statut."
+      },
+      {
+        "id": "gp_017_v",
+        "text": "Vrai",
+        "isCorrect": false,
+        "note": "Réduire le Daily à un reporting de charge est une dérive fréquente qui vide l'événement de son utilité."
+      }
+    ],
+    "explanation": "Le Daily Scrum est une planification quotidienne interne à l'équipe de développement, d'environ quinze minutes. Il répond à trois questions d'équipe : où en est-on, que fait-on ensuite, quels obstacles levés. Il ne sert ni à contrôler les heures ni à rendre des comptes.",
+    "difficulty": "easy",
+    "tags": [
+      "scrum",
+      "daily-scrum"
+    ]
+  },
+  {
+    "id": "gp_018",
+    "domain": "GESTION_PROJET",
+    "type": "TRUE_FALSE",
+    "question": "Affirmation : le manifeste agile interdit de documenter un logiciel, puisque seul compte le code livré.",
+    "answers": [
+      {
+        "id": "gp_018_v",
+        "text": "Vrai",
+        "isCorrect": false,
+        "note": "Aucune interdiction n'existe : le manifeste établit une préférence, pas une interdiction de documenter."
+      },
+      {
+        "id": "gp_018_f",
+        "text": "Faux",
+        "isCorrect": true,
+        "note": "Le manifeste privilégie le logiciel fonctionnel à une documentation exhaustive, mais la documentation utile reste bienvenue."
+      }
+    ],
+    "explanation": "Le manifeste agile oppose les valeurs sans abolir leur contrepartie : il y a de la valeur à documenter, simplement moins qu'à livrer du logiciel fonctionnel. Les équipes agiles documentent ce qui sert réellement la compréhension et la maintenance.",
+    "difficulty": "medium",
+    "tags": [
+      "agile",
+      "manifeste-agile"
+    ]
+  },
+  {
+    "id": "gp_019",
+    "domain": "GESTION_PROJET",
+    "type": "FILL_BLANK",
+    "question": "Pour un sprint d'un mois, la durée maximale d'un Daily Scrum est de ___ minutes.",
+    "blanks": [
+      {
+        "accepted": [
+          "15",
+          "quinze"
+        ]
+      }
+    ],
+    "explanation": "Le Daily Scrum est volontairement limité à quinze minutes quel que soit le sprint. Cette contrainte force une synchronisation concise et évite la transformation en réunion de résolution de problèmes ou en reporting détaillé.",
+    "difficulty": "easy",
+    "tags": [
+      "scrum",
+      "daily-scrum"
+    ]
+  },
+  {
+    "id": "gp_020",
+    "domain": "GESTION_PROJET",
+    "type": "FILL_BLANK",
+    "question": "En Scrum, un sprint est une itération de durée fixe et régulière qui ne dépasse jamais ___ mois.",
+    "blanks": [
+      {
+        "accepted": [
+          "un",
+          "1"
+        ]
+      }
+    ],
+    "explanation": "Le sprint, battement cardiaque de Scrum, dure au plus un mois, souvent une à deux semaines en pratique. Cette durée courte limite le risque pris par itération et permet des retours fréquents des parties prenantes.",
+    "difficulty": "easy",
+    "tags": [
+      "scrum",
+      "sprint"
+    ]
+  },
+  {
+    "id": "gp_021",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans Scrum, qu'est-ce que la vélocité d'une équipe ?",
+    "answers": [
+      {
+        "id": "gp_021_a",
+        "text": "Le nombre de développeurs disponibles pendant le sprint en cours",
+        "isCorrect": false,
+        "note": "La taille de l'équipe influence la capacité, mais la vélocité mesure du travail terminé, pas des effectifs."
+      },
+      {
+        "id": "gp_021_d",
+        "text": "La somme des points d'histoire réellement terminés par l'équipe pendant un sprint",
+        "isCorrect": true,
+        "note": "La vélocité est un indicateur empirique de débit : points d'histoire complets par itération."
+      },
+      {
+        "id": "gp_021_c",
+        "text": "Le nombre d'anomalies corrigées par l'équipe au cours d'un sprint",
+        "isCorrect": false,
+        "note": "Les anomalies corrigées relèvent de la qualité ; la vélocité compte le travail terminé en points."
+      },
+      {
+        "id": "gp_021_b",
+        "text": "La durée moyenne nécessaire pour développer une fonctionnalité complète",
+        "isCorrect": false,
+        "note": "C'est une mesure de délai par élément ; la vélocité agrège le travail fini par sprint."
+      }
+    ],
+    "explanation": "La vélocité mesure la quantité de travail qu'une équipe termine par sprint, exprimée en points d'histoire. Calculée sur plusieurs sprints, elle sert à prévoir ce que l'équipe peut s'engager à livrer. Elle est propre à chaque équipe et ne se compare pas entre équipes.",
+    "difficulty": "medium",
+    "tags": [
+      "scrum",
+      "velocite",
+      "metriques"
+    ]
+  },
+  {
+    "id": "gp_022",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Que mesure un point d'histoire (story point) en estimation agile ?",
+    "answers": [
+      {
+        "id": "gp_022_c",
+        "text": "L'importance commerciale du besoin exprimée par le client final",
+        "isCorrect": false,
+        "note": "La valeur métier sert à prioriser le backlog ; le point d'histoire mesure l'effort, pas l'importance."
+      },
+      {
+        "id": "gp_022_b",
+        "text": "Le nombre exact d'heures de travail que durera la tâche concernée",
+        "isCorrect": false,
+        "note": "Convertir les points en heures garanties est un abus fréquent : le point est relatif, pas une durée contractuelle."
+      },
+      {
+        "id": "gp_022_a",
+        "text": "L'effort relatif nécessaire pour réaliser un élément, tenant compte de complexité et d'incertitude",
+        "isCorrect": true,
+        "note": "Le point d'histoire est une unité relative et composite : effort, complexité et doute s'y combinent."
+      },
+      {
+        "id": "gp_022_d",
+        "text": "Le nombre de développeurs qu'il faudra mobiliser sur l'élément estimé",
+        "isCorrect": false,
+        "note": "Le point évalue l'ampleur du travail lui-même, indépendamment des ressources mobilisées."
+      }
+    ],
+    "explanation": "Le point d'histoire estime l'effort global de réalisation d'un élément du backlog de façon relative. Il agrège la complexité technique, le volume de travail et l'incertitude ressentis par l'équipe. Les estimations se font par comparaison entre éléments, souvent via une suite de Fibonacci.",
+    "difficulty": "medium",
+    "tags": [
+      "estimation",
+      "story-points"
+    ]
+  },
+  {
+    "id": "gp_023",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Comment fonctionne la technique d'estimation du planning poker ?",
+    "answers": [
+      {
+        "id": "gp_023_a",
+        "text": "Le chef de projet annonce son estimation et l'équipe la suit par défaut",
+        "isCorrect": false,
+        "note": "Le planning poker évite justement l'ancrage sur l'avis d'une personne influente."
+      },
+      {
+        "id": "gp_023_b",
+        "text": "Un outil calcule automatiquement l'effort à partir du planning et des ressources",
+        "isCorrect": false,
+        "note": "Le planning poker est une estimation humaine et collective, pas un calcul automatisé."
+      },
+      {
+        "id": "gp_023_d",
+        "text": "L'équipe classe les récits du plus simple au plus complexe sans chiffrage collectif",
+        "isCorrect": false,
+        "note": "Ce tri relève d'autres techniques comparatives ; le poker repose sur les cartes révélées en même temps."
+      },
+      {
+        "id": "gp_023_c",
+        "text": "Chaque membre révèle simultanément sa carte d'estimation, puis les écarts sont discutés jusqu'au consensus",
+        "isCorrect": true,
+        "note": "La révélation simultanée fait émerger les divergences, dont la discussion affine la compréhension."
+      }
+    ],
+    "explanation": "Le planning poker est une estimation collaborative où chaque participant choisit une carte à l'aveugle, toutes révélées simultanément. Les écarts importants sont discutés, puis l'opération est rejouée jusqu'à converger. Cette révélation simultanée neutralise l'effet d'ancrage et enrichit la compréhension commune.",
+    "difficulty": "medium",
+    "tags": [
+      "estimation",
+      "planning-poker"
+    ]
+  },
+  {
+    "id": "gp_024",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle caractéristique définit le cycle en V ?",
+    "answers": [
+      {
+        "id": "gp_024_b",
+        "text": "Une descente des spécifications vers le code, doublée d'une remontée de tests associés à chaque niveau",
+        "isCorrect": true,
+        "note": "Le cycle en V associe à chaque phase de conception une phase de test de même niveau : la branche montante vérifie la descendante."
+      },
+      {
+        "id": "gp_024_a",
+        "text": "Des itérations courtes qui réexaminent sans cesse les mêmes livrables",
+        "isCorrect": false,
+        "note": "Les itérations répétées sur un même livrable caractérisent l'approche itérative, pas le cycle en V."
+      },
+      {
+        "id": "gp_024_c",
+        "text": "Un flux continu de tâches limité par la capacité de travail de l'équipe",
+        "isCorrect": false,
+        "note": "Le flux continu avec limitation du travail en cours décrit Kanban, pas le cycle en V."
+      },
+      {
+        "id": "gp_024_d",
+        "text": "Une construction par tranches fonctionnelles livrées dès qu'elles sont utiles",
+        "isCorrect": false,
+        "note": "La livraison par tranches fonctionnelles est incrémentale ; le cycle en V séquence ses phases."
+      }
+    ],
+    "explanation": "Le cycle en V déroule une branche descendante de spécification et de conception, puis une branche montante de tests. Chaque niveau de conception a son niveau de vérification : tests unitaires face à la conception détaillée, recette face aux besoins. Il convient aux projets où les exigences sont stables.",
+    "difficulty": "medium",
+    "tags": [
+      "cycle-en-v",
+      "cycle-v",
+      "tests"
+    ]
+  },
+  {
+    "id": "gp_025",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est le principal risque du modèle en cascade ?",
+    "answers": [
+      {
+        "id": "gp_025_a",
+        "text": "Une trop grande implication du client dans les décisions techniques quotidiennes",
+        "isCorrect": false,
+        "note": "Le problème du cascade est plutôt un client peu impliqué entre le cahier des charges et la recette finale."
+      },
+      {
+        "id": "gp_025_d",
+        "text": "La découverte tardive d'erreurs de spécification, coûteuses à corriger en fin de projet",
+        "isCorrect": true,
+        "note": "Les phases séquentielles repoussent la vérification réelle : les malentendus n'éclatent qu'à la recette."
+      },
+      {
+        "id": "gp_025_c",
+        "text": "Une incapacité à estimer le coût total du projet avant le développement",
+        "isCorrect": false,
+        "note": "Le cascade estime très tôt l'ensemble : c'est d'ailleurs ce chiffrage précoce qui devient trompeur."
+      },
+      {
+        "id": "gp_025_b",
+        "text": "Un code instable dû à des refactorisations permanentes du produit",
+        "isCorrect": false,
+        "note": "Les retravaillements permanents sont propres aux démarches itératives, pas au déroulé séquentiel."
+      }
+    ],
+    "explanation": "En cascade, chaque phase ne démarre que lorsque la précédente est achevée et validée sur papier. Les besoins réels ne sont confrontés au produit qu'à la toute fin, ce qui rend les corrections d'exigences très coûteuses. C'est la limite majeure d'un cycle purement séquentiel.",
+    "difficulty": "medium",
+    "tags": [
+      "cascade",
+      "cycle-v",
+      "risques"
+    ]
+  },
+  {
+    "id": "gp_026",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le chemin critique dans un réseau de tâches de projet ?",
+    "answers": [
+      {
+        "id": "gp_026_c",
+        "text": "La liste des tâches affectées aux ressources les plus expérimentées",
+        "isCorrect": false,
+        "note": "L'affectation des ressources relève du lissage de charge, pas de la définition du chemin critique."
+      },
+      {
+        "id": "gp_026_b",
+        "text": "L'ensemble des tâches les plus coûteuses du budget du projet",
+        "isCorrect": false,
+        "note": "Le coût ne définit pas la criticité : une tâche peu chère peut se trouver sur le chemin critique."
+      },
+      {
+        "id": "gp_026_a",
+        "text": "L'enchaînement de tâches le plus long du projet, qui détermine sa durée minimale",
+        "isCorrect": true,
+        "note": "Le chemin critique additionne les durées de la suite de tâches dépendantes la plus longue : il fixe la fin du projet."
+      },
+      {
+        "id": "gp_026_d",
+        "text": "Le circuit de validation des livrables entre les différents comités du projet",
+        "isCorrect": false,
+        "note": "Confusion avec le circuit de gouvernance : le chemin critique est une notion d'ordonnancement des tâches."
+      }
+    ],
+    "explanation": "Le chemin critique est le chemin de dépendances dont la durée totale est la plus grande dans le réseau du projet. Comme il n'offre aucune marge, tout retard sur ses tâches retarde d'autant la fin du projet. Il se détermine par le calcul des marges, notamment en méthode PERT ou CPM.",
+    "difficulty": "medium",
+    "tags": [
+      "ordonnancement",
+      "chemin-critique"
+    ]
+  },
+  {
+    "id": "gp_027",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Que se passe-t-il si une tâche située sur le chemin critique prend un jour de retard ?",
+    "answers": [
+      {
+        "id": "gp_027_a",
+        "text": "Le projet se termine un jour plus tôt puisque la tâche est déjà terminée en avance",
+        "isCorrect": false,
+        "note": "Aucun mécanisme du projet n'annonce d'avance : le retard se propage tel quel sur la fin planifiée."
+      },
+      {
+        "id": "gp_027_b",
+        "text": "Rien de particulier, car les autres tâches du projet absorbent automatiquement le retard",
+        "isCorrect": false,
+        "note": "Sur le chemin critique il n'existe aucune tâche en réserve : rien ne peut absorber un retard."
+      },
+      {
+        "id": "gp_027_d",
+        "text": "La tâche change de statut et devient une tâche ordinaire en dehors du chemin critique",
+        "isCorrect": false,
+        "note": "La criticité d'une tâche ne disparaît pas parce qu'elle prend du retard, au contraire elle s'accentue."
+      },
+      {
+        "id": "gp_027_c",
+        "text": "La date de fin du projet est repoussée d'autant, sauf action corrective du chef de projet",
+        "isCorrect": true,
+        "note": "Sans marge disponible, tout retard d'une tâche critique décale la fin du projet d'une durée équivalente."
+      }
+    ],
+    "explanation": "Une tâche du chemin critique possède une marge totale nulle : elle ne peut pas glisser sans repousser la fin du projet. Un retard d'un jour sur une telle tâche retarde donc la livraison d'un jour, sauf compression ou réorganisation des tâches restantes.",
+    "difficulty": "medium",
+    "tags": [
+      "ordonnancement",
+      "chemin-critique",
+      "marges"
+    ]
+  },
+  {
+    "id": "gp_028",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Que représente le diagramme de Gantt ?",
+    "answers": [
+      {
+        "id": "gp_028_b",
+        "text": "Une vue calendrier où chaque tâche est une barre positionnée de sa date de début à sa date de fin",
+        "isCorrect": true,
+        "note": "Le Gantt place les barres de tâches sur l'axe du temps et matérialise liens, jalons et avancement."
+      },
+      {
+        "id": "gp_028_a",
+        "text": "Un réseau de dépendances entre tâches sans aucune référence au calendrier",
+        "isCorrect": false,
+        "note": "Le réseau de tâches sans calendrier correspond au graphe PERT ; le Gantt est justement calé sur le temps."
+      },
+      {
+        "id": "gp_028_c",
+        "text": "Une courbe cumulant le travail planifié et le travail réellement réalisé",
+        "isCorrect": false,
+        "note": "La comparaison planifié contre réalisé se lit plutôt sur une courbe en S ou un burndown chart."
+      },
+      {
+        "id": "gp_028_d",
+        "text": "Une matrice croisant les responsabilités des acteurs et les livrables du projet",
+        "isCorrect": false,
+        "note": "Le croisement acteurs contre livrables décrit la matrice RACI, qui n'a rien d'un calendrier."
+      }
+    ],
+    "explanation": "Le diagramme de Gantt représente les tâches sous forme de barres sur un calendrier, du début à la fin de chacune. Il montre les dépendances, les jalons et souvent le taux d'avancement réel. C'est l'outil de communication du planning le plus répandu.",
+    "difficulty": "easy",
+    "tags": [
+      "planification",
+      "gantt"
+    ]
+  },
+  {
+    "id": "gp_029",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans la méthode PERT, comment calcule-t-on la durée probable d'une tâche à partir des estimations optimiste, pessimiste et vraisemblable ?",
+    "answers": [
+      {
+        "id": "gp_029_a",
+        "text": "La moyenne simple des trois estimations, chacune pesant exactement un tiers",
+        "isCorrect": false,
+        "note": "La moyenne simple ignore le poids privilégié donné à l'estimation vraisemblable dans la formule PERT."
+      },
+      {
+        "id": "gp_029_d",
+        "text": "Une moyenne pondérée : optimiste et pessimiste comptent une fois, la vraisemblable quatre fois, le tout divisé par six",
+        "isCorrect": true,
+        "note": "C'est la formule PERT classique : (optimiste + 4 × vraisemblable + pessimiste) divisé par 6."
+      },
+      {
+        "id": "gp_029_c",
+        "text": "L'estimation pessimiste majorée d'une réserve de sécurité fixée à dix pour cent",
+        "isCorrect": false,
+        "note": "PERT n'applique pas de majoration forfaitaire : il pondère les trois scénarios par une formule précise."
+      },
+      {
+        "id": "gp_029_b",
+        "text": "La somme des estimations optimiste et pessimiste, divisée par deux",
+        "isCorrect": false,
+        "note": "Cette moyenne des extrêmes néglige l'estimation vraisemblable, cœur du calcul PERT."
+      }
+    ],
+    "explanation": "La méthode PERT traite l'incertitude des durées avec trois estimations par tâche : optimiste, vraisemblable et pessimiste. La durée retenue est la moyenne pondérée (optimiste + 4 × vraisemblable + pessimiste) sur six. Cette pondération privilégie le scénario le plus crédible.",
+    "difficulty": "hard",
+    "tags": [
+      "pert",
+      "estimation",
+      "ordonnancement"
+    ]
+  },
+  {
+    "id": "gp_030",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce qu'un jalon dans un planning de projet ?",
+    "answers": [
+      {
+        "id": "gp_030_c",
+        "text": "Une réserve de temps placée à la fin du projet pour absorber les retards",
+        "isCorrect": false,
+        "note": "La réserve pour imprévus est un tampon de durée ; le jalon est un repère, pas une marge."
+      },
+      {
+        "id": "gp_030_b",
+        "text": "Une tâche longue qui regroupe plusieurs activités critiques du projet",
+        "isCorrect": false,
+        "note": "Un jalon n'est pas une tâche : il ne contient pas de travail et sa durée est nulle."
+      },
+      {
+        "id": "gp_030_a",
+        "text": "Un point de contrôle daté, de durée nulle, qui matérialise une étape importante",
+        "isCorrect": true,
+        "note": "Le jalon marque une date clé sans consommer de ressources : fin de phase, décision, livraison contractuelle."
+      },
+      {
+        "id": "gp_030_d",
+        "text": "Un document contractuel décrivant le périmètre exact des livraisons",
+        "isCorrect": false,
+        "note": "Le périmètre se décrit dans le cahier des charges ; le jalon n'est qu'un point daté dans le planning."
+      }
+    ],
+    "explanation": "Un jalon est un événement de durée nulle qui marque une date significative du projet : fin d'une phase, décision de poursuite, livraison au client. Il sert de point de contrôle au pilotage et structure la communication sur l'avancement.",
+    "difficulty": "easy",
+    "tags": [
+      "planification",
+      "jalons"
+    ]
+  },
+  {
+    "id": "gp_031",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Que permet la décomposition d'un projet en lots de travaux (structure WBS) ?",
+    "answers": [
+      {
+        "id": "gp_031_a",
+        "text": "Planifier les congés et les absences des membres de l'équipe projet",
+        "isCorrect": false,
+        "note": "La gestion des absences relève du plan de ressources ; le WBS découpe le travail, pas le calendrier humain."
+      },
+      {
+        "id": "gp_031_b",
+        "text": "Attribuer une note de performance à chaque contributeur du projet",
+        "isCorrect": false,
+        "note": "L'évaluation des personnes n'a rien à voir avec le WBS, qui découpe le périmètre en éléments de travail."
+      },
+      {
+        "id": "gp_031_d",
+        "text": "Trier les exigences du client par ordre décroissant de valeur commerciale",
+        "isCorrect": false,
+        "note": "Le tri par valeur est une technique de priorisation du backlog, pas une décomposition structurelle du travail."
+      },
+      {
+        "id": "gp_031_c",
+        "text": "Découper le périmètre total en éléments de travail hiérarchisés, chiffrables et attribuables",
+        "isCorrect": true,
+        "note": "Le WBS descend du livrable global vers des lots de plus en plus fins, base du chiffrage et de l'affectation."
+      }
+    ],
+    "explanation": "La structure de découpage du projet (WBS) décompose le périmètre en lots et sous-lots de travaux hiérarchiques. Chaque élément devient estimable en charge et assignable à un responsable. Cette décomposition est le socle du chiffrage, du planning et du suivi.",
+    "difficulty": "medium",
+    "tags": [
+      "planification",
+      "wbs",
+      "lots"
+    ]
+  },
+  {
+    "id": "gp_032",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "À quoi sert une matrice de responsabilités RACI dans un projet ?",
+    "answers": [
+      {
+        "id": "gp_032_b",
+        "text": "À clarifier qui réalise, qui est responsable, qui est consulté et qui est informé pour chaque tâche",
+        "isCorrect": true,
+        "note": "RACI distingue Réalisateur, Responsable, Consulté et Informé : chacun sait qui fait quoi et qui décide."
+      },
+      {
+        "id": "gp_032_a",
+        "text": "À calculer la charge de travail restante pour chaque itération du projet",
+        "isCorrect": false,
+        "note": "La charge restante se mesure par burndown ou avancement ; le RACI ne traite pas de charge."
+      },
+      {
+        "id": "gp_032_c",
+        "text": "À représenter les dépendances logiques entre les tâches techniques du projet",
+        "isCorrect": false,
+        "note": "Les dépendances entre tâches se représentent en PERT ou en réseau ; le RACI croise acteurs et tâches."
+      },
+      {
+        "id": "gp_032_d",
+        "text": "À prioriser les fonctionnalités selon leur fréquence d'utilisation attendue",
+        "isCorrect": false,
+        "note": "La priorisation par fréquence ou valeur relève du backlog ; le RACI organise les responsabilités."
+      }
+    ],
+    "explanation": "La matrice RACI croise les tâches du projet avec les acteurs et qualifie leur rôle : Réalisateur, Responsable, Consulté, Informé. Elle prévient les flous de responsabilité et les doublons de décision. Une règle courante veut qu'une tâche n'ait qu'un seul responsable.",
+    "difficulty": "medium",
+    "tags": [
+      "organisation",
+      "raci",
+      "responsabilites"
+    ]
+  },
+  {
+    "id": "gp_033",
+    "domain": "GESTION_PROJET",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quelles affirmations sont exactes concernant le chemin critique d'un projet ?",
+    "answers": [
+      {
+        "id": "gp_033_c",
+        "text": "Tout retard sur l'une de ses tâches retarde la fin du projet d'autant",
+        "isCorrect": true,
+        "note": "Sans marge, le retard d'une tâche critique se transmet intégralement à la date de fin."
+      },
+      {
+        "id": "gp_033_d",
+        "text": "Il regroupe obligatoirement les tâches dont le coût est le plus élevé",
+        "isCorrect": false,
+        "note": "La criticité est temporelle, pas budgétaire : les tâches chères ne sont pas forcément critiques."
+      },
+      {
+        "id": "gp_033_b",
+        "text": "Il peut changer de trajet en cours de projet si les durées réelles diffèrent des prévisions",
+        "isCorrect": true,
+        "note": "Le chemin critique est recalculé avec les durées réelles : un autre chemin peut devenir le plus long."
+      },
+      {
+        "id": "gp_033_a",
+        "text": "Les tâches qui le composent ont une marge totale égale à zéro",
+        "isCorrect": true,
+        "note": "C'est même la définition opérationnelle : aucune tâche du chemin critique ne peut glisser sans repousser la fin."
+      }
+    ],
+    "explanation": "Le chemin critique est le chemin de durée maximale du réseau de tâches : ses tâches n'ont aucune marge et son retard retarde le projet. Il se recalcule au fil de l'avancement réel et peut se déplacer vers un autre trajet. Sa criticité est temporelle, jamais budgétaire.",
+    "difficulty": "medium",
+    "tags": [
+      "ordonnancement",
+      "chemin-critique"
+    ]
+  },
+  {
+    "id": "gp_034",
+    "domain": "GESTION_PROJET",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quelles pratiques appartiennent à la méthode Extreme Programming (XP) ?",
+    "answers": [
+      {
+        "id": "gp_034_d",
+        "text": "La rédaction d'un cahier des charges exhaustif validé avant tout développement",
+        "isCorrect": false,
+        "note": "XP part de récits utilisateurs et d'exigences changeantes ; un cahier des charges figé lui est contraire."
+      },
+      {
+        "id": "gp_034_b",
+        "text": "Le développement piloté par les tests avant l'écriture du code de production",
+        "isCorrect": true,
+        "note": "En XP, on écrit d'abord le test qui échoue, puis le code minimal qui le fait passer."
+      },
+      {
+        "id": "gp_034_a",
+        "text": "La programmation en binôme devant le même poste de travail",
+        "isCorrect": true,
+        "note": "Deux développeurs sur un même code : l'un écrit, l'autre relit en continu, ce qui réduit les défauts."
+      },
+      {
+        "id": "gp_034_c",
+        "text": "La remise en état continue du code (refactoring) sans changer son comportement",
+        "isCorrect": true,
+        "note": "Le refactoring permanent maintient la conception simple et limite l'endettement technique."
+      }
+    ],
+    "explanation": "XP est une méthode agile centrée sur les pratiques d'ingénierie : binôme, tests d'abord, refactoring, intégration continue, conception simple. Elle vise la qualité du code face au changement rapide des besoins. Le cahier des charges exhaustif n'en fait pas partie.",
+    "difficulty": "medium",
+    "tags": [
+      "xp",
+      "agile",
+      "pratiques"
+    ]
+  },
+  {
+    "id": "gp_035",
+    "domain": "GESTION_PROJET",
+    "type": "TRUE_FALSE",
+    "question": "Affirmation : dans le modèle en cascade, les erreurs de spécification sont détectées dès les premières semaines, ce qui limite fortement leur coût de correction.",
+    "answers": [
+      {
+        "id": "gp_035_f",
+        "text": "Faux",
+        "isCorrect": true,
+        "note": "Les malentendus sur les besoins n'éclatent qu'à la recette, quand la correction est la plus coûteuse."
+      },
+      {
+        "id": "gp_035_v",
+        "text": "Vrai",
+        "isCorrect": false,
+        "note": "C'est l'avantage souvent revendiqué mais faux : le cascade vérifie les besoins sur papier, pas sur produit."
+      }
+    ],
+    "explanation": "Le modèle en cascade valide chaque phase sur documents avant de passer à la suivante. Le produit réel n'est confronté aux besoins qu'en fin de parcours, lors des tests et de la recette. Les erreurs de spécification sont donc découvertes tard, au moment où les corriger coûte le plus.",
+    "difficulty": "medium",
+    "tags": [
+      "cascade",
+      "cycle-v",
+      "qualite"
+    ]
+  },
+  {
+    "id": "gp_036",
+    "domain": "GESTION_PROJET",
+    "type": "TRUE_FALSE",
+    "question": "Affirmation : la vélocité est un indicateur fiable pour comparer objectivement la productivité de deux équipes Scrum différentes.",
+    "answers": [
+      {
+        "id": "gp_036_v",
+        "text": "Vrai",
+        "isCorrect": false,
+        "note": "C'est un abus classique : les points d'histoire n'ont pas d'étalon commun entre deux équipes."
+      },
+      {
+        "id": "gp_036_f",
+        "text": "Faux",
+        "isCorrect": true,
+        "note": "Chaque équipe calibre ses points à sa façon : la vélocité sert à prévoir dans une équipe, pas à comparer les équipes."
+      }
+    ],
+    "explanation": "La vélocité est un indicateur empirique et local : chaque équipe définit la valeur de ses propres points d'histoire. Un même récit peut valoir trois points chez l'une et cinq chez l'autre. Comparer des vélocités revient à comparer des unités de mesure différentes.",
+    "difficulty": "medium",
+    "tags": [
+      "scrum",
+      "velocite",
+      "metriques"
+    ]
+  },
+  {
+    "id": "gp_037",
+    "domain": "GESTION_PROJET",
+    "type": "FILL_BLANK",
+    "question": "La somme des points d'histoire réellement terminés par une équipe pendant un sprint s'appelle la ___.",
+    "blanks": [
+      {
+        "accepted": [
+          "velocite",
+          "vélocité",
+          "vitesse"
+        ]
+      }
+    ],
+    "explanation": "La vélocité mesure le débit réel de l'équipe en points d'histoire terminés par sprint. Observée sur plusieurs itérations, elle donne la plage de travail réaliste des prochains sprints et alimente le burndown du projet.",
+    "difficulty": "easy",
+    "tags": [
+      "scrum",
+      "velocite",
+      "estimation"
+    ]
+  },
+  {
+    "id": "gp_038",
+    "domain": "GESTION_PROJET",
+    "type": "FILL_BLANK",
+    "question": "Dans un réseau de tâches, l'enchaînement de durée maximale, dont les tâches n'ont aucune marge, s'appelle le chemin ___.",
+    "blanks": [
+      {
+        "accepted": [
+          "critique",
+          "critique du projet"
+        ]
+      }
+    ],
+    "explanation": "Le chemin critique est la suite de tâches dépendantes la plus longue du réseau d'ordonnancement. Il fixe la durée minimale du projet et ne tolère aucun retard sur ses tâches sans décaler la fin. Son identification est un produit du calcul PERT ou CPM.",
+    "difficulty": "medium",
+    "tags": [
+      "ordonnancement",
+      "chemin-critique",
+      "pert"
+    ]
+  },
+  {
+    "id": "gp_039",
+    "domain": "GESTION_PROJET",
+    "type": "CASE_STUDY",
+    "context": "La start-up béninoise Zemisphere développe une plateforme mobile de réservation de transport de marchandises. Le marché évolue vite, les retours utilisateurs arrivent chaque semaine et le périmètre initial a déjà changé trois fois. En parallèle, la même société doit moderniser le système interne de paie d'une administration partenaire : ce projet est contractuellement cadré, les exigences sont stables, une documentation complète doit être livrée pour l'audit de l'administration, et la date de mise en service est fixée par décret. Le directeur technique propose d'appliquer le même processus aux deux projets pour simplifier le suivi. L'équipe compte huit développeurs, dont trois seulement ont déjà travaillé en méthodes agiles.",
+    "question": "Vous êtes chargé(e) de conseiller la direction sur l'organisation des deux projets. Proposez et justifiez une approche de gestion pour chacun, puis expliquez les conditions de réussite.",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Quelle approche recommanderiez-vous pour la plateforme mobile de réservation, et pourquoi ?",
+        "answer": "Une approche agile, par exemple Scrum, convient à la plateforme mobile. Le marché change vite et les retours utilisateurs sont fréquents : il faut des itérations courtes (un à deux semaines) qui permettent d'ajuster le Product Backlog à chaque Sprint Review. La découverte continue du besoin, la priorisation par valeur et la livraison d'incréments testables réduisent le risque de construire une fonctionnalité inutile. L'équipe devra toutefois être accompagnée : trois développeurs sur huit connaissent l'agile, donc un temps de formation et un Scrum Master dédié sont nécessaires au démarrage.",
+        "rubric": [
+          "Choix explicite d'une démarche agile de type Scrum pour la plateforme",
+          "Justification par la variabilité du besoin et la fréquence des retours",
+          "Mention d'itérations courtes avec livraison d'incrément et revue",
+          "Prise en compte de la montée en compétence de l'équipe"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Quelle approche recommanderiez-vous pour le projet de modernisation de la paie, et pourquoi ?",
+        "answer": "Un cycle séquentiel planifié, par exemple un cycle en V, est plus adapté au projet de paie. Les exigences sont stables et contractuelles, la documentation est une exigence d'audit et la date est fixée réglementairement. Le cycle en V permet de formaliser les spécifications, de les valider avec l'administration, puis d'associer à chaque niveau de conception un niveau de tests jusqu'à la recette. Le plan de projet, les jalons de validation et le diagramme de Gantt donnent à l'administration la visibilité attendue. Une gestion des risques classique (registre, chemin critique, marges) complète le dispositif.",
+        "rubric": [
+          "Choix explicite d'un cycle séquentiel de type en V ou cascade maîtrisée",
+          "Justification par la stabilité des exigences et l'exigence de documentation",
+          "Association des niveaux de tests aux niveaux de spécification",
+          "Utilisation de jalons et d'un planning type Gantt pour la visibilité"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Quels arguments opposez-vous à l'idée d'un processus unique pour les deux projets ?",
+        "answer": "Un processus unique ferait perdre de la valeur des deux côtés. Imposer l'agile au projet de paie compliquerait la traçabilité documentaire et le reporting contractuel attendus par l'administration. Imposer le cycle en V à la plateforme ferait attendre plusieurs mois la première remise en production, alors que le marché exige des retours hebdomadaires. Le choix d'une démarche dérive de la nature du besoin (stabilité, risque, fréquence de changement) et non d'une préférence d'organisation. Deux processus distincts, avec des indicateurs adaptés à chacun, sont plus efficaces qu'une uniformisation artificielle.",
+        "rubric": [
+          "Argumentation sur l'inadéquation de chaque méthode à l'autre projet",
+          "Référence aux critères de choix : stabilité du besoin, risque, délai de retour",
+          "Position claire contre l'uniformisation sans justification métier"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "Le choix d'une démarche de gestion découle de la stabilité des exigences, du niveau de risque et de la fréquence de retour souhaitée. Les contextes changeants et exploratoires favorisent les cycles itératifs courts ; les contextes contractuels, documentaires et réglementaires favorisent les cycles séquentiels jalonnés. Uniformiser le processus sans analyser le contexte est une erreur classique de pilotage.",
+    "difficulty": "medium",
+    "tags": [
+      "choix-methode",
+      "agile",
+      "cycle-v"
+    ]
+  },
+  {
+    "id": "gp_040",
+    "domain": "GESTION_PROJET",
+    "type": "CASE_STUDY",
+    "context": "Le projet RefGouv, un portail de consultation des textes juridiques, est planifié sur 8 mois avec un diagramme de Gantt. Au mois 3, l'audit d'avancement révèle que le lot « moteur de recherche juridique », situé sur le chemin critique, accumule deux semaines de retard. Ce lot dépend d'un algorithme de classement difficile à stabiliser et deux développeurs du lot sont partis en formation pendant trois jours. Le client refuse tout report de la date de mise en service. Le chemin critique passe ensuite par « indexation complète des corpus » et « recette utilisateur », toutes deux sans marge. Deux tâches de refonte de l'interface graphique, hors chemin critique, disposent encore d'une marge totale de dix jours.",
+    "question": "Analysez la situation de retard et proposez un plan d'action réaliste pour ramener le projet à l'horizon prévu, en justifiant chaque décision.",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Pourquoi le retard du lot « moteur de recherche juridique » menace-t-il directement la date de livraison, alors qu'un retard sur la refonte graphique serait moins grave ?",
+        "answer": "Le lot moteur se trouve sur le chemin critique : sa marge totale est nulle, donc chaque jour perdu se répercute intégralement sur la fin du projet. Les deux semaines de retard repoussent d'autant les lots aval de l'indexation et de la recette. À l'inverse, la refonte graphique dispose d'une marge de dix jours : un retard inférieur à cette marge peut être absorbé sans conséquence sur la date de mise en service. C'est la différence entre tâche critique et tâche à marge qui hiérarchise l'urgence des actions.",
+        "rubric": [
+          "Identification du chemin critique et marge nulle des tâches concernées",
+          "Propagaison du retard du moteur vers l'indexation et la recette",
+          "Utilisation correcte de la notion de marge totale pour la refonte graphique"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Proposez au moins trois actions correctives adaptées et indiquez leurs limites.",
+        "answer": "Première action : traiter la cause technique en organisant un prototype ou un spike de quelques jours sur l'algorithme de classement pour lever l'incertitude plutôt que d'étaler le travail incertain. Deuxième action : réaffecter temporairement un développeur expérimenté issu d'un lot à marge vers le moteur, la refonte graphique pouvant glisser dans ses dix jours de marge. Troisième action : compresser le chemin critique en parallélisant l'indexation partielle des corpus avec les derniers développements du moteur, au prix d'une coordination plus fine. Quatrième action possible : négocier un périmètre phasé avec le client, la mise en service incluant le moteur et l'indexation principale, les corpus secondaires suivant en exploitation. Limites : l'ajout de ressources sur une tâche technique incertaine a une efficacité limitée (loi de Brooks), la parallélisation augmente le risque d'intégration et la réduction du périmètre doit être explicitement acceptée par le client.",
+        "rubric": [
+          "Action sur la cause technique (prototype, spike, simplification de l'algorithme)",
+          "Réaffectation de ressources en s'appuyant sur la marge des tâches non critiques",
+          "Compression du chemin critique par parallélisation ou chevauchement",
+          "Option de phasage du périmètre négociée avec le client",
+          "Mention des limites (loi de Brooks, risque d'intégration, accord client)"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Comment le chef de projet doit-il communiquer et suivre cette situation jusqu'à la remise à niveau du planning ?",
+        "answer": "Il doit d'abord alerter de façon factuelle : durée du retard, cause, impact calculé sur la fin planifiée, sans minimiser ni dramatiser. Ensuite, il met à jour le réseau de tâches et le Gantt avec les durées réelles, puis recalcule le chemin critique, qui peut avoir changé de trajet. Le plan d'action est daté, chaque action a un responsable et un point de contrôle hebdomadaire. Un tableau de bord simple (avancement du lot moteur, consommation de la marge graphique, qualité des tests) est partagé au client chaque semaine. Enfin, la leçon est inscrite dans le registre des risques : l'incertitude algorithmique devait être traitée plus tôt par une estimation probabiliste de type PERT.",
+        "rubric": [
+          "Communication factuelle et rapide au client et à la direction",
+          "Mise à jour du planning et recalcul du chemin critique",
+          "Suivi hebdomadaire avec responsables et points de contrôle",
+          "Capitalisation dans le registre des risques"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "La gestion d'un retard commence par l'analyse du chemin critique et des marges disponibles : les tâches critiques concentrent l'action corrective. Les leviers classiques sont le traitement de la cause d'incertitude, la réallocation des ressources depuis les tâches à marge, la compression par parallélisation et le phasage du périmètre. Toute action a une limite, et la communication transparente conditionne la confiance du client.",
+    "difficulty": "hard",
+    "tags": [
+      "retard",
+      "chemin-critique",
+      "gestion-risques"
+    ]
+  },
+  {
+    "id": "gp_041",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Comment définit-on un risque dans un projet informatique ?",
+    "answers": [
+      {
+        "id": "gp_041_a",
+        "text": "Un problème déjà survenu, enregistré comme anomalie dans le suivi du projet",
+        "isCorrect": false,
+        "note": "Un problème réalisé n'est plus un risque : il devient un problème à traiter, pas à anticiper."
+      },
+      {
+        "id": "gp_041_d",
+        "text": "Un événement incertain qui, s'il se produit, a un impact négatif sur les objectifs du projet",
+        "isCorrect": true,
+        "note": "Le risque combine l'incertitude de survenance et un impact sur coût, délai, qualité ou périmètre."
+      },
+      {
+        "id": "gp_041_c",
+        "text": "Une tâche sans marge située sur le chemin critique du planning",
+        "isCorrect": false,
+        "note": "La criticité d'une tâche est une contrainte d'ordonnancement, pas la définition d'un risque."
+      },
+      {
+        "id": "gp_041_b",
+        "text": "Une obligation contractuelle imposée par le client dans le cahier des charges",
+        "isCorrect": false,
+        "note": "La contrainte contractuelle est une donnée du projet ; le risque est par nature incertain."
+      }
+    ],
+    "explanation": "Un risque de projet est un événement incertain dont la réalisation aurait des conséquences négatives sur les objectifs. Il se caractérise par une probabilité d'occurrence et un impact. La gestion des risques consiste à les identifier, les analyser, les prioriser et les traiter avant qu'ils ne surviennent.",
+    "difficulty": "easy",
+    "tags": [
+      "risques",
+      "fondamentaux"
+    ]
+  },
+  {
+    "id": "gp_042",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "À quoi sert la matrice probabilité-impact dans la gestion des risques ?",
+    "answers": [
+      {
+        "id": "gp_042_c",
+        "text": "À répartir les tâches techniques entre les développeurs de l'équipe",
+        "isCorrect": false,
+        "note": "La répartition des tâches relève du plan de charge ; la matrice traite des événements redoutés."
+      },
+      {
+        "id": "gp_042_b",
+        "text": "À calculer le coût exact de chaque risque une fois qu'il s'est réalisé",
+        "isCorrect": false,
+        "note": "La matrice s'utilise avant la réalisation, sur des estimations qualitatives, pas sur un chiffrage définitif."
+      },
+      {
+        "id": "gp_042_a",
+        "text": "À hiérarchiser les risques pour concentrer les actions de traitement sur les plus exposés",
+        "isCorrect": true,
+        "note": "Le croisement probabilité et impact classe les risques et guide l'allocation des efforts de traitement."
+      },
+      {
+        "id": "gp_042_d",
+        "text": "À mesurer le rythme de consommation des points d'histoire par sprint",
+        "isCorrect": false,
+        "note": "Le rythme de consommation des points relève du burndown, sans lien avec la matrice des risques."
+      }
+    ],
+    "explanation": "La matrice probabilité-impact évalue chaque risque sur deux axes : sa chance de survenir et la gravité de ses conséquences. Le croisement produit des niveaux de criticité qui hiérarchisent le registre des risques. Les risques majeurs reçoivent un plan de traitement prioritaire.",
+    "difficulty": "easy",
+    "tags": [
+      "risques",
+      "matrice"
+    ]
+  },
+  {
+    "id": "gp_043",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Une réorganisation interne décide le sponsor du projet à partir en plein milieu du chantier. De quel type de risque s'agit-il ?",
+    "answers": [
+      {
+        "id": "gp_043_a",
+        "text": "Un risque technique, lié à la complexité des outils du projet",
+        "isCorrect": false,
+        "note": "Aucune technologie n'est en cause ici : l'événement est purement organisationnel et humain."
+      },
+      {
+        "id": "gp_043_b",
+        "text": "Un risque externe de marché, lié aux concurrents du produit",
+        "isCorrect": false,
+        "note": "Le marché n'apparaît pas dans ce scénario ; le départ du sponsor est interne à l'organisation."
+      },
+      {
+        "id": "gp_043_d",
+        "text": "Un risque de conformité, lié au non-respect de la réglementation applicable",
+        "isCorrect": false,
+        "note": "La conformité concerne le droit et les normes, pas les mouvements de personnes au sein du sponsor."
+      },
+      {
+        "id": "gp_043_c",
+        "text": "Un risque organisationnel, lié aux changements de structure et de gouvernance du projet",
+        "isCorrect": true,
+        "note": "Le départ du sponsor fragilise le pilotage et l'arbitrage : c'est un risque typiquement organisationnel."
+      }
+    ],
+    "explanation": "Les risques organisationnels proviennent de la structure, de la gouvernance ou des processus internes : départ du sponsor, changements de priorité, décisions retardées. Ils se distinguent des risques techniques (complexité, outils) et humains (compétences, turn-over de l'équipe).",
+    "difficulty": "medium",
+    "tags": [
+      "risques",
+      "organisationnels"
+    ]
+  },
+  {
+    "id": "gp_044",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle stratégie de traitement des risques consiste à réduire la probabilité ou l'impact d'un risque sans l'éliminer totalement ?",
+    "answers": [
+      {
+        "id": "gp_044_b",
+        "text": "L'atténuation, qui agit sur la probabilité ou la conséquence du risque pour en limiter la portée",
+        "isCorrect": true,
+        "note": "L'atténuation ou mitigation réduit le niveau de risque : prototype, formation, tests accrus sont des leviers."
+      },
+      {
+        "id": "gp_044_a",
+        "text": "L'évitement, qui consiste à supprimer la cause du risque en renonçant à l'activité concernée",
+        "isCorrect": false,
+        "note": "L'évitement élimine le risque en changeant le plan ; la question décrit une réduction, pas une suppression."
+      },
+      {
+        "id": "gp_044_c",
+        "text": "Le transfert, qui délègue la charge financière du risque à un tiers comme un assureur",
+        "isCorrect": false,
+        "note": "Le transfert déplace le risque vers un tiers ; il ne réduit pas la probabilité de survenance."
+      },
+      {
+        "id": "gp_044_d",
+        "text": "L'acceptation, qui reconnaît le risque et choisit de le vivre sans action particulière",
+        "isCorrect": false,
+        "note": "L'acceptation ne modifie ni la probabilité ni l'impact : on le constate et on le surveille."
+      }
+    ],
+    "explanation": "Quatre grandes stratégies de réponse existent : éviter la cause, atténuer le risque, le transférer à un tiers ou l'accepter en le surveillant. L'atténuation réduit la probabilité ou l'impact sans supprimer le risque. Le choix dépend de la criticité mesurée dans la matrice.",
+    "difficulty": "medium",
+    "tags": [
+      "risques",
+      "mitigation"
+    ]
+  },
+  {
+    "id": "gp_045",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce qu'un registre des risques dans un projet ?",
+    "answers": [
+      {
+        "id": "gp_045_b",
+        "text": "Le journal des incidents de sécurité survenus en production",
+        "isCorrect": false,
+        "note": "Les incidents passés relèvent du journal d'exploitation ; le registre est prospectif et vivant."
+      },
+      {
+        "id": "gp_045_a",
+        "text": "Un document vivant listant les risques identifiés avec leur analyse et leurs actions de traitement",
+        "isCorrect": true,
+        "note": "Le registre centralise identification, évaluation, responsable et plan d'action pour chaque risque."
+      },
+      {
+        "id": "gp_045_c",
+        "text": "La liste des participants autorisés à valider les livrables du projet",
+        "isCorrect": false,
+        "note": "Les valideurs se définissent dans le plan qualité ou la matrice RACI, pas dans le registre des risques."
+      },
+      {
+        "id": "gp_045_d",
+        "text": "Le contrat détaillant les pénalités de retard applicables au prestataire",
+        "isCorrect": false,
+        "note": "Les pénalités relèvent du contrat commercial ; le registre des risques est un outil de pilotage interne."
+      }
+    ],
+    "explanation": "Le registre des risques est l'outil central de la gestion des risques : il documente chaque risque identifié, sa probabilité, son impact, son classement et le plan de réponse associé. Mis à jour régulièrement, il sert de support aux revues de projet et à la communication.",
+    "difficulty": "easy",
+    "tags": [
+      "risques",
+      "registre"
+    ]
+  },
+  {
+    "id": "gp_046",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Le seul développeur maîtrisant un composant clé du projet annonce son départ. Quel risque faut-il enregistrer et comment le traiter de façon classique ?",
+    "answers": [
+      {
+        "id": "gp_046_c",
+        "text": "Un risque externe, traité par la sous-traitance intégrale du composant à un prestataire",
+        "isCorrect": false,
+        "note": "La sous-traitance transfère du travail, mais la cause reste interne : la concentration des savoirs."
+      },
+      {
+        "id": "gp_046_b",
+        "text": "Un risque technique, traité par le remplacement du composant par une technologie éprouvée",
+        "isCorrect": false,
+        "note": "Le remplacement technologique ne répond pas à la dépendance humaine, qui est la racine du risque."
+      },
+      {
+        "id": "gp_046_a",
+        "text": "Un risque humain, traité par mutualisation des connaissances et documentation partagée du composant",
+        "isCorrect": true,
+        "note": "La dépendance à une personne unique est un risque humain classique ; le partage des connaissances l'atténue."
+      },
+      {
+        "id": "gp_046_d",
+        "text": "Un risque de planning, traité par l'ajout de dix jours de marge à la fin du projet",
+        "isCorrect": false,
+        "note": "Ajouter de la marge ne corrige pas la perte de compétence, qui frappe tout au long du chantier."
+      }
+    ],
+    "explanation": "La dépendance à une compétence unique constitue un risque humain majeur : turn-over, indisponibilité, perte de savoir. Les traitements classiques consistent à former plusieurs personnes, documenter, revue croisée et pair programming. L'objectif est qu'aucune connaissance critique ne repose sur une seule tête.",
+    "difficulty": "medium",
+    "tags": [
+      "risques",
+      "humains"
+    ]
+  },
+  {
+    "id": "gp_047",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Que représente le burndown chart d'un sprint ?",
+    "answers": [
+      {
+        "id": "gp_047_d",
+        "text": "Le graphique du nombre d'anomalies ouvertes par semaine de recette",
+        "isCorrect": false,
+        "note": "Le suivi des anomalies est un autre indicateur qualité ; le burndown traite le volume de travail."
+      },
+      {
+        "id": "gp_047_b",
+        "text": "Le diagramme des dépendances entre les tâches techniques du sprint",
+        "isCorrect": false,
+        "note": "Les dépendances se dessinent dans le réseau de tâches ou le tableau, pas dans le burndown."
+      },
+      {
+        "id": "gp_047_c",
+        "text": "La répartition du budget consommé par catégorie de dépense du projet",
+        "isCorrect": false,
+        "note": "La consommation budgétaire relève du suivi financier ; le burndown mesure du travail restant."
+      },
+      {
+        "id": "gp_047_a",
+        "text": "La courbe du travail restant, comparée à la trajectoire idéale de consommation jusqu'à la fin",
+        "isCorrect": true,
+        "note": "Le burndown trace le travail restant dans le temps ; la pente idéale descend régulièrement vers zéro."
+      }
+    ],
+    "explanation": "Le burndown chart affiche, au fil du temps, la quantité de travail restante à traiter, souvent en points ou en heures. Une ligne idéale montre la trajectoire attendue jusqu'à zéro. L'écart entre la courbe réelle et l'idéale rend le retard ou l'avance immédiatement visible.",
+    "difficulty": "easy",
+    "tags": [
+      "metriques",
+      "burndown"
+    ]
+  },
+  {
+    "id": "gp_048",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "À mi-parcours d'un sprint, la courbe réelle du burndown se situe nettement au-dessus de la ligne idéale. Que faut-il en conclure ?",
+    "answers": [
+      {
+        "id": "gp_048_c",
+        "text": "Le sprint avance plus lentement que prévu et l'objectif risque de ne pas être atteint",
+        "isCorrect": true,
+        "note": "Au-dessus de la ligne idéale, il reste plus de travail que prévu à cet instant : le sprint est en retard."
+      },
+      {
+        "id": "gp_048_b",
+        "text": "Le Product Owner a ajouté de nouveaux éléments au Sprint Backlog en cours de sprint",
+        "isCorrect": false,
+        "note": "L'ajout d'éléments crée un plateau ou une hausse de la courbe, pas un simple écart au-dessus de l'idéal."
+      },
+      {
+        "id": "gp_048_a",
+        "text": "L'équipe a terminé son sprint en avance sur le prévisionnel",
+        "isCorrect": false,
+        "note": "Une avance placerait la courbe sous la ligne idéale, avec un travail restant plus faible que prévu."
+      },
+      {
+        "id": "gp_048_d",
+        "text": "Les points d'histoire de l'équipe ont été mal convertis en heures de travail",
+        "isCorrect": false,
+        "note": "Le burndown ne suppose aucune conversion en heures : l'écart se lit directement en travail restant."
+      }
+    ],
+    "explanation": "Dans un burndown, une courbe réelle au-dessus de la trajectoire idéale signifie qu'il reste plus de travail que le rythme prévu. À mi-sprint, cela signale un retard probable sur l'objectif. L'équipe doit alors discuter de la portée : réduire le périmètre, renforcer l'aide ou renégocier l'objectif.",
+    "difficulty": "medium",
+    "tags": [
+      "metriques",
+      "burndown",
+      "pilotage"
+    ]
+  },
+  {
+    "id": "gp_049",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce qu'un tableau Kanban ?",
+    "answers": [
+      {
+        "id": "gp_049_a",
+        "text": "Un plan de sprint fixe où les tâches ne bougent pas avant la fin de l'itération",
+        "isCorrect": false,
+        "note": "Le plan de sprint figé relève de Scrum ; le Kanban est un flux mouvementé en continu."
+      },
+      {
+        "id": "gp_049_b",
+        "text": "Une visualisation du flux de travail en colonnes, où les cartes progressent de la demande à la livraison",
+        "isCorrect": true,
+        "note": "Le tableau Kanban rend le flux visible : colonnes d'états, cartes de travail, progression continue."
+      },
+      {
+        "id": "gp_049_c",
+        "text": "Un calendrier annuel affichant les phases du projet et leurs jalons de validation",
+        "isCorrect": false,
+        "note": "Le calendrier de phases et de jalons décrit un planning de Gantt, pas un tableau Kanban."
+      },
+      {
+        "id": "gp_049_d",
+        "text": "Un registre des risques classés par probabilité croissante d'occurrence",
+        "isCorrect": false,
+        "note": "Le classement des risques se fait dans le registre et la matrice, pas dans un tableau de flux."
+      }
+    ],
+    "explanation": "Le tableau Kanban visualise le flux de production en colonnes représentant les états du travail, par exemple à faire, en cours, à valider, terminé. Les cartes de travail se déplacent d'une colonne à l'autre au fil de leur progression. La transparence du flux met en évidence les goulots d'étranglement.",
+    "difficulty": "easy",
+    "tags": [
+      "kanban",
+      "flux"
+    ]
+  },
+  {
+    "id": "gp_050",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est le but principal des limites de WIP (travail en cours) dans Kanban ?",
+    "answers": [
+      {
+        "id": "gp_050_a",
+        "text": "Réduire le salaire des développeurs en limitant le nombre de postes occupés",
+        "isCorrect": false,
+        "note": "Aucun lien avec la paie : le WIP concerne le volume de tâches simultanées, pas les ressources humaines."
+      },
+      {
+        "id": "gp_050_b",
+        "text": "Interdire tout nouveau travail tant que les sprints précédents ne sont pas validés",
+        "isCorrect": false,
+        "note": "Il n'y a pas de sprint en Kanban pur : la limite porte sur les cartes simultanées par étape."
+      },
+      {
+        "id": "gp_050_c",
+        "text": "Limiter les tâches démarrées simultanément pour fluidifier le flux et réduire les délais",
+        "isCorrect": true,
+        "note": "Limiter le WIP force à finir avant de commencer, débloque les goulots et raccourcit les délais."
+      },
+      {
+        "id": "gp_050_d",
+        "text": "Garantir que chaque développeur travaille sur au moins trois tâches en parallèle",
+        "isCorrect": false,
+        "note": "C'est l'effet inverse recherché : le multitâche excessif allonge les délais et disperse l'attention."
+      }
+    ],
+    "explanation": "La limite de WIP plafonne le nombre de cartes autorisées simultanément dans une étape du flux. Elle force l'équipe à terminer les travaux engagés avant d'en commencer de nouveaux, ce qui fait émerger les goulots d'étranglement et réduit le temps de cycle. C'est le levier principal de Kanban pour raccourcir les délais.",
+    "difficulty": "medium",
+    "tags": [
+      "kanban",
+      "wip"
+    ]
+  },
+  {
+    "id": "gp_051",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Selon la loi de Little, utilisée dans la réflexion Kanban, quel lien relie le travail en cours et les délais ?",
+    "answers": [
+      {
+        "id": "gp_051_d",
+        "text": "Le délai moyen d'une tâche est indépendant du nombre de personnes dans l'équipe",
+        "isCorrect": false,
+        "note": "L'effectif influence le débit, qui intervient explicitement dans la relation de Little."
+      },
+      {
+        "id": "gp_051_b",
+        "text": "Le délai moyen d'une tâche dépend uniquement de la complexité du code écrit",
+        "isCorrect": false,
+        "note": "La loi de Little relie délai, WIP et débit de flux ; la complexité du code n'y entre pas comme variable."
+      },
+      {
+        "id": "gp_051_c",
+        "text": "Le délai moyen d'une tâche diminue mécaniquement quand on démarre plus de tâches",
+        "isCorrect": false,
+        "note": "C'est l'inverse : démarrer davantage de tâches augmente le WIP et donc le délai moyen."
+      },
+      {
+        "id": "gp_051_a",
+        "text": "Le délai moyen d'une tâche est proportionnel au travail en cours pour un débit donné",
+        "isCorrect": true,
+        "note": "Délai = WIP divisé par débit : à débit constant, plus le WIP est grand, plus l'attente s'allonge."
+      }
+    ],
+    "explanation": "La loi de Little établit que le délai moyen de cycle égale le travail en cours divisé par le débit moyen du système. Pour un débit donné, réduire le WIP raccourcit mécaniquement les délais. Cette relation justifie l'usage des limites de WIP en Kanban.",
+    "difficulty": "hard",
+    "tags": [
+      "kanban",
+      "wip",
+      "loi-de-little"
+    ]
+  },
+  {
+    "id": "gp_052",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle est la différence fondamentale entre Scrum et Kanban ?",
+    "answers": [
+      {
+        "id": "gp_052_a",
+        "text": "Scrum impose des itérations fixes avec des rôles définis, Kanban gère un flux continu sans itération imposée",
+        "isCorrect": true,
+        "note": "Scrum cadre le travail par sprints et rôles ; Kanban visualise et limite un flux continu, sans cadre temporel."
+      },
+      {
+        "id": "gp_052_b",
+        "text": "Scrum interdit les tests automatisés alors que Kanban les rend obligatoires",
+        "isCorrect": false,
+        "note": "Aucun des deux cadres n'impose ni n'interdit les tests : ils organisent le travail, pas les outils de test."
+      },
+      {
+        "id": "gp_052_c",
+        "text": "Scrum fonctionne uniquement sur des projets réglementés, Kanban seulement sur des applications web",
+        "isCorrect": false,
+        "note": "Les deux approches s'appliquent à des contextes très variés ; aucun cloisonnement sectoriel n'existe."
+      },
+      {
+        "id": "gp_052_d",
+        "text": "Scrum mesure la vélocité en heures, Kanban la mesure en euros consommés par tâche",
+        "isCorrect": false,
+        "note": "La vélocité Scrum s'exprime en points ; Kanban suit plutôt débit, temps de cycle et WIP."
+      }
+    ],
+    "explanation": "Scrum est un cadre prescriptif : sprints de durée fixe, rôles définis, événements ritualisés et estimation en points. Kanban est une méthode de flux : visualisation du travail, limites de WIP, amélioration continue sans itération imposée ni rôles prédéfinis. Les deux peuvent d'ailleurs se combiner dans une approche Scrumban.",
+    "difficulty": "medium",
+    "tags": [
+      "scrum",
+      "kanban",
+      "comparaison"
+    ]
+  },
+  {
+    "id": "gp_053",
+    "domain": "GESTION_PROJET",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quelles actions illustrent une stratégie d'atténuation d'un risque projet ?",
+    "answers": [
+      {
+        "id": "gp_053_a",
+        "text": "Réaliser un prototype technique dès le début pour tester une technologie incertaine",
+        "isCorrect": true,
+        "note": "Le prototype lève l'incertitude tôt et réduit la probabilité d'échec technologique sur le vrai développement."
+      },
+      {
+        "id": "gp_053_d",
+        "text": "Souscrire une assurance couvrant les pénalités de retard envers le client",
+        "isCorrect": false,
+        "note": "L'assurance relève du transfert du risque vers un tiers, pas de son atténuation."
+      },
+      {
+        "id": "gp_053_c",
+        "text": "Renforcer la couverture de tests automatisés sur les modules les plus fragiles",
+        "isCorrect": true,
+        "note": "Plus de tests détectent les régressions plus tôt et réduisent l'impact des défauts."
+      },
+      {
+        "id": "gp_053_b",
+        "text": "Former plusieurs développeurs au composant critique pour éviter la dépendance à une personne",
+        "isCorrect": true,
+        "note": "La mutualisation des compétences réduit l'impact du départ éventuel d'un expert."
+      }
+    ],
+    "explanation": "L'atténuation agit pour rendre le risque moins probable ou moins grave : prototypes, formations, tests, redondance des compétences. L'assurance relève d'une autre stratégie, le transfert, qui déplace la charge financière vers un tiers sans réduire la survenance.",
+    "difficulty": "medium",
+    "tags": [
+      "risques",
+      "mitigation"
+    ]
+  },
+  {
+    "id": "gp_054",
+    "domain": "GESTION_PROJET",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quelles informations peut-on lire directement sur un burndown chart de sprint ?",
+    "answers": [
+      {
+        "id": "gp_054_c",
+        "text": "Le nom du développeur responsable de chaque tâche du sprint",
+        "isCorrect": false,
+        "note": "Les affectations individuelles figurent dans le tableau de tâches, pas dans le burndown."
+      },
+      {
+        "id": "gp_054_b",
+        "text": "L'écart entre le rythme réel de l'équipe et la trajectoire idéale attendue",
+        "isCorrect": true,
+        "note": "La comparaison à la ligne idéale rend le retard ou l'avance visibles d'un seul regard."
+      },
+      {
+        "id": "gp_054_a",
+        "text": "L'évolution du travail restant au fil des jours du sprint",
+        "isCorrect": true,
+        "note": "C'est l'axe principal du graphique : la courbe descend quand le travail est terminé."
+      },
+      {
+        "id": "gp_054_d",
+        "text": "Le chemin critique des tâches restantes du projet complet",
+        "isCorrect": false,
+        "note": "Le chemin critique est une notion d'ordonnancement global, absente du burndown de sprint."
+      }
+    ],
+    "explanation": "Le burndown chart montre le volume de travail restant dans le temps et sa comparaison avec la trajectoire idéale. Il ne contient ni affectations nominatives ni notions d'ordonnancement critique. Sa force est la lisibilité immédiate de la tendance du sprint.",
+    "difficulty": "medium",
+    "tags": [
+      "metriques",
+      "burndown"
+    ]
+  },
+  {
+    "id": "gp_055",
+    "domain": "GESTION_PROJET",
+    "type": "TRUE_FALSE",
+    "question": "Affirmation : plus la limite de travail en cours est élevée dans un processus Kanban, plus le délai de livraison de chaque tâche diminue.",
+    "answers": [
+      {
+        "id": "gp_055_f",
+        "text": "Faux",
+        "isCorrect": true,
+        "note": "Selon la loi de Little, à débit constant, un WIP plus élevé allonge le délai moyen de cycle."
+      },
+      {
+        "id": "gp_055_v",
+        "text": "Vrai",
+        "isCorrect": false,
+        "note": "C'est l'intuition fausse la plus répandue : multiplier les tâches simultanées disperse l'attention et allonge l'attente."
+      }
+    ],
+    "explanation": "La loi de Little montre que le délai moyen croît avec le travail en cours pour un débit donné. Un WIP élevé multiplie les changements de contexte et les travaux entamés jamais finis, ce qui allonge le temps de cycle. Les limites de WIP réduisent au contraire les délais en forçant à finir avant de commencer.",
+    "difficulty": "medium",
+    "tags": [
+      "kanban",
+      "wip",
+      "loi-de-little"
+    ]
+  },
+  {
+    "id": "gp_056",
+    "domain": "GESTION_PROJET",
+    "type": "TRUE_FALSE",
+    "question": "Affirmation : un risque jugé à la fois très probable et très impactant doit recevoir une stratégie de traitement prioritaire dans le registre des risques.",
+    "answers": [
+      {
+        "id": "gp_056_v",
+        "text": "Vrai",
+        "isCorrect": true,
+        "note": "Le croisement d'une forte probabilité et d'un fort impact place le risque en zone rouge : il exige un plan immédiat."
+      },
+      {
+        "id": "gp_056_f",
+        "text": "Faux",
+        "isCorrect": false,
+        "note": "Différer le traitement d'un risque majeur reviendrait à accepter sciemment le scénario le plus dommageable."
+      }
+    ],
+    "explanation": "La matrice probabilité-impact classe les risques par criticité. Un risque hautement probable et gravement impactant se situe dans la zone prioritaire : il doit recevoir une réponse définie, un responsable et un suivi rapproché. Les risques mineurs peuvent être simplement acceptés et surveillés.",
+    "difficulty": "easy",
+    "tags": [
+      "risques",
+      "matrice"
+    ]
+  },
+  {
+    "id": "gp_057",
+    "domain": "GESTION_PROJET",
+    "type": "FILL_BLANK",
+    "question": "Le graphique qui trace l'évolution du travail restant au fil des jours d'un sprint s'appelle le chart de type ___.",
+    "blanks": [
+      {
+        "accepted": [
+          "burndown",
+          "burn down",
+          "burndown chart"
+        ]
+      }
+    ],
+    "explanation": "Le burndown chart affiche le travail restant, en points ou en heures, au fil du temps. Sa comparaison avec une trajectoire idéale descendante révèle immédiatement si le sprint avance, retarde ou stagne. C'est l'indicateur visuel de base du suivi d'itération.",
+    "difficulty": "easy",
+    "tags": [
+      "metriques",
+      "burndown"
+    ]
+  },
+  {
+    "id": "gp_058",
+    "domain": "GESTION_PROJET",
+    "type": "FILL_BLANK",
+    "question": "La matrice de priorisation des risques croise la probabilité de survenance et l'___ de chaque risque pour définir sa criticité.",
+    "blanks": [
+      {
+        "accepted": [
+          "impact",
+          "gravité",
+          "gravite"
+        ]
+      }
+    ],
+    "explanation": "La criticité d'un risque résulte du croisement de sa probabilité et de son impact. Cette évaluation qualitative place chaque risque dans une zone de la matrice, de la surveillance simple au traitement urgent. Le registre des risques s'appuie sur ce classement pour ordonner les actions.",
+    "difficulty": "easy",
+    "tags": [
+      "risques",
+      "matrice"
+    ]
+  },
+  {
+    "id": "gp_059",
+    "domain": "GESTION_PROJET",
+    "type": "CASE_STUDY",
+    "context": "Dans l'équipe de six développeurs du projet Medibus (dossier patient informatisé d'un hôpital de Cotonou), un conflit s'installe depuis deux sprints. Ange, développeuse senior, relit systématiquement le code de Ibrahim lors des revues, avec des commentaires jugés humiliants sur le canal partagé de l'équipe. Ibrahim répond en contournant la revue : il pousse directement ses modifications sur la branche principale quand Ange est absente. Le débit de l'équipe a chuté de vingt pour cent, deux intégrations ont cassé la construction, et le climat en Daily est devenu tendu. Le Scrum Master a d'abord proposé d'ignorer la situation en espérant que cela se tasse. Le chef de projet estime, lui, que le problème relève d'une simple question de style de revue.",
+    "question": "Analysez ce conflit et proposez une démarche de résolution complète, du diagnostic au suivi, en identifiant les impacts projet et les mesures de prévention.",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Identifiez la nature du conflit et ses impacts concrets sur le projet.",
+        "answer": "Le conflit est d'abord relationnel et de communication : des retours techniques exprimés de façon dégradante ont dégradé la confiance, puis la coopération. Ses impacts sont tangibles : chute de vingt pour cent du débit, contournement de la revue de code, intégrations cassées de la branche principale, risque qualité accru sur un dossier patient sensible, et dégradation du climat d'équipe qui menace la rétention des personnes. Ce n'est pas une question de style : la revue est contournée, ce qui crée un risque technique et organisationnel en plus du conflit humain.",
+        "rubric": [
+          "Qualification du conflit comme relationnel et de communication",
+          "Impacts mesurés : chute de débit, contournement de la revue, intégrations cassées",
+          "Lien établi avec le risque qualité du produit et le climat d'équipe"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Décrivez la démarche de résolution que le chef de projet et le Scrum Master doivent mener.",
+        "answer": "Premier temps : ne plus ignorer le problème et écouter chaque personne séparément pour comprendre les faits et les ressentis. Deuxième temps : organiser une médiation à trois, en recentrant sur les faits observables et les règles communes, pas sur les personnalités. Troisième temps : instaurer ou rappeler des règles d'interaction explicites, par exemple une charte de revue de code bienveillante (commentaires factuels sur le code, jamais sur la personne) et l'interdiction formelle de pousser sans revue sur la branche principale. Quatrième temps : rendre la protection technique non contournable, par une protection de branche imposant une approbation avant fusion. Enfin, le suivi se fait en rétrospective de sprint : l'équipe évalue si le climat et les indicateurs se rétablissent. Si le comportement dégradant persiste malgré la médiation, l'escalade vers le management hiérarchique devient nécessaire.",
+        "rubric": [
+          "Écoutes individuelles puis médiation structurée centrée sur les faits",
+          "Charte de revue de code et règles de communication explicites",
+          "Protection technique de la branche pour rendre la règle non contournable",
+          "Suivi en rétrospective et escalade hiérarchique si le comportement persiste"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Quelles mesures de prévention mettre en place pour éviter la rechute ?",
+        "answer": "Plusieurs mesures complémentaires s'imposent. Sur le plan technique : revue croisée systématique avec rotation des relecteurs, ce qui distribue les feedbacks et évite le face-à-face systématique Ange contre Ibrahim, et protection de branche permanente. Sur le plan collectif : atelier de fonctionnement en rétrospective pour définir ensemble les règles de communication, formation éventuelle à la feedback non violent, et rappel régulier des valeurs d'équipe lors des événements Scrum. Sur le plan du pilotage : surveiller les indicateurs (temps de cycle, taux d'échec d'intégration, participation en revue) comme signaux faibles d'un nouveau conflit. La prévention repose sur la clarté des règles communes et la sécurité psychologique de l'équipe.",
+        "rubric": [
+          "Rotation des relecteurs et protection de branche comme garde-fous techniques",
+          "Règles collectives co-construites en rétrospective, sécurité psychologique",
+          "Surveillance d'indicateurs comme détection précoce des tensions"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "Un conflit d'équipe est un risque humain qui se manifeste vite dans les indicateurs projet : débit, qualité des intégrations, participation. La démarche de résolution combine écoute, médiation centrée sur les faits, règles explicites et garde-fous techniques non contournables. L'ignorer au nom d'un prétendu conflit de style aggrave le risque ; la prévention repose sur la sécurité psychologique et les rituels d'équipe.",
+    "difficulty": "hard",
+    "tags": [
+      "conflit",
+      "equipe",
+      "communication"
+    ]
+  },
+  {
+    "id": "gp_060",
+    "domain": "GESTION_PROJET",
+    "type": "CASE_STUDY",
+    "context": "Le Product Owner de la fintech SikaPay arrive avec un Product Backlog saturé : quarante récits utilisateurs pour l'application de transfert d'argent, tous jugés « prioritaires » par les différentes parties prenantes. Le comité de direction veut la biométrie pour la conformité bancaire, le marketing exige un parrainage avec code promo avant la fin du mois, le support réclame un journal d'erreurs lisible, et les développeurs proposent une refonte technique de la couche de paiement. L'équipe livre environ vingt points par sprint et le budget de la prochaine itération est de vingt-cinq points. Une réglementation de la Banque Centrale sur l'authentification forte entre en vigueur dans trois sprints.",
+    "question": "Vous assistez le Product Owner pour remettre de l'ordre dans ce backlog. Proposez une méthode de priorisation, un découpage de la prochaine itération et une communication aux parties prenantes.",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Quelle(s) technique(s) de priorisation recommandez-vous et comment l'appliquer ici ?",
+        "answer": "Deux techniques se complètent utilement. D'abord MoSCoW pour trancher les quarante récits : Must (authentification forte exigée par la Banque Centrale, conformité biométrique associée), Should (journal d'erreurs du support, qui dégrade l'exploitation), Could (parrainage marketing s'il reste de la capacité), Won't (refonte technique complète de la couche de paiement à ce stade). Ensuite, un arbitrage valeur-coût ou risque-valeur pour ordonner à l'intérieur de chaque catégorie. La contrainte réglementaire à trois sprints fait basculer la biométrie et l'authentification forte en tête de backlog, sans discussion possible : un récit non conforme interdirait l'exploitation.",
+        "rubric": [
+          "Utilisation de MoSCoW avec des affectations cohérentes des quatre catégories",
+          "Identification de la réglementation bancaire comme contrainte dominante",
+          "Prise en compte des intérêts de chaque partie prenante (support, marketing, technique)"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Composez le contenu réaliste du sprint à venir et justifiez ce que vous excluez.",
+        "answer": "Avec une vélocité d'environ vingt points et une capacité de vingt-cinq, l'équipe tire d'abord les récits réglementaires : authentification forte et intégration biométrique, découpés en tranches estimables (par exemple capture biométrique, vérification, repli sur code PIN si la biométrie échoue). L'objectif de sprint est clair : être conforme à l'échéance bancaire. Le journal d'erreurs peut entrer en second choix s'il reste de la capacité après les récits réglementaires. Le parrainage et la refonte de la couche de paiement sont exclus de l'itération : le premier n'a aucune contrainte de conformité, la seconde est un chantier de fond qui ne tient pas dans le sprint et mérite d'être traité comme un récit d'architecture planifié et découpé, pas injecté en urgence. Ne rien engager au-delà de vingt-cinq points protège la qualité et la prévisibilité.",
+        "rubric": [
+          "Contenu priorisé aligné sur la vélocité et la capacité annoncées",
+          "Découpage des récits réglementaires en tranches réalisables",
+          "Exclusions justifiées : parrainage différé, refonte technique planifiée à part",
+          "Objectif de sprint clair tourné vers la conformité"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Comment le Product Owner communique-t-il ces arbitrages aux parties prenantes mécontentes ?",
+        "answer": "Le Product Owner rend la logique transparente plutôt que d'arbitrer en vase clos. Il partage le backlog priorisé avec sa justification : la réglementation de la Banque Centrale s'applique à une date fixe et interdit toute négociation de périmètre de conformité. Le marketing reçoit une date prévisionnelle du parrainage appuyée sur la vélocité (il suivra dès que la capacité le permet), et on peut proposer de réduire son périmètre pour le faire tenir plus tôt. Le support obtient une place explicite en Should avec un engagement indicative. L'équipe technique voit sa refonte inscrite comme chantier découpé au backlog, preuve que rien n'est perdu, seulement ordonné. Cette communication repose sur trois appuis : la transparence du backlog, la vélocité comme base de prévision et la distinction entre périmètre de conformité et périmètre de confort.",
+        "rubric": [
+          "Transparence du backlog et justification par la contrainte réglementaire",
+          "Prévisions datées appuyées sur la vélocité plutôt que des promesses vagues",
+          "Chaque partie prenante obtient une réponse concrète et un horizon"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "Prioriser un backlog saturé exige une méthode explicite (MoSCoW, arbitrage valeur-coût) et une contrainte objective comme point d'ancrage : ici la réglementation bancaire domine tout le reste. Le contenu du sprint se borne à la capacité mesurée par la vélocité, sans sur-engagement. La communication des arbitrages repose sur la transparence du backlog et des prévisions calées sur des données, ce qui déplace le débat des opinions vers les critères.",
+    "difficulty": "medium",
+    "tags": [
+      "priorisation",
+      "backlog",
+      "moscow"
+    ]
+  },
+  {
+    "id": "gp_061",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Pourquoi dit-on que le coût de la non-qualité croît fortement avec le temps dans un projet logiciel ?",
+    "answers": [
+      {
+        "id": "gp_061_a",
+        "text": "Parce que les développeurs augmentent de salaire à mesure que le projet avance",
+        "isCorrect": false,
+        "note": "La progression salariale n'explique rien : c'est l'effet de chaîne du défaut qui gonfle le coût."
+      },
+      {
+        "id": "gp_061_b",
+        "text": "Parce qu'un défaut découvert tard mobilise plus d'acteurs, masque d'autres défauts et retarde la livraison",
+        "isCorrect": true,
+        "note": "Plus le défaut est trouvé tard, plus la reprise touche de code testé, de documents et de personnes."
+      },
+      {
+        "id": "gp_061_c",
+        "text": "Parce que les licences des outils de test deviennent plus chères en fin de projet",
+        "isCorrect": false,
+        "note": "Le coût des licences est marginal et sans lien avec la phase de découverte du défaut."
+      },
+      {
+        "id": "gp_061_d",
+        "text": "Parce que le client négocie toujours une remise quand la qualité lui semble satisfaisante",
+        "isCorrect": false,
+        "note": "La remise commerciale est un mécanisme commercial, pas le mécanisme de la non-qualité."
+      }
+    ],
+    "explanation": "Un défaut détecté pendant la conception se corrige en quelques heures de travail isolé. Le même défaut découvert en recette, ou pire en production, exige des reprises en cascade : code, tests, documentation, communication client, parfois des corrections de données. La règle empirique des facteurs dix illustre cette explosion du coût de correction.",
+    "difficulty": "medium",
+    "tags": [
+      "qualite",
+      "non-qualite"
+    ]
+  },
+  {
+    "id": "gp_062",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est l'objectif principal d'une revue de code entre pairs ?",
+    "answers": [
+      {
+        "id": "gp_062_c",
+        "text": "Remplacer les tests automatisés par une validation humaine moins coûteuse",
+        "isCorrect": false,
+        "note": "La revue complète les tests, elle ne les remplace pas : les deux attrapent des défauts différents."
+      },
+      {
+        "id": "gp_062_b",
+        "text": "Évaluer la performance annuelle de chaque développeur pour la prime de fin d'année",
+        "isCorrect": false,
+        "note": "Mélanger revue technique et évaluation individuelle détruit la franchise indispensable à la relecture."
+      },
+      {
+        "id": "gp_062_a",
+        "text": "Détecter précocement les défauts et partager la connaissance du code dans l'équipe",
+        "isCorrect": true,
+        "note": "La revue double le contrôle qualité et la diffusion des savoirs : deux effets pour le prix d'une lecture."
+      },
+      {
+        "id": "gp_062_d",
+        "text": "Homogénéiser le style personnel de chaque développeur selon les goûts du relecteur",
+        "isCorrect": false,
+        "note": "La revue vise la qualité collective ; imposer ses goûts personnels est une dérive connue des revues."
+      }
+    ],
+    "explanation": "La revue de code fait relire le travail par un pair avant intégration. Elle détecte tôt des défauts que les tests ne voient pas (conception, lisibilité, sécurité) et diffuse la connaissance du système dans l'équipe, réduisant la dépendance aux personnes. Elle se pratique avec des commentaires factuels et bienveillants pour rester efficace.",
+    "difficulty": "medium",
+    "tags": [
+      "qualite",
+      "revue-de-code"
+    ]
+  },
+  {
+    "id": "gp_063",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce qu'un test d'intégration, par opposition au test unitaire ?",
+    "answers": [
+      {
+        "id": "gp_063_a",
+        "text": "Un test qui vérifie une fonction isolée dans un environnement simulé",
+        "isCorrect": false,
+        "note": "Vérifier une fonction isolée correspond au test unitaire, pas au test d'intégration."
+      },
+      {
+        "id": "gp_063_b",
+        "text": "Un test qui mesure le temps de réponse du serveur sous charge maximale",
+        "isCorrect": false,
+        "note": "La mesure sous charge est un test de performance, une famille distincte des tests d'intégration."
+      },
+      {
+        "id": "gp_063_d",
+        "text": "Un test mené par l'utilisateur final sur son propre poste de travail",
+        "isCorrect": false,
+        "note": "Le test par l'utilisateur final est la recette utilisateur, qui vient après l'intégration."
+      },
+      {
+        "id": "gp_063_c",
+        "text": "Un test qui vérifie la coopération de plusieurs modules ou services assemblés entre eux",
+        "isCorrect": true,
+        "note": "Le test d'intégration met en présence plusieurs composants pour vérifier leurs interactions."
+      }
+    ],
+    "explanation": "Le test unitaire vérifie une petite unité de code isolée, avec ses dépendances simulées. Le test d'intégration vérifie que plusieurs modules ou services assemblés coopèrent correctement : interfaces, échanges de données, appels. Les deux niveaux se complètent dans la pyramide des tests.",
+    "difficulty": "medium",
+    "tags": [
+      "qualite",
+      "tests"
+    ]
+  },
+  {
+    "id": "gp_064",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle est la différence entre vérification et validation en qualité logicielle ?",
+    "answers": [
+      {
+        "id": "gp_064_a",
+        "text": "La vérification teste la conformité aux spécifications, la validation teste la satisfaction du besoin réel de l'utilisateur",
+        "isCorrect": true,
+        "note": "Vérifier, c'est construire le produit conformément aux specs ; valider, c'est vérifier qu'on a construit le bon produit."
+      },
+      {
+        "id": "gp_064_b",
+        "text": "La vérification se fait en production, la validation se fait en environnement de développement",
+        "isCorrect": false,
+        "note": "Aucune des deux n'a lieu en production normalement ; la distinction ne porte pas sur l'environnement."
+      },
+      {
+        "id": "gp_064_c",
+        "text": "La vérification relève du client, la validation relève de l'équipe de développement seule",
+        "isCorrect": false,
+        "note": "C'est plutôt l'inverse côté besoin : la validation implique fortement l'utilisateur et le client."
+      },
+      {
+        "id": "gp_064_d",
+        "text": "La vérification ne concerne que la sécurité, la validation que les performances du système",
+        "isCorrect": false,
+        "note": "Sécurité et performances sont des qualités particulières, pas la frontière entre vérifier et valider."
+      }
+    ],
+    "explanation": "La vérification répond à la question : le produit est-il conforme aux spécifications établies ? La validation répond à : le produit satisfait-il le besoin réel de l'utilisateur dans son contexte ? Un logiciel peut être vérifié conforme et néanmoins invalide si les spécifications elles-mêmes étaient erronées. Le cycle en V matérialise cette double exigence.",
+    "difficulty": "hard",
+    "tags": [
+      "qualite",
+      "verification",
+      "validation"
+    ]
+  },
+  {
+    "id": "gp_065",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est le cycle de travail du développement piloté par les tests (TDD) ?",
+    "answers": [
+      {
+        "id": "gp_065_a",
+        "text": "Écrire tout le code de production, puis rédiger les tests de recette avec le client",
+        "isCorrect": false,
+        "note": "Écrire le code avant les tests est la démarche classique ; le TDD inverse cet ordre."
+      },
+      {
+        "id": "gp_065_b",
+        "text": "Écrire un test qui échoue, écrire le code minimal qui le fait passer, puis améliorer le code",
+        "isCorrect": true,
+        "note": "C'est le cycle rouge-vert-refactor : le test guide d'abord, le code suit, la qualité se maintient."
+      },
+      {
+        "id": "gp_065_c",
+        "text": "Analyser, concevoir, développer et tester dans une séquence unique et définitive",
+        "isCorrect": false,
+        "note": "Cette séquence linéaire décrit le cycle en cascade, sans boucle de rétroaction courte."
+      },
+      {
+        "id": "gp_065_d",
+        "text": "Laisser les utilisateurs signaler les défauts en production pour les corriger au sprint suivant",
+        "isCorrect": false,
+        "note": "Le TDD prévient les défauts en amont ; attendre les plaintes des utilisateurs est son contraire."
+      }
+    ],
+    "explanation": "Le TDD suit le cycle rouge-vert-refactor : on écrit d'abord un test qui échoue, puis le code minimal pour le faire passer, enfin on nettoie le code en gardant les tests verts. Cette boucle courte produit une suite de tests de régression et maintient la conception simple. C'est une pratique phare d'XP.",
+    "difficulty": "medium",
+    "tags": [
+      "qualite",
+      "tdd",
+      "xp"
+    ]
+  },
+  {
+    "id": "gp_066",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est le format canonique d'un récit utilisateur en méthodes agiles ?",
+    "answers": [
+      {
+        "id": "gp_066_a",
+        "text": "Une spécification technique détaillant les classes, les méthodes et les schémas de base de données",
+        "isCorrect": false,
+        "note": "La spécification technique descend au niveau de conception ; le récit reste au niveau du besoin."
+      },
+      {
+        "id": "gp_066_b",
+        "text": "Un document contractuel listant les pénalités applicables en cas de retard de livraison",
+        "isCorrect": false,
+        "note": "Les pénalités relèvent du contrat ; le récit est un outil de dialogue produit, pas juridique."
+      },
+      {
+        "id": "gp_066_c",
+        "text": "En tant que type d'utilisateur, je veux une action, afin d'obtenir un bénéfice exprimé",
+        "isCorrect": true,
+        "note": "Ce triple format relie qui, quoi et pourquoi : le bénéfice guide la priorisation et les tests."
+      },
+      {
+        "id": "gp_066_d",
+        "text": "Un ticket d'anomalie décrivant les étapes pour reproduire un défaut observé en production",
+        "isCorrect": false,
+        "note": "Le ticket de reproduction d'anomalie concerne le suivi des défauts, pas l'expression d'un besoin."
+      }
+    ],
+    "explanation": "Le récit utilisateur s'écrit sous la forme : en tant que tel utilisateur, je veux telle action, afin d'obtenir tel bénéfice. Ce format centre l'exigence sur la valeur perçue plutôt que sur la solution technique. Il est complété par des critères d'acceptation qui rendent la validation objective.",
+    "difficulty": "easy",
+    "tags": [
+      "agile",
+      "recit-utilisateur"
+    ]
+  },
+  {
+    "id": "gp_067",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans la technique de priorisation MoSCoW, que signifient les quatre catégories ?",
+    "answers": [
+      {
+        "id": "gp_067_a",
+        "text": "Les quatre niveaux de tests du cycle en V, du test unitaire à la recette utilisateur",
+        "isCorrect": false,
+        "note": "MoSCoW est une technique de priorisation des exigences, sans aucun lien avec les niveaux de tests."
+      },
+      {
+        "id": "gp_067_b",
+        "text": "Les quatre rôles de la matrice RACI appliqués aux livrables du projet",
+        "isCorrect": false,
+        "note": "Les rôles RACI organisent les responsabilités ; MoSCoW classe l'importance des exigences."
+      },
+      {
+        "id": "gp_067_c",
+        "text": "Les quatre phases du cycle de vie : maîtrise, développement, contrôle et déploiement",
+        "isCorrect": false,
+        "note": "MoSCoW ne décrit pas de phases de projet mais des niveaux de priorité des besoins."
+      },
+      {
+        "id": "gp_067_d",
+        "text": "Quatre niveaux de priorité : indispensable, important, souhaitable et exclu de cette version",
+        "isCorrect": true,
+        "note": "Must, Should, Could, Won't : cette gradation force un choix explicite sur chaque exigence."
+      }
+    ],
+    "explanation": "MoSCoW classe les exigences en Must have (indispensable à la livraison), Should have (important mais non bloquant), Could have (souhaitable si la capacité le permet) et Won't have (explicitement exclu de cette version). Cette méthode rend les arbitrages de périmètre visibles et négociables.",
+    "difficulty": "easy",
+    "tags": [
+      "priorisation",
+      "moscow"
+    ]
+  },
+  {
+    "id": "gp_068",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans un réseau PERT, comment obtient-on la marge totale d'une tâche ?",
+    "answers": [
+      {
+        "id": "gp_068_c",
+        "text": "En retranchant sa date de début au plus tôt de sa date de début au plus tard",
+        "isCorrect": true,
+        "note": "La marge totale est l'écart entre les dates au plus tôt et au plus tard : elle mesure le glissement tolérable."
+      },
+      {
+        "id": "gp_068_b",
+        "text": "En divisant sa durée par le nombre de ressources qui y sont affectées",
+        "isCorrect": false,
+        "note": "La répartition des ressources modifie la durée réelle, mais ne définit pas la marge."
+      },
+      {
+        "id": "gp_068_a",
+        "text": "En additionnant sa durée estimée et la réserve pour imprévus du projet",
+        "isCorrect": false,
+        "note": "La réserve globale du projet n'entre pas dans le calcul de la marge d'une tâche précise."
+      },
+      {
+        "id": "gp_068_d",
+        "text": "En multipliant sa durée optimiste par sa durée pessimiste, puis en prenant la racine",
+        "isCorrect": false,
+        "note": "Ce genre de moyenne croisée appartient aux calculs d'estimation, pas au calcul des marges."
+      }
+    ],
+    "explanation": "Le calcul PERT détermine pour chaque tâche des dates au plus tôt et au plus tard. La marge totale est l'écart entre ces deux bornes : le retard que la tâche peut prendre sans retarder la fin du projet. Les tâches à marge nulle forment le chemin critique.",
+    "difficulty": "hard",
+    "tags": [
+      "pert",
+      "marges",
+      "ordonnancement"
+    ]
+  },
+  {
+    "id": "gp_069",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Que signifie identifier les parties prenantes d'un projet ?",
+    "answers": [
+      {
+        "id": "gp_069_b",
+        "text": "Établir la liste des logiciels tiers utilisés par le projet et de leurs licences",
+        "isCorrect": false,
+        "note": "Les dépendances logicielles se gèrent dans un inventaire technique, pas dans l'analyse des parties prenantes."
+      },
+      {
+        "id": "gp_069_a",
+        "text": "Recenser toutes les personnes ou groupes affectés par le projet ou l'influençant, et analyser leurs attentes",
+        "isCorrect": true,
+        "note": "L'identification des parties prenantes inclut leur pouvoir, leurs intérêts et le plan de communication adapté."
+      },
+      {
+        "id": "gp_069_c",
+        "text": "Désigner officiellement les membres de l'équipe de développement et leurs suppléants",
+        "isCorrect": false,
+        "note": "La désignation de l'équipe est une décision d'organisation ; les parties prenantes dépassent largement l'équipe."
+      },
+      {
+        "id": "gp_069_d",
+        "text": "Choisir les technologies hébergées par la structure en charge de l'infrastructure",
+        "isCorrect": false,
+        "note": "Le choix technologique relève de l'architecture, pas de l'identification des acteurs."
+      }
+    ],
+    "explanation": "Identifier les parties prenantes consiste à recenser tous les acteurs concernés par le projet : sponsor, client final, utilisateurs, équipe, régulateurs, prestataires. On analyse ensuite leur pouvoir, leur intérêt et leurs attentes pour bâtir le plan de communication. Une partie prenante oubliée est une source classique de blocage tardif.",
+    "difficulty": "medium",
+    "tags": [
+      "parties-prenantes",
+      "communication"
+    ]
+  },
+  {
+    "id": "gp_070",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Comment un chef de projet doit-il réagir face à un conflit entre deux membres de l'équipe ?",
+    "answers": [
+      {
+        "id": "gp_070_a",
+        "text": "Attendre que le conflit se résolve seul, sans intervention, pour ne pas s'immiscer dans la vie privée",
+        "isCorrect": false,
+        "note": "L'attente passive laisse le conflit contaminer le climat et les livrables de toute l'équipe."
+      },
+      {
+        "id": "gp_070_c",
+        "text": "Trancher immédiatement en désignant publiquement celui qui a raison devant toute l'équipe",
+        "isCorrect": false,
+        "note": "L'arbitrage public humilie la personne perdante et transforme un conflit local en blessure collective."
+      },
+      {
+        "id": "gp_070_b",
+        "text": "Écouter les parties séparément, médiatiser sur les faits et l'objectif commun, puis formaliser des règles",
+        "isCorrect": true,
+        "note": "La médiation structurée désamorce le conflit et aboutit à des accords de fonctionnement durables."
+      },
+      {
+        "id": "gp_070_d",
+        "text": "Séparer définitivement les deux personnes en les excluant de tout travail commun",
+        "isCorrect": false,
+        "note": "L'évitement définitif ne résout rien et appauvrit l'équipe de compétences pourtant nécessaires."
+      }
+    ],
+    "explanation": "Face à un conflit, le chef de projet agit tôt : il écoute chaque partie, fait émerger les faits et les besoins derrière les positions, et recherche un accord sur l'objectif commun et les règles de collaboration. La médiation préserve la relation de travail, là où l'évitement ou l'arbitrage autoritaire la dégrade.",
+    "difficulty": "medium",
+    "tags": [
+      "conflit",
+      "equipe",
+      "leadership"
+    ]
+  },
+  {
+    "id": "gp_071",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est le but de la réunion de lancement (kick-off) d'un projet ?",
+    "answers": [
+      {
+        "id": "gp_071_d",
+        "text": "Calculer le chemin critique définitif du planning détaillé des tâches",
+        "isCorrect": false,
+        "note": "Le chemin critique se calcule sur un réseau de tâches ; il n'est pas l'objet d'une réunion d'alignement."
+      },
+      {
+        "id": "gp_071_b",
+        "text": "Présenter le produit fini aux utilisateurs pour recueillir leurs premières impressions",
+        "isCorrect": false,
+        "note": "Présenter un produit fini correspond à une démonstration ou une recette, pas à un lancement."
+      },
+      {
+        "id": "gp_071_c",
+        "text": "Réviser le contrat commercial avec les avocats des deux parties contractantes",
+        "isCorrect": false,
+        "note": "La négociation contractuelle précède le projet ; le kick-off démarre le travail, il ne le renégocie pas."
+      },
+      {
+        "id": "gp_071_a",
+        "text": "Aligner tous les acteurs sur les objectifs, le périmètre, les rôles et les règles de fonctionnement",
+        "isCorrect": true,
+        "note": "Le kick-off crée l'adhésion : chacun repart avec la même vision du but, du cadre et de sa part de travail."
+      }
+    ],
+    "explanation": "La réunion de lancement rassemble l'équipe et les acteurs clés au démarrage du projet. Elle présente l'objectif, le périmètre, le planning macro, les rôles et les règles de collaboration, et installe la confiance. C'est le moment où l'intention écrite du projet devient un engagement collectif partagé.",
+    "difficulty": "easy",
+    "tags": [
+      "lancement",
+      "communication"
+    ]
+  },
+  {
+    "id": "gp_072",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle est la différence entre la charge et le délai d'une tâche de projet ?",
+    "answers": [
+      {
+        "id": "gp_072_a",
+        "text": "La charge est le volume de travail nécessaire, le délai est la durée calendaire pendant laquelle la tâche s'étale",
+        "isCorrect": true,
+        "note": "Une tâche de deux jours de charge peut s'étaler sur une semaine de délai si les ressources sont partagées."
+      },
+      {
+        "id": "gp_072_b",
+        "text": "La charge est le budget alloué à la tâche, le délai est le nombre de personnes mobilisées",
+        "isCorrect": false,
+        "note": "Le budget est une dimension financière ; la charge est un volume de travail, pas une somme d'argent."
+      },
+      {
+        "id": "gp_072_c",
+        "text": "La charge est mesurée après la tâche, le délai est estimé avant le début des travaux",
+        "isCorrect": false,
+        "note": "Charge et délai s'estiment tous deux en amont et se mesurent tous deux au fil de l'avancement."
+      },
+      {
+        "id": "gp_072_d",
+        "text": "La charge concerne le client, le délai concerne exclusivement les prestataires externes",
+        "isCorrect": false,
+        "note": "Charge et délai s'appliquent à tout travail du projet, interne comme externe."
+      }
+    ],
+    "explanation": "La charge exprime un volume de travail, généralement en jours-homme, indépendant du calendrier. Le délai exprime une durée calendaire entre le début et la fin, qui dépend des ressources disponibles et des dépendances. Confondre les deux conduit à des plannings irréalistes.",
+    "difficulty": "medium",
+    "tags": [
+      "estimation",
+      "charge",
+      "planning"
+    ]
+  },
+  {
+    "id": "gp_073",
+    "domain": "GESTION_PROJET",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quels éléments font partie du coût de la non-qualité d'un projet logiciel ?",
+    "answers": [
+      {
+        "id": "gp_073_a",
+        "text": "Les reprises de code nécessaires pour corriger des défauts découverts tardivement",
+        "isCorrect": true,
+        "note": "Chaque reprise est du travail double : elle paie deux fois la même fonctionnalité."
+      },
+      {
+        "id": "gp_073_d",
+        "text": "L'achat des licences des outils de développement utilisés par l'équipe",
+        "isCorrect": false,
+        "note": "Les licences sont un coût normal de production, pas une conséquence de la mauvaise qualité."
+      },
+      {
+        "id": "gp_073_b",
+        "text": "Les incidents en production et leur traitement en urgence après la livraison",
+        "isCorrect": true,
+        "note": "Les incidents post-livraison coûtent cher : intervention immédiate, image dégradée, clients perdus."
+      },
+      {
+        "id": "gp_073_c",
+        "text": "Les retards de livraison et les pénalités contractuelles qu'ils entraînent",
+        "isCorrect": true,
+        "note": "La non-qualité retarde la recette et déclenche des pénalités : c'est aussi un coût de non-qualité."
+      }
+    ],
+    "explanation": "Le coût de la non-qualité agrège tout ce que la mauvaise qualité ajoute au projet : reprises, tests et interventions correctives, incidents en production, retards, pénalités et perte de confiance du client. Les investissements normaux, comme les licences d'outils, n'en font pas partie.",
+    "difficulty": "medium",
+    "tags": [
+      "qualite",
+      "non-qualite"
+    ]
+  },
+  {
+    "id": "gp_074",
+    "domain": "GESTION_PROJET",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quelles pratiques relèvent d'une démarche qualité logicielle sérieuse ?",
+    "answers": [
+      {
+        "id": "gp_074_b",
+        "text": "Des revues de code systématiques avant la fusion de toute modification",
+        "isCorrect": true,
+        "note": "La revue par les pairs intercepte les défauts que la machine ne voit pas et diffuse les bonnes pratiques."
+      },
+      {
+        "id": "gp_074_a",
+        "text": "Des tests automatisés exécutés à chaque intégration de code dans le dépôt commun",
+        "isCorrect": true,
+        "note": "L'intégration continue avec tests détecte les régressions dans les minutes qui suivent l'erreur."
+      },
+      {
+        "id": "gp_074_d",
+        "text": "Un plan de test concentré exclusivement sur la dernière semaine avant la mise en production",
+        "isCorrect": false,
+        "note": "Attendre la fin pour tester est précisément ce qui rend les défauts coûteux : la qualité se construit en continu."
+      },
+      {
+        "id": "gp_074_c",
+        "text": "Une définition partagée du terminé appliquée à tous les éléments livrés",
+        "isCorrect": true,
+        "note": "La Definition of Done garantit qu'aucun élément n'est déclaré fini sans respecter le référentiel qualité."
+      }
+    ],
+    "explanation": "Une démarche qualité solide combine prévention et détection précoce : tests automatisés en intégration continue, revues par les pairs, référentiel de terminé partagé. Concentrer les tests en fin de projet reproduit le pire scénario du coût de la non-qualité.",
+    "difficulty": "medium",
+    "tags": [
+      "qualite",
+      "pratiques",
+      "tests"
+    ]
+  },
+  {
+    "id": "gp_075",
+    "domain": "GESTION_PROJET",
+    "type": "TRUE_FALSE",
+    "question": "Affirmation : un défaut corrigé en production coûte généralement beaucoup plus cher que le même défaut corrigé pendant la phase de conception.",
+    "answers": [
+      {
+        "id": "gp_075_f",
+        "text": "Faux",
+        "isCorrect": false,
+        "note": "Croire que le moment de la correction est sans effet sur le coût ignore la mécanique des reprises en cascade."
+      },
+      {
+        "id": "gp_075_v",
+        "text": "Vrai",
+        "isCorrect": true,
+        "note": "Le facteur dix entre chaque phase est un ordre de grandeur classique : corriger en production coûte des dizaines de fois plus cher."
+      }
+    ],
+    "explanation": "Le coût d'un défaut croît de façon exponentielle avec le retard de sa détection. Corrigé en conception, il coûte quelques heures de travail isolé ; corrigé en production, il mobilise développement, tests, déploiement, communication client et peut engager la responsabilité du fournisseur. D'où l'axiome qualité : détecter tôt coûte peu, détecter tard coûte cher.",
+    "difficulty": "easy",
+    "tags": [
+      "qualite",
+      "non-qualite"
+    ]
+  },
+  {
+    "id": "gp_076",
+    "domain": "GESTION_PROJET",
+    "type": "TRUE_FALSE",
+    "question": "Affirmation : la Sprint Retrospective est réservée aux seuls développeurs ; ni le Scrum Master ni le Product Owner n'y participent.",
+    "answers": [
+      {
+        "id": "gp_076_v",
+        "text": "Vrai",
+        "isCorrect": false,
+        "note": "Exclure le Scrum Master ou le Product Owner priverait la rétrospective de deux regards essentiels sur le processus."
+      },
+      {
+        "id": "gp_076_f",
+        "text": "Faux",
+        "isCorrect": true,
+        "note": "La rétrospective réunit l'équipe Scrum complète : développeurs, Scrum Master et Product Owner."
+      }
+    ],
+    "explanation": "La Sprint Retrospective concerne l'équipe Scrum entière, y compris le Scrum Master et le Product Owner. Exclure le Product Owner empêcherait d'améliorer les échanges sur les besoins ; exclure le Scrum Master priverait l'équipe de son facilitateur. Seules les parties prenantes externes n'y sont pas conviées.",
+    "difficulty": "medium",
+    "tags": [
+      "scrum",
+      "retrospective"
+    ]
+  },
+  {
+    "id": "gp_077",
+    "domain": "GESTION_PROJET",
+    "type": "FILL_BLANK",
+    "question": "Dans le cycle en V, les tests de ___ vérifient que le logiciel livré répond réellement aux besoins exprimés par les utilisateurs.",
+    "blanks": [
+      {
+        "accepted": [
+          "recette",
+          "acceptation",
+          "recette utilisateur"
+        ]
+      }
+    ],
+    "explanation": "Au sommet de la branche montante du cycle en V, la recette utilisateur confronte le produit final aux besoins exprimés au départ. C'est le niveau de validation par excellence : le client ou ses représentants constatent que le système répond à leur attente réelle avant l'exploitation.",
+    "difficulty": "medium",
+    "tags": [
+      "cycle-v",
+      "tests",
+      "recette"
+    ]
+  },
+  {
+    "id": "gp_078",
+    "domain": "GESTION_PROJET",
+    "type": "FILL_BLANK",
+    "question": "En Extreme Programming, la pratique consistant à écrire le test avant le code de production s'appelle le développement piloté par les ___.",
+    "blanks": [
+      {
+        "accepted": [
+          "tests",
+          "test"
+        ]
+      }
+    ],
+    "explanation": "Le développement piloté par les tests (TDD) inverse l'ordre habituel : le test est écrit d'abord, constate son échec, puis le code minimal le fait passer. Cette boucle courte produit une régression sécurisée et une conception simple, deux piliers d'XP.",
+    "difficulty": "easy",
+    "tags": [
+      "xp",
+      "tdd",
+      "tests"
+    ]
+  },
+  {
+    "id": "gp_079",
+    "domain": "GESTION_PROJET",
+    "type": "CASE_STUDY",
+    "context": "La PME béninoise BéninSanté livre un logiciel de gestion de dossiers médicaux à un réseau de cliniques. Sur les trois derniers projets, le même scénario s'est répété : développement sans tests écrits, recette improvisée sur une semaine, mise en production avec des dizaines de défauts, puis deux mois de corrections sous les plaintes des cliniques. Un client a résilié. Le nouveau directeur technique mandate une équipe de quatre personnes pour définir un processus qualité réaliste pour une PME : l'équipe de développement ne compte que six personnes, le budget est limité, mais la donnée médicale impose une exigence de fiabilité élevée. Les projets à venir mêlent développements nouveaux et évolutions du produit existant.",
+    "question": "Proposez un processus qualité adapté à cette PME : principes, pratiques concrètes, organisation et indicateurs de suivi, en restant réaliste vu la taille de l'équipe.",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Quels principes de qualité doivent guider le processus, et pourquoi sont-ils adaptés au contexte ?",
+        "answer": "Le principe central est la détection précoce : chaque défaut trouvé tôt coûte quelques heures, trouvé en production il coûte des semaines et la confiance des cliniques. Le deuxième principe est la prévention plutôt que l'inspection finale : la qualité se construit dans les pratiques quotidiennes, elle ne se rajoute pas à la fin. Le troisième principe est la proportionnalité : une PME de six développeurs ne peut pas tout tester exhaustivement, donc l'effort se concentre sur les zones à risque, ici la cohérence des données médicales et les accès autorisés. Ce positionnement tranche le faux dilemme entre qualité exhaustive et budget limité : il s'agit d'investir là où le coût de la non-qualité est maximal.",
+        "rubric": [
+          "Détection précoce justifiée par le coût croissant des défauts",
+          "Prévention intégrée aux pratiques plutôt qu'inspection terminale",
+          "Priorisation de l'effort sur les zones à risque médical et sécurité"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Quelles pratiques concrètes mettriez-vous en place avec une équipe de six développeurs ?",
+        "answer": "Un socle minimal mais systématique : suite de tests automatisés exécutée à chaque intégration, au moins sur le cœur métier médical ; revue de code obligatoire avant fusion, avec rotation des relecteurs ; Definition of Done écrite et affichée, incluant tests passants et documentation des données ; intégration continue sur le dépôt central ; stratégie de test en pyramide (nombreux tests unitaires, tests d'intégration sur les flux de données, recette scriptée sur les parcours cliniques critiques) ; gestion des versions et possibilité de retour arrière de déploiement. Chaque pratique est choisie pour son rapport coût-bénéfice : la revue par les pairs ne coûte que du temps de lecture et intercepte une grande partie des défauts, les tests automatisés protègent en permanence une fois écrits.",
+        "rubric": [
+          "Tests automatisés et intégration continue sur le cœur métier",
+          "Revue de code systématique avec rotation des relecteurs",
+          "Definition of Done explicite incluant tests et documentation",
+          "Pyramide de tests proportionnée et capacité de retour arrière"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Quels indicateurs suivrez-vous pour mesurer l'efficacité de ce processus qualité ?",
+        "answer": "Quelques indicateurs simples et actionnables : densité de défauts découverts en recette et en production par version, qui doit baisser de release en release ; taux de réussite de la suite d'intégration continue ; temps de correction d'un défaut de production ; taux de couverture de tests sur le cœur métier ; nombre de retours clients après mise en service par livraison. Le suivi se fait par exemple à chaque revue de version. L'objectif n'est pas d'atteindre des chiffres absolus mais de vérifier la tendance : moins de défauts qui atteignent la production, corrections plus rapides, plaintes en baisse. Ces indicateurs servent aussi d'argument commercial vis-à-vis des cliniques méfiantes après la résiliation.",
+        "rubric": [
+          "Indicateurs de défauts par phase (recette, production) et leur tendance",
+          "Indicateurs de processus : intégration continue, couverture, temps de correction",
+          "Boucle de suivi régulière et usage client de la qualité mesurée"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "Un processus qualité de PME repose sur trois idées : détecter tôt parce que le coût des défauts explose avec le temps, prévenir par des pratiques quotidiennes plutôt qu'inspecter à la fin, et concentrer l'effort sur les zones où la non-qualité coûte le plus. Les pratiques choisies (tests automatisés, revues, DoD, intégration continue) doivent être soutenables par une petite équipe, et leur efficacité se mesure par la tendance des défauts qui atteignent la production.",
+    "difficulty": "medium",
+    "tags": [
+      "qualite",
+      "processus",
+      "tests"
+    ]
+  },
+  {
+    "id": "gp_080",
+    "domain": "GESTION_PROJET",
+    "type": "CASE_STUDY",
+    "context": "L'équipe support-développement de l'université d'Abomey-Calavi gère les demandes d'évolution du portail étudiant : inscriptions, relevés de notes, attestations. Le flux est continu, avec dix à quinze nouvelles demandes par jour, sans rythme d'itération possible car les urgences arrivent à tout moment, surtout en période d'inscription. Aujourd'hui, chaque développeur travaille simultanément sur quatre à six demandes, les tâches restent « en cours » pendant des semaines, et le délai moyen de traitement atteint trois semaines, à la grande frustration des étudiants et du service de scolarité. Le responsable décide de passer l'équipe en Kanban avec des limites de WIP, mais une développeuse objecte : « si on limite le travail en cours, on va livrer moins de choses ».",
+    "question": "Concevez la mise en place du Kanban pour cette équipe : tableau, limites de WIP, réponses aux objections et indicateurs de pilotage.",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Proposez un tableau Kanban adapté avec des limites de WIP cohérentes, en justifiant chaque colonne.",
+        "answer": "Un tableau simple suffit au départ : Demandes entrantes (pas de limite, c'est le flux qui arrive), À faire (ordonné par priorité), En développement (limite de WIP de 4 pour cinq développeurs, soit à peine moins d'une tâche par personne), En validation et tests (limite de WIP de 3 pour ne pas accumuler de la vérification en attente), En attente de déploiement (limite de 2, ce qui force à déployer souvent en petits lots), Terminé. Les limites se calibrent avec les données réelles : commencer par le nombre actuel divisé par deux, puis ajuster à chaque revue de service. La limite de la colonne « En développement » est la plus structurante : c'est elle qui transforme le comportement en forçant à finir avant de commencer.",
+        "rubric": [
+          "Colonnes couvrant tout le flux, de la demande à la livraison",
+          "Limites de WIP explicites par colonne, plausibles pour l'équipe",
+          "Justification du rôle structurant de la limite en développement"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Comment répondre à l'objection : « limiter le travail en cours va faire livrer moins de choses » ?",
+        "answer": "L'objection repose sur l'intuition que démarrer plus de tâches produit plus de finitions, or c'est l'inverse que montre le fonctionnement réel : avec quatre à six tâches par personne, le temps passe en changements de contexte, et chaque tâche attend tour à tour qu'on la reprenne. La loi de Little relie le délai moyen au travail en cours divisé par le débit : pour un débit donné, réduire le WIP réduit le délai. Et rien n'interdit de finir rapidement une tâche puis d'en tirer la suivante : la capacité de travail de l'équipe ne change pas, seuls les interruptions se raréfient. L'expérience le confirme : les équipes qui limitent leur WIP constatent généralement un débit égal ou supérieur, avec des délais bien plus courts. On peut aussi proposer un essai mesuré sur un mois avec les indicateurs avant-après, ce qui tranche par les données plutôt que par l'opinion.",
+        "rubric": [
+          "Explication par la loi de Little du lien WIP et délai",
+          "Distinction entre démarrer des tâches et finir des tâches",
+          "Proposition d'un essai mesuré avec indicateurs avant-après"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Quels indicateurs mettre en place pour piloter et améliorer ce flux continu ?",
+        "answer": "Trois indicateurs de base suffisent à démarrer. Le temps de cycle, durée réelle entre le début et la fin d'une demande, qui doit baisser vers quelques jours. Le débit, nombre de demandes terminées par semaine, qui montre la capacité réelle de l'équipe et alimente les prévisions. Le diagramme d'accumulation ou la carte de chaleur du tableau, qui révèle où les cartes s'accumulent : si « en validation » déborde constamment de sa limite, c'est le goulot et l'amélioration s'y concentre. En complément, une politique explicite de priorisation des entrées (urgences scolarité en période d'inscription, classes de service pour le reste) évite que la file « à faire » devienne un dépotoir sans ordre. Ces indicateurs se reviennent toutes les deux semaines dans une petite réunion d'amélioration du service.",
+        "rubric": [
+          "Temps de cycle et débit comme indicateurs de base du flux",
+          "Détection des goulots d'étranglement par l'accumulation des cartes",
+          "Politique explicite de priorisation des entrées",
+          "Cadence d'amélioration continue régulière"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "Kanban convient aux flux continus sans itération possible : il visualise le travail, le plafonne par des limites de WIP et pilote le délai et le débit. Les limites forcent à finir plutôt qu'à commencer, ce qui réduit le temps de cycle selon la loi de Little, sans réduire la capacité de l'équipe. La mise en place réussie combine un tableau simple, des limites calibrées puis ajustées, des politiques d'entrée explicites et une revue régulière des indicateurs.",
+    "difficulty": "hard",
+    "tags": [
+      "kanban",
+      "wip",
+      "flux"
+    ]
+  },
+  {
+    "id": "gp_081",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Que fait-on en Scrum d'un élément du Sprint Backlog non terminé à la fin du sprint ?",
+    "answers": [
+      {
+        "id": "gp_081_a",
+        "text": "Le sprint est prolongé de quelques jours jusqu'à l'achèvement de l'élément",
+        "isCorrect": false,
+        "note": "Le sprint a une durée fixe et invariable : le prolonger détruirait le rythme et la prévisibilité."
+      },
+      {
+        "id": "gp_081_d",
+        "text": "L'élément retourne au Product Backlog pour être replanifié lors d'un sprint ultérieur",
+        "isCorrect": true,
+        "note": "Un élément inachevé redevient une hypothèse parmi d'autres : le Product Owner replanifie selon la valeur."
+      },
+      {
+        "id": "gp_081_c",
+        "text": "Le Scrum Master sanctionne l'équipe pour le travail inachevé",
+        "isCorrect": false,
+        "note": "Scrum n'est pas un régime de sanction : l'inachèvement est une donnée empirique à analyser."
+      },
+      {
+        "id": "gp_081_b",
+        "text": "L'élément est considéré terminé puisque du travail a été fourni dessus",
+        "isCorrect": false,
+        "note": "Du travail entamé n'est pas du travail terminé : seuls les éléments conformes à la DoD comptent."
+      }
+    ],
+    "explanation": "Le sprint ne se prolonge jamais : à sa fin, les éléments non terminés, même presque achevés, retournent au Product Backlog. Le Product Owner les replanifie en fonction de la valeur et de la capacité suivante. La rétrospective examine ensuite pourquoi l'objectif n'a pas été atteint pour s'améliorer.",
+    "difficulty": "medium",
+    "tags": [
+      "scrum",
+      "sprint"
+    ]
+  },
+  {
+    "id": "gp_082",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "En quoi consiste l'activité d'affinage (refinement) du Product Backlog ?",
+    "answers": [
+      {
+        "id": "gp_082_c",
+        "text": "Supprimer tous les éléments non réalisés au sprint précédent pour alléger la liste",
+        "isCorrect": false,
+        "note": "Les éléments reportés gardent leur valeur potentielle ; on les replanifie, on ne les purge pas mécaniquement."
+      },
+      {
+        "id": "gp_082_b",
+        "text": "Geler le backlog au milieu du projet pour sécuriser les engagements contractuels",
+        "isCorrect": false,
+        "note": "Le gel du backlog contredit l'adaptation continue que l'affinage incarne justement."
+      },
+      {
+        "id": "gp_082_a",
+        "text": "Découper, préciser et réestimer les éléments à venir pour les rendre prêts à être développés",
+        "isCorrect": true,
+        "note": "L'affinage prépare les prochains éléments : découpage, clarification, estimation et mise à jour des priorités."
+      },
+      {
+        "id": "gp_082_d",
+        "text": "Rédiger le rapport d'avancement du projet destiné au comité de direction",
+        "isCorrect": false,
+        "note": "Le reporting de direction n'a rien à voir avec l'affinage, qui est une préparation collaborative du travail."
+      }
+    ],
+    "explanation": "L'affinage du Product Backlog est une activité continue où le Product Owner et l'équipe découpent les gros éléments, clarifient les besoins, réestiment et réordonnent la liste. Un backlog bien affiné contient des éléments prêts pour les deux prochains sprints environ. Ce n'est pas un événement officiel mais une pratique essentielle de fluidité.",
+    "difficulty": "medium",
+    "tags": [
+      "scrum",
+      "refinement",
+      "product-backlog"
+    ]
+  },
+  {
+    "id": "gp_083",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Que sont les critères d'acceptation d'un récit utilisateur ?",
+    "answers": [
+      {
+        "id": "gp_083_a",
+        "text": "Les noms des développeurs volontaires pour implémenter le récit au sprint suivant",
+        "isCorrect": false,
+        "note": "L'affectation des développeurs est décidée par l'équipe au planning du sprint, pas inscrite dans le récit."
+      },
+      {
+        "id": "gp_083_b",
+        "text": "La liste des technologies imposées pour implémenter la fonctionnalité décrite",
+        "isCorrect": false,
+        "note": "Le récit exprime un besoin utilisateur ; les choix techniques appartiennent à l'équipe de développement."
+      },
+      {
+        "id": "gp_083_d",
+        "text": "Le délai contractuel maximal accordé pour livrer cette fonctionnalité précise",
+        "isCorrect": false,
+        "note": "Les engagements contractuels se traitent au niveau du projet ; le récit porte sur la validation du besoin."
+      },
+      {
+        "id": "gp_083_c",
+        "text": "Les conditions vérifiables qui déterminent si le récit satisfait le besoin exprimé",
+        "isCorrect": true,
+        "note": "Les critères d'acceptation transforment le besoin en conditions de validation objectives et testables."
+      }
+    ],
+    "explanation": "Les critères d'acceptation décrivent, pour un récit donné, les conditions concrètes et vérifiables de sa validation métier. Ils servent de contrat fonctionnel entre le Product Owner et l'équipe, et de base aux tests d'acceptation. Un récit sans critères d'acceptation laisse la validation au jugement subjectif.",
+    "difficulty": "easy",
+    "tags": [
+      "agile",
+      "criteres-acceptation"
+    ]
+  },
+  {
+    "id": "gp_084",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Pourquoi utilise-t-on souvent le réseau PERT et le diagramme de Gantt de façon complémentaire ?",
+    "answers": [
+      {
+        "id": "gp_084_c",
+        "text": "Parce que le réseau met en évidence dépendances et chemin critique, le Gantt rend le calendrier lisible",
+        "isCorrect": true,
+        "note": "PERT calcule la logique d'enchaînement et les marges ; le Gantt communique les dates à tous les acteurs."
+      },
+      {
+        "id": "gp_084_b",
+        "text": "Parce que PERT est obligatoire légalement et Gantt optionnel dans les projets publics",
+        "isCorrect": false,
+        "note": "Aucune obligation légale n'impose PERT ; le choix des outils relève de la méthode du chef de projet."
+      },
+      {
+        "id": "gp_084_a",
+        "text": "Parce que PERT gère le budget et Gantt la qualité des livrables du projet",
+        "isCorrect": false,
+        "note": "PERT et Gantt traitent tous deux du temps et des tâches ; ni l'un ni l'autre ne gère budget ou qualité."
+      },
+      {
+        "id": "gp_084_d",
+        "text": "Parce que PERT sert aux itérations agiles et Gantt aux rituels Scrum quotidiens",
+        "isCorrect": false,
+        "note": "PERT et Gantt sont des outils de planification classique, sans lien direct avec les rituels Scrum."
+      }
+    ],
+    "explanation": "Le réseau PERT exprime la logique du projet : dépendances entre tâches, dates au plus tôt et au plus tard, marges et chemin critique. Le diagramme de Gantt transpose ce calcul sur un calendrier visuel que tout le monde comprend. On calcule donc avec PERT, puis on communique avec le Gantt.",
+    "difficulty": "medium",
+    "tags": [
+      "pert",
+      "gantt",
+      "planification"
+    ]
+  },
+  {
+    "id": "gp_085",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Lequel des exemples suivants illustre correctement un jalon de projet ?",
+    "answers": [
+      {
+        "id": "gp_085_a",
+        "text": "Développement de l'interface de connexion, durée estimée à douze jours-homme",
+        "isCorrect": false,
+        "note": "C'est une tâche de développement, avec une durée et un travail, pas un point de contrôle instantané."
+      },
+      {
+        "id": "gp_085_d",
+        "text": "Validation du cahier des charges par le comité de pilotage, prévue le 15 mars",
+        "isCorrect": true,
+        "note": "Une date de décision sans durée, qui conditionne la suite du projet : voilà un vrai jalon."
+      },
+      {
+        "id": "gp_085_c",
+        "text": "Rédiger le cahier des charges avec les équipes métier concernées",
+        "isCorrect": false,
+        "note": "Rédiger un document est un travail ; le jalon serait la date de validation officielle de ce document."
+      },
+      {
+        "id": "gp_085_b",
+        "text": "Recoder le module de facturation en améliorant les performances de lecture",
+        "isCorrect": false,
+        "note": "Recoder un module est une activité consommatrice de travail, l'opposé d'un jalon de durée nulle."
+      }
+    ],
+    "explanation": "Un jalon est un événement daté de durée nulle qui marque une étape de décision ou de validation : validation d'un cahier des charges, livraison contractuelle, décision de poursuite. Les tâches, elles, consomment du travail entre deux dates. Le jalon structure le pilotage par points de contrôle.",
+    "difficulty": "easy",
+    "tags": [
+      "jalons",
+      "planification"
+    ]
+  },
+  {
+    "id": "gp_086",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce qu'une réserve de contingence dans le budget d'un projet ?",
+    "answers": [
+      {
+        "id": "gp_086_a",
+        "text": "La part du budget que le prestataire reverse au client si le projet termine en avance",
+        "isCorrect": false,
+        "note": "Aucune clause standard ne prévoit de reversement d'avance ; la réserve sert à absorber des aléas, pas à redistribuer."
+      },
+      {
+        "id": "gp_086_c",
+        "text": "Le fonds servant à payer les heures supplémentaires des développeurs chaque mois",
+        "isCorrect": false,
+        "note": "Les heures supplémentaires sont un mode de gestion des ressources, pas une réponse à un risque identifié."
+      },
+      {
+        "id": "gp_086_b",
+        "text": "Une réserve budgétaire identifiée pour couvrir les risques connus et analyser leurs impacts",
+        "isCorrect": true,
+        "note": "La contingence couvre les écarts attendus sur des risques identifiés ; son montant dérive de l'analyse des risques."
+      },
+      {
+        "id": "gp_086_d",
+        "text": "L'enveloppe masquée que le chef de projet garde secrète pour ses dépenses personnelles",
+        "isCorrect": false,
+        "note": "Une réserve se justifie, se documente et se pilote : la dissimuler serait une faute de gestion grave."
+      }
+    ],
+    "explanation": "La réserve de contingence est une provision budgétaire calculée à partir des risques identifiés dans le registre. Elle couvre les écarts attendus sans réouvrir le budget global pour chaque aléa. On la distingue de la réserve de gestion, qui traite les risques inconnus et appartient généralement au sponsor.",
+    "difficulty": "hard",
+    "tags": [
+      "budget",
+      "risques",
+      "reserves"
+    ]
+  },
+  {
+    "id": "gp_087",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Une tâche hors chemin critique dispose d'une marge totale de cinq jours. Quel est l'effet d'un retard de trois jours sur cette tâche ?",
+    "answers": [
+      {
+        "id": "gp_087_a",
+        "text": "La fin du projet glisse de trois jours puisque le retard se répercute intégralement",
+        "isCorrect": false,
+        "note": "La répercussion intégrale ne vaut que pour les tâches à marge nulle, donc sur le chemin critique."
+      },
+      {
+        "id": "gp_087_b",
+        "text": "La tâche devient critique et sa marge passe immédiatement à zéro jour",
+        "isCorrect": false,
+        "note": "Après trois jours de retard, la marge résiduelle est de deux jours : la tâche n'est pas devenue critique."
+      },
+      {
+        "id": "gp_087_d",
+        "text": "Le réseau PERT doit être entièrement recalculé puisque la marge est épuisée",
+        "isCorrect": false,
+        "note": "La marge n'est pas épuisée, il en reste deux jours : le réseau peut être suivi normalement."
+      },
+      {
+        "id": "gp_087_c",
+        "text": "Le retard est absorbé dans la marge, sans impact sur la date de fin du projet",
+        "isCorrect": true,
+        "note": "Un retard inférieur à la marge totale se consomme sans décaler la fin du projet."
+      }
+    ],
+    "explanation": "La marge totale mesure le glissement qu'une tâche peut prendre sans retarder la fin du projet. Un retard de trois jours sur une marge de cinq se consomme dans la réserve disponible et laisse deux jours de sécurité. Si le retard dépassait la marge, la tâche deviendrait critique et décalerait la fin.",
+    "difficulty": "hard",
+    "tags": [
+      "ordonnancement",
+      "marges",
+      "pert"
+    ]
+  },
+  {
+    "id": "gp_088",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce qu'un indicateur clé de performance (KPI) dans le pilotage d'un projet ?",
+    "answers": [
+      {
+        "id": "gp_088_a",
+        "text": "Une mesure chiffrée, rattachée à un objectif, qui renseigne sur l'état d'avancement ou la santé du projet",
+        "isCorrect": true,
+        "note": "Un KPI relie une mesure objective à un objectif de pilotage : respect des jalons, taux de défauts, budget consommé."
+      },
+      {
+        "id": "gp_088_b",
+        "text": "Le relevé exhaustif de toutes les activités réalisées par l'équipe durant le mois",
+        "isCorrect": false,
+        "note": "Tout mesurer n'est pas piloter : un KPI se choisit pour orienter la décision, pas pour archiver l'activité."
+      },
+      {
+        "id": "gp_088_c",
+        "text": "Le procès-verbal signé des réunions de suivi hebdomadaire du projet",
+        "isCorrect": false,
+        "note": "Le compte rendu trace les décisions ; le KPI mesure objectivement un état ou une tendance."
+      },
+      {
+        "id": "gp_088_d",
+        "text": "L'opinion formulée par le sponsor sur la qualité perçue des livrables",
+        "isCorrect": false,
+        "note": "L'opinion du sponsor compte, mais un KPI reste une mesure objective et répétable."
+      }
+    ],
+    "explanation": "Un KPI est une mesure objective et suivie dans le temps, rattachée à un objectif de projet : respect des jalons, écart budgétaire, densité de défauts, vélocité. Bien choisis, peu nombreux et rattachés aux objectifs, les KPI transforment le suivi en décisions plutôt qu'en collection de graphiques.",
+    "difficulty": "easy",
+    "tags": [
+      "kpi",
+      "pilotage",
+      "metriques"
+    ]
+  },
+  {
+    "id": "gp_089",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Pourquoi les équipes agiles estiment-elles souvent avec des séries relatives comme Fibonacci plutôt qu'en heures exactes ?",
+    "answers": [
+      {
+        "id": "gp_089_a",
+        "text": "Parce que les heures sont réservées aux contrats et interdites en réunion d'estimation",
+        "isCorrect": false,
+        "note": "Aucune interdiction n'existe : le choix des séries relatives repose sur la nature de l'incertitude."
+      },
+      {
+        "id": "gp_089_b",
+        "text": "Parce que la précision factice des heures masque l'incertitude réelle des travaux à venir",
+        "isCorrect": true,
+        "note": "Annoncer 14 heures pour un travail incertain crée une fausse exactitude ; l'écart Fibonacci l'assume."
+      },
+      {
+        "id": "gp_089_c",
+        "text": "Parce que la suite de Fibonacci est plus simple à convertir en jours calendaires pour le planning",
+        "isCorrect": false,
+        "note": "Les points ne se convertissent pas en dates : c'est la vélocité observée qui relie points et capacité."
+      },
+      {
+        "id": "gp_089_d",
+        "text": "Parce que les clients exigent contractuellement des estimations exprimées en points d'histoire",
+        "isCorrect": false,
+        "note": "L'usage des points vient des équipes, pas des clients : certains contrats exigent même des jours-homme."
+      }
+    ],
+    "explanation": "Estimer en grandeurs relatives (1, 2, 3, 5, 8, 13) assume que l'incertitude croît avec la taille du travail. Comparer des éléments entre eux est plus fiable que deviner des heures exactes sur des travaux mal connus. La conversion en calendrier se fait ensuite empiriquement, via la vélocité observée.",
+    "difficulty": "hard",
+    "tags": [
+      "estimation",
+      "story-points",
+      "agile"
+    ]
+  },
+  {
+    "id": "gp_090",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce qu'un livrable dans un projet informatique ?",
+    "answers": [
+      {
+        "id": "gp_090_c",
+        "text": "La grille de salaires appliquée aux intervenants pendant toute la durée du projet",
+        "isCorrect": false,
+        "note": "La rémunération relève de la gestion des ressources humaines, sans lien avec les livrables."
+      },
+      {
+        "id": "gp_090_b",
+        "text": "Le courrier officiel par lequel le client notifie la fin du projet aux équipes",
+        "isCorrect": false,
+        "note": "La notification de fin est un acte de clôture, pas un résultat de travail du projet."
+      },
+      {
+        "id": "gp_090_a",
+        "text": "Un résultat concret et vérifiable remis à un destinataire du projet, comme un module ou un rapport",
+        "isCorrect": true,
+        "note": "Le livrable est un résultat identifiable, soumis à une validation : code, document, formation, application."
+      },
+      {
+        "id": "gp_090_d",
+        "text": "Le plan de contingence activé uniquement en cas de retard majeur du planning",
+        "isCorrect": false,
+        "note": "Le plan de contingence est un outil de gestion des risques, pas un résultat remis au client."
+      }
+    ],
+    "explanation": "Un livrable est un résultat tangible et vérifiable que le projet doit remettre : application, module, documentation, formation. Il est défini dans le périmètre, accepté selon des critères explicites et souvent associé à un jalon de validation. La décomposition des livrables structure le découpage du projet.",
+    "difficulty": "easy",
+    "tags": [
+      "fondamentaux",
+      "livrables"
+    ]
+  },
+  {
+    "id": "gp_091",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans la matrice pouvoir-intérêt utilisée pour la communication projet, quelle stratégie applique-t-on à une partie prenante de fort pouvoir mais de faible intérêt ?",
+    "answers": [
+      {
+        "id": "gp_091_a",
+        "text": "La surveiller avec un effort minimal, car elle n'influence pas les décisions du projet",
+        "isCorrect": false,
+        "note": "La surveillance minimale convient au faible pouvoir et faible intérêt, pas à un acteur puissant."
+      },
+      {
+        "id": "gp_091_b",
+        "text": "L'impliquer à fond dans chaque décision quotidienne de l'équipe technique",
+        "isCorrect": false,
+        "note": "Surcharger un acteur peu intéressé d'opérations quotidiennes gaspille son temps et le détourne."
+      },
+      {
+        "id": "gp_091_d",
+        "text": "L'ignorer totalement jusqu'à la fin du projet pour ne pas ralentir les travaux",
+        "isCorrect": false,
+        "note": "Ignorer un acteur puissant prépare un blocage tardif souvent fatal au projet."
+      },
+      {
+        "id": "gp_091_c",
+        "text": "La tenir satisfaite avec une information synthétique et ciblée sur les points qui la concernent",
+        "isCorrect": true,
+        "note": "Un acteur puissant mais peu intéressé exige de le garder satisfait : information concise, ciblée et régulière."
+      }
+    ],
+    "explanation": "La matrice pouvoir-intérêt classe les parties prenantes en quatre zones : gérer de près (fort pouvoir, fort intérêt), tenir satisfait (fort pouvoir, faible intérêt), tenir informé (faible pouvoir, fort intérêt), surveiller (faible pouvoir, faible intérêt). Elle dimensionne l'effort de communication sans la même pour tous.",
+    "difficulty": "hard",
+    "tags": [
+      "parties-prenantes",
+      "communication",
+      "matrice"
+    ]
+  },
+  {
+    "id": "gp_092",
+    "domain": "GESTION_PROJET",
+    "type": "SINGLE_CHOICE",
+    "question": "Pour un sprint d'un mois, quelle est la durée maximale recommandée d'une Sprint Review ?",
+    "answers": [
+      {
+        "id": "gp_092_d",
+        "text": "Quatre heures, pour inspecter l'incrément et travailler l'adaptation du backlog",
+        "isCorrect": true,
+        "note": "Le cadre Scrum fixe la Review à quatre heures au maximum pour un sprint d'un mois, moins si le sprint est court."
+      },
+      {
+        "id": "gp_092_b",
+        "text": "Une heure, le temps de montrer les captures d'écran du sprint",
+        "isCorrect": false,
+        "note": "Réduire la Review à une démonstration d'écrans la vide de son objet : ajuster le produit et le backlog."
+      },
+      {
+        "id": "gp_092_c",
+        "text": "Six heures, soit une journée complète de travail collectif",
+        "isCorrect": false,
+        "note": "La journée complète correspond au Sprint Planning d'un sprint d'un mois, pas à la Review."
+      },
+      {
+        "id": "gp_092_a",
+        "text": "Quinze minutes, comme le Daily Scrum",
+        "isCorrect": false,
+        "note": "Les quinze minutes concernent le Daily ; la Review est un travail approfondi sur le produit."
+      }
+    ],
+    "explanation": "Le cadre Scrum borne les événements : quatre heures au maximum pour la Sprint Review d'un sprint d'un mois, huit pour le Sprint Planning, trois pour la Rétrospective, quinze minutes pour le Daily. Ces plafonds sont des maximums, à réduire proportionnellement pour des sprints plus courts.",
+    "difficulty": "easy",
+    "tags": [
+      "scrum",
+      "sprint-review"
+    ]
+  },
+  {
+    "id": "gp_093",
+    "domain": "GESTION_PROJET",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quels événements appartiennent officiellement au cadre Scrum ?",
+    "answers": [
+      {
+        "id": "gp_093_c",
+        "text": "Le comité de pilotage trimestriel avec la direction générale de l'entreprise",
+        "isCorrect": false,
+        "note": "Le comité de pilotage est une instance de gouvernance classique ; il ne fait pas partie du cadre Scrum."
+      },
+      {
+        "id": "gp_093_a",
+        "text": "Le Sprint Planning qui ouvre chaque sprint en définissant son objectif",
+        "isCorrect": true,
+        "note": "Le Sprint Planning lance le sprint : objectif, éléments sélectionnés et plan de travail."
+      },
+      {
+        "id": "gp_093_d",
+        "text": "La Sprint Retrospective d'amélioration du fonctionnement de l'équipe",
+        "isCorrect": true,
+        "note": "La Rétrospective clôture le sprint en inspectant le fonctionnement de l'équipe Scrum."
+      },
+      {
+        "id": "gp_093_b",
+        "text": "Le Daily Scrum de synchronisation quotidienne de l'équipe de développement",
+        "isCorrect": true,
+        "note": "Le Daily Scrum est l'événement quotidien de synchronisation, limité à quinze minutes."
+      }
+    ],
+    "explanation": "Le cadre Scrum comporte quatre événements, tous contenus dans le sprint : Sprint Planning, Daily Scrum, Sprint Review et Sprint Retrospective. Les instances de gouvernance comme le comité de pilotage peuvent coexister avec Scrum, mais elles n'appartiennent pas au cadre lui-même.",
+    "difficulty": "easy",
+    "tags": [
+      "scrum",
+      "evenements"
+    ]
+  },
+  {
+    "id": "gp_094",
+    "domain": "GESTION_PROJET",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quelles sont de bonnes pratiques lors de la définition des limites de WIP sur un tableau Kanban ?",
+    "answers": [
+      {
+        "id": "gp_094_a",
+        "text": "Rendre les limites visibles sur le tableau pour que chacun respecte le plafond",
+        "isCorrect": true,
+        "note": "Une limite invisible ne se respecte pas : l'affichage explicite crée le contrat visuel de l'équipe."
+      },
+      {
+        "id": "gp_094_c",
+        "text": "Ajuster les limites régulièrement à partir des données observées de débit et de temps de cycle",
+        "isCorrect": true,
+        "note": "Les limites se calibrent empiriquement et se révisent : ni trop lâches, ni à jamais figées."
+      },
+      {
+        "id": "gp_094_d",
+        "text": "Définir une limite égale à trois fois le nombre de développeurs et ne plus jamais la modifier",
+        "isCorrect": false,
+        "note": "Une limite arbitraire et intangible tue l'esprit Kanban, qui repose sur l'amélioration par les données."
+      },
+      {
+        "id": "gp_094_b",
+        "text": "Fixer une limite par étape du flux plutôt qu'une seule limite globale pour toute l'équipe",
+        "isCorrect": true,
+        "note": "Les limites par colonne ciblent les goulots réels ; une limite globale masque les étapes saturées."
+      }
+    ],
+    "explanation": "Des limites de WIP efficaces sont visibles, positionnées par étape du flux et révisées régulièrement selon les mesures. Une limite arbitraire ou immuable transforme l'outil en rituel vide. L'objectif reste le même : faire émerger les goulots et réduire le temps de cycle.",
+    "difficulty": "medium",
+    "tags": [
+      "kanban",
+      "wip",
+      "bonnes-pratiques"
+    ]
+  },
+  {
+    "id": "gp_095",
+    "domain": "GESTION_PROJET",
+    "type": "MULTIPLE_CHOICE",
+    "question": "À quels usages légitimes la vélocité d'une équipe Scrum peut-elle servir ?",
+    "answers": [
+      {
+        "id": "gp_095_a",
+        "text": "Projeter combien d'éléments du backlog les prochains sprints peuvent absorber",
+        "isCorrect": true,
+        "note": "C'est l'usage premier : la vélocité moyenne sert d'unité de capacité pour planifier les itérations à venir."
+      },
+      {
+        "id": "gp_095_b",
+        "text": "Détecter l'effet d'un changement de fonctionnement sur le débit de l'équipe",
+        "isCorrect": true,
+        "note": "Suivre la tendance de la vélocité révèle si une amélioration ou une perturbation a un effet mesurable."
+      },
+      {
+        "id": "gp_095_d",
+        "text": "Classer les équipes de l'entreprise par productivité pour distribuer les primes",
+        "isCorrect": false,
+        "note": "Les points d'histoire n'ont pas d'étalon commun : ce classement est l'abus le plus classique de la vélocité."
+      },
+      {
+        "id": "gp_095_c",
+        "text": "Établir une prévision de date pour la livraison d'un ensemble d'éléments du backlog",
+        "isCorrect": true,
+        "note": "En rapportant la taille restante du backlog à la vélocité, l'équipe estime une fenêtre de livraison."
+      }
+    ],
+    "explanation": "La vélocité sert en interne : planifier les prochains sprints, prévoir des fenêtres de livraison, observer l'effet des changements sur le débit. Elle ne compare pas les équipes entre elles et ne mesure pas la qualité. L'utiliser comme outil de classement individuel ou collectif fausse les estimations elles-mêmes.",
+    "difficulty": "hard",
+    "tags": [
+      "scrum",
+      "velocite",
+      "metriques"
+    ]
+  },
+  {
+    "id": "gp_096",
+    "domain": "GESTION_PROJET",
+    "type": "TRUE_FALSE",
+    "question": "Affirmation : le chemin critique d'un projet peut changer de trajet en cours de réalisation, si les durées réelles diffèrent des durées planifiées.",
+    "answers": [
+      {
+        "id": "gp_096_f",
+        "text": "Faux",
+        "isCorrect": false,
+        "note": "Croire le chemin critique figé pour toute la vie du projet conduit à surveiller le mauvais trajet."
+      },
+      {
+        "id": "gp_096_v",
+        "text": "Vrai",
+        "isCorrect": true,
+        "note": "Avec les durées réelles, un chemin secondaire peut devenir le plus long : le chemin critique se recalcule."
+      }
+    ],
+    "explanation": "Le chemin critique se calcule sur les durées estimées et se met à jour avec les durées réelles. Si une tâche non critique consomme toute sa marge et davantage, elle peut rejoindre ou former le nouveau chemin critique. Le pilotage exige donc une réévaluation régulière du réseau, pas une surveillance figée du trajet initial.",
+    "difficulty": "hard",
+    "tags": [
+      "ordonnancement",
+      "chemin-critique"
+    ]
+  },
+  {
+    "id": "gp_097",
+    "domain": "GESTION_PROJET",
+    "type": "TRUE_FALSE",
+    "question": "Affirmation : la méthode Kanban impose de travailler par sprints de deux semaines avec un Sprint Planning au début de chacun.",
+    "answers": [
+      {
+        "id": "gp_097_v",
+        "text": "Vrai",
+        "isCorrect": false,
+        "note": "Les sprints planifiés sont le cadre de Scrum ; Kanban fonctionne en flux continu sans itération imposée."
+      },
+      {
+        "id": "gp_097_f",
+        "text": "Faux",
+        "isCorrect": true,
+        "note": "Kanban visualise un flux continu avec des limites de WIP ; il n'impose ni sprints ni planning d'itération."
+      }
+    ],
+    "explanation": "Kanban gère un flux de travail continu : les demandes entrent, progressent dans les colonnes du tableau et sortent sans cadre temporel imposé. Les sprints et le Sprint Planning sont des éléments de Scrum. Les deux approches peuvent se combiner, mais Kanban seul n'exige aucune itération.",
+    "difficulty": "easy",
+    "tags": [
+      "kanban",
+      "scrum",
+      "comparaison"
+    ]
+  },
+  {
+    "id": "gp_098",
+    "domain": "GESTION_PROJET",
+    "type": "TRUE_FALSE",
+    "question": "Affirmation : la Sprint Retrospective porte sur l'inspection du produit livré et de ses fonctionnalités, plutôt que sur le fonctionnement de l'équipe.",
+    "answers": [
+      {
+        "id": "gp_098_f",
+        "text": "Faux",
+        "isCorrect": true,
+        "note": "La Rétrospective inspecte les personnes, les processus et les outils pour planifier des améliorations."
+      },
+      {
+        "id": "gp_098_v",
+        "text": "Vrai",
+        "isCorrect": false,
+        "note": "L'inspection du produit appartient à la Sprint Review ; la Rétrospective regarde le processus et l'équipe."
+      }
+    ],
+    "explanation": "Les deux événements de fin de sprint inspectent des objets différents : la Sprint Review examine le produit avec les parties prenantes, la Sprint Retrospective examine le fonctionnement de l'équipe Scrum. Confondre les deux prive l'équipe de son moteur d'amélioration continue.",
+    "difficulty": "medium",
+    "tags": [
+      "scrum",
+      "retrospective",
+      "sprint-review"
+    ]
+  },
+  {
+    "id": "gp_099",
+    "domain": "GESTION_PROJET",
+    "type": "FILL_BLANK",
+    "question": "Un événement incertain qui, s'il se produit, aurait un impact négatif sur les objectifs du projet s'appelle un ___.",
+    "blanks": [
+      {
+        "accepted": [
+          "risque",
+          "risque projet"
+        ]
+      }
+    ],
+    "explanation": "Un risque se définit par son caractère incertain et par l'impact négatif potentiel sur les objectifs : coût, délai, qualité ou périmètre. Une fois réalisé, il devient un problème à traiter. La gestion des risques vise à les identifier et les traiter avant leur réalisation.",
+    "difficulty": "easy",
+    "tags": [
+      "risques",
+      "fondamentaux"
+    ]
+  },
+  {
+    "id": "gp_100",
+    "domain": "GESTION_PROJET",
+    "type": "FILL_BLANK",
+    "question": "Le diagramme de ___ représente les tâches d'un projet sous forme de barres positionnées sur un calendrier, du début à la fin de chacune.",
+    "blanks": [
+      {
+        "accepted": [
+          "gantt",
+          "Gantt"
+        ]
+      }
+    ],
+    "explanation": "Le diagramme de Gantt affiche chaque tâche comme une barre sur l'axe du temps, avec ses dates de début et de fin, ses dépendances et souvent son avancement. C'est la représentation calendaire la plus utilisée pour communiquer un planning de projet.",
+    "difficulty": "easy",
+    "tags": [
+      "gantt",
+      "planification"
+    ]
+  }
+]

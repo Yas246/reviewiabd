@@ -1,0 +1,264 @@
+{
+  "id": "ANALYSE_CONCEPTION",
+  "title": "Analyse et Conception",
+  "description": "Référence rapide : diagrammes UML, relations de classes, cas d'utilisation, Merise (MCD, MLD), MVC, design patterns et qualité de conception.",
+  "sections": [
+    {
+      "title": "Diagrammes UML : lequel pour quoi",
+      "items": [
+        {
+          "what": "Diagramme de classes : la structure statique",
+          "note": "Montre les classes (attributs, opérations) et leurs relations. Répond à : de quoi le système est-il fait ? C'est le diagramme structurel de base."
+        },
+        {
+          "what": "Diagramme de cas d'utilisation : le point de vue des acteurs",
+          "note": "Montre ce que le système permet de faire, vu de l'extérieur. Le « quoi », jamais le « comment » : idéal pour cadrer le périmètre avec le client."
+        },
+        {
+          "what": "Diagramme de séquence : les échanges dans le temps",
+          "note": "Montre les messages entre objets (ou acteurs et objets) pour UN scénario précis, dans l'ordre chronologique. Le temps s'écoule de haut en bas."
+        },
+        {
+          "what": "Diagramme d'activités : les flux et les décisions",
+          "note": "Enchaînement d'actions avec branchements et parallélisme, comme un logigramme. Adapté aux processus métier ou à un algorithme complexe."
+        },
+        {
+          "what": "Diagramme d'états-transitions : le cycle de vie d'un objet",
+          "note": "Se concentre sur UN objet : les états qu'il traverse (ex : commande « créée, payée, expédiée, livrée ») et les événements qui déclenchent un changement d'état."
+        },
+        {
+          "what": "Structurel vs comportemental : ne pas confondre",
+          "note": "Structurels (statiques) : classes, objets, composants. Comportementaux (dynamiques) : cas d'utilisation, séquence, activités, états. Question classique en QCM."
+        }
+      ]
+    },
+    {
+      "title": "Relations entre classes et multiplicités",
+      "items": [
+        {
+          "what": "Association : « connaît / est lié à »",
+          "code": "Client ──── passe ──── Commande",
+          "note": "Lien structurel le plus général entre deux classes. Exemple : un client passe des commandes ; la commande connaît son client."
+        },
+        {
+          "what": "Agrégation (losange vide) : « a un... mais peut vivre sans »",
+          "code": "Equipe ◇──── Joueur",
+          "note": "Le tout et la partie sont liés mais la partie existe indépendamment : détruire l'équipe ne détruit pas les joueurs (ils partent dans une autre équipe)."
+        },
+        {
+          "what": "Composition (losange plein) : « a un... et meurt avec »",
+          "code": "Maison ◆──── Piece",
+          "note": "La partie n'existe pas sans le tout : détruire la maison détruit les pièces. Le losange se place côté « tout ». Piège classique : agrégation = partageable, composition = exclusive et dépendante."
+        },
+        {
+          "what": "Héritage : « est un »",
+          "code": "Vehicule △──── Voiture   (flèche triangulaire vide vers la mère)",
+          "note": "La classe fille récupère attributs et méthodes de la mère et peut les spécialiser ou les redéfinir. Exemple : une Voiture est un Vehicule."
+        },
+        {
+          "what": "Multiplicités : combien d'objets de chaque côté",
+          "code": "1     : exactement un\n0..1  : au plus un (optionnel)\n0..*  : de zéro à plusieurs\n1..*  : au moins un",
+          "note": "La multiplicité se lit depuis l'autre classe. Question type : peut-il y en avoir zéro ? (0..* contre 1..*)"
+        },
+        {
+          "what": "Exemple complet de multiplicités",
+          "code": "Client 1 ──── 0..* Commande",
+          "note": "Un client passe de 0 à n commandes (peut ne jamais commander), mais une commande appartient à exactement 1 client."
+        }
+      ]
+    },
+    {
+      "title": "Cas d'utilisation : acteurs, include, extend",
+      "items": [
+        {
+          "what": "Acteur : un rôle externe, pas une personne",
+          "note": "Tout ce qui interagit avec le système de l'extérieur : utilisateur (acteur principal) ou autre système (acteur secondaire, ex : passerelle de paiement). La même personne peut jouer plusieurs rôles, donc être plusieurs acteurs."
+        },
+        {
+          "what": "include : comportement toujours exécuté",
+          "code": "Reserver ..> VerifierDisponibilite : <<include>>",
+          "note": "Le cas de base exécute OBLIGATOIREMENT le cas inclus, à chaque fois. Sert surtout à factoriser un comportement commun à plusieurs cas. Exemple : toute réservation vérifie la disponibilité."
+        },
+        {
+          "what": "extend : comportement parfois exécuté",
+          "code": "AppliquerReduction ..> Reserver : <<extend>> (si code promo)",
+          "note": "Comportement optionnel ou conditionnel, inséré dans le cas de base selon une condition. Exemple : on applique une réduction seulement si le client a un code promo."
+        },
+        {
+          "what": "Sens des flèches : le piège de l'examen",
+          "note": "include : la flèche part du cas de base VERS le cas inclus. extend : la flèche part du cas d'extension VERS le cas de base. Un include est inconditionnel, un extend dépend d'une condition : c'est LA question classique."
+        },
+        {
+          "what": "Scénario : un chemin précis dans un cas",
+          "note": "Un cas d'utilisation regroupe des scénarios : le scénario nominal (tout se passe bien) et les scénarios alternatifs ou d'exception (paiement refusé, etc.)."
+        }
+      ]
+    },
+    {
+      "title": "Diagramme de séquence",
+      "items": [
+        {
+          "what": "Lignes de vie : les participants",
+          "code": "Acteur : Client   |   obj:Interface   |   svc:Service",
+          "note": "Une ligne verticale par participant (acteur ou objet). Le temps s'écoule de haut en bas : l'ordre des messages est l'ordre chronologique."
+        },
+        {
+          "what": "Message synchrone : on attend la réponse",
+          "code": "A ──> B : traiter()",
+          "note": "Flèche pleine à tête pleine. L'émetteur est bloqué jusqu'à la fin du traitement chez le récepteur. C'est l'appel de méthode classique."
+        },
+        {
+          "what": "Message asynchrone : on n'attend pas",
+          "code": "A ──> B : notifier()   (tête ouverte)",
+          "note": "L'émetteur continue son exécution sans attendre. Typique des événements, notifications, envois de messages (file d'attente)."
+        },
+        {
+          "what": "Message de retour : le résultat renvoyé",
+          "code": "A ─ ─ ─> B : resultat",
+          "note": "Ligne pointillée. Représente la réponse renvoyée après un appel synchrone."
+        },
+        {
+          "what": "Activation : la bande d'exécution",
+          "note": "Rectangle fin posé sur la ligne de vie pendant que l'objet traite quelque chose. Un message synchrone crée une activation chez le récepteur."
+        },
+        {
+          "what": "Lecture d'un diagramme : un scénario de bout en bout",
+          "code": "Client → Controleur → Service → BaseDeDonnees, puis les retours en sens inverse",
+          "note": "On choisit UN scénario (ex : « passer une commande ») et on montre tous les échanges nécessaires, dans l'ordre. Pas de boucle ni de alternative sans le besoin."
+        }
+      ]
+    },
+    {
+      "title": "Merise : le MCD",
+      "items": [
+        {
+          "what": "Entité : des individus de même nature",
+          "code": "CLIENT (numClient, nom, ville)",
+          "note": "Regroupement d'objets ou de personnes partageant les mêmes propriétés, identifiés par un identifiant (souligné dans la convention Merise). Exemple : CLIENT, PRODUIT, COMMANDE."
+        },
+        {
+          "what": "Association : un lien sémantique entre entités",
+          "code": "CLIENT ── passe ── COMMANDE",
+          "note": "Souvent un verbe : « un client passe des commandes ». Une association peut porter des propriétés propres (ex : quantite sur l'association entre COMMANDE et PRODUIT)."
+        },
+        {
+          "what": "Cardinalités : les 4 valeurs à connaître",
+          "code": "0,1 : au plus un (optionnel)\n1,1 : exactement un (obligatoire)\n0,n : de zéro à plusieurs\n1,n : au moins un",
+          "note": "On lit la cardinalité depuis l'entité : « une entité participe tant de fois à l'association ». Premier chiffre = minimum, second = maximum."
+        },
+        {
+          "what": "Exemple complet à savoir refaire",
+          "code": "CLIENT (0,n) ── passe ── (1,1) COMMANDE",
+          "note": "Un client passe de 0 à n commandes ; une commande est passée par exactement 1 client. Les deux cardinalités se lisent indépendamment de chaque côté."
+        },
+        {
+          "what": "Piège : 0,1 / 1,1 se lit côté entité",
+          "note": "Pour savoir quoi écrire, demandez-vous : « est-ce que CETTE entité peut exister sans participer à la relation ? » (0,..) et « peut-elle participer plusieurs fois ? » (..,n). Le sens de lecture est la source d'erreur n°1."
+        }
+      ]
+    },
+    {
+      "title": "MCD vers MLD : la règle des 3 et les niveaux",
+      "items": [
+        {
+          "what": "Règle 1 : entité devient table",
+          "code": "CLIENT(numClient, nom, ville)",
+          "note": "Chaque entité du MCD devient une table relationnelle ; l'identifiant devient la clé primaire."
+        },
+        {
+          "what": "Règle 2 : association 1,n devient clé étrangère",
+          "code": "COMMANDE(numCommande, date, #numClient)",
+          "note": "La clé du côté qui porte la cardinalité 0,n / 1,n migre comme clé étrangère dans la table du côté 0,1 / 1,1 (ici : numClient dans COMMANDE). On ne crée JAMAIS de table pour une relation 1,n."
+        },
+        {
+          "what": "Règle 3 : association n,n devient table intermédiaire",
+          "code": "CLIENT(0,n) ── commander ── (0,n) PRODUIT\n=> COMPOSER(#numCommande, #numProduit, quantite)",
+          "note": "La table porte comme clé primaire la concaténation des deux clés, plus les éventuelles propriétés de l'association (quantite)."
+        },
+        {
+          "what": "Les trois niveaux : conceptuel, logique, physique",
+          "code": "MCD (conceptuel)  ->  MLD (logique)  ->  MPD (physique)",
+          "note": "Conceptuel : le quoi (entités, associations, indépendant de tout outil). Logique : le comment relationnel (tables, clés, clés étrangères). Physique : l'implémentation (SQL, types, index, choix du SGBD)."
+        }
+      ]
+    },
+    {
+      "title": "MVC : Model, View, Controller",
+      "items": [
+        {
+          "what": "Model : les données et la logique métier",
+          "note": "Gère les données, leur validation et les règles métier. Ne sait pas comment les données sont affichées : aucune référence à la vue."
+        },
+        {
+          "what": "View : l'affichage",
+          "note": "Présente les données à l'utilisateur (HTML, template, interface graphique). Elle ne contient aucune règle métier, elle se contente d'afficher ce qu'on lui donne."
+        },
+        {
+          "what": "Controller : le chef d'orchestre",
+          "note": "Reçoit la requête de l'utilisateur, interroge ou modifie le Model, puis choisit la View à laquelle il transmet les données."
+        },
+        {
+          "what": "Flux d'une requête dans MVC",
+          "code": "1. requête -> Controller\n2. Controller <-> Model (lire/modifier les données)\n3. Controller -> View (donne les données)\n4. View -> réponse affichée",
+          "note": "L'utilisateur ne parle jamais directement au Model ; il passe toujours par le Controller."
+        },
+        {
+          "what": "Pourquoi séparer : l'intérêt du pattern",
+          "note": "Séparation des responsabilités : couplage faible entre interface et métier. On peut changer le design sans toucher aux règles métier, et tester le métier sans interface."
+        }
+      ]
+    },
+    {
+      "title": "Design patterns à connaître",
+      "items": [
+        {
+          "what": "Factory Method : déléguer la création d'objets",
+          "code": "db = FabriqueBDD.creer('postgres')",
+          "note": "Problème : multiplier les new partout rend le code dépendant des classes concrètes. Solution : déléguer la création à une fabrique ; le code client ne demande que « un objet » de la famille voulue."
+        },
+        {
+          "what": "Singleton : une seule instance",
+          "code": "Config.getInstance().get('url')",
+          "note": "Problème : certaines ressources doivent être uniques (connexion à la base, fichier de configuration, logger). Solution : la classe garde le contrôle et renvoie toujours la même instance. À utiliser avec parcimonie : c'est un état global."
+        },
+        {
+          "what": "Observer : prévenir automatiquement les abonnés",
+          "code": "produit.ajouterObservateur(client);  produit.changerPrix(9.99);  // les observateurs sont notifiés",
+          "note": "Problème : prévenir N objets quand un sujet change, sans que le sujet connaisse ses observateurs en détail. Exemple : prévenir les clients abonnés au réassort d'un produit."
+        },
+        {
+          "what": "Strategy : des algorithmes interchangeables",
+          "code": "panier.setPaiement(new PaiementCB());\npanier.setPaiement(new PaiementPaypal());\npanier.payer();",
+          "note": "Problème : un même traitement avec plusieurs variantes (paiement, tri, compression) et des if/else qui explosent. Solution : encapsuler chaque algorithme dans une classe et les échanger à l'exécution."
+        }
+      ]
+    },
+    {
+      "title": "Qualité de conception",
+      "items": [
+        {
+          "what": "Couplage : la dépendance entre modules",
+          "note": "Couplage fort : changer un module oblige à en changer d'autres (à éviter). Couplage faible : les modules communiquent par des interfaces simples. Objectif de toute conception : couplage faible."
+        },
+        {
+          "what": "Cohésion : un module, une responsabilité",
+          "note": "Cohésion forte : tout ce qui est dans le module sert la même responsabilité. Cohésion faible : classe « fourre-tout » (Util, Manager) qui mélange des fonctions sans rapport. Objectif : cohésion forte."
+        },
+        {
+          "what": "Encapsulation : cacher les données internes",
+          "code": "private double solde;\npublic void crediter(double m) { if (m > 0) solde += m; }",
+          "note": "Attributs privés, accès par des méthodes qui peuvent valider. On protège l'invariant de l'objet (un solde ne peut pas devenir négatif par accident)."
+        },
+        {
+          "what": "Polymorphisme : même appel, comportements différents",
+          "code": "for (Forme f : formes) { aire = f.calculerAire(); }",
+          "note": "Le même appel (calculerAire) exécute le code de la classe réelle (Cercle, Rectangle...). Évite les chaînes de instanceof et permet d'étendre sans modifier le code existant."
+        },
+        {
+          "what": "La règle d'or à retenir",
+          "note": "Couplage faible + cohésion forte = code maintenable et testable. C'est le critère derrière presque toutes les questions de « bonne conception »."
+        }
+      ]
+    }
+  ]
+}

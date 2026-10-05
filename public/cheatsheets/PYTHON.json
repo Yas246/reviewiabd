@@ -1,0 +1,333 @@
+{
+  "id": "PYTHON",
+  "title": "Python et Pandas",
+  "description": "Tout le langage : variables, chaînes, listes, conditions, boucles, fonctions, fichiers, erreurs... puis Pandas de A à Z.",
+  "sections": [
+    {
+      "title": "Variables et types de base",
+      "items": [
+        {
+          "what": "Affecter une variable (pas de déclaration de type)",
+          "code": "age = 25            # int\nprix = 1200.5       # float\nnom = \"Alice\"       # str (chaîne)\nest_etudiant = True # bool (True/False, majuscules !)"
+        },
+        {
+          "what": "Connaître et convertir un type",
+          "code": "type(age)              # <class 'int'>\nint(\"42\")              # 42\nfloat(\"3.14\")          # 3.14\nstr(25)                # \"25\"\nbool(0)                # False"
+        },
+        {
+          "what": "Afficher et formater avec f-string",
+          "code": "print(f\"{nom} a {age} ans\")\nprint(f\"moyenne : {moy:.2f}\")   # 2 décimales"
+        }
+      ]
+    },
+    {
+      "title": "Opérateurs",
+      "items": [
+        {
+          "what": "Opérateurs arithmétiques",
+          "code": "7 + 2    # 9\n7 - 2    # 5\n7 * 2    # 14\n7 / 2    # 3.5 (division réelle)\n7 // 2   # 3 (division entière)\n7 % 2    # 1 (reste, modulo)\n7 ** 2   # 49 (puissance)"
+        },
+        {
+          "what": "Comparaisons et logique",
+          "code": "a == b    # égal\na != b    # différent\na > b     # supérieur\na and b   # les deux vrais\na or b    # au moins un\nnot a     # inverse"
+        },
+        {
+          "what": "Test d'appartenance",
+          "code": "\"al\" in \"alice\"   # True\n3 in [1, 2, 3]    # True"
+        }
+      ]
+    },
+    {
+      "title": "Chaînes de caractères",
+      "items": [
+        {
+          "what": "Méthodes usuelles",
+          "code": "s = \"  Bonjour le Monde  \"\ns.strip()          # retire les espaces aux extrémités\ns.upper()          # majuscules\ns.lower()          # minuscules\ns.replace(\"o\", \"0\")\ns.split(\" \")       # découpe en liste"
+        },
+        {
+          "what": "Découper (slicing)",
+          "code": "s = \"pandas\"\ns[0]      # 'p'\ns[-1]     # 's' (dernier)\ns[0:3]    # 'pan'\ns[:3]     # 'pan'\ns[3:]     # 'das'"
+        },
+        {
+          "what": "Assembler et compter",
+          "code": "\"-\".join([\"a\", \"b\", \"c\"])   # 'a-b-c'\ns.count(\"a\")\ns.find(\"das\")                # position ou -1\nlen(s)"
+        }
+      ]
+    },
+    {
+      "title": "Listes",
+      "items": [
+        {
+          "what": "Créer, lire, modifier",
+          "code": "nombres = [3, 1, 4, 1, 5]\nnombres[0]      # 3\nnombres[-1]     # 5 (dernier)\nnombres[0] = 9\nnombres.append(6)      # ajouter à la fin\nnombres.insert(1, 7)   # insérer à la position 1\nnombres.remove(1)      # retirer la valeur 1"
+        },
+        {
+          "what": "Trier, inverser, longueur",
+          "code": "nombres.sort()            # tri croissant, modifie la liste\nnombres.sort(reverse=True)\ntrie = sorted(nombres)    # nouvelle liste triée\nnombres.reverse()\nlen(nombres)\nsum(nombres), max(nombres), min(nombres)"
+        },
+        {
+          "what": "Compréhension de liste (très utilisé)",
+          "code": "carres = [n * n for n in range(5)]            # [0, 1, 4, 9, 16]\npairs = [n for n in range(10) if n % 2 == 0]"
+        }
+      ]
+    },
+    {
+      "title": "Dictionnaires, tuples, ensembles",
+      "items": [
+        {
+          "what": "Dictionnaire : clé -> valeur",
+          "code": "ages = {\"alice\": 25, \"bruno\": 45}\nages[\"alice\"]          # 25\nages[\"chloe\"] = 30     # ajouter\nages.get(\"dan\", 0)     # 0 si clé absente\nfor nom, a in ages.items():\n    print(nom, a)"
+        },
+        {
+          "what": "Tuple : liste immuable",
+          "code": "point = (3, 5)\nx, y = point    # décomposition"
+        },
+        {
+          "what": "Ensemble : valeurs uniques",
+          "code": "villes = {\"Cotonou\", \"Parakou\", \"Cotonou\"}   # 2 éléments\nvilles.add(\"Abomey\")\n\"Cotonou\" in villes"
+        }
+      ]
+    },
+    {
+      "title": "Conditions",
+      "items": [
+        {
+          "what": "if / elif / else",
+          "code": "if note >= 16:\n    mention = \"très bien\"\nelif note >= 14:\n    mention = \"bien\"\nelse:\n    mention = \"passable\"",
+          "note": "L'indentation (4 espaces) DÉFINIT les blocs : un mauvais décalage = erreur."
+        },
+        {
+          "what": "Ternaire sur une ligne",
+          "code": "mention = \"admis\" if note >= 10 else \"ajourné\""
+        }
+      ]
+    },
+    {
+      "title": "Boucles",
+      "items": [
+        {
+          "what": "Boucle for",
+          "code": "for i in range(5):        # 0, 1, 2, 3, 4\n    print(i)\n\nfor ville in [\"Cotonou\", \"Parakou\"]:\n    print(ville)"
+        },
+        {
+          "what": "Boucle while et break/continue",
+          "code": "compteur = 0\nwhile compteur < 5:\n    compteur += 1\n    if compteur == 3:\n        continue   # saute ce tour\n    if compteur == 4:\n        break      # sort de la boucle"
+        },
+        {
+          "what": "enumerate et zip",
+          "code": "for i, ville in enumerate(villes):   # index + valeur\n    print(i, ville)\n\nfor nom, age in zip(noms, ages):     # deux listes ensemble\n    print(nom, age)"
+        }
+      ]
+    },
+    {
+      "title": "Fonctions",
+      "items": [
+        {
+          "what": "Définir une fonction",
+          "code": "def moyenne(valeurs):\n    return sum(valeurs) / len(valeurs)\n\nm = moyenne([400, 1200, 800])"
+        },
+        {
+          "what": "Paramètres par défaut et plusieurs valeurs",
+          "code": "def salutation(nom, message=\"bonjour\"):\n    return f\"{message} {nom}\"\n\ndef stats(valeurs):\n    return min(valeurs), max(valeurs)\n\nmini, maxi = stats([1, 5, 3])   # décomposition du tuple"
+        },
+        {
+          "what": "Fonction lambda (une ligne)",
+          "code": "double = lambda x: x * 2\npaires.sort(key=lambda p: p[1])   # tri par 2e élément"
+        }
+      ]
+    },
+    {
+      "title": "Gestion des erreurs",
+      "items": [
+        {
+          "what": "try / except / finally",
+          "code": "try:\n    valeur = int(\"abc\")\nexcept ValueError as e:\n    print(\"Conversion impossible :\", e)\nfinally:\n    print(\"toujours exécuté\")",
+          "note": "Le type d'erreur doit correspondre : ValueError pour une conversion, ZeroDivisionError pour une division par 0, KeyError pour une clé de dict absente."
+        },
+        {
+          "what": "Lever une erreur",
+          "code": "if len(valeurs) == 0:\n    raise ValueError(\"liste vide\")"
+        }
+      ]
+    },
+    {
+      "title": "Fichiers",
+      "items": [
+        {
+          "what": "Lire et écrire un fichier texte",
+          "code": "with open(\"notes.txt\", \"w\", encoding=\"utf-8\") as f:\n    f.write(\"première ligne\\n\")\n\nwith open(\"notes.txt\", \"r\", encoding=\"utf-8\") as f:\n    contenu = f.read()"
+        },
+        {
+          "what": "Lire ligne par ligne et JSON",
+          "code": "with open(\"notes.txt\", encoding=\"utf-8\") as f:\n    for ligne in f:\n        print(ligne.strip())\n\nimport json\nwith open(\"data.json\", encoding=\"utf-8\") as f:\n    data = json.load(f)"
+        }
+      ]
+    },
+    {
+      "title": "Modules et packages",
+      "items": [
+        {
+          "what": "Importer un module",
+          "code": "import math\nmath.sqrt(16)          # 4.0\n\nfrom datetime import datetime\ndatetime.now()"
+        },
+        {
+          "what": "Installer un package",
+          "code": "# dans un terminal (pas dans Python)\npip install pandas numpy matplotlib"
+        }
+      ]
+    },
+    {
+      "title": "Dates et heures",
+      "items": [
+        {
+          "what": "Date du jour et formatage",
+          "code": "from datetime import datetime, date\naujourdhui = date.today()\nmaintenant = datetime.now()\naujourdhui.strftime(\"%d/%m/%Y\")   # '05/10/2026'"
+        },
+        {
+          "what": "Convertir une chaîne en date",
+          "code": "from datetime import datetime\nd = datetime.strptime(\"2026-06-15\", \"%Y-%m-%d\")"
+        }
+      ]
+    },
+    {
+      "title": "Pandas : charger et inspecter",
+      "items": [
+        {
+          "what": "Lire un CSV dans un DataFrame",
+          "code": "import pandas as pd\ndf = pd.read_csv('clients.csv')"
+        },
+        {
+          "what": "Voir un aperçu des données",
+          "code": "df.head()        # 5 premières lignes\ndf.tail()        # 5 dernières\ndf.sample(5)     # 5 lignes au hasard"
+        },
+        {
+          "what": "Structure et types des colonnes",
+          "code": "df.info()        # colonnes, types, non-nuls\ndf.shape         # (lignes, colonnes)\ndf.columns       # noms des colonnes\ndf.dtypes        # types seulement"
+        },
+        {
+          "what": "Statistiques descriptives rapides",
+          "code": "df.describe()    # count, mean, std, min, quartiles, max"
+        }
+      ]
+    },
+    {
+      "title": "Pandas : sélectionner et filtrer",
+      "items": [
+        {
+          "what": "Sélectionner une ou plusieurs colonnes",
+          "code": "df['revenu']             # Série (une colonne)\ndf[['id', 'revenu']]     # DataFrame (liste de colonnes)"
+        },
+        {
+          "what": "Filtrer des lignes",
+          "code": "df[df['age'] > 30]\ndf[df['a_achete'] == 'Oui']",
+          "note": "La condition crée un masque booléen qu'on applique entre crochets."
+        },
+        {
+          "what": "Combiner plusieurs conditions",
+          "code": "df[(df['age'] > 30) & (df['revenu'] < 1000)]",
+          "note": "Toujours & et | avec des PARENTHÈSES autour de chaque condition, jamais and/or."
+        },
+        {
+          "what": "loc vs iloc",
+          "code": "df.loc[3, 'revenu']    # par libellé (ligne 3, colonne revenu)\ndf.iloc[0, 2]          # par position (1re ligne, 3e colonne)",
+          "note": "loc = libellés, iloc = positions. La confusion est un piège classique."
+        }
+      ]
+    },
+    {
+      "title": "Pandas : valeurs manquantes",
+      "items": [
+        {
+          "what": "Repérer les valeurs manquantes",
+          "code": "df.isna().sum()     # nombre de NaN par colonne\ndf[df['age'].isna()]  # lignes avec age manquant"
+        },
+        {
+          "what": "Supprimer les lignes incomplètes",
+          "code": "df = df.dropna()\ndf = df.dropna(subset=['age'])"
+        },
+        {
+          "what": "Remplacer les manquants",
+          "code": "df['revenu'] = df['revenu'].fillna(df['revenu'].mean())\ndf['a_achete'] = df['a_achete'].fillna('Inconnu')"
+        }
+      ]
+    },
+    {
+      "title": "Pandas : agréger (groupby)",
+      "items": [
+        {
+          "what": "Moyenne par groupe",
+          "code": "df.groupby('ville')['revenu'].mean()"
+        },
+        {
+          "what": "Plusieurs statistiques à la fois",
+          "code": "df.groupby('ville')['revenu'].agg(['mean', 'median', 'count'])"
+        },
+        {
+          "what": "Compter les occurrences",
+          "code": "df['a_achete'].value_counts()"
+        },
+        {
+          "what": "Groupby multi-colonnes",
+          "code": "df.groupby(['ville', 'a_achete'])['revenu'].sum().reset_index()"
+        }
+      ]
+    },
+    {
+      "title": "Pandas : colonnes, tri, fusion",
+      "items": [
+        {
+          "what": "Créer une colonne calculée",
+          "code": "df['prix_m2'] = df['prix'] / df['surface']\ndf['achete_num'] = (df['a_achete'] == 'Oui').astype(int)"
+        },
+        {
+          "what": "One-hot encoding",
+          "code": "df = pd.get_dummies(df, columns=['quartier'])",
+          "note": "Crée une colonne par catégorie : évite de donner un ordre artificiel."
+        },
+        {
+          "what": "Trier",
+          "code": "df.sort_values('revenu', ascending=False)"
+        },
+        {
+          "what": "Fusionner deux tables",
+          "code": "pd.merge(clients, commandes, on='client_id', how='inner')",
+          "note": "how='left' garde tous les clients même sans commande."
+        }
+      ]
+    },
+    {
+      "title": "Pandas : statistiques et graphiques",
+      "items": [
+        {
+          "what": "Statistiques par colonne",
+          "code": "df['revenu'].mean()\ndf['revenu'].median()\ndf[['surface', 'prix']].corr()"
+        },
+        {
+          "what": "Graphique rapide",
+          "code": "import matplotlib.pyplot as plt\ndf['revenu'].hist(bins=20)\nplt.show()\n\ndf.plot.scatter(x='surface', y='prix')"
+        }
+      ]
+    },
+    {
+      "title": "Pièges fréquents en Python",
+      "items": [
+        {
+          "what": "L'indentation fait partie de la syntaxe",
+          "note": "Un bloc se définit par 4 espaces. Mélanger tabulations et espaces provoque une erreur."
+        },
+        {
+          "what": "Division entière vs réelle",
+          "note": "7 / 2 = 3.5 mais 7 // 2 = 3. Pour une moyenne, toujours /."
+        },
+        {
+          "what": "Copier une liste",
+          "note": "b = a ne copie PAS : les deux noms pointent vers la même liste. Pour copier : b = a.copy() ou b = list(a)."
+        },
+        {
+          "what": "True/False/None s'écrivent en majuscule",
+          "note": "true, false, null provoquent des NameError : c'est True, False, None."
+        }
+      ]
+    }
+  ]
+}

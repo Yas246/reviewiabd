@@ -1,0 +1,250 @@
+{
+  "id": "R",
+  "title": "R",
+  "description": "Tout le langage : affectation, vecteurs, data frames, conditions, boucles, fonctions, chaînes, fichiers... puis statistiques, NA et dplyr.",
+  "sections": [
+    {
+      "title": "Affectation et types de base",
+      "items": [
+        {
+          "what": "Affecter une variable (la convention R)",
+          "code": "age <- 25          # numeric (décimal)\nnom <- \"Alice\"     # character\nest_etudiant <- TRUE   # logical (TRUE/FALSE en majuscules)\nn <- 25L           # integer (entier, avec L)"
+        },
+        {
+          "what": "Connaître et convertir un type",
+          "code": "class(age)         # \"numeric\"\nas.numeric(\"42\")    # 42\nas.character(25)   # \"25\"\nas.numeric(\"abc\")  # NA (avec un warning)"
+        },
+        {
+          "what": "Afficher et concaténer",
+          "code": "print(age)\ncat(\"Alice a\", age, \"ans\\n\")\npaste(\"Alice\", age, \"ans\")        # sépare par espace\npaste0(\"Alice\", age)              # sans espace"
+        }
+      ]
+    },
+    {
+      "title": "Vecteurs : la brique de base",
+      "items": [
+        {
+          "what": "Créer un vecteur",
+          "code": "revenus <- c(400, 1200, 800, 950)\nvilles <- c(\"Cotonou\", \"Parakou\")\nentiers <- 1:5               # 1 2 3 4 5\nimpairs <- seq(1, 9, by = 2) # 1 3 5 7 9\nzeros <- rep(0, 4)           # 0 0 0 0"
+        },
+        {
+          "what": "Indexer (à partir de 1 !)",
+          "code": "revenus[1]              # 400 (premier)\nrevenus[length(revenus)]  # dernier\nrevenus[-1]             # tout sauf le premier\nrevenus[c(1, 3)]        # 1er et 3e"
+        },
+        {
+          "what": "Filtrer un vecteur avec une condition",
+          "code": "revenus[revenus > 800]          # valeurs > 800\nvilles[revenus > 800]           # correspondants"
+        },
+        {
+          "what": "Opérations vectorisées (sans boucle)",
+          "code": "revenus * 2            # chaque élément x2\nrevenus - mean(revenus)  # centré\nsqrt(revenus)"
+        }
+      ]
+    },
+    {
+      "title": "Listes et facteurs",
+      "items": [
+        {
+          "what": "Liste : contenir des types différents",
+          "code": "l <- list(nom = \"Alice\", notes = c(12, 15, 9), admis = TRUE)\nl$nom          # \"Alice\"\nl$notes[2]     # 15\nl[[\"notes\"]]   # le vecteur entier"
+        },
+        {
+          "what": "Facteur : variable catégorielle",
+          "code": "v <- factor(c(\"Oui\", \"Non\", \"Oui\", \"Oui\"))\nlevels(v)          # \"Non\" \"Oui\"\ntable(v)           # effectifs par niveau",
+          "note": "Un facteur stocke des catégories (niveaux) : c'est la forme R des variables catégorielles."
+        }
+      ]
+    },
+    {
+      "title": "Data frames",
+      "items": [
+        {
+          "what": "Créer un data frame",
+          "code": "clients <- data.frame(\n  id = 1:4,\n  age = c(25, 45, NA, 35),\n  revenu = c(400, 1200, 800, 950),\n  ville = c(\"Cotonou\", \"Parakou\", \"Abomey\", \"Porto-Novo\")\n)"
+        },
+        {
+          "what": "Inspecter",
+          "code": "head(clients)      # 6 premières lignes\nstr(clients)       # structure et types\nsummary(clients)   # stats par colonne\ndim(clients)       # (lignes, colonnes)\nnrow(clients); ncol(clients)\nnames(clients)     # noms des colonnes"
+        },
+        {
+          "what": "Accéder aux colonnes et cellules",
+          "code": "clients$revenu                 # colonne (vecteur)\nclients[, \"revenu\"]            # idem\nclients[2, ]                   # ligne 2 entière\nclients[2, \"age\"]              # une cellule\nclients[clients$age > 30, ]    # lignes filtrées"
+        }
+      ]
+    },
+    {
+      "title": "Conditions",
+      "items": [
+        {
+          "what": "if / else",
+          "code": "if (note >= 16) {\n  mention <- \"très bien\"\n} else if (note >= 14) {\n  mention <- \"bien\"\n} else {\n  mention <- \"passable\"\n}"
+        },
+        {
+          "what": "ifelse vectorisé (sur un vecteur entier)",
+          "code": "clients$tranche <- ifelse(clients$age < 30, \"jeune\", \"senior\")",
+          "note": "ifelse() s'applique à TOUT le vecteur d'un coup : équivalent du apply conditionnel."
+        }
+      ]
+    },
+    {
+      "title": "Boucles et famille apply",
+      "items": [
+        {
+          "what": "for et while",
+          "code": "for (v in c(\"a\", \"b\", \"c\")) {\n  print(v)\n}\n\ni <- 1\nwhile (i <= 3) {\n  print(i)\n  i <- i + 1\n}"
+        },
+        {
+          "what": "sapply / lapply : appliquer une fonction",
+          "code": "sapply(clients[, c(\"age\", \"revenu\")], mean, na.rm = TRUE)\nlapply(1:3, function(x) x * x)"
+        },
+        {
+          "what": "tapply : stats par groupe",
+          "code": "tapply(clients$revenu, clients$ville, mean, na.rm = TRUE)",
+          "note": "Équivalent R de base du GROUP BY de SQL ou du groupby de pandas."
+        }
+      ]
+    },
+    {
+      "title": "Fonctions",
+      "items": [
+        {
+          "what": "Définir une fonction",
+          "code": "moyenne <- function(v) {\n  sum(v) / length(v)\n}\n\nmoyenne(c(400, 1200, 800))"
+        },
+        {
+          "what": "Paramètres par défaut et plusieurs valeurs",
+          "code": "salutation <- function(nom, message = \"bonjour\") {\n  paste(message, nom)\n}\n\nstats <- function(v) {\n  list(mini = min(v), maxi = max(v))\n}\ns <- stats(c(1, 5, 3))\ns$mini"
+        }
+      ]
+    },
+    {
+      "title": "Chaînes de caractères",
+      "items": [
+        {
+          "what": "Assembler et modifier",
+          "code": "paste(\"age\", 25, \"ans\")      # \"age 25 ans\"\npaste0(\"a\", \"b\")              # \"ab\" (sans séparateur)\ntoupper(\"abc\")\nnchar(\"hello\")               # longueur\nsubstr(\"pandas\", 1, 3)       # \"pan\""
+        },
+        {
+          "what": "Rechercher et remplacer",
+          "code": "grep(\"na\", c(\"pandas\", \"r\"))   # positions qui contiennent\nsub(\"a\", \"o\", \"pandas\")        # remplace la 1re occurrence\ngsub(\"a\", \"o\", \"pandas\")       # remplace TOUTES les occurrences"
+        }
+      ]
+    },
+    {
+      "title": "Fichiers",
+      "items": [
+        {
+          "what": "Lire et écrire des fichiers",
+          "code": "clients <- read.csv(\"clients.csv\", na.strings = c(\"NA\", \"?\"))\nwrite.csv(clients, \"sortie.csv\", row.names = FALSE)\nlignes <- readLines(\"notes.txt\")"
+        },
+        {
+          "what": "Dossier de travail",
+          "code": "getwd()          # dossier courant\nsetwd(\"C:/data\") # changer de dossier\nlist.files()     # fichiers présents"
+        }
+      ]
+    },
+    {
+      "title": "Packages",
+      "items": [
+        {
+          "what": "Installer et charger un package",
+          "code": "install.packages(\"dplyr\")   # une seule fois (dans la console)\nlibrary(dplyr)              # à chaque session"
+        }
+      ]
+    },
+    {
+      "title": "Statistiques",
+      "items": [
+        {
+          "what": "Les fonctions essentielles",
+          "code": "mean(revenus)     # moyenne\nmedian(revenus)   # médiane\nsd(revenus)       # écart-type\nvar(revenus)      # variance\nmin(revenus); max(revenus)\nquantile(revenus) # min, Q1, médiane, Q3, max"
+        },
+        {
+          "what": "Moyenne vs médiane : quand ça diffère",
+          "note": "La moyenne est sensible aux valeurs extrêmes ; la médiane non. Si moyenne > médiane nettement, la distribution est asymétrique à droite : rapporter la médiane."
+        },
+        {
+          "what": "Tableaux d'effectifs et corrélations",
+          "code": "table(clients$ville)      # effectifs par catégorie\nprop.table(table(clients$ville))  # proportions\ncor(clients$age, clients$revenu)  # corrélation"
+        }
+      ]
+    },
+    {
+      "title": "Valeurs manquantes (NA)",
+      "items": [
+        {
+          "what": "Repérer les NA",
+          "code": "is.na(clients$age)         # TRUE/FALSE par élément\nwhich(is.na(clients$age))  # positions\ncolSums(is.na(clients))    # NA par colonne\nanyNA(clients)             # TRUE si au moins un NA"
+        },
+        {
+          "what": "Supprimer les lignes incomplètes",
+          "code": "clients <- na.omit(clients)"
+        },
+        {
+          "what": "Remplacer les NA par la moyenne",
+          "code": "clients$revenu[is.na(clients$revenu)] <- mean(clients$revenu, na.rm = TRUE)",
+          "note": "na.rm = TRUE est OBLIGATOIRE : sinon mean() vaut NA et on remplace les manquants par NA."
+        }
+      ]
+    },
+    {
+      "title": "dplyr (tidyverse)",
+      "items": [
+        {
+          "what": "Filtrer et sélectionner",
+          "code": "library(dplyr)\nclients %>% filter(age > 30, ville == \"Cotonou\")\nclients %>% select(nom, revenu)"
+        },
+        {
+          "what": "Créer une colonne et trier",
+          "code": "clients %>%\n  mutate(revenu_k = revenu / 1000) %>%\n  arrange(desc(revenu))"
+        },
+        {
+          "what": "Regrouper et résumer",
+          "code": "clients %>%\n  group_by(ville) %>%\n  summarise(\n    nb = n(),\n    revenu_moyen = mean(revenu, na.rm = TRUE)\n  )"
+        },
+        {
+          "what": "Imputation des NA en une ligne",
+          "code": "clients <- clients %>%\n  mutate(revenu = ifelse(is.na(revenu), mean(revenu, na.rm = TRUE), revenu))"
+        }
+      ]
+    },
+    {
+      "title": "Visualisation",
+      "items": [
+        {
+          "what": "Graphiques de base",
+          "code": "hist(clients$revenu)          # histogramme\nplot(clients$age, clients$revenu)  # nuage de points\nbarplot(table(clients$ville)) # barres\nboxplot(clients$revenu)       # boîte à moustaches"
+        },
+        {
+          "what": "ggplot2 : la grammaire des graphiques",
+          "code": "library(ggplot2)\nggplot(clients, aes(x = age, y = revenu)) +\n  geom_point() +\n  geom_smooth()"
+        }
+      ]
+    },
+    {
+      "title": "Pièges fréquents en R",
+      "items": [
+        {
+          "what": "Indexation à partir de 1",
+          "note": "Contrairement à Python, le premier élément est v[1]. Et v[0] renvoie numeric(0), pas une erreur."
+        },
+        {
+          "what": "NA se propage",
+          "note": "mean(c(1, 2, NA)) vaut NA tant qu'on n'écrit pas na.rm = TRUE. C'est LE piège des épreuves."
+        },
+        {
+          "what": "L'affectation se fait avec <-",
+          "note": "= fonctionne aussi, mais <- est la convention R (partout dans les épreuves)."
+        },
+        {
+          "what": "c() aplatit les types",
+          "note": "c(1, 2, \"a\") convertit TOUT en caractères : c(1, 2) reste numérique, mais mélanger force un type commun."
+        },
+        {
+          "what": "== sur un NA renvoie NA",
+          "note": "Toujours tester avec is.na(), jamais x == NA."
+        }
+      ]
+    }
+  ]
+}

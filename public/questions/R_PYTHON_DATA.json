@@ -1,0 +1,3713 @@
+[
+  {
+    "id": "rpd_001",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans R, quelle fonction du R de base charge un fichier CSV dans un data.frame ?",
+    "answers": [
+      {
+        "id": "rpd_001_b",
+        "text": "open.csv(\"clients.csv\")",
+        "isCorrect": false,
+        "note": "Confusion avec la fonction open de Python : open.csv n'existe pas en R."
+      },
+      {
+        "id": "rpd_001_a",
+        "text": "read.csv(\"clients.csv\")",
+        "isCorrect": true,
+        "note": "Juste : read.csv lit un fichier de valeurs séparées par des virgules et renvoie un data.frame."
+      },
+      {
+        "id": "rpd_001_c",
+        "text": "load.csv(\"clients.csv\")",
+        "isCorrect": false,
+        "note": "Confusion avec load() qui recharge un espace de travail R sauvegardé, pas un CSV."
+      },
+      {
+        "id": "rpd_001_d",
+        "text": "import.csv(\"clients.csv\")",
+        "isCorrect": false,
+        "note": "Confusion avec l'instruction import de Python : il n'existe pas de import.csv en R."
+      }
+    ],
+    "explanation": "La fonction read.csv du R de base lit un fichier CSV et renvoie un data.frame que l'on stocke généralement dans une variable avec l'opérateur d'affectation <-. Les autres noms n'existent pas en R.",
+    "difficulty": "easy",
+    "tags": [
+      "r",
+      "lecture-donnees"
+    ]
+  },
+  {
+    "id": "rpd_002",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans R, que fait str(clients) appliquée à un data.frame ?",
+    "answers": [
+      {
+        "id": "rpd_002_c",
+        "text": "Elle convertit les colonnes en chaînes de caractères",
+        "isCorrect": false,
+        "note": "Confusion avec as.character(), qui fait la conversion de type."
+      },
+      {
+        "id": "rpd_002_b",
+        "text": "Elle affiche les statistiques descriptives de chaque colonne",
+        "isCorrect": false,
+        "note": "Confusion avec summary(), qui donne min, quartiles, médiane, moyenne et max."
+      },
+      {
+        "id": "rpd_002_a",
+        "text": "Elle affiche la structure : nombre d'observations, colonnes et types",
+        "isCorrect": true,
+        "note": "Juste : str() décrit la structure de l'objet, notamment le type de chaque colonne."
+      },
+      {
+        "id": "rpd_002_d",
+        "text": "Elle renvoie les six premières lignes de la table",
+        "isCorrect": false,
+        "note": "Confusion avec head(), qui limite l'affichage aux premières lignes."
+      }
+    ],
+    "explanation": "str() (structure) décrit un objet R : nombre d'observations et de variables, nom et type de chaque colonne, premières valeurs. C'est le réflexe d'inspection juste après un read.csv.",
+    "difficulty": "easy",
+    "tags": [
+      "r",
+      "inspection"
+    ]
+  },
+  {
+    "id": "rpd_003",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "En Python, que renvoie type([1, 2, 3]) ?",
+    "answers": [
+      {
+        "id": "rpd_003_d",
+        "text": "<class 'array'>",
+        "isCorrect": false,
+        "note": "Confusion avec numpy.array : la liste native de Python ne s'appelle pas array."
+      },
+      {
+        "id": "rpd_003_b",
+        "text": "<class 'tuple'>",
+        "isCorrect": false,
+        "note": "Confusion avec les parenthèses : un tuple se crée avec (1, 2, 3) et n'est pas modifiable."
+      },
+      {
+        "id": "rpd_003_c",
+        "text": "<class 'dict'>",
+        "isCorrect": false,
+        "note": "Confusion avec les accolades : un dictionnaire associe des clés à des valeurs."
+      },
+      {
+        "id": "rpd_003_a",
+        "text": "<class 'list'>",
+        "isCorrect": true,
+        "note": "Juste : les crochets créent une liste, collection ordonnée et modifiable."
+      }
+    ],
+    "explanation": "Les crochets définissent une liste Python, collection ordonnée et modifiable. Le tuple s'écrit avec des parenthèses, le dictionnaire avec des accolades, et array désigne le tableau numpy.",
+    "difficulty": "easy",
+    "tags": [
+      "python",
+      "types"
+    ]
+  },
+  {
+    "id": "rpd_004",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Avec pandas, quelle commande charge le fichier ventes.csv dans un DataFrame nommé df ?",
+    "answers": [
+      {
+        "id": "rpd_004_a",
+        "text": "df = pd.read_csv(\"ventes.csv\")",
+        "isCorrect": true,
+        "note": "Juste : read_csv est la fonction de lecture des CSV en pandas."
+      },
+      {
+        "id": "rpd_004_b",
+        "text": "df = pd.open_csv(\"ventes.csv\")",
+        "isCorrect": false,
+        "note": "Confusion avec open : la fonction de lecture standard de pandas s'appelle read_csv."
+      },
+      {
+        "id": "rpd_004_c",
+        "text": "df = pd.load_csv(\"ventes.csv\")",
+        "isCorrect": false,
+        "note": "Confusion avec les fonctions load de pickle ou de numpy : pandas utilise read_csv."
+      },
+      {
+        "id": "rpd_004_d",
+        "text": "df = pd.read_table(\"ventes.csv\")",
+        "isCorrect": false,
+        "note": "read_table existe mais lit par défaut des fichiers séparés par des tabulations, pas des virgules."
+      }
+    ],
+    "explanation": "La convention pandas est pd.read_csv : elle renvoie un DataFrame dont l'index est créé automatiquement. read_table existe mais suppose un séparateur tabulation, ce qui donnerait une colonne unique ici.",
+    "difficulty": "easy",
+    "tags": [
+      "pandas",
+      "lecture-donnees"
+    ]
+  },
+  {
+    "id": "rpd_005",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans R, quelle fonction teste élément par élément la présence de NA dans un vecteur et renvoie un vecteur logique ?",
+    "answers": [
+      {
+        "id": "rpd_005_b",
+        "text": "anyNA(x)",
+        "isCorrect": false,
+        "note": "anyNA ne renvoie qu'un seul TRUE ou FALSE pour tout le vecteur, pas un test élément par élément."
+      },
+      {
+        "id": "rpd_005_a",
+        "text": "is.na(x)",
+        "isCorrect": true,
+        "note": "Juste : is.na renvoie TRUE pour chaque élément manquant, FALSE sinon."
+      },
+      {
+        "id": "rpd_005_c",
+        "text": "na.omit(x)",
+        "isCorrect": false,
+        "note": "na.omit ne teste pas : elle supprime les éléments ou lignes contenant des NA."
+      },
+      {
+        "id": "rpd_005_d",
+        "text": "is.null(x)",
+        "isCorrect": false,
+        "note": "NULL signifie absence d'objet, pas valeur manquante : confusion fréquente avec NA."
+      }
+    ],
+    "explanation": "is.na compare chaque élément à NA et renvoie un vecteur logique de même longueur, idéal pour l'indexation. anyNA donne une réponse globale, na.omit filtre, et is.null concerne NULL et non NA.",
+    "difficulty": "medium",
+    "tags": [
+      "r",
+      "na"
+    ]
+  },
+  {
+    "id": "rpd_006",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans R, mean(c(12, 18, NA)) renvoie NA. Quelle écriture fournit la moyenne des valeurs connues ?",
+    "answers": [
+      {
+        "id": "rpd_006_c",
+        "text": "mean(na.omit = c(12, 18, NA))",
+        "isCorrect": false,
+        "note": "na.omit est une fonction, pas un argument de mean : cette écriture est invalide."
+      },
+      {
+        "id": "rpd_006_b",
+        "text": "mean(c(12, 18, NA), rm.na = TRUE)",
+        "isCorrect": false,
+        "note": "Le nom de l'argument est inversé : l'argument exact est na.rm, cette écriture est rejetée."
+      },
+      {
+        "id": "rpd_006_a",
+        "text": "mean(c(12, 18, NA), na.rm = TRUE)",
+        "isCorrect": true,
+        "note": "Juste : na.rm = TRUE retire les NA avant le calcul, la moyenne porte sur 12 et 18."
+      },
+      {
+        "id": "rpd_006_d",
+        "text": "mean(c(12, 18, NA), exclude.na = TRUE)",
+        "isCorrect": false,
+        "note": "exclude.na n'existe pas dans mean : confusion avec des options d'autres logiciels statistiques."
+      }
+    ],
+    "explanation": "Par prudence, mean renvoie NA dès qu'un NA est présent. L'argument na.rm = TRUE demande de retirer les NA avant le calcul. Le nom exact compte : rm.na ou exclude.na déclenchent une erreur.",
+    "difficulty": "medium",
+    "tags": [
+      "r",
+      "na",
+      "moyenne"
+    ]
+  },
+  {
+    "id": "rpd_007",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Avec pandas, que renvoie df.head() ?",
+    "answers": [
+      {
+        "id": "rpd_007_d",
+        "text": "Les noms de colonnes et leurs types",
+        "isCorrect": false,
+        "note": "Confusion avec df.info() ou df.dtypes."
+      },
+      {
+        "id": "rpd_007_b",
+        "text": "Les cinq dernières lignes du DataFrame",
+        "isCorrect": false,
+        "note": "Confusion avec df.tail(), qui affiche la fin de la table."
+      },
+      {
+        "id": "rpd_007_c",
+        "text": "La première colonne du DataFrame",
+        "isCorrect": false,
+        "note": "head agit sur les lignes, pas sur les colonnes."
+      },
+      {
+        "id": "rpd_007_a",
+        "text": "Les cinq premières lignes du DataFrame",
+        "isCorrect": true,
+        "note": "Juste : head affiche par défaut les cinq premières lignes, nombre ajustable avec un argument."
+      }
+    ],
+    "explanation": "df.head() affiche par défaut les cinq premières lignes, un nombre ajustable avec df.head(10). C'est le pendant de head() en R et le premier réflexe d'inspection après chargement.",
+    "difficulty": "easy",
+    "tags": [
+      "pandas",
+      "inspection"
+    ]
+  },
+  {
+    "id": "rpd_008",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Un vecteur de revenus contient une valeur extrême très élevée. Quelle statistique y est la moins sensible ?",
+    "answers": [
+      {
+        "id": "rpd_008_a",
+        "text": "La médiane",
+        "isCorrect": true,
+        "note": "Juste : la médiane ne dépend que des rangs, une valeur extrême ne déplace guère sa position."
+      },
+      {
+        "id": "rpd_008_b",
+        "text": "La moyenne",
+        "isCorrect": false,
+        "note": "La moyenne intègre la valeur extrême dans la somme et monte en conséquence."
+      },
+      {
+        "id": "rpd_008_c",
+        "text": "L'étendue (maximum moins minimum)",
+        "isCorrect": false,
+        "note": "L'étendue dépend entièrement des deux valeurs extrêmes : c'est la mesure la plus fragile."
+      },
+      {
+        "id": "rpd_008_d",
+        "text": "La somme",
+        "isCorrect": false,
+        "note": "La somme augmente d'autant que la valeur extrême est grande."
+      }
+    ],
+    "explanation": "La médiane partage la série ordonnée en deux et ignore l'amplitude des valeurs extrêmes. La moyenne, la somme et l'étendue intègrent au contraire leur plein montant.",
+    "difficulty": "medium",
+    "tags": [
+      "statistiques",
+      "mediane"
+    ]
+  },
+  {
+    "id": "rpd_009",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "En Python, comment lire la valeur associée à la clé \"age\" du dictionnaire client ?",
+    "answers": [
+      {
+        "id": "rpd_009_b",
+        "text": "client.age",
+        "isCorrect": false,
+        "note": "La notation point vaut pour les attributs d'objet, pas pour les clés d'un dictionnaire."
+      },
+      {
+        "id": "rpd_009_a",
+        "text": "client[\"age\"]",
+        "isCorrect": true,
+        "note": "Juste : les crochets avec la clé entre guillemets accèdent à la valeur du dictionnaire."
+      },
+      {
+        "id": "rpd_009_c",
+        "text": "client->age",
+        "isCorrect": false,
+        "note": "Cette flèche vient du langage C : Python n'utilise pas cette syntaxe."
+      },
+      {
+        "id": "rpd_009_d",
+        "text": "client{age}",
+        "isCorrect": false,
+        "note": "Les accolades servent à créer un dictionnaire ou un ensemble, pas à indexer."
+      }
+    ],
+    "explanation": "Un dictionnaire s'indexe avec des crochets et la clé entre guillemets : client[\"age\"]. On peut aussi utiliser client.get(\"age\"), qui renvoie None au lieu d'une erreur si la clé manque.",
+    "difficulty": "medium",
+    "tags": [
+      "python",
+      "dictionnaire"
+    ]
+  },
+  {
+    "id": "rpd_010",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Avec pandas, quelle différence entre df.loc[0] et df.iloc[0] ?",
+    "answers": [
+      {
+        "id": "rpd_010_c",
+        "text": "loc s'applique aux colonnes, iloc aux lignes",
+        "isCorrect": false,
+        "note": "Les deux sélectionnent lignes et colonnes : la différence porte sur le mode d'adressage."
+      },
+      {
+        "id": "rpd_010_b",
+        "text": "loc sélectionne par position, iloc par étiquette",
+        "isCorrect": false,
+        "note": "C'est l'inversion classique : loc vient de location par label, iloc de integer location."
+      },
+      {
+        "id": "rpd_010_a",
+        "text": "loc sélectionne par étiquette d'index, iloc par position entière",
+        "isCorrect": true,
+        "note": "Juste : loc suit l'étiquette de l'index, iloc compte les positions depuis 0."
+      },
+      {
+        "id": "rpd_010_d",
+        "text": "loc renvoie une copie, iloc une vue",
+        "isCorrect": false,
+        "note": "Les deux renvoient une Series ou un DataFrame : la distinction copie/vue ne les sépare pas."
+      }
+    ],
+    "explanation": "df.loc[0] cherche la ligne portant l'étiquette 0, qui peut se trouver n'importe où après un filtrage. df.iloc[0] prend la première ligne quelle que soit son étiquette.",
+    "difficulty": "medium",
+    "tags": [
+      "pandas",
+      "selection"
+    ]
+  },
+  {
+    "id": "rpd_011",
+    "domain": "R_PYTHON_DATA",
+    "type": "TRUE_FALSE",
+    "question": "En Python, une liste peut être modifiée après sa création : on dit qu'elle est mutable.",
+    "answers": [
+      {
+        "id": "rpd_011_v",
+        "text": "Vrai",
+        "isCorrect": true,
+        "note": "Juste : on peut ajouter, remplacer ou supprimer des éléments d'une liste existante."
+      },
+      {
+        "id": "rpd_011_f",
+        "text": "Faux",
+        "isCorrect": false,
+        "note": "Faux : la liste est le conteneur de base mutable de Python ; le tuple, lui, est immuable."
+      }
+    ],
+    "explanation": "Les listes Python sont mutables : ajout avec append, suppression et affectation par indice sont permis après création. Les tuples et les chaînes de caractères, eux, sont immuables.",
+    "difficulty": "easy",
+    "tags": [
+      "python",
+      "listes"
+    ]
+  },
+  {
+    "id": "rpd_012",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Avec dplyr, quelle commande conserve les lignes du data.frame ventes où region vaut \"Nord\" ?",
+    "answers": [
+      {
+        "id": "rpd_012_d",
+        "text": "mutate(ventes, region == \"Nord\")",
+        "isCorrect": false,
+        "note": "mutate crée ou modifie une colonne : ici il ajouterait une colonne logique sans retirer de lignes."
+      },
+      {
+        "id": "rpd_012_b",
+        "text": "select(ventes, region == \"Nord\")",
+        "isCorrect": false,
+        "note": "select conserve des colonnes, pas des lignes : c'est le verbe voisin le plus confondu avec filter."
+      },
+      {
+        "id": "rpd_012_c",
+        "text": "arrange(ventes, region == \"Nord\")",
+        "isCorrect": false,
+        "note": "arrange trie les lignes selon une variable, il ne filtre rien."
+      },
+      {
+        "id": "rpd_012_a",
+        "text": "filter(ventes, region == \"Nord\")",
+        "isCorrect": true,
+        "note": "Juste : filter garde les lignes qui vérifient la condition logique."
+      }
+    ],
+    "explanation": "Le verbe filter de dplyr garde les lignes qui vérifient une condition logique. select choisit des colonnes, arrange trie et mutate transforme : quatre verbes à ne pas mélanger.",
+    "difficulty": "medium",
+    "tags": [
+      "r",
+      "dplyr",
+      "filtrage"
+    ]
+  },
+  {
+    "id": "rpd_013",
+    "domain": "R_PYTHON_DATA",
+    "type": "FILL_BLANK",
+    "question": "Dans R, la fonction ___ renvoie TRUE pour chaque valeur manquante d'un vecteur, et ___ supprime les lignes d'un data.frame qui en contiennent au moins une.",
+    "blanks": [
+      {
+        "accepted": [
+          "is.na"
+        ]
+      },
+      {
+        "accepted": [
+          "na.omit"
+        ]
+      }
+    ],
+    "explanation": "Le duo is.na et na.omit structure le traitement des manquants en R : le premier repère les NA valeur par valeur, le second écarte les lignes incomplètes. Pour compter, on écrit sum(is.na(clients)).",
+    "difficulty": "easy",
+    "tags": [
+      "r",
+      "na"
+    ]
+  },
+  {
+    "id": "rpd_014",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Avec pandas, quelle expression renvoie le nombre de valeurs manquantes de chaque colonne de df ?",
+    "answers": [
+      {
+        "id": "rpd_014_a",
+        "text": "df.isna().sum()",
+        "isCorrect": true,
+        "note": "Juste : isna marque les manquants en True, sum les compte colonne par colonne."
+      },
+      {
+        "id": "rpd_014_b",
+        "text": "df.sum().isna()",
+        "isCorrect": false,
+        "note": "L'ordre est inversé : on ferait d'abord la somme des colonnes, ce qui écrase l'information de manquance."
+      },
+      {
+        "id": "rpd_014_c",
+        "text": "df.isna().count()",
+        "isCorrect": false,
+        "note": "count compte les valeurs non nulles du résultat de isna, donc le total de lignes, pas les manquants."
+      },
+      {
+        "id": "rpd_014_d",
+        "text": "df.na().sum()",
+        "isCorrect": false,
+        "note": "La méthode na() vient de Spark, pas de pandas : elle n'existe pas ici."
+      }
+    ],
+    "explanation": "df.isna() produit un DataFrame de booléens où True signale un manquant ; .sum() additionne ces True colonne par colonne et donne le profil de manquance. C'est le diagnostic à faire après tout read_csv.",
+    "difficulty": "medium",
+    "tags": [
+      "pandas",
+      "na",
+      "inspection"
+    ]
+  },
+  {
+    "id": "rpd_015",
+    "domain": "R_PYTHON_DATA",
+    "type": "CODE",
+    "question": "Complétez la fonction moyenne pour qu'elle renvoie la moyenne arithmétique d'une liste de nombres.",
+    "code": {
+      "language": "python",
+      "setup": "revenus = [400, 1200, 800, 950, 1500, 700]",
+      "starter": "def moyenne(valeurs):\n    # à compléter\n    pass",
+      "solution": "def moyenne(valeurs):\n    return sum(valeurs) / len(valeurs)",
+      "timeLimitMs": 10000,
+      "tests": [
+        {
+          "name": "Cas simple",
+          "hidden": false,
+          "code": "assert moyenne([400, 1200]) == 800"
+        },
+        {
+          "name": "Trois valeurs",
+          "hidden": false,
+          "code": "assert moyenne([10, 20, 30]) == 20"
+        },
+        {
+          "name": "Test caché : jeu de revenus",
+          "hidden": true,
+          "code": "assert abs(moyenne(revenus) - 925) < 1e-9"
+        }
+      ]
+    },
+    "explanation": "La moyenne s'obtient en divisant la somme des valeurs par leur effectif : sum(valeurs) / len(valeurs). C'est le calcul de base à maîtriser avant d'utiliser statistics ou numpy.",
+    "difficulty": "easy",
+    "tags": [
+      "python",
+      "moyenne",
+      "fonctions"
+    ]
+  },
+  {
+    "id": "rpd_016",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans R, à quoi sert factor() appliquée à une colonne de textes comme \"Oui\"/\"Non\" ?",
+    "answers": [
+      {
+        "id": "rpd_016_b",
+        "text": "Supprimer les doublons de la colonne",
+        "isCorrect": false,
+        "note": "Les doublons se traitent avec duplicated() ou unique(), pas avec factor."
+      },
+      {
+        "id": "rpd_016_a",
+        "text": "Déclarer la colonne comme variable catégorielle à niveaux",
+        "isCorrect": true,
+        "note": "Juste : factor crée une variable qualitative dont levels() liste les modalités."
+      },
+      {
+        "id": "rpd_016_c",
+        "text": "Convertir les textes en nombres décimaux",
+        "isCorrect": false,
+        "note": "factor code des niveaux en interne, mais la variable reste catégorielle, pas numérique."
+      },
+      {
+        "id": "rpd_016_d",
+        "text": "Trier la colonne par ordre alphabétique",
+        "isCorrect": false,
+        "note": "Le tri relève de sort() ou order() ; factor définit des niveaux, éventuellement ordonnés."
+      }
+    ],
+    "explanation": "factor() transforme un vecteur de textes en variable qualitative à niveaux, indispensable pour les tableaux croisés, les graphiques par groupe et les modèles. levels() liste les modalités.",
+    "difficulty": "medium",
+    "tags": [
+      "r",
+      "facteurs"
+    ]
+  },
+  {
+    "id": "rpd_017",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans R, quelle instruction remplace les revenus manquants du vecteur revenu par la moyenne des revenus connus ?",
+    "answers": [
+      {
+        "id": "rpd_017_c",
+        "text": "revenu[is.na(revenu)] <- mean(revenu, na.rm = FALSE)",
+        "isCorrect": false,
+        "note": "Avec na.rm = FALSE la moyenne vaut NA, donc les manquants restent NA."
+      },
+      {
+        "id": "rpd_017_b",
+        "text": "revenu[na(revenu)] <- mean(revenu)",
+        "isCorrect": false,
+        "note": "La fonction na() n'existe pas et mean sans na.rm renverrait NA : double erreur fréquente."
+      },
+      {
+        "id": "rpd_017_a",
+        "text": "revenu[is.na(revenu)] <- mean(revenu, na.rm = TRUE)",
+        "isCorrect": true,
+        "note": "Juste : l'indexation logique cible les NA et la moyenne est calculée hors NA."
+      },
+      {
+        "id": "rpd_017_d",
+        "text": "mean(revenu, na.rm = TRUE)[is.na(revenu)]",
+        "isCorrect": false,
+        "note": "L'ordre est inversé : on tenterait d'indexer un scalaire, ce qui ne remplace rien."
+      }
+    ],
+    "explanation": "Le schéma canonique : indexer le vecteur par is.na() à gauche, calculer la moyenne en ignorant les NA à droite. Sans na.rm = TRUE, la moyenne serait NA et l'imputation échouerait silencieusement.",
+    "difficulty": "hard",
+    "tags": [
+      "r",
+      "na",
+      "nettoyage"
+    ]
+  },
+  {
+    "id": "rpd_018",
+    "domain": "R_PYTHON_DATA",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quelles méthodes pandas permettent d'inspecter rapidement un DataFrame venant d'être chargé ?",
+    "answers": [
+      {
+        "id": "rpd_018_a",
+        "text": "df.info()",
+        "isCorrect": true,
+        "note": "Juste : info affiche les types, le nombre de valeurs non nulles et l'occupation mémoire."
+      },
+      {
+        "id": "rpd_018_c",
+        "text": "df.head()",
+        "isCorrect": true,
+        "note": "Juste : head montre les premières lignes et donne un aperçu concret des valeurs."
+      },
+      {
+        "id": "rpd_018_d",
+        "text": "df.pivot()",
+        "isCorrect": false,
+        "note": "pivot restructure la table (lignes et colonnes), il ne sert pas à l'inspection."
+      },
+      {
+        "id": "rpd_018_b",
+        "text": "df.describe()",
+        "isCorrect": true,
+        "note": "Juste : describe donne count, mean, std, min, quartiles et max des colonnes numériques."
+      }
+    ],
+    "explanation": "Le trio réflexe après read_csv est info, describe et head : structure, statistiques, aperçu. pivot et melt restructurent les données, ils n'apportent rien au diagnostic initial.",
+    "difficulty": "medium",
+    "tags": [
+      "pandas",
+      "inspection"
+    ]
+  },
+  {
+    "id": "rpd_019",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans ventes %>% group_by(region) %>% summarise(total = sum(prix)), que fait l'opérateur %>% ?",
+    "answers": [
+      {
+        "id": "rpd_019_d",
+        "text": "Il exécute les deux étapes simultanément en parallèle",
+        "isCorrect": false,
+        "note": "Le tidyverse n'exécute pas en parallèle : les étapes sont strictement séquentielles."
+      },
+      {
+        "id": "rpd_019_b",
+        "text": "Il affecte le résultat final à une variable nommée ventes",
+        "isCorrect": false,
+        "note": "L'affectation se fait avec <- ou = : le pipe ne stocke rien."
+      },
+      {
+        "id": "rpd_019_c",
+        "text": "Il compare le data.frame ventes au résultat du groupement",
+        "isCorrect": false,
+        "note": "Le pipe n'a rien d'une comparaison : c'est un enchaînement de transformations."
+      },
+      {
+        "id": "rpd_019_a",
+        "text": "Il transmet le résultat de l'étape précédente en premier argument de l'étape suivante",
+        "isCorrect": true,
+        "note": "Juste : le pipe enchaîne les transformations en injectant le résultat à gauche."
+      }
+    ],
+    "explanation": "Le pipe du tidyverse enchaîne les transformations de gauche à droite : le résultat d'une étape devient le premier argument du verbe suivant. Le pipeline se lit comme une recette.",
+    "difficulty": "hard",
+    "tags": [
+      "r",
+      "dplyr",
+      "pipe"
+    ]
+  },
+  {
+    "id": "rpd_020",
+    "domain": "R_PYTHON_DATA",
+    "type": "TRUE_FALSE",
+    "question": "Dans R, NA vaut zéro : les calculs qui contiennent un NA donnent donc le même résultat que si la valeur manquante était remplacée par 0.",
+    "answers": [
+      {
+        "id": "rpd_020_f",
+        "text": "Faux",
+        "isCorrect": true,
+        "note": "Juste : NA est une valeur inconnue qui contamine les calculs (mean renvoie NA) ; 0 est une valeur réelle qui fausserait la moyenne."
+      },
+      {
+        "id": "rpd_020_v",
+        "text": "Vrai",
+        "isCorrect": false,
+        "note": "Cette affirmation confond NA (valeur inconnue) et 0 (valeur nulle connue) : c'est le piège classique."
+      }
+    ],
+    "explanation": "NA signifie information absente : mean(c(12, 18, NA)) renvoie NA tant qu'on ne demande pas na.rm = TRUE. Remplacer par 0 fausserait la moyenne vers le bas : ce sont deux notions opposées.",
+    "difficulty": "medium",
+    "tags": [
+      "r",
+      "na"
+    ]
+  },
+  {
+    "id": "rpd_021",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "En Python, que renvoie une fonction définie avec def qui termine sans rencontrer d'instruction return ?",
+    "answers": [
+      {
+        "id": "rpd_021_a",
+        "text": "None",
+        "isCorrect": true,
+        "note": "Juste : Python renvoie implicitement None, d'où des résultats vides qu'il faut savoir repérer."
+      },
+      {
+        "id": "rpd_021_b",
+        "text": "0",
+        "isCorrect": false,
+        "note": "Confusion avec d'autres langages : Python ne renvoie jamais 0 par défaut."
+      },
+      {
+        "id": "rpd_021_c",
+        "text": "Une erreur de syntaxe",
+        "isCorrect": false,
+        "note": "L'absence de return est parfaitement légale : aucune erreur n'est levée."
+      },
+      {
+        "id": "rpd_021_d",
+        "text": "La dernière expression évaluée",
+        "isCorrect": false,
+        "note": "C'est le comportement de R en fin de fonction : en Python, seul return renvoie une valeur."
+      }
+    ],
+    "explanation": "En Python, une fonction sans return (ou avec return nu) renvoie None. En R, au contraire, la dernière expression évaluée est renvoyée implicitement : une différence d'examen classique.",
+    "difficulty": "medium",
+    "tags": [
+      "python",
+      "fonctions"
+    ]
+  },
+  {
+    "id": "rpd_022",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Avec pandas, quelle commande remplace les valeurs manquantes de la colonne age par la moyenne des âges connus ?",
+    "answers": [
+      {
+        "id": "rpd_022_b",
+        "text": "df[\"age\"].fillna(mean(df[\"age\"]))",
+        "isCorrect": false,
+        "note": "mean() nue n'est pas la méthode pandas et, sans réaffectation, la colonne resterait inchangée."
+      },
+      {
+        "id": "rpd_022_a",
+        "text": "df[\"age\"] = df[\"age\"].fillna(df[\"age\"].mean())",
+        "isCorrect": true,
+        "note": "Juste : fillna remplace les manquants par la moyenne et la réaffectation inscrit le résultat."
+      },
+      {
+        "id": "rpd_022_c",
+        "text": "df[\"age\"] = df.dropna(subset=[\"age\"])",
+        "isCorrect": false,
+        "note": "dropna supprime des lignes entières, ce qui produit une table incomparable à la colonne d'origine."
+      },
+      {
+        "id": "rpd_022_d",
+        "text": "df[\"age\"].replace_na(df[\"age\"].mean())",
+        "isCorrect": false,
+        "note": "replace_na vient de R ou est inventé : la méthode pandas s'appelle fillna."
+      }
+    ],
+    "explanation": "Le schéma pandas : .fillna(valeur) remplace les manquants, .mean() calcule la moyenne en ignorant les NaN, et la réaffectation df[\"age\"] = ... inscrit le résultat dans la colonne.",
+    "difficulty": "medium",
+    "tags": [
+      "pandas",
+      "na",
+      "nettoyage"
+    ]
+  },
+  {
+    "id": "rpd_023",
+    "domain": "R_PYTHON_DATA",
+    "type": "CASE_STUDY",
+    "context": "Vous êtes analyste de données à la Direction Générale du Trésor à Cotonou. On vous remet le fichier clients.csv qui recense 200 clients d'un programme de microcrédit avec quatre colonnes : id, age, revenu (en FCFA) et a_achete (le client a-t-il acheté le produit financé : Oui ou Non). Après un premier coup d'œil, vous constatez que certaines cellules sont vides dans age et revenu, et que a_achete est stocké comme du texte. Votre hiérarchie attend une note méthodologique qui décrit les problèmes de qualité, les commandes R à exécuter et l'interprétation des premiers indicateurs.",
+    "question": "Traitez le cas complet : diagnostic qualité, chargement, repérage des valeurs manquantes, imputation des revenus par la moyenne, puis calcul et interprétation de la moyenne et de la médiane des revenus.",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Identifiez deux problèmes de qualité des données dans cette table et proposez, pour chacun, une solution concrète.",
+        "answer": "Premier problème : des valeurs manquantes (cellules vides) dans age et revenu. Elles bloquent ou biaisent tout calcul direct : mean(revenu) renvoie NA tant qu'on ne précise pas na.rm = TRUE. Solution : imputer les revenus manquants par la moyenne (ou la médiane) des revenus connus avec clients$revenu[is.na(clients$revenu)] <- mean(clients$revenu, na.rm = TRUE), et supprimer ou imputer les âges manquants. Deuxième problème : a_achete stocké en texte libre Oui/Non, ce qui empêche tout traitement numérique et laisse passer des fautes de frappe. Solution : convertir en facteur avec factor(clients$a_achete) ou recoder en booléen. On peut aussi citer le contrôle des doublons sur id avec duplicated() et la vérification des âges aberrants avec range(clients$age).",
+        "rubric": [
+          "Identifie les valeurs manquantes dans age et revenu",
+          "Propose une imputation ou une suppression argumentée",
+          "Signale le codage texte de a_achete",
+          "Propose la conversion en facteur ou en booléen",
+          "Mentionne le contrôle des doublons ou des âges aberrants"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Écrivez la commande R qui charge le fichier clients.csv dans une variable nommée clients, puis deux commandes pour inspecter rapidement la table.",
+        "answer": "Chargement : clients <- read.csv(\"clients.csv\"). Inspection : head(clients) pour voir les six premières lignes, str(clients) pour la structure (types des colonnes et échantillon de valeurs), et summary(clients) pour les statistiques descriptives de chaque colonne. L'opérateur <- stocke le data.frame dans la variable clients, qu'on réutilise ensuite sans relire le fichier.",
+        "rubric": [
+          "Utilise read.csv avec le nom du fichier",
+          "Affecte le résultat à la variable clients avec <-",
+          "Cite head ou une commande équivalente",
+          "Cite str ou summary pour la structure"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Écrivez les commandes R qui comptent les valeurs manquantes de la table, puis remplacent les revenus manquants par la moyenne des revenus connus.",
+        "answer": "Comptage global : sum(is.na(clients)) donne le nombre total de NA ; colSums(is.na(clients)) détaille colonne par colonne. Imputation : clients$revenu[is.na(clients$revenu)] <- mean(clients$revenu, na.rm = TRUE). Le membre de droite calcule la moyenne en ignorant les NA grâce à na.rm = TRUE, et l'indexation logique is.na() ne remplace que les cellules manquantes. Après cette commande, anyNA(clients$revenu) renvoie FALSE.",
+        "rubric": [
+          "Utilise is.na pour repérer les manquants",
+          "Compte avec sum ou colSums",
+          "Place la condition is.na entre crochets à gauche",
+          "Calcule la moyenne avec na.rm = TRUE",
+          "Vérifie ensuite qu'il ne reste aucun NA"
+        ]
+      },
+      {
+        "id": "sq-4",
+        "question": "Soit revenus <- c(400, 1200, 800, 950, 1500, 700). Calculez la moyenne et la médiane, puis interprétez l'écart entre les deux.",
+        "answer": "mean(revenus) = 5550/6 = 925 FCFA. median(revenus) : valeurs ordonnées 400, 700, 800, 950, 1200, 1500 ; effectif pair, donc médiane = (800 + 950)/2 = 875 FCFA. La moyenne (925) dépasse la médiane (875) : la série est légèrement asymétrique à droite, les deux valeurs hautes 1200 et 1500 tirent la moyenne vers le haut alors que la médiane n'enregistre que leur rang. Pour décrire un revenu typique d'une population aux revenus inégaux, la médiane est plus robuste ; la moyenne reste utile pour un total ou un budget.",
+        "rubric": [
+          "Calcule la moyenne : 925 FCFA",
+          "Calcule la médiane : 875 FCFA (moyenne des deux valeurs centrales)",
+          "Constate que la moyenne dépasse la médiane",
+          "Explique l'asymétrie à droite et le rôle des valeurs hautes",
+          "Recommande la médiane pour un revenu typique"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "Ce cas reprend le réflexe examen complet : diagnostic qualité (NA, codage texte), chargement avec read.csv, repérage des NA avec is.na, imputation par la moyenne avec na.rm = TRUE, puis comparaison moyenne/médiane pour détecter l'asymétrie. La médiane résiste aux valeurs extrêmes, la moyenne les intègre.",
+    "difficulty": "medium",
+    "tags": [
+      "r",
+      "na",
+      "mediane",
+      "cas-examen"
+    ]
+  },
+  {
+    "id": "rpd_024",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans R, quelle fonction affiche pour chaque colonne numérique le minimum, les quartiles, la médiane, la moyenne et le maximum ?",
+    "answers": [
+      {
+        "id": "rpd_024_c",
+        "text": "str(clients)",
+        "isCorrect": false,
+        "note": "str décrit la structure et les types, pas les statistiques descriptives."
+      },
+      {
+        "id": "rpd_024_b",
+        "text": "head(clients)",
+        "isCorrect": false,
+        "note": "head se limite aux premières lignes : aucune statistique n'est calculée."
+      },
+      {
+        "id": "rpd_024_a",
+        "text": "summary(clients)",
+        "isCorrect": true,
+        "note": "Juste : summary donne le résumé statistique de chaque colonne du data.frame."
+      },
+      {
+        "id": "rpd_024_d",
+        "text": "names(clients)",
+        "isCorrect": false,
+        "note": "names renvoie seulement le nom des colonnes."
+      }
+    ],
+    "explanation": "summary() appliqué à un data.frame donne le résumé statistique colonne par colonne : min, quartiles, médiane, moyenne et max pour les numériques, décomptes pour les facteurs.",
+    "difficulty": "easy",
+    "tags": [
+      "r",
+      "statistiques",
+      "inspection"
+    ]
+  },
+  {
+    "id": "rpd_025",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "En Python, après notes = [12, 15, 9], que renvoie notes[0] ?",
+    "answers": [
+      {
+        "id": "rpd_025_d",
+        "text": "[12], une liste contenant le premier élément",
+        "isCorrect": false,
+        "note": "L'indexation simple renvoie l'élément lui-même ; seule la tranche notes[0:1] renverrait [12]."
+      },
+      {
+        "id": "rpd_025_b",
+        "text": "15, le deuxième élément",
+        "isCorrect": false,
+        "note": "Erreur de décalage : l'indice 0 ne désigne jamais le deuxième élément."
+      },
+      {
+        "id": "rpd_025_c",
+        "text": "9, le dernier élément",
+        "isCorrect": false,
+        "note": "Le dernier élément s'obtient avec notes[-1], ou notes[2] ici."
+      },
+      {
+        "id": "rpd_025_a",
+        "text": "12, le premier élément",
+        "isCorrect": true,
+        "note": "Juste : l'indexation Python démarre à 0, le premier élément porte l'indice 0."
+      }
+    ],
+    "explanation": "L'indexation Python part de 0 : notes[0] vaut 12 et notes[-1] vaut 9. Ce décalage par rapport à l'intuition « premier égale 1 » est une source classique d'erreur en examen.",
+    "difficulty": "easy",
+    "tags": [
+      "python",
+      "listes"
+    ]
+  },
+  {
+    "id": "rpd_026",
+    "domain": "R_PYTHON_DATA",
+    "type": "FILL_BLANK",
+    "question": "Avec dplyr, le verbe ___ sélectionne des colonnes, le verbe ___ crée ou modifie une colonne et le verbe ___ trie les lignes du résultat.",
+    "blanks": [
+      {
+        "accepted": [
+          "select"
+        ]
+      },
+      {
+        "accepted": [
+          "mutate"
+        ]
+      },
+      {
+        "accepted": [
+          "arrange"
+        ]
+      }
+    ],
+    "explanation": "Les verbes dplyr forment une grammaire : select pour les colonnes, mutate pour les transformations, arrange pour le tri, filter pour les lignes et summarise pour les agrégats.",
+    "difficulty": "medium",
+    "tags": [
+      "r",
+      "dplyr"
+    ]
+  },
+  {
+    "id": "rpd_027",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Avec pandas, quelle commande calcule le revenu moyen par ville du DataFrame clients ?",
+    "answers": [
+      {
+        "id": "rpd_027_a",
+        "text": "clients.groupby(\"ville\")[\"revenu\"].mean()",
+        "isCorrect": true,
+        "note": "Juste : groupby découpe par ville, la sélection prend revenu et mean agrège."
+      },
+      {
+        "id": "rpd_027_b",
+        "text": "clients.mean(groupby=\"ville\")",
+        "isCorrect": false,
+        "note": "mean n'accepte pas d'argument groupby : le regroupement passe toujours par la méthode groupby."
+      },
+      {
+        "id": "rpd_027_c",
+        "text": "clients[\"revenu\"].groupby(\"ville\").mean()",
+        "isCorrect": false,
+        "note": "La clé \"ville\" n'appartient pas à la Series revenu : il faudrait passer clients[\"ville\"]."
+      },
+      {
+        "id": "rpd_027_d",
+        "text": "groupby(clients, \"ville\").mean()",
+        "isCorrect": false,
+        "note": "groupby est une méthode des objets pandas, pas une fonction globale appelable seule."
+      }
+    ],
+    "explanation": "La chaîne canonique : groupby(\"ville\") découpe, [\"revenu\"] choisit la colonne, .mean() agrège. La variante clients[\"revenu\"].groupby(clients[\"ville\"]).mean() fonctionne aussi mais exige de passer la colonne complète.",
+    "difficulty": "hard",
+    "tags": [
+      "pandas",
+      "groupby"
+    ]
+  },
+  {
+    "id": "rpd_028",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans R, que fait c(12, 15, 9) ?",
+    "answers": [
+      {
+        "id": "rpd_028_b",
+        "text": "Elle concatène obligatoirement des textes",
+        "isCorrect": false,
+        "note": "c accepte des nombres comme des textes : elle construit un vecteur homogène."
+      },
+      {
+        "id": "rpd_028_a",
+        "text": "Elle crée un vecteur regroupant les trois valeurs",
+        "isCorrect": true,
+        "note": "Juste : c (concaténer) assemble des valeurs en vecteur atomique."
+      },
+      {
+        "id": "rpd_028_c",
+        "text": "Elle crée une liste de listes imbriquées",
+        "isCorrect": false,
+        "note": "Le vecteur de c n'est pas une liste imbriquée : c'est la structure la plus simple de R."
+      },
+      {
+        "id": "rpd_028_d",
+        "text": "Elle crée une séquence décroissante de 12 à 9",
+        "isCorrect": false,
+        "note": "Les séquences s'écrivent avec deux-points (12:9) ou seq() : c assemble seulement des valeurs."
+      }
+    ],
+    "explanation": "c (concaténer) assemble des valeurs en vecteur atomique. Si les types se mélangent, R convertit vers le type le plus général : c(12, \"15\") produit deux textes.",
+    "difficulty": "easy",
+    "tags": [
+      "r",
+      "vecteurs"
+    ]
+  },
+  {
+    "id": "rpd_029",
+    "domain": "R_PYTHON_DATA",
+    "type": "CODE",
+    "question": "En R, définissez une fonction moyenne qui renvoie la moyenne d'un vecteur numérique.",
+    "code": {
+      "language": "r",
+      "setup": "revenus <- c(400, 1200, 800, 950, 1500, 700)",
+      "starter": "moyenne <- function(v) {\n  # à compléter\n}",
+      "solution": "moyenne <- function(v) {\n  sum(v) / length(v)\n}",
+      "timeLimitMs": 10000,
+      "tests": [
+        {
+          "name": "Cas simple",
+          "hidden": false,
+          "code": "stopifnot(isTRUE(all.equal(moyenne(c(400, 1200)), 800)))"
+        },
+        {
+          "name": "Trois valeurs",
+          "hidden": false,
+          "code": "stopifnot(isTRUE(all.equal(moyenne(c(10, 20, 30)), 20)))"
+        },
+        {
+          "name": "Test caché : jeu de revenus",
+          "hidden": true,
+          "code": "stopifnot(isTRUE(all.equal(moyenne(revenus), 925)))"
+        }
+      ]
+    },
+    "explanation": "En R, la moyenne d'un vecteur s'écrit sum(v) / length(v), équivalent de mean(v). Renvoyer la dernière expression suffit : R retourne implicitement la dernière valeur évaluée.",
+    "difficulty": "easy",
+    "tags": [
+      "r",
+      "moyenne",
+      "fonctions"
+    ]
+  },
+  {
+    "id": "rpd_030",
+    "domain": "R_PYTHON_DATA",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quelles fonctions R servent à détecter ou à traiter les valeurs manquantes ?",
+    "answers": [
+      {
+        "id": "rpd_030_b",
+        "text": "anyNA()",
+        "isCorrect": true,
+        "note": "Juste : anyNA teste la présence d'au moins un NA dans l'objet."
+      },
+      {
+        "id": "rpd_030_c",
+        "text": "na.omit()",
+        "isCorrect": true,
+        "note": "Juste : na.omit supprime les lignes portant au moins un NA."
+      },
+      {
+        "id": "rpd_030_a",
+        "text": "is.na()",
+        "isCorrect": true,
+        "note": "Juste : is.na repère les NA élément par élément."
+      },
+      {
+        "id": "rpd_030_d",
+        "text": "dropna()",
+        "isCorrect": false,
+        "note": "dropna est une méthode pandas : l'équivalent R s'appelle na.omit."
+      }
+    ],
+    "explanation": "R fournit is.na (repérage), anyNA (test global) et na.omit (suppression des lignes incomplètes). dropna appartient à pandas : confondre les deux écosystèmes est une erreur fréquente.",
+    "difficulty": "medium",
+    "tags": [
+      "r",
+      "na"
+    ]
+  },
+  {
+    "id": "rpd_031",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Avec pandas, que contient le résultat de df.describe() sur des colonnes numériques ?",
+    "answers": [
+      {
+        "id": "rpd_031_c",
+        "text": "Les types et le nombre de valeurs non nulles",
+        "isCorrect": false,
+        "note": "C'est df.info() qui fournit ces informations de structure."
+      },
+      {
+        "id": "rpd_031_b",
+        "text": "Les cinq premières lignes de la table",
+        "isCorrect": false,
+        "note": "Confusion avec head : describe calcule des statistiques, il n'affiche pas d'observations."
+      },
+      {
+        "id": "rpd_031_a",
+        "text": "Le décompte, la moyenne, l'écart-type, le minimum, les quartiles et le maximum",
+        "isCorrect": true,
+        "note": "Juste : describe résume chaque colonne numérique en huit statistiques."
+      },
+      {
+        "id": "rpd_031_d",
+        "text": "La matrice de corrélation entre colonnes",
+        "isCorrect": false,
+        "note": "La corrélation s'obtient avec df.corr()."
+      }
+    ],
+    "explanation": "df.describe() résume chaque colonne numérique : count, mean, std, min, 25 %, 50 %, 75 % et max. C'est l'équivalent pandas de summary() en R.",
+    "difficulty": "easy",
+    "tags": [
+      "pandas",
+      "statistiques"
+    ]
+  },
+  {
+    "id": "rpd_032",
+    "domain": "R_PYTHON_DATA",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quelles affirmations sur les tableaux numpy sont exactes ?",
+    "answers": [
+      {
+        "id": "rpd_032_b",
+        "text": "Un tableau numpy contient en général un seul type de données",
+        "isCorrect": true,
+        "note": "Juste : le stockage homogène (dtype) explique la compacité et la rapidité de numpy."
+      },
+      {
+        "id": "rpd_032_a",
+        "text": "Les opérations arithmétiques s'appliquent élément par élément",
+        "isCorrect": true,
+        "note": "Juste : np.array([1, 2]) * 2 vaut array([2, 4]), chaque valeur est traitée."
+      },
+      {
+        "id": "rpd_032_d",
+        "text": "Les calculs vectorisés numpy sont plus rapides que des boucles Python équivalentes",
+        "isCorrect": true,
+        "note": "Juste : la vectorisation évite la boucle interprétée et exploite le code compilé."
+      },
+      {
+        "id": "rpd_032_c",
+        "text": "Un tableau numpy change de taille dynamiquement comme une liste",
+        "isCorrect": false,
+        "note": "Faux : la taille d'un tableau numpy est fixée à la création ; il faut en reconstruire un pour la changer."
+      }
+    ],
+    "explanation": "numpy stocke des données homogènes et applique les opérations élément par élément de façon vectorisée, d'où sa rapidité. Contrairement aux listes, ses tableaux ne changent pas de taille.",
+    "difficulty": "medium",
+    "tags": [
+      "python",
+      "numpy"
+    ]
+  },
+  {
+    "id": "rpd_033",
+    "domain": "R_PYTHON_DATA",
+    "type": "TRUE_FALSE",
+    "question": "Avec dplyr, la commande select(clients, age, revenu) conserve uniquement les colonnes age et revenu.",
+    "answers": [
+      {
+        "id": "rpd_033_v",
+        "text": "Vrai",
+        "isCorrect": true,
+        "note": "Juste : select opère sur les colonnes et renvoie la table réduite aux deux variables citées."
+      },
+      {
+        "id": "rpd_033_f",
+        "text": "Faux",
+        "isCorrect": false,
+        "note": "Faux : select est précisément le verbe de sélection de colonnes ; filtrer des lignes relève de filter."
+      }
+    ],
+    "explanation": "select choisit des colonnes par nom, filter choisit des lignes par condition. select(clients, age, revenu) renvoie un data.frame de deux colonnes avec toutes les lignes.",
+    "difficulty": "easy",
+    "tags": [
+      "r",
+      "dplyr"
+    ]
+  },
+  {
+    "id": "rpd_034",
+    "domain": "R_PYTHON_DATA",
+    "type": "FILL_BLANK",
+    "question": "Avec pandas, la méthode ___ signale les valeurs manquantes sous forme de booléens, ___ les remplace par une valeur fournie et ___ supprime les lignes concernées.",
+    "blanks": [
+      {
+        "accepted": [
+          "isna",
+          "isnull"
+        ]
+      },
+      {
+        "accepted": [
+          "fillna"
+        ]
+      },
+      {
+        "accepted": [
+          "dropna"
+        ]
+      }
+    ],
+    "explanation": "Le trio isna/fillna/dropna couvre tout le cycle des manquants en pandas : repérer, imputer, écarter. isnull est un alias exact de isna.",
+    "difficulty": "medium",
+    "tags": [
+      "pandas",
+      "na"
+    ]
+  },
+  {
+    "id": "rpd_035",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans R, que renvoie anyNA(c(25, 40, NA)) ?",
+    "answers": [
+      {
+        "id": "rpd_035_d",
+        "text": "c(FALSE, FALSE, TRUE)",
+        "isCorrect": false,
+        "note": "C'est le résultat de is.na(), qui teste élément par élément, alors que anyNA donne une réponse globale."
+      },
+      {
+        "id": "rpd_035_b",
+        "text": "FALSE",
+        "isCorrect": false,
+        "note": "Piège classique : FALSE serait renvoyé uniquement si le vecteur ne contenait aucun NA."
+      },
+      {
+        "id": "rpd_035_c",
+        "text": "NA",
+        "isCorrect": false,
+        "note": "Confusion avec le comportement de mean ou sum, qui propagent le NA sans na.rm = TRUE."
+      },
+      {
+        "id": "rpd_035_a",
+        "text": "TRUE",
+        "isCorrect": true,
+        "note": "C'est exact : anyNA renvoie TRUE dès qu'au moins une valeur manquante est présente dans le vecteur."
+      }
+    ],
+    "explanation": "anyNA examine le vecteur entier et renvoie une seule valeur logique : TRUE dès qu'une seule valeur manquante existe, FALSE sinon. Ne pas confondre avec is.na(), qui renvoie un vecteur de booléens de même longueur.",
+    "difficulty": "easy",
+    "tags": [
+      "r",
+      "na"
+    ]
+  },
+  {
+    "id": "rpd_036",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "En Python, avec numpy importé, que renvoie np.array([2, 4, 6]) * 2 ?",
+    "answers": [
+      {
+        "id": "rpd_036_a",
+        "text": "array([4, 8, 12])",
+        "isCorrect": true,
+        "note": "C'est juste : numpy applique la multiplication élément par élément, sans boucle explicite."
+      },
+      {
+        "id": "rpd_036_b",
+        "text": "24",
+        "isCorrect": false,
+        "note": "Confusion avec la somme des éléments (12) multipliée par deux, alors que l'opération reste vectorisée."
+      },
+      {
+        "id": "rpd_036_c",
+        "text": "array([2, 4, 6, 2])",
+        "isCorrect": false,
+        "note": "Confusion avec la concaténation d'une liste Python, qui ne s'applique pas aux tableaux numpy."
+      },
+      {
+        "id": "rpd_036_d",
+        "text": "Une erreur de type",
+        "isCorrect": false,
+        "note": "Erreur fréquente venue des listes pures : un tableau numpy se multiplie bien par un scalaire."
+      }
+    ],
+    "explanation": "Les opérations arithmétiques sur les tableaux numpy sont vectorisées : multiplier un tableau par un scalaire multiplie chaque élément. C'est l'un des grands avantages de numpy par rapport aux listes Python.",
+    "difficulty": "easy",
+    "tags": [
+      "python",
+      "numpy"
+    ]
+  },
+  {
+    "id": "rpd_037",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "En Python, après notes = [12, 15, 9, 18], que renvoie notes[1:3] ?",
+    "answers": [
+      {
+        "id": "rpd_037_b",
+        "text": "[12, 15]",
+        "isCorrect": false,
+        "note": "Piège sur l'indexation : le premier élément a l'indice 0, donc il n'appartient pas à la tranche 1:3."
+      },
+      {
+        "id": "rpd_037_a",
+        "text": "[15, 9]",
+        "isCorrect": true,
+        "note": "C'est exact : le slicing part de l'indice 1 et s'arrête avant l'indice 3."
+      },
+      {
+        "id": "rpd_037_c",
+        "text": "[15, 9, 18]",
+        "isCorrect": false,
+        "note": "Oubli fréquent : la borne de fin d'une tranche est exclue du résultat."
+      },
+      {
+        "id": "rpd_037_d",
+        "text": "[9, 18]",
+        "isCorrect": false,
+        "note": "Correspondrait à la tranche notes[2:4], pas à notes[1:3]."
+      }
+    ],
+    "explanation": "En Python, la tranche notes[d:f] contient les éléments d'indice d à f-1, la borne de fin étant exclue. Avec des indices commençant à zéro, notes[1:3] renvoie les deuxième et troisième éléments.",
+    "difficulty": "easy",
+    "tags": [
+      "python",
+      "listes"
+    ]
+  },
+  {
+    "id": "rpd_038",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Avec pandas, que renvoie df['revenu'] appliquée à un DataFrame df ?",
+    "answers": [
+      {
+        "id": "rpd_038_c",
+        "text": "Une liste Python de valeurs",
+        "isCorrect": false,
+        "note": "Piège de vocabulaire : pandas renvoie sa propre structure, pas une liste native, même si on peut la convertir."
+      },
+      {
+        "id": "rpd_038_b",
+        "text": "Un DataFrame à une seule ligne",
+        "isCorrect": false,
+        "note": "Confusion ligne/colonne : une seule ligne s'obtient plutôt avec df.loc[0] ou df.iloc[0]."
+      },
+      {
+        "id": "rpd_038_a",
+        "text": "Une Series contenant toute la colonne revenu",
+        "isCorrect": true,
+        "note": "C'est juste : la sélection d'une seule colonne par son nom produit une Series."
+      },
+      {
+        "id": "rpd_038_d",
+        "text": "Le nombre de valeurs non manquantes",
+        "isCorrect": false,
+        "note": "Ce décompte s'obtient avec df['revenu'].count(), pas par la simple sélection."
+      }
+    ],
+    "explanation": "Dans pandas, sélectionner une colonne par son nom avec les crochets renvoie une Series, structure à une dimension indexée. Les DataFrames sont bidimensionnels et servent plutôt pour plusieurs colonnes ou lignes.",
+    "difficulty": "medium",
+    "tags": [
+      "pandas",
+      "selection"
+    ]
+  },
+  {
+    "id": "rpd_039",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans R, que représente quantile(revenus, 0.25) ?",
+    "answers": [
+      {
+        "id": "rpd_039_d",
+        "text": "25 % de la valeur maximale de revenus",
+        "isCorrect": false,
+        "note": "Piège arithmétique : le quantile se calcule sur les positions triées, pas en proportion du maximum."
+      },
+      {
+        "id": "rpd_039_b",
+        "text": "La moyenne des 25 % de valeurs les plus faibles",
+        "isCorrect": false,
+        "note": "Confusion entre quantile et moyenne de queue de distribution : quantile renvoie un seuil, pas une moyenne."
+      },
+      {
+        "id": "rpd_039_c",
+        "text": "La valeur qui partage l'échantillon en quatre parties",
+        "isCorrect": false,
+        "note": "Description vague qui correspond plutôt à des quartiles multiples ; un seul appel avec 0.25 donne le premier quartile."
+      },
+      {
+        "id": "rpd_039_a",
+        "text": "La valeur sous laquelle se situent 25 % des observations",
+        "isCorrect": true,
+        "note": "C'est la définition du premier quartile renvoyé par quantile avec une probabilité de 0,25."
+      }
+    ],
+    "explanation": "quantile(revenus, 0.25) renvoie le premier quartile : la valeur telle qu'un quart des observations triées lui soient inférieures. Avec 0.5, le résultat coïncide avec la médiane.",
+    "difficulty": "medium",
+    "tags": [
+      "r",
+      "statistiques"
+    ]
+  },
+  {
+    "id": "rpd_040",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Avec pandas, que fait pd.merge(clients, achats, on = 'id_client') ?",
+    "answers": [
+      {
+        "id": "rpd_040_a",
+        "text": "Elle apparie les lignes des deux tables sur valeurs égales de id_client",
+        "isCorrect": true,
+        "note": "C'est le rôle de merge : une jointure qui rapproche les lignes partageant la même clé."
+      },
+      {
+        "id": "rpd_040_b",
+        "text": "Elle empile les lignes de achats sous celles de clients",
+        "isCorrect": false,
+        "note": "Confusion avec pd.concat sur l'axe des lignes, qui ne tient pas compte des clés."
+      },
+      {
+        "id": "rpd_040_c",
+        "text": "Elle remplace le contenu de clients par celui de achats",
+        "isCorrect": false,
+        "note": "merge ne modifie aucune table en place : elle renvoie un nouveau DataFrame."
+      },
+      {
+        "id": "rpd_040_d",
+        "text": "Elle trie les deux tables par ordre croissant de id_client",
+        "isCorrect": false,
+        "note": "Le tri s'obtient avec sort_values ; l'appeler merge serait une confusion de méthode."
+      }
+    ],
+    "explanation": "pd.merge réalise une jointure de base de données entre deux DataFrames : les lignes sont appariées lorsque la colonne clé indiquée par on contient la même valeur. Le paramètre how précise le type de jointure (inner, left, right, outer).",
+    "difficulty": "medium",
+    "tags": [
+      "pandas",
+      "merge"
+    ]
+  },
+  {
+    "id": "rpd_041",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans un jeu de salaires, la moyenne vaut 520 mille FCFA et la médiane 380 mille FCFA. Que peut-on en conclure ?",
+    "context": "Un analyste calcule les deux indicateurs sur le même échantillon de salariés et remarque un écart important entre eux.",
+    "answers": [
+      {
+        "id": "rpd_041_b",
+        "text": "Quelques salaires très faibles tirent la moyenne vers le bas",
+        "isCorrect": false,
+        "note": "Ce phénomène produirait l'inverse : une moyenne inférieure à la médiane, asymétrie à gauche."
+      },
+      {
+        "id": "rpd_041_a",
+        "text": "Quelques salaires très élevés tirent la moyenne vers le haut",
+        "isCorrect": true,
+        "note": "C'est la bonne lecture : moyenne nettement supérieure à la médiane signale une asymétrie à droite."
+      },
+      {
+        "id": "rpd_041_c",
+        "text": "La distribution est parfaitement symétrique",
+        "isCorrect": false,
+        "note": "En symétrie parfaite, moyenne et médiane coïncident, ce qui n'est pas le cas ici."
+      },
+      {
+        "id": "rpd_041_d",
+        "text": "L'écart provient d'erreurs d'arrondi des deux calculs",
+        "isCorrect": false,
+        "note": "Un écart de 140 mille ne s'explique pas par l'arrondi : il traduit une structure de distribution."
+      }
+    ],
+    "explanation": "Quand la moyenne dépasse nettement la médiane, la distribution est asymétrique à droite : des valeurs extrêmes hautes pèsent sur la somme mais pas sur la valeur centrale. La médiane est alors plus représentative du salaire typique.",
+    "difficulty": "hard",
+    "tags": [
+      "statistiques",
+      "moyenne",
+      "mediane"
+    ]
+  },
+  {
+    "id": "rpd_042",
+    "domain": "R_PYTHON_DATA",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quelles écritures R renvoient le nombre de lignes du data.frame ventes ?",
+    "answers": [
+      {
+        "id": "rpd_042_d",
+        "text": "ncol(ventes)",
+        "isCorrect": false,
+        "note": "ncol renvoie le nombre de colonnes, c'est le complémentaire de nrow."
+      },
+      {
+        "id": "rpd_042_c",
+        "text": "length(ventes)",
+        "isCorrect": false,
+        "note": "Piège : sur un data.frame, length compte les colonnes, pas les lignes."
+      },
+      {
+        "id": "rpd_042_a",
+        "text": "nrow(ventes)",
+        "isCorrect": true,
+        "note": "C'est la fonction dédiée : nrow renvoie directement le nombre de lignes."
+      },
+      {
+        "id": "rpd_042_b",
+        "text": "dim(ventes)[1]",
+        "isCorrect": true,
+        "note": "Juste aussi : dim renvoie le vecteur (lignes, colonnes) dont le premier élément est le nombre de lignes."
+      }
+    ],
+    "explanation": "nrow donne le nombre de lignes et dim[1] aboutit au même résultat puisque dim renvoie les deux dimensions. En revanche, length et ncol comptent les colonnes d'un data.frame.",
+    "difficulty": "medium",
+    "tags": [
+      "r",
+      "data-frame"
+    ]
+  },
+  {
+    "id": "rpd_043",
+    "domain": "R_PYTHON_DATA",
+    "type": "MULTIPLE_CHOICE",
+    "question": "En Python, quels types de données sont immuables, c'est-à-dire non modifiables après leur création ?",
+    "answers": [
+      {
+        "id": "rpd_043_a",
+        "text": "int",
+        "isCorrect": true,
+        "note": "Juste : un entier ne se modifie pas, toute opération produit un nouvel objet."
+      },
+      {
+        "id": "rpd_043_c",
+        "text": "tuple",
+        "isCorrect": true,
+        "note": "Juste : le tuple est la séquence immuable par excellence de Python."
+      },
+      {
+        "id": "rpd_043_d",
+        "text": "list",
+        "isCorrect": false,
+        "note": "Piège : la liste est mutable, on peut modifier ses éléments, en ajouter ou en retirer."
+      },
+      {
+        "id": "rpd_043_b",
+        "text": "str",
+        "isCorrect": true,
+        "note": "Juste : une chaîne ne peut pas être altérée en place, les méthodes renvoient une nouvelle chaîne."
+      }
+    ],
+    "explanation": "Les entiers, chaînes et tuples sont immuables en Python : leur contenu ne change jamais, on crée de nouveaux objets. Les listes, dictionnaires et ensembles sont au contraire mutables.",
+    "difficulty": "medium",
+    "tags": [
+      "python",
+      "types"
+    ]
+  },
+  {
+    "id": "rpd_044",
+    "domain": "R_PYTHON_DATA",
+    "type": "TRUE_FALSE",
+    "question": "La moyenne d'une série de valeurs est toujours comprise entre la valeur minimale et la valeur maximale de la série.",
+    "answers": [
+      {
+        "id": "rpd_044_f",
+        "text": "Faux",
+        "isCorrect": false,
+        "note": "Piège d'intuition : même en présence de valeurs extrêmes, la moyenne ne peut pas sortir de l'intervalle min-max."
+      },
+      {
+        "id": "rpd_044_v",
+        "text": "Vrai",
+        "isCorrect": true,
+        "note": "C'est vrai : la moyenne est une moyenne pondérée de valeurs toutes comprises entre le min et le max, elle reste dans cet intervalle."
+      }
+    ],
+    "explanation": "La moyenne est une combinaison des valeurs de la série : elle est donc mécaniquement comprise entre le minimum et le maximum. Cette propriété sert souvent de contrôle de cohérence des calculs.",
+    "difficulty": "easy",
+    "tags": [
+      "statistiques",
+      "moyenne"
+    ]
+  },
+  {
+    "id": "rpd_045",
+    "domain": "R_PYTHON_DATA",
+    "type": "FILL_BLANK",
+    "question": "Dans R, la fonction ___ renvoie TRUE dès qu'un vecteur contient au moins une valeur manquante, tandis que la fonction ___ supprime du data.frame toutes les lignes qui en contiennent.",
+    "blanks": [
+      {
+        "accepted": [
+          "anyNA"
+        ]
+      },
+      {
+        "accepted": [
+          "na.omit"
+        ]
+      }
+    ],
+    "explanation": "anyNA effectue un test global de présence de valeurs manquantes, na.omit filtre les lignes incomplètes d'un data.frame. Les deux fonctions font partie de la boîte à outils R de base pour traiter les NA.",
+    "difficulty": "medium",
+    "tags": [
+      "r",
+      "na"
+    ]
+  },
+  {
+    "id": "rpd_046",
+    "domain": "R_PYTHON_DATA",
+    "type": "CODE",
+    "question": "Complétez la fonction compter_sup pour qu'elle renvoie le nombre d'éléments du tableau strictement supérieurs au seuil.",
+    "code": {
+      "language": "python",
+      "setup": "notes = [8, 12, 15, 6, 14, 9]",
+      "starter": "def compter_sup(valeurs, seuil):\n    # à compléter\n    pass",
+      "solution": "def compter_sup(valeurs, seuil):\n    total = 0\n    for v in valeurs:\n        if v > seuil:\n            total = total + 1\n    return total",
+      "timeLimitMs": 10000,
+      "tests": [
+        {
+          "name": "Cas simple",
+          "hidden": false,
+          "code": "assert compter_sup([8, 12, 15, 6, 14], 10) == 3"
+        },
+        {
+          "name": "Aucun élément au-dessus",
+          "hidden": false,
+          "code": "assert compter_sup([1, 2, 3], 10) == 0"
+        },
+        {
+          "name": "Test caché : stricte supériorité",
+          "hidden": true,
+          "code": "assert compter_sup([10, 11, 9, 12], 10) == 2"
+        }
+      ]
+    },
+    "explanation": "On parcourt les valeurs avec une boucle, on incrémente un compteur à chaque comparaison v > seuil vraie, puis on renvoie le compteur. La comparaison doit être stricte : une valeur égale au seuil ne compte pas.",
+    "difficulty": "easy",
+    "tags": [
+      "python",
+      "boucles",
+      "fonctions"
+    ]
+  },
+  {
+    "id": "rpd_047",
+    "domain": "R_PYTHON_DATA",
+    "type": "CODE",
+    "question": "Avec pandas, créez dans ventes une colonne total valant prix multiplié par quantite, puis affectez à la variable ca la somme de tous les totaux (chiffre d'affaires).",
+    "code": {
+      "language": "python",
+      "setup": "import pandas as pd\nventes = pd.DataFrame({'produit': ['A', 'B', 'C'], 'prix': [1000, 2500, 800], 'quantite': [3, 1, 5]})",
+      "starter": "# Créez la colonne total puis calculez ca\n",
+      "solution": "ventes['total'] = ventes['prix'] * ventes['quantite']\nca = ventes['total'].sum()",
+      "timeLimitMs": 10000,
+      "tests": [
+        {
+          "name": "La colonne existe",
+          "hidden": false,
+          "code": "assert 'total' in ventes.columns"
+        },
+        {
+          "name": "Valeur de la première ligne",
+          "hidden": false,
+          "code": "assert ventes.loc[0, 'total'] == 3000"
+        },
+        {
+          "name": "Test caché : chiffre d'affaires",
+          "hidden": true,
+          "code": "assert ca == 9500"
+        }
+      ]
+    },
+    "explanation": "Multiplier deux colonnes pandas multiplie les valeurs ligne à ligne ; affecter le résultat à ventes['total'] crée la nouvelle colonne. La somme des totaux s'obtient avec sum() et vaut 3000 + 2500 + 4000, soit 9500.",
+    "difficulty": "medium",
+    "tags": [
+      "pandas",
+      "colonnes"
+    ]
+  },
+  {
+    "id": "rpd_048",
+    "domain": "R_PYTHON_DATA",
+    "type": "CODE",
+    "question": "En R, complétez la fonction etendue pour qu'elle renvoie l'étendue d'un vecteur numérique, c'est-à-dire la différence entre sa valeur maximale et sa valeur minimale.",
+    "code": {
+      "language": "r",
+      "setup": "revenus <- c(400, 1200, 800, 950, 1500, 700)",
+      "starter": "etendue <- function(v) {\n  # à compléter\n}",
+      "solution": "etendue <- function(v) {\n  max(v) - min(v)\n}",
+      "timeLimitMs": 10000,
+      "tests": [
+        {
+          "name": "Cas des revenus",
+          "hidden": false,
+          "code": "stopifnot(etendue(revenus) == 1100)"
+        },
+        {
+          "name": "Valeurs identiques",
+          "hidden": false,
+          "code": "stopifnot(etendue(c(5, 5, 5)) == 0)"
+        },
+        {
+          "name": "Test caché : valeurs négatives",
+          "hidden": true,
+          "code": "stopifnot(etendue(c(-10, 0, 10)) == 20)"
+        }
+      ]
+    },
+    "explanation": "L'étendue se calcule simplement par max(v) - min(v). Sur les revenus donnés, le maximum vaut 1500 et le minimum 400, d'où une étendue de 1100.",
+    "difficulty": "easy",
+    "tags": [
+      "r",
+      "statistiques",
+      "fonctions"
+    ]
+  },
+  {
+    "id": "rpd_049",
+    "domain": "R_PYTHON_DATA",
+    "type": "CODE",
+    "question": "En R, complétez la fonction impute_moyenne pour qu'elle renvoie le vecteur dans lequel chaque valeur manquante est remplacée par la moyenne des valeurs connues, sans modifier la longueur du vecteur.",
+    "code": {
+      "language": "r",
+      "setup": "revenu <- c(400, NA, 800, 950, NA, 700)",
+      "starter": "impute_moyenne <- function(v) {\n  # à compléter\n}",
+      "solution": "impute_moyenne <- function(v) {\n  v[is.na(v)] <- mean(v, na.rm = TRUE)\n  v\n}",
+      "timeLimitMs": 10000,
+      "tests": [
+        {
+          "name": "Plus aucun NA",
+          "hidden": false,
+          "code": "stopifnot(!anyNA(impute_moyenne(revenu)))"
+        },
+        {
+          "name": "Longueur conservée",
+          "hidden": false,
+          "code": "stopifnot(length(impute_moyenne(revenu)) == 6)"
+        },
+        {
+          "name": "Test caché : valeur d'imputation",
+          "hidden": true,
+          "code": "stopifnot(abs(mean(impute_moyenne(revenu)) - 712.5) < 1e-9)"
+        }
+      ]
+    },
+    "explanation": "L'affectation v[is.na(v)] <- mean(v, na.rm = TRUE) remplace uniquement les positions manquantes par la moyenne calculée sur les valeurs connues. Ici la moyenne des quatre revenus connus vaut 712,5 et la longueur reste égale à six.",
+    "difficulty": "medium",
+    "tags": [
+      "r",
+      "na",
+      "nettoyage"
+    ]
+  },
+  {
+    "id": "rpd_050",
+    "domain": "R_PYTHON_DATA",
+    "type": "CASE_STUDY",
+    "context": "Vous gérez les données d'une boutique d'électroménager à Parakou. Le fichier ventes.csv contient les colonnes id_vente, date, region, produit, prix et quantite. Le gérant veut connaître le chiffre d'affaires généré par chaque région sur le mois écoulé. Vous décidez de tout traiter en R avec le tidyverse : chargement du fichier, création du chiffre d'affaires par ligne, puis agrégation par région.",
+    "question": "Rédigez la démarche R complète : chargement et inspection du fichier, création de la colonne de chiffre d'affaires, calcul du chiffre d'affaires par région et interprétation du résultat.",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Écrivez les commandes qui chargent ventes.csv dans une variable nommée ventes puis affichent structure et premières lignes.",
+        "answer": "Chargement : ventes <- read.csv(\"ventes.csv\"). Inspection : head(ventes) pour visualiser les premières lignes, str(ventes) pour vérifier les types (prix et quantite doivent être numériques, sinon il faudra les convertir), et summary(ventes) pour un premier aperçu statistique. L'affectation avec <- conserve la table en mémoire pour les étapes suivantes sans relire le fichier.",
+        "rubric": [
+          "Utilise read.csv avec affectation à ventes",
+          "Cite head pour l'aperçu des lignes",
+          "Cite str ou summary pour la structure",
+          "Vérifie la nature numérique de prix et quantite"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Écrivez la commande dplyr qui ajoute la colonne ca valant prix multiplié par quantite pour chaque vente.",
+        "answer": "ventes <- ventes %>% mutate(ca = prix * quantite). Le verbe mutate crée la nouvelle colonne sans détruire les existantes, et le pipe enchaîne l'opération sur la table. La multiplication est vectorisée : chaque ligne reçoit le produit de son prix par sa quantité. On peut contrôler le résultat avec head(ventes).",
+        "rubric": [
+          "Utilise mutate avec le pipe",
+          "Formule exacte ca = prix * quantite",
+          "Réaffecte le résultat à ventes ou enchaîne ensuite"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Écrivez le pipeline qui calcule le chiffre d'affaires total par région et expliquez comment identifier la région la plus rentable.",
+        "answer": "ventes %>% group_by(region) %>% summarise(ca_total = sum(ca)). group_by découpe la table par région, summarise calcule une ligne par groupe avec la somme des chiffres d'affaires. La région la plus rentable est celle dont ca_total est maximal : on peut l'isoler avec arrange(desc(ca_total)) en tête de résultat, ou filter(ca_total == max(ca_total)). L'interprétation se fait en comparant les montants entre régions et leur part du total.",
+        "rubric": [
+          "Pipeline group_by puis summarise",
+          "Somme de ca par groupe",
+          "Méthode pour identifier le maximum",
+          "Interprétation comparative des régions"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "Le schéma classique d'analyse en R : charger avec read.csv, inspecter avec head et str, transformer avec mutate, agréger avec group_by et summarise. Le pipe relie les étapes dans l'ordre de la logique métier.",
+    "difficulty": "medium",
+    "tags": [
+      "r",
+      "dplyr",
+      "cas-examen"
+    ]
+  },
+  {
+    "id": "rpd_051",
+    "domain": "R_PYTHON_DATA",
+    "type": "CASE_STUDY",
+    "context": "À l'Institut de Statistique, une enquête de satisfaction a été saisie dans enquete.csv avec les colonnes id, age, satisfaction (note de 1 à 5) et recommande (Oui/Non). Plusieurs répondants n'ont pas indiqué leur âge : la colonne age contient donc des valeurs manquantes. Avant tout rapport, vous devez nettoyer la table et produire des statistiques de base avec pandas.",
+    "question": "Décrivez le traitement pandas complet : chargement, repérage des valeurs manquantes, imputation des âges par la moyenne, statistiques descriptives et comptage des réponses recommande.",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Écrivez le chargement du fichier dans enquete et l'expression qui affiche le nombre de valeurs manquantes par colonne.",
+        "answer": "enquete = pd.read_csv(\"enquete.csv\") charge la table. Puis enquete.isna().sum() compte les valeurs manquantes de chaque colonne : isna renvoie un tableau booléen de même forme, et sum additionne les True colonne par colonne. On peut compléter avec enquete.info() pour voir les types et le décompte des valeurs présentes.",
+        "rubric": [
+          "Lecture avec pd.read_csv et affectation",
+          "isna().sum() pour le comptage par colonne",
+          "Mention de info ou équivalent"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Écrivez l'imputation des âges manquants par la moyenne des âges connus, puis justifiez ce choix plutôt que la suppression des lignes.",
+        "answer": "enquete['age'] = enquete['age'].fillna(enquete['age'].mean()). fillna remplace les NaN par la moyenne calculée sur les âges présents. Ce choix conserve tous les répondants, donc la représentativité de l'échantillon, là où dropna réduirait la taille de l'échantillon et pourrait biaiser l'enquête si les âges manquants ne sont pas dus au hasard. La moyenne est sensible aux extrêmes : si la distribution des âges est très asymétrique, la médiane serait une alternative.",
+        "rubric": [
+          "fillna avec la moyenne de la colonne",
+          "Argument de conservation des observations",
+          "Limite citée (extrêmes ou alternative médiane)"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Écrivez les commandes qui donnent les statistiques descriptives des colonnes numériques et le décompte des réponses Oui/Non de recommande.",
+        "answer": "enquete.describe() affiche pour chaque colonne numérique le décompte, la moyenne, l'écart-type, le minimum, les quartiles et le maximum : on y lit l'âge moyen imputé et la satisfaction moyenne. enquete['recommende'].value_counts() dénombre les Oui et les Non, ce qui donne directement le taux de recommandation en divisant par le total.",
+        "rubric": [
+          "describe pour les statistiques",
+          "value_counts sur recommande",
+          "Interprétation d'un indicateur au moins"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "Nettoyer avant de calculer : lire le fichier, mesurer le manquant avec isna().sum(), imputer avec fillna, puis résumer avec describe et value_counts. Chaque décision de nettoyage doit être justifiée dans le rapport.",
+    "difficulty": "medium",
+    "tags": [
+      "pandas",
+      "na",
+      "cas-examen"
+    ]
+  },
+  {
+    "id": "rpd_052",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "En Python, comment ajouter la clé \"ville\" avec la valeur \"Cotonou\" au dictionnaire client ?",
+    "answers": [
+      {
+        "id": "rpd_052_a",
+        "text": "client.append(\"ville\", \"Cotonou\")",
+        "isCorrect": false,
+        "note": "Piège venu des listes : append n'existe pas pour les dictionnaires."
+      },
+      {
+        "id": "rpd_052_c",
+        "text": "client.add(\"ville\", \"Cotonou\")",
+        "isCorrect": false,
+        "note": "Confusion avec la méthode add des ensembles, absente des dictionnaires."
+      },
+      {
+        "id": "rpd_052_b",
+        "text": "client[\"ville\"] = \"Cotonou\"",
+        "isCorrect": true,
+        "note": "C'est la bonne écriture : une affectation par clé crée la clé si elle n'existe pas encore."
+      },
+      {
+        "id": "rpd_052_d",
+        "text": "client.update(\"ville\")",
+        "isCorrect": false,
+        "note": "update existe mais attend un dictionnaire ou des paires clé-valeur, pas une clé seule."
+      }
+    ],
+    "explanation": "Les dictionnaires se modifient par affectation directe : client[\"ville\"] = \"Cotonou\" crée la clé ou la remplace si elle existe déjà. append et add sont des méthodes d'autres types de collections.",
+    "difficulty": "easy",
+    "tags": [
+      "python",
+      "dictionnaire"
+    ]
+  },
+  {
+    "id": "rpd_053",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans R, que renvoie median(c(400, 1200, 800, 950, 1500, 700)) ?",
+    "answers": [
+      {
+        "id": "rpd_053_a",
+        "text": "925",
+        "isCorrect": false,
+        "note": "C'est la moyenne des six valeurs, calcul serait identique à la médiane seulement en symétrie parfaite."
+      },
+      {
+        "id": "rpd_053_d",
+        "text": "950",
+        "isCorrect": false,
+        "note": "Prendre la quatrième valeur triée oublie la règle du pair : il faut moyenner 800 et 950."
+      },
+      {
+        "id": "rpd_053_c",
+        "text": "800",
+        "isCorrect": false,
+        "note": "Piège : prendre la troisième valeur triée sans faire la moyenne des deux valeurs centrales."
+      },
+      {
+        "id": "rpd_053_b",
+        "text": "875",
+        "isCorrect": true,
+        "note": "C'est juste : avec un effectif pair, la médiane est la moyenne des deux valeurs centrales triées, 800 et 950."
+      }
+    ],
+    "explanation": "Une fois les valeurs triées (400, 700, 800, 950, 1200, 1500), l'effectif pair impose de moyenner les deux valeurs centrales : (800 + 950) / 2 = 875. La moyenne du même vecteur vaut 925, l'écart traduisant l'asymétrie vers le haut.",
+    "difficulty": "easy",
+    "tags": [
+      "r",
+      "mediane",
+      "statistiques"
+    ]
+  },
+  {
+    "id": "rpd_054",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "En Python, que renvoie np.mean(np.array([2, 4, 6])) ?",
+    "answers": [
+      {
+        "id": "rpd_054_c",
+        "text": "4",
+        "isCorrect": true,
+        "note": "C'est exact : (2 + 4 + 6) / 3 vaut 4."
+      },
+      {
+        "id": "rpd_054_b",
+        "text": "6",
+        "isCorrect": false,
+        "note": "Piège sur le dernier élément : la moyenne porte sur les trois valeurs, pas sur l'une d'elles."
+      },
+      {
+        "id": "rpd_054_a",
+        "text": "array([2, 4, 6])",
+        "isCorrect": false,
+        "note": "Ce serait le tableau lui-même : np.mean agrège, il ne renvoie pas le tableau."
+      },
+      {
+        "id": "rpd_054_d",
+        "text": "12",
+        "isCorrect": false,
+        "note": "Confusion avec la somme des éléments, qui s'obtient avec np.sum."
+      }
+    ],
+    "explanation": "np.mean calcule la moyenne arithmétique des éléments d'un tableau numpy et renvoie un scalaire. La fonction miroir est np.sum pour la somme, np.median pour la médiane.",
+    "difficulty": "easy",
+    "tags": [
+      "python",
+      "numpy"
+    ]
+  },
+  {
+    "id": "rpd_055",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans R, que renvoie revenus[revenus > 800] pour revenus <- c(400, 1200, 800, 950, 1500, 700) ?",
+    "answers": [
+      {
+        "id": "rpd_055_b",
+        "text": "c(950, 1200, 1500)",
+        "isCorrect": false,
+        "note": "Ordre fautif : la sélection conserve l'ordre d'origine du vecteur, elle ne trie pas."
+      },
+      {
+        "id": "rpd_055_a",
+        "text": "c(1200, 950, 1500)",
+        "isCorrect": true,
+        "note": "C'est juste : la condition logique filtre le vecteur et seules les valeurs strictement supérieures à 800 sont gardées."
+      },
+      {
+        "id": "rpd_055_c",
+        "text": "c(800, 950, 1200, 1500)",
+        "isCorrect": false,
+        "note": "Piège du strict : la valeur égale à 800 ne satisfait pas la condition >."
+      },
+      {
+        "id": "rpd_055_d",
+        "text": "TRUE FALSE FALSE TRUE TRUE FALSE",
+        "isCorrect": false,
+        "note": "C'est le vecteur logique produit par la condition, pas le résultat de sa dernière évaluation... il faut l'utiliser en indice pour filtrer."
+      }
+    ],
+    "explanation": "R compare le vecteur au seuil élément par élément, ce qui produit un vecteur logique utilisé comme indice : seules les valeurs respectant la condition sont conservées, dans leur ordre d'origine. Le strict > exclut la valeur égale à 800.",
+    "difficulty": "medium",
+    "tags": [
+      "r",
+      "vecteurs"
+    ]
+  },
+  {
+    "id": "rpd_056",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Avec pandas, que fait df.dropna() appliquée à un DataFrame ?",
+    "answers": [
+      {
+        "id": "rpd_056_a",
+        "text": "Elle remplace les valeurs manquantes par zéro",
+        "isCorrect": false,
+        "note": "Confusion avec fillna, qui remplit ; dropna supprime."
+      },
+      {
+        "id": "rpd_056_c",
+        "text": "Elle supprime les colonnes entièrement remplies",
+        "isCorrect": false,
+        "note": "Piège inversé : ce sont les lignes ou colonnes contenant du manquant qui disparaissent, jamais les complètes."
+      },
+      {
+        "id": "rpd_056_b",
+        "text": "Elle supprime les lignes contenant au moins une valeur manquante",
+        "isCorrect": true,
+        "note": "C'est le comportement par défaut : une seule cellule manquante suffit à éliminer la ligne."
+      },
+      {
+        "id": "rpd_056_d",
+        "text": "Elle compte les valeurs manquantes par colonne",
+        "isCorrect": false,
+        "note": "Ce décompte s'obtient avec df.isna().sum(), pas avec dropna."
+      }
+    ],
+    "explanation": "dropna supprime par défaut toute ligne comportant au moins un NaN, ce qui peut coûter cher en observations si le manquant est diffus. Le paramètre subset cible des colonnes précises et how = 'all' ne vire que les lignes entièrement vides.",
+    "difficulty": "medium",
+    "tags": [
+      "pandas",
+      "na"
+    ]
+  },
+  {
+    "id": "rpd_057",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Avec dplyr, quelle commande ajoute au data.frame ventes la colonne ca valant prix multiplié par quantite ?",
+    "answers": [
+      {
+        "id": "rpd_057_a",
+        "text": "ventes %>% summarise(ca = prix * quantite)",
+        "isCorrect": false,
+        "note": "summarise réduit la table à une ligne de synthèse, elle n'ajoute pas de colonne ligne à ligne."
+      },
+      {
+        "id": "rpd_057_b",
+        "text": "ventes %>% filter(ca = prix * quantite)",
+        "isCorrect": false,
+        "note": "filter sélectionne des lignes selon une condition, il ne crée rien ; le symbole serait d'ailleurs ==."
+      },
+      {
+        "id": "rpd_057_c",
+        "text": "ventes %>% select(ca = prix * quantite)",
+        "isCorrect": false,
+        "note": "select choisit des colonnes existantes ou les renomme, il ne calcule pas de nouvelles valeurs."
+      },
+      {
+        "id": "rpd_057_d",
+        "text": "ventes %>% mutate(ca = prix * quantite)",
+        "isCorrect": true,
+        "note": "C'est le rôle de mutate : créer une nouvelle colonne calculée ligne à ligne."
+      }
+    ],
+    "explanation": "mutate est le verbe dplyr dédié à la création ou la transformation de colonnes, calcul ligne à ligne. summarise synthétise, filter sélectionne des lignes et select choisit des colonnes.",
+    "difficulty": "medium",
+    "tags": [
+      "r",
+      "dplyr"
+    ]
+  },
+  {
+    "id": "rpd_058",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "On reçoit un fichier CSV susceptible de contenir des valeurs manquantes. Dans quel ordre logique enchaîner les étapes de nettoyage avant de calculer des indicateurs ?",
+    "answers": [
+      {
+        "id": "rpd_058_b",
+        "text": "Charger, repérer les manquants, imputer ou supprimer, recalculer",
+        "isCorrect": true,
+        "note": "C'est l'ordre rigoureux : diagnostic d'abord, décision de traitement ensuite, calculs fiables enfin."
+      },
+      {
+        "id": "rpd_058_a",
+        "text": "Imputer la moyenne, vérifier le fichier, calculer les indicateurs",
+        "isCorrect": false,
+        "note": "Imputer avant tout diagnostic revient à corriger à l'aveugle, sans savoir où ni combien."
+      },
+      {
+        "id": "rpd_058_c",
+        "text": "Calculer les indicateurs, puis corriger si les résultats semblent faux",
+        "isCorrect": false,
+        "note": "Un NA propage ses effets : les indicateurs calculés avant nettoyage sont souvent NA ou biaisés."
+      },
+      {
+        "id": "rpd_058_d",
+        "text": "Supprimer toutes les lignes suspectes, puis vérifier ce qui reste",
+        "isCorrect": false,
+        "note": "Supprimer d'abord gaspille des observations utiles et peut biaiser l'échantillon restant."
+      }
+    ],
+    "explanation": "La démarche standard : charger le fichier dans une variable, mesurer le manquant avec is.na ou isna, choisir un traitement argumenté (imputation par la moyenne, suppression ciblée), puis seulement calculer moyenne, médiane et autres indicateurs. Chaque étape conditionne la fiabilité de la suivante.",
+    "difficulty": "hard",
+    "tags": [
+      "transversal",
+      "nettoyage"
+    ]
+  },
+  {
+    "id": "rpd_059",
+    "domain": "R_PYTHON_DATA",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Avec pandas, quelles méthodes servent à traiter (supprimer ou remplacer) les valeurs manquantes d'un DataFrame ?",
+    "answers": [
+      {
+        "id": "rpd_059_a",
+        "text": "dropna",
+        "isCorrect": true,
+        "note": "Juste : dropna supprime les lignes ou colonnes contenant des NaN."
+      },
+      {
+        "id": "rpd_059_c",
+        "text": "merge",
+        "isCorrect": false,
+        "note": "merge réalise des jointures entre tables, elle ne touche pas au manquant."
+      },
+      {
+        "id": "rpd_059_d",
+        "text": "sort_values",
+        "isCorrect": false,
+        "note": "sort_values trie selon une colonne, le manquant reste intact après tri."
+      },
+      {
+        "id": "rpd_059_b",
+        "text": "fillna",
+        "isCorrect": true,
+        "note": "Juste : fillna remplace les NaN par une valeur choisie, par exemple une moyenne."
+      }
+    ],
+    "explanation": "Le duo de traitement du manquant dans pandas est dropna pour supprimer et fillna pour remplacer. isna sert à détecter, merge et sort_values relèvent respectivement des jointures et du tri.",
+    "difficulty": "medium",
+    "tags": [
+      "pandas",
+      "na"
+    ]
+  },
+  {
+    "id": "rpd_060",
+    "domain": "R_PYTHON_DATA",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quelles écritures R calculent la moyenne de revenu pour chaque région de la table clients ?",
+    "answers": [
+      {
+        "id": "rpd_060_c",
+        "text": "aggregate(revenu ~ region, data = clients, FUN = mean)",
+        "isCorrect": true,
+        "note": "Juste : la formule de aggregate calcule une statistique par groupe."
+      },
+      {
+        "id": "rpd_060_b",
+        "text": "mean(clients$revenu)",
+        "isCorrect": false,
+        "note": "Piège : cette écriture donne une moyenne globale, sans découpage par région."
+      },
+      {
+        "id": "rpd_060_a",
+        "text": "tapply(clients$revenu, clients$region, mean)",
+        "isCorrect": true,
+        "note": "Juste : tapply applique mean à revenu découpé selon les niveaux de region."
+      },
+      {
+        "id": "rpd_060_d",
+        "text": "clients %>% group_by(region) %>% summarise(moyenne = mean(revenu))",
+        "isCorrect": true,
+        "note": "Juste : c'est la version dplyr, group_by découpe et summarise synthétise chaque groupe."
+      }
+    ],
+    "explanation": "Trois familles coexistent en R : tapply et aggregate du R de base, et le trio group_by puis summarise de dplyr. Elles produisent le même décompte par groupe, sous des formats légèrement différents.",
+    "difficulty": "medium",
+    "tags": [
+      "r",
+      "groupby",
+      "dplyr"
+    ]
+  },
+  {
+    "id": "rpd_061",
+    "domain": "R_PYTHON_DATA",
+    "type": "TRUE_FALSE",
+    "question": "En Python, un dictionnaire peut contenir deux fois la même clé avec deux valeurs différentes.",
+    "answers": [
+      {
+        "id": "rpd_061_v",
+        "text": "Vrai",
+        "isCorrect": false,
+        "note": "Piège : écrire deux fois la même clé ne crée pas deux entrées, la seconde valeur écrase la première."
+      },
+      {
+        "id": "rpd_061_f",
+        "text": "Faux",
+        "isCorrect": true,
+        "note": "C'est vrai que c'est impossible : les clés sont uniques, une réaffectation remplace l'ancienne valeur."
+      }
+    ],
+    "explanation": "Les clés d'un dictionnaire Python sont uniques : affecter une valeur à une clé existante remplace l'ancienne valeur au lieu de créer un doublon. Pour stocker plusieurs valeurs sous une même clé, on utilise une liste ou un ensemble comme valeur.",
+    "difficulty": "easy",
+    "tags": [
+      "python",
+      "dictionnaire"
+    ]
+  },
+  {
+    "id": "rpd_062",
+    "domain": "R_PYTHON_DATA",
+    "type": "FILL_BLANK",
+    "question": "Pour le vecteur revenus <- c(400, 1200, 800, 950, 1500, 700), la médiane vaut ___ et la moyenne vaut ___ .",
+    "blanks": [
+      {
+        "accepted": [
+          "875",
+          "875 FCFA"
+        ]
+      },
+      {
+        "accepted": [
+          "925",
+          "925 FCFA"
+        ]
+      }
+    ],
+    "explanation": "Les valeurs triées sont 400, 700, 800, 950, 1200, 1500 : l'effectif pair donne une médiane de (800 + 950) / 2 = 875. La somme 5550 divisée par six donne une moyenne de 925, supérieure à la médiane car les valeurs hautes pèsent davantage.",
+    "difficulty": "medium",
+    "tags": [
+      "statistiques",
+      "transversal",
+      "mediane"
+    ]
+  },
+  {
+    "id": "rpd_063",
+    "domain": "R_PYTHON_DATA",
+    "type": "CODE",
+    "question": "Complétez la fonction moyenne_sans_na pour qu'elle renvoie la moyenne des valeurs de la liste en ignorant les éléments None (les valeurs manquantes en Python).",
+    "code": {
+      "language": "python",
+      "setup": "mesures = [400, None, 800, 950, None, 700]",
+      "starter": "def moyenne_sans_na(valeurs):\n    # à compléter : ignorer les None\n    pass",
+      "solution": "def moyenne_sans_na(valeurs):\n    connues = [v for v in valeurs if v is not None]\n    return sum(connues) / len(connues)",
+      "timeLimitMs": 10000,
+      "tests": [
+        {
+          "name": "Cas avec None",
+          "hidden": false,
+          "code": "assert moyenne_sans_na(mesures) == 712.5"
+        },
+        {
+          "name": "Aucun manquant",
+          "hidden": false,
+          "code": "assert moyenne_sans_na([5, 5, 5]) == 5"
+        },
+        {
+          "name": "Test caché : seul un manquant",
+          "hidden": true,
+          "code": "assert abs(moyenne_sans_na([10, None, 20]) - 15) < 1e-9"
+        }
+      ]
+    },
+    "explanation": "On filtre d'abord les None avec une compréhension de liste, puis on divise la somme par le nombre de valeurs conservées. Diviser par la longueur initiale fausserait le résultat : ici 2850 / 4 = 712,5.",
+    "difficulty": "medium",
+    "tags": [
+      "python",
+      "na",
+      "fonctions"
+    ]
+  },
+  {
+    "id": "rpd_064",
+    "domain": "R_PYTHON_DATA",
+    "type": "CODE",
+    "question": "Complétez la fonction total_par_produit pour qu'elle renvoie un dictionnaire associant à chaque produit la somme de ses montants de vente.",
+    "code": {
+      "language": "python",
+      "setup": "ventes = [{'produit': 'savon', 'montant': 2000}, {'produit': 'sel', 'montant': 1500}, {'produit': 'savon', 'montant': 3000}]",
+      "starter": "def total_par_produit(ventes):\n    # renvoie un dict {produit: total}\n    pass",
+      "solution": "def total_par_produit(ventes):\n    totaux = {}\n    for v in ventes:\n        totaux[v['produit']] = totaux.get(v['produit'], 0) + v['montant']\n    return totaux",
+      "timeLimitMs": 10000,
+      "tests": [
+        {
+          "name": "Deux produits",
+          "hidden": false,
+          "code": "assert total_par_produit(ventes) == {'savon': 5000, 'sel': 1500}"
+        },
+        {
+          "name": "Liste vide",
+          "hidden": false,
+          "code": "assert total_par_produit([]) == {}"
+        },
+        {
+          "name": "Test caché : un seul produit",
+          "hidden": true,
+          "code": "assert total_par_produit([{'produit': 'riz', 'montant': 100}]) == {'riz': 100}"
+        }
+      ]
+    },
+    "explanation": "On parcourt les dictionnaires de vente, on lit la clé produit et on cumule le montant avec get(valeur par défaut 0) pour gérer la première occurrence. C'est l'agrégation manuelle que pandas ferait avec groupby.",
+    "difficulty": "medium",
+    "tags": [
+      "python",
+      "dictionnaire",
+      "agregation"
+    ]
+  },
+  {
+    "id": "rpd_065",
+    "domain": "R_PYTHON_DATA",
+    "type": "CODE",
+    "question": "En R, complétez la fonction mediane pour qu'elle renvoie la médiane d'un vecteur numérique, en gérant les effectifs pairs et impairs, sans utiliser la fonction median.",
+    "code": {
+      "language": "r",
+      "setup": "revenus <- c(400, 1200, 800, 950, 1500, 700)",
+      "starter": "mediane <- function(v) {\n  # à compléter\n}",
+      "solution": "mediane <- function(v) {\n  w <- sort(v)\n  n <- length(w)\n  if (n %% 2 == 1) {\n    w[(n + 1) / 2]\n  } else {\n    (w[n / 2] + w[n / 2 + 1]) / 2\n  }\n}",
+      "timeLimitMs": 10000,
+      "tests": [
+        {
+          "name": "Effectif pair",
+          "hidden": false,
+          "code": "stopifnot(mediane(revenus) == 875)"
+        },
+        {
+          "name": "Effectif impair",
+          "hidden": false,
+          "code": "stopifnot(mediane(c(10, 30, 20)) == 20)"
+        },
+        {
+          "name": "Test caché : deux valeurs",
+          "hidden": true,
+          "code": "stopifnot(mediane(c(1, 2)) == 1.5)"
+        }
+      ]
+    },
+    "explanation": "On trie d'abord le vecteur avec sort. Si l'effectif est impair, la médiane est la valeur centrale ; s'il est pair, c'est la moyenne des deux valeurs centrales. Sur les revenus triés, cela donne (800 + 950) / 2 = 875.",
+    "difficulty": "medium",
+    "tags": [
+      "r",
+      "mediane",
+      "fonctions"
+    ]
+  },
+  {
+    "id": "rpd_066",
+    "domain": "R_PYTHON_DATA",
+    "type": "CODE",
+    "question": "En R, créez le data.frame clients avec les colonnes id = c(1, 2, 3), age = c(25, NA, 40) et revenu = c(400, 1200, 800). Affectez ensuite à nb_lignes son nombre de lignes et à age_moyen la moyenne des âges en ignorant la valeur manquante.",
+    "code": {
+      "language": "r",
+      "setup": "",
+      "starter": "# Créez clients puis calculez nb_lignes et age_moyen\n",
+      "solution": "clients <- data.frame(id = c(1, 2, 3), age = c(25, NA, 40), revenu = c(400, 1200, 800))\nnb_lignes <- nrow(clients)\nage_moyen <- mean(clients$age, na.rm = TRUE)",
+      "timeLimitMs": 10000,
+      "tests": [
+        {
+          "name": "Trois lignes",
+          "hidden": false,
+          "code": "stopifnot(nb_lignes == 3)"
+        },
+        {
+          "name": "Moyenne des âges connus",
+          "hidden": false,
+          "code": "stopifnot(abs(age_moyen - 32.5) < 1e-9)"
+        },
+        {
+          "name": "Test caché : colonnes présentes",
+          "hidden": true,
+          "code": "stopifnot(all(c(\"id\", \"age\", \"revenu\") %in% names(clients)))"
+        }
+      ]
+    },
+    "explanation": "data.frame assemble des vecteurs de même longueur en colonnes nommées. nrow donne le nombre de lignes, et mean avec na.rm = TRUE ignore le NA : (25 + 40) / 2 = 32,5.",
+    "difficulty": "medium",
+    "tags": [
+      "r",
+      "data-frame",
+      "na"
+    ]
+  },
+  {
+    "id": "rpd_067",
+    "domain": "R_PYTHON_DATA",
+    "type": "CASE_STUDY",
+    "context": "Dans une entreprise de Cotonou, neuf employés perçoivent des salaires mensuels de 250, 280, 300, 320, 350, 380, 400, 420 et 450 mille FCFA, tandis que le directeur général perçoit 5000 mille FCFA. Le service RH doit présenter le « salaire typique » de l'entreprise dans un rapport et hésite entre la moyenne et la médiane. On note salaires <- c(250, 280, 300, 320, 350, 380, 400, 420, 450, 5000) en R.",
+    "question": "Calculez et comparez moyenne et médiane des salaires, expliquez l'écart observé, puis recommandez l'indicateur à publier avec sa justification.",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Calculez la moyenne et la médiane du vecteur salaires et écrivez les commandes R correspondantes.",
+        "answer": "Moyenne : mean(salaires) = (250 + 280 + 300 + 320 + 350 + 380 + 400 + 420 + 450 + 5000) / 10 = 8150 / 10 = 815 mille FCFA. Médiane : median(salaires) = moyenne des deux valeurs centrales triées, (350 + 380) / 2 = 365 mille FCFA. On peut vérifier l'ordre avec sort(salaires). L'écart entre 815 et 365 est considérable : 450 mille FCFA de différence.",
+        "rubric": [
+          "Commande mean et valeur 815",
+          "Commande median et valeur 365",
+          "Tri visible ou raisonnement sur les valeurs centrales"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Expliquez pourquoi les deux indicateurs sont si différents et nommez la forme de la distribution.",
+        "answer": "Le salaire du directeur (5000) est une valeur extrême : il augmente fortement la somme, donc la moyenne, mais ne change pas la valeur centrale. La distribution est asymétrique à droite (étalée vers les valeurs hautes) : la moyenne est supérieure à la médiane. En symétrie parfaite les deux coïncideraient ; c'est justement l'écart qui sert de diagnostic d'asymétrie.",
+        "rubric": [
+          "Rôle de la valeur extrême sur la moyenne",
+          "Valeur extrême sans effet sur la médiane",
+          "Nomme l'asymétrie à droite"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Quel indicateur recommandez-vous de publier comme « salaire typique » et pourquoi ?",
+        "answer": "La médiane (365 mille FCFA) est plus représentative du salaire d'un employé ordinaire : la moitié des salariés gagne moins, l'autre moitié plus. La moyenne (815) dépasse le salaire de neuf employés sur dix et donne une image trompeuse de la rémunération courante. Dans un rapport, on publie la médiane et on mentionne la moyenne en précisant l'influence de la rémunération du directeur ; les quantiles (Q1, Q3) complètent utilement la description.",
+        "rubric": [
+          "Choix argumenté de la médiane",
+          "Critique de la moyenne tirée par l'extrême",
+          "Suggestion de compléments (quantiles, mention des deux)"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "Cas type de sensibilité aux extrêmes : la moyenne suit toutes les valeurs, la médiane ne dépend que de la position. Dès que moyenne et médiane divergent nettement, la distribution est asymétrique et la médiane décrit mieux l'individu typique.",
+    "difficulty": "hard",
+    "tags": [
+      "statistiques",
+      "moyenne",
+      "mediane",
+      "cas-examen"
+    ]
+  },
+  {
+    "id": "rpd_068",
+    "domain": "R_PYTHON_DATA",
+    "type": "CASE_STUDY",
+    "context": "Une boutique en ligne vous fournit deux fichiers pandas : clients.csv (colonnes id, nom, ville) et achats.csv (colonnes id_achat, id_client, montant). Le service marketing veut, pour chaque ville, le nombre d'achats et la dépense moyenne, pour cibler sa prochaine campagne. Les deux tables sont reliées par la colonne id_client.",
+    "question": "Décrivez le traitement pandas : chargement des deux tables, jointure sur l'identifiant client, puis agrégation par ville du nombre d'achats et de la dépense moyenne.",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Écrivez le chargement des deux fichiers et la jointure pandas qui associe chaque achat à son client.",
+        "answer": "clients = pd.read_csv(\"clients.csv\") et achats = pd.read_csv(\"achats.csv\") chargent les tables. La jointure s'écrit donnees = pd.merge(achats, clients, on = \"id_client\") : chaque ligne d'achat reçoit le nom et la ville du client correspondant. Le paramètre how = \"inner\" (défaut) ne garde que les clients retrouvés dans les deux tables ; how = \"left\" conserverait aussi les achats sans client apparié.",
+        "rubric": [
+          "Deux read_csv avec affectations",
+          "pd.merge avec on = id_client",
+          "Rôle du paramètre how évoqué"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Écrivez l'agrégation qui calcule, par ville, le nombre d'achats et la dépense moyenne.",
+        "answer": "donnees.groupby(\"ville\").agg(nb_achats = (\"montant\", \"count\"), depense_moyenne = (\"montant\", \"mean\")). groupby découpe la table jointe par ville ; agg applique count et mean à la colonne montant. Variante acceptable : donnees.groupby(\"ville\")[\"montant\"].agg([\"count\", \"mean\"]). Le résultat est un DataFrame indexé par ville.",
+        "rubric": [
+          "groupby sur ville",
+          "agg avec count et mean",
+          "Nomme les indicateurs ou structure du résultat"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Comment repérer la ville à cibler en priorité et quels pièges de jointure vérifier avant de conclure ?",
+        "answer": "On trie le résultat : donnees.groupby(\"ville\")[\"montant\"].sum().sort_values(ascending = False) pour le volume, et on compare la dépense moyenne ville par ville pour la qualité du panier. Pièges à contrôler : identifiants en doublon dans clients (qui multiplieraient les lignes d'achat lors de la jointure), achats dont l'id_client n'existe pas dans clients (perdus en jointure interne), et montants manquants qui fausseraient les moyennes. Une vérification des dimensions avant et après merge est un réflexe simple.",
+        "rubric": [
+          "Critère de ciblage explicite",
+          "Contrôle des doublons de clé",
+          "Contrôle des clés non appariées",
+          "Vérification des dimensions ou du manquant"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "Schéma relationnel classique : charger deux tables, merge sur la clé, puis groupby et agg pour les indicateurs par groupe. Toujours contrôler la jointure : doublons de clé et clés orphelines changent silencieusement les résultats.",
+    "difficulty": "medium",
+    "tags": [
+      "pandas",
+      "merge",
+      "groupby",
+      "cas-examen"
+    ]
+  },
+  {
+    "id": "rpd_069",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Avec pandas, que renvoie df.shape appliquée à un DataFrame df ?",
+    "answers": [
+      {
+        "id": "rpd_069_b",
+        "text": "Un couple (nombre de colonnes, nombre de lignes)",
+        "isCorrect": false,
+        "note": "Piège d'inversion : les lignes viennent toujours en premier dans shape."
+      },
+      {
+        "id": "rpd_069_a",
+        "text": "Un couple (nombre de lignes, nombre de colonnes)",
+        "isCorrect": true,
+        "note": "C'est exact : shape est un attribut qui donne les dimensions dans cet ordre."
+      },
+      {
+        "id": "rpd_069_c",
+        "text": "Le nombre de lignes uniquement",
+        "isCorrect": false,
+        "note": "Ce nombre seul s'obtient avec len(df) ; shape renvoie les deux dimensions."
+      },
+      {
+        "id": "rpd_069_d",
+        "text": "Une erreur : shape doit être appelé avec des parenthèses",
+        "isCorrect": false,
+        "note": "shape est un attribut, pas une méthode : df.shape s'écrit sans parenthèses."
+      }
+    ],
+    "explanation": "df.shape renvoie un tuple de deux entiers : le nombre de lignes puis le nombre de colonnes. C'est le réflexe de contrôle des dimensions, notamment avant et après une jointure ou une suppression de lignes.",
+    "difficulty": "easy",
+    "tags": [
+      "pandas",
+      "inspection"
+    ]
+  },
+  {
+    "id": "rpd_070",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans R, que mesure sd(revenus) pour un vecteur numérique ?",
+    "answers": [
+      {
+        "id": "rpd_070_a",
+        "text": "L'étendue, c'est-à-dire max moins min",
+        "isCorrect": false,
+        "note": "L'étendue se calcule à la main ou avec diff(range()) ; sd est plus fin."
+      },
+      {
+        "id": "rpd_070_c",
+        "text": "La variance des valeurs du vecteur",
+        "isCorrect": false,
+        "note": "Piège de vocabulaire : la variance s'obtient avec var(), sd en est la racine carrée."
+      },
+      {
+        "id": "rpd_070_b",
+        "text": "L'écart-type, dispersion des valeurs autour de la moyenne",
+        "isCorrect": true,
+        "note": "C'est juste : sd calcule l'écart-type, indicateur de dispersion par référence à la moyenne."
+      },
+      {
+        "id": "rpd_070_d",
+        "text": "La moyenne des valeurs absolues des écarts",
+        "isCorrect": false,
+        "note": "C'est l'écart moyen absolu, une autre mesure que sd ne calcule pas."
+      }
+    ],
+    "explanation": "sd() renvoie l'écart-type, racine carrée de la variance : il exprime la dispersion typique des valeurs autour de la moyenne. Plus sd est grand, plus les données s'étalent autour de leur centre.",
+    "difficulty": "easy",
+    "tags": [
+      "r",
+      "statistiques"
+    ]
+  },
+  {
+    "id": "rpd_071",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "En Python, que renvoie list(range(3)) ?",
+    "answers": [
+      {
+        "id": "rpd_071_a",
+        "text": "[1, 2, 3]",
+        "isCorrect": false,
+        "note": "Piège classique : range commence à zéro, pas à un."
+      },
+      {
+        "id": "rpd_071_d",
+        "text": "[1, 2]",
+        "isCorrect": false,
+        "note": "Correspondrait à range(1, 3), avec un début explicite à un."
+      },
+      {
+        "id": "rpd_071_c",
+        "text": "[0, 1, 2, 3]",
+        "isCorrect": false,
+        "note": "range(3) produit trois valeurs : la borne de fin n'est jamais incluse."
+      },
+      {
+        "id": "rpd_071_b",
+        "text": "[0, 1, 2]",
+        "isCorrect": true,
+        "note": "C'est exact : la borne de fin 3 est exclue, on obtient trois entiers à partir de zéro."
+      }
+    ],
+    "explanation": "range(3) génère les entiers 0, 1 et 2 : le compteur part de zéro et la borne de fin est exclue. C'est la base des boucles for en Python.",
+    "difficulty": "easy",
+    "tags": [
+      "python",
+      "boucles"
+    ]
+  },
+  {
+    "id": "rpd_072",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Avec dplyr, que fait clients %>% arrange(desc(revenu)) ?",
+    "answers": [
+      {
+        "id": "rpd_072_a",
+        "text": "Elle trie les lignes par revenu décroissant",
+        "isCorrect": true,
+        "note": "C'est le rôle d'arrange, et desc inverse l'ordre croissant par défaut."
+      },
+      {
+        "id": "rpd_072_b",
+        "text": "Elle conserve seulement les lignes de revenu maximal",
+        "isCorrect": false,
+        "note": "Ce filtrage relève de filter avec une condition sur le maximum, pas d'arrange."
+      },
+      {
+        "id": "rpd_072_c",
+        "text": "Elle calcule le revenu total du data.frame",
+        "isCorrect": false,
+        "note": "L'agrégation relève de summarise ; arrange ne calcule rien, il réordonne."
+      },
+      {
+        "id": "rpd_072_d",
+        "text": "Elle supprime les lignes sans revenu",
+        "isCorrect": false,
+        "note": "Le tri conserve toutes les lignes, y compris celles dont le revenu est manquant."
+      }
+    ],
+    "explanation": "arrange() réordonne les lignes selon une ou plusieurs colonnes, par ordre croissant par défaut. desc() inverse en ordre décroissant : c'est le moyen standard de classer des clients par revenu.",
+    "difficulty": "medium",
+    "tags": [
+      "r",
+      "dplyr"
+    ]
+  },
+  {
+    "id": "rpd_073",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Avec pandas, comment créer la colonne majeur valant True quand age vaut au moins 18 et False sinon ?",
+    "answers": [
+      {
+        "id": "rpd_073_b",
+        "text": "df = df.filter(majeur = df['age'] >= 18)",
+        "isCorrect": false,
+        "note": "filter sélectionne des lignes ou colonnes existantes, il ne crée pas de colonne calculée."
+      },
+      {
+        "id": "rpd_073_a",
+        "text": "df['majeur'] = df['age'] >= 18",
+        "isCorrect": true,
+        "note": "C'est juste : la comparaison vectorisée produit une Series de booléens affectée à la nouvelle colonne."
+      },
+      {
+        "id": "rpd_073_c",
+        "text": "df['majeur'] = \"age >= 18\"",
+        "isCorrect": false,
+        "note": "Cette écriture stocke du texte : toutes les lignes recevraient la même chaîne, pas un booléen calculé."
+      },
+      {
+        "id": "rpd_073_d",
+        "text": "df.majeur(df['age'] >= 18)",
+        "isCorrect": false,
+        "note": "Piège de syntaxe : on ne peut pas créer une colonne en l'appelant comme une méthode."
+      }
+    ],
+    "explanation": "Une condition appliquée à une colonne pandas est évaluée ligne à ligne et renvoie une Series de booléens. L'affectation à df['majeur'] crée la colonne, valeur par valeur.",
+    "difficulty": "medium",
+    "tags": [
+      "pandas",
+      "colonnes"
+    ]
+  },
+  {
+    "id": "rpd_074",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans R, que renvoie names(clients) appliquée à un data.frame ?",
+    "answers": [
+      {
+        "id": "rpd_074_c",
+        "text": "La première ligne du data.frame",
+        "isCorrect": false,
+        "note": "Confusion avec clients[1, ] ou head(clients, 1) pour l'aperçu d'un enregistrement."
+      },
+      {
+        "id": "rpd_074_b",
+        "text": "Les noms des lignes du data.frame",
+        "isCorrect": false,
+        "note": "Ceux-là s'obtiennent avec rownames() ou row.names(), pas avec names()."
+      },
+      {
+        "id": "rpd_074_a",
+        "text": "Le vecteur des noms de colonnes",
+        "isCorrect": true,
+        "note": "C'est exact : names liste les variables, c'est-à-dire les colonnes du data.frame."
+      },
+      {
+        "id": "rpd_074_d",
+        "text": "Le nombre de variables du data.frame",
+        "isCorrect": false,
+        "note": "Ce décompte s'obtient avec ncol() ou length(clients), names renvoie les intitulés."
+      }
+    ],
+    "explanation": "names() renvoie le vecteur des intitulés de colonnes d'un data.frame. Combinée avec %in%, elle sert à vérifier qu'une colonne attendue existe bien avant de l'utiliser.",
+    "difficulty": "easy",
+    "tags": [
+      "r",
+      "data-frame",
+      "inspection"
+    ]
+  },
+  {
+    "id": "rpd_075",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Sur un DataFrame pandas dont l'index vaut 0, 1, 2, ..., 9, que renvoient respectivement df.loc[0:3] et df.iloc[0:3] ?",
+    "answers": [
+      {
+        "id": "rpd_075_d",
+        "text": "loc sélectionne des colonnes alors qu'iloc sélectionne des lignes",
+        "isCorrect": false,
+        "note": "Les deux sélectionnent d'abord des lignes ; la distinction porte sur étiquettes contre positions."
+      },
+      {
+        "id": "rpd_075_b",
+        "text": "loc exclut la borne 3 donc 3 lignes ; iloc l'inclut donc 4 lignes",
+        "isCorrect": false,
+        "note": "C'est l'inverse du comportement réel : l'inclusion de la borne finale est la marque de loc."
+      },
+      {
+        "id": "rpd_075_c",
+        "text": "Les deux renvoient exactement les mêmes 3 lignes",
+        "isCorrect": false,
+        "note": "Sur l'index numérique par défaut, la différence se voit justement : 4 lignes contre 3."
+      },
+      {
+        "id": "rpd_075_a",
+        "text": "loc inclut la borne 3 donc 4 lignes ; iloc l'exclut donc 3 lignes",
+        "isCorrect": true,
+        "note": "C'est la bonne distinction : loc travaille sur les étiquettes et inclut la borne finale, iloc sur les positions et l'exclut."
+      }
+    ],
+    "explanation": "loc raisonner en étiquettes et inclut la borne finale de la tranche, iloc raisonner en positions entières et s'arrête avant la borne finale. Sur l'index 0 à 9, df.loc[0:3] donne quatre lignes, df.iloc[0:3] en donne trois.",
+    "difficulty": "hard",
+    "tags": [
+      "pandas",
+      "selection"
+    ]
+  },
+  {
+    "id": "rpd_076",
+    "domain": "R_PYTHON_DATA",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quelles fonctions numpy calculent une statistique sur un tableau de valeurs ?",
+    "answers": [
+      {
+        "id": "rpd_076_d",
+        "text": "np.moyenne",
+        "isCorrect": false,
+        "note": "Piège de traduction : les noms des fonctions numpy sont anglais, celle-ci n'existe pas."
+      },
+      {
+        "id": "rpd_076_c",
+        "text": "np.std",
+        "isCorrect": true,
+        "note": "Juste : np.std calcule l'écart-type du tableau."
+      },
+      {
+        "id": "rpd_076_b",
+        "text": "np.median",
+        "isCorrect": true,
+        "note": "Juste : np.median renvoie la médiane des valeurs."
+      },
+      {
+        "id": "rpd_076_a",
+        "text": "np.mean",
+        "isCorrect": true,
+        "note": "Juste : np.mean calcule la moyenne arithmétique du tableau."
+      }
+    ],
+    "explanation": "numpy fournit mean, median, std et bien d'autres statistiques vectorisées. Attention à l'anglais des noms : il n'existe pas de fonction np.moyenne.",
+    "difficulty": "medium",
+    "tags": [
+      "python",
+      "numpy"
+    ]
+  },
+  {
+    "id": "rpd_077",
+    "domain": "R_PYTHON_DATA",
+    "type": "MULTIPLE_CHOICE",
+    "question": "En Python, quelles instructions modifient la liste notes en place ?",
+    "answers": [
+      {
+        "id": "rpd_077_c",
+        "text": "notes.sort()",
+        "isCorrect": true,
+        "note": "Juste : sort trie la liste sur elle-même, sans créer de copie."
+      },
+      {
+        "id": "rpd_077_b",
+        "text": "notes[0] = 20",
+        "isCorrect": true,
+        "note": "Juste : l'affectation par indice remplace l'élément concerné dans la liste."
+      },
+      {
+        "id": "rpd_077_a",
+        "text": "notes.append(10)",
+        "isCorrect": true,
+        "note": "Juste : append ajoute un élément à la fin de la liste existante."
+      },
+      {
+        "id": "rpd_077_d",
+        "text": "notes = notes + [10]",
+        "isCorrect": false,
+        "note": "Piège : la concaténation crée une nouvelle liste réaffectée au nom, l'ancienne liste n'est pas modifiée."
+      }
+    ],
+    "explanation": "Les méthodes append, sort, insert ou l'affectation par indice modifient l'objet liste lui-même. En revanche, l'opérateur + construit une nouvelle liste : le nom pointe alors vers un autre objet.",
+    "difficulty": "medium",
+    "tags": [
+      "python",
+      "listes"
+    ]
+  },
+  {
+    "id": "rpd_078",
+    "domain": "R_PYTHON_DATA",
+    "type": "TRUE_FALSE",
+    "question": "Dans R, après l'exécution de col[is.na(col)] <- mean(col, na.rm = TRUE), le vecteur col lui-même a été modifié.",
+    "answers": [
+      {
+        "id": "rpd_078_f",
+        "text": "Faux",
+        "isCorrect": false,
+        "note": "Piège : contrairement à mean(col, na.rm = TRUE) qui ne fait que calculer, ici on réaffecte les positions manquantes en place."
+      },
+      {
+        "id": "rpd_078_v",
+        "text": "Vrai",
+        "isCorrect": true,
+        "note": "C'est vrai : l'affectation par indice remplace les valeurs dans le vecteur existant, sans copie explicite."
+      }
+    ],
+    "explanation": "L'affectation par indice col[is.na(col)] <- valeur écrit dans le vecteur original : c'est une modification en place. Il est prudent d'en garder une copie si l'on veut conserver les données brutes.",
+    "difficulty": "medium",
+    "tags": [
+      "r",
+      "na",
+      "nettoyage"
+    ]
+  },
+  {
+    "id": "rpd_079",
+    "domain": "R_PYTHON_DATA",
+    "type": "FILL_BLANK",
+    "question": "Avec pandas, l'attribut ___ renvoie les dimensions du DataFrame sous la forme (lignes, colonnes), et la méthode ___ trie le DataFrame selon une ou plusieurs colonnes.",
+    "blanks": [
+      {
+        "accepted": [
+          "shape"
+        ]
+      },
+      {
+        "accepted": [
+          "sort_values"
+        ]
+      }
+    ],
+    "explanation": "df.shape donne un couple (lignes, colonnes) sans parenthèses d'appel, car c'est un attribut. sort_values trie les lignes selon les colonnes indiquées, avec le paramètre ascending pour inverser l'ordre.",
+    "difficulty": "medium",
+    "tags": [
+      "pandas",
+      "inspection",
+      "tri"
+    ]
+  },
+  {
+    "id": "rpd_080",
+    "domain": "R_PYTHON_DATA",
+    "type": "CODE",
+    "question": "Complétez la fonction statistiques pour qu'elle renvoie un dictionnaire à deux clés : 'moyenne' (moyenne arithmétique) et 'mediane' (médiane calculée sans la fonction median de Python).",
+    "code": {
+      "language": "python",
+      "setup": "revenus = [400, 1200, 800, 950, 1500, 700]",
+      "starter": "def statistiques(valeurs):\n    # renvoie {'moyenne': ..., 'mediane': ...}\n    pass",
+      "solution": "def statistiques(valeurs):\n    tri = sorted(valeurs)\n    n = len(tri)\n    if n % 2 == 1:\n        med = tri[n // 2]\n    else:\n        med = (tri[n // 2 - 1] + tri[n // 2]) / 2\n    return {'moyenne': sum(valeurs) / n, 'mediane': med}",
+      "timeLimitMs": 10000,
+      "tests": [
+        {
+          "name": "Cas des revenus",
+          "hidden": false,
+          "code": "assert statistiques(revenus) == {'moyenne': 925, 'mediane': 875}"
+        },
+        {
+          "name": "Effectif impair",
+          "hidden": false,
+          "code": "assert statistiques([10, 30, 20]) == {'moyenne': 20, 'mediane': 20}"
+        },
+        {
+          "name": "Test caché : quatre valeurs",
+          "hidden": true,
+          "code": "assert statistiques([1, 2, 3, 4])['mediane'] == 2.5"
+        }
+      ]
+    },
+    "explanation": "On trie les valeurs avec sorted, on calcule la médiane selon la parité de l'effectif, puis on renvoie les deux indicateurs dans un dictionnaire. Sur les revenus, la moyenne vaut 925 et la médiane 875 : l'écart traduit l'asymétrie vers le haut.",
+    "difficulty": "hard",
+    "tags": [
+      "python",
+      "statistiques",
+      "fonctions"
+    ]
+  },
+  {
+    "id": "rpd_081",
+    "domain": "R_PYTHON_DATA",
+    "type": "CODE",
+    "question": "Avec pandas, remplacez les revenus manquants de df par la moyenne des revenus connus, puis affectez à n_manquants le nombre de valeurs manquantes restantes dans la colonne revenu.",
+    "code": {
+      "language": "python",
+      "setup": "import pandas as pd\ndf = pd.DataFrame({'ville': ['Cotonou', 'Porto-Novo', 'Parakou', 'Bohicon', 'Abomey'], 'revenu': [400, None, 800, 400, 800]})",
+      "starter": "# Imputez les revenus manquants puis comptez les manquants restants\n",
+      "solution": "df['revenu'] = df['revenu'].fillna(df['revenu'].mean())\nn_manquants = df['revenu'].isna().sum()",
+      "timeLimitMs": 10000,
+      "tests": [
+        {
+          "name": "Plus aucun manquant",
+          "hidden": false,
+          "code": "assert n_manquants == 0"
+        },
+        {
+          "name": "Valeur imputée",
+          "hidden": false,
+          "code": "assert abs(df.loc[1, 'revenu'] - 600) < 1e-9"
+        },
+        {
+          "name": "Test caché : moyenne inchangée",
+          "hidden": true,
+          "code": "assert abs(df['revenu'].mean() - 600) < 1e-9"
+        }
+      ]
+    },
+    "explanation": "fillna avec la moyenne de la colonne remplace chaque NaN par la moyenne des valeurs connues, ici 600. Après imputation, isna().sum() vaut zéro et la moyenne de la colonne reste 600.",
+    "difficulty": "medium",
+    "tags": [
+      "pandas",
+      "na",
+      "nettoyage"
+    ]
+  },
+  {
+    "id": "rpd_082",
+    "domain": "R_PYTHON_DATA",
+    "type": "CODE",
+    "question": "En R, calculez avec tapply la moyenne du revenu par région de la table clients : affectez le résultat à moyennes_region, puis à moy_nord la moyenne de la région Nord.",
+    "code": {
+      "language": "r",
+      "setup": "clients <- data.frame(region = c(\"Nord\", \"Sud\", \"Nord\", \"Sud\", \"Nord\"), revenu = c(400, 900, 600, 700, 500))",
+      "starter": "# Moyenne de revenu par région, puis extraction de la région Nord\n",
+      "solution": "moyennes_region <- tapply(clients$revenu, clients$region, mean)\nmoy_nord <- moyennes_region[\"Nord\"]",
+      "timeLimitMs": 10000,
+      "tests": [
+        {
+          "name": "Moyenne du Nord",
+          "hidden": false,
+          "code": "stopifnot(abs(moy_nord - 500) < 1e-9)"
+        },
+        {
+          "name": "Deux régions",
+          "hidden": false,
+          "code": "stopifnot(length(moyennes_region) == 2)"
+        },
+        {
+          "name": "Test caché : moyenne du Sud",
+          "hidden": true,
+          "code": "stopifnot(abs(moyennes_region[\"Sud\"] - 800) < 1e-9)"
+        }
+      ]
+    },
+    "explanation": "tapply découpe revenu selon les niveaux de region et applique mean à chaque groupe : le Nord vaut (400 + 600 + 500) / 3 = 500, le Sud (900 + 700) / 2 = 800. Le résultat est indexé par les noms de régions, d'où l'extraction avec [\"Nord\"].",
+    "difficulty": "hard",
+    "tags": [
+      "r",
+      "groupby",
+      "statistiques"
+    ]
+  },
+  {
+    "id": "rpd_083",
+    "domain": "R_PYTHON_DATA",
+    "type": "CASE_STUDY",
+    "context": "Le recensement d'un quartier de Cotonou a été saisi dans recensement.csv avec les colonnes id, age et revenu. Avant exploitation, votre responsable exige un contrôle qualité complet : il soupçonne des ménages saisis deux fois, des âges aberrants (des enfants de 250 ans) et des revenus non renseignés. Vous travaillez en R sur la table chargée dans recensement.",
+    "question": "Établissez le protocole de contrôle qualité : détection des trois familles d'anomalies, traitement de chacune, puis vérification finale de la table nettoyée.",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Écrivez les commandes R qui quantifient les trois anomalies : doublons d'id, âges aberrants, revenus manquants.",
+        "answer": "Doublons : sum(duplicated(recensement$id)) compte les identifiants déjà rencontrés ; duplicated(id) renvoie TRUE à partir de la deuxième occurrence. Âges aberrants : sum(recensement$age < 0 | recensement$age > 120) ou which(recensement$age > 120) pour les localiser ; un contrôle visuel complémentaire s'obtient avec range(recensement$age, na.rm = TRUE). Revenus manquants : sum(is.na(recensement$revenu)) donne le nombre de cellules vides, et mean(is.na(recensement$revenu)) leur proportion.",
+        "rubric": [
+          "duplicated sur id avec sum ou equivalent",
+          "Condition d'age aberrant (hors 0-120) avec which ou sum",
+          "is.na avec sum pour compter les revenus manquants"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Proposez un traitement argumenté pour chaque famille d'anomalies.",
+        "answer": "Doublons : conserver la première occurrence avec recensement[!duplicated(recensement$id), ] ou distinct(recensement, id, .keep_all = TRUE) sous dplyr, après vérification que les lignes doublons sont bien identiques. Âges aberrants : ce sont des erreurs de saisie ; on les met en NA avec recensement$age[recensement$age > 120] <- NA puis on les traite comme manquants (imputation ou suppression), plutôt que de les garder car ils fausseraient la moyenne. Revenus manquants : imputer par la moyenne recensement$revenu[is.na(recensement$revenu)] <- mean(recensement$revenu, na.rm = TRUE) pour conserver les ménages, ou na.omit si l'analyse porte strictement sur les revenus.",
+        "rubric": [
+          "Suppression des doublons en gardant une occurrence",
+          "Mise en NA des ages aberrants puis traitement",
+          "Imputation moyenne ou suppression justifiee pour revenu",
+          "Argument conserve ou exclude les observations"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Quels contrôles exécutez-vous pour valider la table nettoyée avant exploitation ?",
+        "answer": "Trois vérifications minimales : nrow(recensement) pour mesurer la perte éventuelle d'observations, sum(duplicated(recensement$id)) redevenu égal à zéro, et sum(is.na(recensement)) nul sur toute la table si tout a été imputé ou supprimé. Enfin summary(recensement) doit montrer des bornes plausibles pour age et revenu : min et max cohérents, moyenne et médiane du même ordre. Ces contrôles forment la preuve de qualité à joindre au rapport.",
+        "rubric": [
+          "Controle des doublons redevenu nul",
+          "Controle global du manquant nul",
+          "summary ou bornes plausibles cites"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "Le contrôle qualité suit un triptyque : détecter (duplicated, conditions de bornes, is.na), traiter (dédoublonner, mettre en NA, imputer ou supprimer), vérifier (comptes nuls et summary). Chaque anomalie a sa commande R dédiée.",
+    "difficulty": "hard",
+    "tags": [
+      "r",
+      "qualite",
+      "na",
+      "cas-examen"
+    ]
+  },
+  {
+    "id": "rpd_084",
+    "domain": "R_PYTHON_DATA",
+    "type": "CASE_STUDY",
+    "context": "Le service de la scolarité d'un institut vous confie notes.csv qui recense 120 étudiants avec les colonnes id et note (sur 20). Quelques notes manquent, des étudiants étant absents à l'examen de rattrapage. Vous analysez en Python avec pandas et numpy, et la direction attend moyenne, médiane, dispersion et taux de réussite (note au moins égale à 10).",
+    "question": "Décrivez le traitement Python complet : chargement et repérage des manquants, calcul des indicateurs statistiques, taux de réussite et interprétation de la dispersion.",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Écrivez le chargement du fichier dans notes et l'expression qui compte les notes manquantes.",
+        "answer": "notes = pd.read_csv(\"notes.csv\") charge la table. notes['note'].isna().sum() compte les notes absentes, et notes['note'].isna().mean() donne leur proportion, utile pour juger de l'ampleur du phénomène. Si moins de quelques pour cent des notes manquent et de façon non systématique, l'imputation est acceptable ; sinon il faut le signaler dans le rapport.",
+        "rubric": [
+          "read_csv avec affectation",
+          "isna().sum() sur la colonne note",
+          "Proportion ou jugement sur l'ampleur"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Écrivez le calcul de la moyenne, de la médiane et de l'écart-type des notes, après imputation par la moyenne.",
+        "answer": "notes['note'] = notes['note'].fillna(notes['note'].mean()) impute les absences. Puis moy = notes['note'].mean(), med = notes['note'].median() et ecart = notes['note'].std() (ou np.std(notes['note']) selon la convention d'écart-type retenue). On peut croiser avec notes['note'].describe() qui affiche l'essentiel d'un coup. L'écart-type se lit en points de note : autour de 2, les notes sont homogènes ; au-delà de 4, l'hétérogénéité est forte.",
+        "rubric": [
+          "fillna avec la moyenne",
+          "mean et median calcules",
+          "std ou np.std pour la dispersion",
+          "Lecture interpretee de l'ecart-type"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Écrivez le calcul du taux de réussite (note au moins 10) et dites ce qu'il apporte par rapport à la moyenne seule.",
+        "answer": "taux = (notes['note'] >= 10).mean() : la condition produit une Series de booléens dont la moyenne vaut la proportion de True, entre 0 et 1 ; multiplier par 100 donne un pourcentage. Ce taux apporte une lecture concrète utile à la décision (combien d'étudiants valident) que la moyenne gomme : une promotion peut avoir une moyenne honorable tout en laissant une minorité significative en échec. Le croisement avec la médiane révèle en outre si la distribution est tirée par quelques très bonnes notes.",
+        "rubric": [
+          "Condition >= 10 vectorisee",
+          "Moyenne des booléens ou sum divise par l'effectif",
+          "Interpretation decisionnelle du taux",
+          "Lien evoque avec mediane ou distribution"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "Chaîne d'analyse type en Python : charger, mesurer le manquant, imputer, calculer moyenne, médiane et écart-type, puis produire des indicateurs décisionnels comme le taux de réussite. Chaque chiffre s'accompagne de son interprétation.",
+    "difficulty": "medium",
+    "tags": [
+      "python",
+      "pandas",
+      "numpy",
+      "cas-examen"
+    ]
+  },
+  {
+    "id": "rpd_085",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Avec pandas, que renvoie df[['ville', 'revenu']] ?",
+    "answers": [
+      {
+        "id": "rpd_085_b",
+        "text": "Un DataFrame restreint à ces deux colonnes",
+        "isCorrect": true,
+        "note": "C'est juste : la double paire de crochets sélectionne plusieurs colonnes et renvoie un DataFrame."
+      },
+      {
+        "id": "rpd_085_a",
+        "text": "Une Series rassemblant les deux colonnes",
+        "isCorrect": false,
+        "note": "Piège : une Series est à une dimension, ce qui n'est pas possible pour deux colonnes."
+      },
+      {
+        "id": "rpd_085_c",
+        "text": "Les deux premières lignes du DataFrame",
+        "isCorrect": false,
+        "note": "Confusion avec un slicing de lignes comme df[0:2] ou df.head(2)."
+      },
+      {
+        "id": "rpd_085_d",
+        "text": "Un dictionnaire dont les clés sont les noms de colonnes",
+        "isCorrect": false,
+        "note": "Le résultat reste une structure pandas ; to_dict serait nécessaire pour obtenir un dictionnaire."
+      }
+    ],
+    "explanation": "Une liste de noms entre crochets, donc une double paire de crochets, sélectionne plusieurs colonnes et renvoie un DataFrame. Une seule colonne entre crochets simples renverrait une Series.",
+    "difficulty": "easy",
+    "tags": [
+      "pandas",
+      "selection"
+    ]
+  },
+  {
+    "id": "rpd_086",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans R, comment compter les lignes du data.frame clients qui ne contiennent aucune valeur manquante ?",
+    "answers": [
+      {
+        "id": "rpd_086_b",
+        "text": "length(clients)",
+        "isCorrect": false,
+        "note": "Piège : length compte les colonnes d'un data.frame, pas les lignes complètes."
+      },
+      {
+        "id": "rpd_086_a",
+        "text": "nrow(na.omit(clients))",
+        "isCorrect": true,
+        "note": "C'est juste : na.omit retire les lignes incomplètes et nrow compte celles qui restent."
+      },
+      {
+        "id": "rpd_086_c",
+        "text": "sum(na.omit(clients))",
+        "isCorrect": false,
+        "note": "sum additionne des valeurs numériques ; appliqué à une table, il n'a pas de sens direct."
+      },
+      {
+        "id": "rpd_086_d",
+        "text": "nrow(clients) - ncol(clients)",
+        "isCorrect": false,
+        "note": "Cette différence ne mesure rien de utile : manquants et dimensions n'ont pas de lien arithmétique."
+      }
+    ],
+    "explanation": "na.omit(clients) renvoie la table amputée de ses lignes incomplètes ; en l'enrobant dans nrow, on obtient le nombre d'enregistrements exploitables sans aucune valeur manquante. C'est un contrôle de qualité courant avant modélisation.",
+    "difficulty": "medium",
+    "tags": [
+      "r",
+      "na",
+      "data-frame"
+    ]
+  },
+  {
+    "id": "rpd_087",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "En Python, que renvoie len({'a': 1, 'b': 2}) ?",
+    "answers": [
+      {
+        "id": "rpd_087_a",
+        "text": "3",
+        "isCorrect": false,
+        "note": "Piège : on compte les clés, pas la somme des valeurs ni un quelconque total de 3."
+      },
+      {
+        "id": "rpd_087_b",
+        "text": "4",
+        "isCorrect": false,
+        "note": "Correspondrait à additionner clés et valeurs, ce que len ne fait pas."
+      },
+      {
+        "id": "rpd_087_c",
+        "text": "2",
+        "isCorrect": true,
+        "note": "C'est exact : len renvoie le nombre de paires clé-valeur, donc de clés."
+      },
+      {
+        "id": "rpd_087_d",
+        "text": "Une erreur : len ne s'applique pas aux dictionnaires",
+        "isCorrect": false,
+        "note": "len fonctionne sur les dictionnaires et renvoie leur nombre de clés."
+      }
+    ],
+    "explanation": "len appliqué à un dictionnaire renvoie son nombre de paires clé-valeur. Pour des statistiques sur les valeurs, il faut passer par les méthodes values() ou items().",
+    "difficulty": "easy",
+    "tags": [
+      "python",
+      "dictionnaire"
+    ]
+  },
+  {
+    "id": "rpd_088",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Après remplacement des valeurs manquantes d'un vecteur par la moyenne des valeurs connues, comment évolue la moyenne du vecteur complété ?",
+    "answers": [
+      {
+        "id": "rpd_088_d",
+        "text": "Elle devient indéterminée",
+        "isCorrect": false,
+        "note": "Après imputation il n'y a plus de NA : le calcul de moyenne redevient direct et défini."
+      },
+      {
+        "id": "rpd_088_b",
+        "text": "Elle augmente mécaniquement",
+        "isCorrect": false,
+        "note": "Piège d'intuition : les valeurs ajoutées valent exactement l'ancienne moyenne, elles ne tirent donc dans aucun sens."
+      },
+      {
+        "id": "rpd_088_c",
+        "text": "Elle diminue mécaniquement",
+        "isCorrect": false,
+        "note": "Même erreur dans l'autre sens : une valeur égale à la moyenne ne déplace pas celle-ci."
+      },
+      {
+        "id": "rpd_088_a",
+        "text": "Elle ne change pas",
+        "isCorrect": true,
+        "note": "C'est juste : ajouter k fois la moyenne m transforme la moyenne en (S + k*m)/(n + k), qui vaut encore m."
+      }
+    ],
+    "explanation": "Imputer par la moyenne laisse la moyenne inchangée : on ajoute des valeurs égales à la moyenne, ce qui ne déplace pas le centre de gravité. En revanche, l'écart-type diminue et la médiane peut bouger, ce qu'il faut garder à l'esprit.",
+    "difficulty": "hard",
+    "tags": [
+      "transversal",
+      "na",
+      "statistiques"
+    ]
+  },
+  {
+    "id": "rpd_089",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Sur les notes d'un examen très facile, la moyenne vaut 14,2 et la médiane 16. Quelle interprétation ?",
+    "answers": [
+      {
+        "id": "rpd_089_a",
+        "text": "Quelques notes très basses tirent la moyenne vers le bas",
+        "isCorrect": true,
+        "note": "C'est la bonne lecture : moyenne inférieure à la médiane signale une asymétrie à gauche."
+      },
+      {
+        "id": "rpd_089_b",
+        "text": "Quelques notes très hautes tirent la moyenne vers le haut",
+        "isCorrect": false,
+        "note": "Ce scénario donnerait une moyenne supérieure à la médiane, ce qui n'est pas observé."
+      },
+      {
+        "id": "rpd_089_c",
+        "text": "Les notes suivent une distribution symétrique",
+        "isCorrect": false,
+        "note": "En symétrie, moyenne et médiane seraient confondues, or elles s'écartent de près de deux points."
+      },
+      {
+        "id": "rpd_089_d",
+        "text": "La médiane a été calculée après arrondi des notes",
+        "isCorrect": false,
+        "note": "L'arrondi expliquerait au plus quelques dixièmes, pas un écart de 1,8 point."
+      }
+    ],
+    "explanation": "Une moyenne inférieure à la médiane traduit une asymétrie à gauche : quelques valeurs faibles, ici des échecs, pèsent sur la moyenne sans déplacer la note centrale. C'est l'image miroir du cas des revenus avec de hauts salaires.",
+    "difficulty": "hard",
+    "tags": [
+      "statistiques",
+      "moyenne",
+      "mediane"
+    ]
+  },
+  {
+    "id": "rpd_090",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Avec pandas, en quoi df.dropna(subset = ['revenu']) diffère-t-elle de df.dropna() ?",
+    "answers": [
+      {
+        "id": "rpd_090_b",
+        "text": "Elle supprime en plus les colonnes incomplètes",
+        "isCorrect": false,
+        "note": "subset ne change pas l'axe de suppression, seulement les colonnes examinées."
+      },
+      {
+        "id": "rpd_090_a",
+        "text": "Elle ne supprime les lignes que si c'est revenu qui manque",
+        "isCorrect": true,
+        "note": "C'est juste : subset restreint l'examen du manquant aux colonnes listées."
+      },
+      {
+        "id": "rpd_090_c",
+        "text": "Elle remplace les revenus manquants au lieu de supprimer",
+        "isCorrect": false,
+        "note": "Confusion avec fillna : dropna, avec ou sans subset, supprime toujours des lignes."
+      },
+      {
+        "id": "rpd_090_d",
+        "text": "Elle est strictement équivalente à df.dropna()",
+        "isCorrect": false,
+        "note": "Sans subset, une seule cellule manquante en toute colonne suffit ; avec subset, seul revenu compte."
+      }
+    ],
+    "explanation": "Le paramètre subset cible les colonnes dont le manquant entraîne la suppression de la ligne. C'est l'option chirurgicale : on ne perd pas un client parce que son âge manque, seulement si la variable analysée, ici le revenu, manque.",
+    "difficulty": "medium",
+    "tags": [
+      "pandas",
+      "na"
+    ]
+  },
+  {
+    "id": "rpd_091",
+    "domain": "R_PYTHON_DATA",
+    "type": "SINGLE_CHOICE",
+    "question": "Avec pandas, que renvoie clients.groupby('region')['revenu'].agg(['mean', 'median']) ?",
+    "answers": [
+      {
+        "id": "rpd_091_a",
+        "text": "Une liste de moyennes, la médiane étant ignorée",
+        "isCorrect": false,
+        "note": "agg applique toutes les fonctions demandées, aucune n'est perdue."
+      },
+      {
+        "id": "rpd_091_b",
+        "text": "Un DataFrame à une ligne, région confondue",
+        "isCorrect": false,
+        "note": "Confusion avec un calcul global : le groupby conserve une ligne par région."
+      },
+      {
+        "id": "rpd_091_d",
+        "text": "Un DataFrame indexé par région avec deux colonnes mean et median",
+        "isCorrect": true,
+        "note": "C'est juste : chaque région donne une ligne, chaque fonction demandée une colonne."
+      },
+      {
+        "id": "rpd_091_c",
+        "text": "Une erreur : agg n'accepte qu'une fonction à la fois",
+        "isCorrect": false,
+        "note": "agg accepte une liste de fonctions, c'est même son intérêt pour comparer indicateurs."
+      }
+    ],
+    "explanation": "La méthode agg applique plusieurs fonctions d'un coup au groupe constitué : le résultat est un DataFrame dont l'index porte les régions et dont les colonnes s'appellent mean et median. On compare ainsi tendance centrale et position médiane par groupe.",
+    "difficulty": "hard",
+    "tags": [
+      "pandas",
+      "groupby"
+    ]
+  },
+  {
+    "id": "rpd_092",
+    "domain": "R_PYTHON_DATA",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quelles affirmations sur la médiane sont exactes ?",
+    "answers": [
+      {
+        "id": "rpd_092_c",
+        "text": "Elle est peu sensible aux valeurs extrêmes",
+        "isCorrect": true,
+        "note": "Juste : c'est son avantage majeur face à la moyenne dans les distributions asymétriques."
+      },
+      {
+        "id": "rpd_092_a",
+        "text": "Elle ne dépend que de la position des valeurs, pas de leur ampleur",
+        "isCorrect": true,
+        "note": "Juste : seule la position centrale compte, un extrême peut être multiplié par mille sans effet."
+      },
+      {
+        "id": "rpd_092_d",
+        "text": "Elle s'obtient en sommant toutes les valeurs puis en divisant par l'effectif",
+        "isCorrect": false,
+        "note": "Piège : c'est la définition de la moyenne, pas de la médiane."
+      },
+      {
+        "id": "rpd_092_b",
+        "text": "Avec un effectif pair, elle vaut la moyenne des deux valeurs centrales",
+        "isCorrect": true,
+        "note": "Juste : c'est la convention des effectifs pairs, comme pour les six revenus du cours."
+      }
+    ],
+    "explanation": "La médiane est une statistique d'ordre : elle se lit sur les valeurs triées et ignore l'ampleur des extrêmes. Cette robustesse explique qu'on la préfère à la moyenne pour décrire des revenus ou des salaires.",
+    "difficulty": "hard",
+    "tags": [
+      "statistiques",
+      "mediane"
+    ]
+  },
+  {
+    "id": "rpd_093",
+    "domain": "R_PYTHON_DATA",
+    "type": "TRUE_FALSE",
+    "question": "Dans R, sur un vecteur numérique sans valeur manquante, quantile(revenus, 0.5) renvoie la même valeur que median(revenus).",
+    "answers": [
+      {
+        "id": "rpd_093_v",
+        "text": "Vrai",
+        "isCorrect": true,
+        "note": "C'est vrai : le quantile d'ordre 0,5 est par définition la médiane de la série."
+      },
+      {
+        "id": "rpd_093_f",
+        "text": "Faux",
+        "isCorrect": false,
+        "note": "Piège : les deux fonctions partagent la même définition au point 0,5 et coïncident."
+      }
+    ],
+    "explanation": "Le quantile d'ordre 0,5 est la valeur qui coupe la série triée en deux moitiés, c'est-à-dire la médiane. Les quartiles d'ordre 0,25 et 0,75 l'entourent et décrivent le cœur de la distribution.",
+    "difficulty": "easy",
+    "tags": [
+      "r",
+      "quantile",
+      "mediane"
+    ]
+  },
+  {
+    "id": "rpd_094",
+    "domain": "R_PYTHON_DATA",
+    "type": "TRUE_FALSE",
+    "question": "En Python, dictionnaire.get(\"clé\") renvoie None quand la clé est absente, si aucune valeur par défaut n'est fournie.",
+    "answers": [
+      {
+        "id": "rpd_094_f",
+        "text": "Faux",
+        "isCorrect": false,
+        "note": "Piège : l'écriture entre crochets aurait levé KeyError, mais get est précisément faite pour ne pas échouer."
+      },
+      {
+        "id": "rpd_094_v",
+        "text": "Vrai",
+        "isCorrect": true,
+        "note": "C'est vrai : get évite l'erreur KeyError et renvoie None par défaut, ou la valeur de secours passée en second argument."
+      }
+    ],
+    "explanation": "La méthode get lit une clé sans risque : elle renvoie None si la clé manque, sauf valeur par défaut fournie, alors que dictionnaire[\"clé\"] lève KeyError. C'est pratique pour cumuler des compteurs avec get(clé, 0).",
+    "difficulty": "medium",
+    "tags": [
+      "python",
+      "dictionnaire"
+    ]
+  },
+  {
+    "id": "rpd_095",
+    "domain": "R_PYTHON_DATA",
+    "type": "FILL_BLANK",
+    "question": "Avec pandas, la fonction ___ joint deux DataFrames en appariant leurs lignes sur une colonne clé, et le paramètre ___ précise le type de jointure, comme inner ou left.",
+    "blanks": [
+      {
+        "accepted": [
+          "merge",
+          "pd.merge"
+        ]
+      },
+      {
+        "accepted": [
+          "how"
+        ]
+      }
+    ],
+    "explanation": "pd.merge réalise les jointures relationnelles entre DataFrames : on indique la ou les clés avec le paramètre on, et le paramètre how choisit le type de jointure, inner par défaut, ou left, right, outer.",
+    "difficulty": "medium",
+    "tags": [
+      "pandas",
+      "merge"
+    ]
+  },
+  {
+    "id": "rpd_096",
+    "domain": "R_PYTHON_DATA",
+    "type": "FILL_BLANK",
+    "question": "Dans R, l'opérateur ___ affecte une valeur à une variable, et la fonction ___ renvoie le nombre d'éléments d'un vecteur.",
+    "blanks": [
+      {
+        "accepted": [
+          "<-",
+          "<- "
+        ]
+      },
+      {
+        "accepted": [
+          "length"
+        ]
+      }
+    ],
+    "explanation": "L'opérateur d'affectation de R est la flèche <-, utilisée pour stocker par exemple revenus <- c(400, 1200). length renvoie la longueur du vecteur, nombre d'éléments qu'il contient.",
+    "difficulty": "easy",
+    "tags": [
+      "r",
+      "bases"
+    ]
+  },
+  {
+    "id": "rpd_097",
+    "domain": "R_PYTHON_DATA",
+    "type": "CODE",
+    "question": "Avec pandas, calculez le total des montants par région du DataFrame ventes : affectez la Series résultat à totals, puis à region_top la région dont le total est maximal.",
+    "code": {
+      "language": "python",
+      "setup": "import pandas as pd\nventes = pd.DataFrame({'region': ['Nord', 'Sud', 'Nord', 'Sud'], 'montant': [400, 900, 600, 700]})",
+      "starter": "# Total par région puis région au total maximal\n",
+      "solution": "totals = ventes.groupby('region')['montant'].sum()\nregion_top = totals.idxmax()",
+      "timeLimitMs": 10000,
+      "tests": [
+        {
+          "name": "Total du Nord",
+          "hidden": false,
+          "code": "assert totals['Nord'] == 1000"
+        },
+        {
+          "name": "Région en tête",
+          "hidden": false,
+          "code": "assert region_top == 'Sud'"
+        },
+        {
+          "name": "Test caché : total du Sud",
+          "hidden": true,
+          "code": "assert totals['Sud'] == 1600"
+        }
+      ]
+    },
+    "explanation": "groupby découpe la table par région, la sélection de montant puis sum agrège chaque groupe : Nord vaut 1000 et Sud 1600. idxmax renvoie l'index, donc la région, associé au maximum.",
+    "difficulty": "hard",
+    "tags": [
+      "pandas",
+      "groupby"
+    ]
+  },
+  {
+    "id": "rpd_098",
+    "domain": "R_PYTHON_DATA",
+    "type": "CODE",
+    "question": "En R, créez clients_propres comme la table clients débarrassée de ses lignes incomplètes, puis affectez à revenu_moyen la moyenne des revenus de cette table propre.",
+    "code": {
+      "language": "r",
+      "setup": "clients <- data.frame(region = c(\"Nord\", \"Sud\", \"Nord\"), revenu = c(400, NA, 600))",
+      "starter": "clients_propres <- # à compléter\nrevenu_moyen <- # à compléter\n",
+      "solution": "clients_propres <- na.omit(clients)\nrevenu_moyen <- mean(clients_propres$revenu)",
+      "timeLimitMs": 10000,
+      "tests": [
+        {
+          "name": "Deux lignes restantes",
+          "hidden": false,
+          "code": "stopifnot(nrow(clients_propres) == 2)"
+        },
+        {
+          "name": "Moyenne des revenus propres",
+          "hidden": false,
+          "code": "stopifnot(revenu_moyen == 500)"
+        },
+        {
+          "name": "Test caché : table sans NA",
+          "hidden": true,
+          "code": "stopifnot(!anyNA(clients_propres))"
+        }
+      ]
+    },
+    "explanation": "na.omit(clients) élimine la ligne dont le revenu manque : il reste deux observations. La moyenne des revenus propres vaut (400 + 600) / 2 = 500. Supprimer des lignes reste un choix à peser, car chaque observation perdue réduit l'échantillon.",
+    "difficulty": "medium",
+    "tags": [
+      "r",
+      "na",
+      "nettoyage"
+    ]
+  },
+  {
+    "id": "rpd_099",
+    "domain": "R_PYTHON_DATA",
+    "type": "CODE",
+    "question": "En R, créez le data.frame ventes avec les colonnes region = c(\"Nord\", \"Sud\", \"Nord\", \"Sud\") et montant = c(400, NA, 600, 800). Remplacez les montants manquants par la moyenne des montants connus, puis affectez à total la somme des montants de la table complétée.",
+    "code": {
+      "language": "r",
+      "setup": "",
+      "starter": "# Créez ventes, imputez les montants manquants puis calculez total\n",
+      "solution": "ventes <- data.frame(region = c(\"Nord\", \"Sud\", \"Nord\", \"Sud\"), montant = c(400, NA, 600, 800))\nventes$montant[is.na(ventes$montant)] <- mean(ventes$montant, na.rm = TRUE)\ntotal <- sum(ventes$montant)",
+      "timeLimitMs": 10000,
+      "tests": [
+        {
+          "name": "Plus aucun manquant",
+          "hidden": false,
+          "code": "stopifnot(!anyNA(ventes$montant))"
+        },
+        {
+          "name": "Total après imputation",
+          "hidden": false,
+          "code": "stopifnot(total == 2400)"
+        },
+        {
+          "name": "Test caché : valeur imputée",
+          "hidden": true,
+          "code": "stopifnot(ventes$montant[2] == 600)"
+        }
+      ]
+    },
+    "explanation": "La moyenne des trois montants connus vaut (400 + 600 + 800) / 3 = 600 : c'est la valeur affectée aux positions manquantes. Le total complété vaut 400 + 600 + 600 + 800 = 2400. On enchaîne création, nettoyage et synthèse, le fil type d'une analyse R.",
+    "difficulty": "hard",
+    "tags": [
+      "r",
+      "na",
+      "data-frame",
+      "nettoyage"
+    ]
+  },
+  {
+    "id": "rpd_100",
+    "domain": "R_PYTHON_DATA",
+    "type": "CASE_STUDY",
+    "context": "Vous tenez la comptabilité d'un étal du marché Dantokpa. Quatre articles ont été vendus dans la journée, consignés dans deux vecteurs R : prix <- c(500, 1250, 300, 2000) pour le prix unitaire en FCFA et quantite <- c(20, 8, 50, 5) pour les quantités vendues. Le soir, vous voulez le chiffre d'affaires de la journée et le prix moyen réellement encaissé par article vendu.",
+    "question": "Rédigez le traitement R de base : organisation des données en data.frame, calcul du chiffre d'affaires par article puis du total, calcul du prix moyen pondéré et explication de pourquoi il diffère de la moyenne simple des prix.",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Construisez le data.frame marche à partir des deux vecteurs et donnez deux commandes d'inspection.",
+        "answer": "marche <- data.frame(prix = prix, quantite = quantite) assemble les deux vecteurs de même longueur en colonnes. Inspection : head(marche) pour l'aperçu et str(marche) pour vérifier que prix et quantite sont bien numériques ; summary(marche) donne en plus minima, quartiles et maxima. Les vecteurs d'origine restent utilisables directement pour les calculs.",
+        "rubric": [
+          "data.frame avec prix et quantite",
+          "head ou equivalent cite",
+          "str ou summary cite"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Calculez le chiffre d'affaires de chaque article puis le total de la journée.",
+        "answer": "CA par article : marche$ca <- marche$prix * marche$quantite, la multiplication vectorisée calcule ligne à ligne : 10000, 10000, 15000 et 10000 FCFA. Total : sum(marche$ca) vaut 45000 FCFA. Sous dplyr, la même opération s'écrirait marche %>% mutate(ca = prix * quantite), mais le R de base suffit ici.",
+        "rubric": [
+          "Multiplication vectorisee prix fois quantite",
+          "sum pour le total",
+          "Valeur 45000 ou calcul juste"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Calculez le prix moyen pondéré par les quantités et expliquez pourquoi il diffère de mean(prix).",
+        "answer": "Prix moyen pondéré : sum(marche$prix * marche$quantite) / sum(marche$quantite) = 45000 / 83, soit environ 542 FCFA par unité vendue. mean(prix) vaut quant à lui (500 + 1250 + 300 + 2000) / 4 = 1012,5 FCFA : il traite chaque article à égalité, qu'on en ait vendu 5 ou 50 unités. Le prix moyen réellement encaissé pondère chaque prix par son volume : c'est le même article pas cher (300 FCFA) vendu 50 fois qui pèse le plus dans la caisse. La moyenne simple surestime ici le prix typique d'une unité vendue.",
+        "rubric": [
+          "Formule du prix moyen pondere",
+          "Valeur environ 542 FCFA",
+          "mean(prix) calcule a 1012,5",
+          "Explication de la ponderation par les volumes"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "Ce cas relie vecteurs, data.frame et statistiques : la multiplication vectorisée donne les chiffres d'affaires unitaires, sum les agrège, et le rapport CA sur quantités définit le prix moyen pondéré. Moyenne simple et moyenne pondérée ne coïncident que si les volumes sont égaux.",
+    "difficulty": "hard",
+    "tags": [
+      "r",
+      "vecteurs",
+      "data-frame",
+      "cas-examen"
+    ]
+  }
+]

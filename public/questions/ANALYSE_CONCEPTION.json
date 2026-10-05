@@ -1,0 +1,3651 @@
+[
+  {
+    "id": "ac_001",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle caractéristique définit le modèle en cascade (et sa variante en V) de développement logiciel ?",
+    "answers": [
+      {
+        "id": "ac_001_a",
+        "text": "Les besoins évoluent librement au fil d'itérations très courtes",
+        "isCorrect": false,
+        "note": "C'est la marque des méthodes agiles ; le modèle en cascade fige les besoins en début de projet."
+      },
+      {
+        "id": "ac_001_b",
+        "text": "Chaque phase de réalisation est associée à une phase de vérification",
+        "isCorrect": true,
+        "note": "C'est exact : dans le cycle en V, chaque branche descendante (spécifier, concevoir) correspond à une branche de tests ascendante."
+      },
+      {
+        "id": "ac_001_c",
+        "text": "La programmation démarre avant toute activité de conception",
+        "isCorrect": false,
+        "note": "Piège classique : le cycle en V impose d'analyser et de concevoir avant d'écrire le moindre code."
+      },
+      {
+        "id": "ac_001_d",
+        "text": "Les tests sont tous regroupés à la toute fin du projet",
+        "isCorrect": false,
+        "note": "Confusion avec le modèle cascade strict : le V prévoit justement des tests dès le début, préparés en parallèle des phases."
+      }
+    ],
+    "explanation": "Le cycle en V prolonge le modèle en cascade en associant à chaque phase de construction une phase de vérification symétrique. Les tests sont donc préparés dès la phase correspondante, de la conception détaillée (tests unitaires) aux spécifications (recette).",
+    "difficulty": "easy",
+    "tags": [
+      "cycle-en-v",
+      "methodologie"
+    ]
+  },
+  {
+    "id": "ac_002",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est l'ordre correct des phases du cycle en V, de la première à la dernière ?",
+    "answers": [
+      {
+        "id": "ac_002_c",
+        "text": "Analyse des besoins, conception générale, spécifications, conception détaillée, codage",
+        "isCorrect": false,
+        "note": "Confusion fréquente : la conception générale précède les spécifications dans cet ordre, alors que les spécifications formalisent d'abord le besoin."
+      },
+      {
+        "id": "ac_002_b",
+        "text": "Spécifications, analyse des besoins, conception générale, codage, conception détaillée",
+        "isCorrect": false,
+        "note": "Cette inversion place les spécifications avant l'analyse et le codage avant la conception détaillée, ce qui rompt la logique du V."
+      },
+      {
+        "id": "ac_002_a",
+        "text": "Analyse des besoins, spécifications, conception générale, conception détaillée, codage",
+        "isCorrect": true,
+        "note": "C'est exact : on descend du besoin général vers le code, chaque phase s'appuyant sur les livrables de la précédente."
+      },
+      {
+        "id": "ac_002_d",
+        "text": "Codage, conception détaillée, conception générale, spécifications, analyse des besoins",
+        "isCorrect": false,
+        "note": "Il s'agit de l'ordre exactement inverse du cycle en V, comme si l'on remontait les branches du modèle."
+      }
+    ],
+    "explanation": "Le cycle en V déroule les phases par raffinement successif : comprendre le besoin, le spécifier, concevoir l'architecture, détailler la conception, puis coder. La branche montante vérifie ensuite chaque niveau par des tests appropriés.",
+    "difficulty": "easy",
+    "tags": [
+      "cycle-en-v",
+      "phases"
+    ]
+  },
+  {
+    "id": "ac_003",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans le cycle en V, quel type de test est associé à la rédaction des spécifications fonctionnelles ?",
+    "answers": [
+      {
+        "id": "ac_003_a",
+        "text": "Le test d'intégration, qui vérifie l'assemblage progressif des modules",
+        "isCorrect": false,
+        "note": "Le test d'intégration répond à la conception générale, qui définit justement le découpage en modules."
+      },
+      {
+        "id": "ac_003_b",
+        "text": "Le test unitaire, qui contrôle chaque module de manière isolée",
+        "isCorrect": false,
+        "note": "Le test unitaire est associé à la conception détaillée, niveau auquel chaque unité de code est spécifiée."
+      },
+      {
+        "id": "ac_003_d",
+        "text": "Le test de charge, qui mesure les performances sous forte sollicitation",
+        "isCorrect": false,
+        "note": "Le test de charge est un test non fonctionnel ; il ne correspond pas à la vérification des spécifications fonctionnelles."
+      },
+      {
+        "id": "ac_003_c",
+        "text": "La recette fonctionnelle, qui valide le produit au regard des besoins",
+        "isCorrect": true,
+        "note": "C'est exact : la recette (validation) vérifie que le logiciel livré répond bien aux spécifications rédigées avec le client."
+      }
+    ],
+    "explanation": "Dans le cycle en V, les spécifications fonctionnelles donnent naissance à la recette, aussi appelée test de validation. Le client y vérifie que le produit fini couvre les besoins exprimés au départ.",
+    "difficulty": "medium",
+    "tags": [
+      "cycle-en-v",
+      "tests"
+    ]
+  },
+  {
+    "id": "ac_004",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Quels tests de la branche montante du cycle en V correspondent à la phase de conception générale ?",
+    "answers": [
+      {
+        "id": "ac_004_a",
+        "text": "Les tests d'intégration, qui vérifient l'assemblage des modules entre eux",
+        "isCorrect": true,
+        "note": "C'est exact : l'architecture définie en conception générale est éprouvée en vérifiant que les modules interconnectés coopèrent correctement."
+      },
+      {
+        "id": "ac_004_b",
+        "text": "Les tests de recette, menés avec les données réelles du client final",
+        "isCorrect": false,
+        "note": "La recette correspond aux spécifications fonctionnelles, situées plus haut dans le cycle que la conception générale."
+      },
+      {
+        "id": "ac_004_c",
+        "text": "Les tests de régression, rejoués après chaque correction d'anomalie",
+        "isCorrect": false,
+        "note": "Le test de régression protège contre les effets de bord des corrections ; il n'est pas rattaché à une phase précise du V."
+      },
+      {
+        "id": "ac_004_d",
+        "text": "Les tests de stress, qui poussent le système au-delà de ses limites",
+        "isCorrect": false,
+        "note": "Le test de stress évalue la robustesse en conditions extrêmes ; il relève des tests non fonctionnels, pas de la conception générale."
+      }
+    ],
+    "explanation": "La conception générale définit l'architecture et le découpage du logiciel en modules. Les tests d'intégration vérifient la cohérence de cet assemblage en remontant la branche des tests.",
+    "difficulty": "medium",
+    "tags": [
+      "cycle-en-v",
+      "tests"
+    ]
+  },
+  {
+    "id": "ac_005",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Selon le manifeste agile, qu'est-ce qui est privilégié plutôt que le suivi rigide d'un plan établi à l'avance ?",
+    "answers": [
+      {
+        "id": "ac_005_a",
+        "text": "Le respect strict des échéances et du budget contractualisés",
+        "isCorrect": false,
+        "note": "Ce choix correspond à une logique de contrat classique, que le manifeste agile place justement derrière la collaboration client."
+      },
+      {
+        "id": "ac_005_d",
+        "text": "La réponse aux changements, même tardifs dans le projet",
+        "isCorrect": true,
+        "note": "C'est exact : le manifeste agile accorde plus de valeur à la réponse au changement qu'au suivi d'un plan figé."
+      },
+      {
+        "id": "ac_005_c",
+        "text": "La spécialisation poussée de chaque membre de l'équipe projet",
+        "isCorrect": false,
+        "note": "Les équipes agiles privilégient au contraire la polyvalence et les interactions entre individus plutôt que les silences de spécialité."
+      },
+      {
+        "id": "ac_005_b",
+        "text": "La documentation exhaustive rédigée avant toute écriture de code",
+        "isCorrect": false,
+        "note": "Le manifeste valorise le logiciel fonctionnel plus qu'une documentation abondante, sans pour autant la supprimer."
+      }
+    ],
+    "explanation": "Le manifeste agile oppose explicitement la réponse au changement au suivi d'un plan. Les itérations courtes permettent d'intégrer les évolutions des besoins sans détruire l'avancement déjà acquis.",
+    "difficulty": "easy",
+    "tags": [
+      "agile",
+      "manifeste"
+    ]
+  },
+  {
+    "id": "ac_006",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans un projet Scrum, quelle est la mission principale du Product Owner ?",
+    "answers": [
+      {
+        "id": "ac_006_a",
+        "text": "Il anime les rituels quotidiens et protège l'équipe des obstacles",
+        "isCorrect": false,
+        "note": "Ce rôle décrit le Scrum Master, qui facilite le processus sans décider des priorités produit."
+      },
+      {
+        "id": "ac_006_c",
+        "text": "Il écrit la totalité du code des fonctionnalités à chaque sprint",
+        "isCorrect": false,
+        "note": "La réalisation du code relève de l'équipe de développement, jamais d'un rôle unique dédié à la vision produit."
+      },
+      {
+        "id": "ac_006_b",
+        "text": "Il priorise le backlog produit et représente les utilisateurs finaux",
+        "isCorrect": true,
+        "note": "C'est exact : le Product Owner ordonne le backlog selon la valeur métier et porte la voix des utilisateurs auprès de l'équipe."
+      },
+      {
+        "id": "ac_006_d",
+        "text": "Il audite la conformité des livrables en toute fin de projet",
+        "isCorrect": false,
+        "note": "Il n'existe pas d'auditeur final dans Scrum : la qualité est vérifiée en continu, notamment lors des revues de sprint."
+      }
+    ],
+    "explanation": "Le Product Owner maximise la valeur du produit en priorisant le backlog et en arbitrant les besoins des utilisateurs. Il décide de ce qui sera développé, tandis que le Scrum Master veille au bon déroulement du processus.",
+    "difficulty": "medium",
+    "tags": [
+      "scrum",
+      "roles"
+    ]
+  },
+  {
+    "id": "ac_007",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle est la durée habituelle d'un sprint dans un projet mené avec Scrum ?",
+    "answers": [
+      {
+        "id": "ac_007_a",
+        "text": "Une seule journée, renouvelée à chaque réunion matinale",
+        "isCorrect": false,
+        "note": "La journée correspond au rythme du daily scrum, pas à celui de l'itération complète de livraison."
+      },
+      {
+        "id": "ac_007_b",
+        "text": "Trois à six mois, alignés sur le cycle budgétaire",
+        "isCorrect": false,
+        "note": "De telles durées correspondent à des phases de projet classique, bien trop longues pour une itération Scrum."
+      },
+      {
+        "id": "ac_007_d",
+        "text": "Douze mois exactement, le temps de produire la version finale",
+        "isCorrect": false,
+        "note": "Un délai d'un an sans livraison intermédiaire contredit totalement le principe de livraison itérative de Scrum."
+      },
+      {
+        "id": "ac_007_c",
+        "text": "Une à quatre semaines, selon la taille et le contexte du projet",
+        "isCorrect": true,
+        "note": "C'est exact : un sprint dure entre une et quatre semaines, avec une durée constante d'un sprint à l'autre."
+      }
+    ],
+    "explanation": "Le sprint est une itération de durée fixe, comprise entre une et quatre semaines, au terme de laquelle un incrément potentiellement livrable est produit. Cette courte boucle permet un retour régulier du client.",
+    "difficulty": "medium",
+    "tags": [
+      "scrum",
+      "sprint"
+    ]
+  },
+  {
+    "id": "ac_008",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel événement Scrum permet de présenter l'incrément réalisé au Product Owner et aux parties prenantes ?",
+    "answers": [
+      {
+        "id": "ac_008_a",
+        "text": "La revue de sprint, consacrée à l'examen de l'incrément produit",
+        "isCorrect": true,
+        "note": "C'est exact : lors de la sprint review, l'équipe démontre ce qui a été construit et recueille les retours des parties prenantes."
+      },
+      {
+        "id": "ac_008_b",
+        "text": "La rétrospective de sprint, consacrée au fonctionnement de l'équipe",
+        "isCorrect": false,
+        "note": "La rétrospective porte sur le processus de travail et les améliorations internes, pas sur la démonstration du produit."
+      },
+      {
+        "id": "ac_008_c",
+        "text": "Le daily scrum, brève réunion quotidienne de synchronisation",
+        "isCorrect": false,
+        "note": "Le daily scrum sert à synchroniser l'équipe sur les vingt-quatre heures à venir, sans démonstration produit."
+      },
+      {
+        "id": "ac_008_d",
+        "text": "Le sprint planning, qui prépare le travail de l'itération à venir",
+        "isCorrect": false,
+        "note": "Le sprint planning se tient au début du sprint pour choisir et planifier les éléments du backlog à réaliser."
+      }
+    ],
+    "explanation": "La revue de sprint clôture chaque itération : l'équipe y présente l'incrément fonctionnel, le Product Owner ajuste le backlog en fonction des retours. La rétrospective, elle, évalue la façon de travailler.",
+    "difficulty": "medium",
+    "tags": [
+      "scrum",
+      "evenements"
+    ]
+  },
+  {
+    "id": "ac_009",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle pratique de développement est emblématique de la méthode eXtreme Programming (XP) ?",
+    "answers": [
+      {
+        "id": "ac_009_a",
+        "text": "La validation du produit uniquement lors de la recette finale",
+        "isCorrect": false,
+        "note": "XP prône au contraire une validation permanente par des tests automatisés exécutés à chaque modification."
+      },
+      {
+        "id": "ac_009_b",
+        "text": "L'écriture du test automatisé avant le code de production",
+        "isCorrect": true,
+        "note": "C'est exact : le test-driven development, qui consiste à écrire d'abord le test, est une pratique centrale de XP."
+      },
+      {
+        "id": "ac_009_c",
+        "text": "La répartition des développeurs en silos de spécialité étanches",
+        "isCorrect": false,
+        "note": "XP valorise la propriété collective du code et le travail en binôme, à l'opposé des silos de compétence."
+      },
+      {
+        "id": "ac_009_d",
+        "text": "La conception exhaustive du système avant la première ligne de code",
+        "isCorrect": false,
+        "note": "XP applique le principe YAGNI : on ne conçoit que ce qui est nécessaire maintenant, en refactorant ensuite."
+      }
+    ],
+    "explanation": "XP repose sur des pratiques d'ingénierie fortes : développement piloté par les tests, programmation en binôme, intégration continue et refactoring. Le test écrit avant le code guide la conception et garantit la non-régression.",
+    "difficulty": "hard",
+    "tags": [
+      "xp",
+      "tdd"
+    ]
+  },
+  {
+    "id": "ac_010",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle différence majeure sépare les méthodes agiles du cycle en V sur le plan des livraisons ?",
+    "answers": [
+      {
+        "id": "ac_010_a",
+        "text": "Les méthodes agiles interdisent toute documentation, contrairement au cycle en V",
+        "isCorrect": false,
+        "note": "Idée reçue répandue : l'agile demande une documentation juste nécessaire, jamais une suppression totale de la documentation."
+      },
+      {
+        "id": "ac_010_b",
+        "text": "Le cycle en V supprime les tests, tandis que l'agile les rend obligatoires",
+        "isCorrect": false,
+        "note": "Le cycle en V est précisément construit autour des tests ; la différence porte sur le rythme de livraison, pas sur l'existence des tests."
+      },
+      {
+        "id": "ac_010_d",
+        "text": "L'agile livre par itérations courtes, le cycle en V livre en fin de projet",
+        "isCorrect": true,
+        "note": "C'est exact : l'agile produit des incréments utilisables à chaque sprint, alors que le cycle en V ne livre qu'après la phase de recette."
+      },
+      {
+        "id": "ac_010_c",
+        "text": "Le cycle en V exige des équipes pluridisciplinaires, l'agile des experts isolés",
+        "isCorrect": false,
+        "note": "C'est l'inverse : les équipes agiles sont pluridisciplinaires par principe, le cycle en V fonctionne par spécialités successives."
+      }
+    ],
+    "explanation": "La rupture essentielle porte sur le rythme de production de valeur : les itérations agiles livrent des incréments réguliers qui nourrissent les retours du client, tandis que le cycle en V concentre la livraison unique en fin de parcours.",
+    "difficulty": "medium",
+    "tags": [
+      "agile",
+      "cycle-en-v"
+    ]
+  },
+  {
+    "id": "ac_011",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle distinction fondamentale sépare la vérification de la validation d'un logiciel ?",
+    "answers": [
+      {
+        "id": "ac_011_d",
+        "text": "La vérification porte sur les données, la validation porte sur le code source",
+        "isCorrect": false,
+        "note": "La vérification et la validation portent toutes deux sur le produit complet, chacune selon un référentiel différent."
+      },
+      {
+        "id": "ac_011_b",
+        "text": "La vérification s'effectue en production, la validation en environnement de test",
+        "isCorrect": false,
+        "note": "Les deux activités se déroulent avant la mise en production ; c'est leur objet, non leur lieu, qui les distingue."
+      },
+      {
+        "id": "ac_011_c",
+        "text": "La vérification est menée par le client, la validation par les développeurs",
+        "isCorrect": false,
+        "note": "Les rôles sont inversés dans cette formulation : la validation finale engage le client, la vérification reste l'affaire de l'équipe."
+      },
+      {
+        "id": "ac_011_a",
+        "text": "La vérification contrôle la conformité aux spécifications, la validation l'adéquation aux besoins",
+        "isCorrect": true,
+        "note": "C'est exact : vérifier, c'est répondre à « construit-on le produit correctement » ; valider, c'est répondre à « construit-on le bon produit »."
+      }
+    ],
+    "explanation": "La vérification s'assure que chaque livrable est conforme aux documents de la phase précédente, alors que la validation s'assure que le produit final répond aux besoins réels des utilisateurs. Le slogan classique : « construire le produit correctement » contre « construire le bon produit ».",
+    "difficulty": "hard",
+    "tags": [
+      "tests",
+      "verification",
+      "validation"
+    ]
+  },
+  {
+    "id": "ac_012",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel principe distingue principalement la méthode Kanban de Scrum ?",
+    "answers": [
+      {
+        "id": "ac_012_c",
+        "text": "La limitation du travail en cours plutôt que des sprints cadencés",
+        "isCorrect": true,
+        "note": "C'est exact : Kanban régule un flux continu en limitant le nombre de tâches simultanées (WIP), sans itérations fixes."
+      },
+      {
+        "id": "ac_012_b",
+        "text": "La livraison d'un produit complet une seule fois par an",
+        "isCorrect": false,
+        "note": "Kanban favorise au contraire un flux continu de livraisons, sans découpage en grandes périodes annuelles."
+      },
+      {
+        "id": "ac_012_a",
+        "text": "La nomination obligatoire d'un Product Owner et d'un Scrum Master",
+        "isCorrect": false,
+        "note": "Ces rôles appartiennent à Scrum ; Kanban ne prescrit aucun rôle spécifique et s'adapte à l'organisation existante."
+      },
+      {
+        "id": "ac_012_d",
+        "text": "L'interdiction totale des réunions au sein de l'équipe de production",
+        "isCorrect": false,
+        "note": "Kanban n'interdit rien de tel : il prescrit simplement moins de cérémonies que Scrum, autour d'un tableau de flux."
+      }
+    ],
+    "explanation": "Kanban est une méthode de flux : les tâches avancent sur un tableau et le travail en cours est volontairement limité pour révéler les goulots d'étranglement. Contrairement à Scrum, il n'impose ni sprints ni rôles dédiés.",
+    "difficulty": "hard",
+    "tags": [
+      "kanban",
+      "agile"
+    ]
+  },
+  {
+    "id": "ac_013",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel livrable résulte principalement de la phase de conception générale du cycle en V ?",
+    "answers": [
+      {
+        "id": "ac_013_a",
+        "text": "Le code source commenté et documenté de chaque module réalisé",
+        "isCorrect": false,
+        "note": "Le code est produit lors de la phase de réalisation, située au point bas du V, après les deux conceptions."
+      },
+      {
+        "id": "ac_013_b",
+        "text": "L'architecture du système et le découpage en modules cohérents",
+        "isCorrect": true,
+        "note": "C'est exact : la conception générale fixe l'architecture, les choix techniques et les interfaces entre modules."
+      },
+      {
+        "id": "ac_013_c",
+        "text": "Le cahier des charges fonctionnel validé avec le client final",
+        "isCorrect": false,
+        "note": "Le cahier des charges découle de l'analyse des besoins, phase qui précède la conception générale dans le cycle."
+      },
+      {
+        "id": "ac_013_d",
+        "text": "Le manuel utilisateur destiné aux futurs exploitants du système",
+        "isCorrect": false,
+        "note": "Le manuel utilisateur accompagne la mise en service ; il documente l'usage, pas l'architecture interne du système."
+      }
+    ],
+    "explanation": "La conception générale transforme les spécifications en architecture : choix techniques, découpage en modules, définition des interfaces. La conception détaillée précisera ensuite chaque module avant le codage.",
+    "difficulty": "medium",
+    "tags": [
+      "cycle-en-v",
+      "conception"
+    ]
+  },
+  {
+    "id": "ac_014",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est l'objectif principal d'un test unitaire ?",
+    "answers": [
+      {
+        "id": "ac_014_a",
+        "text": "Vérifier que les modules assemblés coopèrent sans erreur",
+        "isCorrect": false,
+        "note": "Cette vérification relève du test d'intégration, qui prend le relais des tests unitaires sur l'assemblage."
+      },
+      {
+        "id": "ac_014_b",
+        "text": "Mesurer la satisfaction des utilisateurs après la mise en service",
+        "isCorrect": false,
+        "note": "La satisfaction des utilisateurs s'évalue lors de la recette ou après le déploiement, pas dans un test unitaire."
+      },
+      {
+        "id": "ac_014_d",
+        "text": "Contrôler le bon fonctionnement d'une unité de code isolée",
+        "isCorrect": true,
+        "note": "C'est exact : le test unitaire éprouve une fonction, une méthode ou une classe seule, avec ses données d'entrée et ses sorties attendues."
+      },
+      {
+        "id": "ac_014_c",
+        "text": "Estimer la capacité du serveur face à une montée en charge",
+        "isCorrect": false,
+        "note": "L'estimation des performances sous charge relève des tests de performance, un autre niveau de test."
+      }
+    ],
+    "explanation": "Le test unitaire vérifie qu'une plus petite partie testable du code produit le résultat attendu pour des entrées données, indépendamment du reste du système. Il est associé à la conception détaillée dans le cycle en V.",
+    "difficulty": "easy",
+    "tags": [
+      "tests",
+      "test-unitaire"
+    ]
+  },
+  {
+    "id": "ac_015",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Parmi les énoncés suivants, lesquels caractérisent les méthodes agiles ?",
+    "answers": [
+      {
+        "id": "ac_015_d",
+        "text": "L'acceptation des changements de besoins, même tardivement",
+        "isCorrect": true,
+        "note": "Juste : répondre au changement plutôt que de suivre un plan figé est une valeur fondatrice du manifeste agile."
+      },
+      {
+        "id": "ac_015_c",
+        "text": "Une collaboration étroite et continue avec le client du projet",
+        "isCorrect": true,
+        "note": "Juste : le manifeste agile privilégie la collaboration client, incarnée par un interlocuteur régulier comme le Product Owner."
+      },
+      {
+        "id": "ac_015_a",
+        "text": "Des livraisons itératives et incrémentales du produit utilisable",
+        "isCorrect": true,
+        "note": "Juste : chaque itération produit un incrément fonctionnel qui enrichit progressivement le produit livré."
+      },
+      {
+        "id": "ac_015_b",
+        "text": "Des spécifications complètes figées avant le début du développement",
+        "isCorrect": false,
+        "note": "Faux : les exigences agiles restent volontairement évolutives et sont précisées itération après itération."
+      }
+    ],
+    "explanation": "Les méthodes agiles reposent sur des itérations courtes livrant des incréments utilisables, sur une collaboration permanente avec le client et sur l'accueil favorable des changements de besoins. Les spécifications ne sont jamais figées une fois pour toutes en début de projet.",
+    "difficulty": "easy",
+    "tags": [
+      "agile",
+      "manifeste"
+    ]
+  },
+  {
+    "id": "ac_016",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Parmi les éléments suivants, lesquels correspondent à des niveaux de tests du logiciel ?",
+    "answers": [
+      {
+        "id": "ac_016_a",
+        "text": "Le test unitaire d'une fonction ou d'une classe isolée",
+        "isCorrect": true,
+        "note": "Juste : le test unitaire est le premier niveau, il éprouve chaque plus petite unité de code de façon indépendante."
+      },
+      {
+        "id": "ac_016_b",
+        "text": "Le refactoring destiné à améliorer la structure du code",
+        "isCorrect": false,
+        "note": "Le refactoring est une pratique de restructuration du code sans changement de comportement ; ce n'est pas un niveau de test."
+      },
+      {
+        "id": "ac_016_d",
+        "text": "Le daily scrum de synchronisation de l'équipe de développement",
+        "isCorrect": false,
+        "note": "Le daily scrum est un événement de gestion de projet agile ; il n'a rien d'un niveau de test logiciel."
+      },
+      {
+        "id": "ac_016_c",
+        "text": "Le test d'intégration des modules assemblés entre eux",
+        "isCorrect": true,
+        "note": "Juste : le test d'intégration est un niveau à part entière, il vérifie les interfaces entre modules en cours d'assemblage."
+      }
+    ],
+    "explanation": "Les niveaux de tests se succèdent du plus fin au plus global : test unitaire sur chaque unité de code, test d'intégration sur les modules assemblés, test système sur le produit complet, puis recette avec le client. Le refactoring et le daily scrum n'en sont pas.",
+    "difficulty": "hard",
+    "tags": [
+      "tests",
+      "niveaux-de-tests"
+    ]
+  },
+  {
+    "id": "ac_017",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "TRUE_FALSE",
+    "question": "Dans le cycle en V, les tests d'acceptation sont définis à partir des besoins exprimés par le client.",
+    "answers": [
+      {
+        "id": "ac_017_v",
+        "text": "Vrai",
+        "isCorrect": true,
+        "note": "C'est exact : la branche de validation remonte depuis les tests d'acceptation jusqu'aux besoins, qui servent de référence pour les définir."
+      },
+      {
+        "id": "ac_017_f",
+        "text": "Faux",
+        "isCorrect": false,
+        "note": "Erreur : la symétrie du V relie précisément les tests d'acceptation aux besoins du client, exprimés en haut de la branche descendante."
+      }
+    ],
+    "explanation": "La structure en V associe à chaque phase de spécification une phase de test symétrique : les besoins du client, en tête du V, servent de référence aux tests d'acceptation qui valident le produit final.",
+    "difficulty": "easy",
+    "tags": [
+      "cycle-en-v",
+      "tests-acceptation"
+    ]
+  },
+  {
+    "id": "ac_018",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "TRUE_FALSE",
+    "question": "Les méthodes agiles imposent de supprimer totalement toute documentation du projet.",
+    "answers": [
+      {
+        "id": "ac_018_f",
+        "text": "Faux",
+        "isCorrect": true,
+        "note": "C'est exact : le manifeste agile privilégie le logiciel fonctionnel sur une documentation exhaustive, sans supprimer la documentation nécessaire."
+      },
+      {
+        "id": "ac_018_v",
+        "text": "Vrai",
+        "isCorrect": false,
+        "note": "C'est un contresens fréquent : l'agile demande une documentation utile et entretenue, pas son abolition complète."
+      }
+    ],
+    "explanation": "Le manifeste agile oppose le logiciel fonctionnel à une documentation exhaustive, ce qui signifie qu'on documente ce qui a de la valeur, au fil de l'eau. La documentation reste indispensable pour la maintenance et la transmission des connaissances.",
+    "difficulty": "medium",
+    "tags": [
+      "agile",
+      "documentation"
+    ]
+  },
+  {
+    "id": "ac_019",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "FILL_BLANK",
+    "question": "Dans Scrum, la brève réunion quotidienne de synchronisation de l'équipe s'appelle le ___ et ne dépasse généralement pas ___ minutes.",
+    "answers": [],
+    "blanks": [
+      {
+        "accepted": [
+          "daily scrum",
+          "daily",
+          "mêlée quotidienne",
+          "melee quotidienne"
+        ]
+      },
+      {
+        "accepted": [
+          "15",
+          "quinze"
+        ]
+      }
+    ],
+    "explanation": "Le daily scrum est une réunion debout d'une quinzaine de minutes, tenue chaque jour au même endroit : chaque membre expose ce qu'il a fait, ce qu'il va faire et ce qui le bloque.",
+    "difficulty": "easy",
+    "tags": [
+      "scrum",
+      "daily-scrum"
+    ]
+  },
+  {
+    "id": "ac_020",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "FILL_BLANK",
+    "question": "Le cycle en ___ associe à chaque phase de réalisation une phase de vérification symétrique, tandis que l'approche ___ découpe le projet en itérations courtes livrant des incréments.",
+    "answers": [],
+    "blanks": [
+      {
+        "accepted": [
+          "V",
+          "v"
+        ]
+      },
+      {
+        "accepted": [
+          "agile",
+          "agilité",
+          "agilite"
+        ]
+      }
+    ],
+    "explanation": "Le cycle en V couple construction et vérification par une symétrie entre phases d'analyse-conception et phases de tests. L'approche agile remplace ce déroulement linéaire par des itérations courtes à livraisons répétées.",
+    "difficulty": "easy",
+    "tags": [
+      "cycle-en-v",
+      "agile"
+    ]
+  },
+  {
+    "id": "ac_021",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Que représente un diagramme de classes dans le langage UML ?",
+    "answers": [
+      {
+        "id": "ac_021_a",
+        "text": "Une vue dynamique montrant l'enchaînement des messages dans le temps",
+        "isCorrect": false,
+        "note": "Cette description correspond au diagramme de séquence, qui est un diagramme d'interaction et non une vue statique."
+      },
+      {
+        "id": "ac_021_b",
+        "text": "Une vue fonctionnelle présentant les cas d'utilisation du système",
+        "isCorrect": false,
+        "note": "Les cas d'utilisation relèvent d'un diagramme dédié aux acteurs et à leurs interactions avec le système."
+      },
+      {
+        "id": "ac_021_c",
+        "text": "Une vue de déploiement décrivant la répartition du logiciel sur les serveurs",
+        "isCorrect": false,
+        "note": "Le déploiement matériel fait l'objet du diagramme de déploiement, absent du diagramme de classes."
+      },
+      {
+        "id": "ac_021_d",
+        "text": "Une vue statique décrivant les classes du système et leurs relations",
+        "isCorrect": true,
+        "note": "C'est exact : le diagramme de classes est la pièce maîtresse de la modélisation statique, avec attributs, méthodes et associations."
+      }
+    ],
+    "explanation": "Le diagramme de classes décrit la structure statique du système : les classes avec leurs attributs et opérations, ainsi que les relations qui les relient (associations, héritage, agrégation). Il ne montre aucun comportement dynamique.",
+    "difficulty": "easy",
+    "tags": [
+      "uml",
+      "diagramme-de-classes"
+    ]
+  },
+  {
+    "id": "ac_022",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans un diagramme de classes UML, que signifie le symbole « + » placé devant un attribut ?",
+    "answers": [
+      {
+        "id": "ac_022_a",
+        "text": "L'attribut est public, donc accessible depuis toutes les classes",
+        "isCorrect": true,
+        "note": "C'est exact : le symbole plus dénote la visibilité publique, la plus ouverte des quatre visibilités UML."
+      },
+      {
+        "id": "ac_022_b",
+        "text": "L'attribut est privé, donc réservé à sa propre classe",
+        "isCorrect": false,
+        "note": "La visibilité privée se note avec le symbole moins ; elle restreint l'accès à la classe qui déclare l'attribut."
+      },
+      {
+        "id": "ac_022_c",
+        "text": "L'attribut est protégé, donc réservé aux classes héritières",
+        "isCorrect": false,
+        "note": "La visibilité protégée s'écrit avec le symbole dièse et ouvre l'accès aux sous-classes, pas à toutes les classes."
+      },
+      {
+        "id": "ac_022_d",
+        "text": "L'attribut est optionnel, donc pouvant rester sans valeur assignée",
+        "isCorrect": false,
+        "note": "Le caractère optionnel d'un attribut se précise avec sa multiplicité ou sa valeur par défaut, pas avec ce symbole de visibilité."
+      }
+    ],
+    "explanation": "UML note les visibilités par des symboles : plus pour public, moins pour privé, dièse pour protégé, tilde pour paquetage. Le symbole plus signifie que l'attribut est visible et utilisable depuis n'importe quelle classe.",
+    "difficulty": "medium",
+    "tags": [
+      "uml",
+      "visibilite"
+    ]
+  },
+  {
+    "id": "ac_023",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Que signifie la multiplicité 1..* portée par une extrémité d'association en UML ?",
+    "answers": [
+      {
+        "id": "ac_023_a",
+        "text": "Chaque objet est relié à une seule instance au maximum, jamais plus",
+        "isCorrect": false,
+        "note": "Cette borne haute unique correspond à la multiplicité 1 ou 0..1, pas à l'étoile qui exprime l'absence de limite haute."
+      },
+      {
+        "id": "ac_023_b",
+        "text": "Chaque objet est relié à au moins une instance, sans limite supérieure",
+        "isCorrect": true,
+        "note": "C'est exact : 1..* impose un minimum de un et laisse le nombre d'instances libre au-delà."
+      },
+      {
+        "id": "ac_023_c",
+        "text": "Chaque objet est relié à zéro instance par défaut, la liaison restant inactive",
+        "isCorrect": false,
+        "note": "Un minimum de zéro correspond aux multiplicités 0..1 ou 0..*, mais 1..* interdit explicitement l'absence de liaison."
+      },
+      {
+        "id": "ac_023_d",
+        "text": "Chaque objet est relié à exactement une instance, en toutes circonstances",
+        "isCorrect": false,
+        "note": "La cardinalité exactement un se note simplement 1 ; l'étoile introduit au contraire la variabilité du nombre."
+      }
+    ],
+    "explanation": "La multiplicité 1..* fixe une borne minimale de un et une borne maximale infinie : chaque instance participant à l'association est liée à au moins une instance de l'autre extrémité, et potentiellement à un nombre illimité.",
+    "difficulty": "medium",
+    "tags": [
+      "uml",
+      "multiplicite"
+    ]
+  },
+  {
+    "id": "ac_024",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Que signifie la multiplicité 0..1 placée sur une association en UML ?",
+    "answers": [
+      {
+        "id": "ac_024_a",
+        "text": "Un nombre illimité d'instances liées, sans contrainte aucune",
+        "isCorrect": false,
+        "note": "L'absence de limite haute s'écrit avec l'étoile ; 0..1 borne strictement le nombre d'instances à une."
+      },
+      {
+        "id": "ac_024_b",
+        "text": "Une instance obligatoire liée, qui doit toujours être présente",
+        "isCorrect": false,
+        "note": "Une instance obligatoire correspond à la multiplicité 1 ; ici la valeur zéro reste possible."
+      },
+      {
+        "id": "ac_024_c",
+        "text": "Au plus une instance liée, la liaison pouvant rester vide",
+        "isCorrect": true,
+        "note": "C'est exact : 0..1 exprime une liaison facultative, présente au plus une seule fois pour chaque objet concerné."
+      },
+      {
+        "id": "ac_024_d",
+        "text": "Exactement une instance liée, jamais zéro ni plusieurs",
+        "isCorrect": false,
+        "note": "La multiplicité exactement un se note 1 tout court ; 0..1 admet l'absence de liaison."
+      }
+    ],
+    "explanation": "La multiplicité 0..1 décrit une association facultative : un objet peut être relié à aucune ou à une seule instance de l'autre côté. On la rencontre par exemple entre un employé et son bureau individuel, si certains n'en ont pas.",
+    "difficulty": "medium",
+    "tags": [
+      "uml",
+      "multiplicite"
+    ]
+  },
+  {
+    "id": "ac_025",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle distinction sépare fondamentalement l'agrégation de la composition en UML ?",
+    "answers": [
+      {
+        "id": "ac_025_d",
+        "text": "Dans l'agrégation, l'ensemble ne peut contenir qu'une seule partie",
+        "isCorrect": false,
+        "note": "Une agrégation peut relier l'ensemble à un grand nombre de parties ; la limite porte sur le lien de cycle de vie, pas sur le nombre."
+      },
+      {
+        "id": "ac_025_b",
+        "text": "Dans l'agrégation, les parties héritent des attributs de l'ensemble",
+        "isCorrect": false,
+        "note": "Ni l'agrégation ni la composition ne transfèrent d'attributs par héritage ; ce mécanisme relève de la généralisation."
+      },
+      {
+        "id": "ac_025_c",
+        "text": "Dans la composition, les objets échangent uniquement des messages asynchrones",
+        "isCorrect": false,
+        "note": "Les échanges de messages ne caractérisent aucune des deux relations tout-part ; ils relèvent des diagrammes d'interaction."
+      },
+      {
+        "id": "ac_025_a",
+        "text": "Dans la composition, la partie ne survit pas à la destruction du tout",
+        "isCorrect": true,
+        "note": "C'est exact : la composition lie les cycles de vie ; détruire le tout détruit ses parties, ce que l'agrégation n'impose pas."
+      }
+    ],
+    "explanation": "Agrégation et composition décrivent toutes deux un lien tout-part, mais la composition rend les cycles de vie solidaires : les parties naissent et meurent avec le tout. Dans l'agrégation, les parties existent de manière autonome et peuvent être partagées.",
+    "difficulty": "hard",
+    "tags": [
+      "uml",
+      "aggregation",
+      "composition"
+    ]
+  },
+  {
+    "id": "ac_026",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Comment se représente graphiquement une composition dans un diagramme de classes UML ?",
+    "answers": [
+      {
+        "id": "ac_026_b",
+        "text": "Par un losange plein placé du côté de l'objet conteneur",
+        "isCorrect": true,
+        "note": "C'est exact : le losange plein touche la classe tout et signale que les parties lui sont solidaires en cycle de vie."
+      },
+      {
+        "id": "ac_026_a",
+        "text": "Par un triangle creux placé du côté de la classe partie",
+        "isCorrect": false,
+        "note": "Le triangle creux symbolise la généralisation (héritage), orienté vers la classe mère, pas la composition."
+      },
+      {
+        "id": "ac_026_c",
+        "text": "Par une ligne pointillée étiquetée du nom de la relation",
+        "isCorrect": false,
+        "note": "La ligne pointillée sert aux dépendances entre classes ; la composition se dessine sur une ligne pleine."
+      },
+      {
+        "id": "ac_026_d",
+        "text": "Par une flèche creuse pointant vers l'interface réalisée",
+        "isCorrect": false,
+        "note": "La flèche creuse en pointillés représente la réalisation d'une interface, une relation complètement différente."
+      }
+    ],
+    "explanation": "La composition se dessine par un losange plein posé sur l'extrémité du tout, l'agrégation par un losange vide à la même place. Le losange plein signale la solidarité des cycles de vie entre conteneur et contenu.",
+    "difficulty": "easy",
+    "tags": [
+      "uml",
+      "composition",
+      "notation"
+    ]
+  },
+  {
+    "id": "ac_027",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Comment se représente une relation d'héritage (généralisation) en UML ?",
+    "answers": [
+      {
+        "id": "ac_027_a",
+        "text": "Par un losange vide reliant la classe fille à la classe mère",
+        "isCorrect": false,
+        "note": "Le losange vide exprime l'agrégation, un lien tout-part sans lien de filiation entre les classes."
+      },
+      {
+        "id": "ac_027_c",
+        "text": "Par une flèche à tête triangulaire creuse pointant vers la mère",
+        "isCorrect": true,
+        "note": "C'est exact : la généralisation se dessine avec un triangle creux orienté de la classe fille vers la classe mère."
+      },
+      {
+        "id": "ac_027_b",
+        "text": "Par une ligne pointillée entre les deux classes concernées",
+        "isCorrect": false,
+        "note": "La ligne pointillée exprime une dépendance, la relation la plus faible du langage, loin d'un héritage."
+      },
+      {
+        "id": "ac_027_d",
+        "text": "Par un trait plein terminé par un cercle noir côté fille",
+        "isCorrect": false,
+        "note": "Le cercle noir plein est la notation de l'état initial dans un diagramme d'états, pas une relation d'héritage."
+      }
+    ],
+    "explanation": "La généralisation se note par une ligne pleine terminée par un triangle creux orienté vers la classe mère. Les classes filles héritent des attributs et opérations de la mère tout en pouvant redéfinir ou ajouter leurs propres membres.",
+    "difficulty": "easy",
+    "tags": [
+      "uml",
+      "heritage",
+      "notation"
+    ]
+  },
+  {
+    "id": "ac_028",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans quelle situation recourt-on à une classe-association en UML ?",
+    "answers": [
+      {
+        "id": "ac_028_a",
+        "text": "Quand deux classes partagent exactement les mêmes attributs et méthodes",
+        "isCorrect": false,
+        "note": "Cette situation appelle une généralisation : une classe mère factorise ce qui est commun aux deux classes."
+      },
+      {
+        "id": "ac_028_b",
+        "text": "Quand une classe ne possède aucun attribut réellement identifiable",
+        "isCorrect": false,
+        "note": "Une classe sans attribut identifiable signale plutôt un problème de modélisation, pas un besoin de classe-association."
+      },
+      {
+        "id": "ac_028_d",
+        "text": "Quand une association doit porter des attributs qui lui sont propres",
+        "isCorrect": true,
+        "note": "C'est exact : la classe-association, reliée au lien par des pointillés, porte les informations propres à la relation elle-même."
+      },
+      {
+        "id": "ac_028_c",
+        "text": "Quand une classe doit être instanciée une seule fois dans le système",
+        "isCorrect": false,
+        "note": "L'instanciation unique se traite par le pattern Singleton au niveau conception, pas par une classe-association."
+      }
+    ],
+    "explanation": "La classe-association transforme un lien entre deux classes en une classe à part entière afin d'y loger des attributs propres à la relation, comme la note d'un étudiant pour un cours. Elle se dessine en pointillés depuis le lien d'association.",
+    "difficulty": "hard",
+    "tags": [
+      "uml",
+      "classe-association"
+    ]
+  },
+  {
+    "id": "ac_029",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Quelle propriété caractérise une classe abstraite en UML ?",
+    "answers": [
+      {
+        "id": "ac_029_d",
+        "text": "Elle ne peut hériter que d'une seule classe mère dans sa hiérarchie",
+        "isCorrect": false,
+        "note": "Cette limite décrit l'héritage simple imposé par certains langages ; UML lui-même autorise l'héritage multiple."
+      },
+      {
+        "id": "ac_029_b",
+        "text": "Elle ne possède ni attribut ni méthode dans sa définition",
+        "isCorrect": false,
+        "note": "Une classe abstraite peut très bien déclarer des attributs et des méthodes concrètes que ses filles réutilisent."
+      },
+      {
+        "id": "ac_029_c",
+        "text": "Elle ne peut être liée par association à aucune autre classe",
+        "isCorrect": false,
+        "note": "Rien n'empêche une classe abstraite de participer à des associations ; ses instances concrètes les honoreront."
+      },
+      {
+        "id": "ac_029_a",
+        "text": "Elle ne peut pas être instanciée directement, seulement spécialisée",
+        "isCorrect": true,
+        "note": "C'est exact : une classe abstraite sert de moule commun et ses instances passent obligatoirement par ses classes filles concrètes."
+      }
+    ],
+    "explanation": "Une classe abstraite ne peut pas donner naissance à des instances directes : elle factorise ce qui est commun à ses filles et peut imposer des opérations abstraites. En UML, son nom s'écrit en italique.",
+    "difficulty": "medium",
+    "tags": [
+      "uml",
+      "classe-abstraite"
+    ]
+  },
+  {
+    "id": "ac_030",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Que permet la redéfinition (override) d'une méthode dans une classe fille ?",
+    "answers": [
+      {
+        "id": "ac_030_a",
+        "text": "Fournir une implémentation spécifique à une méthode héritée",
+        "isCorrect": true,
+        "note": "C'est exact : la fille conserve la signature de la méthode mais remplace son corps par un comportement qui lui convient."
+      },
+      {
+        "id": "ac_030_b",
+        "text": "Supprimer définitivement la méthode de la classe mère",
+        "isCorrect": false,
+        "note": "La classe mère conserve sa méthode ; seule la fille change son comportement pour ses propres instances."
+      },
+      {
+        "id": "ac_030_c",
+        "text": "Renommer la méthode héritée avec un identifiant nouveau",
+        "isCorrect": false,
+        "note": "Renommer la méthode crée une méthode distincte ; la redéfinition conserve exactement la même signature."
+      },
+      {
+        "id": "ac_030_d",
+        "text": "Rendre la méthode héritée inaccessible aux autres classes",
+        "isCorrect": false,
+        "note": "La redéfinition ne réduit pas la visibilité d'une méthode publique ; elle remplace uniquement son exécution."
+      }
+    ],
+    "explanation": "La redéfinition consiste pour une classe fille à réécrire le corps d'une méthode héritée en conservant sa signature. C'est un pilier du polymorphisme : l'appel résout dynamiquement la version adaptée à l'objet réel manipulé.",
+    "difficulty": "medium",
+    "tags": [
+      "uml",
+      "heritage",
+      "polymorphisme"
+    ]
+  },
+  {
+    "id": "ac_031",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "context": "Une application de facturation relie des factures et des articles. Un même article peut apparaître dans plusieurs factures, et la suppression d'une facture n'entraîne pas la suppression des articles qu'elle référençait, qui restent utiles pour d'autres factures.",
+    "question": "Quel type de relation convient le mieux pour modéliser le lien entre une facture et ses articles ?",
+    "answers": [
+      {
+        "id": "ac_031_a",
+        "text": "Une composition, car les articles font partie de la facture",
+        "isCorrect": false,
+        "note": "La composition imposerait la destruction des articles avec la facture, ce que l'énoncé exclut expressément."
+      },
+      {
+        "id": "ac_031_c",
+        "text": "Une agrégation, car les articles restent autonomes après la suppression",
+        "isCorrect": true,
+        "note": "C'est exact : le lien tout-part sans solidarité de cycle de vie correspond précisément à l'agrégation, losange vide côté facture."
+      },
+      {
+        "id": "ac_031_b",
+        "text": "Un héritage, car la facture généralise les articles qu'elle contient",
+        "isCorrect": false,
+        "note": "Un article n'est pas une spécialisation de facture ; l'héritage exprime une relation « est-un », absente ici."
+      },
+      {
+        "id": "ac_031_d",
+        "text": "Une dépendance, car la facture utilise simplement les articles",
+        "isCorrect": false,
+        "note": "La dépendance est un lien ponctuel d'utilisation, trop faible pour exprimer un lien structurel tout-part durable."
+      }
+    ],
+    "explanation": "La relation facture-articles est un lien tout-part, mais les articles survivent à la facture et peuvent être partagés par plusieurs factures : c'est la définition de l'agrégation. Une composition imposerait la disparition des articles avec leur facture.",
+    "difficulty": "medium",
+    "tags": [
+      "uml",
+      "aggregation",
+      "cas"
+    ]
+  },
+  {
+    "id": "ac_032",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "context": "Dans un système de commandes en ligne, une commande est constituée de lignes de commande. Une ligne de commande ne peut pas exister sans sa commande : si la commande est supprimée, toutes ses lignes disparaissent avec elle, et aucune ligne n'est partagée entre deux commandes.",
+    "question": "Quelle relation UML traduit le mieux le lien entre une commande et ses lignes de commande ?",
+    "answers": [
+      {
+        "id": "ac_032_c",
+        "text": "Une généralisation, car la commande spécialise ses lignes",
+        "isCorrect": false,
+        "note": "Une ligne n'est pas une commande spécialisée ; la généralisation exprime un lien « est-un » entre classes."
+      },
+      {
+        "id": "ac_032_b",
+        "text": "Une agrégation, car les lignes se regroupent dans la commande",
+        "isCorrect": false,
+        "note": "L'agrégation permettrait aux lignes de survivre à la commande ou d'être partagées, ce que l'énoncé interdit."
+      },
+      {
+        "id": "ac_032_a",
+        "text": "Une composition, car les lignes meurent avec leur commande",
+        "isCorrect": true,
+        "note": "C'est exact : l'appartenance exclusive et la solidarité des cycles de vie définissent la composition, losange plein côté commande."
+      },
+      {
+        "id": "ac_032_d",
+        "text": "Une réalisation, car la commande implémente ses lignes",
+        "isCorrect": false,
+        "note": "La réalisation relie une classe à une interface qu'elle honore ; elle n'a aucun sens entre commande et lignes."
+      }
+    ],
+    "explanation": "Les lignes de commande naissent avec leur commande, ne sont partagées avec aucune autre et disparaissent avec elle : cycles de vie solidaires et exclusivité caractérisent la composition, notée par un losange plein du côté de la commande.",
+    "difficulty": "hard",
+    "tags": [
+      "uml",
+      "composition",
+      "cas"
+    ]
+  },
+  {
+    "id": "ac_033",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "context": "Dans une boutique en ligne, un client peut passer zéro, une ou plusieurs commandes, et chaque commande émane d'un seul client, obligatoirement.",
+    "question": "Quelles multiplicités faut-il placer sur l'association « passe » reliant Client et Commande ?",
+    "answers": [
+      {
+        "id": "ac_033_a",
+        "text": "Côté Client 0..*, côté Commande 1",
+        "isCorrect": false,
+        "note": "Ces multiplicités inversées décriraient une commande pouvant avoir plusieurs clients et un client limité à une commande."
+      },
+      {
+        "id": "ac_033_d",
+        "text": "Côté Client 0..1, côté Commande 1..*",
+        "isCorrect": false,
+        "note": "Cela rendrait le client facultatif pour une commande et obligerait chaque client à passer au moins une commande."
+      },
+      {
+        "id": "ac_033_c",
+        "text": "Côté Client 1..*, côté Commande 0..1",
+        "isCorrect": false,
+        "note": "Cela imposerait à une commande d'avoir au moins un client multiple et limiterait chaque client à une commande au plus."
+      },
+      {
+        "id": "ac_033_b",
+        "text": "Côté Client 1, côté Commande 0..*",
+        "isCorrect": true,
+        "note": "C'est exact : chaque commande est liée à exactement un client, et chaque client est lié à un nombre quelconque de commandes, zéro comprise."
+      }
+    ],
+    "explanation": "Chaque commande provient d'un client unique et obligatoire, donc la multiplicité 1 se place côté Client. Chaque client commande de zéro à un nombre illimité de fois, donc 0..* se place côté Commande. La multiplicité se lit depuis l'extrémité opposée.",
+    "difficulty": "medium",
+    "tags": [
+      "uml",
+      "multiplicite",
+      "cas"
+    ]
+  },
+  {
+    "id": "ac_034",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Que signifie le soulignement d'un attribut dans une classe UML ?",
+    "answers": [
+      {
+        "id": "ac_034_d",
+        "text": "Un attribut de classe, partagé par toutes les instances",
+        "isCorrect": true,
+        "note": "C'est exact : le soulignement distingue l'attribut statique, dont la valeur unique est commune à toutes les instances de la classe."
+      },
+      {
+        "id": "ac_034_b",
+        "text": "Un attribut optionnel, laissé sans valeur au moment de la création",
+        "isCorrect": false,
+        "note": "Le caractère facultatif d'un attribut s'exprime par sa multiplicité, pas par une mise en forme du nom."
+      },
+      {
+        "id": "ac_034_c",
+        "text": "Un attribut public, utilisable depuis l'ensemble des classes",
+        "isCorrect": false,
+        "note": "La visibilité publique se marque par le symbole plus devant le nom, jamais par un soulignement."
+      },
+      {
+        "id": "ac_034_a",
+        "text": "Un attribut dérivé, recalculé à partir d'autres informations",
+        "isCorrect": false,
+        "note": "L'attribut dérivé se note avec une barre oblique avant son nom ; le soulignement a un tout autre sens."
+      }
+    ],
+    "explanation": "En UML, le soulignement signale un membre de classe (statique) : attribut ou opération rattaché à la classe elle-même plutôt qu'à ses instances. Toutes les instances partagent la même valeur pour cet attribut.",
+    "difficulty": "hard",
+    "tags": [
+      "uml",
+      "notation",
+      "attribut-statique"
+    ]
+  },
+  {
+    "id": "ac_035",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Parmi les relations suivantes, lesquelles figurent dans un diagramme de classes UML ?",
+    "answers": [
+      {
+        "id": "ac_035_c",
+        "text": "La généralisation entre une classe mère et ses classes filles",
+        "isCorrect": true,
+        "note": "Juste : la généralisation, flèche à triangle creux, structure les hiérarchies d'héritage du diagramme de classes."
+      },
+      {
+        "id": "ac_035_d",
+        "text": "Le nœud matérialisant un serveur de l'infrastructure",
+        "isCorrect": false,
+        "note": "Faux : le nœud est un élément du diagramme de déploiement, qui décrit l'architecture matérielle du système."
+      },
+      {
+        "id": "ac_035_a",
+        "text": "L'association reliant deux classes par un trait plein",
+        "isCorrect": true,
+        "note": "Juste : l'association est la relation structurelle de base du diagramme de classes, souvent munie de multiplicités."
+      },
+      {
+        "id": "ac_035_b",
+        "text": "Le message synchrone échangé entre deux objets actifs",
+        "isCorrect": false,
+        "note": "Faux : le message appartient aux diagrammes d'interaction, comme le diagramme de séquence, pas au diagramme de classes."
+      }
+    ],
+    "explanation": "Le diagramme de classes rassemble les relations structurelles : associations, agrégations, compositions, généralisations et dépendances. Les messages relèvent des diagrammes d'interaction et les nœuds du diagramme de déploiement.",
+    "difficulty": "medium",
+    "tags": [
+      "uml",
+      "diagramme-de-classes"
+    ]
+  },
+  {
+    "id": "ac_036",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quels énoncés décrivent correctement la composition en UML ?",
+    "answers": [
+      {
+        "id": "ac_036_c",
+        "text": "Le losange vide se place du côté de l'objet contenu",
+        "isCorrect": false,
+        "note": "Faux : le losange vide appartient à l'agrégation, et dans tous les cas il se place du côté du tout, pas de la partie."
+      },
+      {
+        "id": "ac_036_a",
+        "text": "Le losange plein se place du côté de l'objet conteneur",
+        "isCorrect": true,
+        "note": "Juste : le losange plein, propre à la composition, touche toujours l'extrémité du tout qui contient les parties."
+      },
+      {
+        "id": "ac_036_b",
+        "text": "La partie ne survit pas à la destruction de son conteneur",
+        "isCorrect": true,
+        "note": "Juste : la solidarité des cycles de vie est le critère qui distingue la composition de la simple agrégation."
+      },
+      {
+        "id": "ac_036_d",
+        "text": "La composition autorise le partage d'une partie entre deux touts",
+        "isCorrect": false,
+        "note": "Faux : la composition impose une appartenance exclusive ; le partage de parties est réservé à l'agrégation."
+      }
+    ],
+    "explanation": "La composition se reconnaît à son losange plein côté conteneur et à la solidarité des cycles de vie : les parties naissent et disparaissent avec le tout, sans partage entre plusieurs touts. Le losange vide et le partage caractérisent l'agrégation.",
+    "difficulty": "medium",
+    "tags": [
+      "uml",
+      "composition"
+    ]
+  },
+  {
+    "id": "ac_037",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "TRUE_FALSE",
+    "question": "En UML, une relation d'agrégation se représente par un losange vide placé du côté de l'ensemble.",
+    "answers": [
+      {
+        "id": "ac_037_v",
+        "text": "Vrai",
+        "isCorrect": true,
+        "note": "C'est exact : le losange vide touche l'extrémité du tout, tandis que le losange plein signalerait une composition."
+      },
+      {
+        "id": "ac_037_f",
+        "text": "Faux",
+        "isCorrect": false,
+        "note": "Erreur : c'est bien la notation de l'agrégation ; le losange plein du même côté signifierait une composition."
+      }
+    ],
+    "explanation": "L'agrégation se note par un losange vide posé sur l'extrémité correspondant à l'ensemble. La distinction avec le losange plein de la composition tient à l'autonomie des parties, qui peuvent être partagées et survivre au tout.",
+    "difficulty": "easy",
+    "tags": [
+      "uml",
+      "aggregation",
+      "notation"
+    ]
+  },
+  {
+    "id": "ac_038",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "TRUE_FALSE",
+    "question": "En UML, une multiplicité 1..1 est strictement équivalente à une multiplicité 0..1.",
+    "answers": [
+      {
+        "id": "ac_038_f",
+        "text": "Faux",
+        "isCorrect": true,
+        "note": "C'est exact : 1..1 exige exactement une instance liée, tandis que 0..1 accepte l'absence de liaison."
+      },
+      {
+        "id": "ac_038_v",
+        "text": "Vrai",
+        "isCorrect": false,
+        "note": "Erreur : la borne minimale change tout ; 1..1 impose une liaison obligatoire que 0..1 n'exige pas."
+      }
+    ],
+    "explanation": "Une multiplicité se lit comme un intervalle de cardinalités : 1..1 (souvent noté 1) impose une et une seule instance liée, alors que 0..1 tolère l'absence de liaison. La borne minimale, zéro ou un, fait toute la différence.",
+    "difficulty": "medium",
+    "tags": [
+      "uml",
+      "multiplicite"
+    ]
+  },
+  {
+    "id": "ac_039",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "FILL_BLANK",
+    "question": "En UML, la visibilité privée d'un attribut se note avec le symbole ___ , tandis que la visibilité publique se note avec le symbole ___ .",
+    "answers": [],
+    "blanks": [
+      {
+        "accepted": [
+          "-",
+          "moins"
+        ]
+      },
+      {
+        "accepted": [
+          "+",
+          "plus"
+        ]
+      }
+    ],
+    "explanation": "Les visibilités UML se notent par des symboles devant le nom : moins pour privé, plus pour public, dièse pour protégé et tilde pour la visibilité de paquetage.",
+    "difficulty": "easy",
+    "tags": [
+      "uml",
+      "visibilite"
+    ]
+  },
+  {
+    "id": "ac_040",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "FILL_BLANK",
+    "question": "Le lien tout-part à cycles de vie solidaires s'appelle la ___ , notée par un losange plein, tandis que le lien tout-part à parties autonomes s'appelle l' ___ , notée par un losange vide.",
+    "answers": [],
+    "blanks": [
+      {
+        "accepted": [
+          "composition"
+        ]
+      },
+      {
+        "accepted": [
+          "agrégation",
+          "agregation"
+        ]
+      }
+    ],
+    "explanation": "Les deux relations expriment un lien tout-part : la composition (losange plein) lie les cycles de vie du conteneur et du contenu, l'agrégation (losange vide) laisse les parties exister et se partager indépendamment.",
+    "difficulty": "medium",
+    "tags": [
+      "uml",
+      "composition",
+      "aggregation"
+    ]
+  },
+  {
+    "id": "ac_041",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "À quoi sert un diagramme de cas d'utilisation en UML ?",
+    "answers": [
+      {
+        "id": "ac_041_a",
+        "text": "À décrire la structure interne des classes et leurs attributs",
+        "isCorrect": false,
+        "note": "La structure des classes relève du diagramme de classes ; le diagramme de cas d'utilisation ne descend pas à ce niveau."
+      },
+      {
+        "id": "ac_041_c",
+        "text": "À montrer les interactions entre les acteurs et le système",
+        "isCorrect": true,
+        "note": "C'est exact : le diagramme de cas d'utilisation cadre les fonctions visibles du système du point de vue de ses utilisateurs."
+      },
+      {
+        "id": "ac_041_b",
+        "text": "À représenter les états successifs d'un objet au cours de sa vie",
+        "isCorrect": false,
+        "note": "Les états d'un objet sont le domaine du diagramme d'états-transitions, un diagramme dynamique."
+      },
+      {
+        "id": "ac_041_d",
+        "text": "À illustrer la répartition des tables dans la base de données",
+        "isCorrect": false,
+        "note": "La modélisation des données appartient au MCD Merise ou au diagramme de classes, pas aux cas d'utilisation."
+      }
+    ],
+    "explanation": "Le diagramme de cas d'utilisation représente les fonctions offertes par le système vues de l'extérieur : des cas d'utilisation enclos dans la limite du système, reliés aux acteurs qui les déclenchent ou les subissent. Il sert de contrat entre le client et l'équipe.",
+    "difficulty": "easy",
+    "tags": [
+      "uml",
+      "cas-utilisation"
+    ]
+  },
+  {
+    "id": "ac_042",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce qu'un acteur secondaire dans un diagramme de cas d'utilisation ?",
+    "answers": [
+      {
+        "id": "ac_042_a",
+        "text": "Un acteur qui hérite automatiquement des cas de l'acteur principal",
+        "isCorrect": false,
+        "note": "Les acteurs peuvent se spécialiser par généralisation, mais cela ne définit pas la notion d'acteur secondaire."
+      },
+      {
+        "id": "ac_042_c",
+        "text": "Un acteur qui n'apparaît que dans les diagrammes de séquence",
+        "isCorrect": false,
+        "note": "Un acteur peut figurer dans un diagramme de séquence, mais cette présence ne définit pas son caractère secondaire."
+      },
+      {
+        "id": "ac_042_b",
+        "text": "Un acteur qui fournit ou reçoit des services sans déclencher le cas",
+        "isCorrect": true,
+        "note": "C'est exact : l'acteur secondaire intervient dans le cas d'utilisation mais n'est pas à l'initiative de son déclenchement."
+      },
+      {
+        "id": "ac_042_d",
+        "text": "Un acteur qui valide la conformité des données saisies",
+        "isCorrect": false,
+        "note": "La validation des données est un traitement interne du système, pas la définition d'un type d'acteur."
+      }
+    ],
+    "explanation": "L'acteur primaire déclenche le cas d'utilisation pour atteindre un objectif, tandis que l'acteur secondaire intervient en cours d'exécution en fournissant ou en recevant quelque chose, comme un système de paiement ou un service d'impression.",
+    "difficulty": "medium",
+    "tags": [
+      "uml",
+      "acteurs"
+    ]
+  },
+  {
+    "id": "ac_043",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "À quoi sert la relation « include » entre deux cas d'utilisation en UML ?",
+    "answers": [
+      {
+        "id": "ac_043_d",
+        "text": "À découper le système en sous-systèmes techniques autonomes",
+        "isCorrect": false,
+        "note": "Le découpage en sous-systèmes est une question d'architecture, pas une relation entre cas d'utilisation."
+      },
+      {
+        "id": "ac_043_b",
+        "text": "À ajouter un comportement optionnel exécuté sous condition",
+        "isCorrect": false,
+        "note": "Le comportement optionnel conditionnel relève de la relation extend, pas de include qui est systématique."
+      },
+      {
+        "id": "ac_043_c",
+        "text": "À spécialiser un acteur générique en un acteur précis",
+        "isCorrect": false,
+        "note": "La spécialisation d'acteurs s'exprime par une généralisation, représentée par une flèche de spécialisation."
+      },
+      {
+        "id": "ac_043_a",
+        "text": "À factoriser un sous-comportement obligatoire commun à des cas",
+        "isCorrect": true,
+        "note": "C'est exact : include extrait une séquence toujours exécutée, réutilisée par le ou les cas de base qui l'incluent."
+      }
+    ],
+    "explanation": "La relation include factorise un comportement obligatoirement exécuté par le cas de base : le cas inclus fait toujours partie du déroulement. Elle évite de dupliquer la même séquence, comme « s'authentifier », dans plusieurs cas.",
+    "difficulty": "medium",
+    "tags": [
+      "uml",
+      "include",
+      "cas-utilisation"
+    ]
+  },
+  {
+    "id": "ac_044",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "À quoi sert la relation « extend » entre deux cas d'utilisation en UML ?",
+    "answers": [
+      {
+        "id": "ac_044_d",
+        "text": "À ajouter un comportement optionnel déclenché sous condition",
+        "isCorrect": true,
+        "note": "C'est exact : extend greffe sur le cas de base un comportement qui ne s'exécute que si sa condition est remplie."
+      },
+      {
+        "id": "ac_044_b",
+        "text": "À relier deux acteurs qui partagent des responsabilités communes",
+        "isCorrect": false,
+        "note": "Les relations entre acteurs relèvent de la généralisation, pas de la relation extend entre cas."
+      },
+      {
+        "id": "ac_044_c",
+        "text": "À décrire le scénario nominal du cas principal du système",
+        "isCorrect": false,
+        "note": "Le scénario nominal se décrit dans la fiche détaillée du cas, pas par une relation extend."
+      },
+      {
+        "id": "ac_044_a",
+        "text": "À exécuter systématiquement un sous-comportement du cas de base",
+        "isCorrect": false,
+        "note": "L'exécution systématique correspond à include ; extend reste facultatif et conditionnel."
+      }
+    ],
+    "explanation": "La relation extend enrichit un cas de base avec un comportement additionnel optionnel, exécuté seulement quand une condition d'extension est vraie. Par exemple, l'édition d'un ticket ne se produit que si l'utilisateur la demande.",
+    "difficulty": "medium",
+    "tags": [
+      "uml",
+      "extend",
+      "cas-utilisation"
+    ]
+  },
+  {
+    "id": "ac_045",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans quel sens pointe la flèche de la relation « include » entre deux cas d'utilisation ?",
+    "answers": [
+      {
+        "id": "ac_045_a",
+        "text": "Du cas commun inclus vers le cas de base qui l'utilise",
+        "isCorrect": false,
+        "note": "Ce sens inversé correspondrait à la flèche d'extend, qui part du cas d'extension vers le cas étendu."
+      },
+      {
+        "id": "ac_045_b",
+        "text": "Du cas de base vers le cas commun qu'il inclut",
+        "isCorrect": true,
+        "note": "C'est exact : la flèche en pointillés part du cas de base et pointe vers le cas inclus, qu'il exécute obligatoirement."
+      },
+      {
+        "id": "ac_045_c",
+        "text": "De l'acteur principal vers le cas d'utilisation étendu",
+        "isCorrect": false,
+        "note": "L'association entre acteur et cas se dessine par un trait plein, jamais par la flèche en pointillés d'include."
+      },
+      {
+        "id": "ac_045_d",
+        "text": "Du cas secondaire vers la limite du système modélisé",
+        "isCorrect": false,
+        "note": "La limite du système encadre les cas mais n'est la cible d'aucune flèche de relation include."
+      }
+    ],
+    "explanation": "La flèche d'include, en pointillés stéréotypés, part du cas de base et va vers le cas inclus : le cas de base « inclut » le comportement commun. Attention, pour extend, la flèche pointe en sens inverse, vers le cas de base.",
+    "difficulty": "medium",
+    "tags": [
+      "uml",
+      "include",
+      "notation"
+    ]
+  },
+  {
+    "id": "ac_046",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Que précise un point d'extension dans une relation « extend » en UML ?",
+    "answers": [
+      {
+        "id": "ac_046_a",
+        "text": "La fréquence moyenne d'exécution du cas étendu par an",
+        "isCorrect": false,
+        "note": "Les statistiques d'exécution ne font pas partie de la notation UML des cas d'utilisation."
+      },
+      {
+        "id": "ac_046_b",
+        "text": "L'acteur autorisé à déclencher le cas de base du diagramme",
+        "isCorrect": false,
+        "note": "L'acteur déclencheur est défini par l'association acteur-cas, pas par le point d'extension."
+      },
+      {
+        "id": "ac_046_c",
+        "text": "L'endroit du cas de base où l'extension peut s'insérer",
+        "isCorrect": true,
+        "note": "C'est exact : le point d'extension marque dans le déroulement du cas de base l'emplacement où le comportement étendu peut se greffer."
+      },
+      {
+        "id": "ac_046_d",
+        "text": "Le délai maximal toléré pour l'exécution du cas de base",
+        "isCorrect": false,
+        "note": "Les contraintes temporelles se notent par des contraintes UML, pas par le point d'extension."
+      }
+    ],
+    "explanation": "Le point d'extension identifie l'emplacement précis du cas de base où le comportement d'extension peut s'insérer si sa condition est vérifiée. Il est déclaré dans le cas de base et référencé par la relation extend.",
+    "difficulty": "hard",
+    "tags": [
+      "uml",
+      "extend",
+      "point-extension"
+    ]
+  },
+  {
+    "id": "ac_047",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Que représente un diagramme de séquence en UML ?",
+    "answers": [
+      {
+        "id": "ac_047_d",
+        "text": "La répartition des traitements sur les serveurs de production",
+        "isCorrect": false,
+        "note": "La répartition logicielle et matérielle est l'objet du diagramme de déploiement, pas du diagramme de séquence."
+      },
+      {
+        "id": "ac_047_b",
+        "text": "La hiérarchie d'héritage entre les classes du domaine étudié",
+        "isCorrect": false,
+        "note": "Les hiérarchies d'héritage appartiennent au diagramme de classes, une vue statique sans dimension temporelle."
+      },
+      {
+        "id": "ac_047_c",
+        "text": "Le cheminement d'un utilisateur dans les pages du site web",
+        "isCorrect": false,
+        "note": "La navigation entre pages peut s'esquisser en diagramme d'activités ; le diagramme de séquence modélise les messages entre objets."
+      },
+      {
+        "id": "ac_047_a",
+        "text": "L'échange ordonné de messages entre objets au cours du temps",
+        "isCorrect": true,
+        "note": "C'est exact : le diagramme de séquence montre qui appelle qui, et dans quel ordre temporel, pour un scénario donné."
+      }
+    ],
+    "explanation": "Le diagramme de séquence est un diagramme d'interaction : il déroule dans le temps les messages échangés entre acteurs et objets pour réaliser un scénario d'un cas d'utilisation. L'axe vertical représente le temps qui s'écoule.",
+    "difficulty": "easy",
+    "tags": [
+      "uml",
+      "sequence"
+    ]
+  },
+  {
+    "id": "ac_048",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Que matérialise une ligne de vie dans un diagramme de séquence UML ?",
+    "answers": [
+      {
+        "id": "ac_048_d",
+        "text": "L'existence d'un objet participant pendant l'interaction",
+        "isCorrect": true,
+        "note": "C'est exact : la ligne de vie est le trait vertical qui prolonge l'objet et matérialise sa présence durant l'échange."
+      },
+      {
+        "id": "ac_048_b",
+        "text": "La chaîne d'héritage reliant une classe fille à sa mère",
+        "isCorrect": false,
+        "note": "L'héritage se représente dans le diagramme de classes ; il n'apparaît pas sous forme de ligne de vie."
+      },
+      {
+        "id": "ac_048_c",
+        "text": "La contrainte temporelle fixée sur la durée d'un message",
+        "isCorrect": false,
+        "note": "Les contraintes de durée se notent séparément ; la ligne de vie représente l'existence de l'objet, pas une contrainte."
+      },
+      {
+        "id": "ac_048_a",
+        "text": "Le flux de données circulant entre deux activités parallèles",
+        "isCorrect": false,
+        "note": "Les flux entre activités relèvent du diagramme d'activités ; la ligne de vie porte un objet, pas un flux de données."
+      }
+    ],
+    "explanation": "Chaque participant du scénario débute par un rectangle portant son nom, prolongé par une ligne pointillée verticale : la ligne de vie. Elle matérialise son existence tout au long de l'interaction, le temps descendant du haut vers le bas.",
+    "difficulty": "medium",
+    "tags": [
+      "uml",
+      "sequence",
+      "ligne-de-vie"
+    ]
+  },
+  {
+    "id": "ac_049",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Que caractérise un message synchrone dans un diagramme de séquence UML ?",
+    "answers": [
+      {
+        "id": "ac_049_a",
+        "text": "L'émetteur poursuit son traitement sans attendre la réponse",
+        "isCorrect": false,
+        "note": "Ce comportement sans attente décrit un message asynchrone, dessiné avec une flèche à tête ouverte."
+      },
+      {
+        "id": "ac_049_b",
+        "text": "L'émetteur suspend son activité jusqu'à la fin de l'appel",
+        "isCorrect": true,
+        "note": "C'est exact : le message synchrone, flèche pleine à tête pleine, bloque l'émetteur jusqu'à la restitution du contrôle."
+      },
+      {
+        "id": "ac_049_c",
+        "text": "Le récepteur déclenche spontanément l'échange plus tard",
+        "isCorrect": false,
+        "note": "Un déclenchement différé par le récepteur correspond plutôt à un signal auto-envoyé ou asynchrone."
+      },
+      {
+        "id": "ac_049_d",
+        "text": "Le message circule automatiquement dans les deux sens à la fois",
+        "isCorrect": false,
+        "note": "La réponse au message synchrone est un message de retour séparé, dessiné en pointillés vers l'émetteur."
+      }
+    ],
+    "explanation": "Le message synchrone se dessine par une flèche pleine à tête pleine : l'émetteur attend que le récepteur ait terminé son traitement avant de reprendre. Une bande d'activation couvre ainsi la durée de l'appel chez le récepteur.",
+    "difficulty": "medium",
+    "tags": [
+      "uml",
+      "sequence",
+      "messages"
+    ]
+  },
+  {
+    "id": "ac_050",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Comment se représente le message de retour dans un diagramme de séquence UML ?",
+    "answers": [
+      {
+        "id": "ac_050_a",
+        "text": "Par une flèche pleine à demi-tête vers le récepteur initial",
+        "isCorrect": false,
+        "note": "La flèche pleine à demi-tête représente un message asynchrone envoyé, pas une valeur de retour."
+      },
+      {
+        "id": "ac_050_b",
+        "text": "Par un trait gras horizontal entre deux lignes de vie",
+        "isCorrect": false,
+        "note": "L'épaisseur du trait n'a pas de signification de retour ; les messages de retour sont en pointillés."
+      },
+      {
+        "id": "ac_050_c",
+        "text": "Par une flèche en pointillés vers l'émetteur de l'appel",
+        "isCorrect": true,
+        "note": "C'est exact : le message de retour, flèche pointillée, ramène le résultat du récepteur vers l'émetteur initial."
+      },
+      {
+        "id": "ac_050_d",
+        "text": "Par un losange reliant les deux lignes de vie concernées",
+        "isCorrect": false,
+        "note": "Le losange appartient aux diagrammes de classes (agrégation, composition), pas aux diagrammes de séquence."
+      }
+    ],
+    "explanation": "Le message de retour se dessine en pointillés, orienté du récepteur vers l'émetteur initial : il transporte la valeur renvoyée par l'appel. Cette convention distingue clairement la réponse du message d'appel initial.",
+    "difficulty": "medium",
+    "tags": [
+      "uml",
+      "sequence",
+      "messages"
+    ]
+  },
+  {
+    "id": "ac_051",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Que représentent les barres épaisses de synchronisation (fork et join) dans un diagramme d'activités ?",
+    "answers": [
+      {
+        "id": "ac_051_d",
+        "text": "La fusion de deux branches qui se rejoignent sans parallélisme",
+        "isCorrect": false,
+        "note": "La fusion de branches exclusives se note par un losange ; la barre épaisse impose bien une synchronisation de flux parallèles."
+      },
+      {
+        "id": "ac_051_b",
+        "text": "Un point de décision à partir duquel une seule branche est prise",
+        "isCorrect": false,
+        "note": "Le choix exclusif entre branches se représente par un losange, pas par une barre épaisse."
+      },
+      {
+        "id": "ac_051_c",
+        "text": "La réception d'un signal en provenance de l'extérieur",
+        "isCorrect": false,
+        "note": "La réception de signal a sa propre notation en UML, distincte des barres de synchronisation."
+      },
+      {
+        "id": "ac_051_a",
+        "text": "Le départ ou la convergence de flux s'exécutant en parallèle",
+        "isCorrect": true,
+        "note": "C'est exact : la barre de fork ouvre des branches parallèles, la barre de join les resynchronise en un flux unique."
+      }
+    ],
+    "explanation": "Dans un diagramme d'activités, la barre épaisse de fork divise le flux en branches concurrentes, tandis que la barre de join attend la fin de toutes les branches pour reprendre un flux unique. Elles modélisent le parallélisme réel des traitements.",
+    "difficulty": "medium",
+    "tags": [
+      "uml",
+      "activites",
+      "paralleisme"
+    ]
+  },
+  {
+    "id": "ac_052",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Que représente le losange dans un diagramme d'activités UML ?",
+    "answers": [
+      {
+        "id": "ac_052_d",
+        "text": "Un point de décision où une branche conditionnelle est choisie",
+        "isCorrect": true,
+        "note": "C'est exact : le losange évalue une condition et oriente le flux vers une seule des branches sortantes."
+      },
+      {
+        "id": "ac_052_b",
+        "text": "Une activité en cours d'exécution par le système",
+        "isCorrect": false,
+        "note": "Une activité se dessine par un rectangle aux coins arrondis portant son nom, pas par un losange."
+      },
+      {
+        "id": "ac_052_c",
+        "text": "Le début du flux de traitement de l'activité",
+        "isCorrect": false,
+        "note": "Le point de départ du flux est un rond noir plein, appelé état initial."
+      },
+      {
+        "id": "ac_052_a",
+        "text": "L'état final atteint à la fin du flux de traitement",
+        "isCorrect": false,
+        "note": "L'état final se représente par un rond cerclé, dit rond final, et non par un losange."
+      }
+    ],
+    "explanation": "Le losange est le nœud de décision du diagramme d'activités : une garde placée sur chaque branche sortante précise la condition d'emprunt. Une seule branche est suivie, ce qui le distingue des barres de parallélisme.",
+    "difficulty": "easy",
+    "tags": [
+      "uml",
+      "activites",
+      "decision"
+    ]
+  },
+  {
+    "id": "ac_053",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Que provoque une transition dans un diagramme d'états-transitions UML ?",
+    "answers": [
+      {
+        "id": "ac_053_a",
+        "text": "La création d'un nouvel objet dans le système modélisé",
+        "isCorrect": false,
+        "note": "La naissance d'un objet se matérialise par l'entrée depuis l'état initial, pas par une transition interne entre états."
+      },
+      {
+        "id": "ac_053_b",
+        "text": "Le passage d'un état à un autre en réponse à un événement",
+        "isCorrect": true,
+        "note": "C'est exact : la transition, flèche entre deux états, est déclenchée par un événement, éventuellement avec une garde et une action."
+      },
+      {
+        "id": "ac_053_c",
+        "text": "La libération des ressources allouées à l'objet concerné",
+        "isCorrect": false,
+        "note": "La libération des ressources survient à la destruction de l'objet, symbolisée par l'atteinte de l'état final."
+      },
+      {
+        "id": "ac_053_d",
+        "text": "L'envoi d'un message à l'ensemble des objets observateurs",
+        "isCorrect": false,
+        "note": "La notification d'observateurs est un mécanisme du pattern Observer, sans lien direct avec la notation de transition."
+      }
+    ],
+    "explanation": "Dans un diagramme d'états-transitions, une transition relie deux états et se déclenche lorsqu'un événement survient, souvent sous réserve d'une garde. Elle peut porter une action exécutée au passage d'un état à l'autre.",
+    "difficulty": "hard",
+    "tags": [
+      "uml",
+      "etats-transitions"
+    ]
+  },
+  {
+    "id": "ac_054",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Comment représente-t-on l'état initial d'un objet dans un diagramme d'états-transitions UML ?",
+    "answers": [
+      {
+        "id": "ac_054_c",
+        "text": "Par un rectangle aux coins arrondis portant son nom",
+        "isCorrect": false,
+        "note": "Le rectangle arrondi représente un état ordinaire quelconque, pas le pseudo-état initial."
+      },
+      {
+        "id": "ac_054_b",
+        "text": "Par un rond cerclé d'un anneau marquant la fin du cycle",
+        "isCorrect": false,
+        "note": "Le rond cerclé représente l'état final, celui où l'objet achève son cycle de vie."
+      },
+      {
+        "id": "ac_054_a",
+        "text": "Par un rond noir plein, unique point d'entrée de la machine",
+        "isCorrect": true,
+        "note": "C'est exact : le pseudo-état initial se dessine comme un disque plein d'où part la première transition."
+      },
+      {
+        "id": "ac_054_d",
+        "text": "Par un losange noir placé au départ du premier trait",
+        "isCorrect": false,
+        "note": "Le losange est réservé aux décisions des diagrammes d'activités ; il ne symbolise pas un état initial."
+      }
+    ],
+    "explanation": "L'état initial se note par un disque noir plein, d'où part la transition menant au premier état réel de l'objet. L'état final, à l'opposé, se dessine comme un disque entouré d'un anneau.",
+    "difficulty": "easy",
+    "tags": [
+      "uml",
+      "etats-transitions",
+      "notation"
+    ]
+  },
+  {
+    "id": "ac_055",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quels énoncés décrivent correctement les relations « include » et « extend » ?",
+    "answers": [
+      {
+        "id": "ac_055_c",
+        "text": "Include décrit un comportement optionnel exécuté à la demande",
+        "isCorrect": false,
+        "note": "Faux : l'inclusion est obligatoire ; le comportement optionnel est le domaine réservé d'extend."
+      },
+      {
+        "id": "ac_055_b",
+        "text": "Extend greffe un comportement optionnel soumis à une condition",
+        "isCorrect": true,
+        "note": "Juste : l'extension ne se réalise que si sa condition est remplie, elle reste facultative pour le cas de base."
+      },
+      {
+        "id": "ac_055_a",
+        "text": "Include factorise un comportement toujours exécuté par le cas de base",
+        "isCorrect": true,
+        "note": "Juste : le cas inclus est systématiquement exécuté, ce qui permet de le factoriser entre plusieurs cas de base."
+      },
+      {
+        "id": "ac_055_d",
+        "text": "Extend relie directement deux acteurs du même système",
+        "isCorrect": false,
+        "note": "Faux : extend relie deux cas d'utilisation entre eux ; les relations entre acteurs passent par la généralisation."
+      }
+    ],
+    "explanation": "Include extrait un sous-comportement obligatoire commun, exécuté à chaque déroulement du cas de base. Extend ajoute un comportement optionnel conditionnel, inséré au point d'extension seulement lorsque sa condition devient vraie.",
+    "difficulty": "medium",
+    "tags": [
+      "uml",
+      "include",
+      "extend"
+    ]
+  },
+  {
+    "id": "ac_056",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quels éléments composent un diagramme de séquence UML ?",
+    "answers": [
+      {
+        "id": "ac_056_c",
+        "text": "Les cardinalités portées par les associations entre entités",
+        "isCorrect": false,
+        "note": "Faux : les cardinalités sont l'affaire du MCD Merise ou des multiplicités du diagramme de classes."
+      },
+      {
+        "id": "ac_056_a",
+        "text": "Les lignes de vie des objets participants au scénario",
+        "isCorrect": true,
+        "note": "Juste : chaque participant est prolongé par sa ligne de vie verticale sur toute la durée de l'interaction."
+      },
+      {
+        "id": "ac_056_d",
+        "text": "Les états internes d'une classe mère héritée",
+        "isCorrect": false,
+        "note": "Faux : les états d'un objet se modélisent dans le diagramme d'états-transitions, pas dans celui de séquence."
+      },
+      {
+        "id": "ac_056_b",
+        "text": "Les messages échangés et ordonnés le long de l'axe du temps",
+        "isCorrect": true,
+        "note": "Juste : les messages horizontaux, ordonnés de haut en bas, constituent l'essence du diagramme de séquence."
+      }
+    ],
+    "explanation": "Un diagramme de séquence aligne les lignes de vie des participants, leurs bandes d'activation et les messages échangés dans l'ordre chronologique. Les cardinalités et les états internes appartiennent à d'autres diagrammes UML.",
+    "difficulty": "medium",
+    "tags": [
+      "uml",
+      "sequence"
+    ]
+  },
+  {
+    "id": "ac_057",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "TRUE_FALSE",
+    "question": "Un acteur d'un diagramme de cas d'utilisation est toujours un être humain.",
+    "answers": [
+      {
+        "id": "ac_057_v",
+        "text": "Vrai",
+        "isCorrect": false,
+        "note": "Erreur courante : un acteur peut être un système externe, une horloge ou tout dispositif jouant un rôle face au système."
+      },
+      {
+        "id": "ac_057_f",
+        "text": "Faux",
+        "isCorrect": true,
+        "note": "C'est exact : l'acteur est un rôle externe ; il peut être une personne, mais aussi un logiciel tiers ou un périphérique."
+      }
+    ],
+    "explanation": "Un acteur représente un rôle externe qui interagit avec le système : un utilisateur humain, mais aussi un système informatique partenaire, un service de paiement en ligne ou un capteur. La notation bonhomme ne signifie pas nécessairement un humain.",
+    "difficulty": "easy",
+    "tags": [
+      "uml",
+      "acteurs"
+    ]
+  },
+  {
+    "id": "ac_058",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "TRUE_FALSE",
+    "question": "Dans un diagramme d'activités, une barre de synchronisation permet d'exprimer l'exécution parallèle de plusieurs flux.",
+    "answers": [
+      {
+        "id": "ac_058_f",
+        "text": "Faux",
+        "isCorrect": false,
+        "note": "Erreur : c'est précisément le rôle des barres de fork et de join, qui divisent et resynchronisent des flux parallèles."
+      },
+      {
+        "id": "ac_058_v",
+        "text": "Vrai",
+        "isCorrect": true,
+        "note": "C'est exact : la barre épaisse ouvre (fork) et referme (join) des branches de flux concurrentes."
+      }
+    ],
+    "explanation": "La barre épaisse de fork décompose le flux en plusieurs branches exécutées simultanément, et la barre de join attend leur achèvement commun. C'est le mécanisme d'expression du parallélisme dans les diagrammes d'activités.",
+    "difficulty": "easy",
+    "tags": [
+      "uml",
+      "activites",
+      "paralleisme"
+    ]
+  },
+  {
+    "id": "ac_059",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "FILL_BLANK",
+    "question": "Dans un diagramme de cas d'utilisation, les cas sont contenus à l'intérieur de la ___ du système et communiquent avec des ___ situés à l'extérieur.",
+    "answers": [],
+    "blanks": [
+      {
+        "accepted": [
+          "limite",
+          "frontière",
+          "frontiere"
+        ]
+      },
+      {
+        "accepted": [
+          "acteurs",
+          "acteurs externes"
+        ]
+      }
+    ],
+    "explanation": "La limite du système, dessinée comme un rectangle, encadre tous les cas d'utilisation. Les acteurs, extérieurs à cette limite, se relient aux cas qu'ils déclenchent ou subissent par de simples traits d'association.",
+    "difficulty": "easy",
+    "tags": [
+      "uml",
+      "cas-utilisation"
+    ]
+  },
+  {
+    "id": "ac_060",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "FILL_BLANK",
+    "question": "Dans un diagramme de séquence, le temps s'écoule de haut en ___ et les échanges entre participants sont représentés par des ___ horizontaux.",
+    "answers": [],
+    "blanks": [
+      {
+        "accepted": [
+          "bas"
+        ]
+      },
+      {
+        "accepted": [
+          "messages"
+        ]
+      }
+    ],
+    "explanation": "L'axe vertical du diagramme de séquence porte le temps qui descend, et l'axe horizontal porte les participants. Chaque échange se dessine comme un message horizontal reliant deux lignes de vie, à la hauteur de son moment d'exécution.",
+    "difficulty": "easy",
+    "tags": [
+      "uml",
+      "sequence"
+    ]
+  },
+  {
+    "id": "ac_061",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce que le modèle conceptuel de données (MCD) de la méthode Merise ?",
+    "answers": [
+      {
+        "id": "ac_061_a",
+        "text": "Le schéma des tables, clés et contraintes du SGBD retenu",
+        "isCorrect": false,
+        "note": "Les tables et clés apparaissent au niveau logique (MLD), une traduction technique postérieure au MCD."
+      },
+      {
+        "id": "ac_061_b",
+        "text": "Le plan de sauvegarde et de réplication des données de production",
+        "isCorrect": false,
+        "note": "Les stratégies de sauvegarde relèvent de l'exploitation, jamais de la modélisation conceptuelle des données."
+      },
+      {
+        "id": "ac_061_d",
+        "text": "La description des écrans et des menus de la future application",
+        "isCorrect": false,
+        "note": "Les interfaces utilisateurs concernent la conception des traitements ou la maquette, pas le modèle de données."
+      },
+      {
+        "id": "ac_061_c",
+        "text": "Une représentation des données du domaine par entités et associations",
+        "isCorrect": true,
+        "note": "C'est exact : le MCD décrit les réalités du métier sous forme d'entités reliées par des associations porteuses de cardinalités."
+      }
+    ],
+    "explanation": "Le MCD est le niveau conceptuel de la modélisation des données en Merise : il décrit les entités du domaine, leurs attributs et leurs associations, indépendamment de tout choix de SGBD ou de technique d'implantation.",
+    "difficulty": "easy",
+    "tags": [
+      "merise",
+      "mcd"
+    ]
+  },
+  {
+    "id": "ac_062",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Que signifie la cardinalité (1,1) portée par une entité dans un MCD Merise ?",
+    "answers": [
+      {
+        "id": "ac_062_a",
+        "text": "Chaque occurrence participe exactement une fois à l'association",
+        "isCorrect": true,
+        "note": "C'est exact : le minimum comme le maximum valent un, la participation est obligatoire et unique."
+      },
+      {
+        "id": "ac_062_b",
+        "text": "Chaque occurrence participe zéro ou plusieurs fois à l'association",
+        "isCorrect": false,
+        "note": "La participation facultative et multiple correspond à la cardinalité (0,n), l'inverse de (1,1)."
+      },
+      {
+        "id": "ac_062_c",
+        "text": "Chaque occurrence participe au plus une fois, voire pas du tout",
+        "isCorrect": false,
+        "note": "La participation facultative limitée à une fois correspond à (0,1) ; ici le minimum de un est obligatoire."
+      },
+      {
+        "id": "ac_062_d",
+        "text": "L'association ne relie jamais plus d'une occurrence par instance",
+        "isCorrect": false,
+        "note": "Cette formulation prête à confusion avec la multiplicité UML ; en Merise, (1,1) parle de participation d'une occurrence."
+      }
+    ],
+    "explanation": "La cardinalité (1,1) se lit sur une extrémité d'association : chaque occurrence de l'entité participe obligatoirement à l'association, une seule fois. Par exemple, chaque employé appartient à exactement un service.",
+    "difficulty": "medium",
+    "tags": [
+      "merise",
+      "cardinalites"
+    ]
+  },
+  {
+    "id": "ac_063",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Que signifie la cardinalité (0,n) dans un MCD Merise ?",
+    "answers": [
+      {
+        "id": "ac_063_a",
+        "text": "Une participation unique et obligatoire à l'association",
+        "isCorrect": false,
+        "note": "La participation unique et obligatoire est notée (1,1) ; (0,n) dit tout le contraire."
+      },
+      {
+        "id": "ac_063_d",
+        "text": "Zéro ou plusieurs participations possibles, sans minimum imposé",
+        "isCorrect": true,
+        "note": "C'est exact : le minimum zéro rend la participation facultative et le maximum n la rend multiple."
+      },
+      {
+        "id": "ac_063_c",
+        "text": "Plusieurs participations obligatoires, au minimum deux à la fois",
+        "isCorrect": false,
+        "note": "Aucune cardinalité Merise n'impose un minimum de deux ; le minimum de (0,n) est zéro."
+      },
+      {
+        "id": "ac_063_b",
+        "text": "Une participation optionnelle mais limitée à une seule fois",
+        "isCorrect": false,
+        "note": "La participation facultative limitée à une fois correspond à (0,1), pas à (0,n)."
+      }
+    ],
+    "explanation": "La cardinalité (0,n) exprime une participation facultative et répétitive : une occurrence de l'entité peut ne jamais participer à l'association ou y participer un nombre quelconque de fois. C'est le cas d'un client qui n'a passé aucune commande ou de très nombreuses.",
+    "difficulty": "medium",
+    "tags": [
+      "merise",
+      "cardinalites"
+    ]
+  },
+  {
+    "id": "ac_064",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Que signifie la cardinalité (0,1) dans un MCD Merise ?",
+    "answers": [
+      {
+        "id": "ac_064_a",
+        "text": "Une participation multiple qui peut atteindre un nombre illimité",
+        "isCorrect": false,
+        "note": "Le maximum illimité se note avec la lettre n ; ici le maximum vaut strictement un."
+      },
+      {
+        "id": "ac_064_c",
+        "text": "Une participation obligatoire qui se répète plusieurs fois",
+        "isCorrect": false,
+        "note": "Une participation obligatoire et répétitive se noterait (1,n) ; le zéro de (0,1) rend la participation facultative."
+      },
+      {
+        "id": "ac_064_b",
+        "text": "Une participation facultative, limitée à une seule occurrence",
+        "isCorrect": true,
+        "note": "C'est exact : l'occurrence peut ne pas participer, mais si elle participe, c'est une seule fois au plus."
+      },
+      {
+        "id": "ac_064_d",
+        "text": "Une interdiction absolue de participer à cette association",
+        "isCorrect": false,
+        "note": "Le zéro autorise l'absence de participation, il ne l'impose pas ; l'occurrence peut participer une fois."
+      }
+    ],
+    "explanation": "La cardinalité (0,1) décrit une participation facultative et au plus unique : par exemple, un employé peut ne pas disposer de badge, mais il ne peut en détenir qu'un seul. Elle se traduit en logique relationnel par une clé étrangère nullable.",
+    "difficulty": "medium",
+    "tags": [
+      "merise",
+      "cardinalites"
+    ]
+  },
+  {
+    "id": "ac_065",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans un MCD Merise, quel rôle joue l'identifiant d'une entité ?",
+    "answers": [
+      {
+        "id": "ac_065_a",
+        "text": "Il mesure le volume de stockage occupé par chaque occurrence",
+        "isCorrect": false,
+        "note": "Le volume de stockage est une préoccupation physique, sans rapport avec le rôle conceptuel de l'identifiant."
+      },
+      {
+        "id": "ac_065_b",
+        "text": "Il ordonne les occurrences selon une règle de tri fixée",
+        "isCorrect": false,
+        "note": "L'ordre d'affichage des occurrences est une question de présentation, étrangère à la notion d'identifiant."
+      },
+      {
+        "id": "ac_065_d",
+        "text": "Il relie l'entité aux traitements qui la manipulent",
+        "isCorrect": false,
+        "note": "Le lien entre données et traitements se modélise dans le MCT ou le MOT, pas par l'identifiant de l'entité."
+      },
+      {
+        "id": "ac_065_c",
+        "text": "Il distingue chaque occurrence de façon unique au sein de l'entité",
+        "isCorrect": true,
+        "note": "C'est exact : l'identifiant, souligné dans le MCD, garantit qu'on peut reconnaître sans ambiguïté chaque occurrence."
+      }
+    ],
+    "explanation": "L'identifiant est un attribut, ou un groupe d'attributs, dont la valeur est unique pour chaque occurrence de l'entité ; il se souligne dans le MCD. Il devient la clé primaire de la table correspondante au niveau logique.",
+    "difficulty": "medium",
+    "tags": [
+      "merise",
+      "identifiant"
+    ]
+  },
+  {
+    "id": "ac_066",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Comment se traduit une association binaire de type (1,n)-(0,n) lors du passage du MCD au modèle relationnel ?",
+    "answers": [
+      {
+        "id": "ac_066_a",
+        "text": "Par une table intermédiaire portant les deux identifiants en clés étrangères",
+        "isCorrect": true,
+        "note": "C'est exact : quand aucune extrémité n'a un maximum de un, la règle impose une table dédiée dont la clé couvre les deux identifiants."
+      },
+      {
+        "id": "ac_066_b",
+        "text": "Par la migration d'une clé étrangère dans une des deux tables",
+        "isCorrect": false,
+        "note": "La simple migration de clé étrangère ne convient que si une extrémité porte un maximum de un, comme (0,1) ou (1,1)."
+      },
+      {
+        "id": "ac_066_c",
+        "text": "Par la fusion des deux entités en une seule table unique",
+        "isCorrect": false,
+        "note": "Fusionner les entités détruirait l'autonomie de leurs occurrences et multiplierait les redondances d'information."
+      },
+      {
+        "id": "ac_066_d",
+        "text": "Par un attribut calculé mis à jour à chaque insertion de ligne",
+        "isCorrect": false,
+        "note": "Les attributs calculés ne remplacent jamais la structure relationnelle nécessaire à une association plusieurs-plusieurs."
+      }
+    ],
+    "explanation": "Une association du type (1,n)-(0,n) relie des occurrences en nombre variable des deux côtés : le passage au relationnel crée une table intermédiaire portant les identifiants des deux entités comme clé primaire composite et clés étrangères.",
+    "difficulty": "hard",
+    "tags": [
+      "merise",
+      "mcd-mld"
+    ]
+  },
+  {
+    "id": "ac_067",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Comment passe-t-on une association de type (1,1)-(0,n) du MCD au modèle logique relationnel ?",
+    "answers": [
+      {
+        "id": "ac_067_a",
+        "text": "Par une table intermédiaire regroupant les deux identifiants",
+        "isCorrect": false,
+        "note": "La table intermédiaire est réservée aux associations où aucun côté n'est limité à un, comme (1,n)-(0,n)."
+      },
+      {
+        "id": "ac_067_b",
+        "text": "Par une clé étrangère ajoutée dans la table du côté (0,n)",
+        "isCorrect": true,
+        "note": "C'est exact : l'identifiant de l'entité côté (1,1) migre comme clé étrangère dans la table de l'entité côté (0,n)."
+      },
+      {
+        "id": "ac_067_c",
+        "text": "Par la suppression de l'identifiant de l'une des deux entités",
+        "isCorrect": false,
+        "note": "Aucun identifiant ne disparaît au passage au logique : chaque entité conserve sa clé primaire propre."
+      },
+      {
+        "id": "ac_067_d",
+        "text": "Par un attribut de contrôle vérifié à chaque mise à jour",
+        "isCorrect": false,
+        "note": "Le lien entre les deux tables se structure par une clé étrangère, pas par un attribut de contrôle ad hoc."
+      }
+    ],
+    "explanation": "Quand une extrémité de l'association porte la cardinalité (1,1), l'identifiant de cette entité migre comme clé étrangère dans la table de l'autre entité. Chaque ligne du côté (0,n) référence ainsi une et une seule occurrence du côté (1,1).",
+    "difficulty": "hard",
+    "tags": [
+      "merise",
+      "mcd-mld"
+    ]
+  },
+  {
+    "id": "ac_068",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Que décrit le niveau conceptuel dans la démarche à trois niveaux de Merise ?",
+    "answers": [
+      {
+        "id": "ac_068_a",
+        "text": "Les index, fichiers et paramètres de stockage du SGBD",
+        "isCorrect": false,
+        "note": "Ces éléments matériels et d'implantation appartiennent au niveau physique, le plus technique des trois niveaux."
+      },
+      {
+        "id": "ac_068_b",
+        "text": "Les tables, clés étrangères et contraintes du modèle relationnel",
+        "isCorrect": false,
+        "note": "Le modèle relationnel structuré en tables correspond au niveau logique, intermédiaire entre conceptuel et physique."
+      },
+      {
+        "id": "ac_068_d",
+        "text": "Les données et règles de gestion du métier, sans choix technique",
+        "isCorrect": true,
+        "note": "C'est exact : le niveau conceptuel décrit le « quoi » du système d'information, indépendamment des technologies."
+      },
+      {
+        "id": "ac_068_c",
+        "text": "Les requêtes SQL préparées pour l'application finale",
+        "isCorrect": false,
+        "note": "Le code SQL relève de l'implantation physique du système, jamais du niveau conceptuel."
+      }
+    ],
+    "explanation": "Le niveau conceptuel formalise les données et les règles de gestion du domaine étudié, sans référence à aucun outil ou SGBD. Il répond à la question « que gère l'entreprise » et sert de contrat stable avant toute décision technique.",
+    "difficulty": "medium",
+    "tags": [
+      "merise",
+      "niveaux"
+    ]
+  },
+  {
+    "id": "ac_069",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Que concerne le niveau physique de la modélisation en Merise ?",
+    "answers": [
+      {
+        "id": "ac_069_d",
+        "text": "Le diagramme des flux d'information entre les postes",
+        "isCorrect": false,
+        "note": "Les flux d'information entre acteurs se modélisent dans le diagramme de flux, une autre préoccupation de Merise."
+      },
+      {
+        "id": "ac_069_b",
+        "text": "La liste des entités et associations du domaine étudié",
+        "isCorrect": false,
+        "note": "Entités et associations sont les objets du niveau conceptuel, bien avant toute préoccupation d'implantation."
+      },
+      {
+        "id": "ac_069_c",
+        "text": "Le schéma relationnel avec ses tables et clés étrangères",
+        "isCorrect": false,
+        "note": "Le schéma relationnel constitue le niveau logique ; le niveau physique va un cran plus loin vers l'implantation."
+      },
+      {
+        "id": "ac_069_a",
+        "text": "L'implantation concrète : index, fichiers et paramètres du SGBD",
+        "isCorrect": true,
+        "note": "C'est exact : le niveau physique traduit le modèle logique en objets réellement créés et optimisés dans le SGBD."
+      }
+    ],
+    "explanation": "Le niveau physique décrit comment le modèle logique s'implante réellement : création des index, choix des types de données, organisation des fichiers et paramétrage du SGBD pour répondre aux exigences de performance.",
+    "difficulty": "medium",
+    "tags": [
+      "merise",
+      "niveaux"
+    ]
+  },
+  {
+    "id": "ac_070",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Qu'est-ce qu'une clé étrangère dans le modèle logique relationnel ?",
+    "answers": [
+      {
+        "id": "ac_070_b",
+        "text": "Un attribut référençant la clé primaire d'une autre table",
+        "isCorrect": true,
+        "note": "C'est exact : la clé étrangère crée le lien entre deux tables en pointant vers la clé primaire de la table référencée."
+      },
+      {
+        "id": "ac_070_a",
+        "text": "Un index secondaire accélérant les recherches sur une colonne",
+        "isCorrect": false,
+        "note": "L'index accélère les accès mais ne porte aucune contrainte de référence ; c'est une structure d'optimisation."
+      },
+      {
+        "id": "ac_070_c",
+        "text": "Une contrainte d'unicité posée sur une combinaison de colonnes",
+        "isCorrect": false,
+        "note": "La contrainte d'unicité empêche les doublons sur des colonnes, mais ne crée aucun lien de référence entre tables."
+      },
+      {
+        "id": "ac_070_d",
+        "text": "Un déclencheur exécuté automatiquement lors d'une suppression",
+        "isCorrect": false,
+        "note": "Le déclencheur est un programme réactif du SGBD ; la clé étrangère est une contrainte d'intégrité référentielle."
+      }
+    ],
+    "explanation": "La clé étrangère est une colonne, ou un groupe de colonnes, dont les valeurs doivent correspondre à une clé primaire existante dans une autre table. Elle matérialise les associations du MCD et garantit l'intégrité référentielle.",
+    "difficulty": "medium",
+    "tags": [
+      "merise",
+      "mld",
+      "cle-etrangere"
+    ]
+  },
+  {
+    "id": "ac_071",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Parmi les notations suivantes, lesquelles sont des cardinalités valides en Merise ?",
+    "answers": [
+      {
+        "id": "ac_071_b",
+        "text": "La notation 0..* pour un nombre libre d'occurrences liées",
+        "isCorrect": false,
+        "note": "Faux : 0..* est une multiplicité du langage UML ; Merise écrit la même idée (0,n) entre parenthèses."
+      },
+      {
+        "id": "ac_071_a",
+        "text": "La notation (0,1) pour une participation facultative et unique",
+        "isCorrect": true,
+        "note": "Juste : (0,1) est une cardinalité Merise classique, elle autorise l'absence de participation mais au plus une seule."
+      },
+      {
+        "id": "ac_071_d",
+        "text": "La notation (2,n) pour une participation à partir de deux fois",
+        "isCorrect": false,
+        "note": "Faux : les cardinalités Merise usuelles ne combinent que 0, 1 et n ; (2,n) n'en fait pas partie."
+      },
+      {
+        "id": "ac_071_c",
+        "text": "La notation (1,n) pour une participation obligatoire et multiple",
+        "isCorrect": true,
+        "note": "Juste : (1,n) impose au moins une participation sans plafonner le nombre, c'est une cardinalité Merise usuelle."
+      }
+    ],
+    "explanation": "Merise utilise quatre cardinalités de base : (0,1), (1,1), (0,n) et (1,n). La notation à deux points UML comme 0..* n'appartient pas à Merise, et les bornes autres que 0, 1 et n ne s'y rencontrent pas.",
+    "difficulty": "medium",
+    "tags": [
+      "merise",
+      "cardinalites"
+    ]
+  },
+  {
+    "id": "ac_072",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quels énoncés décrivent correctement la démarche de la méthode Merise ?",
+    "answers": [
+      {
+        "id": "ac_072_b",
+        "text": "La modélisation à trois niveaux : conceptuel, logique et physique",
+        "isCorrect": true,
+        "note": "Juste : la démarche progressive des trois niveaux permet de passer du « quoi » métier au « comment » technique."
+      },
+      {
+        "id": "ac_072_d",
+        "text": "La fusion des données et des traitements dans un seul modèle",
+        "isCorrect": false,
+        "note": "Faux : la distinction données/traitements est l'un des fondements historiques de la méthode Merise."
+      },
+      {
+        "id": "ac_072_c",
+        "text": "L'écriture du code du système avant toute analyse des besoins",
+        "isCorrect": false,
+        "note": "Faux : Merise impose l'analyse et la conception avant la réalisation ; coder d'abord contredit sa démarche."
+      },
+      {
+        "id": "ac_072_a",
+        "text": "La séparation des études de données et de traitements en deux axes",
+        "isCorrect": true,
+        "note": "Juste : Merise étudie en parallèle le système de données (MCD, MLD) et le système de traitements (MCT, MOT)."
+      }
+    ],
+    "explanation": "Merise repose sur deux principes fondateurs : séparer l'étude des données de celle des traitements, et faire progresser la modélisation par trois niveaux (conceptuel, logique, physique). L'analyse précède toujours la réalisation.",
+    "difficulty": "medium",
+    "tags": [
+      "merise",
+      "demarche"
+    ]
+  },
+  {
+    "id": "ac_073",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "TRUE_FALSE",
+    "question": "Dans un MCD Merise, une cardinalité (1,1) interdit à une occurrence de participer plusieurs fois à l'association.",
+    "answers": [
+      {
+        "id": "ac_073_v",
+        "text": "Vrai",
+        "isCorrect": true,
+        "note": "C'est exact : la borne maximale de (1,1) vaut un, la participation est donc limitée à une seule fois, obligatoirement."
+      },
+      {
+        "id": "ac_073_f",
+        "text": "Faux",
+        "isCorrect": false,
+        "note": "Erreur : avec un maximum de un, la répétition de la participation est précisément ce que la cardinalité (1,1) exclut."
+      }
+    ],
+    "explanation": "La cardinalité (1,1) fixe les deux bornes à la valeur un : la participation est obligatoire (minimum 1) et non répétée (maximum 1). Pour autoriser plusieurs participations, la borne maximale devrait être n.",
+    "difficulty": "easy",
+    "tags": [
+      "merise",
+      "cardinalites"
+    ]
+  },
+  {
+    "id": "ac_074",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "TRUE_FALSE",
+    "question": "Le MCD intègre les choix de SGBD, les index et les optimisations d'accès aux données.",
+    "answers": [
+      {
+        "id": "ac_074_f",
+        "text": "Faux",
+        "isCorrect": true,
+        "note": "C'est exact : le MCD reste volontairement indépendant de tout SGBD et de toute optimisation d'implantation."
+      },
+      {
+        "id": "ac_074_v",
+        "text": "Vrai",
+        "isCorrect": false,
+        "note": "Erreur de niveau : ces choix techniques relèvent du niveau logique et surtout du niveau physique, jamais du conceptuel."
+      }
+    ],
+    "explanation": "Le MCD est un modèle conceptuel : il décrit les données du métier sans aucun choix technique. Le choix du SGBD apparaît au niveau logique, et les index ou optimisations au niveau physique de la démarche Merise.",
+    "difficulty": "easy",
+    "tags": [
+      "merise",
+      "mcd",
+      "niveaux"
+    ]
+  },
+  {
+    "id": "ac_075",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "FILL_BLANK",
+    "question": "En Merise, le MCD décrit le ___ du problème indépendamment de tout outil, tandis que le MLD le traduit en ___ relationnelles prêtes à être créées.",
+    "answers": [],
+    "blanks": [
+      {
+        "accepted": [
+          "sens",
+          "sens métier",
+          "sens des affaires",
+          "concept"
+        ]
+      },
+      {
+        "accepted": [
+          "tables",
+          "relations"
+        ]
+      }
+    ],
+    "explanation": "Le MCD capture le sens métier : entités, associations et règles de gestion, sans aucun choix technique. Le MLD, modèle logique de données, traduit ce concept en tables et clés conformes au SGBD relationnel retenu.",
+    "difficulty": "medium",
+    "tags": [
+      "merise",
+      "mcd",
+      "mld"
+    ]
+  },
+  {
+    "id": "ac_076",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "FILL_BLANK",
+    "question": "Une association porteuse est une association du MCD qui possède un ou plusieurs ___ propres, comme la date et la quantité d'une commande de produit.",
+    "answers": [],
+    "blanks": [
+      {
+        "accepted": [
+          "attributs",
+          "attribut"
+        ]
+      }
+    ],
+    "explanation": "Une association porteuse transporte des informations qui ne dépendent d'aucune entité seule mais du lien lui-même : la quantité commandée n'appartient ni au produit ni à la commande, mais à leur association. Au niveau logique, ces attributs migrent dans la table intermédiaire.",
+    "difficulty": "medium",
+    "tags": [
+      "merise",
+      "association-porteuse"
+    ]
+  },
+  {
+    "id": "ac_077",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "CASE_STUDY",
+    "context": "La municipalité d'une ville moyenne veut informatiser la gestion de sa bibliothèque municipale. Aujourd'hui, les inscriptions des adhérents sont tenues dans un registre papier et le suivi des prêts dans un cahier. Le bibliothécaire souhaite inscrire les adhérents, enregistrer les livres avec leur auteur et leur catégorie, enregistrer les emprunts avec leur date de retour prévue, et être alerté des retards. Un adhérent peut emprunter au maximum cinq livres simultanément ; un livre ne peut être emprunté que s'il est disponible. Le maire veut également un rapport mensuel des livres les plus empruntés.",
+    "question": "Analysez ce besoin et proposez une première modélisation du futur système d'information de la bibliothèque.",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Identifiez les acteurs du système et proposez le diagramme de cas d'utilisation principal.",
+        "answer": "Deux acteurs se dégagent : le bibliothécaire, acteur primaire qui déclenche la plupart des cas, et le maire, acteur secondaire qui consulte le rapport mensuel. Les cas d'utilisation principaux sont : inscrire un adhérent, enregistrer un livre, gérer un emprunt (enregistrement et retour), consulter la disponibilité d'un livre et produire le rapport des emprunts. L'alerte sur les retards peut être un cas « suivre les retards » inclus ou lié à la gestion des emprunts. Chaque acteur se relie aux cas qu'il déclenche : le bibliothécaire aux opérations courantes, le maire au rapport statistique.",
+        "rubric": [
+          "identifie le bibliothécaire comme acteur primaire",
+          "identifie le maire comme acteur (secondaire) du rapport",
+          "cite les cas inscrire adhérent, gérer livre, gérer emprunt, rapport",
+          "place les acteurs en dehors de la limite du système"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Proposez les entités du MCD avec leurs attributs essentiels et les associations avec leurs cardinalités.",
+        "answer": "Trois entités principales : ADHERENT (numéro adhérent identifiant, nom, prénom, adresse, date d'inscription), LIVRE (code livre identifiant, titre, auteur, catégorie, disponible) et EMPRUNT. L'association EMPRUNTER relie ADHERENT et LIVRE avec les cardinalités (1,n) côté adhérent et (0,1) côté livre pour les exemplaires uniques, ou (0,n) si le fonds contient plusieurs exemplaires. L'association porte les attributs date d'emprunt et date de retour prévue, ce qui en fait une association porteuse. La règle des cinq emprunts simultanés est une contrainte de gestion à documenter, non exprimable par les seules cardinalités.",
+        "rubric": [
+          "propose ADHERENT, LIVRE et EMPRUNT comme entités",
+          "souligne un identifiant par entité (numéro adhérent, code livre)",
+          "place des cardinalités cohérentes comme (1,n)-(0,n) ou (1,n)-(0,1)",
+          "signale les attributs de date portés par l'association"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Rédigez un test d'acceptation pour le cas d'utilisation « enregistrer un emprunt ».",
+        "answer": "Scénario de test : un adhérent en règle demande le prêt du livre « L'Aventure ambiguë » ; le bibliothécaire enregistre l'emprunt ; le système affiche la date de retour prévue (par exemple quinze jours plus tard), marque le livre indisponible et décrémente le compteur d'emprunts en cours de l'adhérent. Variantes à vérifier : si l'adhérent détient déjà cinq emprunts, le système refuse et affiche le motif ; si le livre est déjà emprunté, le système refuse l'opération ; si l'adhérent a un retard en cours, la politique de la bibliothèque détermine le refus ou l'avertissement. Chaque cas teste une règle de gestion distincte.",
+        "rubric": [
+          "décrit le scénario nominal avec la date de retour prévue",
+          "prévoit le refus au-delà de cinq emprunts simultanés",
+          "prévoit le refus si le livre n'est pas disponible",
+          "formule le test de façon vérifiable par le client"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "Ce cas illustre la démarche complète : partir des acteurs et de leurs besoins, dessiner les cas d'utilisation comme contrat fonctionnel, puis modéliser les données en MCD avec des cardinalités issues des règles de gestion. Les contraintes chiffrées comme la limite de cinq emprunts se traitent comme des règles de gestion documentées, vérifiées par des tests d'acceptation.",
+    "difficulty": "medium",
+    "tags": [
+      "cas",
+      "cas-utilisation",
+      "mcd"
+    ]
+  },
+  {
+    "id": "ac_078",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "CASE_STUDY",
+    "context": "Une banque béninoise veut moderniser ses distributeurs automatiques de billets (GAB). Le client insère sa carte, tape son code secret, puis choisit une opération : consultation du solde, retrait d'espèces ou impression de relevé. Une carte est rattachée à exactement un compte, mais un compte peut porter plusieurs cartes (le mari et la femme, par exemple). Chaque retrait débité doit être conservé dans l'historique du compte avec sa date, son montant et le GAB utilisé. La carte se bloque automatiquement après trois codes erronés consécutifs.",
+    "question": "Identifiez les classes du domaine bancaire et leurs relations pour concevoir ce système de GAB.",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Proposez les classes candidates avec leurs attributs principaux.",
+        "answer": "Quatre classes se dégagent : Carte (numéro carte, code secret, statut actif ou bloquée, compteur d'essais), Compte (numéro compte, solde, titulaire), Retrait (numéro d'opération, date, montant) et GAB (identifiant, localisation). La classe Retrait porte les informations propres à chaque opération. On peut ajouter Client (nom, identifiant client) si l'on veut distinguer le titulaire du compte, ce qui prépare la gestion multi-cartes. Les attributs sensibles comme le code secret restent chiffrés et jamais affichés.",
+        "rubric": [
+          "propose Carte, Compte, Retrait et GAB comme classes",
+          "liste des attributs cohérents par classe",
+          "prévoit le statut bloquée et le compteur d'essais sur Carte",
+          "mentionne la date et le montant sur Retrait"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Décrivez les associations entre ces classes avec leurs multiplicités UML.",
+        "answer": "L'association Carte-Compte porte les multiplicités 1 côté Compte et 1..* côté Carte : chaque carte ouvre exactement un compte et un compte peut porter plusieurs cartes. L'association Compte-Retrait relie un compte à 0..* retraits et chaque retrait à exactement un compte. L'association GAB-Retrait relie un GAB à 0..* retraits et chaque retrait à un seul GAB. Ces multiplicités traduisent fidèlement les règles de l'énoncé et serviront de base au passage vers le modèle relationnel.",
+        "rubric": [
+          "place 1 côté Compte et 1..* côté Carte sur Carte-Compte",
+          "place 0..* retraits pour un compte et 1 compte par retrait",
+          "relie chaque retrait à un seul GAB",
+          "justifie chaque multiplicité par une règle de l'énoncé"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Le lien Carte-Compte est-il une agrégation ou une composition ? Justifiez votre choix.",
+        "answer": "C'est une association simple, ou au plus une agrégation, mais jamais une composition : supprimer une carte (carte perdue, volée ou expirée) ne supprime en rien le compte, qui continue de vivre avec ses autres cartes. Le compte existe avant la carte et survit à sa destruction ; les cycles de vie ne sont pas solidaires, ce qui exclut la composition. L'énoncé ne montre pas non plus de partage de carte entre comptes, donc une association simple avec les bonnes multiplicités suffit en première analyse.",
+        "rubric": [
+          "exclut la composition en invoquant les cycles de vie",
+          "montre que le compte survit à la suppression d'une carte",
+          "retient une association simple ou une agrégation",
+          "s'appuie sur la règle un compte, plusieurs cartes"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "La conception objet d'un GAB commence par l'identification des classes du domaine à partir des noms du besoin : carte, compte, retrait, GAB. Les multiplicités se déduisent des règles de gestion énoncées, et le choix agrégation contre composition se tranche toujours par la question du cycle de vie : ce qui survit à la destruction de l'autre n'est pas composé avec lui.",
+    "difficulty": "hard",
+    "tags": [
+      "cas",
+      "diagramme-de-classes",
+      "multiplicites"
+    ]
+  },
+  {
+    "id": "ac_079",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "CASE_STUDY",
+    "context": "Un collège de Parakou gère sa scolarité avec un tableur devenu ingérable. Le directeur veut enregistrer les élèves avec leur matricule, leurs classes avec leur niveau et leur année scolaire, et les professeurs avec leur matière. Chaque élève est inscrit dans une seule classe par année ; une classe accueille plusieurs élèves ; un professeur enseigne sa matière dans plusieurs classes et une classe reçoit plusieurs professeurs. Le conseil de classe calcule pour chaque élève la moyenne obtenue dans chaque matière.",
+    "question": "Concevez le MCD de ce système de gestion de scolarité, puis proposez son passage au modèle logique.",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Proposez les entités du MCD et les associations avec leurs cardinalités.",
+        "answer": "Trois entités : ELEVE (matricule identifiant, nom, prénom, date de naissance), CLASSE (code classe identifiant, niveau, année scolaire) et PROFESSEUR (matricule prof identifiant, nom, matière enseignée). L'association ETRE_INSCRIT relie ELEVE et CLASSE avec (1,1) côté élève pour une année donnée, chaque élève étant inscrit dans une seule classe, et (1,n) côté classe qui regroupe plusieurs élèves. L'association ENSEIGNER relie PROFESSEUR et CLASSE avec (1,n) des deux côtés, chaque professeur intervenant dans plusieurs classes et chaque classe recevant plusieurs professeurs.",
+        "rubric": [
+          "propose ELEVE, CLASSE et PROFESSEUR avec identifiants",
+          "place (1,1) côté élève pour l'inscription à une classe",
+          "place (1,n) côté classe pour le regroupement des élèves",
+          "modélise ENSEIGNER en (1,n)-(1,n) entre professeur et classe"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Où placer la moyenne par matière de chaque élève ? Justifiez.",
+        "answer": "La moyenne dépend à la fois de l'élève et de la matière enseignée dans sa classe : elle ne peut être un attribut de ELEVE (elle varierait selon la matière) ni de PROFESSEUR (elle varierait selon l'élève). Elle se place donc sur l'association ENSEIGNER, ou sur une association porteuse dédiée NOTER reliant ELEVE et PROFESSEUR, avec les attributs moyenne et trimestre. C'est le cas d'école de l'attribut d'association : une information qui n'a de sens que pour le couple d'occurrences liées.",
+        "rubric": [
+          "exclut la moyenne comme attribut de ELEVE seul",
+          "exclut la moyenne comme attribut de PROFESSEUR seul",
+          "place la moyenne sur l'association porteuse",
+          "explique que la valeur dépend du couple élève-matière"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Comment l'association ENSEIGNER se traduit-elle dans le modèle logique relationnel ?",
+        "answer": "L'association ENSEIGNER est de type (1,n)-(1,n) : aucune extrémité n'est limitée à un, donc la règle de passage impose une table intermédiaire ENSEIGNER (matricule_prof, code_classe) dont la clé primaire est la combinaison des deux identifiants, chacun étant aussi clé étrangère vers sa table d'origine. Si l'association porte des attributs comme le volume horaire, ils deviennent des colonnes de cette table. L'association ETRE_INSCRIT en (1,1)-(1,n) se traite, elle, par la migration de la clé de CLASSE comme clé étrangère dans la table ELEVE.",
+        "rubric": [
+          "crée une table intermédiaire pour ENSEIGNER",
+          "pose la clé primaire composite sur les deux identifiants",
+          "identifie les deux clés étrangères de la table intermédiaire",
+          "traite ETRE_INSCRIT par migration de clé étrangère côté ELEVE"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "Ce cas réunit les fondamentaux Merise : entités avec identifiants, cardinalités déduites des règles de gestion, attribut d'association pour une information dépendant du lien, puis règles de passage au relationnel avec table intermédiaire pour les associations plusieurs-plusieurs et clé étrangère migrée pour les associations limitées à un d'un côté.",
+    "difficulty": "hard",
+    "tags": [
+      "cas",
+      "mcd",
+      "mcd-mld"
+    ]
+  },
+  {
+    "id": "ac_080",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "CASE_STUDY",
+    "context": "Une clinique privée de Cotonou veut informatiser la prise de rendez-vous. Le patient appelle ou se présente à l'accueil ; la secrétaire médicale consulte l'agenda des médecins et fixe le rendez-vous selon la spécialité recherchée. Le système doit vérifier automatiquement la disponibilité du médecin avant de confirmer. Si le patient le demande, un rappel par SMS est envoyé la veille. En cas d'annulation moins de vingt-quatre heures avant le rendez-vous, des frais de dossier sont facturés selon la politique de la clinique.",
+    "question": "Concevez le diagramme de cas d'utilisation de la gestion des rendez-vous de la clinique.",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Identifiez les acteurs et les cas d'utilisation principaux du système.",
+        "answer": "Trois acteurs : le patient, acteur primaire à l'origine de la demande ; la secrétaire médicale, actrice primaire qui manipule le système ; et le service SMS, système externe acteur secondaire qui reçoit l'ordre d'envoi du rappel. Les cas d'utilisation principaux sont : prendre un rendez-vous, annuler un rendez-vous, consulter l'agenda d'un médecin et facturer les frais d'annulation. Chaque acteur se relie à ses cas : le patient déclenche indirectement la prise et l'annulation via la secrétaire, qui opère le système.",
+        "rubric": [
+          "identifie la secrétaire comme actrice primaire du système",
+          "identifie le patient comme acteur demandeur",
+          "identifie le service SMS comme acteur secondaire externe",
+          "cite prendre rendez-vous, annuler, consulter l'agenda"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Quelles relations include et extend proposez-vous entre ces cas d'utilisation ?",
+        "answer": "La relation include s'applique à la vérification de disponibilité : prendre un rendez-vous inclut systématiquement le cas vérifier la disponibilité du médecin, qui s'exécute à chaque prise de rendez-vous. La relation extend s'applique au rappel SMS : envoyer un rappel par SMS étend le cas prendre un rendez-vous, car il ne se produit que si le patient en fait la demande. De même, facturer les frais d'annulation étend le cas annuler un rendez-vous, la condition d'extension étant l'annulation à moins de vingt-quatre heures du rendez-vous.",
+        "rubric": [
+          "place include sur vérifier la disponibilité, exécuté toujours",
+          "place extend sur le rappel SMS, facultatif et demandé",
+          "place extend sur les frais d'annulation sous condition",
+          "oriente correctement les flèches des deux relations"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Décrivez le scénario nominal du cas « prendre un rendez-vous » sous forme de diagramme de séquence simplifié.",
+        "answer": "Le scénario déroule les messages : la secrétaire saisit la demande du patient (spécialité, préférence d'horaire) ; le système interroge l'agenda des médecins ; le système vérifie la disponibilité et renvoie les créneaux libres ; la secrétaire sélectionne un créneau ; le système enregistre le rendez-vous et confirme ; si l'option est demandée, le système transmet l'ordre d'envoi au service SMS. Les lignes de vie concernent la secrétaire, l'interface du système, l'agenda et le service SMS ; chaque message synchrone attend sa réponse avant le suivant.",
+        "rubric": [
+          "commence par la saisie de la demande par la secrétaire",
+          "fait vérifier la disponibilité avant la confirmation",
+          "termine par l'enregistrement et la confirmation du rendez-vous",
+          "ajoute l'appel optionnel au service SMS en fin de scénario"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "Ce cas montre comment les relations entre cas d'utilisation s'éclairent par les règles du métier : un traitement toujours exécuté devient un include, un traitement conditionnel devient un extend avec sa condition explicite. La description du scénario nominal prépare ensuite le diagramme de séquence qui précise les échanges entre acteurs et objets.",
+    "difficulty": "medium",
+    "tags": [
+      "cas",
+      "cas-utilisation",
+      "include",
+      "extend"
+    ]
+  },
+  {
+    "id": "ac_081",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans l'architecture MVC, quel composant est chargé des données et de la logique métier ?",
+    "answers": [
+      {
+        "id": "ac_081_a",
+        "text": "La vue, qui affiche les informations à l'utilisateur final",
+        "isCorrect": false,
+        "note": "La vue ne fait que présenter ; elle ne doit contenir aucune règle métier ni accès direct aux données."
+      },
+      {
+        "id": "ac_081_c",
+        "text": "Le modèle, qui encapsule les données et les règles du domaine",
+        "isCorrect": true,
+        "note": "C'est exact : le modèle regroupe les données, leur état et les règles métier qui les gouvernent."
+      },
+      {
+        "id": "ac_081_b",
+        "text": "Le contrôleur, qui reçoit les requêtes et orchestre les traitements",
+        "isCorrect": false,
+        "note": "Le contrôleur coordonne les échanges entre vue et modèle, mais il ne porte pas lui-même les données métier."
+      },
+      {
+        "id": "ac_081_d",
+        "text": "La base de données, qui stocke physiquement les enregistrements",
+        "isCorrect": false,
+        "note": "La base est un outil de persistance externe ; le composant MVC métier reste le modèle, qui s'appuie dessus."
+      }
+    ],
+    "explanation": "Le modèle constitue le cœur métier de l'architecture MVC : il détient les données, leur état et les règles du domaine. Vue et contrôleur s'appuient sur lui sans jamais y dupliquer la logique métier.",
+    "difficulty": "easy",
+    "tags": [
+      "mvc",
+      "modele"
+    ]
+  },
+  {
+    "id": "ac_082",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est le rôle du contrôleur dans l'architecture MVC ?",
+    "answers": [
+      {
+        "id": "ac_082_a",
+        "text": "Il dessine la page HTML renvoyée au navigateur du client",
+        "isCorrect": false,
+        "note": "Le rendu de la présentation revient à la vue ; le contrôleur décide quelle vue invoquer mais ne la dessine pas."
+      },
+      {
+        "id": "ac_082_c",
+        "text": "Il conserve l'état des données entre deux sessions utilisateur",
+        "isCorrect": false,
+        "note": "La conservation de l'état appartient au modèle ou à la persistance, pas au contrôleur."
+      },
+      {
+        "id": "ac_082_b",
+        "text": "Il reçoit les requêtes, les interprète et sollicite modèle et vue",
+        "isCorrect": true,
+        "note": "C'est exact : le contrôleur traite l'action demandée, met en mouvement le modèle puis choisit la vue à afficher."
+      },
+      {
+        "id": "ac_082_d",
+        "text": "Il valide la charte graphique appliquée à toutes les pages",
+        "isCorrect": false,
+        "note": "La charte graphique relève de la présentation, donc de la vue et de ses gabarits, pas du contrôleur."
+      }
+    ],
+    "explanation": "Le contrôleur est le chef d'orchestre des requêtes : il interprète l'action de l'utilisateur, interroge ou modifie le modèle en conséquence, puis sélectionne la vue appropriée pour la réponse. Il ne contient ni présentation ni logique métier.",
+    "difficulty": "medium",
+    "tags": [
+      "mvc",
+      "controleur"
+    ]
+  },
+  {
+    "id": "ac_083",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est l'ordre correct du flux d'une requête utilisateur dans une application MVC ?",
+    "answers": [
+      {
+        "id": "ac_083_d",
+        "text": "La requête atteint la vue, qui interroge directement la base de données",
+        "isCorrect": false,
+        "note": "L'accès direct de la vue aux données viole la séparation des responsabilités, fondement du MVC."
+      },
+      {
+        "id": "ac_083_b",
+        "text": "La requête atteint la vue, qui modifie le modèle, puis le contrôleur est rendu",
+        "isCorrect": false,
+        "note": "La vue n'est jamais le point d'entrée d'une requête ; c'est une inversion des rôles des composants."
+      },
+      {
+        "id": "ac_083_c",
+        "text": "La requête atteint le modèle, qui dessine la vue, puis le contrôleur valide",
+        "isCorrect": false,
+        "note": "Le modèle ne dessine rien ; mettre le modèle en premier inverse la chaîne de responsabilité du MVC."
+      },
+      {
+        "id": "ac_083_a",
+        "text": "La requête atteint le contrôleur, qui interroge le modèle, puis la vue est générée",
+        "isCorrect": true,
+        "note": "C'est exact : le contrôleur est le point d'entrée, il met à jour ou consulte le modèle, puis délègue le rendu à la vue."
+      }
+    ],
+    "explanation": "Le flux canonique du MVC part du contrôleur : la requête utilisateur y arrive, il sollicite le modèle pour lire ou modifier les données, puis transmet le résultat à la vue qui produit la réponse affichée à l'utilisateur.",
+    "difficulty": "medium",
+    "tags": [
+      "mvc",
+      "flux"
+    ]
+  },
+  {
+    "id": "ac_084",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel problème le pattern Singleton résout-il en conception orientée objet ?",
+    "answers": [
+      {
+        "id": "ac_084_d",
+        "text": "Garantir une unique instance accessible dans tout le programme",
+        "isCorrect": true,
+        "note": "C'est exact : le Singleton restreint l'instanciation à un seul objet et fournit un point d'accès global à celui-ci."
+      },
+      {
+        "id": "ac_084_b",
+        "text": "Notifier automatiquement des objets lors d'un changement d'état",
+        "isCorrect": false,
+        "note": "La notification des dépendances est le mécanisme du pattern Observer, sans rapport avec l'instanciation unique."
+      },
+      {
+        "id": "ac_084_c",
+        "text": "Interchanger des algorithmes au sein d'une même famille d'usage",
+        "isCorrect": false,
+        "note": "L'interchangeabilité d'algorithmes définit le pattern Strategy ; le Singleton ne concerne pas les algorithmes."
+      },
+      {
+        "id": "ac_084_a",
+        "text": "Créer des familles d'objets apparentés sans nommer leurs classes",
+        "isCorrect": false,
+        "note": "La création de familles cohérentes d'objets est l'objet du pattern Abstract Factory, pas du Singleton."
+      }
+    ],
+    "explanation": "Le Singleton garantit qu'une classe ne possède qu'une seule instance, avec un constructeur privé et une méthode statique d'accès. Il convient aux gestionnaires de configuration, aux pools de connexion ou aux journaux partagés.",
+    "difficulty": "easy",
+    "tags": [
+      "design-patterns",
+      "singleton"
+    ]
+  },
+  {
+    "id": "ac_085",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel est l'objectif principal du pattern Factory Method ?",
+    "answers": [
+      {
+        "id": "ac_085_a",
+        "text": "Partager un état unique entre toutes les instances créées",
+        "isCorrect": false,
+        "note": "Le partage d'un état unique est le propre du Singleton ; Factory Method ne cherche pas à limiter les instances."
+      },
+      {
+        "id": "ac_085_b",
+        "text": "Déléguer aux sous-classes le choix de la classe à instancier",
+        "isCorrect": true,
+        "note": "C'est exact : la factory définit le contrat de création et laisse chaque sous-classe décider du produit concret à créer."
+      },
+      {
+        "id": "ac_085_c",
+        "text": "Adapter l'interface d'une classe existante aux attentes du client",
+        "isCorrect": false,
+        "note": "L'adaptation d'interface incompatible est le rôle du pattern Adapter, un pattern de structure et non de création."
+      },
+      {
+        "id": "ac_085_d",
+        "text": "Enregistrer l'historique complet des objets instanciés",
+        "isCorrect": false,
+        "note": "Le suivi de l'historique des objets n'est pas l'objet du pattern ; il se traite par d'autres mécanismes."
+      }
+    ],
+    "explanation": "Factory Method est un pattern de création : la classe de base déclare une méthode de création abstraite et les sous-classes la spécialisent pour produire le type concret souhaité. Le code client travaille sur l'abstraction sans connaître les classes concrètes.",
+    "difficulty": "hard",
+    "tags": [
+      "design-patterns",
+      "factory-method"
+    ]
+  },
+  {
+    "id": "ac_086",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans le pattern Observer, quel rôle joue le sujet observé (Observable) ?",
+    "answers": [
+      {
+        "id": "ac_086_c",
+        "text": "Il fournit une interface commune à des algorithmes interchangeables",
+        "isCorrect": false,
+        "note": "L'interface commune aux algorithmes caractérise le pattern Strategy, pas la relation sujet-observateurs."
+      },
+      {
+        "id": "ac_086_b",
+        "text": "Il construit des objets complexes en assemblant leurs pièces",
+        "isCorrect": false,
+        "note": "L'assemblage étape par étape d'objets complexes décrit le pattern Builder, un autre pattern de création."
+      },
+      {
+        "id": "ac_086_a",
+        "text": "Il maintient la liste des observateurs et les notifie des changements",
+        "isCorrect": true,
+        "note": "C'est exact : le sujet enregistre les observateurs abonnés et prévient chacun quand son état évolue."
+      },
+      {
+        "id": "ac_086_d",
+        "text": "Il encapsule une requête en un objet paramétrable et traçable",
+        "isCorrect": false,
+        "note": "L'encapsulation d'une requête en objet est le principe du pattern Command, sans lien avec l'abonnement."
+      }
+    ],
+    "explanation": "Le sujet du pattern Observer gère l'abonnement des observateurs et les prévient à chaque changement d'état en appelant leur méthode de mise à jour. La relation est de type un-vers-plusieurs, sans couplage fort entre les parties.",
+    "difficulty": "medium",
+    "tags": [
+      "design-patterns",
+      "observer"
+    ]
+  },
+  {
+    "id": "ac_087",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Dans quelle situation privilégier le pattern Strategy ?",
+    "answers": [
+      {
+        "id": "ac_087_a",
+        "text": "Quand une ressource unique doit servir toute l'application",
+        "isCorrect": false,
+        "note": "La ressource unique partagée appelle un Singleton ; Strategy ne gère pas l'unicité d'instance."
+      },
+      {
+        "id": "ac_087_b",
+        "text": "Quand deux interfaces incompatibles doivent travailler ensemble",
+        "isCorrect": false,
+        "note": "La mise en compatibilité d'interfaces est le travail du pattern Adapter, pas de Strategy."
+      },
+      {
+        "id": "ac_087_d",
+        "text": "Quand un document doit être parcouru sans exposer sa structure",
+        "isCorrect": false,
+        "note": "Le parcours transparent d'une structure est l'affaire du pattern Iterator, un autre pattern de comportement."
+      },
+      {
+        "id": "ac_087_c",
+        "text": "Quand plusieurs algorithmes doivent s'interchanger à l'exécution",
+        "isCorrect": true,
+        "note": "C'est exact : Strategy encapsule chaque algorithme derrière une interface commune, remplaçable au vol."
+      }
+    ],
+    "explanation": "Strategy encapsule chaque variante d'algorithme dans une classe dédiée implémentant une interface commune. Le contexte détient une référence à l'interface et peut changer de stratégie à l'exécution, par exemple pour basculer entre calcul de frais de livraison normal et express.",
+    "difficulty": "medium",
+    "tags": [
+      "design-patterns",
+      "strategy"
+    ]
+  },
+  {
+    "id": "ac_088",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "SINGLE_CHOICE",
+    "question": "Quel avantage principal offre un couplage faible entre les modules d'une application ?",
+    "answers": [
+      {
+        "id": "ac_088_d",
+        "text": "Les modules évoluent séparément avec un impact limité sur les autres",
+        "isCorrect": true,
+        "note": "C'est exact : moins les modules se connaissent, moins une modification locale se propage au reste du système."
+      },
+      {
+        "id": "ac_088_b",
+        "text": "Les modules s'exécutent toujours plus vite au moment de l'exécution",
+        "isCorrect": false,
+        "note": "Le couplage est une qualité structurelle ; il ne garantit par lui-même aucune performance d'exécution."
+      },
+      {
+        "id": "ac_088_c",
+        "text": "Les modules rendent inutiles les tests d'intégration du système",
+        "isCorrect": false,
+        "note": "Aucun niveau de test ne devient inutile ; même faiblement couplés, les modules doivent être testés ensemble."
+      },
+      {
+        "id": "ac_088_a",
+        "text": "Les modules partagent directement leurs variables globales internes",
+        "isCorrect": false,
+        "note": "Le partage de variables globales augmente au contraire fortement le couplage entre les modules."
+      }
+    ],
+    "explanation": "Un couplage faible signifie que les modules ne dépendent que d'interfaces stables et minimales. Une modification interne d'un module n'entraîne alors pas de réaction en chaîne, ce qui facilite la maintenance, la réutilisation et les tests isolés.",
+    "difficulty": "medium",
+    "tags": [
+      "qualite",
+      "couplage"
+    ]
+  },
+  {
+    "id": "ac_089",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quels énoncés décrivent correctement l'architecture MVC ?",
+    "answers": [
+      {
+        "id": "ac_089_a",
+        "text": "Le modèle encapsule les données et les règles du métier",
+        "isCorrect": true,
+        "note": "Juste : le modèle est le cœur métier, il détient données, état et règles de gestion du domaine."
+      },
+      {
+        "id": "ac_089_b",
+        "text": "La vue présente les informations sans contenir de logique métier",
+        "isCorrect": true,
+        "note": "Juste : la vue se limite à la présentation des données qu'elle reçoit, sans règle métier ni accès direct aux données."
+      },
+      {
+        "id": "ac_089_c",
+        "text": "Le contrôleur dessine directement les écrans de l'application",
+        "isCorrect": false,
+        "note": "Faux : le contrôleur choisit la vue à invoquer, mais le dessin des écrans reste le travail de la vue."
+      },
+      {
+        "id": "ac_089_d",
+        "text": "La vue met à jour seule les tables de la base de données",
+        "isCorrect": false,
+        "note": "Faux : toute mise à jour des données passe par le modèle ; la vue n'accède jamais directement à la persistance."
+      }
+    ],
+    "explanation": "Le MVC répartit les responsabilités en trois composants : le modèle pour les données et le métier, la vue pour la présentation, le contrôleur pour recevoir les requêtes et orchestrer les deux autres. Aucun composant n'empiète sur le rôle d'un autre.",
+    "difficulty": "easy",
+    "tags": [
+      "mvc"
+    ]
+  },
+  {
+    "id": "ac_090",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Parmi les patterns suivants, lesquels appartiennent à la catégorie des patterns de création ?",
+    "answers": [
+      {
+        "id": "ac_090_c",
+        "text": "Singleton, qui garantit une instance unique de la classe",
+        "isCorrect": true,
+        "note": "Juste : Singleton contrôle l'instanciation en la limitant à un objet, ce qui en fait un pattern de création."
+      },
+      {
+        "id": "ac_090_a",
+        "text": "Factory Method, qui délègue la création aux sous-classes",
+        "isCorrect": true,
+        "note": "Juste : Factory Method est un pattern de création canonique du catalogue GoF, centré sur l'instanciation."
+      },
+      {
+        "id": "ac_090_d",
+        "text": "Strategy, qui rend des algorithmes interchangeables",
+        "isCorrect": false,
+        "note": "Strategy est un pattern de comportement : il organise l'échange d'algorithmes, pas la fabrication d'objets."
+      },
+      {
+        "id": "ac_090_b",
+        "text": "Observer, qui notifie les abonnés d'un changement d'état",
+        "isCorrect": false,
+        "note": "Observer est un pattern de comportement : il organise la communication entre objets, pas leur création."
+      }
+    ],
+    "explanation": "Le catalogue GoF classe les patterns en création, structure et comportement. Factory Method et Singleton relèvent de la création, puisqu'ils régissent l'instanciation ; Observer et Strategy relèvent du comportement des objets entre eux.",
+    "difficulty": "medium",
+    "tags": [
+      "design-patterns",
+      "categorisation"
+    ]
+  },
+  {
+    "id": "ac_091",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quels principes relèvent des bonnes pratiques de qualité de conception logicielle ?",
+    "answers": [
+      {
+        "id": "ac_091_d",
+        "text": "Dupliquer le code d'un module à l'autre pour les découpler",
+        "isCorrect": false,
+        "note": "Faux : la duplication crée une dette de maintenance ; le découplage passe par des interfaces, pas par la copie."
+      },
+      {
+        "id": "ac_091_c",
+        "text": "Exposer tous les attributs en public pour simplifier l'accès",
+        "isCorrect": false,
+        "note": "Faux : exposer les attributs casse l'encapsulation et multiplie les dépendances vers la structure interne."
+      },
+      {
+        "id": "ac_091_a",
+        "text": "Favoriser une forte cohésion à l'intérieur de chaque module",
+        "isCorrect": true,
+        "note": "Juste : un module cohérent regroupe des éléments dédiés à une même responsabilité, ce qui le rend lisible et robuste."
+      },
+      {
+        "id": "ac_091_b",
+        "text": "Réduire le couplage entre les composants de l'application",
+        "isCorrect": true,
+        "note": "Juste : limiter les dépendances entre composants isole les modifications et facilite la réutilisation."
+      }
+    ],
+    "explanation": "Les qualités recherchées d'une conception sont la forte cohésion interne des modules, le faible couplage entre eux et une encapsulation rigoureuse de l'état. L'exposition publique des attributs et la duplication de code vont contre ces principes.",
+    "difficulty": "medium",
+    "tags": [
+      "qualite",
+      "cohesion",
+      "couplage"
+    ]
+  },
+  {
+    "id": "ac_092",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "MULTIPLE_CHOICE",
+    "question": "Quels énoncés décrivent correctement l'encapsulation en programmation orientée objet ?",
+    "answers": [
+      {
+        "id": "ac_092_c",
+        "text": "La classe interdit la définition de toute méthode interne",
+        "isCorrect": false,
+        "note": "Faux : une classe encapsulée contient au contraire ses propres méthodes, c'est leur visibilité qui est gérée."
+      },
+      {
+        "id": "ac_092_d",
+        "text": "L'encapsulation impose de tout hériter d'une classe mère",
+        "isCorrect": false,
+        "note": "Faux : l'héritage est un autre pilier de l'objet ; l'encapsulation concerne le masquage de l'état interne."
+      },
+      {
+        "id": "ac_092_a",
+        "text": "Les attributs internes sont déclarés privés dans la classe",
+        "isCorrect": true,
+        "note": "Juste : la visibilité privée masque l'état interne et interdit sa manipulation directe depuis l'extérieur."
+      },
+      {
+        "id": "ac_092_b",
+        "text": "L'accès à l'état passe par des méthodes publiques contrôlées",
+        "isCorrect": true,
+        "note": "Juste : les accesseurs et mutateurs, ou des méthodes métier, filtrent et valident chaque accès à l'état."
+      }
+    ],
+    "explanation": "L'encapsulation masque l'état interne d'un objet (attributs privés) et n'expose que des opérations publiques qui le lisent ou le modifient sous contrôle. Elle protège les invariants de la classe et autorise à changer l'implantation sans casser les clients.",
+    "difficulty": "medium",
+    "tags": [
+      "qualite",
+      "encapsulation"
+    ]
+  },
+  {
+    "id": "ac_093",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "TRUE_FALSE",
+    "question": "Le pattern Singleton doit être appliqué à la majorité des classes d'une application pour améliorer sa conception.",
+    "answers": [
+      {
+        "id": "ac_093_v",
+        "text": "Vrai",
+        "isCorrect": false,
+        "note": "Erreur : le Singleton est réservé aux rares ressources réellement uniques ; l'abuser crée des états globaux et nuit aux tests."
+      },
+      {
+        "id": "ac_093_f",
+        "text": "Faux",
+        "isCorrect": true,
+        "note": "C'est exact : le Singleton est un pattern d'exception, à réserver aux ressources réellement uniques comme la configuration."
+      }
+    ],
+    "explanation": "Le Singleton traite un besoin précis : une ressource devant exister en un seul exemplaire. L'appliquer massivement multiplie les états globaux, rend les tests difficiles et masque les dépendances réelles entre composants.",
+    "difficulty": "easy",
+    "tags": [
+      "design-patterns",
+      "singleton"
+    ]
+  },
+  {
+    "id": "ac_094",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "TRUE_FALSE",
+    "question": "Le pattern Observer établit une relation de type un-vers-plusieurs entre le sujet et ses observateurs.",
+    "answers": [
+      {
+        "id": "ac_094_f",
+        "text": "Faux",
+        "isCorrect": false,
+        "note": "Erreur : la relation un-vers-plusieurs est précisément la structure du pattern, un sujet pour plusieurs observateurs."
+      },
+      {
+        "id": "ac_094_v",
+        "text": "Vrai",
+        "isCorrect": true,
+        "note": "C'est exact : un seul sujet notifie un nombre quelconque d'observateurs abonnés à ses changements d'état."
+      }
+    ],
+    "explanation": "Le pattern Observer relie un sujet unique à un ensemble d'observateurs : quand l'état du sujet change, tous les abonnés en sont informés automatiquement. Le sujet ne connaît ses observateurs que par une interface commune.",
+    "difficulty": "easy",
+    "tags": [
+      "design-patterns",
+      "observer"
+    ]
+  },
+  {
+    "id": "ac_095",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "TRUE_FALSE",
+    "question": "Un couplage fort entre les modules facilite leur réutilisation indépendante dans d'autres projets.",
+    "answers": [
+      {
+        "id": "ac_095_v",
+        "text": "Vrai",
+        "isCorrect": false,
+        "note": "Erreur : un module très lié à ses voisins entraîne leurs dépendances partout, ce qui empêche sa ré isolation."
+      },
+      {
+        "id": "ac_095_f",
+        "text": "Faux",
+        "isCorrect": true,
+        "note": "C'est exact : c'est le couplage faible, avec ses dépendances minimales, qui rend un module réutilisable isolément."
+      }
+    ],
+    "explanation": "Un module fortement couplé tire derrière lui les modules dont il dépend : l'extraire d'un projet impose d'emporter tout son environnement. La réutilisation indépendante réclame au contraire un couplage faible fondé sur des interfaces stables.",
+    "difficulty": "medium",
+    "tags": [
+      "qualite",
+      "couplage"
+    ]
+  },
+  {
+    "id": "ac_096",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "TRUE_FALSE",
+    "question": "Une interface définit un contrat de méthodes que les classes réalisent sans imposer leur implantation.",
+    "answers": [
+      {
+        "id": "ac_096_f",
+        "text": "Faux",
+        "isCorrect": false,
+        "note": "Erreur : l'essence d'une interface est justement de séparer le contrat du comportement, qui reste libre dans chaque classe."
+      },
+      {
+        "id": "ac_096_v",
+        "text": "Vrai",
+        "isCorrect": true,
+        "note": "C'est exact : l'interface liste les opérations attendues, chaque classe concrète fournit sa propre façon de les exécuter."
+      }
+    ],
+    "explanation": "Une interface déclare un ensemble d'opérations sans les implémenter : elle fixe le contrat. Les classes qui la réalisent s'engagent à fournir le comportement, chacune à sa manière. Les clients programment alors contre le contrat et non contre des implémentations concrètes.",
+    "difficulty": "easy",
+    "tags": [
+      "qualite",
+      "interfaces"
+    ]
+  },
+  {
+    "id": "ac_097",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "FILL_BLANK",
+    "question": "Le pattern ___ garantit l'existence d'une seule instance d'une classe, tandis que le pattern ___ notifie automatiquement les objets abonnés à un changement d'état.",
+    "answers": [],
+    "blanks": [
+      {
+        "accepted": [
+          "singleton"
+        ]
+      },
+      {
+        "accepted": [
+          "observer",
+          "observateur"
+        ]
+      }
+    ],
+    "explanation": "Singleton est un pattern de création qui verrouille l'instanciation à un objet avec un accès global. Observer est un pattern de comportement qui relie un sujet à ses observateurs : à chaque changement du sujet, tous les abonnés sont notifiés.",
+    "difficulty": "medium",
+    "tags": [
+      "design-patterns",
+      "singleton",
+      "observer"
+    ]
+  },
+  {
+    "id": "ac_098",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "FILL_BLANK",
+    "question": "Dans l'architecture MVC, la logique métier réside dans le ___ , la présentation des données dans la ___ , et le ___ orchestre la réception des requêtes et le choix de la réponse.",
+    "answers": [],
+    "blanks": [
+      {
+        "accepted": [
+          "modèle",
+          "modele"
+        ]
+      },
+      {
+        "accepted": [
+          "vue"
+        ]
+      },
+      {
+        "accepted": [
+          "contrôleur",
+          "controleur"
+        ]
+      }
+    ],
+    "explanation": "Le MVC répartit trois responsabilités : le modèle détient les données et le métier, la vue produit la présentation, le contrôleur reçoit les requêtes utilisateur et coordonne modèle et vue pour produire la réponse.",
+    "difficulty": "easy",
+    "tags": [
+      "mvc"
+    ]
+  },
+  {
+    "id": "ac_099",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "CASE_STUDY",
+    "context": "Une jeune entreprise de Cotonou lance une plateforme de covoiturage interurbain. Les conducteurs publient des trajets avec une ville de départ, une ville d'arrivée, une date, une heure et le nombre de places disponibles. Les passagers consultent les trajets, réservent une place et paient en ligne. Chaque réservation possède un statut (en attente, confirmée, annulée) et un nombre de places réservées. Un passager peut réserver plusieurs places sur un même trajet, et un conducteur peut publier de nombreux trajets. L'équipe veut une conception objet propre avant de développer.",
+    "question": "Identifiez les classes, les associations et les multiplicités de la plateforme de covoiturage.",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Listez les classes candidates du domaine et leurs attributs essentiels.",
+        "answer": "Quatre classes se dégagent : Utilisateur (identifiant, nom, téléphone, email), Trajet (identifiant, ville départ, ville arrivée, date, heure, places disponibles, prix place), Reservation (identifiant, statut, nombre de places, date de réservation) et Paiement (identifiant, montant, mode, date). Utilisateur servira de classe mère pour Conducteur et Passager si l'on modélise les deux rôles par héritage, ou une seule classe Utilisateur suffit avec des rôles gérés par les associations. L'essentiel est que chaque classe représente une réalité du domaine avec ses propres attributs.",
+        "rubric": [
+          "propose Utilisateur, Trajet, Reservation et Paiement",
+          "attribue un identifiant à chaque classe",
+          "place les attributs du trajet (départ, arrivée, date, places)",
+          "prévoit le statut et le nombre de places sur Reservation"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Proposez les associations avec leurs multiplicités, en justifiant la classe-association Reservation.",
+        "answer": "L'association publie relie Utilisateur (conducteur) et Trajet avec 1 côté utilisateur et 0..* côté trajet. La réservation relie un passager et un trajet : elle porte statut et nombre de places, informations qui ne tiennent ni au passager seul ni au trajet seul, d'où une classe-association (ou une classe pleine si elle survit avec sa vie propre). Les multiplicités sont 0..* côté Trajet (un trajet reçoit plusieurs réservations) et 1 côté Reservation vers Trajet (une réservation vise un trajet unique). Paiement se rattache à Reservation par une association 1-0..1, un paiement correspondant à une réservation.",
+        "rubric": [
+          "relie un conducteur à 0..* trajets publiés",
+          "justifie Reservation comme classe-association porteuse de statut",
+          "place 0..* réservations par trajet et un trajet par réservation",
+          "relie Paiement à Reservation par une association 1-0..1"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Quelle règle de gestion vous semble difficile à exprimer par les seules multiplicités, et comment la traiter ?",
+        "answer": "La règle « la somme des places réservées ne doit pas dépasser les places disponibles du trajet » est une contrainte arithmétique entre plusieurs objets : les multiplicités UML n'expriment que des bornes fixes, pas des sommes dynamiques. Elle se traite par une opération métier sur Trajet (vérifierDisponibilite) appelée lors de la création de la réservation, et se documente comme invariant de la classe. De même, le cycle de vie du statut de la réservation relève d'un diagramme d'états-transitions plutôt que du diagramme de classes.",
+        "rubric": [
+          "identifie la contrainte de places disponibles comme non trivable",
+          "propose une opération métier de vérification sur Trajet",
+          "documente la règle comme invariant ou règle de gestion",
+          "renvoie le cycle du statut au diagramme d'états"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "Ce cas illustre l'identification des classes à partir des substantifs du besoin, puis des associations à partir des verbes. La classe-association accueille les attributs du lien, les multiplicités traduisent les règles de cardinalité, et les contraintes arithmétiques ou de cycle de vie dépassent le diagramme de classes pour rejoindre les opérations métier et le diagramme d'états.",
+    "difficulty": "hard",
+    "tags": [
+      "cas",
+      "diagramme-de-classes",
+      "classe-association"
+    ]
+  },
+  {
+    "id": "ac_100",
+    "domain": "ANALYSE_CONCEPTION",
+    "type": "CASE_STUDY",
+    "context": "Une boutique en ligne de tissus vend son catalogue via un site web. L'équipe de développement actuelle a tout codé dans des pages PHP mélangeant requêtes SQL, calculs de prix et affichage HTML. Résultat : changer la couleur d'un bouton risque de casser le calcul de la TVA, et les graphistes ne peuvent rien retoucher sans toucher au code métier. Le site propose la consultation du catalogue, l'ajout au panier, la modification des quantités et la validation de commande. La direction prévoit bientôt une application mobile réutilisant les mêmes fonctionnalités.",
+    "question": "Proposez une refonte en architecture MVC de la boutique en ligne et justifiez chaque choix.",
+    "subQuestions": [
+      {
+        "id": "sq-1",
+        "question": "Répartissez les fonctionnalités du site entre modèle, vue et contrôleur.",
+        "answer": "Le modèle regroupe les classes Catalogue, Produit, Panier et Commande avec leurs règles : calcul de la TVA, gestion des quantités, disponibilité des articles, accès aux tables via une couche de persistance. Les vues sont les gabarits de présentation : page catalogue, fiche produit, page panier, récapitulatif de commande, sans aucune règle métier ni requête SQL. Les contrôleurs se répartissent les actions : CatalogueController pour lister les produits, PanierController pour ajouter ou modifier des quantités, CommandeController pour valider la commande. Chaque requête arrive dans un contrôleur, qui sollicite le modèle puis choisit la vue.",
+        "rubric": [
+          "place Catalogue, Produit, Panier, Commande dans le modèle",
+          "attribue le calcul de TVA au modèle et non à la vue",
+          "distingue les vues (catalogue, panier, commande) sans métier",
+          "crée un contrôleur par zone fonctionnelle du site"
+        ]
+      },
+      {
+        "id": "sq-2",
+        "question": "Décrivez le flux complet de la requête « ajouter au panier » dans cette architecture.",
+        "answer": "L'utilisateur clique sur « ajouter au panier » : la requête POST avec l'identifiant du produit et la quantité arrive au routeur, qui la transmet au PanierController. Le contrôleur valide les paramètres, appelle la méthode ajouterProduit du modèle Panier, qui met à jour l'état et persiste éventuellement. Le contrôleur interroge ensuite le modèle pour obtenir le panier actualisé et sélectionne la vue panier, à qui il transmet les données. La vue génère le HTML de confirmation et le navigateur affiche le résultat. Aucun échange direct n'a lieu entre la vue et la base de données.",
+        "rubric": [
+          "fait converger la requête vers le contrôleur du panier",
+          "fait appeler une méthode du modèle pour la mise à jour",
+          "transmet les données du modèle à la vue pour le rendu",
+          "signale l'absence d'accès direct de la vue aux données"
+        ]
+      },
+      {
+        "id": "sq-3",
+        "question": "Quels avantages la refonte MVC apporte-t-elle, notamment pour le projet d'application mobile ?",
+        "answer": "La séparation des responsabilités isole les impacts : une modification graphique ne touche que les vues, un changement de règle de TVA ne touche que le modèle, avec des tests ciblés dans chaque couche. Les graphistes travaillent sur les vues sans risque pour le métier, et les développeurs sur le modèle sans recopier l'affichage. Pour l'application mobile, le modèle et les contrôleurs se réutilisent en exposant des réponses JSON au lieu de HTML : seule la couche vue change, le métier reste unique et cohérent. La maintenance et les tests automatisés par couche deviennent enfin possibles.",
+        "rubric": [
+          "isole les impacts des modifications par couche",
+          "permet aux graphistes de travailler sans toucher au métier",
+          "explique la réutilisation du modèle pour le mobile via JSON",
+          "mentionne la testabilité accrue par couche"
+        ]
+      }
+    ],
+    "answers": [],
+    "explanation": "Ce cas montre l'apport du MVC face au code monolithique : séparer modèle, vue et contrôleur isole chaque type de modification, sécurise le travail des profils non développeurs et prépare la réutilisation du métier pour de nouveaux canaux. Le flux d'une requête, du contrôleur au modèle puis à la vue, structure toute l'architecture.",
+    "difficulty": "medium",
+    "tags": [
+      "cas",
+      "mvc",
+      "architecture"
+    ]
+  }
+]

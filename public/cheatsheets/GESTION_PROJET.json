@@ -1,0 +1,233 @@
+{
+  "id": "GESTION_PROJET",
+  "title": "Gestion de Projet",
+  "description": "Référence rapide : triple contrainte, rôles, Scrum, agile vs cycle en V, Kanban, planning (Gantt, PERT, chemin critique), risques, indicateurs, qualité et estimation.",
+  "sections": [
+    {
+      "title": "Triple contrainte",
+      "items": [
+        {
+          "what": "Les trois dimensions à équilibrer",
+          "code": "Périmètre (le quoi)\nDélais (le quand)\nCoûts (le combien)\n-> la Qualité au centre",
+          "note": "Tout projet s'exprime par ce triangle : le contenu à livrer, la date, le budget. La qualité dépend de l'équilibre des trois."
+        },
+        {
+          "what": "Toucher un sommet bouge les autres",
+          "note": "Exemple : ajouter du périmètre (nouvelles fonctionnalités) à délais et coûts figés dégrade forcément la qualité, car les ressources sont limitées."
+        },
+        {
+          "what": "Le piège : figer les trois sommets",
+          "note": "Si le client veut tout, tout de suite et pas cher, la seule variable d'ajustement est la qualité. Le rôle du chef de projet est de rendre cet arbitrage explicite : réduire le périmètre, rallonger les délais ou augmenter les moyens."
+        }
+      ]
+    },
+    {
+      "title": "Rôles du projet",
+      "items": [
+        {
+          "what": "Chef de projet : pilote le triangle",
+          "note": "Responsable du planning, du budget, des risques et de la livraison. Il planifie, coordonne, arbitre et rend compte aux parties prenantes."
+        },
+        {
+          "what": "Product Owner : voix du client",
+          "note": "Représente le métier et les utilisateurs : exprime le besoin, écrit et PRIORISE le Product Backlog, valide les fonctionnalités. Optimise la valeur livrée."
+        },
+        {
+          "what": "Scrum Master : gardien du processus",
+          "note": "Garantit que Scrum est bien appliqué : lève les obstacles, protège l'équipe des perturbations, anime les cérémonies. Ce n'est PAS un chef : il ne donne pas d'ordres et ne note pas les gens."
+        },
+        {
+          "what": "Équipe de développement : auto-organisée",
+          "note": "Pluridisciplinaire (dev, test, design...), elle décide COMMENT faire le travail, estime elle-même les tâches et est collectivement responsable de l'incrément."
+        },
+        {
+          "what": "Confusion classique à éviter",
+          "note": "Le PO décide QUOI et en quel ordre (priorités) ; l'équipe décide COMMENT et COMBIEN ça prend ; le Scrum Master s'assure que la méthode tient. Personne n'impose de délai à l'équipe."
+        }
+      ]
+    },
+    {
+      "title": "Scrum : artefacts et événements",
+      "items": [
+        {
+          "what": "Les trois artefacts",
+          "code": "Product Backlog : tous les besoins, priorisés (le PO en a la charge)\nSprint Backlog : les items retenus pour ce sprint + le plan\nIncrement : le résultat terminé et potentiellement livrable",
+          "note": "Ordre de lecture : le backlog produit se découpe en backlog de sprint, qui produit un incrément. Un incrément doit être utilisable, même s'il n'est pas livré."
+        },
+        {
+          "what": "Sprint : l'itération de base",
+          "note": "Durée FIXE de 1 à 4 semaines (jamais rallongée), à l'issue de laquelle on livre un incrément. Un sprint = un objectif de sprint, formulé en une phrase."
+        },
+        {
+          "what": "Daily Scrum : 15 minutes maximum",
+          "note": "Chaque jour, même heure, debout. Chacun répond : qu'ai-je fait hier, que vais-je faire aujourd'hui, quels sont mes blocages ? Ce n'est pas un reporting au chef, c'est l'équipe qui se synchronise."
+        },
+        {
+          "what": "Review vs Rétrospective : la distinction à connaître",
+          "note": "Sprint Review : on regarde le PRODUIT (démo de l'incrément aux parties prenantes, ajustement du backlog). Rétrospective : on regarde le PROCESSUS (ce qui a bien tourné, ce qu'on améliore). LE piège classique des QCM."
+        },
+        {
+          "what": "Definition of Done (DoD) : fini veut dire fini",
+          "note": "Liste de critères partagés par l'équipe : codé, testé, revu, documenté, intégré... Un item qui ne remplit pas la DoD ne compte PAS dans l'incrément. Elle évite le « c'est fini mais il reste les tests »."
+        },
+        {
+          "what": "Vélocité : le rythme de l'équipe",
+          "note": "Nombre de story points terminés par sprint, mesuré sur l'historique. Sert à prévoir combien d'items tenir dans le prochain sprint, pas à comparer des équipes (les points ne sont pas une unité universelle)."
+        }
+      ]
+    },
+    {
+      "title": "Agile, cycle en V ou cascade ?",
+      "items": [
+        {
+          "what": "Cascade : phases séquentielles",
+          "code": "Besoins -> Conception -> Développement -> Tests -> Livraison",
+          "note": "On ne passe à la phase suivante que lorsque la précédente est terminée et validée. Adaptée quand les besoins sont stables, connus et peu susceptibles de changer."
+        },
+        {
+          "what": "Cycle en V : la cascade avec les tests en miroir",
+          "code": "Besoins ......... Recette\n  Conception .... Tests système\n    Conception détaillée -> Tests d'intégration\n      Codage -> Tests unitaires",
+          "note": "Chaque phase descendante du V a sa phase de test symétrique : on prépare la vérification dès la conception. Adapté aux projets à exigences formelles (santé, aéronautique, contrats publics)."
+        },
+        {
+          "what": "Agile (Scrum) : itérations et feedback",
+          "note": "Découpage en sprints courts livrant de la valeur utilisable ; les besoins peuvent évoluer à chaque itération. Adapté quand le besoin est évolutif, incertain, ou que le client veut voir le produit tôt."
+        },
+        {
+          "what": "Comment choisir : la question clé",
+          "note": "Tout peut-on être spécifié à l'avance ? Non (besoins flous, innovation) : agile. Oui, et il sera figé : V ou cascade. En pratique : agile = produits numériques évolutifs ; V = systèmes critiques à forte traçabilité."
+        },
+        {
+          "what": "Piège : agile ne veut pas dire désordre",
+          "note": "Agile ne signifie ni « pas de documentation » ni « pas de planning » : le plan existe, il est revu à chaque itération. De même le V ne dure qu'une seule grande boucle, l'agile en fait plusieurs petites."
+        }
+      ]
+    },
+    {
+      "title": "Kanban",
+      "items": [
+        {
+          "what": "Le tableau : visualiser le flux",
+          "code": "A faire | En cours (max 2) | A valider (max 2) | Terminé",
+          "note": "Une carte par travail, des colonnes par étape. Tout le travail en cours est visible d'un seul coup d'oeil, ce qui révèle les goulots d'étranglement (colonne qui déborde)."
+        },
+        {
+          "what": "Limites WIP : finir avant de commencer",
+          "note": "WIP = Work In Progress : nombre maximum de cartes autorisées dans une colonne. Dépasser la limite est interdit : on doit aider à FINIR avant de COMMENCER. Résultat : moins de tâches à moitié faites, un flux qui accélère."
+        },
+        {
+          "what": "Loi de Little en une phrase",
+          "code": "Temps de cycle = WIP / débit",
+          "note": "Plus il y a de travaux en cours (WIP) pour un même débit, plus chaque travail prend du temps. Limiter le WIP raccourcit le délai de livraison : c'est le fondement de Kanban."
+        },
+        {
+          "what": "Kanban vs Scrum : flux continu",
+          "note": "Kanban n'impose ni sprints ni rôles : le travail entre en continu et on mesure le temps de cycle. Scrum travaille par lots fixes (sprints). Kanban convient aux flux d'incidents, de support, de maintenance."
+        }
+      ]
+    },
+    {
+      "title": "Planifier : Gantt, chemin critique, PERT",
+      "items": [
+        {
+          "what": "Diagramme de Gantt : les tâches dans le temps",
+          "code": "Analyse   ████████\nDév. A            ████████\nDév. B            ██████\nTests                   ████████",
+          "note": "Barres horizontales sur un calendrier : on voit l'ordre des tâches, les chevauchements, les dépendances et les jalons. C'est l'outil de communication du planning."
+        },
+        {
+          "what": "Chemin critique : la plus longue chaîne",
+          "note": "La suite de tâches dépendantes qui détermine la durée minimale du projet. Aucune marge dessus : retarder une tâche du chemin critique retarde TOUT le projet. Sa longueur = durée du projet."
+        },
+        {
+          "what": "Marge : le retard toléré",
+          "note": "Marge (ou slack) : retard possible d'une tâche sans retarder le projet (marge totale = retarder la fin ; marge libre = retarder la tâche suivante). Sur le chemin critique, la marge est nulle."
+        },
+        {
+          "what": "PERT : la durée pondérée",
+          "code": "durée = (O + 4M + P) / 6\nO = durée optimiste, M = probable, P = pessimiste\nEx : (2 + 4*4 + 12) / 6 = 5 jours",
+          "note": "On estime chaque tâche avec trois durées et on pondère la valeur probable par 4. Cette moyenne lisse les estimations trop confiantes."
+        },
+        {
+          "what": "Utiliser les deux ensemble",
+          "note": "PERT/le réseau de tâches sert à CALCULER le chemin critique et les marges ; le Gantt sert à les PRÉSENTER et suivre le projet dans le temps."
+        }
+      ]
+    },
+    {
+      "title": "Gérer les risques",
+      "items": [
+        {
+          "what": "Risque : incertain mais mesurable",
+          "note": "Événement incertain qui, s'il survient, impacte les objectifs (délai, coût, qualité). Se caractérise par sa probabilité et son impact. Risque ne veut pas dire problème : le problème est déjà là, le risque peut ne jamais arriver."
+        },
+        {
+          "what": "Matrice probabilité x impact : prioriser",
+          "code": "            Impact faible  Impact fort\nProb. forte      à suivre    à traiter URGENT\nProb. faible     à accepter  à planifier",
+          "note": "On positionne chaque risque dans la matrice ; on traite d'abord les risques probables ET graves. Un risque à fort impact mais improbable se prépare juste au cas où."
+        },
+        {
+          "what": "Les quatre stratégies de réponse",
+          "code": "Eviter    : supprimer la cause (renoncer, changer le plan)\nRéduire   : diminuer la probabilité ou l'impact\nTransférer: faire porter le risque par un tiers (assurance, sous-traitance)\nAccepter  : assumer, en prévoyant une réserve",
+          "note": "Aucune stratégie n'est meilleure qu'une autre : on choisit selon le rapport coût de la réponse / gravité du risque."
+        },
+        {
+          "what": "Le registre des risques : le tableau de bord",
+          "note": "Document vivant, revu régulièrement : identifiant, description, probabilité, impact, stratégie de réponse, responsable, statut. Un risque non inscrit au registre est un risque qu'on finit par subir."
+        }
+      ]
+    },
+    {
+      "title": "Suivre l'avancement : indicateurs",
+      "items": [
+        {
+          "what": "Burndown chart : le reste à faire",
+          "code": "Axe Y : story points restants\nAxe X : jours du sprint\nLigne idéale : descente régulière",
+          "note": "On trace ce qui RESTE à faire chaque jour. Au-dessus de la ligne idéale : on est en retard (il restera du travail). En dessous : en avance. Simple et efficace pour réagir en cours de sprint."
+        },
+        {
+          "what": "Vélocité : prévoir avec l'historique",
+          "code": "sprints nécessaires = reste du backlog / vélocité moyenne",
+          "note": "Moyenne des points livrés par sprint. On s'en sert pour estimer une date de fin ou la quantité livrable à une date donnée. Se stabilise après quelques sprints."
+        },
+        {
+          "what": "Avancement : ne pas croire le ressenti",
+          "code": "avancement (%) = travail réellement terminé / travail total",
+          "note": "Le « 90% fait depuis trois mois » classique se combat avec des mesures objectives : points terminés (pas entamés), items respectant la DoD, jalons atteints."
+        },
+        {
+          "what": "Un KPI sert à décider, pas à surveiller",
+          "note": "Un bon indicateur déclenche une action (réaffecter, renégocier le périmètre). Les indicateurs détournés en outil de contrôle produisent des chiffres flatteurs et faux (loi de Goodhart : dès qu'une mesure devient objectif, elle cesse d'être une bonne mesure)."
+        }
+      ]
+    },
+    {
+      "title": "Qualité et estimation",
+      "items": [
+        {
+          "what": "Vérification vs validation : la distinction de Boehm",
+          "code": "Vérifier : « construit-on le produit CORRECTEMENT ? » (conforme à la spécification)\nValider  : « construit-on le BON produit ? » (répond au besoin du client)",
+          "note": "On peut être conforme à la spécification et quand même livrer un produit inutile : la validation compare au BESOIN, la vérification à la SPEC."
+        },
+        {
+          "what": "Les niveaux de tests",
+          "code": "Tests unitaires     : une fonction/classe isolée\nTests d'intégration : les modules ensemble\nTests système/recette: le produit complet, par le client",
+          "note": "Dans le cycle en V, chaque niveau de test correspond à une phase de conception (recette <-> besoins). Plus un défaut monte, plus il coûte cher."
+        },
+        {
+          "what": "Coût de la non-qualité : plus tard = plus cher",
+          "note": "Un défaut détecté en conception coûte 1 ; le même détecté en tests coûte 10 ; en production, 100 et plus (retouche, incident, réputation). D'où les revues et tests précoces : la qualité se construit, elle ne se contrôle pas à la fin."
+        },
+        {
+          "what": "Story points : mesurer l'effort relatif",
+          "code": "Série de Fibonacci : 1, 2, 3, 5, 8, 13",
+          "note": "Unité relative qui mélange complexité, taille et risque (jamais des jours). On compare au « story point de référence » de l'équipe. Le planning poker fait estimer toute l'équipe en même temps, sans ancrage sur l'avis du premier qui parle."
+        },
+        {
+          "what": "MoSCoW : prioriser le périmètre",
+          "code": "M (Must have)   : indispensable, le projet échoue sans\nS (Should have) : important, mais contournable\nC (Could have)  : souhaitable si le temps le permet\nW (Won't have)  : explicitement hors périmètre cette fois",
+          "note": "Réponse simple à « tout est urgent » : on garantit les Must, on négocie Should et Could, on acte par écrit les Won't."
+        }
+      ]
+    }
+  ]
+}
