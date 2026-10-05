@@ -3,9 +3,10 @@
 // Caches static assets for offline use
 // ============================================
 
-const CACHE_NAME = "review-iabd-v3.2.0";
-const STATIC_CACHE = "review-iabd-static-v3.2.0";
-const RUNTIME_CACHE = "review-iabd-runtime-v3.2.0";
+const CACHE_NAME = "review-iabd-v3.4.3";
+const STATIC_CACHE = "review-iabd-static-v3.4.3";
+const RUNTIME_CACHE = "review-iabd-runtime-v3.4.3";
+const RUNTIMES_CACHE = "review-iabd-runtimes-v3.4.3";
 
 // Assets to cache on install (core HTML pages)
 const urlsToCache = [
@@ -15,20 +16,44 @@ const urlsToCache = [
   "/exam",
   "/quiz",
   "/favorites",
-  "/offline",
   "/exams",
+  "/mistakes",
+  "/import",
+  "/mock-exams",
   "/settings",
   "/manifest.json",
 ];
 
-// Install event - cache core pages
+// Install event - cache core pages + their JS/CSS chunks
 self.addEventListener("install", (event) => {
   console.log("[SW] Installing service worker...");
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log("[SW] Caching core pages");
-      return cache.addAll(urlsToCache);
-    }),
+    (async () => {
+      const cache = await caches.open(CACHE_NAME);
+      await cache.addAll(urlsToCache);
+
+      // Pré-cache aussi les chunks JS/CSS de chaque page : le HTML seul ne
+      // suffit pas hors ligne, sans ses chunks la page plante (erreur client).
+      try {
+        const chunkUrls = new Set();
+        for (const url of urlsToCache) {
+          const res = await cache.match(url);
+          if (!res) continue;
+          const type = res.headers.get("content-type") || "";
+          if (!type.includes("text/html")) continue;
+          const html = await res.text();
+          const refs = html.match(/\/_next\/static\/[^"'\s\\]+?\.(?:js|css)/g) || [];
+          refs.forEach((u) => chunkUrls.add(u));
+        }
+        if (chunkUrls.size > 0) {
+          console.log("[SW] Precaching " + chunkUrls.size + " route chunks...");
+          await cache.addAll([...chunkUrls]);
+          console.log("[SW] Route chunks precached.");
+        }
+      } catch (err) {
+        console.warn("[SW] Chunk precache warning (non fatal):", err);
+      }
+    })()
   );
   self.skipWaiting();
 });
@@ -43,7 +68,8 @@ self.addEventListener("activate", (event) => {
           if (
             cacheName !== CACHE_NAME &&
             cacheName !== STATIC_CACHE &&
-            cacheName !== RUNTIME_CACHE
+            cacheName !== RUNTIME_CACHE &&
+            cacheName !== RUNTIMES_CACHE
           ) {
             console.log("[SW] Deleting old cache:", cacheName);
             return caches.delete(cacheName);
@@ -63,6 +89,9 @@ self.addEventListener("message", (event) => {
   } else if (event.data && event.data.type === "CLAIM_CLIENTS") {
     console.log("[SW] Received CLAIM_CLIENTS message, claiming all clients");
     self.clients.claim();
+  } else if (event.data && event.data.type === "REQLOG") {
+    const port = event.ports && event.ports[0];
+    if (port) port.postMessage({ reqlog: REQ_LOG.slice(), controlled: self.crossOriginIsolated });
   } else if (event.data && event.data.type === "SHOW_NOTIFICATION") {
     console.log("[SW] Received SHOW_NOTIFICATION message:", event.data);
     showNotification(event.data.payload);
@@ -96,7 +125,7 @@ function showNotification(payload) {
   const options = {
     body: payload.body || "",
     icon: payload.icon || "/icon-192.png",
-    badge: "/badge-72.png",
+    badge: "/icon-192.png",
     tag: payload.tag || "quiz-notification",
     data: {
       url: payload.url || "/",
@@ -116,6 +145,13 @@ function showNotification(payload) {
     });
 }
 
+// Journal des requêtes runtime (diagnostic hors ligne)
+const REQ_LOG = [];
+function logRequest(url) {
+  if (REQ_LOG.length > 80) REQ_LOG.shift();
+  REQ_LOG.push(url);
+}
+
 // Helper: Determine request type
 function getRequestType(request) {
   const url = new URL(request.url);
@@ -131,6 +167,29 @@ function getRequestType(request) {
     url.host.includes("fonts.gstatic.com")
   ) {
     return "font";
+  }
+
+  // Runtimes WASM, workers, banque de questions et épreuves réelles :
+  // cache-first dans un cache dédié (gros fichiers, stables)
+  if (
+    url.pathname.startsWith("/runtimes/") ||
+    url.pathname.startsWith("/questions/") ||
+    url.pathname.startsWith("/exams/")
+  ) {
+    return "runtime-asset";
+  }
+
+  // Fiches cheat sheets : Network First (petits fichiers qu'on enrichit),
+  // secours cache hors ligne.
+  if (url.pathname.startsWith("/cheatsheets/")) {
+    return "worker-script";
+  }
+
+  // Scripts de workers : Network First (fichiers minuscules) pour qu'une mise
+  // à jour de l'app rafraîchisse toujours le code des workers ; le cache sert
+  // de secours hors ligne.
+  if (url.pathname.startsWith("/workers/")) {
+    return "worker-script";
   }
 
   // Next.js static assets
@@ -189,6 +248,47 @@ self.addEventListener("fetch", (event) => {
 
   // Don't cache API requests - let them fail naturally
   if (requestType === "api") {
+    return;
+  }
+
+  // Runtimes / banque / épreuves : Cache First (offline critique)
+  if (requestType === "runtime-asset") {
+    logRequest(request.url);
+    event.respondWith(
+      caches.open(RUNTIMES_CACHE).then((cache) => {
+        return cache.match(request).then((cached) => {
+          if (cached) return cached;
+          return fetch(request)
+            .then((response) => {
+              if (response && response.status < 400) {
+                const responseToCache = response.clone();
+                cache.put(request, responseToCache).catch(() => {});
+              }
+              return response;
+            })
+            .catch(() => createOfflineResponse());
+        });
+      }),
+    );
+    return;
+  }
+
+  // Worker scripts : Network First (fraîcheur) avec secours cache
+  if (requestType === "worker-script") {
+    logRequest(request.url);
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response && response.status < 400) {
+            const clone = response.clone();
+            caches.open(RUNTIMES_CACHE).then((cache) => cache.put(request, clone)).catch(() => {});
+          }
+          return response;
+        })
+        .catch(() =>
+          caches.match(request).then((cached) => cached || createOfflineResponse())
+        ),
+    );
     return;
   }
 
@@ -315,20 +415,20 @@ self.addEventListener("fetch", (event) => {
                   );
                   return quizResponse;
                 }
-                // If no base quiz page either, go to offline
+                // If no base quiz page either, go to the home page
                 if (request.mode === "navigate") {
-                  return caches.match("/offline").then((offlineResponse) => {
-                    return offlineResponse || createOfflineResponse();
+                  return caches.match("/").then((homeResponse) => {
+                    return homeResponse || createOfflineResponse();
                   });
                 }
                 return createOfflineResponse();
               });
             }
 
-            // Return offline page for navigation requests
+            // Return the cached home page for navigation requests
             if (request.mode === "navigate") {
-              return caches.match("/offline").then((offlineResponse) => {
-                return offlineResponse || createOfflineResponse();
+              return caches.match("/").then((homeResponse) => {
+                return homeResponse || createOfflineResponse();
               });
             }
             // For other requests, return offline response
