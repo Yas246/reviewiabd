@@ -40,3 +40,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 /graphify-out
+
+# runtimes WASM lourds (recopiés depuis node_modules par npm run setup:runtimes)
+/public/runtimes
+
+# log du serveur de dev
+dev-server.log
+prod-server.log

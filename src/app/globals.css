@@ -1,6 +1,46 @@
 @import "tailwindcss";
 
 /* ============================================
+   TAILWIND 4 THEME TOKENS
+   Expose les variables du design system comme
+   tokens Tailwind : bg-accent/10, text-domain-ml,
+   border-paper-dark, etc. deviennent générés.
+   ============================================ */
+
+@theme {
+  --color-paper-primary: #0F1419;
+  --color-paper-secondary: #1A1F26;
+  --color-paper-dark: #252B33;
+
+  --color-ink-primary: #F5F1E8;
+  --color-ink-secondary: #EDE8DC;
+  --color-ink-muted: #9B9590;
+
+  --color-accent: #E67E22;
+  --color-accent-vivid: #E67E22;
+  --color-accent-warm: #FFB7B2;
+  --color-accent-subtle: #D68910;
+
+  --color-domain-ml: #E63946;
+  --color-domain-ai: #F4A261;
+  --color-domain-bigdata: #2A9D8F;
+  --color-domain-nlp: #457B9D;
+  --color-domain-mining: #E9C46A;
+  --color-domain-dw: #F4ACB7;
+  --color-domain-rec: #9B5DE5;
+  --color-domain-dl: #00BBF9;
+  --color-domain-viz: #00F5D4;
+  --color-domain-ethics: #F15BB5;
+  --color-domain-ac: #9575CD;
+  --color-domain-gp: #66BB6A;
+  --color-domain-sql: #78909C;
+  --color-domain-rpd: #4DD0E1;
+
+  --font-serif: 'Crimson Pro', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Monaco', monospace;
+}
+
+/* ============================================
    ACADEMIC LABORATORY DESIGN SYSTEM
    Theme: "Laboratory at Night" - Dark Mode Only
    ============================================ */
@@ -32,6 +72,10 @@
   --domain-dl: #00BBF9;
   --domain-viz: #00F5D4;
   --domain-ethics: #F15BB5;
+  --domain-ac: #9575CD;
+  --domain-gp: #66BB6A;
+  --domain-sql: #78909C;
+  --domain-rpd: #4DD0E1;
 
   /* Fonts */
   --font-serif: 'Crimson Pro', Georgia, serif;
@@ -443,3 +487,58 @@ a:hover {
 .border-domain-dl { border-color: var(--domain-dl); }
 .border-domain-viz { border-color: var(--domain-viz); }
 .border-domain-ethics { border-color: var(--domain-ethics); }
+.border-domain-ac { border-color: var(--domain-ac); }
+.border-domain-gp { border-color: var(--domain-gp); }
+.border-domain-sql { border-color: var(--domain-sql); }
+.border-domain-rpd { border-color: var(--domain-rpd); }
+
+.bg-domain-ac { background-color: var(--domain-ac); }
+.bg-domain-gp { background-color: var(--domain-gp); }
+.bg-domain-sql { background-color: var(--domain-sql); }
+.bg-domain-rpd { background-color: var(--domain-rpd); }
+
+/* ============================================
+   SCROLLBAR (dans le thème)
+   ============================================ */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--paper-dark) var(--paper-secondary);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--paper-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--paper-dark);
+  border-radius: 5px;
+  border: 2px solid var(--paper-secondary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-muted);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--paper-secondary);
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

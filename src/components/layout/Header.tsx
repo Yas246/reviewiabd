@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { formatShortDate } from "@/lib/utils";
+import { APP_VERSION } from "@/version";
 
 // ============================================
 // HEADER COMPONENT
@@ -15,7 +16,6 @@ interface HeaderProps {
   showVersion?: boolean;
 }
 
-const APP_VERSION = "v2.0.4";
 
 export function Header({ title, subtitle, className, showVersion = true }: HeaderProps) {
   const currentDate = new Date();

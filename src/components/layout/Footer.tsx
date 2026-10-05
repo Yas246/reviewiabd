@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { APP_VERSION } from "@/version";
 
 // ============================================
 // FOOTER COMPONENT
@@ -11,7 +12,6 @@ interface FooterProps {
   className?: string;
 }
 
-const APP_VERSION = "v2.0.4";
 
 export function Footer({ className }: FooterProps) {
   return (
