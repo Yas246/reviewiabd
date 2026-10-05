@@ -8,7 +8,7 @@ import {
   APIError,
   IAIService,
 } from "@/types";
-import { generateId, retryWithBackoff, sleep, batchArray } from "@/lib/utils";
+import { generateId, retryWithBackoff, sleep, batchArray, shuffleArray } from "@/lib/utils";
 import { storageService } from "./StorageService";
 
 // ============================================
@@ -41,6 +41,14 @@ const DOMAIN_PROMPTS: Record<Domain, string> = {
     "Éthique de l'IA: biais algorithmiques, équité, accountability, transparence, vie privée, impact social, régulation, AI act, responsible AI.",
   [Domain.NLP]:
     "Traitement du Langage Naturel: tokenization, embeddings, attention, transformers, BERT, GPT, sentiment analysis, traduction, NER, langage vs parole.",
+  [Domain.ANALYSE_CONCEPTION]:
+    "Analyse et Conception: UML (diagrammes de classes, séquence, cas d'utilisation), Merise (MCD, MLD, MCP), MVC, design patterns (Factory, Singleton, Observer), cycle en V vs méthodes agiles, agrégation/composition, héritage, couplage et cohésion.",
+  [Domain.GESTION_PROJET]:
+    "Gestion de Projet Informatique: chef de projet et rôles, Scrum (Product Owner, Scrum Master, sprints, rituels), méthodes agiles vs cycle en V, risques projet, WIP, indicateurs de performance, qualité logicielle, planning et répartition des tâches.",
+  [Domain.BASES_DONNEES_SQL]:
+    "Bases de Données et SQL: modèle relationnel, requêtes SELECT/JOIN/GROUP BY, sous-requêtes, index et optimisation, transactions et ACID, normalisation, contraintes d'intégrité, vues, ETL.",
+  [Domain.R_PYTHON_DATA]:
+    "Python et R: data frames, valeurs manquantes (NA), dplyr et tidyverse, lecture de CSV, Pandas (DataFrame, groupby, merge), NumPy, statistiques descriptives (moyenne, médiane), visualisation (ggplot2, matplotlib).",
 };
 
 // Prompt template for question generation (adapted for Gemini)
@@ -60,19 +68,28 @@ function generatePrompt(
     ? `\n\nIMPORTANT: Les questions suivantes ont déjà été générées. Tu DOIS générer des questions DIFFÉRENTES qui ne traitent PAS des mêmes sujets:\n\n${previousQuestions.map(q => `- ${q}`).join('\n')}\n\n`
     : "";
 
-  return `Tu es un expert pédagogique en Intelligence Artificielle et Big Data. Génère ${count} questions à choix multiple (QCM) sur le domaine suivant:
+  return `Tu es un expert pédagogique en Intelligence Artificielle et Big Data qui prépare des étudiants aux examens nationaux IABD du Bénin. Génère ${count} questions à choix multiple (QCM) sur le domaine suivant:
 
 ${domainContext}${difficultyText}${previousQuestionsText}
+
+RÈGLES DE QUALITÉ STRICTES (obligatoires) :
+1. POSITION ALÉATOIRE : la bonne réponse doit apparaître à des positions DIFFÉRENTES d'une question à l'autre (A, B, C, D équirépartis sur le lot). Ne place jamais toutes les bonnes réponses au même endroit.
+2. LONGUEURS HOMOGÈNES : les mauvaises réponses (distracteurs) doivent avoir la même longueur, le même niveau de détail et le même style que la bonne réponse. La bonne réponse ne doit JAMAIS être reconnaissable parce qu'elle est plus longue ou plus précise.
+3. DISTRACTEURS PLAUSIBLES : chaque mauvaise réponse représente une confusion fréquente et réaliste du cours (jamais une absurdité évidente).
+4. NOTE PAR OPTION : chaque option a un champ "note" d'une phrase : pourquoi elle est fausse (la confusion qu'elle piège) ; pour la bonne réponse, pourquoi elle est juste.
+5. Champ "explanation" : 2-3 phrases sur la bonne réponse, SANS jamais mentionner de lettres d'options ("l'option A" interdit).
+6. Français accentué impeccable, vocabulaire exact du programme, une notion par question.
+
 IMPORTANT: Tu dois répondre UNIQUEMENT avec un tableau JSON valide contenant les questions. Pas de texte avant ou après le JSON.
 
 Format attendu pour chaque question:
 {
   "question": "texte de la question",
   "answers": [
-    {"text": "réponse A", "isCorrect": false},
-    {"text": "réponse B", "isCorrect": true},
-    {"text": "réponse C", "isCorrect": false},
-    {"text": "réponse D", "isCorrect": false}
+    {"text": "première option", "isCorrect": false, "note": "pourquoi c'est faux"},
+    {"text": "deuxième option", "isCorrect": true, "note": "pourquoi c'est juste"},
+    {"text": "troisième option", "isCorrect": false, "note": "pourquoi c'est faux"},
+    {"text": "quatrième option", "isCorrect": false, "note": "pourquoi c'est faux"}
   ],
   "explanation": "explication détaillée de la bonne réponse"
 }
@@ -95,6 +112,7 @@ Génère maintenant les ${count} questions au format JSON tableau:`;
 function parseQuestionsFromResponse(
   content: string,
   domain: Domain,
+  difficulty?: "easy" | "medium" | "hard",
 ): Question[] {
   console.log(
     "[Gemini] Parsing questions, content length:",
@@ -139,27 +157,42 @@ function parseQuestionsFromResponse(
       throw new Error("Response is not an array");
     }
 
-    const questions: Question[] = questionsData.map((q: any) => {
+    // Validation stricte + mélange des options à l'arrivée (anti-biais de position)
+    const questions: Question[] = [];
+    questionsData.forEach((q: any) => {
       if (!q.question || !q.answers || !Array.isArray(q.answers)) {
         throw new Error("Invalid question structure");
       }
 
-      return {
+      const answers = q.answers.map((a: any, i: number) => ({
+        id: `ai-${generateId()}-${i}`,
+        text: String(a.text || "").trim(),
+        isCorrect: a.isCorrect === true,
+        note: typeof a.note === "string" ? a.note : undefined,
+      }));
+      const correctCount = answers.filter((a: any) => a.isCorrect).length;
+      if (answers.length < 2 || correctCount !== 1) {
+        console.warn("[Gemini] Question rejected (options/correct invalid), skipping");
+        return;
+      }
+
+      questions.push({
         id: generateId(),
         domain,
         type: QuestionType.SINGLE_CHOICE,
-        question: q.question,
-        answers: q.answers.map((a: any) => ({
-          id: generateId(),
-          text: a.text,
-          isCorrect: a.isCorrect || false,
-        })),
+        question: String(q.question),
+        answers: shuffleArray(answers),
         explanation: q.explanation || "",
-        difficulty: "medium",
+        difficulty: difficulty || "medium",
         tags: [domain],
+        source: "ai",
         createdAt: new Date(),
-      };
+      });
     });
+
+    if (questions.length === 0) {
+      throw new Error("Aucune question valide dans la réponse de l'IA");
+    }
 
     console.log("[Gemini] Successfully parsed", questions.length, "questions");
     return questions;
@@ -435,7 +468,7 @@ class GeminiService implements IAIService {
       console.log("[Gemini] Response text length:", responseText.length);
       console.log("[Gemini] Response text preview:", responseText.substring(0, 200) + "...");
 
-      const questions = parseQuestionsFromResponse(responseText, domain);
+      const questions = parseQuestionsFromResponse(responseText, domain, difficulty);
 
       if (questions.length !== count) {
         console.warn(
@@ -701,7 +734,9 @@ Génère maintenant les questions au format JSON tableau:`;
         throw new Error("Response is not an array");
       }
 
-      const questions: Question[] = questionsData.map((q: any) => {
+      // Validation stricte + mélange des options à l'arrivée (anti-biais de position)
+      const questions: Question[] = [];
+      questionsData.forEach((q: any) => {
         if (!q.question || !q.answers || !Array.isArray(q.answers) || !q.domain) {
           throw new Error("Invalid question structure - missing required fields");
         }
@@ -713,22 +748,35 @@ Génère maintenant les questions au format JSON tableau:`;
           );
         }
 
-        return {
+        const answers = q.answers.map((a: any, i: number) => ({
+          id: `ai-${generateId()}-${i}`,
+          text: String(a.text || "").trim(),
+          isCorrect: a.isCorrect === true,
+          note: typeof a.note === "string" ? a.note : undefined,
+        }));
+        const correctCount = answers.filter((a: any) => a.isCorrect).length;
+        if (answers.length < 2 || correctCount !== 1) {
+          console.warn("[Gemini] Question rejected (options/correct invalid), skipping");
+          return;
+        }
+
+        questions.push({
           id: generateId(),
           domain: q.domain as Domain,
           type: QuestionType.SINGLE_CHOICE,
-          question: q.question,
-          answers: q.answers.map((a: any) => ({
-            id: generateId(),
-            text: a.text,
-            isCorrect: a.isCorrect || false,
-          })),
+          question: String(q.question),
+          answers: shuffleArray(answers),
           explanation: q.explanation || "",
           difficulty: "medium",
           tags: [q.domain as Domain],
+          source: "ai",
           createdAt: new Date(),
-        };
+        });
       });
+
+      if (questions.length === 0) {
+        throw new Error("Aucune question valide dans la réponse de l'IA");
+      }
 
       console.log("[Gemini] Successfully parsed", questions.length, "questions from multi-domain response");
       return questions;

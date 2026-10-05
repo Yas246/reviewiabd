@@ -2,7 +2,7 @@
 // TYPES FOR REVIEW IABD APPLICATION
 // ============================================
 
-// IABD Domain Enum (10 domains)
+// IABD Domain Enum (10 domaines d'origine + 4 matières d'épreuves)
 export enum Domain {
   MACHINE_LEARNING = "MACHINE_LEARNING",
   IA_SYMBOLIQUE = "IA_SYMBOLIQUE",
@@ -14,6 +14,10 @@ export enum Domain {
   VISUALISATION_DONNEES = "VISUALISATION_DONNEES",
   ETHIQUE_IA = "ETHIQUE_IA",
   NLP = "NLP",
+  ANALYSE_CONCEPTION = "ANALYSE_CONCEPTION",
+  GESTION_PROJET = "GESTION_PROJET",
+  BASES_DONNEES_SQL = "BASES_DONNEES_SQL",
+  R_PYTHON_DATA = "R_PYTHON_DATA",
 }
 
 // Domain display names
@@ -28,19 +32,88 @@ export const DOMAIN_LABELS: Record<Domain, string> = {
   [Domain.VISUALISATION_DONNEES]: "Visualisation de Données",
   [Domain.ETHIQUE_IA]: "Éthique de l'IA",
   [Domain.NLP]: "Traitement du Langage Naturel (NLP)",
+  [Domain.ANALYSE_CONCEPTION]: "Analyse et Conception (UML, Merise)",
+  [Domain.GESTION_PROJET]: "Gestion de Projet Informatique",
+  [Domain.BASES_DONNEES_SQL]: "Bases de Données et SQL",
+  [Domain.R_PYTHON_DATA]: "Python et R",
 };
 
-// Question type (single choice for now, extensible)
+// Matières ajoutées pour couvrir les épreuves réelles (tronc commun, pratique pro)
+export const NEW_EXAM_DOMAINS: Domain[] = [
+  Domain.ANALYSE_CONCEPTION,
+  Domain.GESTION_PROJET,
+  Domain.BASES_DONNEES_SQL,
+  Domain.R_PYTHON_DATA,
+];
+
+// Question type
 export enum QuestionType {
   SINGLE_CHOICE = "SINGLE_CHOICE",
   MULTIPLE_CHOICE = "MULTIPLE_CHOICE",
+  TRUE_FALSE = "TRUE_FALSE",
+  FILL_BLANK = "FILL_BLANK",
+  CODE = "CODE",
+  CASE_STUDY = "CASE_STUDY",
 }
+
+export const QUESTION_TYPE_LABELS: Record<QuestionType, string> = {
+  [QuestionType.SINGLE_CHOICE]: "QCM (une réponse)",
+  [QuestionType.MULTIPLE_CHOICE]: "QCM (plusieurs réponses)",
+  [QuestionType.TRUE_FALSE]: "Vrai ou Faux",
+  [QuestionType.FILL_BLANK]: "Texte à trous",
+  [QuestionType.CODE]: "Exercice de code",
+  [QuestionType.CASE_STUDY]: "Cas pratique",
+};
+
+// Types jouables en mode examen (correction objective automatique)
+export const EXAM_SAFE_TYPES: QuestionType[] = [
+  QuestionType.SINGLE_CHOICE,
+  QuestionType.MULTIPLE_CHOICE,
+  QuestionType.TRUE_FALSE,
+  QuestionType.FILL_BLANK,
+];
+
+// Texte à trous : réponses acceptées par trou (dans l'ordre des ___)
+export interface Blank {
+  accepted: string[];
+}
+
+// Exercice de code : vérifié par exécution dans le navigateur
+export type CodeLanguage = "python" | "r" | "sql";
+
+export interface CodeTest {
+  name: string;
+  hidden: boolean; // test caché (anti-triche)
+  code: string; // snippet Python (assert) / R (stopifnot) exécuté après le code utilisateur
+}
+
+export interface CodeSpec {
+  language: CodeLanguage;
+  setup?: string; // code exécuté avant le code utilisateur (données, schéma SQL...)
+  starter?: string; // squelette fourni à l'étudiant
+  solution: string; // solution de référence (pour le corrigé)
+  tests: CodeTest[];
+  timeLimitMs?: number; // garde-fou anti boucle infinie (défaut 10000)
+  expectedRows?: unknown[][]; // SQL : résultat attendu (alternative aux tests)
+}
+
+// Cas pratique : sous-questions rédigées avec corrigé + grille d'auto-évaluation
+export interface CaseSubQuestion {
+  id: string;
+  question: string;
+  answer: string; // corrigé détaillé
+  rubric: string[]; // points vérifiables ("as-tu mentionné X ?")
+}
+
+// Provenance d'une question
+export type QuestionSource = "preloaded" | "imported" | "ai";
 
 // Answer structure
 export interface Answer {
   id: string;
   text: string;
   isCorrect: boolean;
+  note?: string; // pourquoi cette option est vraie/fausse (explication par option)
 }
 
 // Question structure
@@ -53,6 +126,11 @@ export interface Question {
   explanation: string;
   difficulty: "easy" | "medium" | "hard";
   tags: string[];
+  source?: QuestionSource;
+  context?: string; // énoncé long partagé (cas pratique, mise en situation)
+  blanks?: Blank[]; // FILL_BLANK
+  code?: CodeSpec; // CODE
+  subQuestions?: CaseSubQuestion[]; // CASE_STUDY
   createdAt: Date;
 }
 
@@ -72,12 +150,17 @@ export interface UserAnswer {
   isCorrect: boolean;
   timeSpent: number; // in seconds
   isFavorite: boolean;
+  textAnswers?: string[]; // FILL_BLANK / CASE_STUDY (une entrée par trou ou sous-question)
+  codeAnswer?: string; // CODE
+  codeScore?: number; // CODE : fraction de tests passés (0..1)
+  selfScore?: number; // CASE_STUDY : score d'auto-évaluation (0..1)
+  rubricChecked?: boolean[][]; // CASE_STUDY : points de grille cochés [sous-question][point]
 }
 
 // Quiz session
 export interface QuizSession {
   id: string;
-  type: "practice" | "exam" | "offline" | "favorites";
+  type: "practice" | "exam" | "offline" | "favorites" | "mistakes" | "mock";
   domain?: Domain;
   questions: Question[];
   userAnswers: Record<string, UserAnswer>;
@@ -90,6 +173,8 @@ export interface QuizSession {
   examId?: string; // Link to the SavedExam if this is an exam attempt
   exerciseId?: string; // Link to the SavedExercise if this is an offline exercise
   practiceQuizId?: string; // Link to the SavedPracticeQuiz if this is a practice quiz
+  mockExamId?: string; // Link to a real past exam (épreuve réelle)
+  label?: string; // Libellé affiché (cahier d'erreurs, épreuve réelle...)
   generationProgress?: {
     requestedCount: number;
     completedBatches: number;
@@ -134,6 +219,7 @@ export interface SavedExam {
   bestAttemptId: string;
   createdAt: Date;
   lastAttemptAt: Date;
+  mockExamId?: string; // lien vers l'épreuve réelle si examen blanc dérivé
 }
 
 // Offline exercise
@@ -156,6 +242,43 @@ export interface SavedPracticeQuiz {
   attempts: number; // Number of times taken
   createdAt: Date;
   lastAttemptAt: Date;
+  label?: string;
+}
+
+// ============================================
+// CAHIER D'ERREURS + RÉPÉTITION ESPACÉE (SRS)
+// ============================================
+
+export interface MistakeHistoryEntry {
+  date: Date;
+  correct: boolean;
+}
+
+export interface MistakeEntry {
+  id: string; // questionId
+  question: Question; // snapshot complet
+  missedCount: number;
+  timesCorrect: number;
+  correctStreak: number;
+  mastered: boolean;
+  firstMissedAt: Date;
+  lastSeenAt: Date;
+  srs: {
+    intervalDays: number; // 1 -> 2 -> 4 -> 7 -> 14 -> 30
+    dueAt: Date;
+  };
+  history: MistakeHistoryEntry[]; // plafonné aux 20 dernières réponses
+}
+
+// ============================================
+// ACTIVITÉ QUOTIDIENNE + STREAK
+// ============================================
+
+export interface DailyStat {
+  date: string; // "YYYY-MM-DD" (clé)
+  answered: number;
+  correct: number;
+  timeSpent: number; // secondes
 }
 
 // AI Provider type
@@ -174,6 +297,8 @@ export interface UserSettings {
   offlineQuestionsPerDomain: number;
   batchSize: number;  // Number of questions per API call (default: 10)
   onboardingCompleted: boolean;
+  dailyGoal: number; // objectif quotidien de questions (défaut 20)
+  examDate?: string; // date de l'examen (YYYY-MM-DD) pour le compte à rebours
   updatedAt: Date;
 }
 

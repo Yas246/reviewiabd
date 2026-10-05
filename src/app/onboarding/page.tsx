@@ -6,11 +6,12 @@ import { Navigation } from "@/components/layout/Navigation";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-import { Key, Check, AlertCircle, Cpu, HelpCircle } from "lucide-react";
+import { Key, Check, AlertCircle, Cpu, HelpCircle, WifiOff } from "lucide-react";
 import { Modal } from "@/components/ui/Modal";
 import { storageService } from "@/services/StorageService";
 import { AIProvider } from "@/types";
 import { BatchSizeSlider } from "@/components/features/BatchSizeSlider";
+import { OfflinePrep } from "@/components/features/OfflinePrep";
 
 // ============================================
 // ONBOARDING PAGE
@@ -98,12 +99,12 @@ export default function OnboardingPage() {
         return;
       }
       setStep(2);
-    } else {
-      handleComplete();
+    } else if (step === 2) {
+      setStep(3);
     }
   };
 
-  const handleComplete = async () => {
+  const handleFinish = async () => {
     setIsLoading(true);
     setError("");
 
@@ -118,6 +119,7 @@ export default function OnboardingPage() {
         customOpenRouterModel: customOpenRouterModel || undefined,
         customGeminiModel: customGeminiModel || undefined,
         onboardingCompleted: true,
+        dailyGoal: 20,
         notifyOnComplete: false,
         offlineQuestionsPerDomain: 10,
         batchSize,
@@ -135,27 +137,8 @@ export default function OnboardingPage() {
     }
   };
 
-  const handleSkip = async () => {
-    setIsLoading(true);
-    try {
-      await storageService.saveSettings({
-        apiKey: "",
-        geminiApiKey: "",
-        provider: "openrouter",
-        model: "google/gemma-4-31b-it:free",
-        defaultModel: "google/gemma-4-31b-it:free",
-        onboardingCompleted: true,
-        notifyOnComplete: false,
-        offlineQuestionsPerDomain: 10,
-        batchSize: 10,
-        updatedAt: new Date(),
-      });
-      router.push("/");
-    } catch {
-      setError("Erreur lors de la sauvegarde. Réessayez.");
-    } finally {
-      setIsLoading(false);
-    }
+  const handleSkip = () => {
+    setStep(3);
   };
 
   return (
@@ -185,7 +168,7 @@ export default function OnboardingPage() {
             {step > 1 ? <Check className="w-5 h-5" /> : "1"}
           </div>
           <div
-            className={`flex-1 h-0.5 min-w-[100px] ${step >= 2 ? "bg-accent" : "bg-paper-dark"}`}
+            className={`flex-1 h-0.5 min-w-[80px] ${step >= 2 ? "bg-accent" : "bg-paper-dark"}`}
           />
           <div
             className={`flex items-center justify-center w-10 h-10 rounded-full font-mono font-bold border-2 shrink-0 ${
@@ -194,7 +177,19 @@ export default function OnboardingPage() {
                 : "border-paper-dark text-ink-muted"
             }`}
           >
-            2
+            {step > 2 ? <Check className="w-5 h-5" /> : "2"}
+          </div>
+          <div
+            className={`flex-1 h-0.5 min-w-[80px] ${step >= 3 ? "bg-accent" : "bg-paper-dark"}`}
+          />
+          <div
+            className={`flex items-center justify-center w-10 h-10 rounded-full font-mono font-bold border-2 shrink-0 ${
+              step >= 3
+                ? "bg-accent border-accent text-paper-primary"
+                : "border-paper-dark text-ink-muted"
+            }`}
+          >
+            3
           </div>
         </div>
 
@@ -503,6 +498,37 @@ export default function OnboardingPage() {
           </Card>
         )}
 
+        {/* Step 3: Offline preparation */}
+        {step === 3 && (
+          <Card className="animate-fade-in-up">
+            <CardContent>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+                  <WifiOff className="w-6 h-6 text-accent" />
+                </div>
+                <div>
+                  <h2 className="font-mono font-semibold text-lg mb-1">
+                    Préparation hors ligne
+                  </h2>
+                  <p className="text-sm text-ink-muted">
+                    Ta banque de questions est déjà embarquée : tu peux réviser tout de
+                    suite, sans clé API ni connexion.
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-sm text-ink-secondary mb-5">
+                Les outils ci-dessous servent à vérifier le code que tu écris dans les
+                exercices (Python, R, SQL). Télécharge-les maintenant si tu veux, ou plus
+                tard dans <strong>Paramètres → Préparation hors ligne</strong> : ils sont
+                facultatifs, les QCM et cas pratiques fonctionnent sans eux.
+              </p>
+
+              <OfflinePrep />
+            </CardContent>
+          </Card>
+        )}
+
         {/* Navigation Buttons */}
         <div className="flex gap-4 justify-between mt-12">
           <Button
@@ -512,34 +538,46 @@ export default function OnboardingPage() {
           >
             Retour
           </Button>
-          <Button
-            variant="primary"
-            onClick={handleContinue}
-            loading={isLoading}
-            disabled={step === 1 && !isValidKey}
-          >
-            {step === 1 ? "Continuer" : "Terminer"}
-          </Button>
+          {step === 3 ? (
+            <Button
+              variant="primary"
+              onClick={handleFinish}
+              loading={isLoading}
+            >
+              Aller à l&apos;application
+            </Button>
+          ) : (
+            <Button
+              variant="primary"
+              onClick={handleContinue}
+              loading={isLoading}
+              disabled={step === 1 && !isValidKey}
+            >
+              Continuer
+            </Button>
+          )}
         </div>
 
         {/* Skip onboarding */}
         {step === 1 && (
           <div className="mt-8 border-t border-paper-dark pt-6 text-center">
             <p className="text-sm text-ink-secondary mb-4">
-              Vous avez déjà accès à <strong>1000 questions offline</strong>{" "}
-              (10 domaines × 100 questions). Vous pourrez configurer votre clé
-              API plus tard dans les{" "}
+              Tu n&apos;as pas besoin de clé API pour réviser : la{" "}
+              <strong>banque locale embarquée</strong> contient des questions dans toutes les
+              matières (QCM, multi-réponses, Vrai/Faux, texte à trous, code, cas pratiques), et
+              tu pourras en importer sans clé depuis la page Importer. La clé IA reste
+              optionnelle, dans les{" "}
               <a href="/settings" className="text-accent hover:underline">
                 Paramètres
-              </a>{" "}
-              pour générer des questions personnalisées.
+              </a>
+              .
             </p>
             <button
               onClick={handleSkip}
               disabled={isLoading}
               className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg border border-paper-dark bg-paper-secondary text-sm font-mono text-ink-secondary hover:border-accent hover:text-accent hover:bg-accent/5 active:scale-[0.98] transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Continuer plus tard →
+              Commencer sans IA (banque locale) →
             </button>
           </div>
         )}

@@ -3,8 +3,10 @@ import { indexedDBService } from "@/services/IndexedDBService";
 
 // ============================================
 // PRE-GENERATED QUESTIONS LOADER
-// Loads bundled JSON question files into IndexedDB
-// on first app launch for offline use
+// Charge les fichiers JSON de questions dans
+// IndexedDB au premier lancement (banque locale,
+// utilisable 100 % hors ligne). Bump du flag :
+// re-import automatique quand les fichiers changent.
 // ============================================
 
 const DOMAIN_FILES: Record<string, string> = {
@@ -18,33 +20,47 @@ const DOMAIN_FILES: Record<string, string> = {
   VISUALISATION_DONNEES: "/questions/VISUALISATION_DONNEES.json",
   ETHIQUE_IA: "/questions/ETHIQUE_IA.json",
   NLP: "/questions/NLP.json",
+  ANALYSE_CONCEPTION: "/questions/ANALYSE_CONCEPTION.json",
+  GESTION_PROJET: "/questions/GESTION_PROJET.json",
+  BASES_DONNEES_SQL: "/questions/BASES_DONNEES_SQL.json",
+  R_PYTHON_DATA: "/questions/R_PYTHON_DATA.json",
 };
 
-const LOADED_FLAG = "preloaded_questions_v5";
+const LOADED_FLAG = "preloaded_questions_v7";
 
 // ============================================
 // RAW FORMAT (from JSON files)
-// Some files use the simple format: {options, answer}
-// Others use the full format: {answers, domain, type, ...}
+// Simple : {options, answer} / Complet : {answers, type, ...}
 // ============================================
 
 interface RawQuestionSimple {
   id: string;
   question: string;
-  options: string[];  // ["A) text", "B) text", ...]
-  answer: string;     // "A", "B", "C", or "D"
+  options: string[]; // ["A) text", "B) text", ...]
+  answer: string; // "A", "B", "C", or "D"
   explanation: string;
+}
+
+interface RawAnswer {
+  id: string;
+  text: string;
+  isCorrect: boolean;
+  note?: string;
 }
 
 interface RawQuestionFull {
   id: string;
-  domain: string;
-  type: string;
+  domain?: string;
+  type?: string;
   question: string;
-  answers: { id: string; text: string; isCorrect: boolean }[];
-  explanation: string;
-  difficulty: string;
-  tags: string[];
+  answers?: RawAnswer[];
+  explanation?: string;
+  difficulty?: string;
+  tags?: string[];
+  context?: string;
+  blanks?: { accepted: string[] }[];
+  code?: Question["code"];
+  subQuestions?: Question["subQuestions"];
 }
 
 type RawQuestion = RawQuestionSimple | RawQuestionFull;
@@ -65,9 +81,15 @@ function shuffleArray<T>(arr: T[]): T[] {
   return result;
 }
 
+const CHOICE_TYPES = new Set<string>([
+  QuestionType.SINGLE_CHOICE,
+  QuestionType.MULTIPLE_CHOICE,
+  QuestionType.TRUE_FALSE,
+]);
+
 /**
  * Transform raw question data (simple or full format) into the app's Question interface.
- * Shuffles answer order so the correct answer isn't always the same position.
+ * Shuffle les options des questions à choix pour la variété.
  */
 function transformQuestion(raw: RawQuestion, domain: string): Question {
   if (isSimpleFormat(raw)) {
@@ -75,10 +97,8 @@ function transformQuestion(raw: RawQuestion, domain: string): Question {
     const answerMap: Record<string, number> = { A: 0, B: 1, C: 2, D: 3 };
     const correctIndex = answerMap[answerLetter] ?? 0;
 
-    // Strip "A) ", "B) ", etc. prefix from option text
     const stripPrefix = (opt: string) => opt.replace(/^[A-D]\)\s*/i, "").trim();
 
-    // Build answers then shuffle
     const answers = raw.options.map((opt, i) => ({
       id: `${raw.id}_${String.fromCharCode(97 + i)}`,
       text: stripPrefix(opt),
@@ -94,18 +114,29 @@ function transformQuestion(raw: RawQuestion, domain: string): Question {
       explanation: raw.explanation,
       difficulty: "medium" as const,
       tags: [domain.toLowerCase()],
+      source: "preloaded" as const,
       createdAt: new Date(),
     };
   }
 
-  // Already in full format — shuffle answers
+  const type = (raw.type as QuestionType) || QuestionType.SINGLE_CHOICE;
+  const answers = (raw.answers || []).map((a) => ({ ...a }));
+
   return {
-    ...raw,
-    domain: raw.domain as Domain,
-    type: (raw.type as QuestionType) || QuestionType.SINGLE_CHOICE,
-    difficulty: (raw.difficulty as "easy" | "medium" | "hard") || "medium",
+    id: raw.id,
+    domain: (raw.domain || domain) as Domain,
+    type,
+    question: raw.question,
+    answers:
+      CHOICE_TYPES.has(type) && answers.length > 0 ? shuffleArray(answers) : answers,
+    explanation: raw.explanation || "",
+    difficulty: (raw.difficulty as Question["difficulty"]) || "medium",
     tags: raw.tags || [],
-    answers: shuffleArray(raw.answers),
+    source: "preloaded" as const,
+    context: raw.context,
+    blanks: raw.blanks,
+    code: raw.code,
+    subQuestions: raw.subQuestions,
     createdAt: new Date(),
   };
 }
@@ -114,25 +145,29 @@ class PreloadedQuestionsService {
   /**
    * Load all pre-generated question files into IndexedDB.
    * Only runs once (checked via localStorage flag).
+   * onProgress : feedback pour la barre de chargement du premier lancement.
    */
-  async loadAllIfNeeded(): Promise<void> {
+  async loadAllIfNeeded(
+    onProgress?: (done: number, total: number, label: string) => void
+  ): Promise<void> {
     if (typeof window === "undefined") return;
 
-    // Always clean up old preloaded exercises (handles v1/v2 leftovers)
     await this.cleanupOldExercises();
 
     const alreadyLoaded = localStorage.getItem(LOADED_FLAG);
     if (alreadyLoaded) {
-      console.log("[PreloadedQuestions] Already loaded, skipping.");
       return;
     }
 
     console.log("[PreloadedQuestions] Loading pre-generated questions...");
     await indexedDBService.init();
 
+    const entries = Object.entries(DOMAIN_FILES);
     let totalLoaded = 0;
+    let done = 0;
 
-    for (const [domain, filePath] of Object.entries(DOMAIN_FILES)) {
+    for (const [domain, filePath] of entries) {
+      onProgress?.(done, entries.length, domain);
       try {
         const response = await fetch(filePath);
         if (!response.ok) {
@@ -147,12 +182,10 @@ class PreloadedQuestionsService {
           continue;
         }
 
-        // Transform raw questions into app format
         const questions: Question[] = rawQuestions.map((q) =>
           transformQuestion(q, domain)
         );
 
-        // Use deterministic ID so re-saves overwrite instead of creating duplicates
         const exerciseId = `preloaded-${domain}`;
         await indexedDBService.saveExercise({
           id: exerciseId,
@@ -168,14 +201,17 @@ class PreloadedQuestionsService {
         );
       } catch (error) {
         console.error(`[PreloadedQuestions] Error loading ${filePath}:`, error);
+      } finally {
+        done++;
+        onProgress?.(done, entries.length, domain);
       }
     }
 
-    // Mark as loaded
+    // Purge les anciens flags
+    localStorage.removeItem("preloaded_questions_v5");
+    localStorage.removeItem("preloaded_questions_v6");
     localStorage.setItem(LOADED_FLAG, new Date().toISOString());
-    console.log(
-      `[PreloadedQuestions] Done! Total: ${totalLoaded} questions loaded.`
-    );
+    console.log(`[PreloadedQuestions] Done! Total: ${totalLoaded} questions loaded.`);
   }
 
   /**
@@ -192,9 +228,7 @@ class PreloadedQuestionsService {
         await indexedDBService.deleteExercise(ex.id);
       }
       if (stale.length > 0) {
-        console.log(
-          `[PreloadedQuestions] Cleaned up ${stale.length} stale exercises`
-        );
+        console.log(`[PreloadedQuestions] Cleaned up ${stale.length} stale exercises`);
       }
     } catch {
       // Non-fatal

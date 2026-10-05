@@ -1,0 +1,163 @@
+{
+  "id": "PRATIQUE_PRO",
+  "title": "Pratique Professionnelle (sujet réel)",
+  "description": "Retranscription intégrale du sujet scanné « Pratique Professionnelle » (2h, cas pratiques) : prédiction de prix immobiliers, analyse de performance d'un modèle, base de données d'un moteur de recommandation avec du R à écrire, pipeline ETL et optimisation SQL. Tu rédiges tes réponses, puis le corrigé détaillé s'affiche point par point avec auto-évaluation.",
+  "durationSeconds": 7200,
+  "mode": "practice",
+  "questions": [
+    {
+      "id": "pp_d1",
+      "domain": "MACHINE_LEARNING",
+      "type": "CASE_STUDY",
+      "context": "Une agence immobilière souhaite créer un modèle d'IA pour prédire le prix des appartements en fonction de leurs caractéristiques. Elle vous fournit un jeu de données contenant des informations telles que la surface en m², le nombre de pièces, l'année de construction, la proximité du transport en commun (oui/non) et le prix.",
+      "question": "Dossier 1 : Conception d'un modèle de prédiction des prix immobiliers",
+      "subQuestions": [
+        {
+          "id": "sq-1",
+          "question": "Quel type de problème de Machine Learning s'agit-il (régression, classification, etc.) et pourquoi ?",
+          "answer": "Il s'agit d'un problème de RÉGRESSION. La variable à prédire (le prix de l'appartement) est une valeur numérique continue, pas une catégorie. En classification, on prédit une classe discrète (par exemple « cher / pas cher », « acheteur / non acheteur ») ; ici on veut un nombre réel (par exemple 45 750 000 FCFA), ce qui définit la régression.",
+          "rubric": ["Réponse : régression", "Justification : le prix est une valeur numérique continue", "Distinction claire avec la classification (classes discrètes)"]
+        },
+        {
+          "id": "sq-2",
+          "question": "Proposez deux algorithmes de Machine Learning adaptés à ce problème et justifiez votre choix.",
+          "answer": "Exemples de réponses acceptées (deux suffisent, bien justifiés) :\n1) La RÉGRESSION LINÉAIRE : algorithme de base de la régression, simple, interprétable (chaque coefficient indique l'effet d'une caractéristique sur le prix), rapide à entraîner, bon point de départ pour établir une référence.\n2) La FORÊT ALÉATOIRE (Random Forest Regressor) : elle capte les relations non linéaires (par exemple le prix par m² qui augmente au-delà d'une certaine surface) et les interactions entre variables, elle est robuste aux valeurs aberrantes et demande peu de prétraitement.\nAutres réponses acceptées : régression polynomiale, gradient boosting (XGBoost), réseaux de neurones pour régression (justifier pourquoi).",
+          "rubric": ["Deux algorithmes adaptés à la régression cités", "Justification du premier algorithme (simplicité, interprétabilité ou non-linéarité)", "Justification du deuxième algorithme", "Aucun algorithme de classification proposé comme principal"]
+        },
+        {
+          "id": "sq-3",
+          "question": "Identifiez une variable catégorielle dans le jeu de données. Quelle technique de prétraitement utiliserez-vous pour la rendre utilisable par un modèle ?",
+          "answer": "La variable catégorielle est « proximité du transport en commun » (oui/non). On peut aussi considérer l'année de construction si elle était stockée par catégories (avant/après 2000).\nTechnique de prétraitement : l'ENCODAGE. Pour une variable binaire, l'encodage binaire (0/1, par exemple LabelEncoder ou map en pandas) suffit : transport = 1 si oui, 0 si non. Pour une variable catégorielle avec plus de deux catégories (par exemple quartier), on utilise l'encodage ONE-HOT (pd.get_dummies / OneHotEncoder) qui crée une colonne binaire par catégorie, afin que le modèle ne suppose pas d'ordre numérique entre les catégories.",
+          "rubric": ["Variable catégorielle identifiée : proximité du transport (oui/non)", "Technique citée : encodage (binaire 0/1 ou one-hot)", "Justification : les modèles numériques ne lisent pas du texte / pas d'ordre artificiel"]
+        },
+        {
+          "id": "sq-4",
+          "question": "Les données sont-elles sensibles aux échelles différentes des variables (par exemple, la surface vs le nombre de pièces) ? Si oui, quelle technique de normalisation ou de standardisation appliqueriez-vous et pourquoi ?",
+          "answer": "OUI, le problème est sensible aux échelles. La surface peut aller de 20 à 300 m² tandis que le nombre de pièces va de 1 à 10 : les algorithmes basés sur les distances ou sur le gradient (régression avec descente de gradient, KNN, SVM, réseaux de neurones) seront dominés par la variable à grande échelle.\nTechniques acceptées :\n- NORMALISATION min-max : x' = (x - min) / (max - min), ramène chaque variable entre 0 et 1.\n- STANDARDISATION (z-score) : x' = (x - moyenne) / écart-type, centre les variables sur 0 avec un écart-type de 1 ; plus robuste aux valeurs extrêmes, souvent préférée pour la régression.\nRemarque valorisée : les arbres de décision et forêts aléatoires sont insensibles aux échelles ; appliquer la mise à l'échelle sur le TRAIN uniquement puis la transposer au TEST pour éviter la fuite de données.",
+          "rubric": ["Réponse : oui, sensible aux échelles", "Technique citée : normalisation min-max ou standardisation z-score", "Formule ou principe expliqué", "Bonus : sensibilité selon l'algorithme / fuite de données train-test"]
+        }
+      ],
+      "answers": [],
+      "explanation": "Méthodologie : identifier d'abord le TYPE de problème (régression ici), choisir des algorithmes cohérents avec ce type, préparer les données (encodage des catégorielles, mise à l'échelle des numériques) avant tout entraînement.",
+      "difficulty": "medium",
+      "tags": ["régression", "prétraitement"]
+    },
+    {
+      "id": "pp_d2",
+      "domain": "MACHINE_LEARNING",
+      "type": "CASE_STUDY",
+      "context": "Vous avez entraîné un modèle de classification pour détecter les transactions frauduleuses. Les transactions frauduleuses sont très rares. Vous obtenez un taux de précision (accuracy) de 99,5 %.",
+      "question": "Dossier 2 : Analyse de la performance d'un modèle",
+      "subQuestions": [
+        {
+          "id": "sq-1",
+          "question": "Expliquez pourquoi le taux de précision globale (accuracy) n'est pas une métrique suffisante pour évaluer ce modèle.",
+          "answer": "Les transactions frauduleuses sont TRÈS RARES (classes fortement déséquilibrées, par exemple 0,5 % de fraude). Un modèle stupide qui prédit « transaction normale » pour TOUT a donc environ 99,5 % d'accuracy sans détecter aucune fraude. L'accuracy est trompeuse sur des classes déséquilibrées : elle mesure le pourcentage global de bonnes réponses, dominé par la classe majoritaire. Or ici, l'erreur coûteuse (rater une fraude, c'est-à-dire un faux négatif) n'apparaît presque pas dans ce taux.",
+          "rubric": ["Classes déséquilibrées mentionnées (fraudes très rares)", "Contre-exemple : un modèle qui prédit toujours « non fraude » atteint ~99,5 %", "Conclusion : l'accuracy masque l'erreur qui compte (fraudes ratées)"]
+        },
+        {
+          "id": "sq-2",
+          "question": "Quelles sont deux autres métriques plus pertinentes pour ce problème ? Expliquez ce que chacune d'elles mesure.",
+          "answer": "1) Le RAPPEL (recall, sensibilité) : VP / (VP + FN). Il mesure la proportion de fraudes réelles détectées par le modèle. Sur la fraude, un rappel élevé est crucial : on veut rater le moins de fraudes possible (peu de faux négatifs).\n2) La PRÉCISION (precision) : VP / (VP + FP). Elle mesure la proportion d'alertes correctes parmi toutes les alertes émises : quand le modèle crie « fraude », a-t-il raison ? Une précision faible harcèle les clients avec de fausses alertes.\nAutres réponses acceptées : le F1-score (moyenne harmonique précision/rappel, utile pour arbitrer les deux), la matrice de confusion (qui expose VP, FP, FN, VN), la courbe PR ou l'AUC-PR, plus informative que l'AUC-ROC sur données très déséquilibrées.",
+          "rubric": ["Deux métriques citées parmi : rappel, précision, F1-score, matrice de confusion", "Rappel expliqué : proportion de fraudes réellement détectées", "Précision expliquée : proportion d'alertes justifiées", "Lien explicite avec l'enjeu métier de la détection de fraude"]
+        },
+        {
+          "id": "sq-3",
+          "question": "Après avoir entraîné votre modèle, vous remarquez que ses performances sont excellentes sur les données d'entraînement mais très mauvaises sur les nouvelles données (de test). De quel phénomène s'agit-il ?",
+          "answer": "Il s'agit du SURAPPRENTISSAGE (overfitting). Le modèle a mémorisé les particularités et le bruit du jeu d'entraînement au lieu d'apprendre des motifs généralisables. Symptôme typique : excellent score en train, mauvais score en test, c'est-à-dire un écart de généralisation important (biais faible, variance élevée).",
+          "rubric": ["Nom du phénomène : surapprentissage / overfitting", "Explication : le modèle mémorise le bruit au lieu de généraliser", "Diagnostic : écart fort entre score train et score test"]
+        },
+        {
+          "id": "sq-4",
+          "question": "Proposez deux techniques pour résoudre ce problème et expliquez leur principe.",
+          "answer": "Techniques acceptées (deux suffisent, avec le principe) :\n1) La RÉGULARISATION (L1/Lasso ou L2/Ridge) : elle pénalise les coefficients trop grands dans la fonction de coût, ce qui force le modèle à rester simple et à ne pas coller au bruit.\n2) Le DROPOUT (réseaux de neurones) : à chaque itération, on désactive aléatoirement une fraction des neurones, ce qui empêche le réseau de dépendre de neurones spécifiques et l'oblige à apprendre des motifs redondants et robustes.\n3) L'EARLY STOPPING : on arrête l'entraînement quand la performance sur le jeu de validation commence à se dégrader.\n4) PLUS DE DONNÉES / AUGMENTATION DE DONNÉES : plus d'exemples rendent le bruit moins mémorisable.\n5) SIMPLIFIER LE MODÈLE : réduire la profondeur/le nombre de paramètres, ou utiliser la validation croisée pour régler les hyperparamètres.",
+          "rubric": ["Deux techniques citées parmi : régularisation, dropout, early stopping, plus de données, simplification, validation croisée", "Principe de la première technique expliqué", "Principe de la deuxième technique expliqué", "Cohérence avec le surapprentissage (pas d'augmentation d'époques)"]
+        }
+      ],
+      "answers": [],
+      "explanation": "Méthodologie : sur des classes déséquilibrées, l'accuracy trompe ; on évalue avec précision/rappel/F1. Un modèle fort en train et faible en test souffre d'overfitting, que l'on combat par régularisation et contrôle de la complexité.",
+      "difficulty": "medium",
+      "tags": ["métriques", "overfitting"]
+    },
+    {
+      "id": "pp_d3",
+      "domain": "R_PYTHON_DATA",
+      "type": "CASE_STUDY",
+      "context": "On vous donne le jeu de données suivant (simplifié) pour un moteur de recommandation :\n\nid | age | revenu | a_achete\n1  | 25  | 400    | Oui\n2  | 45  | 1200   | Non\n3  | NA  | 800    | Oui\n4  | 35  | ?      | Oui",
+      "question": "Dossier 3 : Conception d'une base de données pour un moteur de recommandation",
+      "subQuestions": [
+        {
+          "id": "sq-1",
+          "question": "1. Identifiez deux problèmes de qualité des données présents dans ce tableau.",
+          "answer": "1) VALEURS MANQUANTES : l'âge du client 3 vaut NA et le revenu du client 4 est inconnu (« ? »). Les modèles ne peuvent pas traiter ces valeurs telles quelles.\n2) INCOHÉRENCE DE FORMAT : la valeur manquante est notée parfois « NA » et parfois « ? » : deux représentations différentes du même problème, qui empêchent la détection automatique des manquants. On peut aussi noter le risque de TYPE : « a_achete » est du texte (Oui/Non) qui devra être encodé, et les colonnes doivent être numériques (age, revenu).",
+          "rubric": ["Valeurs manquantes repérées (NA et ?)", "Incohérence de représentation des manquants (NA vs ?) ou encodage nécessaire de a_achete"]
+        },
+        {
+          "id": "sq-2",
+          "question": "2. Proposez une solution pour chacun.",
+          "answer": "Pour les valeurs manquantes : les IMPUTER, par exemple remplacer l'âge manquant par la moyenne (ou la médiane) des âges connus, et le revenu manquant par la moyenne des revenus connus. Alternative : supprimer les lignes incomplètes (na.omit) si elles sont rares.\nPour l'incohérence de format : NORMALISER la représentation, c'est-à-dire remplacer « ? » par NA à la lecture (na.strings = c(\"NA\", \"?\") dans read.csv), pour que R reconnaisse toutes les valeurs manquantes de la même façon. Et encoder « a_achete » en binaire (Oui=1, Non=0) pour le modèle.",
+          "rubric": ["Solution pour les manquants : imputation (moyenne/médiane) ou suppression", "Solution pour l'incohérence : unifier NA et ? (na.strings) ou encodage binaire de a_achete"]
+        },
+        {
+          "id": "sq-3",
+          "question": "3. Écrivez la commande R qui permet de charger le jeu de données dans une variable « clients » (dataframe).",
+          "answer": "clients <- read.csv(\"clients.csv\", na.strings = c(\"NA\", \"?\"))\n\nVariante acceptée avec readr : clients <- read_csv(\"clients.csv\", na = c(\"NA\", \"?\"))\nLe paramètre na.strings indique à R quelles chaînes considérer comme valeurs manquantes (ici NA et ?). Vérifier ensuite avec str(clients) ou head(clients).",
+          "rubric": ["Commande R utilisant read.csv (ou read_csv)", "Chargement dans une variable nommée clients avec l'opérateur <-", "Gestion des manquants via na.strings (bonus valorisé)"]
+        },
+        {
+          "id": "sq-4",
+          "question": "4. Écrivez la commande R qui permet de repérer les valeurs manquantes dans ce dataframe.",
+          "answer": "is.na(clients)          # matrice TRUE/FALSE pour chaque case du dataframe\n\nCompléments utiles :\nsum(is.na(clients))                    # nombre total de valeurs manquantes\ncolSums(is.na(clients))                # manquants par colonne\nwhich(is.na(clients), arr.ind = TRUE)  # positions exactes des manquants\nanyNA(clients)                          # TRUE si au moins un manquant",
+          "rubric": ["Commande is.na(clients) présente", "Bonus : colSums(is.na()) ou anyNA() ou which()"]
+        },
+        {
+          "id": "sq-5",
+          "question": "5. Proposez une méthode simple en R pour remplacer les valeurs manquantes de « revenu » par la moyenne.",
+          "answer": "clients$revenu[is.na(clients$revenu)] <- mean(clients$revenu, na.rm = TRUE)\n\nExplication : is.na(clients$revenu) sélectionne les positions manquantes de la colonne revenu ; on leur affecte la moyenne calculée avec na.rm = TRUE (sinon la moyenne serait NA à cause des manquants). Variante dplyr acceptée :\nclients <- clients %>% mutate(revenu = ifelse(is.na(revenu), mean(revenu, na.rm = TRUE), revenu))",
+          "rubric": ["Commande R correcte avec l'indexation is.na() ou mutate/ifelse", "Moyenne calculée avec na.rm = TRUE", "Affectation dans la colonne revenu"]
+        },
+        {
+          "id": "sq-6",
+          "question": "6. On dispose du vecteur suivant en R : revenus <- c(400, 1200, 800, 950, 1500, 700)\na) Écrivez une commande R qui retourne la moyenne et la médiane des revenus.\nb) Quelle est la différence entre ces deux mesures dans l'analyse des données ?",
+          "answer": "a) mean(revenus)    # moyenne = 925\nmedian(revenus)     # médiane = 875\n\nPour les deux à la fois : summary(revenus) ou c(moyenne = mean(revenus), mediane = median(revenus))\n\nb) La MOYENNE (925) est la somme divisée par l'effectif : elle tient compte de la valeur de CHAQUE observation, donc elle est sensible aux valeurs extrêmes. La MÉDIANE (875) est la valeur qui partage la série ordonnée en deux moitiés : elle ne dépend que du rang, donc elle est robuste aux extrêmes. Ici la moyenne (925) est supérieure à la médiane (875) : la distribution est tirée vers le haut par les gros revenus (1500), elle est asymétrique à droite. En analyse, si moyenne et médiane diffèrent beaucoup, il vaut mieux rapporter la médiane (ou examiner les deux) car elle représente mieux le « client typique ».",
+          "rubric": ["Commandes mean(revenus) et median(revenus)", "Moyenne = 925 et médiane = 875 correctement calculées", "Moyenne sensible aux valeurs extrêmes, médiane robuste", "Interprétation : distribution asymétrique (moyenne > médiane)"]
+        }
+      ],
+      "answers": [],
+      "explanation": "Méthodologie : qualité des données (manquants, formats incohérents) → nettoyage (imputation, unification NA) → manipulation R de base (read.csv, is.na, moyenne) → interprétation statistique (moyenne vs médiane et asymétrie).",
+      "difficulty": "medium",
+      "tags": ["r", "valeurs-manquantes"]
+    },
+    {
+      "id": "pp_d4",
+      "domain": "BASES_DONNEES_SQL",
+      "type": "CASE_STUDY",
+      "context": "Pour alimenter le modèle de recommandation, vous devez extraire et préparer un grand volume de données de la base de données.",
+      "question": "Dossier 4 : Pipeline de données et optimisation",
+      "subQuestions": [
+        {
+          "id": "sq-1",
+          "question": "1. Décrivez les trois étapes d'un processus ETL (Extract, Transform, Load) dans le contexte de ce projet.",
+          "answer": "EXTRACT : extraire les données brutes des systèmes sources, ici la base de données de la plateforme de films (utilisateurs, films, interactions/notes, horodatages), via des requêtes SQL ou des connecteurs.\nTRANSFORM : nettoyer et préparer les données : dédupliquer, gérer les valeurs manquantes, normaliser les formats (dates, identifiants), encoder les catégories, agréger (par exemple une ligne par couple utilisateur-film), calculer des variables utiles au modèle (popularité d'un film, ancienneté d'un utilisateur).\nLOAD : charger le résultat dans la cible d'analyse, ici l'entrepôt de données (ou le data lake) qui alimente l'entraînement du modèle de recommandation, dans un format optimisé pour la lecture analytique.",
+          "rubric": ["Extract : extraction des sources (base films/utilisateurs/interactions)", "Transform : nettoyage, normalisation, agrégations utiles au modèle", "Load : chargement dans l'entrepôt/l'emplacement d'analyse"]
+        },
+        {
+          "id": "sq-2",
+          "question": "2. Imaginez que vous avez une requête SQL très lente qui récupère toutes les interactions des utilisateurs avec les films. Proposez deux méthodes pour optimiser cette requête.",
+          "answer": "Méthodes acceptées (deux suffisent) :\n1) CRÉER DES INDEX sur les colonnes utilisées dans les filtres et les jointures : CREATE INDEX idx_interactions_user ON interactions(user_id); CREATE INDEX idx_interactions_film ON interactions(film_id); Les index (type B-tree) évitent le parcours complet de la table (full table scan) et accélèrent fortement les filtres et jointures, au prix d'un léger surcoût en écriture.\n2) NE SÉLECTIONNER QUE LES COLONNES UTILES et FILTRER AU MAXIMUM : remplacer SELECT * par la liste des colonnes nécessaires, ajouter des filtres (dates, types d'interactions), et faire la jointure sur les clés indexées.\n3) Utiliser la PAGINATION / les LIMIT : récupérer le volume par lots au lieu de tout charger d'un coup.\n4) Améliorer la REQUÊTE : éviter les sous-requêtes corrélées inutiles, préférer JOIN, vérifier le plan d'exécution (EXPLAIN) pour repérer les full scans.\n5) Solutions d'architecture valorisées : vue matérialisée ou table agrégée pré-calculée, ou déporter l'analyse vers une base orientée analytique (colonne).",
+          "rubric": ["Index sur les colonnes de jointure/filtre (user_id, film_id)", "Deuxième méthode : projection limitée + filtres, ou pagination, ou EXPLAIN/vue matérialisée", "Justification du gain (éviter le full scan / réduire le volume transféré)"]
+        },
+        {
+          "id": "sq-3",
+          "question": "3. Expliquez l'importance de la qualité des données pour l'efficacité d'un modèle d'IA.",
+          "answer": "Un modèle d'IA apprend les motifs présents dans ses données d'entraînement : « garbage in, garbage out ». Des données de mauvaise qualité (valeurs manquantes, doublons, erreurs de saisie, incohérences de format, biais d'échantillonnage) produisent un modèle qui apprend de fausses relations, qui généralise mal et dont les prédictions sont peu fiables, même avec un algorithme performant. À l'inverse, des données propres, complètes, cohérentes et représentatives améliorent la performance, la stabilité et l'équité du modèle, réduisent le temps de prétraitement et rendent les résultats exploitables par le métier. La qualité des données est donc un prérequis : dans ce projet, des interactions mal extraites ou des doublons fausseraient directement les recommandations.",
+          "rubric": ["Principe garbage in, garbage out ou équivalent", "Exemples de défauts : manquants, doublons, incohérences, biais", "Conséquence : modèle faussé / généralisation dégradée", "Lien concret avec le moteur de recommandation"]
+        }
+      ],
+      "answers": [],
+      "explanation": "Méthodologie : l'ETL structure le passage de la donnée brute à la donnée exploitable (extraire, transformer, charger) ; la performance SQL se joue sur les index et le volume extrait ; et la qualité de la donnée conditionne directement la qualité du modèle.",
+      "difficulty": "medium",
+      "tags": ["etl", "sql", "optimisation"]
+    }
+  ]
+}

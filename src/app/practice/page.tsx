@@ -10,22 +10,39 @@ import { DomainSelector } from "@/components/features/DomainSelector";
 import { QuestionCounter } from "@/components/features/QuestionCounter";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { Badge } from "@/components/ui/Badge";
-import { Domain, Question, SavedPracticeQuiz, QuizSession } from "@/types";
-import { Loader2, Play, History, RefreshCw, Trash2, AlertTriangle, CheckCircle } from "lucide-react";
+import { Domain, Question, SavedPracticeQuiz, QuizSession, DOMAIN_LABELS } from "@/types";
+import { Loader2, Play, History, RefreshCw, Trash2, AlertTriangle, CheckCircle, WifiOff, Sparkles } from "lucide-react";
 import { indexedDBService } from "@/services/IndexedDBService";
 import { storageService } from "@/services/StorageService";
 import { notificationService } from "@/services/NotificationService";
 import { generationService } from "@/services/GenerationService";
+import { questionBank } from "@/services/QuestionBankService";
+import { shuffleArray } from "@/lib/utils";
 
 // ============================================
 // PRACTICE PAGE
-// Select domain and number of questions, then generate
+// Source par défaut : la banque locale (hors ligne,
+// sans clé API). La génération IA reste optionnelle.
 // ============================================
+
+type Source = "local" | "ai";
+
+const DIFFICULTIES = [
+  { value: "", label: "Toutes" },
+  { value: "easy", label: "Facile" },
+  { value: "medium", label: "Moyen" },
+  { value: "hard", label: "Difficile" },
+] as const;
 
 export default function PracticePage() {
   const router = useRouter();
+  const [source, setSource] = useState<Source>("local");
   const [selectedDomain, setSelectedDomain] = useState<Domain>(Domain.MACHINE_LEARNING);
   const [questionCount, setQuestionCount] = useState(10);
+  const [difficulty, setDifficulty] = useState<"" | "easy" | "medium" | "hard">("");
+  const [bankStats, setBankStats] = useState<{ total: number; byDomain: Partial<Record<Domain, number>> }>({ total: 0, byDomain: {} });
+  const [hasApiKey, setHasApiKey] = useState(false);
+
   const [isGenerating, setIsGenerating] = useState(false);
   const [progress, setProgress] = useState(0);
   const [generatedQuestions, setGeneratedQuestions] = useState(0);
@@ -33,10 +50,7 @@ export default function PracticePage() {
   const [activePracticeSessions, setActivePracticeSessions] = useState<Map<string, QuizSession>>(new Map());
   const [loading, setLoading] = useState(true);
 
-  // Interrupted generation state
   const [interruptedSession, setInterruptedSession] = useState<QuizSession | null>(null);
-
-  // Error modal state
   const [errorModal, setErrorModal] = useState<{
     show: boolean;
     message: string;
@@ -45,17 +59,13 @@ export default function PracticePage() {
     requestedCount: number;
   } | null>(null);
 
-  // Load saved quizzes on mount
   useEffect(() => {
-    const loadSavedQuizzes = async () => {
-      console.log('[Practice] Loading saved quizzes...');
+    const load = async () => {
       try {
         await indexedDBService.init();
         const quizzes = await indexedDBService.getAllPracticeQuizzes();
-        console.log('[Practice] Loaded', quizzes.length, 'saved quizzes');
         setSavedQuizzes(quizzes);
 
-        // Load active sessions for practice quizzes
         const sessionsMap = new Map<string, QuizSession>();
         const inProgress = await indexedDBService.getSessionsByStatus("IN_PROGRESS");
         const paused = await indexedDBService.getSessionsByStatus("PAUSED");
@@ -65,27 +75,30 @@ export default function PracticePage() {
           }
         }
         setActivePracticeSessions(sessionsMap);
-        console.log('[Practice] Found', sessionsMap.size, 'active sessions');
+
+        const stats = await questionBank.getStats();
+        setBankStats({ total: stats.total, byDomain: stats.byDomain });
+
+        const settings = await storageService.getSettings();
+        setHasApiKey(!!settings.apiKey || !!settings.geminiApiKey);
 
         setLoading(false);
       } catch (error) {
-        console.error('[Practice] Failed to load saved quizzes:', error);
+        console.error('[Practice] Failed to load:', error);
         setLoading(false);
       }
     };
 
-    loadSavedQuizzes();
+    load();
   }, []);
 
-  // Check for interrupted generations on mount
+  // Vérifie les générations IA interrompues
   useEffect(() => {
     const checkInterrupted = async () => {
       try {
         await indexedDBService.init();
         const interrupted = await generationService.findInterruptedGenerations();
-
         if (interrupted.length > 0) {
-          // Show the most recent interrupted session
           const sorted = interrupted.sort(
             (a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime()
           );
@@ -99,13 +112,73 @@ export default function PracticePage() {
     checkInterrupted();
   }, []);
 
-  const handleGenerate = async () => {
-    console.log('[Practice] Generate button clicked');
-    console.log('[Practice] Configuration:', {
-      domain: selectedDomain,
-      questionCount,
-      timestamp: new Date().toISOString()
-    });
+  // ============================================
+  // FLUX BANQUE LOCALE (hors ligne)
+  // ============================================
+
+  const handleStartLocal = async () => {
+    setIsGenerating(true);
+    try {
+      await indexedDBService.init();
+      const questions = await questionBank.pick({
+        domain: selectedDomain,
+        count: questionCount,
+        difficulty: difficulty || undefined,
+        types: undefined,
+      });
+
+      if (questions.length === 0) {
+        alert(
+          `Aucune question disponible pour ce domaine${difficulty ? ` en difficulté "${difficulty}"` : ""}. Essaie une autre difficulté ou importe des questions depuis la page Importer.`
+        );
+        setIsGenerating(false);
+        return;
+      }
+
+      const sessionId = `local-practice-${Date.now()}`;
+      const quizId = `local-${selectedDomain}-${Date.now()}`;
+
+      await indexedDBService.saveSession({
+        id: sessionId,
+        type: "practice",
+        domain: selectedDomain,
+        questions,
+        userAnswers: {},
+        currentIndex: 0,
+        status: "IN_PROGRESS" as any,
+        startedAt: new Date(),
+        practiceQuizId: quizId,
+        label: `Pratique : ${DOMAIN_LABELS[selectedDomain]}`,
+      });
+
+      await indexedDBService.savePracticeQuiz({
+        id: quizId,
+        domain: selectedDomain,
+        questionCount: questions.length,
+        questions,
+        attempts: 1,
+        createdAt: new Date(),
+        lastAttemptAt: new Date(),
+        label: "Banque locale",
+      });
+
+      window.location.href = `/quiz?session=${sessionId}`;
+    } catch (error: any) {
+      console.error('[Practice] Local start failed:', error);
+      setIsGenerating(false);
+      alert(`Erreur : ${error.message || "Erreur inconnue"}`);
+    }
+  };
+
+  // ============================================
+  // FLUX IA (optionnel)
+  // ============================================
+
+  const handleGenerateAI = async () => {
+    if (!hasApiKey) {
+      alert("Aucune clé API configurée. Utilise la banque locale (hors ligne) ou configure une clé dans Paramètres.");
+      return;
+    }
 
     setIsGenerating(true);
     setProgress(0);
@@ -119,7 +192,6 @@ export default function PracticePage() {
       const settings = await storageService.getSettings();
       const notificationsEnabled = settings?.notifyOnComplete ?? false;
 
-      // Create background task if notifications are enabled
       if (notificationsEnabled) {
         taskId = await notificationService.createBackgroundTask(
           'quiz-generation',
@@ -127,12 +199,8 @@ export default function PracticePage() {
           questionCount
         );
         await notificationService.updateTaskStatus(taskId!, 'generating');
-        console.log('[Practice] Created background task:', taskId);
       }
 
-      console.log('[Practice] Starting incremental generation...');
-
-      // Create the session immediately
       const sessionId = await generationService.generateWithIncrementalSave({
         type: "practice",
         domain: selectedDomain,
@@ -141,9 +209,6 @@ export default function PracticePage() {
         taskId,
       });
 
-      console.log('[Practice] Session created:', sessionId, 'Starting batch generation...');
-
-      // Run the generation loop
       await generationService.runSingleDomainGeneration(
         sessionId,
         selectedDomain,
@@ -154,7 +219,6 @@ export default function PracticePage() {
             setProgress((p.current / p.total) * 100);
           },
           onSessionReady: async (id) => {
-            // Create the SavedPracticeQuiz BEFORE navigating so there's exactly one
             try {
               const session = await indexedDBService.getSession(id);
               if (session && !session.practiceQuizId) {
@@ -168,18 +232,14 @@ export default function PracticePage() {
                   createdAt: session.startedAt,
                   lastAttemptAt: new Date(),
                 });
-                // Link session to quiz for resume tracking
                 await indexedDBService.saveSession({
                   ...session,
                   practiceQuizId: quizId,
                 });
-                console.log('[Practice] Created practice quiz:', quizId, 'with', session.questions.length, 'questions');
               }
             } catch (err) {
               console.error('[Practice] Failed to create practice quiz:', err);
             }
-            // Navigate to quiz after first batch (progressive display)
-            console.log('[Practice] First batch ready, navigating to quiz:', id);
             window.location.href = `/quiz?session=${id}`;
           },
           onGenerationComplete: (id) => {
@@ -189,9 +249,7 @@ export default function PracticePage() {
           onGenerationError: (error, id, savedCount, requestedCount) => {
             console.error('[Practice] Generation error:', error, 'Saved:', savedCount);
             setIsGenerating(false);
-
             if (savedCount > 0) {
-              // Show error modal with option to use partial questions
               setErrorModal({
                 show: true,
                 message: error.message,
@@ -209,8 +267,6 @@ export default function PracticePage() {
     } catch (error: any) {
       console.error('[Practice] ERROR during generation:', error);
       setIsGenerating(false);
-      setProgress(0);
-      setGeneratedQuestions(0);
       alert(`Erreur lors de la génération: ${error.message || "Erreur inconnue"}`);
     }
   };
@@ -223,40 +279,36 @@ export default function PracticePage() {
     setErrorModal(null);
     setInterruptedSession(null);
 
-    const gp = interruptedSession.generationProgress!;
     setGeneratedQuestions(interruptedSession.questions.length);
 
     try {
-      await generationService.resumeGeneration(
-        interruptedSession.id,
-        {
-          onBatchComplete: (p) => {
-            setGeneratedQuestions(p.current);
-            setProgress((p.current / p.total) * 100);
-          },
-          onSessionReady: (id) => {
-            window.location.href = `/quiz?session=${id}`;
-          },
-          onGenerationComplete: (id) => {
-            setIsGenerating(false);
-            window.location.href = `/quiz?session=${id}`;
-          },
-          onGenerationError: (error, id, savedCount, requestedCount) => {
-            setIsGenerating(false);
-            if (savedCount > 0) {
-              setErrorModal({
-                show: true,
-                message: error.message,
-                sessionId: id,
-                savedCount,
-                requestedCount,
-              });
-            } else {
-              alert(`Erreur: ${error.message}`);
-            }
-          },
-        }
-      );
+      await generationService.resumeGeneration(interruptedSession.id, {
+        onBatchComplete: (p) => {
+          setGeneratedQuestions(p.current);
+          setProgress((p.current / p.total) * 100);
+        },
+        onSessionReady: (id) => {
+          window.location.href = `/quiz?session=${id}`;
+        },
+        onGenerationComplete: (id) => {
+          setIsGenerating(false);
+          window.location.href = `/quiz?session=${id}`;
+        },
+        onGenerationError: (error, id, savedCount, requestedCount) => {
+          setIsGenerating(false);
+          if (savedCount > 0) {
+            setErrorModal({
+              show: true,
+              message: error.message,
+              sessionId: id,
+              savedCount,
+              requestedCount,
+            });
+          } else {
+            alert(`Erreur: ${error.message}`);
+          }
+        },
+      });
     } catch (error: any) {
       setIsGenerating(false);
       alert(`Erreur: ${error.message}`);
@@ -290,7 +342,6 @@ export default function PracticePage() {
   const handleDismissInterrupted = async () => {
     if (!interruptedSession) return;
     try {
-      // Mark the session as non-generating so it stops appearing as interrupted
       const session = await indexedDBService.getSession(interruptedSession.id);
       if (session) {
         await indexedDBService.saveSession({
@@ -306,22 +357,20 @@ export default function PracticePage() {
   };
 
   const handleRetakeQuiz = async (quiz: SavedPracticeQuiz, clearOldSession?: string) => {
-    console.log('[Practice] Retaking quiz:', quiz.id);
     setIsGenerating(true);
 
     try {
       await indexedDBService.init();
 
-      // Delete old session if restarting
       if (clearOldSession) {
         await indexedDBService.deleteSession(clearOldSession);
       }
 
-      // Reuse saved questions (shuffle for variety)
-      const shuffledQuestions = [...quiz.questions].sort(() => Math.random() - 0.5);
-      console.log('[Practice] Reusing', shuffledQuestions.length, 'saved questions');
+      // Reprise des questions sauvegardées, mélangées pour la variété
+      const shuffledQuestions = shuffleArray(
+        quiz.questions.map((q) => questionBank.shuffleQuestionAnswers(q))
+      );
 
-      // Create new session
       const sessionId = `practice-${Date.now()}`;
       await indexedDBService.saveSession({
         id: sessionId,
@@ -335,7 +384,6 @@ export default function PracticePage() {
         practiceQuizId: quiz.id,
       });
 
-      // Update attempt count and timestamp
       const updatedQuiz = {
         ...quiz,
         attempts: quiz.attempts + 1,
@@ -343,12 +391,8 @@ export default function PracticePage() {
       };
       await indexedDBService.savePracticeQuiz(updatedQuiz);
 
-      // Update local state
-      setSavedQuizzes(prev =>
-        prev.map(q => q.id === quiz.id ? updatedQuiz : q)
-      );
+      setSavedQuizzes((prev) => prev.map((q) => (q.id === quiz.id ? updatedQuiz : q)));
 
-      console.log('[Practice] Session created, navigating to quiz...');
       window.location.href = `/quiz?session=${sessionId}`;
     } catch (error: any) {
       console.error('[Practice] Failed to retake quiz:', error);
@@ -364,15 +408,15 @@ export default function PracticePage() {
 
     try {
       await indexedDBService.deletePracticeQuiz(quizId);
-      setSavedQuizzes(prev => prev.filter(q => q.id !== quizId));
-      console.log('[Practice] Quiz deleted:', quizId);
+      setSavedQuizzes((prev) => prev.filter((q) => q.id !== quizId));
     } catch (error: any) {
       console.error('[Practice] Failed to delete quiz:', error);
       alert(`Erreur: ${error.message || "Erreur inconnue"}`);
     }
   };
 
-  const canStart = selectedDomain && questionCount >= 5 && !isGenerating;
+  const domainCount = bankStats.byDomain[selectedDomain] || 0;
+  const canStartLocal = !isGenerating && domainCount > 0 && questionCount >= 5;
 
   return (
     <div className="min-h-screen flex flex-col bg-paper-primary">
@@ -384,16 +428,14 @@ export default function PracticePage() {
           description="Configurez votre session de révision"
         />
 
-        {/* Interrupted Generation Modal */}
+        {/* Génération IA interrompue */}
         {interruptedSession && (
           <Card className="mb-8 border-l-4 border-l-accent animate-fade-in-down">
             <CardContent>
               <div className="flex items-start gap-3">
                 <AlertTriangle className="w-5 h-5 text-accent shrink-0 mt-0.5" />
                 <div className="flex-1">
-                  <h3 className="font-mono font-semibold mb-1">
-                    Génération interrompue
-                  </h3>
+                  <h3 className="font-mono font-semibold mb-1">Génération interrompue</h3>
                   <p className="text-sm text-ink-secondary mb-1">
                     {interruptedSession.generationProgress?.generationError
                       ? `Erreur : ${interruptedSession.generationProgress.generationError}`
@@ -403,30 +445,17 @@ export default function PracticePage() {
                     {interruptedSession.questions.length} / {interruptedSession.generationProgress?.requestedCount} questions sont déjà prêtes.
                   </p>
                   <div className="flex gap-3">
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      onClick={handleResumeGeneration}
-                      loading={isGenerating}
-                    >
+                    <Button variant="primary" size="sm" onClick={handleResumeGeneration} loading={isGenerating}>
                       <RefreshCw className="w-4 h-4 mr-2" />
                       Reprendre la génération
                     </Button>
                     {interruptedSession.questions.length >= 5 && (
-                      <Button
-                        variant="secondary"
-                        size="sm"
-                        onClick={handleUseInterruptedQuestions}
-                      >
+                      <Button variant="secondary" size="sm" onClick={handleUseInterruptedQuestions}>
                         <CheckCircle className="w-4 h-4 mr-2" />
                         Commencer avec {interruptedSession.questions.length} questions
                       </Button>
                     )}
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      onClick={handleDismissInterrupted}
-                    >
+                    <Button variant="secondary" size="sm" onClick={handleDismissInterrupted}>
                       Ignorer
                     </Button>
                   </div>
@@ -436,78 +465,24 @@ export default function PracticePage() {
           </Card>
         )}
 
-        {/* Error Modal */}
+        {/* Erreur IA */}
         {errorModal && (
           <Card className="mb-8 border-l-4 border-l-red-500 animate-fade-in-down">
             <CardContent>
               <div className="flex items-start gap-3">
                 <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                 <div className="flex-1">
-                  <h3 className="font-mono font-semibold mb-1">
-                    Génération interrompue
-                  </h3>
-                  <p className="text-sm text-ink-secondary mb-1">
-                    {errorModal.message}
-                  </p>
+                  <h3 className="font-mono font-semibold mb-1">Génération interrompue</h3>
+                  <p className="text-sm text-ink-secondary mb-1">{errorModal.message}</p>
                   <p className="text-sm text-ink-muted mb-3">
                     {errorModal.savedCount} / {errorModal.requestedCount} questions ont été sauvegardées et sont utilisables.
                   </p>
                   <div className="flex gap-3">
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      onClick={handleUsePartialQuestions}
-                    >
+                    <Button variant="primary" size="sm" onClick={handleUsePartialQuestions}>
                       <CheckCircle className="w-4 h-4 mr-2" />
                       Commencer avec {errorModal.savedCount} questions
                     </Button>
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      onClick={async () => {
-                        setErrorModal(null);
-                        setIsGenerating(true);
-                        try {
-                          await generationService.resumeGeneration(
-                            errorModal.sessionId,
-                            {
-                              onBatchComplete: (p) => {
-                                setGeneratedQuestions(p.current);
-                                setProgress((p.current / p.total) * 100);
-                              },
-                              onSessionReady: (id) => {
-                                window.location.href = `/quiz?session=${id}`;
-                              },
-                              onGenerationComplete: (id) => {
-                                setIsGenerating(false);
-                                window.location.href = `/quiz?session=${id}`;
-                              },
-                              onGenerationError: (err, _id, saved) => {
-                                setIsGenerating(false);
-                                setErrorModal({
-                                  show: true,
-                                  message: err.message,
-                                  sessionId: errorModal.sessionId,
-                                  savedCount: saved,
-                                  requestedCount: errorModal.requestedCount,
-                                });
-                              },
-                            }
-                          );
-                        } catch (err: any) {
-                          setIsGenerating(false);
-                          alert(`Erreur: ${err.message}`);
-                        }
-                      }}
-                    >
-                      <RefreshCw className="w-4 h-4 mr-2" />
-                      Réessayer
-                    </Button>
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      onClick={() => setErrorModal(null)}
-                    >
+                    <Button variant="secondary" size="sm" onClick={() => setErrorModal(null)}>
                       Annuler
                     </Button>
                   </div>
@@ -517,71 +492,93 @@ export default function PracticePage() {
           </Card>
         )}
 
+        {/* Sélecteur de source */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+          <button
+            onClick={() => setSource("local")}
+            className={`card text-left ${source === "local" ? "ring-2 ring-accent" : ""}`}
+          >
+            <div className="flex items-start gap-3">
+              <WifiOff className="w-5 h-5 text-domain-bigdata shrink-0 mt-1" />
+              <div>
+                <p className="font-mono font-semibold flex items-center gap-2">
+                  Banque locale
+                  <Badge variant="success">hors ligne</Badge>
+                </p>
+                <p className="text-sm text-ink-muted mt-1">
+                  {bankStats.total} questions embarquées + tes imports. Sans clé API, sans connexion.
+                </p>
+              </div>
+            </div>
+          </button>
+          <button
+            onClick={() => setSource("ai")}
+            className={`card text-left ${source === "ai" ? "ring-2 ring-accent" : ""}`}
+          >
+            <div className="flex items-start gap-3">
+              <Sparkles className="w-5 h-5 text-domain-rec shrink-0 mt-1" />
+              <div>
+                <p className="font-mono font-semibold">
+                  Générer par IA
+                  {!hasApiKey && <Badge className="ml-2">clé requise</Badge>}
+                </p>
+                <p className="text-sm text-ink-muted mt-1">
+                  Génère de nouvelles questions via OpenRouter ou Gemini (connexion requise).
+                </p>
+              </div>
+            </div>
+          </button>
+        </div>
+
         {/* Configuration Card */}
         <Card className="mb-8">
           <CardContent>
             <div className="space-y-8">
-              {/* Domain Selection */}
               <div>
-                <h3 className="font-mono font-semibold mb-4">01. Domaine IABD</h3>
-                <DomainSelector
-                  value={selectedDomain}
-                  onChange={setSelectedDomain}
-                  variant="grid"
-                />
+                <h3 className="font-mono font-semibold mb-4">01. {source === "local" ? "Matière" : "Domaine IABD"}</h3>
+                <DomainSelector value={selectedDomain} onChange={setSelectedDomain} variant="grid" />
+                {source === "local" && (
+                  <p className="font-mono text-xs text-ink-muted mt-3">
+                    {domainCount} question{domainCount > 1 ? "s" : ""} disponible
+                    {domainCount > 1 ? "s" : ""} dans la banque locale pour cette matière.
+                  </p>
+                )}
               </div>
 
-              {/* Question Count */}
               <div>
-                <h3 className="font-mono font-semibold mb-4">
-                  02. Nombre de Questions
-                </h3>
-                <QuestionCounter
-                  value={questionCount}
-                  onChange={setQuestionCount}
-                />
+                <h3 className="font-mono font-semibold mb-4">02. Nombre de Questions</h3>
+                <QuestionCounter value={questionCount} onChange={setQuestionCount} />
               </div>
 
-              {/* Summary */}
-              <div className="border-t border-paper-dark pt-6">
-                <h3 className="font-mono font-semibold mb-4">Résumé</h3>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <span className="font-mono text-xs text-ink-muted uppercase">
-                      Domaine
-                    </span>
-                    <p className="font-medium mt-1">{selectedDomain.replace(/_/g, " ")}</p>
+              {source === "local" && (
+                <div>
+                  <h3 className="font-mono font-semibold mb-4">03. Difficulté</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {DIFFICULTIES.map((d) => (
+                      <button
+                        key={d.value}
+                        onClick={() => setDifficulty(d.value)}
+                        className={`px-4 py-2 rounded border font-mono text-sm transition-colors ${
+                          difficulty === d.value
+                            ? "border-accent bg-accent/10 text-accent"
+                            : "border-paper-dark text-ink-secondary hover:border-accent"
+                        }`}
+                      >
+                        {d.label}
+                      </button>
+                    ))}
                   </div>
-                  <div>
-                    <span className="font-mono text-xs text-ink-muted uppercase">
-                      Questions
-                    </span>
-                    <p className="font-medium mt-1">{questionCount}</p>
-                  </div>
-                  <div>
-                    <span className="font-mono text-xs text-ink-muted uppercase">
-                      Batches
-                    </span>
-                    <p className="font-medium mt-1">{Math.ceil(questionCount / 10)}</p>
-                  </div>
-                  <div>
-                    <span className="font-mono text-xs text-ink-muted uppercase">
-                      Durée estimée
-                    </span>
-                    <p className="font-medium mt-1">{~Math.ceil(questionCount / 2)} min</p>
-                  </div>
+                  <p className="font-mono text-xs text-ink-muted mt-3">
+                    Les formats variés sont inclus automatiquement : QCM, multi-réponses
+                    (comme au tronc commun), Vrai/Faux, texte à trous, code, cas pratiques.
+                  </p>
                 </div>
-              </div>
+              )}
 
-              {/* Progress Bar (during generation) */}
-              {isGenerating && (
+              {source === "ai" && isGenerating && (
                 <div className="border-t border-paper-dark pt-6">
                   <h3 className="font-mono font-semibold mb-4">Génération en cours...</h3>
-                  <ProgressBar
-                    value={progress}
-                    showLabel
-                    label="Questions générées"
-                  />
+                  <ProgressBar value={progress} showLabel label="Questions générées" />
                   <p className="font-mono text-xs text-ink-muted mt-2 text-center">
                     {generatedQuestions} / {questionCount}
                   </p>
@@ -596,90 +593,41 @@ export default function PracticePage() {
           <Button variant="secondary" onClick={() => router.back()} disabled={isGenerating}>
             Retour
           </Button>
-          <Button
-            variant="primary"
-            onClick={handleGenerate}
-            disabled={!canStart}
-            loading={isGenerating}
-          >
-            {isGenerating ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                Génération...
-              </>
-            ) : (
-              <>
-                <Play className="w-4 h-4" />
-                Générer et Commencer
-              </>
-            )}
-          </Button>
+          {source === "local" ? (
+            <Button variant="primary" onClick={handleStartLocal} disabled={!canStartLocal} loading={isGenerating}>
+              <Play className="w-4 h-4" />
+              Commencer
+            </Button>
+          ) : (
+            <Button variant="primary" onClick={handleGenerateAI} disabled={!canGenerateAI(questionCount)} loading={isGenerating}>
+              {isGenerating ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Génération...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-4 h-4" />
+                  Générer et Commencer
+                </>
+              )}
+            </Button>
+          )}
         </div>
 
-        {/* Info Box */}
-        <Card className="mt-8 border-l-4 border-l-accent">
-          <CardContent>
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <div className="w-1 h-4 bg-accent" />
-                <h3 className="font-mono font-semibold text-sm">Comment ça marche ?</h3>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div className="flex items-start gap-2">
-                  <div className="mt-0.5">
-                    <div className="w-5 h-5 rounded-full bg-accent/10 flex items-center justify-center text-xs font-mono text-accent">
-                      1
-                    </div>
-                  </div>
-                  <p className="text-sm text-ink-secondary flex-1">
-                    Les questions sont générées par lots de <span className="font-mono text-accent">10</span>
-                  </p>
-                </div>
-                <div className="flex items-start gap-2">
-                  <div className="mt-0.5">
-                    <div className="w-5 h-5 rounded-full bg-accent/10 flex items-center justify-center text-xs font-mono text-accent">
-                      2
-                    </div>
-                  </div>
-                  <p className="text-sm text-ink-secondary flex-1">
-                    Commencez le quiz dès que le 1er lot est prêt
-                  </p>
-                </div>
-                <div className="flex items-start gap-2">
-                  <div className="mt-0.5">
-                    <div className="w-5 h-5 rounded-full bg-accent/10 flex items-center justify-center text-xs font-mono text-accent">
-                      3
-                    </div>
-                  </div>
-                  <p className="text-sm text-ink-secondary flex-1">
-                    Si la génération échoue, les questions déjà prêtes sont utilisables
-                  </p>
-                </div>
-                <div className="flex items-start gap-2">
-                  <div className="mt-0.5">
-                    <div className="w-5 h-5 rounded-full bg-accent/10 flex items-center justify-center text-xs font-mono text-accent">
-                      4
-                    </div>
-                  </div>
-                  <p className="text-sm text-ink-secondary flex-1">
-                    Pas de limite de temps en mode Pratique
-                  </p>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        {source === "local" && domainCount === 0 && !loading && (
+          <p className="text-center text-sm text-domain-ml mt-4">
+            Cette matière n&apos;a pas encore de questions dans la banque locale. Importe-en
+            depuis la page <a href="/import" className="text-accent underline">Importer</a>.
+          </p>
+        )}
 
-        {/* Saved Practice Quizzes Section */}
+        {/* Quiz précédents */}
         <div className="mt-12">
           <div className="flex items-center gap-3 mb-6">
             <History className="w-5 h-5 text-accent" />
-            <h2 className="font-mono font-semibold text-xl">
-              Quiz Précédents
-            </h2>
-            {savedQuizzes.length > 0 && (
-              <Badge variant="default">{savedQuizzes.length}</Badge>
-            )}
+            <h2 className="font-mono font-semibold text-xl">Quiz Précédents</h2>
+            {savedQuizzes.length > 0 && <Badge variant="default">{savedQuizzes.length}</Badge>}
           </div>
 
           {loading ? (
@@ -688,11 +636,9 @@ export default function PracticePage() {
             <Card>
               <CardContent className="text-center py-12">
                 <History className="w-16 h-16 mx-auto mb-4 text-ink-muted" />
-                <p className="text-ink-secondary mb-2">
-                  Aucun quiz précédent
-                </p>
+                <p className="text-ink-secondary mb-2">Aucun quiz précédent</p>
                 <p className="text-sm text-ink-muted">
-                  Les quiz que vous générerez seront sauvegardés ici pour pouvoir les refaire
+                  Les quiz que tu démarres sont sauvegardés ici pour pouvoir les refaire
                 </p>
               </CardContent>
             </Card>
@@ -700,9 +646,7 @@ export default function PracticePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {savedQuizzes.map((quiz) => {
                 const activeSession = activePracticeSessions.get(quiz.id);
-                const answeredCount = activeSession
-                  ? Object.keys(activeSession.userAnswers).length
-                  : 0;
+                const answeredCount = activeSession ? Object.keys(activeSession.userAnswers).length : 0;
                 const totalQuestions = quiz.questionCount;
 
                 return (
@@ -711,12 +655,12 @@ export default function PracticePage() {
                       <div className="flex items-start justify-between mb-3">
                         <div className="flex-1">
                           <h3 className="font-mono font-semibold mb-1">
-                            {quiz.domain.replace(/_/g, " ")}
+                            {quiz.label || quiz.domain.replace(/_/g, " ")}
                           </h3>
                           <div className="flex items-center gap-2 text-sm text-ink-muted">
                             <span>{totalQuestions} questions</span>
                             <span>•</span>
-                            <span>Pratique</span>
+                            <span>{DOMAIN_LABELS[quiz.domain]?.split(" ")[0] || quiz.domain}</span>
                           </div>
                         </div>
                         {activeSession ? (
@@ -724,16 +668,14 @@ export default function PracticePage() {
                             {answeredCount}/{totalQuestions}
                           </Badge>
                         ) : (
-                          quiz.bestScore && (
+                          quiz.bestScore !== undefined && quiz.bestScore > 0 && (
                             <Badge variant="success">{quiz.bestScore}%</Badge>
                           )
                         )}
                       </div>
 
                       <div className="flex items-center justify-between text-xs text-ink-muted mb-4">
-                        <span>
-                          Créé le {new Date(quiz.createdAt).toLocaleDateString("fr-FR")}
-                        </span>
+                        <span>Créé le {new Date(quiz.createdAt).toLocaleDateString("fr-FR")}</span>
                         <span>
                           {quiz.attempts} tentative{quiz.attempts > 1 ? "s" : ""}
                         </span>
@@ -745,7 +687,7 @@ export default function PracticePage() {
                             variant="primary"
                             className="w-full"
                             size="sm"
-                            onClick={() => window.location.href = `/quiz?session=${activeSession.id}`}
+                            onClick={() => (window.location.href = `/quiz?session=${activeSession.id}`)}
                           >
                             <Play className="w-4 h-4 mr-2" />
                             Continuer ({answeredCount}/{totalQuestions})
@@ -775,11 +717,7 @@ export default function PracticePage() {
                             <RefreshCw className="w-4 h-4 mr-2" />
                             Refaire
                           </Button>
-                          <Button
-                            variant="secondary"
-                            size="sm"
-                            onClick={() => handleDeleteQuiz(quiz.id)}
-                          >
+                          <Button variant="secondary" size="sm" onClick={() => handleDeleteQuiz(quiz.id)}>
                             <Trash2 className="w-4 h-4" />
                           </Button>
                         </div>
@@ -794,4 +732,8 @@ export default function PracticePage() {
       </main>
     </div>
   );
+}
+
+function canGenerateAI(questionCount: number): boolean {
+  return questionCount >= 5;
 }

@@ -53,15 +53,17 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              // Initialize services immediately
+        {/* Service Worker : uniquement dans les builds de production (npm run build
+            puis npm start, ou déploiement). En dev, pas de SW pour ne pas gêner le
+            hot-reload. C'est lui qui rend l'app utilisable hors ligne (PWA). */}
+        {process.env.NODE_ENV === "production" && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
               (function() {
                 console.log('[App] Initializing application...');
 
-                // Register Service Worker only in production
-                if ('serviceWorker' in navigator && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+                if ('serviceWorker' in navigator) {
                   let newWorkerWaiting = false;
 
                   window.addEventListener('load', function() {
@@ -100,8 +102,8 @@ export default function RootLayout({
                     window.location.reload();
                   }, { once: true });
 
-                } else if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-                  console.log('[SW] Service Worker disabled in development mode');
+                } else {
+                  console.log('[SW] Service workers not supported in this browser');
                 }
 
                 // Listen for online/offline events
@@ -116,8 +118,9 @@ export default function RootLayout({
                 console.log('[App] Initial connection status:', navigator.onLine ? 'ONLINE' : 'OFFLINE');
               })();
             `,
-          }}
-        />
+            }}
+          />
+        )}
       </head>
       <body
         className={`${crimsonPro.variable} ${jetbrainsMono.variable} antialiased`}

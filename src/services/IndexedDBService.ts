@@ -9,6 +9,8 @@ import {
   UserStatistics,
   UserAnswer,
   BackgroundTask,
+  MistakeEntry,
+  DailyStat,
 } from "@/types";
 
 // ============================================
@@ -73,10 +75,95 @@ interface ReviewIABDDB extends DBSchema {
       "by-status": string;
     };
   };
+  mistakes: {
+    key: string;
+    value: MistakeEntry;
+    indexes: {
+      "by-mastered": number;
+    };
+  };
+  dailyStats: {
+    key: string;
+    value: DailyStat;
+  };
 }
 
 const DB_NAME = "ReviewIABD";
-const DB_VERSION = 5;
+const DB_VERSION = 6;
+
+/**
+ * Crée (ou met à niveau) tous les object stores. Utilisé par init() et
+ * par le chemin de récupération après corruption.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function createStores(db: IDBPDatabase<any>) {
+  // Settings store
+  if (!db.objectStoreNames.contains("settings")) {
+    db.createObjectStore("settings");
+  }
+
+  // Sessions store
+  if (!db.objectStoreNames.contains("sessions")) {
+    const sessionStore = db.createObjectStore("sessions");
+    sessionStore.createIndex("by-status", "status");
+  }
+
+  // Exams store
+  if (!db.objectStoreNames.contains("exams")) {
+    const examStore = db.createObjectStore("exams");
+    examStore.createIndex("by-type", "type");
+    examStore.createIndex("by-domain", "domain");
+  }
+
+  // Exercises store
+  if (!db.objectStoreNames.contains("exercises")) {
+    const exerciseStore = db.createObjectStore("exercises");
+    exerciseStore.createIndex("by-domain", "domain");
+    exerciseStore.createIndex("unused", "used");
+  }
+
+  // Practice quizzes store
+  if (!db.objectStoreNames.contains("practiceQuizzes")) {
+    const practiceQuizStore = db.createObjectStore("practiceQuizzes");
+    practiceQuizStore.createIndex("by-domain", "domain");
+  }
+
+  // Questions store
+  if (!db.objectStoreNames.contains("questions")) {
+    const questionStore = db.createObjectStore("questions");
+    questionStore.createIndex("by-domain", "domain");
+  }
+
+  // Favorites store
+  if (!db.objectStoreNames.contains("favorites")) {
+    const favoriteStore = db.createObjectStore("favorites");
+    favoriteStore.createIndex("by-domain", "domain");
+  }
+
+  // Statistics store
+  if (!db.objectStoreNames.contains("statistics")) {
+    db.createObjectStore("statistics");
+  }
+
+  // Background tasks store
+  // Recréé à chaque montée de version (migration v2.2.2 sans keyPath)
+  if (db.objectStoreNames.contains("backgroundTasks")) {
+    db.deleteObjectStore("backgroundTasks");
+  }
+  const taskStore = db.createObjectStore("backgroundTasks", { keyPath: "id" });
+  taskStore.createIndex("by-status", "status");
+
+  // Cahier d'erreurs (v6)
+  if (!db.objectStoreNames.contains("mistakes")) {
+    const mistakeStore = db.createObjectStore("mistakes", { keyPath: "id" });
+    mistakeStore.createIndex("by-mastered", "mastered");
+  }
+
+  // Activité quotidienne / streaks (v6)
+  if (!db.objectStoreNames.contains("dailyStats")) {
+    db.createObjectStore("dailyStats", { keyPath: "date" });
+  }
+}
 
 class IndexedDBService {
   private db: IDBPDatabase<ReviewIABDDB> | null = null;
@@ -92,63 +179,9 @@ class IndexedDBService {
     try {
       this.db = await openDB<ReviewIABDDB>(DB_NAME, DB_VERSION, {
         upgrade(db) {
-          // Settings store
-          if (!db.objectStoreNames.contains("settings")) {
-            db.createObjectStore("settings");
-          }
-
-          // Sessions store
-          if (!db.objectStoreNames.contains("sessions")) {
-            const sessionStore = db.createObjectStore("sessions");
-            sessionStore.createIndex("by-status", "status");
-          }
-
-          // Exams store
-          if (!db.objectStoreNames.contains("exams")) {
-            const examStore = db.createObjectStore("exams");
-            examStore.createIndex("by-type", "type");
-            examStore.createIndex("by-domain", "domain");
-          }
-
-          // Exercises store
-          if (!db.objectStoreNames.contains("exercises")) {
-            const exerciseStore = db.createObjectStore("exercises");
-            exerciseStore.createIndex("by-domain", "domain");
-            exerciseStore.createIndex("unused", "used");
-          }
-
-          // Practice quizzes store
-          if (!db.objectStoreNames.contains("practiceQuizzes")) {
-            const practiceQuizStore = db.createObjectStore("practiceQuizzes");
-            practiceQuizStore.createIndex("by-domain", "domain");
-          }
-
-          // Questions store
-          if (!db.objectStoreNames.contains("questions")) {
-            const questionStore = db.createObjectStore("questions");
-            questionStore.createIndex("by-domain", "domain");
-          }
-
-          // Favorites store
-        if (!db.objectStoreNames.contains("favorites")) {
-          const favoriteStore = db.createObjectStore("favorites");
-          favoriteStore.createIndex("by-domain", "domain");
-        }
-
-        // Statistics store
-        if (!db.objectStoreNames.contains("statistics")) {
-          db.createObjectStore("statistics");
-        }
-
-        // Background tasks store
-        // Delete old version if it exists (from v2.2.2 without keyPath)
-        if (db.objectStoreNames.contains("backgroundTasks")) {
-          db.deleteObjectStore("backgroundTasks");
-        }
-        const taskStore = db.createObjectStore("backgroundTasks", { keyPath: "id" });
-        taskStore.createIndex("by-status", "status");
-      },
-    });
+          createStores(db);
+        },
+      });
     } catch (error) {
       console.error("[IndexedDB] Failed to open database, deleting and retrying:", error);
       // Database is corrupted — delete it and try again
@@ -157,23 +190,7 @@ class IndexedDBService {
       await indexedDB.deleteDatabase(DB_NAME);
       this.db = await openDB<ReviewIABDDB>(DB_NAME, DB_VERSION, {
         upgrade(db) {
-          db.createObjectStore("settings");
-          const sessionStore = db.createObjectStore("sessions");
-          sessionStore.createIndex("by-status", "status");
-          const examStore = db.createObjectStore("exams");
-          examStore.createIndex("by-type", "type");
-          examStore.createIndex("by-domain", "domain");
-          const exerciseStore = db.createObjectStore("exercises");
-          exerciseStore.createIndex("by-domain", "domain");
-          exerciseStore.createIndex("unused", "used");
-          const practiceQuizStore = db.createObjectStore("practiceQuizzes");
-          practiceQuizStore.createIndex("by-domain", "domain");
-          const questionStore = db.createObjectStore("questions");
-          questionStore.createIndex("by-domain", "domain");
-          db.createObjectStore("favorites").createIndex("by-domain", "domain");
-          db.createObjectStore("statistics");
-          const taskStore2 = db.createObjectStore("backgroundTasks", { keyPath: "id" });
-          taskStore2.createIndex("by-status", "status");
+          createStores(db);
         },
       });
       console.log("[IndexedDB] Database recreated successfully");
@@ -518,6 +535,59 @@ class IndexedDBService {
   }
 
   // ============================================
+  // MISTAKES OPERATIONS (cahier d'erreurs)
+  // ============================================
+
+  async getMistake(id: string): Promise<MistakeEntry | undefined> {
+    const db = await this.ensureDB();
+    return db.get("mistakes", id);
+  }
+
+  async saveMistake(entry: MistakeEntry): Promise<void> {
+    const db = await this.ensureDB();
+    await db.put("mistakes", entry);
+  }
+
+  async getAllMistakes(): Promise<MistakeEntry[]> {
+    const db = await this.ensureDB();
+    return db.getAll("mistakes");
+  }
+
+  async getActiveMistakes(): Promise<MistakeEntry[]> {
+    const db = await this.ensureDB();
+    return db.getAllFromIndex("mistakes", "by-mastered", 0);
+  }
+
+  async deleteMistake(id: string): Promise<void> {
+    const db = await this.ensureDB();
+    await db.delete("mistakes", id);
+  }
+
+  async clearMistakes(): Promise<void> {
+    const db = await this.ensureDB();
+    await db.clear("mistakes");
+  }
+
+  // ============================================
+  // DAILY STATS OPERATIONS (streaks)
+  // ============================================
+
+  async getDailyStat(date: string): Promise<DailyStat | undefined> {
+    const db = await this.ensureDB();
+    return db.get("dailyStats", date);
+  }
+
+  async saveDailyStat(stat: DailyStat): Promise<void> {
+    const db = await this.ensureDB();
+    await db.put("dailyStats", stat);
+  }
+
+  async getAllDailyStats(): Promise<DailyStat[]> {
+    const db = await this.ensureDB();
+    return db.getAll("dailyStats");
+  }
+
+  // ============================================
   // UTILITY OPERATIONS
   // ============================================
 
@@ -532,6 +602,8 @@ class IndexedDBService {
       "exercises",
       "questions",
       "favorites",
+      "mistakes",
+      "dailyStats",
     ] as const;
     const tx = db.transaction(stores, "readwrite");
     await Promise.all([...stores.map((s) => db.clear(s)), tx.done]);
@@ -541,23 +613,29 @@ class IndexedDBService {
    * Export all data as JSON (for backup)
    */
   async exportData(): Promise<string> {
-    const [settings, sessions, exams, exercises, favorites] =
+    const [settings, sessions, exams, exercises, favorites, mistakes, dailyStats, importedQuestions] =
       await Promise.all([
         this.getSettings(),
         this.getAllSessions(),
         this.getAllExams(),
         this.getAllExercises(),
         this.getAllFavorites(),
+        this.getAllMistakes(),
+        this.getAllDailyStats(),
+        this.getAllQuestions(),
       ]);
 
     return JSON.stringify({
-      version: 1,
+      version: 2,
       exportedAt: new Date().toISOString(),
       settings,
       sessions,
       exams,
       exercises,
       favorites,
+      mistakes,
+      dailyStats,
+      importedQuestions,
     });
   }
 
@@ -588,19 +666,33 @@ class IndexedDBService {
         await this.addFavorite(favorite);
       }
     }
+    if (Array.isArray(data.mistakes)) {
+      for (const mistake of data.mistakes) {
+        await this.saveMistake(mistake);
+      }
+    }
+    if (Array.isArray(data.dailyStats)) {
+      for (const stat of data.dailyStats) {
+        await this.saveDailyStat(stat);
+      }
+    }
+    if (Array.isArray(data.importedQuestions)) {
+      await this.saveQuestions(data.importedQuestions);
+    }
   }
 
   /**
    * Get database size estimate
    */
   async getDatabaseSize(): Promise<number> {
-    const [sessions, exams, exercises, questions, favorites] =
+    const [sessions, exams, exercises, questions, favorites, mistakes] =
       await Promise.all([
         this.getAllSessions(),
         this.getAllExams(),
         this.getAllExercises(),
         this.getAllQuestions(),
         this.getAllFavorites(),
+        this.getAllMistakes(),
       ]);
 
     const size =
@@ -608,7 +700,8 @@ class IndexedDBService {
       JSON.stringify(exams).length +
       JSON.stringify(exercises).length +
       JSON.stringify(questions).length +
-      JSON.stringify(favorites).length;
+      JSON.stringify(favorites).length +
+      JSON.stringify(mistakes).length;
 
     return size;
   }

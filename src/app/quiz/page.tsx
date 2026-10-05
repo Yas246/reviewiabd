@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Navigation } from "@/components/layout/Navigation";
-import { QuestionCard } from "@/components/features/QuestionCard";
+import { QuestionCard, QuestionValue, emptyQuestionValue } from "@/components/features/QuestionCard";
 import { QuizTimer } from "@/components/features/QuizTimer";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { Button } from "@/components/ui/Button";
@@ -11,10 +11,11 @@ import { Card, CardContent } from "@/components/ui/Card";
 import {
   Question,
   QuizSession,
-  SavedExam,
   QuizSessionStatus,
   GenerationState,
   Domain,
+  UserAnswer,
+  QuestionType,
 } from "@/types";
 import {
   ArrowLeft,
@@ -27,13 +28,114 @@ import {
 import { indexedDBService } from "@/services/IndexedDBService";
 import { generationService } from "@/services/GenerationService";
 import { statisticsService } from "@/services/StatisticsService";
+import { mistakesService } from "@/services/MistakesService";
+import { dailyStatsService } from "@/services/DailyStatsService";
+import {
+  areChoicesCorrect,
+  areBlanksCorrect,
+  getQuestionScore,
+} from "@/lib/questionCheck";
 
 // ============================================
 // QUIZ PAGE
-// Display questions one at a time with timer.
-// Supports progressive loading: questions can arrive
-// while the user is already answering.
+// Moteur de quiz : affiche une question à la fois.
+// Gère tous les formats (QCM simple/multi, V/F,
+// trous, code, cas pratique), la reprise de session,
+// la génération IA progressive, le cahier d'erreurs
+// et les stats quotidiennes.
 // ============================================
+
+function isExamLike(type: string): boolean {
+  return type === "exam";
+}
+
+function hasAnswer(q: Question, v: QuestionValue | undefined): boolean {
+  if (!v) return false;
+  switch (q.type) {
+    case QuestionType.FILL_BLANK:
+      return (q.blanks || []).every((_, i) => (v.textAnswers[i] || "").trim().length > 0);
+    case QuestionType.CASE_STUDY:
+      return v.corrigeRevealed === true;
+    case QuestionType.CODE:
+      return v.codeResult !== undefined && v.codeResult !== null;
+    default:
+      return v.selectedIds.length > 0;
+  }
+}
+
+function isValueCorrect(q: Question, v: QuestionValue | undefined): boolean {
+  if (!v) return false;
+  switch (q.type) {
+    case QuestionType.FILL_BLANK:
+      return areBlanksCorrect(q, v.textAnswers);
+    case QuestionType.CODE: {
+      const tests = v.codeResult?.tests || [];
+      return tests.length > 0 && tests.every((t) => t.passed);
+    }
+    case QuestionType.CASE_STUDY: {
+      const checked = v.rubricChecked || [];
+      const subs = q.subQuestions || [];
+      if (subs.length === 0) return false;
+      const totalPoints = subs.reduce((acc, s) => acc + s.rubric.length, 0);
+      if (totalPoints === 0) return false;
+      const earned = subs.reduce(
+        (acc, s, i) => acc + s.rubric.filter((_, j) => checked[i]?.[j]).length,
+        0
+      );
+      return earned / totalPoints >= 0.7;
+    }
+    default:
+      return areChoicesCorrect(q, v.selectedIds);
+  }
+}
+
+function toUserAnswer(
+  q: Question,
+  v: QuestionValue,
+  timeSpent: number,
+  isFavorite: boolean
+): UserAnswer {
+  const correct = isValueCorrect(q, v);
+  const codeScore =
+    q.type === QuestionType.CODE && v.codeResult?.tests
+      ? v.codeResult.tests.filter((t) => t.passed).length / v.codeResult.tests.length
+      : undefined;
+  const selfScore =
+    q.type === QuestionType.CASE_STUDY
+      ? (() => {
+          const subs = q.subQuestions || [];
+          const total = subs.reduce((acc, s) => acc + s.rubric.length, 0);
+          const earned = subs.reduce(
+            (acc, s, i) => acc + s.rubric.filter((_, j) => v.rubricChecked?.[i]?.[j]).length,
+            0
+          );
+          return total === 0 ? 0 : earned / total;
+        })()
+      : undefined;
+
+  return {
+    questionId: q.id,
+    selectedAnswerIds: v.selectedIds,
+    isCorrect: correct,
+    timeSpent,
+    isFavorite,
+    textAnswers: v.textAnswers.length > 0 ? v.textAnswers : undefined,
+    codeAnswer: v.codeAnswer,
+    codeScore,
+    selfScore,
+    rubricChecked: v.rubricChecked,
+  };
+}
+
+function valueFromUserAnswer(ua: UserAnswer): QuestionValue {
+  return {
+    ...emptyQuestionValue(),
+    selectedIds: ua.selectedAnswerIds || [],
+    textAnswers: ua.textAnswers || [],
+    codeAnswer: ua.codeAnswer,
+    rubricChecked: ua.rubricChecked,
+  };
+}
 
 function QuizContent() {
   const router = useRouter();
@@ -42,25 +144,49 @@ function QuizContent() {
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedAnswers, setSelectedAnswers] = useState<
-    Record<string, string>
-  >({});
+  const [values, setValues] = useState<Record<string, QuestionValue>>({});
+  const [validated, setValidated] = useState<Set<string>>(new Set());
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
-  const [showResult, setShowResult] = useState(false);
   const [quizCompleted, setQuizCompleted] = useState(false);
-  const [sessionType, setSessionType] = useState<
-    "practice" | "exam" | "offline"
-  >("practice");
+  const [sessionType, setSessionType] = useState<string>("practice");
+  const [sessionLabel, setSessionLabel] = useState<string>("");
   const [timeLimit, setTimeLimit] = useState<number | undefined>();
   const [timerInitialTime, setTimerInitialTime] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showQuickNav, setShowQuickNav] = useState(false);
 
-  // Progressive generation state
+  // Progressive generation state (mode IA uniquement)
   const [generationState, setGenerationState] = useState<GenerationState | null>(null);
   const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const currentTimeRef = useRef<number>(0);
+  const timeSpentRef = useRef<Record<string, number>>({});
+  const questionEnterRef = useRef<number>(Date.now());
+  const currentIndexRef = useRef(0);
+
+  const examMode = isExamLike(sessionType);
+  const currentQuestion = questions[currentIndex];
+  const currentValue = currentQuestion ? values[currentQuestion.id] || emptyQuestionValue() : emptyQuestionValue();
+  const showResult = validated.has(currentQuestion?.id || "");
+  const progress =
+    questions.length > 0 ? ((currentIndex + 1) / questions.length) * 100 : 0;
+
+  const patchValue = (patch: Partial<QuestionValue>) => {
+    if (!currentQuestion) return;
+    setValues((prev) => ({
+      ...prev,
+      [currentQuestion.id]: { ...(prev[currentQuestion.id] || emptyQuestionValue()), ...patch },
+    }));
+  };
+
+  // Compte le temps passé sur la question courante
+  const flushQuestionTime = () => {
+    const q = questions[currentIndexRef.current];
+    if (!q) return;
+    const elapsed = Math.floor((Date.now() - questionEnterRef.current) / 1000);
+    timeSpentRef.current[q.id] = (timeSpentRef.current[q.id] || 0) + Math.min(elapsed, 600);
+    questionEnterRef.current = Date.now();
+  };
 
   // Load session on mount
   useEffect(() => {
@@ -81,49 +207,32 @@ function QuizContent() {
           return;
         }
 
-        // Set state from session
         setQuestions(session.questions);
+        setCurrentIndexSafe(session.currentIndex);
         setCurrentIndex(session.currentIndex);
-        setSessionType(session.type as "practice" | "exam" | "offline");
-        // Timer setup: initialTime and timeLimit are different concepts!
-        // - initialTime: where the timer starts counting from (elapsed time for countup, remaining for countdown)
-        // - timeLimit: max time before onTimeUp fires
-        // For countdown (exam): initialTime = seconds remaining, timeLimit = original total
-        // For countup (practice/offline): initialTime = seconds elapsed, timeLimit = undefined (no limit)
+        setSessionType(session.type);
+        setSessionLabel(session.label || "");
         if (session.type === "exam") {
           setTimerInitialTime(session.timeRemaining || session.timeLimit || 0);
           setTimeLimit(session.timeLimit);
         } else {
-          // Practice/offline: resume from elapsed time, NO time limit
           setTimerInitialTime(session.timeRemaining || 0);
           setTimeLimit(undefined);
         }
 
-        // If session was already completed, show results directly
         if (session.status === QuizSessionStatus.COMPLETED) {
           setQuizCompleted(true);
         }
 
-        // Check if generation is still in progress
-        // DELAY setting generationState to avoid Strict Mode race:
-        // Strict Mode unmount → cleanup fires pauseSession (async) →
-        // remount → loadSession reads stale IDB data → sets generationState →
-        // continueGeneration fires unwanted API calls.
-        // By delaying 500ms and re-reading IDB, pauseSession has time to complete.
+        // Reprise de génération IA (inchangé, mode IA uniquement)
         if (
           session.generationProgress?.isGenerating ||
           session.status === QuizSessionStatus.GENERATING
         ) {
           setTimeout(async () => {
             try {
-              // Re-read from IDB — cleanup may have changed status to PAUSED
               const fresh = await indexedDBService.getSession(sessionId);
-              if (
-                !fresh ||
-                fresh.status === "PAUSED" ||
-                fresh.status === "COMPLETED"
-              ) {
-                console.log("[Quiz] Skipping generation resume — session is", fresh?.status);
+              if (!fresh || fresh.status === "PAUSED" || fresh.status === "COMPLETED") {
                 return;
               }
 
@@ -131,11 +240,9 @@ function QuizContent() {
                 isGenerating: true,
                 availableCount: fresh.questions.length,
                 requestedCount:
-                  fresh.generationProgress?.requestedCount ||
-                  fresh.questions.length,
+                  fresh.generationProgress?.requestedCount || fresh.questions.length,
               });
 
-              // Allow user to answer even while generating
               if (fresh.status === QuizSessionStatus.GENERATING) {
                 await indexedDBService.saveSession({
                   ...fresh,
@@ -146,18 +253,27 @@ function QuizContent() {
           }, 500);
         }
 
-        // Load user answers if they exist
+        // Restaure les réponses existantes
         if (session.userAnswers) {
-          const answers: Record<string, string> = {};
-          Object.values(session.userAnswers).forEach((userAnswer) => {
-            if (userAnswer.selectedAnswerIds && userAnswer.selectedAnswerIds[0]) {
-              answers[userAnswer.questionId] = userAnswer.selectedAnswerIds[0];
+          const restored: Record<string, QuestionValue> = {};
+          const answeredIds = new Set<string>();
+          Object.values(session.userAnswers).forEach((ua) => {
+            restored[ua.questionId] = valueFromUserAnswer(ua);
+            if (
+              (ua.selectedAnswerIds && ua.selectedAnswerIds.length > 0) ||
+              (ua.textAnswers && ua.textAnswers.length > 0) ||
+              ua.codeAnswer
+            ) {
+              answeredIds.add(ua.questionId);
             }
           });
-          setSelectedAnswers(answers);
+          setValues(restored);
+          // En pratique, une question déjà répondue reste validée (corrigé visible)
+          if (session.type !== "exam") {
+            setValidated(answeredIds);
+          }
         }
 
-        // Load favorites from IndexedDB
         const allFavorites = await indexedDBService.getAllFavorites();
         setFavorites(new Set(allFavorites.map((q) => q.id)));
 
@@ -170,9 +286,15 @@ function QuizContent() {
     };
 
     loadSession();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionId]);
 
-  // Listen for new questions via BroadcastChannel (same-tab, fast)
+  const setCurrentIndexSafe = (index: number) => {
+    currentIndexRef.current = index;
+    questionEnterRef.current = Date.now();
+  };
+
+  // Listen for new questions via BroadcastChannel (génération IA)
   useEffect(() => {
     if (!sessionId) return;
 
@@ -188,18 +310,12 @@ function QuizContent() {
       if (!data || data.sessionId !== sessionId) return;
 
       if (data.type === "BATCH_COMPLETE") {
-        // Reload session to get new questions
         try {
           const session = await indexedDBService.getSession(sessionId);
           if (session) {
             setQuestions([...session.questions]);
             setGenerationState((prev) =>
-              prev
-                ? {
-                    ...prev,
-                    availableCount: session.questions.length,
-                  }
-                : null
+              prev ? { ...prev, availableCount: session.questions.length } : null
             );
           }
         } catch (err) {
@@ -232,8 +348,7 @@ function QuizContent() {
     };
   }, [sessionId]);
 
-  // Continue generation if the session is still generating
-  // (The practice page only generates the first batch, then navigates here)
+  // Continue la génération IA si nécessaire
   useEffect(() => {
     if (!generationState?.isGenerating || !sessionId) return;
 
@@ -243,54 +358,34 @@ function QuizContent() {
       try {
         const session = await indexedDBService.getSession(sessionId);
         if (!session || !session.generationProgress || cancelled) return;
-
-        // Re-check status from IDB — session may have been paused by cleanup effect
         if (session.status === "PAUSED" || session.status === "COMPLETED") return;
 
         const gp = session.generationProgress;
         if (!gp.isGenerating || gp.completedBatches >= gp.totalBatches) return;
 
-        console.log(
-          `[Quiz] Continuing generation from batch ${gp.completedBatches + 1}/${gp.totalBatches}`
-        );
-
         if (session.type === "exam" && !session.domain && gp.requestedCount > 20) {
-          // Full exam multi-domain continuation
           const allDomains = Object.values(Domain);
-          await generationService.runMultiDomainGeneration(
-            sessionId,
-            allDomains,
-            4,
-            {
-              onBatchComplete: async () => {
-                if (cancelled) return;
-                const s = await indexedDBService.getSession(sessionId);
-                if (s) {
-                  setQuestions([...s.questions]);
-                  setGenerationState((prev) =>
-                    prev
-                      ? { ...prev, availableCount: s.questions.length }
-                      : null
-                  );
-                }
-              },
-              onGenerationComplete: () => {
-                if (cancelled) return;
-                setGenerationState(null);
-                console.log("[Quiz] Background generation complete");
-              },
-              onGenerationError: (error, _id, savedCount) => {
-                if (cancelled) return;
-                console.error("[Quiz] Background generation error:", error);
-                setGenerationState(null);
-                if (savedCount > 0 && savedCount >= 5) {
-                  // Questions are usable, just stop the banner
-                }
-              },
-            }
-          );
+          await generationService.runMultiDomainGeneration(sessionId, allDomains, 4, {
+            onBatchComplete: async () => {
+              if (cancelled) return;
+              const s = await indexedDBService.getSession(sessionId);
+              if (s) {
+                setQuestions([...s.questions]);
+                setGenerationState((prev) =>
+                  prev ? { ...prev, availableCount: s.questions.length } : null
+                );
+              }
+            },
+            onGenerationComplete: () => {
+              if (cancelled) return;
+              setGenerationState(null);
+            },
+            onGenerationError: () => {
+              if (cancelled) return;
+              setGenerationState(null);
+            },
+          });
         } else if (session.domain) {
-          // Single domain (practice or domain exam)
           await generationService.runSingleDomainGeneration(
             sessionId,
             session.domain,
@@ -302,20 +397,16 @@ function QuizContent() {
                 if (s) {
                   setQuestions([...s.questions]);
                   setGenerationState((prev) =>
-                    prev
-                      ? { ...prev, availableCount: s.questions.length }
-                      : null
+                    prev ? { ...prev, availableCount: s.questions.length } : null
                   );
                 }
               },
               onGenerationComplete: () => {
                 if (cancelled) return;
                 setGenerationState(null);
-                console.log("[Quiz] Background generation complete");
               },
-              onGenerationError: (error, _id, savedCount) => {
+              onGenerationError: () => {
                 if (cancelled) return;
-                console.error("[Quiz] Background generation error:", error);
                 setGenerationState(null);
               },
             }
@@ -334,32 +425,23 @@ function QuizContent() {
     };
   }, [generationState?.isGenerating, sessionId]);
 
-  // Polling fallback for new questions (handles SW background fetch)
+  // Polling fallback (génération IA)
   useEffect(() => {
     if (!generationState?.isGenerating || !sessionId) return;
 
-    // Poll every 2 seconds
     pollingRef.current = setInterval(async () => {
       try {
         const session = await indexedDBService.getSession(sessionId);
         if (!session) return;
 
         const newCount = session.questions.length;
-
-        // New questions arrived
         if (newCount !== questions.length) {
           setQuestions([...session.questions]);
           setGenerationState((prev) =>
-            prev
-              ? {
-                  ...prev,
-                  availableCount: newCount,
-                }
-              : null
+            prev ? { ...prev, availableCount: newCount } : null
           );
         }
 
-        // Generation completed
         if (!session.generationProgress?.isGenerating) {
           setGenerationState(null);
           if (pollingRef.current) {
@@ -380,42 +462,32 @@ function QuizContent() {
     };
   }, [generationState?.isGenerating, sessionId, questions.length]);
 
-  // Save session progress and answers
+  // Save session progress (answers + index + temps)
+  const buildUserAnswers = (): Record<string, UserAnswer> => {
+    const userAnswers: Record<string, UserAnswer> = {};
+    questions.forEach((q) => {
+      const v = values[q.id];
+      if (hasAnswer(q, v)) {
+        userAnswers[q.id] = toUserAnswer(
+          q,
+          v,
+          timeSpentRef.current[q.id] || 0,
+          favorites.has(q.id)
+        );
+      }
+    });
+    return userAnswers;
+  };
+
   const saveSessionProgress = async () => {
     if (!sessionId) return;
-
     try {
       const session = await indexedDBService.getSession(sessionId);
       if (session) {
-        // Convert selectedAnswers to userAnswers format
-        const userAnswers: Record<
-          string,
-          {
-            questionId: string;
-            selectedAnswerIds: string[];
-            isCorrect: boolean;
-            timeSpent: number;
-            isFavorite: boolean;
-          }
-        > = {};
-        Object.entries(selectedAnswers).forEach(([questionId, answerId]) => {
-          const question = questions.find((q) => q.id === questionId);
-          if (question) {
-            const correctAnswer = question.answers.find((a) => a.isCorrect);
-            userAnswers[questionId] = {
-              questionId,
-              selectedAnswerIds: [answerId],
-              isCorrect: answerId === correctAnswer?.id,
-              timeSpent: 0,
-              isFavorite: favorites.has(questionId),
-            };
-          }
-        });
-
         await indexedDBService.saveSession({
           ...session,
           currentIndex,
-          userAnswers,
+          userAnswers: buildUserAnswers(),
           timeRemaining: currentTimeRef.current || undefined,
         });
       }
@@ -424,12 +496,12 @@ function QuizContent() {
     }
   };
 
-  // Save progress when index or answers change
   useEffect(() => {
     if (!loading && questions.length > 0) {
       saveSessionProgress();
     }
-  }, [currentIndex, selectedAnswers]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentIndex, values]);
 
   // Update SavedPracticeQuiz when questions arrive from background generation
   useEffect(() => {
@@ -445,7 +517,6 @@ function QuizContent() {
               questionCount: questions.length,
               questions: questions,
             });
-            console.log("[Quiz] Updated practice quiz:", session.practiceQuizId, "→", questions.length, "questions");
           }
         }
       } catch {}
@@ -453,8 +524,7 @@ function QuizContent() {
     updatePracticeQuiz();
   }, [questions.length, sessionId, loading]);
 
-  // Mark session as PAUSED when leaving the quiz (unmount or navigate away)
-  // Also save a SavedPracticeQuiz for practice sessions so they appear in the practice page
+  // Pause la session en quittant le quiz
   useEffect(() => {
     const pauseSession = async () => {
       if (!sessionId) return;
@@ -462,7 +532,6 @@ function QuizContent() {
         const session = await indexedDBService.getSession(sessionId);
         if (!session) return;
 
-        // Pause the session
         if (session.status === "IN_PROGRESS" || session.status === "GENERATING") {
           await indexedDBService.saveSession({
             ...session,
@@ -470,13 +539,16 @@ function QuizContent() {
             generationProgress: session.generationProgress
               ? { ...session.generationProgress, isGenerating: false }
               : undefined,
+            userAnswers: buildUserAnswers(),
           });
-          console.log("[Quiz] Session paused:", sessionId);
         }
 
-        // For practice sessions with a saved quiz, update its questions
-        // (generation may have added more questions since the quiz was created)
-        if (session.type === "practice" && session.practiceQuizId && session.questions.length > 0 && session.domain) {
+        if (
+          session.type === "practice" &&
+          session.practiceQuizId &&
+          session.questions.length > 0 &&
+          session.domain
+        ) {
           const existingQuiz = await indexedDBService.getPracticeQuiz(session.practiceQuizId);
           if (existingQuiz && existingQuiz.questions.length !== session.questions.length) {
             await indexedDBService.savePracticeQuiz({
@@ -484,203 +556,190 @@ function QuizContent() {
               questionCount: session.questions.length,
               questions: session.questions,
             });
-            console.log("[Quiz] Updated practice quiz questions:", session.practiceQuizId, "→", session.questions.length);
           }
         }
       } catch {}
     };
 
-    const handleBeforeUnload = () => {
-      // Progress is already saved by saveSessionProgress on every answer
-      // No synchronous beacon needed — IndexedDB persists across sessions
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
     return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
       pauseSession();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionId]);
 
-  const currentQuestion = questions[currentIndex];
-  const selectedAnswerId = selectedAnswers[currentQuestion?.id];
-  const progress =
-    questions.length > 0 ? ((currentIndex + 1) / questions.length) * 100 : 0;
-
-  const handleAnswerSelect = (answerId: string) => {
-    setSelectedAnswers({ ...selectedAnswers, [currentQuestion.id]: answerId });
-  };
-
   const handleGoToQuestion = (index: number) => {
+    flushQuestionTime();
+    currentIndexRef.current = index;
     setCurrentIndex(index);
-    setShowResult(false);
     setShowQuickNav(false);
   };
 
   const handleNext = () => {
+    flushQuestionTime();
     if (currentIndex < questions.length - 1) {
+      setCurrentIndexSafe(currentIndex + 1);
       setCurrentIndex(currentIndex + 1);
-      setShowResult(false);
     } else {
-      // Check if more questions are still generating
       if (generationState?.isGenerating) {
-        // Don't complete quiz yet - wait for more questions
         return;
       }
+      flushQuestionTime();
       setQuizCompleted(true);
     }
   };
 
   const handlePrevious = () => {
+    flushQuestionTime();
     if (currentIndex > 0) {
+      setCurrentIndexSafe(currentIndex - 1);
       setCurrentIndex(currentIndex - 1);
-      setShowResult(false);
     }
   };
 
   const handleToggleFavorite = async () => {
     if (!currentQuestion) return;
 
-    console.log("[Quiz] Toggle favorite for question:", currentQuestion.id);
     const newFavorites = new Set(favorites);
     if (newFavorites.has(currentQuestion.id)) {
-      console.log("[Quiz] Removing from favorites");
       newFavorites.delete(currentQuestion.id);
       await indexedDBService.removeFavorite(currentQuestion.id);
-      console.log("[Quiz] Favorite removed");
     } else {
-      console.log("[Quiz] Adding to favorites");
       newFavorites.add(currentQuestion.id);
-      console.log("[Quiz] Calling addFavorite...");
-      // Save the question WITH the correct answer pre-selected
-      const correctAnswer = currentQuestion.answers.find((a) => a.isCorrect);
-      const questionWithCorrectAnswer = {
-        ...currentQuestion,
-        selectedAnswerId: correctAnswer?.id,
-      };
-      console.log(
-        "[Quiz] Saving with correct answer:",
-        correctAnswer?.id
-      );
-      await indexedDBService.addFavorite(questionWithCorrectAnswer);
-      console.log("[Quiz] Favorite added");
+      // On sauvegarde la question SANS réponse présélectionnée :
+      // les favoris doivent rester un outil de révision, pas un corrigé.
+      await indexedDBService.addFavorite(currentQuestion);
     }
     setFavorites(newFavorites);
-    console.log(
-      "[Quiz] Favorites state updated, count:",
-      newFavorites.size
-    );
   };
 
-  const handleShowResult = () => {
-    setShowResult(true);
+  const handleValidate = () => {
+    if (!currentQuestion) return;
+    setValidated((prev) => new Set(prev).add(currentQuestion.id));
   };
 
-  const calculateScore = () => {
-    let correct = 0;
-    questions.forEach((q) => {
-      const selectedId = selectedAnswers[q.id];
-      const correctAnswer = q.answers.find((a) => a.isCorrect);
-      if (selectedId === correctAnswer?.id) {
-        correct++;
-      }
-    });
-    return Math.round((correct / questions.length) * 100);
-  };
-
-  // In exam mode, no immediate results - just go to next question
+  // Le bouton central : Valider (pratique) ou Suivant (examen)
   const handleValidateOrNext = () => {
-    if (sessionType === "exam") {
-      // Exam mode: go directly to next question without showing results
+    if (examMode) {
+      handleNext();
+      return;
+    }
+    if (showResult) {
       handleNext();
     } else {
-      // Practice mode: show results then go to next
-      if (showResult) {
-        handleNext();
-      } else {
-        handleShowResult();
-      }
+      handleValidate();
     }
   };
 
-  // Check if all questions have been answered
-  const allQuestionsAnswered = questions.every((q) => selectedAnswers[q.id]);
-  const answeredCount = Object.keys(selectedAnswers).length;
+  // Peut-on valider la question courante ?
+  const canValidateCurrent = (() => {
+    if (!currentQuestion || showResult) return false;
+    switch (currentQuestion.type) {
+      case QuestionType.FILL_BLANK:
+        return (currentQuestion.blanks || []).every(
+          (_, i) => (currentValue.textAnswers[i] || "").trim().length > 0
+        );
+      case QuestionType.CASE_STUDY:
+        return currentValue.corrigeRevealed === true;
+      case QuestionType.CODE:
+        return currentValue.codeResult !== undefined && currentValue.codeResult !== null;
+      default:
+        return currentValue.selectedIds.length > 0;
+    }
+  })();
+
+  // Score cohérent : toujours divisé par le TOTAL de questions
+  const computeScore = () => {
+    let passed = 0;
+    questions.forEach((q) => {
+      if (isValueCorrect(q, values[q.id])) passed++;
+    });
+    return {
+      score: questions.length > 0 ? Math.round((passed / questions.length) * 100) : 0,
+      passed,
+      answered: questions.filter((q) => hasAnswer(q, values[q.id])).length,
+    };
+  };
 
   // Save completion and update statistics when quiz is completed
   useEffect(() => {
     const handleQuizCompletion = async () => {
       if (quizCompleted && sessionId) {
-        console.log(
-          "[Quiz] Quiz completed, updating session and statistics..."
-        );
         try {
-          // Update session status to COMPLETED
           const session = await indexedDBService.getSession(sessionId);
-          if (session) {
-            const completedSession: QuizSession = {
-              ...session,
-              status: QuizSessionStatus.COMPLETED,
-              completedAt: new Date(),
-            };
-            await indexedDBService.saveSession(completedSession);
-            console.log("[Quiz] Session marked as completed");
+          if (!session) return;
 
-            // Update statistics
-            await statisticsService.init();
-            await statisticsService.updateFromSession(completedSession);
-            console.log("[Quiz] Statistics updated");
+          const userAnswers = buildUserAnswers();
+          const completedSession: QuizSession = {
+            ...session,
+            userAnswers,
+            status: QuizSessionStatus.COMPLETED,
+            completedAt: new Date(),
+          };
+          await indexedDBService.saveSession(completedSession);
 
-            // If this is an exam session, save the attempt to the SavedExam
-            if (session.type === "exam" && session.examId) {
-              console.log(
-                "[Quiz] This is an exam, saving attempt to SavedExam..."
-              );
-              await saveExamAttempt(completedSession, session.examId);
+          // Statistics (globales)
+          await statisticsService.init();
+          await statisticsService.updateFromSession(completedSession);
+
+          // Cahier d'erreurs : seulement les questions réellement tentées
+          const results = questions
+            .filter((q) => userAnswers[q.id])
+            .map((q) => ({ questionId: q.id, correct: userAnswers[q.id].isCorrect }));
+          await mistakesService.recordSession(questions, results);
+
+          // Activité du jour (streak / objectif)
+          const correctCount = results.filter((r) => r.correct).length;
+          const timeSpent = completedSession.completedAt
+            ? Math.floor(
+                (new Date(completedSession.completedAt).getTime() -
+                  new Date(session.startedAt).getTime()) /
+                  1000
+              )
+            : 0;
+          await dailyStatsService.recordActivity(results.length, correctCount, timeSpent);
+
+          // Tentative d'examen
+          if (session.type === "exam" && session.examId) {
+            await saveExamAttempt(completedSession, session.examId);
+          }
+
+          // Meilleur score du quiz de pratique
+          if (session.type === "practice" && session.practiceQuizId) {
+            const quiz = await indexedDBService.getPracticeQuiz(session.practiceQuizId);
+            if (quiz) {
+              const score = questions.length
+                ? Math.round((correctCount / questions.length) * 100)
+                : 0;
+              await indexedDBService.savePracticeQuiz({
+                ...quiz,
+                bestScore: Math.max(quiz.bestScore || 0, score),
+                attempts: quiz.attempts + 1,
+                lastAttemptAt: new Date(),
+              });
             }
           }
         } catch (error) {
-          console.error(
-            "[Quiz] Failed to update session/statistics:",
-            error
-          );
+          console.error("[Quiz] Failed to update session/statistics:", error);
         }
       }
     };
 
     handleQuizCompletion();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quizCompleted, sessionId]);
 
-  const saveExamAttempt = async (
-    completedSession: QuizSession,
-    examId: string
-  ) => {
+  const saveExamAttempt = async (completedSession: QuizSession, examId: string) => {
     try {
-      // Get the SavedExam
       const exam = await indexedDBService.getExam(examId);
-      if (!exam) {
-        console.log("[Quiz] Exam not found:", examId);
-        return;
-      }
+      if (!exam) return;
 
-      console.log("[Quiz] Found SavedExam:", exam.name);
+      // Score cohérent : divisé par le total, non répondu = faux
+      const total = completedSession.questions?.length || 0;
+      const correct = (completedSession.questions || []).filter(
+        (q) => completedSession.userAnswers?.[q.id]?.isCorrect
+      ).length;
+      const score = total > 0 ? Math.round((correct / total) * 100) : 0;
 
-      // Calculate score
-      let correct = 0;
-      let answered = 0;
-      completedSession.questions?.forEach((q) => {
-        const userAnswer = completedSession.userAnswers[q.id];
-        if (userAnswer) {
-          answered++;
-          if (userAnswer.isCorrect) {
-            correct++;
-          }
-        }
-      });
-      const score =
-        answered > 0 ? Math.round((correct / answered) * 100) : 0;
-
-      // Calculate time spent
       const timeSpent = completedSession.completedAt
         ? Math.floor(
             (new Date(completedSession.completedAt).getTime() -
@@ -689,7 +748,6 @@ function QuizContent() {
           )
         : 0;
 
-      // Create the attempt
       const attempt = {
         id: `attempt-${Date.now()}`,
         type: exam.type,
@@ -697,34 +755,24 @@ function QuizContent() {
         questions: completedSession.questions || [],
         userAnswers: completedSession.userAnswers || {},
         score,
-        totalQuestions: completedSession.questions?.length || 0,
+        totalQuestions: total,
         correctAnswers: correct,
         startedAt: completedSession.startedAt,
         completedAt: completedSession.completedAt || new Date(),
         timeSpent,
       };
 
-      console.log("[Quiz] Created attempt:", attempt);
-
-      // Update the SavedExam
       const updatedAttempts = [...exam.attempts, attempt];
       const newBestScore = Math.max(exam.bestScore, score);
-      const newBestAttemptId =
-        score > exam.bestScore ? attempt.id : exam.bestAttemptId;
+      const newBestAttemptId = score > exam.bestScore ? attempt.id : exam.bestAttemptId;
 
-      const updatedExam: SavedExam = {
+      await indexedDBService.saveExam({
         ...exam,
         attempts: updatedAttempts,
         bestScore: newBestScore,
         bestAttemptId: newBestAttemptId,
         lastAttemptAt: new Date(),
-      };
-
-      await indexedDBService.saveExam(updatedExam);
-      console.log(
-        "[Quiz] Saved attempt to SavedExam, new best score:",
-        newBestScore
-      );
+      });
     } catch (error) {
       console.error("[Quiz] Failed to save exam attempt:", error);
     }
@@ -760,12 +808,7 @@ function QuizContent() {
   }
 
   if (quizCompleted) {
-    const score = calculateScore();
-    const correctCount = questions.filter((q) => {
-      const selectedId = selectedAnswers[q.id];
-      const correctAnswer = q.answers.find((a) => a.isCorrect);
-      return selectedId === correctAnswer?.id;
-    }).length;
+    const { score, passed, answered } = computeScore();
 
     return (
       <div className="min-h-screen flex flex-col bg-paper-primary">
@@ -775,10 +818,11 @@ function QuizContent() {
             <CardContent className="text-center py-12">
               <div className="mb-8">
                 <h1 className="font-mono font-bold text-3xl mb-2">
-                  {sessionType === "exam"
-                    ? "Examen Terminé !"
-                    : "Quiz Terminé !"}
+                  {examMode ? "Examen Terminé !" : "Quiz Terminé !"}
                 </h1>
+                {sessionLabel && (
+                  <p className="font-mono text-sm text-accent mb-1">{sessionLabel}</p>
+                )}
                 <p className="text-ink-secondary">Voici vos résultats</p>
               </div>
 
@@ -787,34 +831,31 @@ function QuizContent() {
                   {score}%
                 </div>
                 <p className="text-ink-muted">
-                  {correctCount} / {questions.length} réponses correctes
+                  {passed} / {questions.length} questions réussies
+                  {answered < questions.length &&
+                    ` • ${questions.length - answered} sans réponse (comptées fausses)`}
                 </p>
               </div>
 
               <div className="grid grid-cols-1 gap-4 mb-8">
                 <div className="p-4 bg-paper-secondary rounded">
                   <div className="font-mono text-xs text-ink-muted uppercase mb-1">
-                    Questions marquées comme favoris
+                    Erreurs ajoutées au cahier d&apos;erreurs
                   </div>
                   <div className="font-mono text-lg font-bold">
-                    {favorites.size}
+                    {questions.filter((q) => hasAnswer(q, values[q.id]) && !isValueCorrect(q, values[q.id])).length}
                   </div>
                 </div>
               </div>
 
-              {/* Review answers section - show all questions with correct answers */}
+              {/* Review answers section */}
               <div className="text-left mb-8">
-                <h2 className="font-mono font-semibold mb-4">
-                  Révision des réponses
-                </h2>
-                <div className="space-y-3 max-h-96 overflow-y-auto">
+                <h2 className="font-mono font-semibold mb-4">Révision des réponses</h2>
+                <div className="space-y-3 max-h-[32rem] overflow-y-auto pr-1">
                   {questions.map((q, index) => {
-                    const selectedId = selectedAnswers[q.id];
-                    const correctAnswer = q.answers.find((a) => a.isCorrect);
-                    const isCorrect = selectedId === correctAnswer?.id;
-                    const selectedAnswer = q.answers.find(
-                      (a) => a.id === selectedId
-                    );
+                    const v = values[q.id];
+                    const answeredQ = hasAnswer(q, v);
+                    const isPassed = isValueCorrect(q, v);
 
                     return (
                       <div
@@ -824,34 +865,61 @@ function QuizContent() {
                         <div className="flex items-start gap-2">
                           <span
                             className={`font-mono font-bold ${
-                              isCorrect
-                                ? "text-domain-dl"
-                                : "text-domain-ml"
+                              !answeredQ
+                                ? "text-ink-muted"
+                                : isPassed
+                                  ? "text-domain-dl"
+                                  : "text-domain-ml"
                             }`}
                           >
                             {index + 1}.
                           </span>
                           <div className="flex-1">
-                            <p className="font-medium mb-1">{q.question}</p>
+                            <p className="font-medium mb-1 line-clamp-2">{q.question}</p>
                             <p
                               className={`text-xs ${
-                                isCorrect
-                                  ? "text-domain-dl"
-                                  : "text-domain-ml"
+                                !answeredQ
+                                  ? "text-ink-muted"
+                                  : isPassed
+                                    ? "text-domain-dl"
+                                    : "text-domain-ml"
                               }`}
                             >
-                              {isCorrect ? "✓ Correct" : "✗ Incorrect"} -
-                              Votre réponse:{" "}
-                              {selectedAnswer?.text || "Non répondu"}
+                              {!answeredQ
+                                ? "Sans réponse"
+                                : isPassed
+                                  ? "✓ Réussie"
+                                  : "✗ Échouée"}
+                              {q.type === QuestionType.CODE && answeredQ && (
+                                <span className="ml-1">
+                                  ({v.codeResult?.tests?.filter((t) => t.passed).length || 0}/
+                                  {q.code?.tests.length || 0} tests)
+                                </span>
+                              )}
+                              {q.type === QuestionType.CASE_STUDY && answeredQ && (
+                                <span className="ml-1">
+                                  ({Math.round(
+                                    (getQuestionScore(q, {
+                                      questionId: q.id,
+                                      selectedAnswerIds: [],
+                                      isCorrect: false,
+                                      timeSpent: 0,
+                                      isFavorite: false,
+                                      rubricChecked: v.rubricChecked,
+                                    }) *
+                                      100)
+                                  )} % auto-évalué)
+                                </span>
+                              )}
                             </p>
-                            {!isCorrect && (
+                            {!isPassed && answeredQ && q.type !== QuestionType.CASE_STUDY && (
                               <p className="text-xs text-domain-dl mt-1">
-                                Bonne réponse: {correctAnswer?.text}
-                              </p>
-                            )}
-                            {q.explanation && (
-                              <p className="text-xs text-ink-muted mt-2 italic">
-                                {q.explanation}
+                                Bonne{q.type === QuestionType.MULTIPLE_CHOICE ? "s" : ""} réponse
+                                {q.type === QuestionType.MULTIPLE_CHOICE ? "s" : ""} :{" "}
+                                {q.answers
+                                  .filter((a) => a.isCorrect)
+                                  .map((a) => a.text)
+                                  .join("  •  ")}
                               </p>
                             )}
                           </div>
@@ -863,23 +931,16 @@ function QuizContent() {
               </div>
 
               <div className="flex gap-4 justify-center">
-                <Button
-                  variant="secondary"
-                  onClick={() => router.push("/")}
-                >
+                <Button variant="secondary" onClick={() => router.push("/")}>
                   Retour à l&apos;Accueil
                 </Button>
                 <Button
                   variant="primary"
                   onClick={() =>
-                    router.push(
-                      sessionType === "exam" ? "/exam" : "/practice"
-                    )
+                    router.push(examMode ? "/exam" : "/practice")
                   }
                 >
-                  {sessionType === "exam"
-                    ? "Autre Examen"
-                    : "Nouveau Quiz"}
+                  {examMode ? "Autre Examen" : "Nouveau Quiz"}
                 </Button>
               </div>
             </CardContent>
@@ -889,12 +950,14 @@ function QuizContent() {
     );
   }
 
+  const answeredCount = questions.filter((q) => hasAnswer(q, values[q.id])).length;
+
   return (
     <div className="min-h-screen flex flex-col bg-paper-primary">
       <Navigation />
 
       <main className="flex-1 max-w-3xl mx-auto w-full px-4 py-12">
-        {/* Generation Progress Banner */}
+        {/* Generation Progress Banner (mode IA) */}
         {generationState && generationState.isGenerating && (
           <div className="mb-4 p-3 bg-accent/10 border border-accent/30 rounded-lg">
             <div className="flex items-center gap-3">
@@ -902,20 +965,17 @@ function QuizContent() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between mb-1">
                   <p className="font-mono text-sm text-accent">
-                    {generationState.availableCount} /{" "}
-                    {generationState.requestedCount} questions
+                    {generationState.availableCount} / {generationState.requestedCount}{" "}
+                    questions
                   </p>
                   <span className="font-mono text-xs text-ink-muted">
-                    {generationState.requestedCount -
-                      generationState.availableCount}{" "}
-                    en cours...
+                    {generationState.requestedCount - generationState.availableCount} en
+                    cours...
                   </span>
                 </div>
                 <ProgressBar
                   value={
-                    (generationState.availableCount /
-                      generationState.requestedCount) *
-                    100
+                    (generationState.availableCount / generationState.requestedCount) * 100
                   }
                 />
               </div>
@@ -925,19 +985,17 @@ function QuizContent() {
 
         {/* Header */}
         <div className="mb-4">
-          {/* Mobile layout: stacked vertically */}
+          {/* Mobile layout */}
           <div className="sm:hidden space-y-2">
-            {/* Row 1: Title and question counter */}
             <div className="flex items-center justify-between">
               <h1 className="font-mono font-semibold text-sm truncate flex-1">
-                {sessionType === "exam" ? "Examen" : "Pratique"}
+                {sessionLabel || (examMode ? "Examen" : "Pratique")}
               </h1>
               <span className="font-mono text-xs text-ink-muted ml-2">
                 {currentIndex + 1}/{questions.length}
               </span>
             </div>
 
-            {/* Row 2: Actions and timer */}
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-1.5">
                 <Button
@@ -962,44 +1020,42 @@ function QuizContent() {
               <QuizTimer
                 initialTime={timerInitialTime}
                 timeLimit={timeLimit}
-                mode={sessionType === "exam" ? "countdown" : "countup"}
+                mode={examMode ? "countdown" : "countup"}
                 isPaused={showResult}
                 onTimeUp={() => setQuizCompleted(true)}
-                onTimeUpdate={(t) => { currentTimeRef.current = t; }}
+                onTimeUpdate={(t) => {
+                  currentTimeRef.current = t;
+                }}
                 compact
               />
             </div>
           </div>
 
-          {/* Desktop layout: horizontal */}
+          {/* Desktop layout */}
           <div className="hidden sm:block">
             <div className="flex items-center justify-between gap-4">
-              {/* Left: Title and question counter */}
               <div className="flex items-center gap-4 min-w-0 flex-1">
                 <div className="min-w-0">
-                  <h1 className="font-mono font-semibold text-base">
-                    {sessionType === "exam" ? "Mode Examen" : "Mode Pratique"}
+                  <h1 className="font-mono font-semibold text-base truncate">
+                    {sessionLabel || (examMode ? "Mode Examen" : "Mode Pratique")}
                   </h1>
                   <p className="font-mono text-xs text-ink-muted">
                     Question {currentIndex + 1} / {questions.length}
-                    {sessionType === "exam" && (
-                      <span>
-                        {` • ${answeredCount}/${questions.length} répondues`}
-                      </span>
-                    )}
+                    <span>{` • ${answeredCount}/${questions.length} répondues`}</span>
                   </p>
                 </div>
               </div>
 
-              {/* Right: Actions and timer */}
               <div className="flex items-center gap-3 shrink-0">
                 <QuizTimer
                   initialTime={timerInitialTime}
                   timeLimit={timeLimit}
-                  mode={sessionType === "exam" ? "countdown" : "countup"}
+                  mode={examMode ? "countdown" : "countup"}
                   isPaused={showResult}
                   onTimeUp={() => setQuizCompleted(true)}
-                  onTimeUpdate={(t) => { currentTimeRef.current = t; }}
+                  onTimeUpdate={(t) => {
+                    currentTimeRef.current = t;
+                  }}
                 />
                 <Button
                   variant="secondary"
@@ -1009,11 +1065,7 @@ function QuizContent() {
                 >
                   <Grid3x3 className="w-4 h-4" />
                 </Button>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => router.back()}
-                >
+                <Button variant="secondary" size="sm" onClick={() => router.back()}>
                   <ArrowLeft className="w-4 h-4" />
                   Quitter
                 </Button>
@@ -1032,24 +1084,19 @@ function QuizContent() {
           <Card className="mb-6 animate-fade-in-down">
             <CardContent className="pt-4">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="font-mono text-sm font-semibold">
-                  Navigation Rapide
-                </h3>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => setShowQuickNav(false)}
-                >
+                <h3 className="font-mono text-sm font-semibold">Navigation Rapide</h3>
+                <Button variant="secondary" size="sm" onClick={() => setShowQuickNav(false)}>
                   <X className="w-4 h-4" />
                 </Button>
               </div>
               <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-2">
                 {questions.map((q, index) => {
-                  const isAnswered = selectedAnswers[q.id];
+                  const isAnswered = hasAnswer(q, values[q.id]);
                   const isCurrent = index === currentIndex;
-                  const isCorrect =
-                    isAnswered &&
-                    q.answers.find((a) => a.id === isAnswered)?.isCorrect;
+                  // En examen, on NE révèle PAS la correction :
+                  // seules les cases répondues/non répondues sont visibles.
+                  const isPassed = !examMode && isAnswered && isValueCorrect(q, values[q.id]);
+                  const isFailed = !examMode && isAnswered && !isValueCorrect(q, values[q.id]);
 
                   return (
                     <button
@@ -1064,13 +1111,17 @@ function QuizContent() {
                         }
                         ${
                           isAnswered && !isCurrent
-                            ? isCorrect
+                            ? isPassed
                               ? "bg-domain-dl/20 text-domain-dl border border-domain-dl"
-                              : "bg-domain-ml/20 text-domain-ml border border-domain-ml"
+                              : isFailed
+                                ? "bg-domain-ml/20 text-domain-ml border border-domain-ml"
+                                : examMode
+                                  ? "bg-accent/10 text-ink-secondary border border-paper-dark"
+                                  : ""
                             : ""
                         }
                       `}
-                      title={`Question ${index + 1}${isAnswered ? " • Répondu" : ""}`}
+                      title={`Question ${index + 1}${isAnswered ? " • Répondue" : ""}`}
                     >
                       {index + 1}
                     </button>
@@ -1079,17 +1130,30 @@ function QuizContent() {
               </div>
               <div className="flex items-center gap-4 mt-3 text-xs text-ink-muted">
                 <div className="flex items-center gap-1">
-                  <div className="w-3 h-3 rounded bg-domain-dl/20 border border-domain-dl"></div>
-                  <span>Correcte</span>
+                  <div className="w-3 h-3 rounded bg-accent/10 border border-paper-dark"></div>
+                  <span>Répondue</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <div className="w-3 h-3 rounded bg-domain-ml/20 border border-domain-ml"></div>
-                  <span>Incorrecte</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <div className="w-3 h-3 rounded bg-paper-secondary"></div>
+                  <div className="w-3 h-3 rounded bg-paper-secondary border border-paper-dark"></div>
                   <span>Non répondu</span>
                 </div>
+                {!examMode && (
+                  <>
+                    <div className="flex items-center gap-1">
+                      <div className="w-3 h-3 rounded bg-domain-dl/20 border border-domain-dl"></div>
+                      <span>Réussie</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <div className="w-3 h-3 rounded bg-domain-ml/20 border border-domain-ml"></div>
+                      <span>Échouée</span>
+                    </div>
+                  </>
+                )}
+                {examMode && (
+                  <span className="italic">
+                    Correction masquée pendant l&apos;épreuve
+                  </span>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -1100,9 +1164,23 @@ function QuizContent() {
           <QuestionCard
             key={currentQuestion.id}
             question={currentQuestion}
-            selectedAnswerId={selectedAnswerId}
-            onAnswerSelect={handleAnswerSelect}
+            value={currentValue}
+            onChange={patchValue}
             showResult={showResult}
+            score={getQuestionScore(currentQuestion, {
+              questionId: currentQuestion.id,
+              selectedAnswerIds: currentValue.selectedIds,
+              isCorrect: false,
+              timeSpent: 0,
+              isFavorite: false,
+              textAnswers: currentValue.textAnswers,
+              codeScore:
+                currentValue.codeResult?.tests && currentValue.codeResult.tests.length > 0
+                  ? currentValue.codeResult.tests.filter((t) => t.passed).length /
+                    currentValue.codeResult.tests.length
+                  : 0,
+              rubricChecked: currentValue.rubricChecked,
+            })}
             isFavorite={favorites.has(currentQuestion.id)}
             onToggleFavorite={handleToggleFavorite}
             questionNumber={currentIndex + 1}
@@ -1111,17 +1189,12 @@ function QuizContent() {
 
         {/* Navigation */}
         <div className="flex justify-between items-center mt-8">
-          <Button
-            variant="secondary"
-            onClick={handlePrevious}
-            disabled={currentIndex === 0}
-          >
+          <Button variant="secondary" onClick={handlePrevious} disabled={currentIndex === 0}>
             <ArrowLeft className="w-4 h-4 mr-2" />
             Précédent
           </Button>
 
-          {sessionType === "exam" ? (
-            // Exam mode: No "Validate" button, just "Next" (can skip questions)
+          {examMode ? (
             <Button variant="primary" onClick={handleNext}>
               {currentIndex < questions.length - 1 ? (
                 <>
@@ -1140,41 +1213,34 @@ function QuizContent() {
                 </>
               )}
             </Button>
+          ) : showResult ? (
+            <Button variant="primary" onClick={handleNext}>
+              {currentIndex < questions.length - 1 ? (
+                <>
+                  Suivant
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </>
+              ) : generationState?.isGenerating ? (
+                <>
+                  En attente...
+                  <Loader2 className="w-4 h-4 ml-2 animate-spin" />
+                </>
+              ) : (
+                <>
+                  Terminer
+                  <CheckCircle className="w-4 h-4 ml-2" />
+                </>
+              )}
+            </Button>
           ) : (
-            // Practice mode: Validate then Next
-            showResult ? (
-              <Button variant="primary" onClick={handleNext}>
-                {currentIndex < questions.length - 1 ? (
-                  <>
-                    Suivant
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </>
-                ) : generationState?.isGenerating ? (
-                  <>
-                    En attente...
-                    <Loader2 className="w-4 h-4 ml-2 animate-spin" />
-                  </>
-                ) : (
-                  <>
-                    Terminer
-                    <CheckCircle className="w-4 h-4 ml-2" />
-                  </>
-                )}
-              </Button>
-            ) : (
-              <Button
-                variant="primary"
-                onClick={handleValidateOrNext}
-                disabled={!selectedAnswerId}
-              >
-                <CheckCircle className="w-4 h-4 mr-2" />
-                Valider
-              </Button>
-            )
+            <Button variant="primary" onClick={handleValidateOrNext} disabled={!canValidateCurrent}>
+              <CheckCircle className="w-4 h-4 mr-2" />
+              {currentQuestion?.type === QuestionType.CASE_STUDY ? "Voir le corrigé" : "Valider"}
+            </Button>
           )}
         </div>
 
-        {sessionType === "exam" && !allQuestionsAnswered && (
+        {examMode && answeredCount < questions.length && (
           <p className="text-center text-sm text-ink-muted mt-4">
             {questions.length - answeredCount} question
             {questions.length - answeredCount > 1 ? "s" : ""} non répondue

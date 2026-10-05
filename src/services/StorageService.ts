@@ -17,6 +17,7 @@ const DEFAULT_SETTINGS: UserSettings = {
   offlineQuestionsPerDomain: 10,
   batchSize: 10, // Number of questions per API call (default: 10)
   onboardingCompleted: false,
+  dailyGoal: 20, // objectif quotidien de questions
   updatedAt: new Date(),
 };
 
@@ -296,27 +297,6 @@ class StorageService {
     const newValue = !settings.notifyOnComplete;
     await this.updateSettings({ notifyOnComplete: newValue });
     return newValue;
-  }
-
-  // ============================================
-  // OFFLINE SETTINGS
-  // ============================================
-
-  /**
-   * Get offline questions per domain setting
-   */
-  async getOfflineQuestionsPerDomain(): Promise<number> {
-    const settings = await this.getSettings();
-    return settings.offlineQuestionsPerDomain;
-  }
-
-  /**
-   * Set offline questions per domain
-   */
-  async setOfflineQuestionsPerDomain(count: number): Promise<void> {
-    // Clamp between 5 and 50
-    const clampedCount = Math.max(5, Math.min(50, count));
-    await this.updateSettings({ offlineQuestionsPerDomain: clampedCount });
   }
 
   // ============================================

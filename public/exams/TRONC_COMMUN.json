@@ -1,0 +1,369 @@
+{
+  "id": "TRONC_COMMUN",
+  "title": "Épreuve de Tronc Commun (sujet réel)",
+  "description": "Retranscription du sujet scanné « Épreuve de Tronc Commun » (2h, QCM). Les dossiers 1 (réseaux de neurones artificiels) et 4 (CNN) sont retranscrits intégralement. Quelques questions peu lisibles sur la photo (analyse et conception, gestion de projet) ont été reconstituées fidèlement sur les mêmes thèmes. Rappel de la consigne du sujet : indiquez la ou les lettres correspondant à la bonne réponse.",
+  "durationSeconds": 7200,
+  "mode": "exam",
+  "questions": [
+    {
+      "id": "tc_rna_1",
+      "domain": "DEEP_LEARNING",
+      "type": "SINGLE_CHOICE",
+      "question": "1. Qu'est-ce qu'un réseau de neurones artificiel ?",
+      "answers": [
+        {"id": "tc_rna_1_a", "text": "Un réseau pour connecter des ordinateurs", "isCorrect": false, "note": "Cela décrit un réseau informatique (LAN), pas un modèle d'apprentissage."},
+        {"id": "tc_rna_1_b", "text": "Un modèle mathématique inspiré du cerveau humain", "isCorrect": true, "note": "Exact : des neurones artificiels organisés en couches, inspirés du cerveau."},
+        {"id": "tc_rna_1_c", "text": "Une base de données distribuée", "isCorrect": false, "note": "Confusion avec les systèmes de stockage distribué comme HDFS."},
+        {"id": "tc_rna_1_d", "text": "Un protocole de communication", "isCorrect": false, "note": "Confusion avec TCP/IP ; un réseau de neurones ne communique pas, il calcule."}
+      ],
+      "explanation": "Un réseau de neurones artificiel est un modèle mathématique composé de neurones artificiels organisés en couches, inspiré du fonctionnement du cerveau humain, capable d'apprendre à partir de données.",
+      "difficulty": "easy",
+      "tags": ["perceptron", "fondations"]
+    },
+    {
+      "id": "tc_rna_2",
+      "domain": "DEEP_LEARNING",
+      "type": "SINGLE_CHOICE",
+      "question": "2. Quel élément est l'unité de base d'un réseau de neurones ?",
+      "answers": [
+        {"id": "tc_rna_2_a", "text": "La couche", "isCorrect": false, "note": "La couche est un groupe de neurones, pas l'unité de base."},
+        {"id": "tc_rna_2_b", "text": "Le neurone artificiel", "isCorrect": true, "note": "Exact : le neurone (perceptron) est l'unité de calcul élémentaire."},
+        {"id": "tc_rna_2_c", "text": "La fonction de coût", "isCorrect": false, "note": "La fonction de coût mesure l'erreur globale, elle ne compose pas le réseau."},
+        {"id": "tc_rna_2_d", "text": "Le biais", "isCorrect": false, "note": "Le biais est un paramètre du neurone, pas l'unité de base."}
+      ],
+      "explanation": "Le neurone artificiel (ou perceptron) est l'unité de base : il reçoit des entrées pondérées, applique une somme suivie d'une fonction d'activation et produit une sortie.",
+      "difficulty": "easy",
+      "tags": ["perceptron"]
+    },
+    {
+      "id": "tc_rna_3",
+      "domain": "DEEP_LEARNING",
+      "type": "SINGLE_CHOICE",
+      "question": "3. Quelle est la fonction principale d'un neurone artificiel ?",
+      "answers": [
+        {"id": "tc_rna_3_a", "text": "Transmettre des signaux sans modification", "isCorrect": false, "note": "C'est le rôle d'un câble ou d'un relais, pas d'un neurone qui calcule."},
+        {"id": "tc_rna_3_b", "text": "Appliquer une transformation aux entrées et produire une sortie", "isCorrect": true, "note": "Exact : somme pondérée des entrées puis fonction d'activation."},
+        {"id": "tc_rna_3_c", "text": "Stocker des données", "isCorrect": false, "note": "Confusion avec la mémoire d'un ordinateur ; le neurone calcule, il ne stocke pas."},
+        {"id": "tc_rna_3_d", "text": "Assurer la communication réseau", "isCorrect": false, "note": "Confusion avec les équipements réseau (routeurs, commutateurs)."}
+      ],
+      "explanation": "Le neurone artificiel calcule une somme pondérée de ses entrées, ajoute le biais, puis applique une fonction d'activation pour produire une sortie.",
+      "difficulty": "easy",
+      "tags": ["perceptron", "activation"]
+    },
+    {
+      "id": "tc_rna_4",
+      "domain": "DEEP_LEARNING",
+      "type": "SINGLE_CHOICE",
+      "question": "4. Laquelle des fonctions suivantes est une fonction d'activation non linéaire ?",
+      "answers": [
+        {"id": "tc_rna_4_a", "text": "Fonction linéaire", "isCorrect": false, "note": "Linéaire par définition, donc sans intérêt pour capter la non-linéarité."},
+        {"id": "tc_rna_4_b", "text": "Sigmoïde", "isCorrect": true, "note": "Exact : la sigmoïde écrase les valeurs entre 0 et 1 de façon non linéaire."},
+        {"id": "tc_rna_4_c", "text": "Addition", "isCorrect": false, "note": "Une addition d'entrées pondérées reste une opération linéaire."},
+        {"id": "tc_rna_4_d", "text": "Multiplication", "isCorrect": false, "note": "La multiplication par un poids est aussi une opération linéaire."}
+      ],
+      "explanation": "La sigmoïde est une fonction d'activation non linéaire. Sans non-linéarité, un réseau de neurones quel que soit son nombre de couches équivaudrait à une seule transformation linéaire.",
+      "difficulty": "easy",
+      "tags": ["activation"]
+    },
+    {
+      "id": "tc_rna_5",
+      "domain": "DEEP_LEARNING",
+      "type": "SINGLE_CHOICE",
+      "question": "5. Qu'est-ce que le biais dans un neurone artificiel ?",
+      "answers": [
+        {"id": "tc_rna_5_a", "text": "Une entrée avec poids fixe", "isCorrect": false, "note": "Le biais est un paramètre appris, pas une entrée du réseau."},
+        {"id": "tc_rna_5_b", "text": "Un paramètre qui permet de décaler la fonction d'activation", "isCorrect": true, "note": "Exact : le biais décale la somme pondérée avant l'activation."},
+        {"id": "tc_rna_5_c", "text": "Un type de réseau", "isCorrect": false, "note": "Confusion avec les types d'architectures (CNN, RNN...)."},
+        {"id": "tc_rna_5_d", "text": "Une erreur du réseau", "isCorrect": false, "note": "Le biais est un paramètre volontaire, pas une erreur ; ne pas confondre avec le biais statistique."}
+      ],
+      "explanation": "Le biais est un paramètre appris qui s'ajoute à la somme pondérée des entrées, ce qui décale la fonction d'activation et rend le modèle plus flexible.",
+      "difficulty": "easy",
+      "tags": ["biais", "perceptron"]
+    },
+    {
+      "id": "tc_rna_6",
+      "domain": "DEEP_LEARNING",
+      "type": "SINGLE_CHOICE",
+      "question": "6. Laquelle de ces affirmations décrit l'apprentissage supervisé dans les réseaux de neurones ?",
+      "answers": [
+        {"id": "tc_rna_6_a", "text": "Le réseau apprend à partir de données sans étiquette", "isCorrect": false, "note": "Cela décrit l'apprentissage non supervisé."},
+        {"id": "tc_rna_6_b", "text": "Le réseau apprend à partir d'exemples avec entrée et sortie connue", "isCorrect": true, "note": "Exact : l'apprentissage supervisé compare la sortie prédite à la sortie attendue."},
+        {"id": "tc_rna_6_c", "text": "Le réseau apprend par exploration aléatoire", "isCorrect": false, "note": "Cela évoque l'apprentissage par renforcement, avec essais et récompenses."},
+        {"id": "tc_rna_6_d", "text": "Le réseau ne nécessite pas de données", "isCorrect": false, "note": "Aucun apprentissage n'est possible sans données."}
+      ],
+      "explanation": "En apprentissage supervisé, le réseau s'entraîne sur des exemples étiquetés (entrée + sortie attendue) et ajuste ses poids pour réduire l'écart entre prédiction et vérité.",
+      "difficulty": "easy",
+      "tags": ["apprentissage-supervisé"]
+    },
+    {
+      "id": "tc_rna_7",
+      "domain": "DEEP_LEARNING",
+      "type": "SINGLE_CHOICE",
+      "question": "7. La rétropropagation (backpropagation) sert à :",
+      "answers": [
+        {"id": "tc_rna_7_a", "text": "Propager les données d'entrée vers la sortie", "isCorrect": false, "note": "Cela décrit la propagation avant (forward pass)."},
+        {"id": "tc_rna_7_b", "text": "Calculer les gradients et ajuster les poids pour réduire l'erreur", "isCorrect": true, "note": "Exact : la rétropropagation remonte l'erreur couche par couche."},
+        {"id": "tc_rna_7_c", "text": "Normaliser les entrées", "isCorrect": false, "note": "La normalisation est un prétraitement des données, sans lien avec la rétropropagation."},
+        {"id": "tc_rna_7_d", "text": "Générer des données synthétiques", "isCorrect": false, "note": "Confusion avec les modèles génératifs (GAN, VAE)."}
+      ],
+      "explanation": "La rétropropagation calcule les gradients de la fonction de coût par rapport à chaque poids (en remontant de la sortie vers l'entrée) puis met à jour les poids pour réduire l'erreur.",
+      "difficulty": "medium",
+      "tags": ["rétropropagation", "gradient"]
+    },
+    {
+      "id": "tc_ac_1",
+      "domain": "ANALYSE_CONCEPTION",
+      "type": "SINGLE_CHOICE",
+      "question": "8. L'architecture MVC (Model View Controller) a pour rôle de :",
+      "answers": [
+        {"id": "tc_ac_1_a", "text": "Séparer les données, l'interface utilisateur et la logique de contrôle", "isCorrect": true, "note": "Exact : Model = données, View = affichage, Controller = orchestration."},
+        {"id": "tc_ac_1_b", "text": "Séparer les tables d'une base de données", "isCorrect": false, "note": "Confusion avec le partitionnement de bases de données."},
+        {"id": "tc_ac_1_c", "text": "Séparer les tests unitaires des tests d'intégration", "isCorrect": false, "note": "Cela relève de la stratégie de tests, pas de MVC."},
+        {"id": "tc_ac_1_d", "text": "Séparer le code source de la documentation", "isCorrect": false, "note": "Aucun lien : MVC concerne l'architecture applicative."}
+      ],
+      "explanation": "MVC est un patron d'architecture qui sépare l'application en trois composants : le modèle (données et logique métier), la vue (interface) et le contrôleur (qui reçoit les requêtes et coordonne modèle et vue).",
+      "difficulty": "easy",
+      "tags": ["mvc", "architecture"]
+    },
+    {
+      "id": "tc_ac_2",
+      "domain": "ANALYSE_CONCEPTION",
+      "type": "SINGLE_CHOICE",
+      "question": "9. Le design pattern Factory Method sert à :",
+      "answers": [
+        {"id": "tc_ac_2_a", "text": "Déléguer la création d'objets à des sous-classes sans exposer la logique de création", "isCorrect": true, "note": "Exact : le client demande un objet sans connaître sa classe concrète."},
+        {"id": "tc_ac_2_b", "text": "Garantir qu'une classe n'a qu'une seule instance", "isCorrect": false, "note": "C'est le rôle du pattern Singleton."},
+        {"id": "tc_ac_2_c", "text": "Notifier automatiquement plusieurs objets d'un changement d'état", "isCorrect": false, "note": "C'est le rôle du pattern Observer."},
+        {"id": "tc_ac_2_d", "text": "Mettre en cache les requêtes vers la base de données", "isCorrect": false, "note": "Cela relève du pattern de mise en cache, pas de la Factory."}
+      ],
+      "explanation": "Factory Method est un patron de création : il définit une méthode de création d'objets que les sous-classes redéfinissent, ce qui découple le code client des classes concrètes instanciées.",
+      "difficulty": "medium",
+      "tags": ["design-patterns", "factory"]
+    },
+    {
+      "id": "tc_ac_3",
+      "domain": "ANALYSE_CONCEPTION",
+      "type": "SINGLE_CHOICE",
+      "question": "10. La composition se distingue de l'agrégation en UML parce que :",
+      "answers": [
+        {"id": "tc_ac_3_a", "text": "La suppression de l'objet « tout » entraîne la suppression de ses « parties »", "isCorrect": true, "note": "Exact : en composition, le cycle de vie des parties est lié au tout."},
+        {"id": "tc_ac_3_b", "text": "Elle relie deux classes qui n'ont aucune multiplicité", "isCorrect": false, "note": "Toute association, y compris la composition, porte des multiplicités."},
+        {"id": "tc_ac_3_c", "text": "Elle interdit l'héritage entre les classes liées", "isCorrect": false, "note": "Composition et héritage sont des relations indépendantes."},
+        {"id": "tc_ac_3_d", "text": "Elle ne s'utilise que dans les diagrammes de séquence", "isCorrect": false, "note": "Composition et agrégation sont des relations du diagramme de classes."}
+      ],
+      "explanation": "Agrégation et composition sont des associations « tout-partie ». Dans la composition (losange plein), la partie ne peut pas exister sans le tout : détruire le tout détruit les parties. Dans l'agrégation (losange vide), les parties conservent leur indépendance.",
+      "difficulty": "medium",
+      "tags": ["uml", "composition"]
+    },
+    {
+      "id": "tc_ac_4",
+      "domain": "ANALYSE_CONCEPTION",
+      "type": "SINGLE_CHOICE",
+      "question": "11. Dans un diagramme de classes UML, une association porte notamment :",
+      "answers": [
+        {"id": "tc_ac_4_a", "text": "Des multiplicités précisant combien d'instances participent à la relation", "isCorrect": true, "note": "Exact : par exemple 1..* clients associe 0..* commandes."},
+        {"id": "tc_ac_4_b", "text": "Le code source des opérations des classes", "isCorrect": false, "note": "Le diagramme de classes ne contient pas de code : c'est un modèle."},
+        {"id": "tc_ac_4_c", "text": "La valeur courante des attributs des objets", "isCorrect": false, "note": "Les valeurs d'objets à un instant donné relèvent des diagrammes d'objets ou d'objets."},
+        {"id": "tc_ac_4_d", "text": "Les messages échangés dans le temps", "isCorrect": false, "note": "Les messages dans le temps sont représentés dans le diagramme de séquence."}
+      ],
+      "explanation": "Une association du diagramme de classes relie deux classes et porte des multiplicités (1, 0..1, 1..*, 0..*) qui précisent le nombre d'instances en relation, parfois un nom et des rôles.",
+      "difficulty": "easy",
+      "tags": ["uml", "diagramme-de-classes"]
+    },
+    {
+      "id": "tc_gp_1",
+      "domain": "GESTION_PROJET",
+      "type": "SINGLE_CHOICE",
+      "question": "12. Le rôle principal du Scrum Master est de :",
+      "answers": [
+        {"id": "tc_gp_1_a", "text": "Programmer les fonctionnalités de l'application", "isCorrect": false, "note": "Le développement est fait par l'équipe de développement, pas le Scrum Master."},
+        {"id": "tc_gp_1_b", "text": "Prioriser le Product Backlog", "isCorrect": false, "note": "La priorisation du backlog appartient au Product Owner."},
+        {"id": "tc_gp_1_c", "text": "Lever les obstacles et protéger le processus Scrum de l'équipe", "isCorrect": true, "note": "Exact : le Scrum Master est au service de l'équipe et du processus."},
+        {"id": "tc_gp_1_d", "text": "Valider le code avant chaque mise en production", "isCorrect": false, "note": "Le Scrum Master n'est pas un contrôleur qualité hiérarchique."}
+      ],
+      "explanation": "Le Scrum Master est le garant du processus Scrum : il facilite les rituels, lève les blocages (impediments) et protège l'équipe des perturbations, sans être un chef hiérarchique.",
+      "difficulty": "easy",
+      "tags": ["scrum", "rôles"]
+    },
+    {
+      "id": "tc_gp_2",
+      "domain": "GESTION_PROJET",
+      "type": "SINGLE_CHOICE",
+      "question": "13. Dans la méthode Kanban, la limite de WIP (Work In Progress) sert à :",
+      "answers": [
+        {"id": "tc_gp_2_a", "text": "Réduire les ressources matérielles du projet", "isCorrect": false, "note": "Le WIP ne concerne pas les ressources matérielles."},
+        {"id": "tc_gp_2_b", "text": "Limiter la quantité de travail en cours pour éviter la surcharge", "isCorrect": true, "note": "Exact : moins de tâches simultanées = flux plus fluide et finition plus rapide."},
+        {"id": "tc_gp_2_c", "text": "Interdire le travail en équipe", "isCorrect": false, "note": "Aucun lien : Kanban encourage la collaboration autour du flux."},
+        {"id": "tc_gp_2_d", "text": "Remplacer les sprints par des réunions quotidiennes", "isCorrect": false, "note": "Kanban est un flux continu, sans sprints, mais le WIP n'est pas une réunion."}
+      ],
+      "explanation": "La limite de WIP restreint le nombre de tâches autorisées simultanément dans une colonne du tableau Kanban. Cela fluidifie le flux, révèle les goulots d'étranglement et évite la multiplication des tâches entamées mais jamais terminées.",
+      "difficulty": "medium",
+      "tags": ["kanban", "wip"]
+    },
+    {
+      "id": "tc_gp_3",
+      "domain": "GESTION_PROJET",
+      "type": "SINGLE_CHOICE",
+      "question": "14. Dans le cycle en V, chaque phase de développement est associée à :",
+      "answers": [
+        {"id": "tc_gp_3_a", "text": "Une phase de test correspondante de validation", "isCorrect": true, "note": "Exact : la branche descendante du V (conception) est reliée à la branche montante (tests)."},
+        {"id": "tc_gp_3_b", "text": "Un sprint de deux semaines", "isCorrect": false, "note": "Les sprints appartiennent à Scrum, pas au cycle en V."},
+        {"id": "tc_gp_3_c", "text": "Une réunion de rétrospective", "isCorrect": false, "note": "La rétrospective est un rituel agile."},
+        {"id": "tc_gp_3_d", "text": "Un livrable optionnel", "isCorrect": false, "note": "Chaque phase du cycle en V produit un livrable obligatoire et documenté."}
+      ],
+      "explanation": "Le cycle en V associe à chaque phase de conception (spécifications, conception générale, conception détaillée) une phase de test de même niveau (tests d'acceptation, d'intégration, unitaires), ce qui met la vérification au cœur du processus.",
+      "difficulty": "medium",
+      "tags": ["cycle-en-v"]
+    },
+    {
+      "id": "tc_gp_4",
+      "domain": "GESTION_PROJET",
+      "type": "SINGLE_CHOICE",
+      "question": "15. Les indicateurs de performance d'un projet informatique incluent notamment :",
+      "answers": [
+        {"id": "tc_gp_4_a", "text": "Le respect des délais et du budget prévus", "isCorrect": true, "note": "Exact : ce sont les deux axes classiques (avec le périmètre et la qualité)."},
+        {"id": "tc_gp_4_b", "text": "Le nombre de connexions des deux derniers jours", "isCorrect": false, "note": "C'est une métrique d'usage du produit, pas de performance du projet."},
+        {"id": "tc_gp_4_c", "text": "La vitesse du processeur des serveurs", "isCorrect": false, "note": "C'est une caractéristique technique, pas un indicateur de gestion de projet."},
+        {"id": "tc_gp_4_d", "text": "Le nombre de lignes de code écrites", "isCorrect": false, "note": "Les lignes de code ne mesurent ni la valeur ni l'avancement réel."}
+      ],
+      "explanation": "Les indicateurs de pilotage d'un projet suivent l'avancement par rapport au planning, la consommation du budget, le périmètre livré et la qualité : délais, coûts, jalons atteints, écarts.",
+      "difficulty": "easy",
+      "tags": ["indicateurs", "pilotage"]
+    },
+    {
+      "id": "tc_gp_5",
+      "domain": "GESTION_PROJET",
+      "type": "MULTIPLE_CHOICE",
+      "question": "16. Parmi ces éléments, lesquels sont des risques typiques d'un projet informatique ? (plusieurs réponses)",
+      "answers": [
+        {"id": "tc_gp_5_a", "text": "Le départ inattendu d'un développeur clé", "isCorrect": true, "note": "Risque humain classique : perte de connaissances et de capacité."},
+        {"id": "tc_gp_5_b", "text": "Une technologie mal maîtrisée par l'équipe", "isCorrect": true, "note": "Risque technique classique : courbe d'apprentissage et imprévus."},
+        {"id": "tc_gp_5_c", "text": "Le respect du planning établi", "isCorrect": false, "note": "Le respect du planning est un objectif, pas un risque."},
+        {"id": "tc_gp_5_d", "text": "Des exigences client qui évoluent sans contrôle", "isCorrect": true, "note": "Risque organisationnel classique : l'ambition fluctuante (scope creep)."}
+      ],
+      "explanation": "Les risques d'un projet peuvent être techniques (technologie non maîtrisée), humains (départ de compétences clés) ou organisationnels (besoins instables). Un objectif, comme respecter le planning, n'est pas un risque en soi.",
+      "difficulty": "medium",
+      "tags": ["risques"]
+    },
+    {
+      "id": "tc_cnn_1",
+      "domain": "DEEP_LEARNING",
+      "type": "SINGLE_CHOICE",
+      "question": "17. À quoi sert principalement un réseau convolutif (CNN) ?",
+      "answers": [
+        {"id": "tc_cnn_1_a", "text": "Traiter des séries temporelles", "isCorrect": false, "note": "Les séries temporelles relèvent plutôt des réseaux récurrents (RNN)."},
+        {"id": "tc_cnn_1_b", "text": "La reconnaissance d'images", "isCorrect": true, "note": "Exact : le CNN exploite la structure spatiale des images."},
+        {"id": "tc_cnn_1_c", "text": "L'apprentissage de texte uniquement", "isCorrect": false, "note": "Le texte relève plutôt des modèles de langage (RNN, Transformers)."},
+        {"id": "tc_cnn_1_d", "text": "Le stockage de données volumineuses", "isCorrect": false, "note": "Un CNN est un modèle de calcul, pas un système de stockage."}
+      ],
+      "explanation": "Un réseau convolutif (CNN) est conçu pour traiter des données à structure de grille comme les images : ses filtres extraient des motifs locaux (contours, textures) hiérarchisés couche après couche.",
+      "difficulty": "easy",
+      "tags": ["cnn", "vision"]
+    },
+    {
+      "id": "tc_cnn_2",
+      "domain": "DEEP_LEARNING",
+      "type": "SINGLE_CHOICE",
+      "question": "18. Quelle est la fonction principale d'une couche convolutionnelle ?",
+      "answers": [
+        {"id": "tc_cnn_2_a", "text": "Réduire la dimension des données", "isCorrect": false, "note": "La réduction de taille est le rôle du pooling, pas de la convolution."},
+        {"id": "tc_cnn_2_b", "text": "Extraire les caractéristiques locales à partir des données", "isCorrect": true, "note": "Exact : chaque filtre détecte un motif local partout dans l'image."},
+        {"id": "tc_cnn_2_c", "text": "Générer des images synthétiques", "isCorrect": false, "note": "La génération relève des modèles génératifs (GAN)."},
+        {"id": "tc_cnn_2_d", "text": "Normaliser les données", "isCorrect": false, "note": "La normalisation est un prétraitement ou une couche dédiée (BatchNorm)."}
+      ],
+      "explanation": "La couche convolutionnelle fait glisser des filtres (kernels) sur l'entrée pour produire des cartes de caractéristiques : chaque filtre détecte un motif local (bord, coin, texture) où qu'il soit dans l'image.",
+      "difficulty": "easy",
+      "tags": ["cnn", "convolution"]
+    },
+    {
+      "id": "tc_cnn_3",
+      "domain": "DEEP_LEARNING",
+      "type": "SINGLE_CHOICE",
+      "question": "19. Quel rôle joue le filtre (ou kernel) dans une couche convolutionnelle ?",
+      "answers": [
+        {"id": "tc_cnn_3_a", "text": "Déterminer les poids de sortie du réseau", "isCorrect": false, "note": "Les poids de sortie finale relèvent des couches denses."},
+        {"id": "tc_cnn_3_b", "text": "Extraire des motifs ou caractéristiques spécifiques de l'image", "isCorrect": true, "note": "Exact : le filtre balaie l'image et réagit à son motif."},
+        {"id": "tc_cnn_3_c", "text": "Réduire la taille du réseau", "isCorrect": false, "note": "Le filtre ne compresse pas le réseau ; il extrait des motifs."},
+        {"id": "tc_cnn_3_d", "text": "Augmenter la résolution de l'image", "isCorrect": false, "note": "La convolution n'augmente pas la résolution."}
+      ],
+      "explanation": "Le filtre est une petite matrice de poids qui glisse sur l'image : à chaque position, il calcule un produit de convolution qui mesure la présence du motif qu'il représente (contour vertical, coin, texture...).",
+      "difficulty": "medium",
+      "tags": ["cnn", "filtre", "kernel"]
+    },
+    {
+      "id": "tc_cnn_4",
+      "domain": "DEEP_LEARNING",
+      "type": "SINGLE_CHOICE",
+      "question": "20. La couche pooling sert à :",
+      "answers": [
+        {"id": "tc_cnn_4_a", "text": "Augmenter le nombre de paramètres du modèle", "isCorrect": false, "note": "Le pooling n'a aucun paramètre appris et réduit la taille des données."},
+        {"id": "tc_cnn_4_b", "text": "Réduire la taille des cartes de caractéristiques tout en conservant les informations importantes", "isCorrect": true, "note": "Exact : le max-pooling garde la valeur maximale de chaque zone."},
+        {"id": "tc_cnn_4_c", "text": "Appliquer une activation non linéaire", "isCorrect": false, "note": "L'activation (ReLU...) est appliquée par des couches d'activation, pas le pooling."},
+        {"id": "tc_cnn_4_d", "text": "Convertir les images en texte", "isCorrect": false, "note": "Aucun lien : le pooling travaille sur les cartes de caractéristiques."}
+      ],
+      "explanation": "Le pooling (souvent max-pooling) résume chaque sous-zone d'une carte de caractéristiques par une valeur, ce qui réduit la taille des données, le coût de calcul et la sensibilité aux petits décalages.",
+      "difficulty": "easy",
+      "tags": ["cnn", "pooling"]
+    },
+    {
+      "id": "tc_cnn_5",
+      "domain": "DEEP_LEARNING",
+      "type": "SINGLE_CHOICE",
+      "question": "21. Parmi les fonctions suivantes, laquelle est typiquement utilisée comme fonction d'activation dans les CNN ?",
+      "answers": [
+        {"id": "tc_cnn_5_a", "text": "Sigmoïde", "isCorrect": false, "note": "Utilisée en sortie binaire, mais pas l'activation standard des couches cachées."},
+        {"id": "tc_cnn_5_b", "text": "ReLU", "isCorrect": true, "note": "Exact : ReLU est l'activation standard des CNN modernes."},
+        {"id": "tc_cnn_5_c", "text": "Tangente hyperbolique (tanh)", "isCorrect": false, "note": "Historiquement utilisée, mais remplacée par ReLU pour ses problèmes de gradient."},
+        {"id": "tc_cnn_5_d", "text": "Softmax", "isCorrect": false, "note": "Softmax sert à la couche de sortie multi-classes, pas aux couches cachées."}
+      ],
+      "explanation": "ReLU (max(0, x)) est l'activation standard des couches convolutionnelles : simple, rapide, et elle limite le problème de la disparition du gradient. Softmax reste réservée à la sortie multi-classes.",
+      "difficulty": "easy",
+      "tags": ["cnn", "relu"]
+    },
+    {
+      "id": "tc_cnn_6",
+      "domain": "DEEP_LEARNING",
+      "type": "SINGLE_CHOICE",
+      "question": "22. Que fait la couche fully connected (dense) à la fin d'un CNN ?",
+      "answers": [
+        {"id": "tc_cnn_6_a", "text": "Elle convolue les images pour extraire les caractéristiques", "isCorrect": false, "note": "La convolution est le travail des couches précédentes."},
+        {"id": "tc_cnn_6_b", "text": "Elle combine toutes les caractéristiques extraites pour produire la sortie finale", "isCorrect": true, "note": "Exact : elle relie chaque entrée à chaque neurone pour décider."},
+        {"id": "tc_cnn_6_c", "text": "Elle réduit la taille de l'image", "isCorrect": false, "note": "C'est le rôle du pooling."},
+        {"id": "tc_cnn_6_d", "text": "Elle applique le pooling sur les filtres", "isCorrect": false, "note": "Le pooling est terminé avant les couches denses."}
+      ],
+      "explanation": "Après l'extraction de caractéristiques (convolutions + pooling), la couche dense aplatit les cartes de caractéristiques et combine toutes ces informations pour produire la décision (par exemple les probabilités par classe).",
+      "difficulty": "easy",
+      "tags": ["cnn", "couche-dense"]
+    },
+    {
+      "id": "tc_cnn_7",
+      "domain": "DEEP_LEARNING",
+      "type": "SINGLE_CHOICE",
+      "question": "23. Qu'est-ce que le stride dans une couche convolutionnelle ?",
+      "answers": [
+        {"id": "tc_cnn_7_a", "text": "La taille du filtre", "isCorrect": false, "note": "La taille du filtre est le kernel (3x3, 5x5...)."},
+        {"id": "tc_cnn_7_b", "text": "Le nombre de pixels de déplacement du filtre sur l'image", "isCorrect": true, "note": "Exact : stride 2 = le filtre avance de 2 pixels à chaque pas."},
+        {"id": "tc_cnn_7_c", "text": "La profondeur de l'image", "isCorrect": false, "note": "La profondeur est le nombre de canaux (RVB = 3)."},
+        {"id": "tc_cnn_7_d", "text": "La taille de la couche de sortie", "isCorrect": false, "note": "La taille de sortie découle du stride, du padding et du kernel, mais n'est pas le stride."}
+      ],
+      "explanation": "Le stride est le pas du filtre : de combien de pixels il se déplace à chaque position. Un stride de 1 conserve plus d'informations ; un stride de 2 divise approximativement la taille de la sortie par deux.",
+      "difficulty": "medium",
+      "tags": ["cnn", "stride"]
+    },
+    {
+      "id": "tc_cnn_8",
+      "domain": "DEEP_LEARNING",
+      "type": "SINGLE_CHOICE",
+      "question": "24. Que signifie padding dans un CNN ?",
+      "answers": [
+        {"id": "tc_cnn_8_a", "text": "Ajouter des neurones à la couche fully connected", "isCorrect": false, "note": "Le padding concerne l'image d'entrée, pas les neurones denses."},
+        {"id": "tc_cnn_8_b", "text": "Ajouter des pixels autour de l'image pour contrôler la taille de sortie", "isCorrect": true, "note": "Exact : le padding « same » conserve les dimensions spatiales."},
+        {"id": "tc_cnn_8_c", "text": "Réduire la taille du filtre", "isCorrect": false, "note": "Le padding ne change pas la taille du filtre."},
+        {"id": "tc_cnn_8_d", "text": "Appliquer une activation non linéaire", "isCorrect": false, "note": "Aucun lien avec l'activation."}
+      ],
+      "explanation": "Le padding ajoute des pixels (généralement des zéros) autour du bord de l'image avant la convolution. Cela permet de contrôler la taille de la sortie et d'éviter que les bords de l'image ne perdent de l'information.",
+      "difficulty": "medium",
+      "tags": ["cnn", "padding"]
+    }
+  ]
+}

@@ -15,21 +15,30 @@ import {
   BookOpen,
   FileText,
   Star,
-  WifiOff,
   TrendingUp,
   Target,
   Clock,
   Award,
   Calendar,
+  Flame,
+  AlertCircle,
+  ScrollText,
+  Download,
+  Play,
+  BookMarked,
 } from "lucide-react";
 import { storageService } from "@/services/StorageService";
 import { statisticsService } from "@/services/StatisticsService";
 import { indexedDBService } from "@/services/IndexedDBService";
-import { QuizSession } from "@/types";
+import { mistakesService } from "@/services/MistakesService";
+import { dailyStatsService } from "@/services/DailyStatsService";
+import { questionBank } from "@/services/QuestionBankService";
+import { QuizSession, Domain } from "@/types";
 
 // ============================================
-// HOME PAGE
-// Dashboard with stats and 4 mode cards
+// HOME PAGE : tableau de bord
+// Stats, objectif du jour, streak, révision due,
+// compte à rebours d'examen, progression par matière.
 // ============================================
 
 interface ModeCard {
@@ -44,34 +53,60 @@ interface ModeCard {
 const MODES: ModeCard[] = [
   {
     title: "Pratique",
-    description: "Révisez domaine par domaine avec des QCM générés à la demande",
+    description: "Banque locale embarquée (hors ligne) : QCM, multi-réponses, V/F, trous, code, cas pratiques",
     href: "/practice",
     icon: BookOpen,
     color: "var(--domain-dl)",
   },
   {
-    title: "Examen",
-    description: "Simulez un examen complet ou par domaine avec limite de temps",
+    title: "Examen blanc",
+    description: "40 questions / 2h, correction masquée, tirage équilibré entre les matières",
     href: "/exam",
     icon: FileText,
     color: "var(--domain-ml)",
     badge: "2h",
   },
   {
-    title: "Favoris",
-    description: "Retrouvez vos questions marquées pour les réviser",
-    href: "/favorites",
-    icon: Star,
+    title: "Épreuves réelles",
+    description: "Les vrais sujets IABD transcrits avec corrigés détaillés",
+    href: "/mock-exams",
+    icon: ScrollText,
     color: "var(--accent-vivid)",
   },
   {
-    title: "Hors Ligne",
-    description: "Accédez aux exercices téléchargés sans connexion",
-    href: "/offline",
-    icon: WifiOff,
-    color: "var(--domain-bigdata)",
+    title: "Cahier d'erreurs",
+    description: "Tes erreurs reviennent au bon moment (répétition espacée)",
+    href: "/mistakes",
+    icon: AlertCircle,
+    color: "var(--domain-gp)",
+  },
+  {
+    title: "Favoris",
+    description: "Retrouve tes questions marquées et teste-toi dessus",
+    href: "/favorites",
+    icon: Star,
+    color: "var(--domain-ai)",
+  },
+  {
+    title: "Importer",
+    description: "Génère des questions avec ton abonnement IA (sans clé API) et ajoute-les à ta banque",
+    href: "/import",
+    icon: Download,
+    color: "var(--domain-rec)",
+  },
+  {
+    title: "Cheat Sheets",
+    description: "Fiches de référence par matière : fonctions, formules, syntaxe, pièges",
+    href: "/cheatsheets",
+    icon: BookMarked,
+    color: "var(--domain-sql)",
   },
 ];
+
+function todayKeyLocal(): string {
+  const n = new Date();
+  return `${n.getFullYear()}-${String(n.getMonth() + 1).padStart(2, "0")}-${String(n.getDate()).padStart(2, "0")}`;
+}
 
 export default function HomePage() {
   const router = useRouter();
@@ -86,8 +121,16 @@ export default function HomePage() {
     studyTimeMinutes: 0,
     studyTimeHours: 0,
     favoriteCount: 0,
+    domains: {} as Record<string, { questionsAnswered: number; correctAnswers: number; averageScore: number }>,
   });
   const [recentSessions, setRecentSessions] = useState<QuizSession[]>([]);
+  const [streak, setStreak] = useState(0);
+  const [dailyGoal, setDailyGoal] = useState(20);
+  const [todayAnswered, setTodayAnswered] = useState(0);
+  const [dueMistakes, setDueMistakes] = useState(0);
+  const [bankTotal, setBankTotal] = useState(0);
+  const [examCountdown, setExamCountdown] = useState<number | null>(null);
+  const [examLabel, setExamLabel] = useState<string>("");
 
   useEffect(() => {
     const init = async () => {
@@ -100,53 +143,66 @@ export default function HomePage() {
       }
 
       setMounted(true);
-
-      // Load statistics
-      await loadStatistics();
-
-      // Load recent sessions
-      await loadRecentSessions();
+      await loadDashboard();
     };
 
     init();
   }, []);
 
-  const loadStatistics = async () => {
+  const loadDashboard = async () => {
     try {
       setStatsLoading(true);
       await indexedDBService.init();
       await statisticsService.init();
+
       const formattedStats = await statisticsService.getFormattedStats();
-      console.log('[HomePage] Loaded statistics:', formattedStats);
-      setStats(formattedStats);
+      setStats(formattedStats as any);
+
+      const settings = await storageService.getSettings();
+      const goal = settings.dailyGoal || 20;
+      setDailyGoal(goal);
+
+      const [streakValue, today, dueCount, bankStats, allSessions] = await Promise.all([
+        dailyStatsService.getStreak(goal),
+        dailyStatsService.getToday(),
+        mistakesService.getDueCount(),
+        questionBank.getStats(),
+        indexedDBService.getAllSessions(),
+      ]);
+
+      setStreak(streakValue);
+      setTodayAnswered(today.answered);
+      setDueMistakes(dueCount);
+      setBankTotal(bankStats.total);
+
+      const completedSessions = allSessions
+        .filter((s) => s.status === "COMPLETED")
+        .sort(
+          (a, b) =>
+            new Date(b.completedAt || b.startedAt).getTime() -
+            new Date(a.completedAt || a.startedAt).getTime()
+        )
+        .slice(0, 3);
+      setRecentSessions(completedSessions);
+
+      // Compte à rebours d'examen
+      if (settings.examDate) {
+        const target = new Date(`${settings.examDate}T08:00:00`);
+        const days = Math.ceil((target.getTime() - Date.now()) / 86_400_000);
+        if (days >= 0) setExamCountdown(days);
+        setExamLabel("Examens IABD");
+      }
     } catch (error) {
-      console.error('[HomePage] Failed to load statistics:', error);
+      console.error("[HomePage] Failed to load dashboard:", error);
     } finally {
       setStatsLoading(false);
     }
   };
 
-  const loadRecentSessions = async () => {
-    try {
-      const allSessions = await indexedDBService.getAllSessions();
-      const completedSessions = allSessions
-        .filter((s) => s.status === "COMPLETED")
-        .sort((a, b) => new Date(b.completedAt || b.startedAt).getTime() - new Date(a.completedAt || a.startedAt).getTime())
-        .slice(0, 3);
-
-      console.log('[HomePage] Loaded', completedSessions.length, 'recent sessions');
-      setRecentSessions(completedSessions);
-    } catch (error) {
-      console.error('[HomePage] Failed to load recent sessions:', error);
-    }
-  };
-
   const calculateSessionScore = (session: QuizSession): number => {
     if (!session.questions || !session.userAnswers) return 0;
-
     let correct = 0;
     let answered = 0;
-
     session.questions.forEach((q) => {
       const userAnswer = session.userAnswers[q.id];
       if (userAnswer) {
@@ -156,7 +212,6 @@ export default function HomePage() {
         }
       }
     });
-
     return answered > 0 ? Math.round((correct / answered) * 100) : 0;
   };
 
@@ -177,6 +232,14 @@ export default function HomePage() {
     );
   }
 
+  const goalPercent = Math.min(100, Math.round((todayAnswered / Math.max(1, dailyGoal)) * 100));
+  const goalDone = todayAnswered >= dailyGoal;
+
+  const activeDomains = (Object.entries(stats.domains) as [Domain, any][]).filter(
+    ([, p]) => p && p.questionsAnswered > 0
+  );
+  activeDomains.sort((a, b) => b[1].averageScore - a[1].averageScore);
+
   return (
     <div className="min-h-screen flex flex-col bg-paper-primary">
       <Navigation />
@@ -184,8 +247,97 @@ export default function HomePage() {
       <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <Header
           title="Tableau de Bord"
-          subtitle="Bienvenue sur Review IABD - Votre application de révision"
+          subtitle="Bienvenue sur Review IABD : tout fonctionne hors ligne, la banque locale est embarquée"
         />
+
+        {/* Aujourd'hui : streak + objectif + révision due + compte à rebours */}
+        <section className="mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Objectif du jour + streak */}
+            <Card>
+              <CardContent>
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-mono font-semibold text-sm">Aujourd&apos;hui</h3>
+                  <div className="flex items-center gap-1 font-mono text-sm text-accent">
+                    <Flame className={`w-4 h-4 ${streak > 0 ? "text-accent" : "text-ink-muted"}`} />
+                    {streak} jour{streak > 1 ? "s" : ""}
+                  </div>
+                </div>
+                <p className="font-mono text-xs text-ink-muted uppercase mb-2">
+                  Objectif : {todayAnswered}/{dailyGoal} questions
+                </p>
+                <div className="h-2 rounded-full bg-paper-dark overflow-hidden">
+                  <div
+                    className={`h-full transition-all ${goalDone ? "bg-domain-dl" : "bg-accent"}`}
+                    style={{ width: `${goalPercent}%` }}
+                  />
+                </div>
+                <p className="text-xs text-ink-muted mt-2">
+                  {goalDone
+                    ? "Objectif atteint, la série continue !"
+                    : `Encore ${Math.max(0, dailyGoal - todayAnswered)} questions pour tenir la série.`}
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Révision du jour (cahier d'erreurs) */}
+            <Card>
+              <CardContent>
+                <h3 className="font-mono font-semibold text-sm mb-3">Révision du jour</h3>
+                {dueMistakes > 0 ? (
+                  <>
+                    <p className="text-sm text-ink-secondary mb-3">
+                      <span className="font-mono font-bold text-accent">{dueMistakes}</span>{" "}
+                      question{dueMistakes > 1 ? "s" : ""} ratée
+                      {dueMistakes > 1 ? "s" : ""} à revoir aujourd&apos;hui.
+                    </p>
+                    <Link href="/mistakes">
+                      <Button variant="primary" size="sm">
+                        <Play className="w-4 h-4 mr-2" />
+                        Réviser maintenant
+                      </Button>
+                    </Link>
+                  </>
+                ) : (
+                  <p className="text-sm text-ink-muted">
+                    Rien à revoir pour le moment. Continue à réviser, les erreurs reviendront
+                    automatiquement au bon moment.
+                  </p>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Compte à rebours + banque */}
+            <Card>
+              <CardContent>
+                <h3 className="font-mono font-semibold text-sm mb-3">Cap sur l&apos;examen</h3>
+                {examCountdown !== null ? (
+                  <p className="text-sm text-ink-secondary mb-2">
+                    <span className="font-mono text-3xl font-bold text-accent mr-2">
+                      {examCountdown}
+                    </span>
+                    jour{examCountdown > 1 ? "s" : ""} avant {examLabel}
+                  </p>
+                ) : (
+                  <p className="text-sm text-ink-muted mb-2">
+                    Fixe ta date d&apos;examen dans les paramètres pour voir le compte à rebours
+                    ici.
+                  </p>
+                )}
+                <p className="font-mono text-xs text-ink-muted">
+                  Banque locale : {bankTotal} questions prêtes (hors ligne).
+                </p>
+                {examCountdown === null && (
+                  <Link href="/settings" className="inline-block mt-2">
+                    <Button variant="secondary" size="sm">
+                      Définir la date
+                    </Button>
+                  </Link>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        </section>
 
         {/* Quick Stats */}
         <section className="mb-12">
@@ -225,8 +377,8 @@ export default function HomePage() {
             <div className="w-2 h-6 bg-accent" />
             Modes de Révision
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {MODES.map((mode, index) => {
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {MODES.map((mode) => {
               const Icon = mode.icon;
               return (
                 <Link key={mode.href} href={mode.href} prefetch={false}>
@@ -246,9 +398,7 @@ export default function HomePage() {
                             <CardTitle>{mode.title}</CardTitle>
                             {mode.badge && <Badge>{mode.badge}</Badge>}
                           </div>
-                          <p className="text-sm text-ink-secondary">
-                            {mode.description}
-                          </p>
+                          <p className="text-sm text-ink-secondary">{mode.description}</p>
                         </div>
                       </div>
                     </CardContent>
@@ -258,6 +408,46 @@ export default function HomePage() {
             })}
           </div>
         </section>
+
+        {/* Progression par matière */}
+        {activeDomains.length > 0 && (
+          <section className="mb-12">
+            <h2 className="font-mono font-semibold text-lg mb-6 flex items-center gap-3">
+              <div className="w-2 h-6 bg-accent" />
+              Progression par matière
+            </h2>
+            <Card>
+              <CardContent>
+                <div className="space-y-4">
+                  {activeDomains.map(([domain, progress]) => (
+                    <div key={domain} className="flex items-center gap-4">
+                      <div className="w-32 shrink-0">
+                        <DomainBadge domain={domain} />
+                      </div>
+                      <div className="flex-1">
+                        <div className="h-2 rounded-full bg-paper-dark overflow-hidden">
+                          <div
+                            className={`h-full ${
+                              progress.averageScore >= 70
+                                ? "bg-domain-dl"
+                                : progress.averageScore >= 50
+                                  ? "bg-domain-ai"
+                                  : "bg-domain-ml"
+                            }`}
+                            style={{ width: `${progress.averageScore}%` }}
+                          />
+                        </div>
+                      </div>
+                      <div className="w-28 text-right font-mono text-xs text-ink-muted shrink-0">
+                        {progress.averageScore}% ({progress.questionsAnswered} q)
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </section>
+        )}
 
         {/* Recent Activity */}
         <section>
@@ -271,7 +461,8 @@ export default function HomePage() {
                 <div className="text-center py-12">
                   <Award className="w-16 h-16 mx-auto mb-4 text-ink-muted" />
                   <p className="text-ink-secondary mb-4">
-                    Commencez par générer vos premières questions en mode Pratique
+                    Commence ta première session : la banque locale est prête, aucune
+                    configuration nécessaire
                   </p>
                   <Link href="/practice" prefetch={false}>
                     <Button variant="primary">Commencer à Réviser</Button>
@@ -291,9 +482,9 @@ export default function HomePage() {
                       <CardContent>
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-1">
-                              <span className="font-mono text-xs text-ink-muted">
-                                {session.type === "exam" ? "EXAMEN" : "PRATIQUE"}
+                            <div className="flex items-center gap-2 mb-1 flex-wrap">
+                              <span className="font-mono text-xs text-ink-muted uppercase">
+                                {session.label || (session.type === "exam" ? "EXAMEN" : "PRATIQUE")}
                               </span>
                               {session.domain && <DomainBadge domain={session.domain as any} />}
                             </div>

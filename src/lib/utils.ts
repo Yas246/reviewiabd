@@ -89,6 +89,10 @@ export function getDomainColor(domain: Domain): string {
     [Domain.VISUALISATION_DONNEES]: "var(--domain-viz)",
     [Domain.ETHIQUE_IA]: "var(--domain-ethics)",
     [Domain.NLP]: "var(--domain-nlp)",
+    [Domain.ANALYSE_CONCEPTION]: "var(--domain-ac)",
+    [Domain.GESTION_PROJET]: "var(--domain-gp)",
+    [Domain.BASES_DONNEES_SQL]: "var(--domain-sql)",
+    [Domain.R_PYTHON_DATA]: "var(--domain-rpd)",
   };
   return colors[domain] || "var(--accent-vivid)";
 }
@@ -115,6 +119,10 @@ export function getDomainShortLabel(domain: Domain): string {
     [Domain.VISUALISATION_DONNEES]: "VIZ",
     [Domain.ETHIQUE_IA]: "ETH",
     [Domain.NLP]: "NLP",
+    [Domain.ANALYSE_CONCEPTION]: "UML",
+    [Domain.GESTION_PROJET]: "GP",
+    [Domain.BASES_DONNEES_SQL]: "SQL",
+    [Domain.R_PYTHON_DATA]: "R/PY",
   };
   return labels[domain] || domain.substring(0, 3);
 }

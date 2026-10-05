@@ -1,0 +1,414 @@
+{
+  "id": "SPECIALITE",
+  "title": "Épreuve de Spécialité (sujet réel)",
+  "description": "Retranscription du sujet scanné « Spécialité » (2h, QCM). Le dossier 1 (Big Data) et les questions du dossier « Intelligence Artificielle » sont retranscrits intégralement. Les dossiers Datamining et Réseaux de neurones, peu lisibles sur la photo, ont été reconstitués fidèlement sur les mêmes thèmes (clustering, OLAP, ETL, entropie, matrice de confusion, descente de gradient, rétropropagation...).",
+  "durationSeconds": 7200,
+  "mode": "exam",
+  "questions": [
+    {
+      "id": "sp_bd_1",
+      "domain": "BIG_DATA",
+      "type": "SINGLE_CHOICE",
+      "question": "1. Lequel des éléments suivants caractérise le mieux le concept de Big Data ?",
+      "answers": [
+        {"id": "sp_bd_1_a", "text": "Volume, Vélocité, Variété", "isCorrect": true, "note": "Exact : ce sont les célèbres 3V du Big Data."},
+        {"id": "sp_bd_1_b", "text": "Capacité, Compatibilité, Connectivité", "isCorrect": false, "note": "Ces 3C décrivent plutôt des critères d'infrastructure, pas la définition du Big Data."},
+        {"id": "sp_bd_1_c", "text": "Vélocité, Validation, Vérification", "isCorrect": false, "note": "La validation et la vérification sont des processus qualité, pas des dimensions du Big Data."},
+        {"id": "sp_bd_1_d", "text": "Virtualisation, Visualisation, Variation", "isCorrect": false, "note": "La virtualisation et la visualisation sont des outils, pas la définition du concept."}
+      ],
+      "explanation": "Le Big Data est classiquement défini par les 3V : Volume (quantités massives), Vélocité (flux rapides) et Variété (données hétérogènes : texte, capteurs, images...).",
+      "difficulty": "easy",
+      "tags": ["3v", "big-data"]
+    },
+    {
+      "id": "sp_bd_2",
+      "domain": "BIG_DATA",
+      "type": "SINGLE_CHOICE",
+      "question": "2. Quelle technologie est la plus associée au paradigme MapReduce ?",
+      "answers": [
+        {"id": "sp_bd_2_a", "text": "MongoDB", "isCorrect": false, "note": "MongoDB est une base NoSQL orientée documents, pas le berceau de MapReduce."},
+        {"id": "sp_bd_2_b", "text": "Apache Hadoop", "isCorrect": true, "note": "Exact : MapReduce est le moteur de calcul historique de Hadoop."},
+        {"id": "sp_bd_2_c", "text": "Apache Kafka", "isCorrect": false, "note": "Kafka est une plateforme de streaming d'événements."},
+        {"id": "sp_bd_2_d", "text": "Spark SQL", "isCorrect": false, "note": "Spark SQL est un module de Spark, qui a remplacé MapReduce dans bien des usages."}
+      ],
+      "explanation": "MapReduce est le modèle de traitement distribué (phase Map, phase Reduce) popularisé par Apache Hadoop pour traiter le Big Data sur des clusters de machines ordinaires.",
+      "difficulty": "easy",
+      "tags": ["mapreduce", "hadoop"]
+    },
+    {
+      "id": "sp_bd_3",
+      "domain": "BIG_DATA",
+      "type": "SINGLE_CHOICE",
+      "question": "3. Dans un cluster Hadoop, quel composant est responsable du stockage distribué ?",
+      "answers": [
+        {"id": "sp_bd_3_a", "text": "YARN", "isCorrect": false, "note": "YARN gère les ressources de calcul du cluster, pas le stockage."},
+        {"id": "sp_bd_3_b", "text": "MapReduce", "isCorrect": false, "note": "MapReduce est le moteur de traitement, pas le système de fichiers."},
+        {"id": "sp_bd_3_c", "text": "HDFS", "isCorrect": true, "note": "Exact : Hadoop Distributed File System découpe et réplique les fichiers."},
+        {"id": "sp_bd_3_d", "text": "Hive", "isCorrect": false, "note": "Hive est un entrepôt de données SQL sur Hadoop, au-dessus du stockage."}
+      ],
+      "explanation": "HDFS (Hadoop Distributed File System) stocke les fichiers en blocs répliqués sur plusieurs nœuds du cluster, garantissant la tolérance aux pannes. YARN gère les ressources et MapReduce le calcul.",
+      "difficulty": "easy",
+      "tags": ["hdfs", "hadoop"]
+    },
+    {
+      "id": "sp_bd_4",
+      "domain": "BIG_DATA",
+      "type": "SINGLE_CHOICE",
+      "question": "4. Quel moteur est conçu pour le traitement de flux en temps réel dans l'écosystème Big Data ?",
+      "answers": [
+        {"id": "sp_bd_4_a", "text": "Apache Spark Streaming", "isCorrect": true, "note": "Exact : il traite des flux de données par micro-batchs en quasi temps réel."},
+        {"id": "sp_bd_4_b", "text": "Apache Pig", "isCorrect": false, "note": "Pig est un langage de haut niveau pour des traitements par lot (batch)."},
+        {"id": "sp_bd_4_c", "text": "Apache Hive", "isCorrect": false, "note": "Hive est un entrepôt de données SQL, pas un moteur de flux."},
+        {"id": "sp_bd_4_d", "text": "Sqoop", "isCorrect": false, "note": "Sqoop transfère des données entre bases relationnelles et Hadoop."}
+      ],
+      "explanation": "Spark Streaming est conçu pour traiter des flux de données en quasi temps réel (micro-batchs). Hive et Pig traitent par lot ; Sqoop est un outil de transfert de données.",
+      "difficulty": "easy",
+      "tags": ["spark", "streaming"]
+    },
+    {
+      "id": "sp_bd_5",
+      "domain": "BIG_DATA",
+      "type": "SINGLE_CHOICE",
+      "question": "5. Parmi ces modèles, lequel est le plus adapté pour représenter des données non structurées ?",
+      "answers": [
+        {"id": "sp_bd_5_a", "text": "Modèle relationnel", "isCorrect": false, "note": "Le relationnel impose un schéma rigide en tables, mal adapté au non structuré."},
+        {"id": "sp_bd_5_b", "text": "Modèle clé-valeur", "isCorrect": true, "note": "Exact : souplesse maximale, chaque valeur est stockée sans schéma imposé."},
+        {"id": "sp_bd_5_c", "text": "Modèle entité-association", "isCorrect": false, "note": "C'est un modèle de conception pour bases relationnelles."},
+        {"id": "sp_bd_5_d", "text": "Modèle tabulaire strict", "isCorrect": false, "note": "Un schéma strict est justement l'opposé de ce qu'exige le non structuré."}
+      ],
+      "explanation": "Le modèle clé-valeur stocke des données sans schéma imposé, ce qui le rend adapté aux données non structurées ou de structure variable. Le modèle relationnel impose au contraire un schéma rigide.",
+      "difficulty": "medium",
+      "tags": ["nosql", "clé-valeur"]
+    },
+    {
+      "id": "sp_bd_6",
+      "domain": "BIG_DATA",
+      "type": "SINGLE_CHOICE",
+      "question": "6. Quel type de base de données NoSQL est le plus approprié pour gérer des réseaux sociaux et leurs relations complexes ?",
+      "answers": [
+        {"id": "sp_bd_6_a", "text": "Orientées documents", "isCorrect": false, "note": "Les documents gèrent du contenu, pas efficacement les relations traversantes."},
+        {"id": "sp_bd_6_b", "text": "Clé-valeur", "isCorrect": false, "note": "Le clé-valeur ne sait pas parcourir des relations entre entités."},
+        {"id": "sp_bd_6_c", "text": "Colonnes larges", "isCorrect": false, "note": "Optimisé pour d'énormes volumes en écriture, pas pour les graphes de relations."},
+        {"id": "sp_bd_6_d", "text": "Orientées graphes", "isCorrect": true, "note": "Exact : nœuds et arêtes modèlent naturellement amitiés et abonnements."}
+      ],
+      "explanation": "Les bases orientées graphes (Neo4j...) stockent des nœuds et des arêtes : traverser des relations (amis d'amis, recommandations) y est natif et performant, ce qui colle au modèle d'un réseau social.",
+      "difficulty": "easy",
+      "tags": ["nosql", "graphes"]
+    },
+    {
+      "id": "sp_bd_7",
+      "domain": "BIG_DATA",
+      "type": "SINGLE_CHOICE",
+      "question": "7. Quel langage de requête est utilisé dans Hive ?",
+      "answers": [
+        {"id": "sp_bd_7_a", "text": "SQL standard", "isCorrect": false, "note": "HiveQL s'inspire du SQL mais est un dialecte propre à Hive."},
+        {"id": "sp_bd_7_b", "text": "HiveQL", "isCorrect": true, "note": "Exact : HiveQL traduit les requêtes en tâches MapReduce/Tez."},
+        {"id": "sp_bd_7_c", "text": "Pig Latin", "isCorrect": false, "note": "Pig Latin est le langage d'Apache Pig, un autre outil."},
+        {"id": "sp_bd_7_d", "text": "JSONPath", "isCorrect": false, "note": "JSONPath sert à interroger des documents JSON, pas Hive."}
+      ],
+      "explanation": "Hive s'interroge avec HiveQL, un dialecte proche de SQL traduit en travaux distribués sur Hadoop. Pig Latin appartient à Apache Pig et le SQL standard pur n'est pas le dialecte natif de Hive.",
+      "difficulty": "easy",
+      "tags": ["hive", "hiveql"]
+    },
+    {
+      "id": "sp_ia_1",
+      "domain": "MACHINE_LEARNING",
+      "type": "SINGLE_CHOICE",
+      "question": "8. Quelle est la différence principale entre machine learning et deep learning ?",
+      "answers": [
+        {"id": "sp_ia_1_a", "text": "Le machine learning utilise uniquement des images", "isCorrect": false, "note": "C'est plutôt l'inverse : les images sont le terrain du deep learning."},
+        {"id": "sp_ia_1_b", "text": "Le machine learning n'utilise pas de données", "isCorrect": false, "note": "Le machine learning est par définition entraîné sur des données."},
+        {"id": "sp_ia_1_c", "text": "Le deep learning ne nécessite jamais de données labellisées", "isCorrect": false, "note": "Le deep learning supervisé a besoin de données labellisées, souvent en grande quantité."},
+        {"id": "sp_ia_1_d", "text": "Le deep learning repose sur des réseaux de neurones profonds", "isCorrect": true, "note": "Exact : « profond » = plusieurs couches cachées de neurones."}
+      ],
+      "explanation": "Le deep learning est un sous-domaine du machine learning fondé sur des réseaux de neurones à nombreuses couches, capables d'apprendre eux-mêmes leurs représentations à partir des données brutes.",
+      "difficulty": "easy",
+      "tags": ["machine-learning", "deep-learning"]
+    },
+    {
+      "id": "sp_ia_2",
+      "domain": "DATA_MINING",
+      "type": "SINGLE_CHOICE",
+      "question": "9. Lequel de ces algorithmes est non supervisé ?",
+      "answers": [
+        {"id": "sp_ia_2_a", "text": "K-Means", "isCorrect": true, "note": "Exact : K-Means regroupe les données sans étiquettes."},
+        {"id": "sp_ia_2_b", "text": "Régression logistique", "isCorrect": false, "note": "Elle prédit une étiquette connue : apprentissage supervisé."},
+        {"id": "sp_ia_2_c", "text": "Réseau de neurones convolutif (CNN)", "isCorrect": false, "note": "Un CNN s'entraîne en général de façon supervisée sur des images étiquetées."},
+        {"id": "sp_ia_2_d", "text": "Machine à vecteurs de support (SVM)", "isCorrect": false, "note": "Le SVM est un classifieur supervisé classique."}
+      ],
+      "explanation": "K-Means est un algorithme de clustering non supervisé : il regroupe les points par similarité sans utiliser d'étiquettes. Régression logistique, SVM et CNN (usage classique) sont supervisés.",
+      "difficulty": "easy",
+      "tags": ["clustering", "k-means"]
+    },
+    {
+      "id": "sp_ia_3",
+      "domain": "IA_SYMBOLIQUE",
+      "type": "SINGLE_CHOICE",
+      "question": "10. Quel type d'IA est utilisé dans le jeu d'échecs où l'agent choisit les coups optimaux en fonction d'un arbre de recherche ?",
+      "answers": [
+        {"id": "sp_ia_3_a", "text": "IA connexionniste", "isCorrect": false, "note": "L'approche connexionniste repose sur des réseaux de neurones, pas sur un arbre de recherche."},
+        {"id": "sp_ia_3_b", "text": "IA symbolique", "isCorrect": true, "note": "Exact : exploration d'un arbre de coups avec des règles explicites (minimax)."},
+        {"id": "sp_ia_3_c", "text": "IA subliminale", "isCorrect": false, "note": "Ce terme n'existe pas en intelligence artificielle."},
+        {"id": "sp_ia_3_d", "text": "IA probabiliste", "isCorrect": false, "note": "L'IA probabiliste raisonne en incertitudes (bayésien), pas en arbre de coups exhaustifs."}
+      ],
+      "explanation": "Explorer un arbre de coups avec des règles explicites (algorithme minimax, élagage alpha-bêta) relève de l'IA symbolique : la connaissance y est représentée sous forme de symboles et de règles, pas de neurones.",
+      "difficulty": "medium",
+      "tags": ["ia-symbolique", "arbre-de-recherche"]
+    },
+    {
+      "id": "sp_ia_4",
+      "domain": "MACHINE_LEARNING",
+      "type": "SINGLE_CHOICE",
+      "question": "11. Quelle métrique est utilisée pour évaluer un modèle de classification ?",
+      "answers": [
+        {"id": "sp_ia_4_a", "text": "Erreur quadratique moyenne (MSE)", "isCorrect": false, "note": "La MSE évalue la régression, pas la classification."},
+        {"id": "sp_ia_4_b", "text": "Précision et rappel", "isCorrect": true, "note": "Exact : elles mesurent la qualité des prédictions de classes."},
+        {"id": "sp_ia_4_c", "text": "Variance expliquée", "isCorrect": false, "note": "C'est une métrique de régression (part de variance captée)."},
+        {"id": "sp_ia_4_d", "text": "Vraisemblance logarithmique uniquement", "isCorrect": false, "note": "Utilisée pour ajuster certains modèles, mais pas la métrique d'évaluation typique de la classification."}
+      ],
+      "explanation": "La classification s'évalue avec la précision, le rappel, le F1-score ou la matrice de confusion, qui comparent les classes prédites aux classes réelles. MSE et variance expliquée concernent la régression.",
+      "difficulty": "easy",
+      "tags": ["métriques", "classification"]
+    },
+    {
+      "id": "sp_ia_5",
+      "domain": "DEEP_LEARNING",
+      "type": "SINGLE_CHOICE",
+      "question": "12. Quel type de réseau est le plus adapté à la reconnaissance d'images ?",
+      "answers": [
+        {"id": "sp_ia_5_a", "text": "Réseau convolutionnel (CNN)", "isCorrect": true, "note": "Exact : conçu pour exploiter la structure spatiale des images."},
+        {"id": "sp_ia_5_b", "text": "Réseau récurrent (RNN)", "isCorrect": false, "note": "Le RNN est spécialisé dans les séquences (texte, séries temporelles)."},
+        {"id": "sp_ia_5_c", "text": "Réseau bayésien", "isCorrect": false, "note": "Il modélise des dépendances probabilistes entre variables."},
+        {"id": "sp_ia_5_d", "text": "Réseau Hopfield", "isCorrect": false, "note": "Réseau historique de mémoire associative, pas de vision moderne."}
+      ],
+      "explanation": "Le CNN est l'architecture de référence pour la vision par ordinateur : ses filtres capturent les motifs locaux des images et s'empilent pour reconnaître des concepts de plus en plus abstraits.",
+      "difficulty": "easy",
+      "tags": ["cnn", "vision"]
+    },
+    {
+      "id": "sp_ia_6",
+      "domain": "DEEP_LEARNING",
+      "type": "SINGLE_CHOICE",
+      "question": "13. Dans l'apprentissage par renforcement, l'agent apprend principalement en :",
+      "answers": [
+        {"id": "sp_ia_6_a", "text": "Explorant des données historiques", "isCorrect": false, "note": "Apprendre sur des données historiques étiquetées, c'est du supervisé."},
+        {"id": "sp_ia_6_b", "text": "Utilisant uniquement des règles logiques", "isCorrect": false, "note": "Les règles logiques pures relèvent de l'IA symbolique."},
+        {"id": "sp_ia_6_c", "text": "Recevant des récompenses et punitions", "isCorrect": true, "note": "Exact : l'agent maximise une récompense cumulée par essais et erreurs."},
+        {"id": "sp_ia_6_d", "text": "Copiant des modèles supervisés", "isCorrect": false, "note": "La copie d'un modèle n'est pas le mécanisme du renforcement."}
+      ],
+      "explanation": "En apprentissage par renforcement, un agent interagit avec un environnement, reçoit des récompenses (ou sanctions) selon ses actions et apprend une politique qui maximise la récompense cumulée.",
+      "difficulty": "easy",
+      "tags": ["renforcement"]
+    },
+    {
+      "id": "sp_ia_7",
+      "domain": "DATA_MINING",
+      "type": "SINGLE_CHOICE",
+      "question": "14. Lequel de ces algorithmes est souvent utilisé pour la réduction de dimensionnalité en IA ?",
+      "answers": [
+        {"id": "sp_ia_7_a", "text": "PCA (Analyse en composantes principales)", "isCorrect": true, "note": "Exact : la PCA projette les données sur leurs axes de variance maximale."},
+        {"id": "sp_ia_7_b", "text": "Random Forest", "isCorrect": false, "note": "C'est un modèle d'ensemble pour la classification/régression."},
+        {"id": "sp_ia_7_c", "text": "Régression Linéaire", "isCorrect": false, "note": "Elle prédit une valeur continue, elle ne réduit pas les dimensions."},
+        {"id": "sp_ia_7_d", "text": "Backpropagation", "isCorrect": false, "note": "C'est l'algorithme d'apprentissage des réseaux de neurones."}
+      ],
+      "explanation": "La PCA (Analyse en composantes principales) projette les données dans un espace de plus petite dimension en conservant au maximum la variance, ce qui sert à visualiser, compresser ou pré-traiter les données.",
+      "difficulty": "easy",
+      "tags": ["pca", "réduction-dimensionnelle"]
+    },
+    {
+      "id": "sp_ia_8",
+      "domain": "MACHINE_LEARNING",
+      "type": "SINGLE_CHOICE",
+      "question": "15. Le problème du surapprentissage (overfitting) peut être atténué par :",
+      "answers": [
+        {"id": "sp_ia_8_a", "text": "L'augmentation des époques d'entraînement", "isCorrect": false, "note": "Au contraire : trop d'époques aggravent le mémorisation du bruit."},
+        {"id": "sp_ia_8_b", "text": "L'utilisation de techniques de régularisation comme le dropout", "isCorrect": true, "note": "Exact : dropout, L1/L2, early stopping limitent le surapprentissage."},
+        {"id": "sp_ia_8_c", "text": "La suppression de la fonction de coût", "isCorrect": false, "note": "Sans fonction de coût, aucun apprentissage n'est possible."},
+        {"id": "sp_ia_8_d", "text": "L'utilisation d'un seul neurone caché", "isCorrect": false, "note": "Cela limiterait la capacité du modèle, mais par un sous-dimensionnement brut."}
+      ],
+      "explanation": "L'overfitting se combat par la régularisation (dropout, pénalités L1/L2), le early stopping, l'augmentation de données ou la validation croisée : le modèle généralise mieux au lieu de mémoriser le bruit.",
+      "difficulty": "easy",
+      "tags": ["overfitting", "régularisation"]
+    },
+    {
+      "id": "sp_dm_1",
+      "domain": "DATA_MINING",
+      "type": "SINGLE_CHOICE",
+      "question": "16. Quelle est la principale caractéristique d'un entrepôt de données (data warehouse) ?",
+      "answers": [
+        {"id": "sp_dm_1_a", "text": "La collecte de données en temps réel", "isCorrect": false, "note": "Le temps réel est le domaine du streaming, pas de l'entrepôt classique."},
+        {"id": "sp_dm_1_b", "text": "Le stockage de données hétérogènes orienté analyse (OLAP)", "isCorrect": true, "note": "Exact : l'entrepôt consolide l'historique pour l'analyse."},
+        {"id": "sp_dm_1_c", "text": "Le traitement de transactions en ligne (OLTP)", "isCorrect": false, "note": "L'OLTP est le monde des bases opérationnelles, l'opposé de l'OLAP."},
+        {"id": "sp_dm_1_d", "text": "La génération de données synthétiques", "isCorrect": false, "note": "L'entrepôt stocke des données réelles consolidées."}
+      ],
+      "explanation": "Un data warehouse consolide des données provenant de sources hétérogènes (via l'ETL) dans une structure orientée analyse : requêtes complexes et historique (OLAP), au service de la décision.",
+      "difficulty": "medium",
+      "tags": ["data-warehouse", "olap"]
+    },
+    {
+      "id": "sp_dm_2",
+      "domain": "DATA_MINING",
+      "type": "SINGLE_CHOICE",
+      "question": "17. Dans le datamining, l'algorithme des K-moyennes (K-means) permet de :",
+      "answers": [
+        {"id": "sp_dm_2_a", "text": "Regrouper les observations en K groupes homogènes sans étiquettes", "isCorrect": true, "note": "Exact : clustering non supervisé par minimisation de la variance intra-groupe."},
+        {"id": "sp_dm_2_b", "text": "Prédire une valeur numérique à partir de variables explicatives", "isCorrect": false, "note": "C'est la régression, une technique supervisée."},
+        {"id": "sp_dm_2_c", "text": "Classer des observations dans des classes connues à l'avance", "isCorrect": false, "note": "C'est la classification supervisée, pas le clustering."},
+        {"id": "sp_dm_2_d", "text": "Extraire automatiquement des règles de gestion codées à la main", "isCorrect": false, "note": "Les règles sont découvertes dans les données, pas codées à la main."}
+      ],
+      "explanation": "K-means partitionne les données en K clusters : chaque point est affecté au centre le plus proche, les centres sont recalculés, et l'algorithme itère jusqu'à stabilisation. Aucune étiquette n'est nécessaire.",
+      "difficulty": "easy",
+      "tags": ["k-means", "clustering"]
+    },
+    {
+      "id": "sp_dm_3",
+      "domain": "DATA_MINING",
+      "type": "MULTIPLE_CHOICE",
+      "question": "18. Quelles sont les trois étapes d'un processus ETL ? (plusieurs réponses)",
+      "answers": [
+        {"id": "sp_dm_3_a", "text": "Extract : extraire les données des sources", "isCorrect": true, "note": "Première étape : lecture dans les systèmes sources."},
+        {"id": "sp_dm_3_b", "text": "Transform : nettoyer, convertir et homogénéiser les données", "isCorrect": true, "note": "Deuxième étape : nettoyage, déduplication, conversions."},
+        {"id": "sp_dm_3_c", "text": "Load : charger les données dans l'entrepôt cible", "isCorrect": true, "note": "Troisième étape : chargement dans le data warehouse."},
+        {"id": "sp_dm_3_d", "text": "Train : entraîner le modèle d'apprentissage automatique", "isCorrect": false, "note": "L'entraînement du modèle vient après, hors du périmètre de l'ETL."}
+      ],
+      "explanation": "ETL = Extract (extraire des sources), Transform (nettoyer, convertir, homogénéiser), Load (charger dans l'entrepôt). L'ETL prépare la donnée avant toute analyse ou entraînement de modèle.",
+      "difficulty": "easy",
+      "tags": ["etl"]
+    },
+    {
+      "id": "sp_dm_4",
+      "domain": "DATA_MINING",
+      "type": "SINGLE_CHOICE",
+      "question": "19. Dans un arbre de décision, l'entropie sert à :",
+      "answers": [
+        {"id": "sp_dm_4_a", "text": "Mesurer le désordre (l'impureté) des classes pour choisir les meilleures séparations", "isCorrect": true, "note": "Exact : on choisit le split qui réduit le plus l'entropie (gain d'information)."},
+        {"id": "sp_dm_4_b", "text": "Mesurer la vitesse d'exécution de l'algorithme", "isCorrect": false, "note": "Aucun lien : l'entropie est une mesure statistique."},
+        {"id": "sp_dm_4_c", "text": "Chiffrer les données sensibles du dataset", "isCorrect": false, "note": "Confusion avec le chiffrement (cryptographie)."},
+        {"id": "sp_dm_4_d", "text": "Compter le nombre d'arbres dans une forêt aléatoire", "isCorrect": false, "note": "Le nombre d'arbres d'un Random Forest est un hyperparamètre."}
+      ],
+      "explanation": "L'entropie mesure l'impureté d'un ensemble de classes. À chaque nœud, l'arbre de décision choisit la variable qui maximise la réduction d'entropie (gain d'information) pour séparer les classes le plus proprement possible.",
+      "difficulty": "medium",
+      "tags": ["entropie", "arbres-de-décision"]
+    },
+    {
+      "id": "sp_dm_5",
+      "domain": "DATA_MINING",
+      "type": "SINGLE_CHOICE",
+      "question": "20. À partir d'une matrice de confusion, on calcule directement :",
+      "answers": [
+        {"id": "sp_dm_5_a", "text": "La précision, le rappel et l'exactitude du modèle", "isCorrect": true, "note": "Exact : VP, FP, FN, VN alimentent toutes ces métriques."},
+        {"id": "sp_dm_5_b", "text": "Le temps d'entraînement du modèle", "isCorrect": false, "note": "Le temps d'entraînement se mesure pendant l'entraînement."},
+        {"id": "sp_dm_5_c", "text": "Le nombre de variables explicatives optimales", "isCorrect": false, "note": "La sélection de variables est un autre processus."},
+        {"id": "sp_dm_5_d", "text": "La taille idéale du jeu de test", "isCorrect": false, "note": "La matrice de confusion évalue, elle ne dimensionne pas l'échantillon."}
+      ],
+      "explanation": "La matrice de confusion croise prédictions et valeurs réelles (VP, FP, FN, VN). Elle permet de calculer la précision VP/(VP+FP), le rappel VP/(VP+FN), l'exactitude (VP+VN)/total et le F1-score.",
+      "difficulty": "medium",
+      "tags": ["matrice-de-confusion", "métriques"]
+    },
+    {
+      "id": "sp_dm_6",
+      "domain": "DATA_MINING",
+      "type": "SINGLE_CHOICE",
+      "question": "21. La méthode des moindres carrés ordinaires (MCO) est utilisée principalement pour :",
+      "answers": [
+        {"id": "sp_dm_6_a", "text": "Ajuster une droite de régression linéaire en minimisant la somme des erreurs au carré", "isCorrect": true, "note": "Exact : c'est l'estimateur classique de la régression linéaire."},
+        {"id": "sp_dm_6_b", "text": "Regrouper des points en clusters compacts", "isCorrect": false, "note": "C'est le rôle du clustering (K-means...)."},
+        {"id": "sp_dm_6_c", "text": "Réduire le nombre de dimensions des données", "isCorrect": false, "note": "C'est le rôle de la PCA."},
+        {"id": "sp_dm_6_d", "text": "Optimiser la mémoire des bases de données", "isCorrect": false, "note": "Aucun lien : les MCO sont une méthode statistique."}
+      ],
+      "explanation": "Les moindres carrés ordinaires estiment les coefficients d'une régression linéaire en minimisant la somme des carrés des écarts entre valeurs observées et valeurs prédites par la droite.",
+      "difficulty": "medium",
+      "tags": ["mco", "régression"]
+    },
+    {
+      "id": "sp_dm_7",
+      "domain": "IA_SYMBOLIQUE",
+      "type": "SINGLE_CHOICE",
+      "question": "22. Un système expert est une composante typique de :",
+      "answers": [
+        {"id": "sp_dm_7_a", "text": "L'IA symbolique, avec une base de règles et un moteur d'inférence", "isCorrect": true, "note": "Exact : connaissances sous forme de règles SI-ALORS exploitées par inférence."},
+        {"id": "sp_dm_7_b", "text": "L'IA connexionniste fondée sur les réseaux de neurones", "isCorrect": false, "note": "L'approche connexionniste apprend des poids, elle n'écrit pas de règles explicites."},
+        {"id": "sp_dm_7_c", "text": "L'apprentissage par renforcement", "isCorrect": false, "note": "Le renforcement apprend par récompenses, pas par règles expertes."},
+        {"id": "sp_dm_7_d", "text": "Le traitement distribué de type MapReduce", "isCorrect": false, "note": "MapReduce est un paradigme de calcul, pas un système expert."}
+      ],
+      "explanation": "Un système expert encode le savoir d'un expert en règles explicites (SI condition ALORS conclusion) et applique un moteur d'inférence pour déduire des conclusions : c'est un pilier de l'IA symbolique.",
+      "difficulty": "medium",
+      "tags": ["système-expert", "ia-symbolique"]
+    },
+    {
+      "id": "sp_rn_1",
+      "domain": "DEEP_LEARNING",
+      "type": "SINGLE_CHOICE",
+      "question": "23. L'approche connexionniste de l'intelligence artificielle repose sur :",
+      "answers": [
+        {"id": "sp_rn_1_a", "text": "Des réseaux de neurones artificiels interconnectés qui apprennent des poids", "isCorrect": true, "note": "Exact : la connaissance émerge des connexions pondérées apprises."},
+        {"id": "sp_rn_1_b", "text": "Des règles logiques écrites par des experts", "isCorrect": false, "note": "Les règles explicites relèvent de l'IA symbolique."},
+        {"id": "sp_rn_1_c", "text": "Des arbres de recherche exhaustifs", "isCorrect": false, "note": "L'exploration d'arbres (minimax) relève de l'IA symbolique."},
+        {"id": "sp_rn_1_d", "text": "Des bases de données relationnelles", "isCorrect": false, "note": "Le stockage relationnel n'est pas un paradigme d'IA."}
+      ],
+      "explanation": "L'approche connexionniste (réseaux de neurones) tire sa « connaissance » des connexions pondérées entre neurones, ajustées par apprentissage, par opposition à l'approche symbolique fondée sur des règles explicites.",
+      "difficulty": "easy",
+      "tags": ["connexionnisme", "ia-symbolique"]
+    },
+    {
+      "id": "sp_rn_2",
+      "domain": "DEEP_LEARNING",
+      "type": "SINGLE_CHOICE",
+      "question": "24. La descente de gradient sert à :",
+      "answers": [
+        {"id": "sp_rn_2_a", "text": "Ajuster les paramètres du modèle dans la direction qui réduit la fonction de coût", "isCorrect": true, "note": "Exact : on suit l'opposé du gradient pour minimiser l'erreur."},
+        {"id": "sp_rn_2_b", "text": "Augmenter la taille du jeu de données", "isCorrect": false, "note": "L'augmentation de données est une technique distincte (data augmentation)."},
+        {"id": "sp_rn_2_c", "text": "Visualiser les données en deux dimensions", "isCorrect": false, "note": "La visualisation relève de la PCA ou d'autres techniques."},
+        {"id": "sp_rn_2_d", "text": "Trier les données par ordre croissant", "isCorrect": false, "note": "Le tri n'a aucun lien avec l'optimisation des paramètres."}
+      ],
+      "explanation": "La descente de gradient met à jour les poids dans la direction opposée au gradient de la fonction de coût : à chaque itération, l'erreur diminue jusqu'à converger vers un minimum (local ou global).",
+      "difficulty": "easy",
+      "tags": ["descente-de-gradient"]
+    },
+    {
+      "id": "sp_rn_3",
+      "domain": "DEEP_LEARNING",
+      "type": "SINGLE_CHOICE",
+      "question": "25. Avant d'entraîner un réseau de neurones sur des variables d'échelles très différentes (âge et revenu par exemple), il est recommandé de :",
+      "answers": [
+        {"id": "sp_rn_3_a", "text": "Normaliser ou standardiser les variables", "isCorrect": true, "note": "Exact : des échelles comparables stabilisent et accélèrent l'apprentissage."},
+        {"id": "sp_rn_3_b", "text": "Supprimer les variables les plus petites", "isCorrect": false, "note": "Une échelle petite ne veut pas dire variable inutile."},
+        {"id": "sp_rn_3_c", "text": "Multiplier toutes les valeurs par 100", "isCorrect": false, "note": "Un facteur fixe ne change rien aux proportions entre variables."},
+        {"id": "sp_rn_3_d", "text": "Trier les données par valeur croissante", "isCorrect": false, "note": "Le tri ne modifie pas les échelles et fausse la nature des données."}
+      ],
+      "explanation": "Des échelles très différentes font dominer certaines variables et ralentissent la descente de gradient. La normalisation (min-max, valeurs entre 0 et 1) ou la standardisation (moyenne 0, écart-type 1) y remédient.",
+      "difficulty": "medium",
+      "tags": ["normalisation", "préparation-des-données"]
+    },
+    {
+      "id": "sp_rn_4",
+      "domain": "DEEP_LEARNING",
+      "type": "MULTIPLE_CHOICE",
+      "question": "26. Parmi ces fonctions, lesquelles sont des fonctions d'activation non linéaires ? (plusieurs réponses)",
+      "answers": [
+        {"id": "sp_rn_4_a", "text": "ReLU", "isCorrect": true, "note": "Non linéaire (max(0, x)), standard des réseaux modernes."},
+        {"id": "sp_rn_4_b", "text": "Sigmoïde", "isCorrect": true, "note": "Non linéaire, sortie entre 0 et 1."},
+        {"id": "sp_rn_4_c", "text": "Tangente hyperbolique (tanh)", "isCorrect": true, "note": "Non linéaire, sortie entre -1 et 1."},
+        {"id": "sp_rn_4_d", "text": "f(x) = 2x + 1", "isCorrect": false, "note": "Fonction affine : elle est linéaire, donc inutile comme activation."}
+      ],
+      "explanation": "ReLU, sigmoïde et tanh sont non linéaires et permettent au réseau de modéliser des relations complexes. Une fonction affine comme 2x + 1 ne crée aucune non-linéarité : empilée, elle reste équivalente à une seule couche linéaire.",
+      "difficulty": "medium",
+      "tags": ["activation"]
+    },
+    {
+      "id": "sp_rn_5",
+      "domain": "DEEP_LEARNING",
+      "type": "SINGLE_CHOICE",
+      "question": "27. La rétropropagation du gradient combine l'algorithme du même nom avec :",
+      "answers": [
+        {"id": "sp_rn_5_a", "text": "La descente de gradient pour mettre à jour les poids", "isCorrect": true, "note": "Exact : rétropropagation calcule les gradients, la descente les applique."},
+        {"id": "sp_rn_5_b", "text": "L'algorithme de K-means", "isCorrect": false, "note": "K-means est un algorithme de clustering, sans lien avec l'entraînement des réseaux."},
+        {"id": "sp_rn_5_c", "text": "Le tri rapide (quicksort)", "isCorrect": false, "note": "Le tri n'intervient pas dans la mise à jour des poids."},
+        {"id": "sp_rn_5_d", "text": "L'algorithme de Dijkstra", "isCorrect": false, "note": "Dijkstra calcule des plus courts chemins dans un graphe."}
+      ],
+      "explanation": "La rétropropagation calcule efficacement les gradients de l'erreur couche par couche (règle de la chaîne), et la descente de gradient utilise ces gradients pour mettre à jour les poids. Les deux travaillent ensemble à chaque itération.",
+      "difficulty": "medium",
+      "tags": ["rétropropagation", "descente-de-gradient"]
+    }
+  ]
+}

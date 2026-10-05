@@ -5,17 +5,21 @@ import { Navigation } from "@/components/layout/Navigation";
 import { PageHeader } from "@/components/layout/Header";
 import { Card, CardContent, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { Key, Cpu, Trash2, Download, Upload } from "lucide-react";
+import { Key, Cpu, Trash2, Download, Upload, Target, Calendar, WifiOff } from "lucide-react";
 import { storageService } from "@/services/StorageService";
 import { indexedDBService } from "@/services/IndexedDBService";
 import { notificationService } from "@/services/NotificationService";
 import { AIProvider } from "@/types";
 import { BatchSizeSlider } from "@/components/features/BatchSizeSlider";
+import { APP_VERSION } from "@/version";
+import { OfflinePrep } from "@/components/features/OfflinePrep";
 
 // ============================================
 // SETTINGS PAGE
 // Manage API key, model, and preferences
 // ============================================
+
+
 
 export default function SettingsPage() {
   const [apiKey, setApiKey] = useState("");
@@ -27,13 +31,16 @@ export default function SettingsPage() {
   const [notifications, setNotifications] = useState(false);
   const [offlineQuestions, setOfflineQuestions] = useState(10);
   const [batchSize, setBatchSize] = useState(10);
+  const [dailyGoal, setDailyGoal] = useState(20);
+  const [examDate, setExamDate] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [loading, setLoading] = useState(true);
   const [models] = useState(storageService.getAvailableModels());
 
+
+
   useEffect(() => {
     const loadSettings = async () => {
-      console.log("[Settings] Loading settings...");
       try {
         // Initialize notification service
         await notificationService.init();
@@ -49,6 +56,8 @@ export default function SettingsPage() {
           setNotifications(settings.notifyOnComplete ?? false);
           setOfflineQuestions(settings.offlineQuestionsPerDomain || 10);
           setBatchSize(settings.batchSize || 10);
+          setDailyGoal(settings.dailyGoal || 20);
+          setExamDate(settings.examDate || "");
         }
         setLoading(false);
       } catch (error) {
@@ -62,17 +71,6 @@ export default function SettingsPage() {
 
   const handleSave = async () => {
     setIsSaving(true);
-    console.log("[Settings] Saving settings...");
-    console.log("[Settings] Provider:", provider);
-    console.log(
-      "[Settings] OpenRouter API Key:",
-      apiKey ? apiKey.substring(0, 10) + "..." : "empty",
-    );
-    console.log(
-      "[Settings] Gemini API Key:",
-      geminiApiKey ? geminiApiKey.substring(0, 10) + "..." : "empty",
-    );
-    console.log("[Settings] Model:", selectedModel);
     try {
       await storageService.saveSettings({
         apiKey,
@@ -86,9 +84,10 @@ export default function SettingsPage() {
         offlineQuestionsPerDomain: offlineQuestions,
         batchSize,
         onboardingCompleted: true,
+        dailyGoal,
+        examDate: examDate || undefined,
         updatedAt: new Date(),
       });
-      console.log("[Settings] Settings saved successfully");
       alert("Paramètres sauvegardés !");
     } catch (error) {
       console.error("[Settings] Failed to save settings:", error);
@@ -476,20 +475,38 @@ export default function SettingsPage() {
                   </button>
                 </div>
 
-                <div>
-                  <label className="font-medium block mb-2">
-                    Questions hors ligne par domaine
-                  </label>
+                <div className="pt-4 border-t border-paper-dark">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Target className="w-4 h-4 text-accent" />
+                    <p className="font-medium">Objectif quotidien</p>
+                  </div>
+                  <p className="text-sm text-ink-muted mb-2">
+                    Nombre de questions à répondre par jour pour garder ta série (streak).
+                  </p>
                   <input
                     type="number"
                     min="5"
-                    max="50"
+                    max="200"
                     step="5"
-                    value={offlineQuestions}
-                    onChange={(e) =>
-                      setOfflineQuestions(parseInt(e.target.value))
-                    }
+                    value={dailyGoal}
+                    onChange={(e) => setDailyGoal(parseInt(e.target.value) || 20)}
                     className="w-24 px-3 py-2 bg-paper-secondary border border-paper-dark rounded font-mono text-sm focus:outline-none focus:border-accent"
+                  />
+                </div>
+
+                <div className="pt-4 border-t border-paper-dark">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Calendar className="w-4 h-4 text-accent" />
+                    <p className="font-medium">Date des examens</p>
+                  </div>
+                  <p className="text-sm text-ink-muted mb-2">
+                    Affiche un compte à rebours sur le tableau de bord.
+                  </p>
+                  <input
+                    type="date"
+                    value={examDate}
+                    onChange={(e) => setExamDate(e.target.value)}
+                    className="px-3 py-2 bg-paper-secondary border border-paper-dark rounded font-mono text-sm focus:outline-none focus:border-accent"
                   />
                 </div>
 
@@ -497,6 +514,23 @@ export default function SettingsPage() {
                   <BatchSizeSlider value={batchSize} onChange={setBatchSize} />
                 </div>
               </div>
+            </CardContent>
+          </Card>
+
+          {/* Préparation hors ligne */}
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-3 mb-2">
+                <WifiOff className="w-5 h-5 text-domain-bigdata" />
+                <CardTitle>Préparation hors ligne</CardTitle>
+              </div>
+              <p className="text-sm text-ink-muted mb-4">
+                La banque de questions (1 400 questions) est déjà embarquée. Les outils de
+                correction de code sont lourds : télécharge-les une seule fois ici pour
+                pouvoir faire les exercices de code sans connexion.
+              </p>
+
+              <OfflinePrep />
             </CardContent>
           </Card>
 
@@ -547,7 +581,7 @@ export default function SettingsPage() {
 
           {/* Version Info */}
           <div className="text-center font-mono text-xs text-ink-muted">
-            Review IABD v2.0.4
+            Review IABD v{APP_VERSION}
           </div>
         </div>
       </main>
