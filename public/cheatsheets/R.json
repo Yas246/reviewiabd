@@ -1,7 +1,7 @@
 {
   "id": "R",
   "title": "R",
-  "description": "Tout le langage : affectation, vecteurs, data frames, conditions, boucles, fonctions, chaînes, fichiers... puis statistiques, NA et dplyr.",
+  "description": "Tout le langage : affectation, vecteurs, data frames, conditions, boucles, fonctions, chaînes, fichiers, statistiques, NA... puis dplyr, data.table et ggplot2.",
   "sections": [
     {
       "title": "Affectation et types de base",
@@ -25,19 +25,23 @@
       "items": [
         {
           "what": "Créer un vecteur",
-          "code": "revenus <- c(400, 1200, 800, 950)\nvilles <- c(\"Cotonou\", \"Parakou\")\nentiers <- 1:5               # 1 2 3 4 5\nimpairs <- seq(1, 9, by = 2) # 1 3 5 7 9\nzeros <- rep(0, 4)           # 0 0 0 0"
+          "code": "revenus <- c(400, 1200, 800, 950)\nvilles <- c(\"Cotonou\", \"Parakou\")\nentiers <- 1:5               # 1 2 3 4 5\nimpairs <- seq(1, 9, by = 2) # 1 3 5 7 9\nzeros <- rep(0, 4)           # 0 0 0 0\nalternance <- rep(1:2, each = 3)  # 1 1 1 2 2 2"
         },
         {
           "what": "Indexer (à partir de 1 !)",
-          "code": "revenus[1]              # 400 (premier)\nrevenus[length(revenus)]  # dernier\nrevenus[-1]             # tout sauf le premier\nrevenus[c(1, 3)]        # 1er et 3e"
+          "code": "revenus[1]              # 400 (premier)\nrevenus[length(revenus)]  # dernier\nrevenus[-1]             # tout sauf le premier\nrevenus[c(1, 3)]        # 1er et 3e\nrevenus[2:4]            # éléments 2 à 4"
         },
         {
           "what": "Filtrer un vecteur avec une condition",
-          "code": "revenus[revenus > 800]          # valeurs > 800\nvilles[revenus > 800]           # correspondants"
+          "code": "revenus[revenus > 800]          # valeurs > 800\nvilles[revenus > 800]           # correspondants\nvilles[revenus %in% c(400, 950)]  # appartenance à un ensemble"
         },
         {
           "what": "Opérations vectorisées (sans boucle)",
           "code": "revenus * 2            # chaque élément x2\nrevenus - mean(revenus)  # centré\nsqrt(revenus)"
+        },
+        {
+          "what": "Trier, inverser, dédoublonner",
+          "code": "sort(revenus)                   # tri croissant (decreasing = TRUE pour décroissant)\nrev(revenus)                    # ordre inversé\nunique(c(\"a\", \"b\", \"a\"))        # \"a\" \"b\" (valeurs distinctes)\nsum(revenus); length(revenus)   # somme et taille"
         }
       ]
     },
@@ -49,9 +53,19 @@
           "code": "l <- list(nom = \"Alice\", notes = c(12, 15, 9), admis = TRUE)\nl$nom          # \"Alice\"\nl$notes[2]     # 15\nl[[\"notes\"]]   # le vecteur entier"
         },
         {
+          "what": "Listes imbriquées",
+          "code": "ecole <- list(\n  filiere = \"IABD\",\n  etudiant = list(nom = \"Alice\", notes = c(12, 15, 9))\n)\necole$etudiant$nom         # \"Alice\"\necole$etudiant$notes[2]    # 15\nstr(ecole)                 # voir la structure imbriquée",
+          "note": "Une liste peut contenir d'autres listes : on enchaîne les $ (ou les [[ ]]) pour descendre dans les niveaux."
+        },
+        {
           "what": "Facteur : variable catégorielle",
           "code": "v <- factor(c(\"Oui\", \"Non\", \"Oui\", \"Oui\"))\nlevels(v)          # \"Non\" \"Oui\"\ntable(v)           # effectifs par niveau",
           "note": "Un facteur stocke des catégories (niveaux) : c'est la forme R des variables catégorielles."
+        },
+        {
+          "what": "Maîtriser les niveaux d'un facteur",
+          "code": "v <- factor(c(\"Faible\", \"Élevé\", \"Faible\"))\nlevels(v)                      # \"Élevé\" \"Faible\" (tri alphabétique par défaut)\nlevels(v) <- c(\"Haut\", \"Bas\")   # renommer les niveaux\nrelevel(v, ref = \"Bas\")        # changer la catégorie de référence",
+          "note": "relevel() fixe la modalité de référence utilisée par les modèles (lm, glm) : par défaut c'est la première catégorie qui sert de référence."
         }
       ]
     },
@@ -64,11 +78,20 @@
         },
         {
           "what": "Inspecter",
-          "code": "head(clients)      # 6 premières lignes\nstr(clients)       # structure et types\nsummary(clients)   # stats par colonne\ndim(clients)       # (lignes, colonnes)\nnrow(clients); ncol(clients)\nnames(clients)     # noms des colonnes"
+          "code": "head(clients)      # 6 premières lignes\ntail(clients)      # 6 dernières lignes\nstr(clients)       # structure et types\nsummary(clients)   # stats par colonne\ndim(clients)       # (lignes, colonnes)\nnrow(clients); ncol(clients)\nnames(clients)     # noms des colonnes\nrownames(clients); colnames(clients)"
         },
         {
           "what": "Accéder aux colonnes et cellules",
           "code": "clients$revenu                 # colonne (vecteur)\nclients[, \"revenu\"]            # idem\nclients[2, ]                   # ligne 2 entière\nclients[2, \"age\"]              # une cellule\nclients[clients$age > 30, ]    # lignes filtrées"
+        },
+        {
+          "what": "Trier avec order",
+          "code": "clients[order(clients$revenu), ]                    # par revenu croissant\nclients[order(clients$revenu, decreasing = TRUE), ] # décroissant\nclients[order(clients$ville, -clients$age), ]        # ville puis âge inverse"
+        },
+        {
+          "what": "La matrice : un tableau d'un seul type",
+          "code": "m <- matrix(1:6, nrow = 2, ncol = 3)\nm[1, 2]      # ligne 1, colonne 2\nm[, 1]       # colonne 1 (renvoie un vecteur)\nt(m)         # transposée",
+          "note": "Contrairement au data frame, la matrice ne contient qu'UN seul type de données (tout numérique, ou tout caractère)."
         }
       ]
     },
@@ -83,6 +106,11 @@
           "what": "ifelse vectorisé (sur un vecteur entier)",
           "code": "clients$tranche <- ifelse(clients$age < 30, \"jeune\", \"senior\")",
           "note": "ifelse() s'applique à TOUT le vecteur d'un coup : équivalent du apply conditionnel."
+        },
+        {
+          "what": "Combiner des conditions : & et |",
+          "code": "clients[clients$age > 30 & clients$revenu > 500, ]   # ET\nclients[clients$ville == \"Cotonou\" | clients$ville == \"Parakou\", ]   # OU",
+          "note": "& et | comparent élément par élément (à utiliser dans les filtres) ; && et || comparent des valeurs uniques (à utiliser dans les if)."
         }
       ]
     },
@@ -121,12 +149,18 @@
       "title": "Chaînes de caractères",
       "items": [
         {
-          "what": "Assembler et modifier",
-          "code": "paste(\"age\", 25, \"ans\")      # \"age 25 ans\"\npaste0(\"a\", \"b\")              # \"ab\" (sans séparateur)\ntoupper(\"abc\")\nnchar(\"hello\")               # longueur\nsubstr(\"pandas\", 1, 3)       # \"pan\""
+          "what": "Assembler et formater",
+          "code": "paste(\"age\", 25, \"ans\")       # \"age 25 ans\" (séparateur : espace)\npaste(\"a\", \"b\", sep = \"-\")    # \"a-b\" (séparateur personnalisé)\npaste0(\"a\", \"b\")              # \"ab\" (sans séparateur)\nsprintf(\"%s a %d ans\", \"Alice\", 25)  # \"Alice a 25 ans\"\nsprintf(\"%.2f\", 3.14159)      # \"3.14\" (2 décimales)\ntoupper(\"abc\")\nnchar(\"hello\")               # longueur\nsubstr(\"pandas\", 1, 3)       # \"pan\"",
+          "note": "sprintf() formate à la façon du C : %s pour du texte, %d pour un entier, %.2f pour un nombre à 2 décimales."
         },
         {
           "what": "Rechercher et remplacer",
           "code": "grep(\"na\", c(\"pandas\", \"r\"))   # positions qui contiennent\nsub(\"a\", \"o\", \"pandas\")        # remplace la 1re occurrence\ngsub(\"a\", \"o\", \"pandas\")       # remplace TOUTES les occurrences"
+        },
+        {
+          "what": "stringr : la version tidyverse",
+          "code": "library(stringr)\nstr_detect(c(\"pandas\", \"r\"), \"an\")    # TRUE FALSE\nstr_replace(\"pandas\", \"a\", \"o\")       # 1re occurrence\nstr_replace_all(\"pandas\", \"a\", \"o\")   # toutes\nstr_to_upper(\"pandas\")                # \"PANDAS\"",
+          "note": "Les équivalents stringr de grep / sub / gsub : str_detect, str_replace, str_replace_all. Les motifs sont des expressions régulières."
         }
       ]
     },
@@ -136,6 +170,16 @@
         {
           "what": "Lire et écrire des fichiers",
           "code": "clients <- read.csv(\"clients.csv\", na.strings = c(\"NA\", \"?\"))\nwrite.csv(clients, \"sortie.csv\", row.names = FALSE)\nlignes <- readLines(\"notes.txt\")"
+        },
+        {
+          "what": "Variantes selon le format du CSV",
+          "code": "read.csv(\"clients.csv\")      # séparateur virgule, décimale à point\nread.csv2(\"clients_fr.csv\")  # séparateur point-virgule, décimale à virgule\nwrite.table(clients, \"sortie.txt\", sep = \"\\t\", row.names = FALSE)",
+          "note": "Un CSV exporté depuis Excel en français utilise souvent le point-virgule et la virgule décimale : c'est le cas de lecture de read.csv2."
+        },
+        {
+          "what": "readr : la lecture rapide du tidyverse",
+          "code": "library(readr)\nclients <- read_csv(\"clients.csv\")   # rapide, renvoie un tibble\nwrite_csv(clients, \"sortie.csv\")",
+          "note": "read_csv devine mieux les types de colonnes que read.csv ; utiliser read_csv2 pour le format français (point-virgule, virgule décimale)."
         },
         {
           "what": "Dossier de travail",
@@ -149,6 +193,10 @@
         {
           "what": "Installer et charger un package",
           "code": "install.packages(\"dplyr\")   # une seule fois (dans la console)\nlibrary(dplyr)              # à chaque session"
+        },
+        {
+          "what": "Trouver de l'aide dans R",
+          "code": "?mean                       # aide d'une fonction\nhelp.search(\"regression\")   # chercher par mot-clé\nexample(hist)               # exemples exécutables"
         }
       ]
     },
@@ -160,12 +208,23 @@
           "code": "mean(revenus)     # moyenne\nmedian(revenus)   # médiane\nsd(revenus)       # écart-type\nvar(revenus)      # variance\nmin(revenus); max(revenus)\nquantile(revenus) # min, Q1, médiane, Q3, max"
         },
         {
+          "what": "Moyenne tronquée (trim)",
+          "code": "mean(revenus)              # moyenne classique\nmean(revenus, trim = 0.1)  # ignore 10 % des valeurs extrêmes de chaque côté",
+          "note": "trim rend la moyenne plus robuste aux valeurs aberrantes : à comparer avec la médiane pour détecter l'effet des extrêmes."
+        },
+        {
           "what": "Moyenne vs médiane : quand ça diffère",
           "note": "La moyenne est sensible aux valeurs extrêmes ; la médiane non. Si moyenne > médiane nettement, la distribution est asymétrique à droite : rapporter la médiane."
         },
         {
+          "what": "Régression linéaire simple avec lm()",
+          "code": "mod <- lm(revenu ~ age, data = clients)\nsummary(mod)        # coefficients, p-values, R²\nmod$coefficients    # juste l'intercept et la pente",
+          "note": "revenu ~ age se lit « revenu expliqué par l'âge ». Dans summary(mod), la colonne Estimate donne l'intercept et la pente, R-squared la qualité de l'ajustement."
+        },
+        {
           "what": "Tableaux d'effectifs et corrélations",
-          "code": "table(clients$ville)      # effectifs par catégorie\nprop.table(table(clients$ville))  # proportions\ncor(clients$age, clients$revenu)  # corrélation"
+          "code": "table(clients$ville)      # effectifs par catégorie\nprop.table(table(clients$ville))  # proportions\ncor(clients$age, clients$revenu)  # corrélation",
+          "note": "S'il reste des NA dans les données : cor(x, y, use = \"complete.obs\")."
         }
       ]
     },
@@ -191,6 +250,11 @@
       "title": "dplyr (tidyverse)",
       "items": [
         {
+          "what": "Aperçu rapide d'une table",
+          "code": "glimpse(clients)   # lignes × colonnes + un extrait de chaque colonne",
+          "note": "L'équivalent « moderne » de str(), pratique sur les tables à beaucoup de colonnes."
+        },
+        {
           "what": "Filtrer et sélectionner",
           "code": "library(dplyr)\nclients %>% filter(age > 30, ville == \"Cotonou\")\nclients %>% select(nom, revenu)"
         },
@@ -203,13 +267,52 @@
           "code": "clients %>%\n  group_by(ville) %>%\n  summarise(\n    nb = n(),\n    revenu_moyen = mean(revenu, na.rm = TRUE)\n  )"
         },
         {
+          "what": "Lignes par position et doublons",
+          "code": "clients %>% distinct(ville)            # valeurs uniques d'une colonne\nclients %>% slice(1:5)                 # lignes 1 à 5 par position\nclients %>% slice_max(revenu, n = 3)   # les 3 plus gros revenus"
+        },
+        {
+          "what": "Appliquer une même opération à plusieurs colonnes",
+          "code": "clients %>% summarise(across(where(is.numeric), mean, na.rm = TRUE))\nclients %>% mutate(across(c(age, revenu), ~ .x / 1000))",
+          "note": "across() évite de répéter la même fonction colonne par colonne (et remplace les anciens mutate_at / summarise_at)."
+        },
+        {
+          "what": "Joindre ou empiler des tables",
+          "code": "left_join(a, b, by = \"id\")    # toutes les lignes de a + correspondances de b\nfull_join(a, b, by = \"id\")    # toutes les lignes des deux tables\ninner_join(a, b, by = \"id\")   # seulement les id présents des deux côtés\nbind_rows(df1, df2)           # empiler deux tables aux mêmes colonnes",
+          "note": "Si une clé n'a pas de correspondance, left_join crée des NA du côté manquant : penser à vérifier avec colSums(is.na())."
+        },
+        {
+          "what": "Pivoter : format large et format long (tidyr)",
+          "code": "library(tidyr)\nlong <- clients %>%\n  pivot_longer(c(age, revenu), names_to = \"variable\", values_to = \"valeur\")\nlong %>%\n  pivot_wider(names_from = \"variable\", values_from = \"valeur\")",
+          "note": "pivot_longer empile les colonnes en lignes (format long), pivot_wider fait l'inverse : les deux fonctions clés pour obtenir des données « tidy »."
+        },
+        {
           "what": "Imputation des NA en une ligne",
           "code": "clients <- clients %>%\n  mutate(revenu = ifelse(is.na(revenu), mean(revenu, na.rm = TRUE), revenu))"
         }
       ]
     },
     {
-      "title": "Visualisation",
+      "title": "data.table",
+      "items": [
+        {
+          "what": "Créer et filtrer avec DT[i, j, by]",
+          "code": "library(data.table)\nDT <- data.table(\n  id = 1:4,\n  ville = c(\"Cotonou\", \"Parakou\", \"Abomey\", \"Cotonou\"),\n  revenu = c(400, 1200, 800, 950)\n)\nDT[ville == \"Cotonou\"]             # i : filtrer les lignes\nDT[revenu > 500, .(id, revenu)]    # i + j : lignes puis colonnes",
+          "note": "La forme générale DT[i, j, by] : prendre DT, filtrer les lignes avec i, calculer j, regrouper par by. .() permet d'énumérer plusieurs colonnes ou expressions en j."
+        },
+        {
+          "what": "Calculs par groupe et keyby",
+          "code": "DT[, mean(revenu)]                        # un seul résultat (vecteur)\nDT[, .(moy = mean(revenu)), by = ville]   # moyenne par ville\nDT[, .N, by = ville]                      # effectif par ville\nDT[, .(moy = mean(revenu)), keyby = ville]  # idem, résultat trié par la clé",
+          "note": "by ne trie pas le résultat, keyby trie selon les colonnes de regroupement. .N compte les lignes de chaque groupe."
+        },
+        {
+          "what": "Modifier avec := (par référence)",
+          "code": "DT[, revenu_k := revenu / 1000]                  # créer une colonne\nDT[ville == \"Cotonou\", revenu := revenu * 1.1]   # mise à jour sous condition\nDT[, c(\"revenu_k\") := NULL]                      # supprimer une colonne",
+          "note": ":= modifie DT directement, sans copie ni <- : beaucoup plus rapide que mutate sur les gros volumes."
+        }
+      ]
+    },
+    {
+      "title": "Visualisation et ggplot2",
       "items": [
         {
           "what": "Graphiques de base",
@@ -217,7 +320,53 @@
         },
         {
           "what": "ggplot2 : la grammaire des graphiques",
-          "code": "library(ggplot2)\nggplot(clients, aes(x = age, y = revenu)) +\n  geom_point() +\n  geom_smooth()"
+          "code": "library(ggplot2)\nggplot(clients, aes(x = age, y = revenu)) +\n  geom_point() +\n  geom_smooth()",
+          "note": "Chaque couche s'ajoute avec « + » : données, esthétiques (aes), geoms, puis facettes, scales et thème. ggsave(\"graphique.png\", width = 5, height = 5) enregistre le dernier graphique, le format étant déduit de l'extension."
+        },
+        {
+          "what": "aes() : relier les variables aux esthétiques",
+          "code": "ggplot(clients, aes(x = age, y = revenu,\n                    color = ville, size = nb_achats)) +\n  geom_point()\n# esthétiques usuelles : x, y, color, fill, alpha, size, shape, linetype",
+          "note": "Dans aes(), la valeur vient d'une colonne (une couleur par ville). Une valeur fixe se place hors aes : geom_point(color = \"steelblue\"). color colore le contour, fill le remplissage ; alpha règle la transparence, utile sur un nuage dense."
+        },
+        {
+          "what": "Les géométries courantes",
+          "code": "ggplot(clients, aes(x = revenu)) + geom_histogram()\nggplot(clients, aes(x = revenu)) + geom_density()        # courbe de densité\nggplot(clients, aes(x = ville)) + geom_bar()             # effectifs\nggplot(clients, aes(x = ville, y = revenu)) + geom_col() # valeurs déjà calculées\nggplot(clients, aes(x = ville, y = revenu)) + geom_boxplot()\nggplot(clients, aes(x = age, y = revenu)) + geom_line()",
+          "note": "geom_bar compte tout seul les effectifs ; pour tracer des valeurs déjà agrégées (après summarise), utiliser geom_col. Régler un histogramme avec binwidth, une densité avec adjust."
+        },
+        {
+          "what": "Courbe de tendance et points denses",
+          "code": "ggplot(clients, aes(x = age, y = revenu)) +\n  geom_point() +\n  geom_smooth(method = \"lm\")   # droite de régression + intervalle de confiance\nggplot(clients, aes(x = age, y = revenu)) + geom_jitter()",
+          "note": "geom_smooth(se = FALSE) retire l'intervalle de confiance. Sur un nuage très dense, geom_jitter ajoute du bruit pour séparer les points superposés et geom_count les compte (taille proportionnelle au nombre)."
+        },
+        {
+          "what": "Facettes : un panneau par sous-groupe",
+          "code": "ggplot(clients, aes(x = age, y = revenu)) +\n  geom_point() +\n  facet_wrap(~ ville)                 # un panneau par ville\ndernier + facet_grid(annee ~ ville)   # lignes = année, colonnes = ville",
+          "note": "facet_wrap découpe selon une variable et enveloppe les panneaux ; facet_grid croise deux variables (ligne ~ colonne). Par défaut tous les panneaux partagent les mêmes axes ; scales = \"free_y\" (ou \"free\") laisse chaque panneau ajuster le sien."
+        },
+        {
+          "what": "scales : couleurs, axes et transformations",
+          "code": "dernier + scale_fill_manual(values = c(\"Oui\" = \"#0d9463\", \"Non\" = \"grey60\"))\ndernier + scale_fill_brewer(palette = \"Blues\")\ndernier + scale_x_log10()   # aussi : scale_x_reverse(), scale_x_sqrt()",
+          "note": "Un scale_ par esthétique : fill (remplissage), color (contour), x et y (axes). Palettes continues : scale_fill_gradient(low =, high =) ou gradient2 (avec mid =). Les palettes brewer viennent de RColorBrewer (voir RColorBrewer::display.brewer.all())."
+        },
+        {
+          "what": "Titres, axes et thème",
+          "code": "ggplot(clients, aes(x = age, y = revenu)) +\n  geom_point() +\n  labs(title = \"Revenu selon l'âge\", x = \"Âge (ans)\", y = \"Revenu\") +\n  theme_minimal()",
+          "note": "theme_minimal() donne un fond épuré ; autres thèmes utiles : theme_bw(), theme_classic(). La planche en liste d'autres : theme_light(), theme_void() (tout nu), theme_gray() (défaut)."
+        },
+        {
+          "what": "Légendes et annotations",
+          "code": "dernier + labs(color = \"Fidélité\")            # titre de la légende\ndernier + guides(fill = \"none\")               # masquer une légende\ndernier + theme(legend.position = \"bottom\")\ndernier + annotate(\"text\", x = 40, y = 5000, label = \"Objectif atteint\")",
+          "note": "labs() nomme la légende de chaque esthétique (color, fill, size...). annotate() pose un texte ou une forme à des coordonnées choisies, indépendamment des données."
+        },
+        {
+          "what": "Positions : barres côte à côte, empilées, résumés",
+          "code": "ggplot(clients, aes(x = ville, fill = fidele)) +\n  geom_bar(position = \"dodge\")  # côte à côte\n# \"stack\" : empilé ; \"fill\" : empilé et normalisé à 100 %\nggplot(clients, aes(x = ville, y = revenu)) +\n  stat_summary(fun = mean, geom = \"bar\")   # moyenne par groupe",
+          "note": "position = \"jitter\" disperse les points, \"nudge\" décale les étiquettes. stat_summary résume y par groupe (moyenne, médiane...) sans passer par dplyr."
+        },
+        {
+          "what": "Zoom et systèmes de coordonnées",
+          "code": "p <- ggplot(clients, aes(x = age, y = revenu)) + geom_point()\np + coord_cartesian(xlim = c(20, 60))   # zoom, points conservés\np + xlim(20, 60)                        # les points hors limites sont supprimés\np + coord_flip()                        # échange les axes",
+          "note": "Pour zoomer sans perdre de données, préférer coord_cartesian : xlim() et scale_x_continuous(limits =) écartent les valeurs hors bornes (fausses barres et régressions). coord_polar(theta = \"y\") transforme des barres en camembert."
         }
       ]
     },

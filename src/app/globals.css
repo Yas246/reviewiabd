@@ -1,85 +1,150 @@
 @import "tailwindcss";
 
 /* ============================================
-   TAILWIND 4 THEME TOKENS
-   Expose les variables du design system comme
-   tokens Tailwind : bg-accent/10, text-domain-ml,
-   border-paper-dark, etc. deviennent générés.
+   REVIEW IABD : DESIGN « CLARTÉ »
+   Thème clair par défaut + thème sombre
+   « Deep Focus ». Les tokens changent de valeur
+   avec [data-theme="dark"], les classes restent
+   identiques dans toute l'application.
    ============================================ */
 
-@theme {
-  --color-paper-primary: #0F1419;
-  --color-paper-secondary: #1A1F26;
-  --color-paper-dark: #252B33;
+/* Identité « Aurore » : encre profonde + aurore émeraude/cyan/or.
+   Clair « Jour d'examen » par défaut ; sombre « Nuit d'aurore ». */
+:root {
+  color-scheme: light;
 
-  --color-ink-primary: #F5F1E8;
-  --color-ink-secondary: #EDE8DC;
-  --color-ink-muted: #9B9590;
+  /* Surfaces */
+  --paper-primary: #eef0f4;
+  --paper-secondary: #ffffff;
+  --paper-dark: #d7dbe2;
 
-  --color-accent: #E67E22;
-  --color-accent-vivid: #E67E22;
-  --color-accent-warm: #FFB7B2;
-  --color-accent-subtle: #D68910;
+  /* Texte */
+  --ink-primary: #10141b;
+  --ink-secondary: #3a4149;
+  --ink-muted: #697180;
 
-  --color-domain-ml: #E63946;
-  --color-domain-ai: #F4A261;
-  --color-domain-bigdata: #2A9D8F;
-  --color-domain-nlp: #457B9D;
-  --color-domain-mining: #E9C46A;
-  --color-domain-dw: #F4ACB7;
-  --color-domain-rec: #9B5DE5;
-  --color-domain-dl: #00BBF9;
-  --color-domain-viz: #00F5D4;
-  --color-domain-ethics: #F15BB5;
-  --color-domain-ac: #9575CD;
-  --color-domain-gp: #66BB6A;
-  --color-domain-sql: #78909C;
-  --color-domain-rpd: #4DD0E1;
+  /* Accent unique : émeraude profond */
+  --accent-vivid: #0d9463;
+  --accent: #0d9463;
+  --accent-warm: #6ee7b7;
+  --accent-subtle: #047857;
 
-  --font-serif: 'Crimson Pro', Georgia, serif;
-  --font-mono: 'JetBrains Mono', 'SF Mono', 'Monaco', monospace;
+  /* Couleurs de matières (calibrées pour le fond clair) */
+  --domain-ml: #dc2626;
+  --domain-ai: #d97706;
+  --domain-bigdata: #0f766e;
+  --domain-nlp: #1d4ed8;
+  --domain-mining: #a16207;
+  --domain-dw: #db2777;
+  --domain-rec: #7c3aed;
+  --domain-dl: #0369a1;
+  --domain-viz: #0d9488;
+  --domain-ethics: #c026d3;
+  --domain-ac: #6d28d9;
+  --domain-gp: #16a34a;
+  --domain-sql: #475569;
+  --domain-rpd: #0e7490;
+
+  /* Polices : Manrope partout (UI, titres, libellés dits « mono » du design
+     d'origine). JetBrains Mono est réservé au VRAI code via --font-code
+     (blocs de code, extraits, sortie de tests, éditeur). */
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-code: var(--font-jetbrains), ui-monospace, monospace;
+
+  /* Blocs de code : éditeur clair en mode Jour d'examen */
+  --code-bg: #f6f8fa;
+  --code-border: #d7dbe2;
+  --code-plain: #24292f;
+  --code-kw: #0550ae;
+  --code-str: #0a7d32;
+  --code-com: #6e7781;
+  --code-num: #b3540e;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --paper-primary: #0a0d12;
+  --paper-secondary: #11161d;
+  --paper-dark: #1e2836;
+
+  --ink-primary: #e8edf2;
+  --ink-secondary: #b7c0cb;
+  --ink-muted: #7a8592;
+
+  --accent-vivid: #34d399;
+  --accent: #34d399;
+  --accent-warm: #a7f3d0;
+  --accent-subtle: #6ee7b7;
+
+  --domain-ml: #ef4444;
+  --domain-ai: #f59e0b;
+  --domain-bigdata: #2dd4bf;
+  --domain-nlp: #60a5fa;
+  --domain-mining: #eab308;
+  --domain-dw: #f472b6;
+  --domain-rec: #a78bfa;
+  --domain-dl: #38bdf8;
+  --domain-viz: #2dd4bf;
+  --domain-ethics: #e879f9;
+  --domain-ac: #a78bfa;
+  --domain-gp: #4ade80;
+  --domain-sql: #94a3b8;
+  --domain-rpd: #22d3ee;
+
+  /* Blocs de code : éditeur nuit (inchangé) */
+  --code-bg: #0d1117;
+  --code-border: rgba(255, 255, 255, 0.1);
+  --code-plain: #c9d1d9;
+  --code-kw: #82aaff;
+  --code-str: #a5d6a7;
+  --code-com: #7a8592;
+  --code-num: #f78c6c;
 }
 
 /* ============================================
-   ACADEMIC LABORATORY DESIGN SYSTEM
-   Theme: "Laboratory at Night" - Dark Mode Only
+   TAILWIND 4 THEME TOKENS
+   @theme inline : les utilitaires (bg-accent,
+   text-domain-ml, bg-paper-primary/10...)
+   référencent les variables runtime et suivent
+   donc le thème clair/sombre.
    ============================================ */
 
-:root {
-  /* Dark Backgrounds - Laboratory at Night */
-  --paper-primary: #0F1419;
-  --paper-secondary: #1A1F26;
-  --paper-dark: #252B33;
+@theme inline {
+  --color-paper-primary: var(--paper-primary);
+  --color-paper-secondary: var(--paper-secondary);
+  --color-paper-dark: var(--paper-dark);
 
-  /* Light Text for Dark Backgrounds */
-  --ink-primary: #F5F1E8;
-  --ink-secondary: #EDE8DC;
-  --ink-muted: #9B9590;
+  --color-ink-primary: var(--ink-primary);
+  --color-ink-secondary: var(--ink-secondary);
+  --color-ink-muted: var(--ink-muted);
 
-  /* Signature Orange */
-  --accent-vivid: #E67E22;
-  --accent-warm: #FFB7B2;
-  --accent-subtle: #D68910;
+  --color-accent: var(--accent);
+  --color-accent-vivid: var(--accent-vivid);
+  --color-accent-warm: var(--accent-warm);
+  --color-accent-subtle: var(--accent-subtle);
 
-  /* Domain Colors */
-  --domain-ml: #E63946;
-  --domain-ai: #F4A261;
-  --domain-bigdata: #2A9D8F;
-  --domain-nlp: #457B9D;
-  --domain-mining: #E9C46A;
-  --domain-dw: #F4ACB7;
-  --domain-rec: #9B5DE5;
-  --domain-dl: #00BBF9;
-  --domain-viz: #00F5D4;
-  --domain-ethics: #F15BB5;
-  --domain-ac: #9575CD;
-  --domain-gp: #66BB6A;
-  --domain-sql: #78909C;
-  --domain-rpd: #4DD0E1;
+  --color-domain-ml: var(--domain-ml);
+  --color-domain-ai: var(--domain-ai);
+  --color-domain-bigdata: var(--domain-bigdata);
+  --color-domain-nlp: var(--domain-nlp);
+  --color-domain-mining: var(--domain-mining);
+  --color-domain-dw: var(--domain-dw);
+  --color-domain-rec: var(--domain-rec);
+  --color-domain-dl: var(--domain-dl);
+  --color-domain-viz: var(--domain-viz);
+  --color-domain-ethics: var(--domain-ethics);
+  --color-domain-ac: var(--domain-ac);
+  --color-domain-gp: var(--domain-gp);
+  --color-domain-sql: var(--domain-sql);
+  --color-domain-rpd: var(--domain-rpd);
 
-  /* Fonts */
-  --font-serif: 'Crimson Pro', Georgia, serif;
-  --font-mono: 'JetBrains Mono', 'SF Mono', 'Monaco', monospace;
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
+  --font-code: var(--font-code);
 }
 
 /* ============================================
@@ -101,37 +166,46 @@ body {
 body {
   background-color: var(--paper-primary);
   color: var(--ink-primary);
-  font-family: var(--font-serif);
-  font-size: 1.125rem;
-  line-height: 1.7;
-  /* Notebook line effect */
-  background-image: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 31px,
-    rgba(0, 0, 0, 0.04) 31px,
-    rgba(0, 0, 0, 0.04) 32px
-  );
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.65;
   min-height: 100vh;
+  /* Aurore : trois nappes émeraude / cyan / or, fixées */
+  background-image:
+    radial-gradient(1100px 550px at 80% -12%,
+      color-mix(in oklab, var(--accent) 10%, transparent), transparent 62%),
+    radial-gradient(900px 520px at -12% 28%,
+      color-mix(in oklab, #22d3ee 7%, transparent), transparent 58%),
+    radial-gradient(700px 420px at 70% 108%,
+      color-mix(in oklab, #f59e0b 6%, transparent), transparent 55%);
+  background-attachment: fixed;
 }
 
-/* ============================================
-   TYPOGRAPHY
-   ============================================ */
+/* Voile de grain très léger (fixe, hors flux) pour la matière de papier */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+}
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-mono);
-  font-weight: 600;
-  line-height: 1.3;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
   color: var(--ink-primary);
 }
 
-h1 { font-size: clamp(2rem, 5vw, 3rem); }
-h2 { font-size: clamp(1.5rem, 4vw, 2.25rem); }
-h3 { font-size: clamp(1.25rem, 3vw, 1.75rem); }
-h4 { font-size: 1.25rem; }
-h5 { font-size: 1.125rem; }
-h6 { font-size: 1rem; }
+h1 { font-size: clamp(1.9rem, 4.5vw, 2.6rem); }
+h2 { font-size: clamp(1.4rem, 3.5vw, 1.9rem); }
+h3 { font-size: clamp(1.15rem, 2.5vw, 1.4rem); }
+h4 { font-size: 1.1rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.9rem; }
 
 p {
   color: var(--ink-secondary);
@@ -139,44 +213,60 @@ p {
 }
 
 a {
-  color: var(--accent-vivid);
+  color: var(--accent);
   text-decoration: none;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 a:hover {
-  opacity: 0.8;
+  opacity: 0.75;
   text-decoration: underline;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--accent) 25%, transparent);
 }
 
 /* ============================================
    CARD COMPONENT
+   Surface claire, bordure hairline, ombre
+   diffusée teintée (pas de noir pur).
    ============================================ */
 
 .card {
-  background-color: var(--paper-secondary);
-  border: 1px solid var(--paper-dark);
-  border-radius: 0.25rem;
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklab, var(--ink-primary) 4%, transparent),
+      transparent 38%),
+    var(--paper-secondary);
+  border: 1px solid color-mix(in oklab, var(--ink-primary) 10%, transparent);
+  border-radius: 1rem;
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, var(--ink-primary) 7%, transparent),
+    0 10px 30px -18px color-mix(in oklab, var(--accent) 30%, rgba(0, 0, 0, 0.35));
   padding: 1.5rem;
   position: relative;
-  transition: all 0.3s ease;
+  transition: transform 0.45s cubic-bezier(0.32, 0.72, 0, 1),
+    box-shadow 0.45s cubic-bezier(0.32, 0.72, 0, 1),
+    border-color 0.45s cubic-bezier(0.32, 0.72, 0, 1);
   overflow: hidden;
 }
 
 .card::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   bottom: 0;
   width: 0;
-  height: 4px;
-  background: var(--accent-vivid);
-  transition: width 0.3s ease;
+  height: 3px;
+  background: var(--accent);
+  transition: width 0.45s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 .card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 12px 32px -12px color-mix(in oklab, var(--accent) 16%, rgba(0, 0, 0, 0.14));
+  border-color: color-mix(in oklab, var(--accent) 35%, transparent);
 }
 
 .card:hover::before {
@@ -184,78 +274,70 @@ a:hover {
 }
 
 /* ============================================
-   BUTTON COMPONENT
+   BUTTON COMPONENT (pill, physique)
    ============================================ */
 
 .btn {
   font-family: var(--font-mono);
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 0.75rem 1.5rem;
-  border: 1px solid var(--accent-vivid);
-  border-radius: 0.25rem;
-  background: transparent;
-  color: var(--accent-vivid);
+  letter-spacing: 0.04em;
+  padding: 0.7rem 1.4rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  transition: all 0.3s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
-.btn::before {
-  /* display: none; */
+.btn:active {
+  transform: scale(0.97);
 }
-
-/* .btn:hover::before {
-  left: 0;
-} */
-
-/* .btn:hover {
-  color: var(--paper-primary);
-} */
 
 .btn-primary {
-  background: var(--accent-vivid);
-  color: var(--paper-primary);
+  background: var(--accent);
+  color: #06251c;
+  font-weight: 700;
+  box-shadow: 0 8px 22px -8px color-mix(in oklab, var(--accent) 70%, transparent);
 }
 
-.btn-primary::before {
-  /* display: none; */
+.btn-primary:hover {
+  box-shadow: 0 10px 26px -8px color-mix(in oklab, var(--accent) 65%, transparent);
+  transform: translateY(-1px);
 }
 
-/* .btn-primary:hover::before {
-  left: -100%;
-} */
-
-.btn-lg {
-  padding: 1rem 2rem;
-  font-size: 1rem;
+.btn-primary:hover:not(:disabled) {
+  color: #ffffff;
 }
 
-.btn-sm {
-  padding: 0.5rem 1rem;
-  font-size: 0.75rem;
+.btn-secondary {
+  background: var(--paper-secondary);
+  color: var(--ink-secondary);
+  border-color: var(--paper-dark);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  color: var(--accent);
+  border-color: color-mix(in oklab, var(--accent) 45%, transparent);
 }
 
 .btn:disabled {
-  opacity: 0.5;
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
-/* .btn:disabled:hover {
-  transform: none;
-  color: var(--accent-vivid);
-} */
+.btn-lg {
+  padding: 1rem 2rem;
+  font-size: 0.95rem;
+}
 
-/* .btn:disabled:hover::before {
-  left: -100%;
-} */
+.btn-sm {
+  padding: 0.45rem 0.9rem;
+  font-size: 0.72rem;
+}
 
 /* ============================================
    BADGE COMPONENT
@@ -263,17 +345,46 @@ a:hover {
 
 .badge {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
-  text-transform: uppercase;
   letter-spacing: 0.05em;
-  padding: 0.25rem 0.75rem;
+  text-transform: uppercase;
+  padding: 0.25rem 0.65rem;
   border: 1px solid var(--paper-dark);
-  border-radius: 0.25rem;
+  border-radius: 999px;
   color: var(--ink-secondary);
   background: var(--paper-secondary);
   display: inline-block;
 }
+
+/* ============================================
+   BLOCS DE CODE (fiches)
+   Fond + couleurs de syntaxe suivent le thème :
+   éditeur clair en Jour d'examen, éditeur nuit
+   en Nuit d'aurore. Les spans (.tok-*) sont
+   émis par le coloriseur des cheat sheets.
+   ============================================ */
+
+/* Le vrai code reste en monospace (JetBrains Mono), quelles que soient
+   les classes utilitaires héritées du design d'origine. Contrainte dure :
+   !important pour battre les utilitaires Tailwind sur le même élément. */
+.code-block,
+pre,
+code,
+.font-code {
+  font-family: var(--font-code) !important;
+}
+
+.code-block {
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  color: var(--code-plain);
+}
+
+.code-block .tok-kw { color: var(--code-kw); font-weight: 600; }
+.code-block .tok-str { color: var(--code-str); }
+.code-block .tok-com { color: var(--code-com); font-style: italic; }
+.code-block .tok-num { color: var(--code-num); }
 
 /* ============================================
    PROGRESS BAR COMPONENT
@@ -281,25 +392,18 @@ a:hover {
 
 .progress-container {
   width: 100%;
-  height: 1.5rem;
-  background: var(--paper-secondary);
-  border: 1px solid var(--paper-dark);
-  border-radius: 0.25rem;
+  height: 0.6rem;
+  background: var(--paper-dark);
+  border-radius: 999px;
   overflow: hidden;
   position: relative;
 }
 
 .progress-bar {
   height: 100%;
-  background: var(--accent-vivid);
-  background-image: repeating-linear-gradient(
-    45deg,
-    transparent,
-    transparent 10px,
-    rgba(0, 0, 0, 0.1) 10px,
-    rgba(0, 0, 0, 0.1) 20px
-  );
-  transition: width 0.5s ease;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: width 0.6s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 /* ============================================
@@ -313,11 +417,11 @@ a:hover {
 
 .corner-decoration::before,
 .corner-decoration::after {
-  content: '';
+  content: "";
   position: absolute;
-  width: 16px;
-  height: 16px;
-  border-color: var(--accent-vivid);
+  width: 14px;
+  height: 14px;
+  border-color: var(--accent);
   border-style: solid;
 }
 
@@ -338,9 +442,7 @@ a:hover {
    ============================================ */
 
 .border-technical {
-  border: 2px solid var(--paper-dark);
-  outline: 1px solid var(--paper-dark);
-  outline-offset: -3px;
+  border: 1px solid var(--paper-dark);
 }
 
 /* ============================================
@@ -348,21 +450,36 @@ a:hover {
    ============================================ */
 
 .animate-fade-in-up {
-  animation: fadeInUp 0.5s ease forwards;
+  animation: fadeInUp 0.55s cubic-bezier(0.32, 0.72, 0, 1) forwards;
 }
 
 .animate-slide-in-left {
-  animation: slideInLeft 0.5s ease forwards;
+  animation: slideInLeft 0.55s cubic-bezier(0.32, 0.72, 0, 1) forwards;
 }
 
 .animate-scale-in {
-  animation: scaleIn 0.3s ease forwards;
+  animation: scaleIn 0.4s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown 0.4s cubic-bezier(0.32, 0.72, 0, 1) forwards;
 }
 
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
   }
   to {
     opacity: 1;
@@ -384,7 +501,7 @@ a:hover {
 @keyframes scaleIn {
   from {
     opacity: 0;
-    transform: scale(0.9);
+    transform: scale(0.94);
   }
   to {
     opacity: 1;
@@ -395,7 +512,7 @@ a:hover {
 /* Indeterminate loading bar */
 .loading-bar {
   width: 40%;
-  animation: loading-bar 1.4s ease-in-out infinite;
+  animation: loading-bar 1.4s cubic-bezier(0.32, 0.72, 0, 1) infinite;
 }
 
 @keyframes loading-bar {
@@ -425,7 +542,7 @@ a:hover {
    ============================================ */
 
 *:focus-visible {
-  outline: 2px solid var(--accent-vivid);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
@@ -438,23 +555,23 @@ a:hover {
 }
 
 .font-serif {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
 }
 
 .text-ink-primary { color: var(--ink-primary); }
 .text-ink-secondary { color: var(--ink-secondary); }
 .text-ink-muted { color: var(--ink-muted); }
-.text-accent { color: var(--accent-vivid); }
+.text-accent { color: var(--accent); }
 
 .bg-paper-primary { background-color: var(--paper-primary); }
 .bg-paper-secondary { background-color: var(--paper-secondary); }
 .bg-paper-dark { background-color: var(--paper-dark); }
-.bg-accent { background-color: var(--accent-vivid); }
+.bg-accent { background-color: var(--accent); }
 
-.border-accent { border-color: var(--accent-vivid); }
+.border-accent { border-color: var(--accent); }
 .border-paper-dark { border-color: var(--paper-dark); }
 
-/* Domain colors */
+/* Couleurs de matières */
 .domain-ml { color: var(--domain-ml); }
 .domain-ai { color: var(--domain-ai); }
 .domain-bigdata { color: var(--domain-bigdata); }
@@ -465,6 +582,10 @@ a:hover {
 .domain-dl { color: var(--domain-dl); }
 .domain-viz { color: var(--domain-viz); }
 .domain-ethics { color: var(--domain-ethics); }
+.domain-ac { color: var(--domain-ac); }
+.domain-gp { color: var(--domain-gp); }
+.domain-sql { color: var(--domain-sql); }
+.domain-rpd { color: var(--domain-rpd); }
 
 .bg-domain-ml { background-color: var(--domain-ml); }
 .bg-domain-ai { background-color: var(--domain-ai); }
@@ -476,6 +597,10 @@ a:hover {
 .bg-domain-dl { background-color: var(--domain-dl); }
 .bg-domain-viz { background-color: var(--domain-viz); }
 .bg-domain-ethics { background-color: var(--domain-ethics); }
+.bg-domain-ac { background-color: var(--domain-ac); }
+.bg-domain-gp { background-color: var(--domain-gp); }
+.bg-domain-sql { background-color: var(--domain-sql); }
+.bg-domain-rpd { background-color: var(--domain-rpd); }
 
 .border-domain-ml { border-color: var(--domain-ml); }
 .border-domain-ai { border-color: var(--domain-ai); }
@@ -492,18 +617,13 @@ a:hover {
 .border-domain-sql { border-color: var(--domain-sql); }
 .border-domain-rpd { border-color: var(--domain-rpd); }
 
-.bg-domain-ac { background-color: var(--domain-ac); }
-.bg-domain-gp { background-color: var(--domain-gp); }
-.bg-domain-sql { background-color: var(--domain-sql); }
-.bg-domain-rpd { background-color: var(--domain-rpd); }
-
 /* ============================================
    SCROLLBAR (dans le thème)
    ============================================ */
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--paper-dark) var(--paper-secondary);
+  scrollbar-color: var(--paper-dark) var(--paper-primary);
 }
 
 ::-webkit-scrollbar {
@@ -512,13 +632,13 @@ a:hover {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--paper-secondary);
+  background: var(--paper-primary);
 }
 
 ::-webkit-scrollbar-thumb {
   background: var(--paper-dark);
   border-radius: 5px;
-  border: 2px solid var(--paper-secondary);
+  border: 2px solid var(--paper-primary);
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -526,7 +646,7 @@ a:hover {
 }
 
 ::-webkit-scrollbar-corner {
-  background: var(--paper-secondary);
+  background: var(--paper-primary);
 }
 
 /* ============================================

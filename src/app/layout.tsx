@@ -1,19 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Crimson_Pro, JetBrains_Mono } from "next/font/google";
+import { Manrope, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { AppProvider } from "@/components/AppProvider";
 import { ServiceWorkerUpdate } from "@/components/ServiceWorkerUpdate";
 
-const crimsonPro = Crimson_Pro({
-  variable: "--font-crimson-pro",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
   display: "swap",
-  weight: ["400", "600", "700"],
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
 });
 
 const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
+  variable: "--font-jetbrains",
   subsets: ["latin"],
   display: "swap",
   weight: ["400", "500", "600", "700"],
@@ -51,8 +51,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
+    <html
+      lang="fr"
+      suppressHydrationWarning
+      className={`${manrope.variable} ${jetbrainsMono.variable} antialiased`}
+    >
       <head>
+        {/* Thème : clair par défaut, sombre si préféré ou mémorisé.
+            Script inline AVANT le premier rendu pour éviter le flash. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var saved = localStorage.getItem('theme');
+                  var dark = saved
+                    ? saved === 'dark'
+                    : window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  if (dark) document.documentElement.setAttribute('data-theme', 'dark');
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
         {/* Service Worker : uniquement dans les builds de production (npm run build
             puis npm start, ou déploiement). En dev, pas de SW pour ne pas gêner le
             hot-reload. C'est lui qui rend l'app utilisable hors ligne (PWA). */}
@@ -123,9 +144,8 @@ export default function RootLayout({
         )}
       </head>
       <body
-        className={`${crimsonPro.variable} ${jetbrainsMono.variable} antialiased`}
         style={{
-          fontFamily: "var(--font-serif)",
+          fontFamily: "var(--font-sans)",
         }}
       >
         <AppProvider>{children}</AppProvider>

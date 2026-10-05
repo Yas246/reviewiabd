@@ -26,7 +26,7 @@ const DOMAIN_FILES: Record<string, string> = {
   R_PYTHON_DATA: "/questions/R_PYTHON_DATA.json",
 };
 
-const LOADED_FLAG = "preloaded_questions_v7";
+const LOADED_FLAG = "preloaded_questions_v8";
 
 // ============================================
 // RAW FORMAT (from JSON files)

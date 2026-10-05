@@ -18,8 +18,8 @@ import { cn } from "@/lib/utils";
 // ============================================
 // CHEAT SHEETS PAGE
 // Fiches de référence par matière : ça sert à
-// quoi / comment on l'écrit / pièges. Cherchable,
-// consultable hors ligne (cache SW).
+// quoi / comment on l'écrit / les pièges.
+// Recherche dans la fiche et transversale.
 // ============================================
 
 interface CheatItem {
@@ -42,6 +42,9 @@ interface CheatSheet {
 
 const SHEET_FILES = [
   "PYTHON",
+  "PANDAS",
+  "NUMPY",
+  "SCIPY",
   "R",
   "SQL",
   "MACHINE_LEARNING",
@@ -50,6 +53,68 @@ const SHEET_FILES = [
   "GESTION_PROJET",
   "BIG_DATA",
 ];
+
+// ============================================
+// COLORATION SYNTAXIQUE MAISON
+// Mots-clés, chaînes, commentaires, nombres :
+// sans dépendance externe, léger et rapide.
+// ============================================
+
+const KEYWORDS: Record<string, string[]> = {
+  python: ["def", "return", "if", "elif", "else", "for", "while", "import", "from", "as", "with", "in", "not", "and", "or", "lambda", "class", "try", "except", "finally", "raise", "True", "False", "None", "assert", "pass", "global", "del"],
+  r: ["function", "return", "if", "else", "for", "while", "repeat", "break", "next", "in", "library", "TRUE", "FALSE", "NA", "NULL", "Inf", "stopifnot", "data.frame", "matrix"],
+  sql: ["SELECT", "FROM", "WHERE", "GROUP", "BY", "HAVING", "ORDER", "LIMIT", "INSERT", "INTO", "VALUES", "UPDATE", "SET", "DELETE", "CREATE", "TABLE", "ALTER", "DROP", "JOIN", "INNER", "LEFT", "RIGHT", "FULL", "OUTER", "ON", "AS", "AND", "OR", "NOT", "NULL", "IS", "IN", "LIKE", "BETWEEN", "DISTINCT", "COUNT", "SUM", "AVG", "MIN", "MAX", "CASE", "WHEN", "THEN", "END", "UNION", "ALL", "EXISTS", "BEGIN", "COMMIT", "ROLLBACK", "PRIMARY", "KEY", "REFERENCES", "INDEX", "VIEW", "EXPLAIN", "DESC", "ASC"],
+  concepts: ["accuracy", "précision", "rappel", "overfitting", "underfitting", "dropout", "epoch", "gradient", "loss", "Scrum", "Kanban", "WIP", "Sprint", "UML", "Merise", "MCD", "MLD", "MVC", "ETL", "OLAP", "OLTP", "HDFS", "MapReduce"],
+};
+
+function escapeHtml(s: string): string {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function highlightCode(code: string, lang: string): string {
+  const escaped = escapeHtml(code);
+  const kws = KEYWORDS[lang] || KEYWORDS.python;
+  const kwPattern = kws.map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
+  const re = new RegExp(
+    "(#[^\\n]*|--[^\\n]*|\"(?:[^\"\\\\]|\\\\.)*\"|'(?:[^'\\\\]|\\\\.)*'|\\b\\d+(?:\\.\\d+)?\\b|\\b(?:" + kwPattern + ")\\b)",
+    "g"
+  );
+  return escaped.replace(re, (match: string) => {
+    if (match.startsWith("#") || match.startsWith("--"))
+      return '<span class="tok-com">' + match + "</span>";
+    if (match.startsWith('"') || match.startsWith("'"))
+      return '<span class="tok-str">' + match + "</span>";
+    if (/^\d/.test(match))
+      return '<span class="tok-num">' + match + "</span>";
+    return '<span class="tok-kw">' + match + "</span>";
+  });
+}
+
+// Couleur signature par fiche
+const SHEET_COLORS: Record<string, string> = {
+  PYTHON: "#3776ab",
+  PANDAS: "#9333ea",
+  NUMPY: "#4dabcf",
+  SCIPY: "#64748b",
+  R: "#276dc3",
+  SQL: "#b45309",
+  MACHINE_LEARNING: "#0ea5e9",
+  DEEP_LEARNING: "#ef4444",
+  ANALYSE_CONCEPTION: "#8b5cf6",
+  GESTION_PROJET: "#10b981",
+  BIG_DATA: "#f97316",
+};
+
+function sheetColor(id: string): string {
+  return SHEET_COLORS[id] || "#2563eb";
+}
+
+function sheetLang(id: string): string {
+  if (id === "PYTHON" || id === "PANDAS" || id === "NUMPY") return "python";
+  if (id === "R") return "r";
+  if (id === "SQL") return "sql";
+  return "concepts";
+}
 
 export default function CheatSheetsPage() {
   const [sheets, setSheets] = useState<CheatSheet[]>([]);
@@ -70,9 +135,36 @@ export default function CheatSheetsPage() {
       }
       setSheets(loaded);
       setLoading(false);
+      // Restauration après un rechargement : l'entrée d'historique
+      // courante porte peut-être encore une fiche ouverte.
+      const restoredId = window.history.state?.cheatsheetId;
+      if (restoredId) {
+        const restored = loaded.find((s) => s.id === restoredId);
+        if (restored) setCurrent(restored);
+      }
     };
     load();
   }, []);
+
+  // Navigation historique : ouvrir une fiche pousse une entrée, le
+  // retour du navigateur (réflexe mobile) ramène à la liste, l'avant
+  // rouvre la fiche. Jamais de sortie de la section par « retour ».
+  const openSheet = (sheet: CheatSheet) => {
+    setCurrent(sheet);
+    setQuery("");
+    window.history.pushState({ cheatsheetId: sheet.id }, "");
+  };
+
+  useEffect(() => {
+    const onPopState = (e: PopStateEvent) => {
+      const id = e.state?.cheatsheetId;
+      const sheet = id ? sheets.find((s) => s.id === id) ?? null : null;
+      setCurrent(sheet);
+      if (!sheet) setQuery("");
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, [sheets]);
 
   const q = query.trim().toLowerCase();
 
@@ -135,12 +227,12 @@ export default function CheatSheetsPage() {
           description="Fiches de référence : ça sert à quoi, comment on l'écrit, les pièges"
           actions={
             current ? (
-              <Button variant="secondary" size="sm" onClick={() => { setCurrent(null); setQuery(""); }}>
+              <Button variant="secondary" size="sm" onClick={() => window.history.back()}>
                 <ChevronLeft className="w-4 h-4 mr-2" />
                 Toutes les fiches
               </Button>
             ) : (
-              <Button variant="secondary" size="sm" onClick={() => router_back()}>
+              <Button variant="secondary" size="sm" onClick={() => window.history.back()}>
                 Retour
               </Button>
             )
@@ -181,14 +273,17 @@ export default function CheatSheetsPage() {
                     <Badge variant="default">{sheet.title}</Badge>
                     <span className="font-mono text-xs text-ink-muted">{section}</span>
                   </div>
-                  <p className="font-serif">{item.what}</p>
+                  <p className="font-sans font-semibold">{item.what}</p>
                   {item.code && (
-                    <pre className="mt-2 p-3 bg-paper-dark/60 rounded font-mono text-xs text-ink-secondary whitespace-pre-wrap overflow-x-auto">
-                      {item.code}
-                    </pre>
+                    <pre
+                      className="code-block mt-2 p-3 rounded-lg font-mono text-xs whitespace-pre-wrap overflow-x-auto"
+                      dangerouslySetInnerHTML={{
+                        __html: highlightCode(item.code, sheetLang(sheet.id)),
+                      }}
+                    />
                   )}
                   {item.note && (
-                    <p className="mt-2 text-xs text-ink-muted italic font-serif">{item.note}</p>
+                    <p className="mt-2 text-xs text-ink-muted italic">{item.note}</p>
                   )}
                 </CardContent>
               </Card>
@@ -205,11 +300,14 @@ export default function CheatSheetsPage() {
         {!current && !q && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {sheets.map((sheet) => (
-              <Card key={sheet.id} hoverable className="cursor-pointer" onClick={() => setCurrent(sheet)}>
+              <Card key={sheet.id} hoverable className="cursor-pointer border-t-4" style={{ borderTopColor: sheetColor(sheet.id) }} onClick={() => openSheet(sheet)}>
                 <CardContent>
                   <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 rounded bg-accent/10 flex items-center justify-center shrink-0">
-                      <FileText className="w-5 h-5 text-accent" />
+                    <div
+                      className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
+                      style={{ backgroundColor: `${sheetColor(sheet.id)}22` }}
+                    >
+                      <FileText className="w-5 h-5" style={{ color: sheetColor(sheet.id) }} />
                     </div>
                     <div>
                       <h3 className="font-mono font-semibold mb-1">{sheet.title}</h3>
@@ -229,10 +327,15 @@ export default function CheatSheetsPage() {
         {/* Vue : une fiche ouverte */}
         {current && (
           <div className="space-y-6">
-            <Card>
+            <Card className="border-t-4" style={{ borderTopColor: sheetColor(current.id) }}>
               <CardContent>
                 <div className="flex items-start gap-3">
-                  <BookOpen className="w-6 h-6 text-accent shrink-0 mt-1" />
+                  <div
+                    className="w-11 h-11 rounded-lg flex items-center justify-center shrink-0"
+                    style={{ backgroundColor: `${sheetColor(current.id)}22` }}
+                  >
+                    <FileText className="w-6 h-6" style={{ color: sheetColor(current.id) }} />
+                  </div>
                   <div>
                     <h2 className="font-mono font-bold text-xl mb-1">{current.title}</h2>
                     <p className="text-sm text-ink-secondary">{current.description}</p>
@@ -242,27 +345,41 @@ export default function CheatSheetsPage() {
             </Card>
 
             {filteredSections.map((section) => (
-              <Card key={section.title}>
+              <Card
+                key={section.title}
+                className="border-l-4"
+                style={{ borderLeftColor: sheetColor(current.id) }}
+              >
                 <CardContent>
-                  <h3 className="font-mono font-semibold text-accent mb-4">
+                  <h3
+                    className="font-mono font-semibold mb-4 flex items-center gap-2"
+                    style={{ color: sheetColor(current.id) }}
+                  >
+                    <span
+                      className="inline-block w-2 h-2 rounded-full"
+                      style={{ backgroundColor: sheetColor(current.id) }}
+                    />
                     {section.title}
                   </h3>
                   <div className="space-y-4">
                     {section.items.map((item, i) => (
                       <div
                         key={i}
-                        className="border border-paper-dark rounded p-4 bg-paper-secondary/50"
+                        className="border border-paper-dark rounded-lg p-4 bg-paper-secondary/50 md:grid md:grid-cols-[2fr_3fr] md:gap-4"
                       >
-                        <p className="font-serif font-semibold mb-2">{item.what}</p>
+                        <div>
+                          <p className="font-sans font-semibold mb-2">{item.what}</p>
+                          {item.note && (
+                            <p className="text-xs italic text-ink-muted">{item.note}</p>
+                          )}
+                        </div>
                         {item.code && (
-                          <pre className="p-3 bg-paper-dark/60 rounded font-mono text-xs text-ink-secondary whitespace-pre-wrap overflow-x-auto mb-2">
-                            {item.code}
-                          </pre>
-                        )}
-                        {item.note && (
-                          <p className={cn("text-xs italic font-serif", item.code ? "text-ink-muted" : "text-ink-secondary")}>
-                            {item.note}
-                          </p>
+                          <pre
+                            className="code-block mt-2 md:mt-0 md:self-center p-3 rounded-lg font-mono text-xs whitespace-pre-wrap overflow-x-auto"
+                            dangerouslySetInnerHTML={{
+                              __html: highlightCode(item.code, sheetLang(current.id)),
+                            }}
+                          />
                         )}
                       </div>
                     ))}
@@ -281,8 +398,4 @@ export default function CheatSheetsPage() {
       </main>
     </div>
   );
-}
-
-function router_back() {
-  if (typeof window !== "undefined") window.history.back();
 }

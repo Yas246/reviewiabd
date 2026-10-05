@@ -17,7 +17,10 @@ import {
   Download,
   ScrollText,
   ChevronDown,
+  Sun,
+  Moon,
 } from "lucide-react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 // ============================================
 // NAVIGATION COMPONENT
@@ -104,23 +107,23 @@ export function Navigation() {
 
   return (
     <>
-      {/* Desktop Navigation */}
-      <nav className="hidden md:block sticky top-0 z-50 bg-paper-primary/95 backdrop-blur-sm border-b border-paper-dark w-full">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+      {/* Desktop Navigation : pilule flottante en verre */}
+      <nav className="hidden md:block sticky top-4 z-50 px-4">
+        <div className="mx-auto max-w-4xl flex items-center justify-between h-14 px-5 rounded-full bg-paper-secondary/75 backdrop-blur-xl border border-paper-dark shadow-[0_10px_40px_-16px_rgba(0,0,0,0.4)]">
             <Link href="/" prefetch={false} className="flex items-center">
-              <span className="font-mono font-bold text-xl text-accent whitespace-nowrap">
+              <span className="font-mono font-bold text-base text-accent whitespace-nowrap">
                 REVIEW_IABD
               </span>
             </Link>
 
-            <div className="flex items-center gap-2 flex-1 justify-end">
+            <div className="flex items-center gap-1.5 flex-1 justify-end">
               {primaryLinks.map((l) => renderLink(l))}
 
               {/* Menu « Plus » : outils secondaires */}
               <div className="relative" ref={moreRef}>
                 <button
                   onClick={() => setMoreOpen(!moreOpen)}
+                  data-tour="nav-plus"
                   className={cn(
                     "px-3 py-2 rounded-md font-mono text-sm font-medium flex items-center gap-1.5 transition-colors",
                     isSectionActive(secondaryLinks) || moreOpen
@@ -167,43 +170,46 @@ export function Navigation() {
                 )}
               </div>
 
-              {/* Paramètres : icône à droite */}
+              {/* Thème + Paramètres : à droite */}
+              <ThemeToggle />
               <Link
                 href="/settings"
                 prefetch={false}
                 className={cn(
-                  "p-2 rounded-md transition-colors",
+                  "inline-flex items-center justify-center w-9 h-9 rounded-full border border-paper-dark bg-paper-secondary text-ink-secondary hover:text-accent hover:border-accent/50 transition-all duration-300",
                   pathname === "/settings"
-                    ? "text-accent bg-accent/10"
-                    : "text-ink-secondary hover:text-accent hover:bg-paper-dark/50",
+                    ? "text-accent border-accent/50 bg-accent/10"
+                    : "",
                 )}
                 aria-label="Paramètres"
                 title="Paramètres"
               >
-                <Settings className="w-5 h-5" />
+                <Settings className="w-4 h-4" />
               </Link>
             </div>
-          </div>
         </div>
       </nav>
 
       {/* Mobile Navigation */}
-      <nav className="md:hidden sticky top-0 z-50 bg-paper-primary/95 backdrop-blur-sm border-b border-paper-dark w-full">
+      <nav className="md:hidden sticky top-0 z-50 bg-paper-secondary/85 backdrop-blur-xl border-b border-paper-dark w-full">
         <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-14">
             <Link href="/" prefetch={false} className="flex items-center space-x-2">
               <span className="font-mono font-bold text-lg text-accent">
                 REVIEW_IABD
               </span>
             </Link>
 
-            <button
-              onClick={toggleMenu}
-              className="p-2 rounded-md text-ink-secondary hover:text-accent hover:bg-paper-secondary transition-colors"
-              aria-label="Toggle menu"
-            >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <button
+                onClick={toggleMenu}
+                className="p-2 rounded-md text-ink-secondary hover:text-accent hover:bg-paper-secondary transition-colors"
+                aria-label="Toggle menu"
+              >
+                {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
           </div>
 
           {/* Mobile Menu Panel */}

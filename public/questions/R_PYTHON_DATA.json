@@ -512,7 +512,7 @@
     "id": "rpd_015",
     "domain": "R_PYTHON_DATA",
     "type": "CODE",
-    "question": "Complétez la fonction moyenne pour qu'elle renvoie la moyenne arithmétique d'une liste de nombres.",
+    "question": "En Python, la liste revenus est donnée ci-dessous. Complétez la fonction moyenne pour qu'elle renvoie la moyenne arithmétique d'une liste de nombres ; elle sera vérifiée sur revenus.",
     "code": {
       "language": "python",
       "setup": "revenus = [400, 1200, 800, 950, 1500, 700]",
@@ -537,7 +537,7 @@
         }
       ]
     },
-    "explanation": "La moyenne s'obtient en divisant la somme des valeurs par leur effectif : sum(valeurs) / len(valeurs). C'est le calcul de base à maîtriser avant d'utiliser statistics ou numpy.",
+    "explanation": "Les données : revenus contient six valeurs : 400, 1200, 800, 950, 1500 et 700. La solution : sum(valeurs) / len(valeurs) divise la somme des valeurs par leur nombre. Sur les données : 400 + 1200 + 800 + 950 + 1500 + 700 = 5550, et 5550 / 6 = 925, donc moyenne(revenus) = 925. Cas simple vérifié aussi : moyenne([400, 1200]) = 1600 / 2 = 800.",
     "difficulty": "easy",
     "tags": [
       "python",
@@ -1053,7 +1053,7 @@
     "id": "rpd_029",
     "domain": "R_PYTHON_DATA",
     "type": "CODE",
-    "question": "En R, définissez une fonction moyenne qui renvoie la moyenne d'un vecteur numérique.",
+    "question": "En R, le vecteur revenus ci-dessous servira de jeu de données. Définissez une fonction moyenne qui renvoie la moyenne d'un vecteur numérique ; elle sera vérifiée sur revenus.",
     "code": {
       "language": "r",
       "setup": "revenus <- c(400, 1200, 800, 950, 1500, 700)",
@@ -1078,7 +1078,7 @@
         }
       ]
     },
-    "explanation": "En R, la moyenne d'un vecteur s'écrit sum(v) / length(v), équivalent de mean(v). Renvoyer la dernière expression suffit : R retourne implicitement la dernière valeur évaluée.",
+    "explanation": "Les données : revenus contient 400, 1200, 800, 950, 1500 et 700. La solution : sum(v) / length(v) additionne toutes les valeurs puis divise par leur nombre ; en R, la dernière expression évaluée par la fonction est renvoyée automatiquement. Sur les données : la somme vaut 5550 et l'effectif 6, donc moyenne(revenus) = 5550 / 6 = 925. Cas simple vérifié : moyenne(c(400, 1200)) = 1600 / 2 = 800.",
     "difficulty": "easy",
     "tags": [
       "r",
@@ -1654,7 +1654,7 @@
     "id": "rpd_046",
     "domain": "R_PYTHON_DATA",
     "type": "CODE",
-    "question": "Complétez la fonction compter_sup pour qu'elle renvoie le nombre d'éléments du tableau strictement supérieurs au seuil.",
+    "question": "On dispose de la liste notes donnée ci-dessous. Complétez la fonction compter_sup(valeurs, seuil) pour qu'elle renvoie le nombre d'éléments du tableau strictement supérieurs au seuil.",
     "code": {
       "language": "python",
       "setup": "notes = [8, 12, 15, 6, 14, 9]",
@@ -1679,7 +1679,7 @@
         }
       ]
     },
-    "explanation": "On parcourt les valeurs avec une boucle, on incrémente un compteur à chaque comparaison v > seuil vraie, puis on renvoie le compteur. La comparaison doit être stricte : une valeur égale au seuil ne compte pas.",
+    "explanation": "Les données : notes contient 8, 12, 15, 6, 14 et 9. La solution : on initialise un compteur à 0, on parcourt les valeurs et on l'incrémente à chaque fois que v > seuil est vrai ; la comparaison doit être stricte, une valeur égale au seuil ne compte pas. Sur les données, avec le seuil 10 : 12, 15 et 14 dépassent 10, donc compter_sup(notes, 10) = 3. Cas limite vérifié : dans [10, 11, 9, 12] avec le seuil 10, la valeur 10 ne compte pas et le résultat est 2.",
     "difficulty": "easy",
     "tags": [
       "python",
@@ -1691,7 +1691,7 @@
     "id": "rpd_047",
     "domain": "R_PYTHON_DATA",
     "type": "CODE",
-    "question": "Avec pandas, créez dans ventes une colonne total valant prix multiplié par quantite, puis affectez à la variable ca la somme de tous les totaux (chiffre d'affaires).",
+    "question": "Avec pandas, le DataFrame ventes ci-dessous décrit trois produits avec leurs prix et leurs quantités vendues. Créez dans ventes une colonne total valant prix multiplié par quantite, puis affectez à la variable ca la somme de tous les totaux (chiffre d'affaires).",
     "code": {
       "language": "python",
       "setup": "import pandas as pd\nventes = pd.DataFrame({'produit': ['A', 'B', 'C'], 'prix': [1000, 2500, 800], 'quantite': [3, 1, 5]})",
@@ -1716,7 +1716,7 @@
         }
       ]
     },
-    "explanation": "Multiplier deux colonnes pandas multiplie les valeurs ligne à ligne ; affecter le résultat à ventes['total'] crée la nouvelle colonne. La somme des totaux s'obtient avec sum() et vaut 3000 + 2500 + 4000, soit 9500.",
+    "explanation": "Les données : ventes contient trois lignes : A (prix 1000, quantite 3), B (prix 2500, quantite 1) et C (prix 800, quantite 5). La solution : ventes['prix'] * ventes['quantite'] multiplie les deux colonnes ligne à ligne, et l'affectation à ventes['total'] crée la nouvelle colonne ; sum() additionne ensuite ses valeurs. Sur les données : les totaux valent 1000 × 3 = 3000, 2500 × 1 = 2500 et 800 × 5 = 4000, donc ca = 3000 + 2500 + 4000 = 9500.",
     "difficulty": "medium",
     "tags": [
       "pandas",
@@ -1727,7 +1727,7 @@
     "id": "rpd_048",
     "domain": "R_PYTHON_DATA",
     "type": "CODE",
-    "question": "En R, complétez la fonction etendue pour qu'elle renvoie l'étendue d'un vecteur numérique, c'est-à-dire la différence entre sa valeur maximale et sa valeur minimale.",
+    "question": "En R, on dispose du vecteur revenus donné ci-dessous. Complétez la fonction etendue(v) pour qu'elle renvoie l'étendue d'un vecteur numérique, c'est-à-dire la différence entre sa valeur maximale et sa valeur minimale.",
     "code": {
       "language": "r",
       "setup": "revenus <- c(400, 1200, 800, 950, 1500, 700)",
@@ -1752,7 +1752,7 @@
         }
       ]
     },
-    "explanation": "L'étendue se calcule simplement par max(v) - min(v). Sur les revenus donnés, le maximum vaut 1500 et le minimum 400, d'où une étendue de 1100.",
+    "explanation": "Les données : revenus contient six valeurs : 400, 1200, 800, 950, 1500 et 700. La solution : la fonction renvoie max(v) - min(v), c'est-à-dire la plus grande valeur du vecteur moins la plus petite. Sur les données : max(revenus) vaut 1500 et min(revenus) vaut 400, donc etendue(revenus) = 1500 - 400 = 1100. Dernier cas vérifié : un vecteur aux valeurs identiques, etendue(c(5, 5, 5)) = 5 - 5 = 0.",
     "difficulty": "easy",
     "tags": [
       "r",
@@ -1764,7 +1764,7 @@
     "id": "rpd_049",
     "domain": "R_PYTHON_DATA",
     "type": "CODE",
-    "question": "En R, complétez la fonction impute_moyenne pour qu'elle renvoie le vecteur dans lequel chaque valeur manquante est remplacée par la moyenne des valeurs connues, sans modifier la longueur du vecteur.",
+    "question": "En R, on dispose du vecteur revenu donné ci-dessous, qui contient des NA. Complétez la fonction impute_moyenne pour qu'elle renvoie le vecteur dans lequel chaque valeur manquante est remplacée par la moyenne des valeurs connues, sans modifier la longueur du vecteur.",
     "code": {
       "language": "r",
       "setup": "revenu <- c(400, NA, 800, 950, NA, 700)",
@@ -1789,7 +1789,7 @@
         }
       ]
     },
-    "explanation": "L'affectation v[is.na(v)] <- mean(v, na.rm = TRUE) remplace uniquement les positions manquantes par la moyenne calculée sur les valeurs connues. Ici la moyenne des quatre revenus connus vaut 712,5 et la longueur reste égale à six.",
+    "explanation": "Les données : revenu contient 400, NA, 800, 950, NA et 700 : quatre valeurs connues et deux manquantes. La solution : mean(v, na.rm = TRUE) calcule la moyenne en ignorant les NA, et l'affectation v[is.na(v)] <- ... ne remplace que les positions manquantes ; la fonction renvoie ensuite le vecteur complété. Sur les données : la moyenne des valeurs connues vaut (400 + 800 + 950 + 700) / 4 = 2850 / 4 = 712,5, donc les deux NA deviennent 712,5 et le vecteur garde sa longueur de 6.",
     "difficulty": "medium",
     "tags": [
       "r",
@@ -2294,7 +2294,7 @@
     "id": "rpd_063",
     "domain": "R_PYTHON_DATA",
     "type": "CODE",
-    "question": "Complétez la fonction moyenne_sans_na pour qu'elle renvoie la moyenne des valeurs de la liste en ignorant les éléments None (les valeurs manquantes en Python).",
+    "question": "On dispose de la liste mesures donnée ci-dessous, qui contient des None. Complétez la fonction moyenne_sans_na pour qu'elle renvoie la moyenne des valeurs de la liste en ignorant les éléments None (les valeurs manquantes en Python).",
     "code": {
       "language": "python",
       "setup": "mesures = [400, None, 800, 950, None, 700]",
@@ -2319,7 +2319,7 @@
         }
       ]
     },
-    "explanation": "On filtre d'abord les None avec une compréhension de liste, puis on divise la somme par le nombre de valeurs conservées. Diviser par la longueur initiale fausserait le résultat : ici 2850 / 4 = 712,5.",
+    "explanation": "Les données : mesures contient 400, None, 800, 950, None et 700 : quatre valeurs connues. La solution : la compréhension [v for v in valeurs if v is not None] conserve les valeurs non manquantes, puis on divise leur somme par leur nombre. Sur les données : 400 + 800 + 950 + 700 = 2850, et 2850 / 4 = 712,5, donc moyenne_sans_na(mesures) = 712,5. Diviser par la longueur initiale (6) aurait faussé le résultat.",
     "difficulty": "medium",
     "tags": [
       "python",
@@ -2331,7 +2331,7 @@
     "id": "rpd_064",
     "domain": "R_PYTHON_DATA",
     "type": "CODE",
-    "question": "Complétez la fonction total_par_produit pour qu'elle renvoie un dictionnaire associant à chaque produit la somme de ses montants de vente.",
+    "question": "On dispose de la liste ventes donnée ci-dessous, où chaque élément est un dictionnaire avec un produit et un montant. Complétez la fonction total_par_produit pour qu'elle renvoie un dictionnaire associant à chaque produit la somme de ses montants de vente.",
     "code": {
       "language": "python",
       "setup": "ventes = [{'produit': 'savon', 'montant': 2000}, {'produit': 'sel', 'montant': 1500}, {'produit': 'savon', 'montant': 3000}]",
@@ -2356,7 +2356,7 @@
         }
       ]
     },
-    "explanation": "On parcourt les dictionnaires de vente, on lit la clé produit et on cumule le montant avec get(valeur par défaut 0) pour gérer la première occurrence. C'est l'agrégation manuelle que pandas ferait avec groupby.",
+    "explanation": "Les données : ventes contient trois ventes : savon 2000, sel 1500 et savon 3000. La solution : on parcourt les ventes, totaux.get(v['produit'], 0) retrouve le total déjà accumulé pour le produit (0 à la première occurrence) et on y ajoute le montant. Sur les données : savon cumule 2000 + 3000 = 5000 et sel 1500, donc total_par_produit(ventes) = {'savon': 5000, 'sel': 1500}. C'est l'agrégation manuelle que pandas ferait avec groupby.",
     "difficulty": "medium",
     "tags": [
       "python",
@@ -2368,7 +2368,7 @@
     "id": "rpd_065",
     "domain": "R_PYTHON_DATA",
     "type": "CODE",
-    "question": "En R, complétez la fonction mediane pour qu'elle renvoie la médiane d'un vecteur numérique, en gérant les effectifs pairs et impairs, sans utiliser la fonction median.",
+    "question": "En R, on travaille avec le vecteur revenus donné ci-dessous. Complétez la fonction mediane pour qu'elle renvoie la médiane d'un vecteur numérique, en gérant les effectifs pairs et impairs, sans utiliser la fonction median.",
     "code": {
       "language": "r",
       "setup": "revenus <- c(400, 1200, 800, 950, 1500, 700)",
@@ -2393,7 +2393,7 @@
         }
       ]
     },
-    "explanation": "On trie d'abord le vecteur avec sort. Si l'effectif est impair, la médiane est la valeur centrale ; s'il est pair, c'est la moyenne des deux valeurs centrales. Sur les revenus triés, cela donne (800 + 950) / 2 = 875.",
+    "explanation": "Les données : revenus contient 400, 1200, 800, 950, 1500 et 700. La solution : sort trie le vecteur ; si l'effectif est impair, la médiane est la valeur centrale, sinon c'est la moyenne des deux valeurs centrales. Sur les données : le tri donne 400, 700, 800, 950, 1200, 1500 (effectif pair), donc mediane(revenus) = (800 + 950) / 2 = 875. Cas impair vérifié : mediane(c(10, 30, 20)) = 20.",
     "difficulty": "medium",
     "tags": [
       "r",
@@ -2430,7 +2430,7 @@
         }
       ]
     },
-    "explanation": "data.frame assemble des vecteurs de même longueur en colonnes nommées. nrow donne le nombre de lignes, et mean avec na.rm = TRUE ignore le NA : (25 + 40) / 2 = 32,5.",
+    "explanation": "Les données : l'énoncé demande le data.frame clients avec id = c(1, 2, 3), age = c(25, NA, 40) et revenu = c(400, 1200, 800) : trois lignes, un âge manquant. La solution : data.frame assemble les trois vecteurs en colonnes nommées, nrow(clients) compte les lignes et mean(clients$age, na.rm = TRUE) calcule la moyenne en ignorant le NA. Sur les données : nb_lignes = 3 et age_moyen = (25 + 40) / 2 = 32,5.",
     "difficulty": "medium",
     "tags": [
       "r",
@@ -2934,7 +2934,7 @@
     "id": "rpd_080",
     "domain": "R_PYTHON_DATA",
     "type": "CODE",
-    "question": "Complétez la fonction statistiques pour qu'elle renvoie un dictionnaire à deux clés : 'moyenne' (moyenne arithmétique) et 'mediane' (médiane calculée sans la fonction median de Python).",
+    "question": "En Python, la même liste revenus est disponible ci-dessous. Complétez cette fois la fonction statistiques pour qu'elle renvoie un dictionnaire à deux clés : 'moyenne' (moyenne arithmétique) et 'mediane' (médiane calculée sans la fonction median de Python).",
     "code": {
       "language": "python",
       "setup": "revenus = [400, 1200, 800, 950, 1500, 700]",
@@ -2959,7 +2959,7 @@
         }
       ]
     },
-    "explanation": "On trie les valeurs avec sorted, on calcule la médiane selon la parité de l'effectif, puis on renvoie les deux indicateurs dans un dictionnaire. Sur les revenus, la moyenne vaut 925 et la médiane 875 : l'écart traduit l'asymétrie vers le haut.",
+    "explanation": "Les données : revenus contient 400, 1200, 800, 950, 1500 et 700. La solution : sorted trie les valeurs, la médiane dépend de la parité de l'effectif (valeur centrale si impair, moyenne des deux centrales si pair), et le dictionnaire renvoyé contient les deux indicateurs. Sur les données : la somme vaut 5550, donc la moyenne 5550 / 6 = 925 ; le tri donne 400, 700, 800, 950, 1200, 1500 et la médiane (800 + 950) / 2 = 875. D'où {'moyenne': 925, 'mediane': 875}.",
     "difficulty": "hard",
     "tags": [
       "python",
@@ -2971,7 +2971,7 @@
     "id": "rpd_081",
     "domain": "R_PYTHON_DATA",
     "type": "CODE",
-    "question": "Avec pandas, remplacez les revenus manquants de df par la moyenne des revenus connus, puis affectez à n_manquants le nombre de valeurs manquantes restantes dans la colonne revenu.",
+    "question": "Avec pandas, on dispose du DataFrame df donné ci-dessous (cinq villes, un revenu manquant). Remplacez les revenus manquants de df par la moyenne des revenus connus, puis affectez à n_manquants le nombre de valeurs manquantes restantes dans la colonne revenu.",
     "code": {
       "language": "python",
       "setup": "import pandas as pd\ndf = pd.DataFrame({'ville': ['Cotonou', 'Porto-Novo', 'Parakou', 'Bohicon', 'Abomey'], 'revenu': [400, None, 800, 400, 800]})",
@@ -2996,7 +2996,7 @@
         }
       ]
     },
-    "explanation": "fillna avec la moyenne de la colonne remplace chaque NaN par la moyenne des valeurs connues, ici 600. Après imputation, isna().sum() vaut zéro et la moyenne de la colonne reste 600.",
+    "explanation": "Les données : df associe cinq villes à des revenus 400, None, 800, 400 et 800 : une seule valeur manquante, à Porto-Novo. La solution : df['revenu'].mean() ignore les NaN par défaut, fillna remplace chaque manquant par cette moyenne, et isna().sum() compte les manquants restants. Sur les données : la moyenne des revenus connus vaut (400 + 800 + 400 + 800) / 4 = 2400 / 4 = 600, donc le NA de Porto-Novo devient 600, n_manquants = 0 et la moyenne de la colonne reste 600.",
     "difficulty": "medium",
     "tags": [
       "pandas",
@@ -3008,7 +3008,7 @@
     "id": "rpd_082",
     "domain": "R_PYTHON_DATA",
     "type": "CODE",
-    "question": "En R, calculez avec tapply la moyenne du revenu par région de la table clients : affectez le résultat à moyennes_region, puis à moy_nord la moyenne de la région Nord.",
+    "question": "En R, le data.frame clients ci-dessous croise région et revenu. Calculez avec tapply la moyenne du revenu par région : affectez le résultat à moyennes_region, puis à moy_nord la moyenne de la région Nord.",
     "code": {
       "language": "r",
       "setup": "clients <- data.frame(region = c(\"Nord\", \"Sud\", \"Nord\", \"Sud\", \"Nord\"), revenu = c(400, 900, 600, 700, 500))",
@@ -3033,7 +3033,7 @@
         }
       ]
     },
-    "explanation": "tapply découpe revenu selon les niveaux de region et applique mean à chaque groupe : le Nord vaut (400 + 600 + 500) / 3 = 500, le Sud (900 + 700) / 2 = 800. Le résultat est indexé par les noms de régions, d'où l'extraction avec [\"Nord\"].",
+    "explanation": "Les données : clients contient cinq clients : Nord 400, Sud 900, Nord 600, Sud 700 et Nord 500. La solution : tapply(clients$revenu, clients$region, mean) découpe le revenu par niveau de région et calcule la moyenne de chaque groupe ; le résultat étant nommé par les régions, on extrait moy_nord avec ['Nord']. Sur les données : le Nord cumule 400, 600 et 500, soit (400 + 600 + 500) / 3 = 500 ; le Sud cumule 900 et 700, soit (900 + 700) / 2 = 800. D'où moy_nord = 500.",
     "difficulty": "hard",
     "tags": [
       "r",
@@ -3554,7 +3554,7 @@
     "id": "rpd_097",
     "domain": "R_PYTHON_DATA",
     "type": "CODE",
-    "question": "Avec pandas, calculez le total des montants par région du DataFrame ventes : affectez la Series résultat à totals, puis à region_top la région dont le total est maximal.",
+    "question": "Avec pandas, on dispose du DataFrame ventes donné ci-dessous (région et montant). Calculez le total des montants par région : affectez la Series résultat à totals, puis à region_top la région dont le total est maximal.",
     "code": {
       "language": "python",
       "setup": "import pandas as pd\nventes = pd.DataFrame({'region': ['Nord', 'Sud', 'Nord', 'Sud'], 'montant': [400, 900, 600, 700]})",
@@ -3579,7 +3579,7 @@
         }
       ]
     },
-    "explanation": "groupby découpe la table par région, la sélection de montant puis sum agrège chaque groupe : Nord vaut 1000 et Sud 1600. idxmax renvoie l'index, donc la région, associé au maximum.",
+    "explanation": "Les données : ventes contient quatre ventes : Nord 400, Sud 900, Nord 600 et Sud 700. La solution : ventes.groupby('region')['montant'].sum() regroupe les lignes par région et additionne les montants de chaque groupe ; idxmax renvoie l'index (la région) du total maximal. Sur les données : Nord = 400 + 600 = 1000 et Sud = 900 + 700 = 1600, donc totals vaut Nord 1000 et Sud 1600, et region_top = 'Sud'.",
     "difficulty": "hard",
     "tags": [
       "pandas",
@@ -3590,7 +3590,7 @@
     "id": "rpd_098",
     "domain": "R_PYTHON_DATA",
     "type": "CODE",
-    "question": "En R, créez clients_propres comme la table clients débarrassée de ses lignes incomplètes, puis affectez à revenu_moyen la moyenne des revenus de cette table propre.",
+    "question": "En R, on dispose du data.frame clients donné ci-dessous, dont une ligne est incomplète. Créez clients_propres comme cette table débarrassée de ses lignes incomplètes, puis affectez à revenu_moyen la moyenne des revenus de cette table propre.",
     "code": {
       "language": "r",
       "setup": "clients <- data.frame(region = c(\"Nord\", \"Sud\", \"Nord\"), revenu = c(400, NA, 600))",
@@ -3615,7 +3615,7 @@
         }
       ]
     },
-    "explanation": "na.omit(clients) élimine la ligne dont le revenu manque : il reste deux observations. La moyenne des revenus propres vaut (400 + 600) / 2 = 500. Supprimer des lignes reste un choix à peser, car chaque observation perdue réduit l'échantillon.",
+    "explanation": "Les données : clients contient trois lignes : Nord 400, Sud NA et Nord 600 ; la ligne du Sud n'a pas de revenu. La solution : na.omit(clients) supprime toute ligne contenant au moins un NA, puis mean calcule la moyenne des revenus restants. Sur les données : il reste les lignes Nord 400 et Nord 600, donc clients_propres a deux lignes et revenu_moyen = (400 + 600) / 2 = 500. Supprimer des lignes reste un choix à peser, car chaque observation perdue réduit l'échantillon.",
     "difficulty": "medium",
     "tags": [
       "r",
@@ -3652,7 +3652,7 @@
         }
       ]
     },
-    "explanation": "La moyenne des trois montants connus vaut (400 + 600 + 800) / 3 = 600 : c'est la valeur affectée aux positions manquantes. Le total complété vaut 400 + 600 + 600 + 800 = 2400. On enchaîne création, nettoyage et synthèse, le fil type d'une analyse R.",
+    "explanation": "Les données : l'énoncé demande le data.frame ventes avec region = c('Nord', 'Sud', 'Nord', 'Sud') et montant = c(400, NA, 600, 800) : un seul montant manque, celui du Sud. La solution : la moyenne des montants connus vaut (400 + 600 + 800) / 3 = 600, on l'affecte aux positions manquantes avec is.na, puis sum totalise la colonne complétée. Sur les données : les montants deviennent 400, 600, 600 et 800, donc total = 2400, et le montant imputé (ligne 2) vaut 600.",
     "difficulty": "hard",
     "tags": [
       "r",

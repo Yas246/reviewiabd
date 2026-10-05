@@ -303,6 +303,19 @@ export function QuestionCard({
       {/* Exercice de code */}
       {question.type === QuestionType.CODE && question.code && (
         <div className="space-y-4">
+          {/* Données de l'exercice : sans elles, l'énoncé et la correction
+              parlent de valeurs que l'utilisateur n'a jamais vues */}
+          {question.code.setup && question.code.setup.trim() && (
+            <div className="code-block rounded-lg p-3">
+              <p className="text-ink-muted uppercase text-[10px] mb-1.5 tracking-wide">
+                Données de l&apos;exercice
+              </p>
+              <pre className="text-xs whitespace-pre-wrap overflow-x-auto">
+                {question.code.setup}
+              </pre>
+            </div>
+          )}
+
           <div className="overflow-hidden rounded border border-paper-dark">
             <CodeMirror
               value={value.codeAnswer || question.code.starter || ""}
@@ -340,13 +353,13 @@ export function QuestionCard({
           {value.codeResult && (
             <div className="space-y-3">
               {value.codeResult.output && (
-                <div className="p-3 bg-paper-dark/50 rounded font-mono text-xs text-ink-secondary whitespace-pre-wrap max-h-48 overflow-y-auto">
+                <div className="p-3 bg-paper-dark/50 rounded font-code text-xs text-ink-secondary whitespace-pre-wrap max-h-48 overflow-y-auto">
                   <p className="text-ink-muted uppercase text-[10px] mb-1">Sortie</p>
                   {value.codeResult.output}
                 </div>
               )}
               {value.codeResult.error && (
-                <div className="p-3 bg-domain-ml/10 border border-domain-ml/40 rounded font-mono text-xs text-domain-ml whitespace-pre-wrap">
+                <div className="p-3 bg-domain-ml/10 border border-domain-ml/40 rounded font-code text-xs text-domain-ml whitespace-pre-wrap">
                   {value.codeResult.error}
                 </div>
               )}

@@ -3,10 +3,10 @@
 // Caches static assets for offline use
 // ============================================
 
-const CACHE_NAME = "review-iabd-v3.4.3";
-const STATIC_CACHE = "review-iabd-static-v3.4.3";
-const RUNTIME_CACHE = "review-iabd-runtime-v3.4.3";
-const RUNTIMES_CACHE = "review-iabd-runtimes-v3.4.3";
+const CACHE_NAME = "review-iabd-v3.5.1";
+const STATIC_CACHE = "review-iabd-static-v3.5.1";
+const RUNTIME_CACHE = "review-iabd-runtime-v3.5.1";
+const RUNTIMES_CACHE = "review-iabd-runtimes-v3.5.1";
 
 // Assets to cache on install (core HTML pages)
 const urlsToCache = [
@@ -89,6 +89,33 @@ self.addEventListener("message", (event) => {
   } else if (event.data && event.data.type === "CLAIM_CLIENTS") {
     console.log("[SW] Received CLAIM_CLIENTS message, claiming all clients");
     self.clients.claim();
+  } else if (event.data && event.data.type === "PRECACHE_URLS") {
+    // Pré-téléchargement des runtimes depuis le contexte du SW : les gros
+    // fichiers (.wasm, .zip, .whl) sont récupérés ICI et mis dans
+    // RUNTIMES_CACHE, sans passer par un téléchargement visible côté page.
+    const port = event.ports && event.ports[0];
+    const urls = (event.data.urls || []);
+    event.waitUntil(
+      (async () => {
+        const cache = await caches.open(RUNTIMES_CACHE);
+        let done = 0;
+        for (const u of urls) {
+          try {
+            let res = await fetch(u);
+            if (res && res.status < 400) {
+              await cache.put(u, res.clone());
+            } else {
+              if (port) port.postMessage({ stage: `échec ${u} (${res ? res.status : "?"})` });
+            }
+          } catch (e) {
+            if (port) port.postMessage({ stage: `échec ${u} : ${String(e).slice(0, 80)}` });
+          }
+          done++;
+          if (port) port.postMessage({ stage: `préchargé ${done}/${urls.length}` });
+        }
+        if (port) port.postMessage({ stage: "OK", done });
+      })()
+    );
   } else if (event.data && event.data.type === "REQLOG") {
     const port = event.ports && event.ports[0];
     if (port) port.postMessage({ reqlog: REQ_LOG.slice(), controlled: self.crossOriginIsolated });

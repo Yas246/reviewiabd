@@ -1,0 +1,109 @@
+## BASES_DONNEES_SQL.json (12 questions CODE)
+
+- [sql_010] sql | question : Affichez le nom et la ville des clients qui habitent à Cotonou, triés par nom dans l'ordre
+  - setup : CREATE TABLE clients ( ;   id INTEGER PRIMARY KEY, ;   nom TEXT NOT NULL, ;   ville TEXT NOT NULL ; ); ; CREATE TABLE co
+  - explication actuelle (200 car.) : La clause WHERE filtre les lignes sur la ville, puis ORDER BY nom trie le résultat en ordre alphabétique croissant (ordre par défaut). Trois clients de Cotonou sont attendus : Adjovi, Dossa et Mensah.
+- [sql_023] sql | question : Affichez le nom du client et le montant de chaque commande, triés par montant décroissant 
+  - setup : CREATE TABLE clients ( ;   id INTEGER PRIMARY KEY, ;   nom TEXT NOT NULL, ;   ville TEXT NOT NULL ; ); ; CREATE TABLE co
+  - explication actuelle (223 car.) : La jointure interne rapproche chaque commande de son client via client_id = id, puis ORDER BY montant DESC classe du plus gros au plus petit achat. Sept lignes sont attendues, la première étant la commande de Kossi à 450
+- [sql_052] sql | question : Pour chaque étudiant, affichez son nom et sa moyenne des notes (colonne nommée moyenne), t
+  - setup : CREATE TABLE etudiants ( ;   id INTEGER PRIMARY KEY, ;   nom TEXT NOT NULL, ;   filliere TEXT NOT NULL ; ); ; CREATE TAB
+  - explication actuelle (190 car.) : La jointure relie chaque note à son étudiant, GROUP BY par étudiant forme les groupes, AVG calcule la moyenne et le tri décroissant classe Awa (16) devant Sena (14), puis Kevin et Rock (10).
+- [sql_062] sql | question : Pour chaque film ayant reçu au moins une interaction, affichez son titre et le nombre d'in
+  - setup : CREATE TABLE films ( ;   id INTEGER PRIMARY KEY, ;   titre TEXT NOT NULL, ;   genre TEXT NOT NULL, ;   annee INTEGER NOT
+  - explication actuelle (223 car.) : La jointure interne écarte le film sans interaction, GROUP BY par film forme les groupes, COUNT(*) compte les lignes de chacun et le double tri classe Zemidjan express (3) en tête, puis les films à 2 par ordre alphabétiq
+- [sql_068] sql | question : Affichez le titre et l'année de sortie des films du genre « comedie », triés par année déc
+  - setup : CREATE TABLE films ( ;   id INTEGER PRIMARY KEY, ;   titre TEXT NOT NULL, ;   genre TEXT NOT NULL, ;   annee INTEGER NOT
+  - explication actuelle (205 car.) : Une requête de lecture se compose d'une projection (titre, annee), d'un filtre sur le genre avec WHERE et d'un tri multi-colonnes avec ORDER BY, chaque colonne pouvant porter son propre sens (DESC ou ASC).
+- [sql_072] sql | question : Affichez le nom des étudiants qui ont obtenu au moins une note supérieure ou égale à 15, t
+  - setup : CREATE TABLE etudiants ( ;   id INTEGER PRIMARY KEY, ;   nom TEXT NOT NULL, ;   filliere TEXT NOT NULL ; ); ; CREATE TAB
+  - explication actuelle (201 car.) : La sous-requête interne ramène les identifiants des étudiants concernés, et l'opérateur IN filtre la table externe sur cet ensemble. Un tri final sur le nom présente le résultat par ordre alphabétique.
+- [sql_076] sql | question : Affichez le nom des clients qui n'ont passé aucune commande, triés par nom croissant.
+  - setup : CREATE TABLE clients ( ;   id INTEGER PRIMARY KEY, ;   nom TEXT NOT NULL, ;   ville TEXT NOT NULL ; ); ; CREATE TABLE co
+  - explication actuelle (183 car.) : Le LEFT JOIN conserve tous les clients même sans correspondance ; leurs colonnes de commandes valent alors NULL. Filtrer sur IS NULL isole exactement les clients restés sans commande.
+- [sql_079] sql | question : Pour chaque client ayant dépensé plus de 40000 FCFA au total, affichez son nom et le total
+  - setup : CREATE TABLE clients ( ;   id INTEGER PRIMARY KEY, ;   nom TEXT NOT NULL, ;   ville TEXT NOT NULL ; ); ; CREATE TABLE co
+  - explication actuelle (207 car.) : La jointure relie chaque commande à son client, le GROUP BY calcule la somme par client, HAVING ne garde que les groupes dont le total dépasse 40000 et ORDER BY classe ces totaux du plus grand au plus petit.
+- [sql_081] sql | question : Affichez l'intitulé des cours ayant reçu au moins 3 notes, avec la moyenne de ces notes so
+  - setup : CREATE TABLE etudiants ( ;   id INTEGER PRIMARY KEY, ;   nom TEXT NOT NULL, ;   filliere TEXT NOT NULL ; ); ; CREATE TAB
+  - explication actuelle (221 car.) : Le GROUP BY regroupe les notes par cours, AVG calcule la moyenne de chaque groupe et la condition HAVING COUNT(*) >= 3 écarte les cours insuffisamment évalués. Le tri décroissant classe les meilleures moyennes en premier
+- [sql_084] sql | question : Affichez le titre des films dont le nombre d'interactions est strictement supérieur à la m
+  - setup : CREATE TABLE films ( ;   id INTEGER PRIMARY KEY, ;   titre TEXT NOT NULL, ;   genre TEXT NOT NULL, ;   annee INTEGER NOT
+  - explication actuelle (234 car.) : Le GROUP BY compte les interactions de chaque film, puis HAVING compare ce compteur au résultat d'une sous-requête qui calcule la moyenne des compteurs de tous les films. Seuls les films plus populaires que cette moyenne
+- [sql_090] sql | question : Pour chaque genre de film, affichez le genre et le nombre de films sous le nom nb_films, t
+  - setup : CREATE TABLE films ( ;   id INTEGER PRIMARY KEY, ;   titre TEXT NOT NULL, ;   genre TEXT NOT NULL, ;   annee INTEGER NOT
+  - explication actuelle (219 car.) : Le GROUP BY forme un groupe par valeur distincte du genre et COUNT(*) compte les lignes de chaque groupe. L'alias créé avec AS peut être réutilisé dans le tri, et le second critère de tri départage les genres à égalité.
+- [sql_094] sql | question : Affichez le pseudo des utilisateurs ayant interagi avec au moins 3 films distincts, avec c
+  - setup : CREATE TABLE films ( ;   id INTEGER PRIMARY KEY, ;   titre TEXT NOT NULL, ;   genre TEXT NOT NULL, ;   annee INTEGER NOT
+  - explication actuelle (249 car.) : La jointure relie chaque interaction à son utilisateur, le GROUP BY forme un groupe par utilisateur et COUNT(DISTINCT film_id) compte les films uniques plutôt que toutes les interactions. HAVING ne garde que les groupes 
+
+## NLP.json (5 questions CODE)
+
+- [nlp_017] python | question : Complétez la fonction tokeniser(texte) qui renvoie la liste des mots du texte en minuscule
+  - setup : texte = 'Le chat dort. Le chien joue !'
+  - explication actuelle (203 car.) : On remplace chaque signe de ponctuation par un espace, puis on passe en minuscules et on découpe aux espaces. Cette tokenization naïve suffit ici, mais elle traiterait mal les élisions comme « l'homme ».
+- [nlp_025] python | question : Complétez la fonction tf(mots, mot) qui renvoie la fréquence du terme : le nombre d'occurr
+  - setup : mots = ['le', 'chat', 'dort', 'le', 'soir']
+  - explication actuelle (140 car.) : La fréquence d'un terme rapporte ses occurrences au total de mots du document. Un terme absent donne zéro, un terme majoritaire tend vers 1.
+- [nlp_051] python | question : Complétez la fonction cosinus(v1, v2) qui renvoie la similarité cosinus entre deux vecteur
+  - setup : import math
+  - explication actuelle (201 car.) : Le produit scalaire se calcule terme à terme, les normes avec la racine carrée des carrés sommés. Deux vecteurs orthogonaux donnent zéro, deux vecteurs colinéaires donnent 1, quel que soit leur module.
+- [nlp_070] python | question : Complétez la fonction normaliser(texte) qui renvoie le texte en minuscules, sans accents :
+  - setup : import unicodedata
+  - explication actuelle (207 car.) : La décomposition NFD sépare chaque lettre de son diacritique ; on filtre ensuite les caractères combinants avant la mise en minuscules. La cédille et le tréma disparaissent comme les accents aigus et graves.
+- [nlp_099] python | question : Complétez la fonction compter_mots(texte) qui renvoie un dictionnaire associant à chaque m
+  - setup : texte = 'Le chat et le chien'
+  - explication actuelle (161 car.) : On parcourt les mots en minuscules et on incrémente le compteur associé avec dict.get. L'ordre des clés n'importe pas pour l'égalité des dictionnaires en Python.
+
+## R_PYTHON_DATA.json (16 questions CODE)
+
+- [rpd_015] python | question : Complétez la fonction moyenne pour qu'elle renvoie la moyenne arithmétique d'une liste de 
+  - setup : revenus = [400, 1200, 800, 950, 1500, 700]
+  - explication actuelle (176 car.) : La moyenne s'obtient en divisant la somme des valeurs par leur effectif : sum(valeurs) / len(valeurs). C'est le calcul de base à maîtriser avant d'utiliser statistics ou numpy.
+- [rpd_029] r | question : En R, définissez une fonction moyenne qui renvoie la moyenne d'un vecteur numérique.
+  - setup : revenus <- c(400, 1200, 800, 950, 1500, 700)
+  - explication actuelle (174 car.) : En R, la moyenne d'un vecteur s'écrit sum(v) / length(v), équivalent de mean(v). Renvoyer la dernière expression suffit : R retourne implicitement la dernière valeur évaluée.
+- [rpd_046] python | question : Complétez la fonction compter_sup pour qu'elle renvoie le nombre d'éléments du tableau str
+  - setup : notes = [8, 12, 15, 6, 14, 9]
+  - explication actuelle (209 car.) : On parcourt les valeurs avec une boucle, on incrémente un compteur à chaque comparaison v > seuil vraie, puis on renvoie le compteur. La comparaison doit être stricte : une valeur égale au seuil ne compte pas.
+- [rpd_047] python | question : Avec pandas, créez dans ventes une colonne total valant prix multiplié par quantite, puis 
+  - setup : import pandas as pd ; ventes = pd.DataFrame({'produit': ['A', 'B', 'C'], 'prix': [1000, 2500, 800], 'quantite': [3, 1, 5
+  - explication actuelle (214 car.) : Multiplier deux colonnes pandas multiplie les valeurs ligne à ligne ; affecter le résultat à ventes['total'] crée la nouvelle colonne. La somme des totaux s'obtient avec sum() et vaut 3000 + 2500 + 4000, soit 9500.
+- [rpd_048] r | question : En R, complétez la fonction etendue pour qu'elle renvoie l'étendue d'un vecteur numérique,
+  - setup : revenus <- c(400, 1200, 800, 950, 1500, 700)
+  - explication actuelle (142 car.) : L'étendue se calcule simplement par max(v) - min(v). Sur les revenus donnés, le maximum vaut 1500 et le minimum 400, d'où une étendue de 1100.
+- [rpd_049] r | question : En R, complétez la fonction impute_moyenne pour qu'elle renvoie le vecteur dans lequel cha
+  - setup : revenu <- c(400, NA, 800, 950, NA, 700)
+  - explication actuelle (230 car.) : L'affectation v[is.na(v)] <- mean(v, na.rm = TRUE) remplace uniquement les positions manquantes par la moyenne calculée sur les valeurs connues. Ici la moyenne des quatre revenus connus vaut 712,5 et la longueur reste ég
+- [rpd_063] python | question : Complétez la fonction moyenne_sans_na pour qu'elle renvoie la moyenne des valeurs de la li
+  - setup : mesures = [400, None, 800, 950, None, 700]
+  - explication actuelle (200 car.) : On filtre d'abord les None avec une compréhension de liste, puis on divise la somme par le nombre de valeurs conservées. Diviser par la longueur initiale fausserait le résultat : ici 2850 / 4 = 712,5.
+- [rpd_064] python | question : Complétez la fonction total_par_produit pour qu'elle renvoie un dictionnaire associant à c
+  - setup : ventes = [{'produit': 'savon', 'montant': 2000}, {'produit': 'sel', 'montant': 1500}, {'produit': 'savon', 'montant': 30
+  - explication actuelle (210 car.) : On parcourt les dictionnaires de vente, on lit la clé produit et on cumule le montant avec get(valeur par défaut 0) pour gérer la première occurrence. C'est l'agrégation manuelle que pandas ferait avec groupby.
+- [rpd_065] r | question : En R, complétez la fonction mediane pour qu'elle renvoie la médiane d'un vecteur numérique
+  - setup : revenus <- c(400, 1200, 800, 950, 1500, 700)
+  - explication actuelle (216 car.) : On trie d'abord le vecteur avec sort. Si l'effectif est impair, la médiane est la valeur centrale ; s'il est pair, c'est la moyenne des deux valeurs centrales. Sur les revenus triés, cela donne (800 + 950) / 2 = 875.
+- [rpd_066] r | question : En R, créez le data.frame clients avec les colonnes id = c(1, 2, 3), age = c(25, NA, 40) e
+  - setup : (aucun)
+  - explication actuelle (165 car.) : data.frame assemble des vecteurs de même longueur en colonnes nommées. nrow donne le nombre de lignes, et mean avec na.rm = TRUE ignore le NA : (25 + 40) / 2 = 32,5.
+- [rpd_080] python | question : Complétez la fonction statistiques pour qu'elle renvoie un dictionnaire à deux clés : 'moy
+  - setup : revenus = [400, 1200, 800, 950, 1500, 700]
+  - explication actuelle (243 car.) : On trie les valeurs avec sorted, on calcule la médiane selon la parité de l'effectif, puis on renvoie les deux indicateurs dans un dictionnaire. Sur les revenus, la moyenne vaut 925 et la médiane 875 : l'écart traduit l'
+- [rpd_081] python | question : Avec pandas, remplacez les revenus manquants de df par la moyenne des revenus connus, puis
+  - setup : import pandas as pd ; df = pd.DataFrame({'ville': ['Cotonou', 'Porto-Novo', 'Parakou', 'Bohicon', 'Abomey'], 'revenu': [
+  - explication actuelle (181 car.) : fillna avec la moyenne de la colonne remplace chaque NaN par la moyenne des valeurs connues, ici 600. Après imputation, isna().sum() vaut zéro et la moyenne de la colonne reste 600.
+- [rpd_082] r | question : En R, calculez avec tapply la moyenne du revenu par région de la table clients : affectez 
+  - setup : clients <- data.frame(region = c("Nord", "Sud", "Nord", "Sud", "Nord"), revenu = c(400, 900, 600, 700, 500))
+  - explication actuelle (237 car.) : tapply découpe revenu selon les niveaux de region et applique mean à chaque groupe : le Nord vaut (400 + 600 + 500) / 3 = 500, le Sud (900 + 700) / 2 = 800. Le résultat est indexé par les noms de régions, d'où l'extracti
+- [rpd_097] python | question : Avec pandas, calculez le total des montants par région du DataFrame ventes : affectez la S
+  - setup : import pandas as pd ; ventes = pd.DataFrame({'region': ['Nord', 'Sud', 'Nord', 'Sud'], 'montant': [400, 900, 600, 700]})
+  - explication actuelle (180 car.) : groupby découpe la table par région, la sélection de montant puis sum agrège chaque groupe : Nord vaut 1000 et Sud 1600. idxmax renvoie l'index, donc la région, associé au maximum.
+- [rpd_098] r | question : En R, créez clients_propres comme la table clients débarrassée de ses lignes incomplètes, 
+  - setup : clients <- data.frame(region = c("Nord", "Sud", "Nord"), revenu = c(400, NA, 600))
+  - explication actuelle (241 car.) : na.omit(clients) élimine la ligne dont le revenu manque : il reste deux observations. La moyenne des revenus propres vaut (400 + 600) / 2 = 500. Supprimer des lignes reste un choix à peser, car chaque observation perdue 
+- [rpd_099] r | question : En R, créez le data.frame ventes avec les colonnes region = c("Nord", "Sud", "Nord", "Sud"
+  - setup : (aucun)
+  - explication actuelle (249 car.) : La moyenne des trois montants connus vaut (400 + 600 + 800) / 3 = 600 : c'est la valeur affectée aux positions manquantes. Le total complété vaut 400 + 600 + 600 + 800 = 2400. On enchaîne création, nettoyage et synthèse,
+
+TOTAL : 33 questions CODE ; explications contenant un chiffre concret : 21

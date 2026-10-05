@@ -34,6 +34,7 @@ import { mistakesService } from "@/services/MistakesService";
 import { dailyStatsService } from "@/services/DailyStatsService";
 import { questionBank } from "@/services/QuestionBankService";
 import { QuizSession, Domain } from "@/types";
+import { ProductTour } from "@/components/ProductTour";
 
 // ============================================
 // HOME PAGE : tableau de bord
@@ -254,7 +255,8 @@ export default function HomePage() {
         <section className="mb-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Objectif du jour + streak */}
-            <Card>
+            <div data-tour="today">
+            <Card className="h-full">
               <CardContent>
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="font-mono font-semibold text-sm">Aujourd&apos;hui</h3>
@@ -280,8 +282,11 @@ export default function HomePage() {
               </CardContent>
             </Card>
 
+            </div>
+
             {/* Révision du jour (cahier d'erreurs) */}
-            <Card>
+            <div data-tour="revision">
+            <Card className="h-full">
               <CardContent>
                 <h3 className="font-mono font-semibold text-sm mb-3">Révision du jour</h3>
                 {dueMistakes > 0 ? (
@@ -307,8 +312,11 @@ export default function HomePage() {
               </CardContent>
             </Card>
 
+            </div>
+
             {/* Compte à rebours + banque */}
-            <Card>
+            <div data-tour="exam">
+            <Card className="h-full">
               <CardContent>
                 <h3 className="font-mono font-semibold text-sm mb-3">Cap sur l&apos;examen</h3>
                 {examCountdown !== null ? (
@@ -336,11 +344,12 @@ export default function HomePage() {
                 )}
               </CardContent>
             </Card>
+            </div>
           </div>
         </section>
 
         {/* Quick Stats */}
-        <section className="mb-12">
+        <section className="mb-12" data-tour="stats">
           <h2 className="font-mono font-semibold text-lg mb-6 flex items-center gap-3">
             <div className="w-2 h-6 bg-accent" />
             Statistiques Globales
@@ -377,7 +386,7 @@ export default function HomePage() {
             <div className="w-2 h-6 bg-accent" />
             Modes de Révision
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-tour="modes">
             {MODES.map((mode) => {
               const Icon = mode.icon;
               return (
@@ -511,6 +520,7 @@ export default function HomePage() {
       </main>
 
       <Footer />
+      <ProductTour />
     </div>
   );
 }

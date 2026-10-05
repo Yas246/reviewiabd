@@ -511,6 +511,24 @@ export default function SettingsPage() {
                 </div>
 
                 <div className="pt-4 border-t border-paper-dark">
+                  <p className="font-medium mb-2">Visite guidée</p>
+                  <p className="text-sm text-ink-muted mb-2">
+                    Rejouer la visite du tableau de bord (les zones clés de l&apos;app).
+                  </p>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => {
+                      localStorage.removeItem("tour_done_v1");
+                      sessionStorage.setItem("tour_replay", "1");
+                      window.location.href = "/";
+                    }}
+                  >
+                    Revoir la visite guidée
+                  </Button>
+                </div>
+
+                <div className="pt-4 border-t border-paper-dark">
                   <BatchSizeSlider value={batchSize} onChange={setBatchSize} />
                 </div>
               </div>

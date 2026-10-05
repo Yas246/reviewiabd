@@ -8,7 +8,8 @@
       "items": [
         {
           "what": "Ordre logique d'une requête",
-          "code": "SELECT colonnes\nFROM table\nWHERE condition_lignes\nGROUP BY colonnes_groupe\nHAVING condition_groupes\nORDER BY tri\nLIMIT 10;"
+          "code": "SELECT colonnes\nFROM table\nWHERE condition_lignes\nGROUP BY colonnes_groupe\nHAVING condition_groupes\nORDER BY tri\nLIMIT 10;",
+          "note": "C'est l'ordre d'ÉCRITURE ; l'ordre d'EXÉCUTION est : FROM (et jointures) → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT. Un alias créé dans le SELECT n'existe donc pas encore dans le WHERE, mais il est utilisable dans le ORDER BY."
         },
         {
           "what": "Valeurs distinctes",
@@ -16,17 +17,33 @@
         },
         {
           "what": "Filtrer du texte avec LIKE",
-          "code": "SELECT * FROM clients WHERE nom LIKE 'A%';",
-          "note": "% = n'importe quoi, _ = un seul caractère. 'A%' commence par A, '%son' finit par son."
+          "code": "SELECT * FROM clients WHERE nom LIKE 'A%';\nSELECT * FROM clients WHERE nom NOT LIKE '%son';",
+          "note": "% = n'importe quoi, _ = un seul caractère. 'A%' commence par A, '%son' finit par son ; NOT LIKE exclut les lignes qui correspondent au motif."
         },
         {
-          "what": "BETWEEN, IN",
-          "code": "SELECT * FROM clients WHERE age BETWEEN 25 AND 35;\nSELECT * FROM clients WHERE ville IN ('Cotonou', 'Porto-Novo');"
+          "what": "BETWEEN, IN, NOT IN",
+          "code": "SELECT * FROM clients WHERE age BETWEEN 25 AND 35;\nSELECT * FROM clients WHERE ville IN ('Cotonou', 'Porto-Novo');\nSELECT * FROM commandes WHERE date_cmd BETWEEN '2025-01-01' AND '2025-12-31';",
+          "note": "BETWEEN inclut les deux bornes et marche aussi sur des dates (format 'AAAA-MM-JJ') ; NOT IN exclut la liste."
         },
         {
           "what": "Gérer les NULL",
           "code": "SELECT * FROM clients WHERE revenu IS NULL;\nSELECT * FROM clients WHERE revenu IS NOT NULL;",
           "note": "Jamais = NULL : NULL n'est égal à rien, même pas à lui-même. COALESCE(col, 0) remplace NULL par 0."
+        },
+        {
+          "what": "Trier avec ORDER BY",
+          "code": "SELECT nom, revenu FROM clients\nORDER BY revenu DESC, nom ASC;",
+          "note": "ASC croissant (souvent par défaut), DESC décroissant ; plusieurs clés de tri se séparent par des virgules. On peut trier sur un alias défini dans le SELECT."
+        },
+        {
+          "what": "Alias de colonne et de table (AS)",
+          "code": "SELECT nom AS client, revenu * 12 AS revenu_annuel\nFROM clients AS c;",
+          "note": "AS renomme une colonne dans le résultat ou raccourcit une table pour les jointures ; le mot AS lui-même est optionnel (« FROM clients c » suffit)."
+        },
+        {
+          "what": "LIMIT : garder les n premières lignes",
+          "code": "SELECT * FROM commandes\nORDER BY montant DESC\nLIMIT 5;",
+          "note": "Idéal pour un aperçu ou un top n. Détail de dialecte : LIMIT existe en MySQL, PostgreSQL et SQLite ; SQL Server écrit SELECT TOP 5."
         }
       ]
     },
@@ -41,6 +58,11 @@
         {
           "what": "CASE WHEN : logique dans le SELECT",
           "code": "SELECT nom,\n  CASE\n    WHEN revenu >= 1000 THEN 'élevé'\n    WHEN revenu >= 500 THEN 'moyen'\n    ELSE 'faible'\n  END AS tranche\nFROM clients;"
+        },
+        {
+          "what": "CASE WHEN dans une agrégation : compter par tranche",
+          "code": "SELECT ville,\n  SUM(CASE WHEN revenu >= 500 THEN 1 ELSE 0 END) AS nb_moyens,\n  COUNT(CASE WHEN revenu IS NULL THEN 1 END) AS nb_inconnus\nFROM clients\nGROUP BY ville;",
+          "note": "Le CASE est évalué ligne par ligne AVANT l'agrégation : chaque groupe compte selon la condition. C'est la façon standard de faire des statistiques par catégorie dans un seul passage."
         }
       ]
     },
@@ -69,7 +91,7 @@
         {
           "what": "Fonctions d'agrégation",
           "code": "SELECT COUNT(*), AVG(revenu), SUM(revenu), MIN(age), MAX(age)\nFROM clients;",
-          "note": "AVG/SUM/AVG ignorent les NULL automatiquement ; COUNT(*) compte toutes les lignes, COUNT(col) ignore les NULL."
+          "note": "AVG/SUM/MIN/MAX ignorent les NULL automatiquement ; COUNT(*) compte toutes les lignes, COUNT(col) ignore les NULL."
         },
         {
           "what": "GROUP BY : agrégat par groupe",
@@ -79,6 +101,25 @@
           "what": "HAVING : filtre APRÈS agrégation",
           "code": "SELECT ville, COUNT(*) AS nb\nFROM clients\nGROUP BY ville\nHAVING COUNT(*) > 5;",
           "note": "WHERE filtre les lignes AVANT regroupement, HAVING filtre les groupes APRÈS."
+        },
+        {
+          "what": "GROUP BY sur plusieurs colonnes",
+          "code": "SELECT ville, annee, COUNT(*) AS nb, AVG(revenu) AS revenu_moyen\nFROM clients\nGROUP BY ville, annee;",
+          "note": "Une ligne de résultat par combinaison unique (ville, annee) : chaque couple forme un groupe distinct."
+        },
+        {
+          "what": "Compter les valeurs uniques : COUNT(DISTINCT)",
+          "code": "SELECT COUNT(DISTINCT ville) AS nb_villes FROM clients;",
+          "note": "COUNT(col) compte les lignes non NULL ; COUNT(DISTINCT col) retire d'abord les doublons : nombre de villes différentes."
+        },
+        {
+          "what": "Erreurs classiques d'agrégation",
+          "note": "1) Mettre dans le SELECT une colonne qui n'est ni regroupée ni agrégée (« SELECT nom, COUNT(*) ... GROUP BY ville ») : erreur ou résultat trompeur selon le SGBD. 2) Écrire une condition d'agrégat (« COUNT(*) > 5 ») dans le WHERE : elle va dans HAVING. 3) Oublier que WHERE s'applique avant le regroupement : un filtre sur les lignes brutes doit rester dans WHERE."
+        },
+        {
+          "what": "Fonctions fenêtrées : OVER",
+          "code": "SELECT nom, ville,\n  ROW_NUMBER() OVER (PARTITION BY ville ORDER BY montant DESC) AS rang,\n  SUM(montant) OVER (PARTITION BY ville) AS total_ville\nFROM commandes;",
+          "note": "OVER calcule par groupe SANS réduire les lignes : chaque ligne garde son détail et voit son groupe."
         }
       ]
     },
@@ -97,6 +138,11 @@
           "what": "UNION : empiler deux résultats",
           "code": "SELECT nom FROM clients_2025\nUNION\nSELECT nom FROM clients_2026;",
           "note": "UNION supprime les doublons ; UNION ALL les garde (plus rapide)."
+        },
+        {
+          "what": "CTE : nommer une sous-requête avec WITH",
+          "code": "WITH totaux AS (\n  SELECT client_id, SUM(montant) AS total\n  FROM commandes\n  GROUP BY client_id\n)\nSELECT c.nom, t.total\nFROM totaux t JOIN clients c ON c.id = t.client_id\nWHERE t.total > 40000;",
+          "note": "La CTE se comporte comme une table temporaire nommée : plus lisible quune sous-requête imbriquée."
         }
       ]
     },
@@ -110,6 +156,11 @@
         {
           "what": "COALESCE : première valeur non NULL",
           "code": "SELECT COALESCE(revenu, 0) AS revenu_sans_null FROM clients;"
+        },
+        {
+          "what": "Fonctions de date et heure",
+          "code": "SELECT CURRENT_DATE;\n\nSELECT * FROM commandes\nWHERE date_cmd >= CURRENT_DATE - INTERVAL '7 days';",
+          "note": "La date du jour et les calculs de dates. La syntaxe varie selon le SGBD : PostgreSQL CURRENT_DATE, SQLite date('now'), MySQL CURDATE() ; les intervalles changent aussi (INTERVAL '7 days' en PostgreSQL). Vérifie toujours le dialecte utilisé."
         }
       ]
     },

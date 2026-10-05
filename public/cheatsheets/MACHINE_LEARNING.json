@@ -1,7 +1,7 @@
 {
   "id": "MACHINE_LEARNING",
   "title": "Machine Learning",
-  "description": "Référence rapide : types de problèmes, workflow, métriques, surapprentissage, prétraitement et algorithmes classiques (scikit-learn).",
+  "description": "Référence rapide : types de problèmes, workflow, métriques, surapprentissage, prétraitement, algorithmes classiques, évaluation et sauvegarde de modèle (scikit-learn).",
   "sections": [
     {
       "title": "Types de problèmes",
@@ -26,7 +26,12 @@
         },
         {
           "what": "Apprentissage par renforcement",
-          "note": "Un agent apprend par essai-erreur avec récompenses/penalités (jeux, robotique). Pas au programme des TP, mais à connaître pour l'examen."
+          "note": "Un agent apprend par essai-erreur avec récompenses/pénalités (jeux, robotique). Pas au programme des TP, mais à connaître pour l'examen."
+        },
+        {
+          "what": "Règles d'association : trouver ce qui va ensemble",
+          "code": "# {pain, beurre} → {confiture}\n# support : fréquence de l'ensemble dans les transactions\n# confiance : P(conséquent | antécédent)",
+          "note": "Algorithme Apriori : détecte les itemsets fréquents (analyse de panier, moteurs de recommandation). Approche exhaustive, coûteuse en mémoire, et qui génère beaucoup de règles peu intéressantes."
         }
       ]
     },
@@ -36,6 +41,11 @@
         {
           "what": "1. Charger les données",
           "code": "import pandas as pd\ndf = pd.read_csv('donnees.csv')\ndf.head(), df.info(), df.describe()"
+        },
+        {
+          "what": "Charger un dataset intégré de scikit-learn",
+          "code": "from sklearn.datasets import load_iris, fetch_california_housing\nX, y = load_iris(return_X_y=True)                  # classification : 150 fleurs, 3 espèces\nX, y = fetch_california_housing(return_X_y=True)   # régression : prix immobiliers",
+          "note": "Idéal pour les TP : données propres et prêtes à l'emploi. Attention : load_boston a été retiré de scikit-learn (données controversées), on utilise fetch_california_housing à la place."
         },
         {
           "what": "2. Séparer X (features) et y (cible)",
@@ -140,6 +150,11 @@
           "note": "cv=5 : on découpe en 5 blocs, chaque bloc sert une fois de test. Moyenne des 5 scores = estimation robuste."
         },
         {
+          "what": "Remède : méthodes d'ensemble (bagging et boosting)",
+          "code": "from sklearn.ensemble import GradientBoostingClassifier\nmodel = GradientBoostingClassifier(n_estimators=100, learning_rate=0.1, max_depth=3)",
+          "note": "Bagging (random forest) : arbres entraînés en parallèle sur des échantillons, réduit la variance. Boosting (Gradient Boosting, XGBoost, LightGBM) : arbres séquentiels qui corrigent les erreurs des précédents, réduit le biais. Très performant sur du tabulaire, mais sensible aux valeurs extrêmes et coûteux à régler."
+        },
+        {
           "what": "Remède au sous-apprentissage",
           "note": "Modèle plus complexe (plus de features, modèle non linéaire), moins de régularisation, mieux prétraiter les données."
         }
@@ -159,6 +174,10 @@
         {
           "what": "Compromis biais-variance",
           "note": "Diminuer l'un augmente souvent l'autre. L'objectif : le point d'équilibre qui minimise l'erreur totale sur données nouvelles."
+        },
+        {
+          "what": "Le repérer selon le modèle utilisé",
+          "note": "Régression linéaire sur une relation non linéaire : biais élevé (elle sous-apprend). Arbre laissé libre : variance élevée (il sur-apprend). KNN : k petit = variance, k grand = biais. Random forest et boosting sont justement conçus pour améliorer ce compromis."
         }
       ]
     },
@@ -178,6 +197,11 @@
         {
           "what": "Quand mettre à l'échelle ?",
           "note": "Obligatoire dès que le modèle compare des distances ou des amplitudes (KNN, SVM, k-means, PCA, descente de gradient). Inutile pour les arbres et random forests."
+        },
+        {
+          "what": "fit, transform, fit_transform : le vocabulaire commun",
+          "code": "scaler.fit(X_train)                        # apprend moyenne et écart-type SUR LE TRAIN\nX_train_s = scaler.transform(X_train)      # applique\nX_test_s = scaler.transform(X_test)        # réutilise les stats du train\nX_train_s = scaler.fit_transform(X_train)  # raccourci (train uniquement)",
+          "note": "Même logique pour TOUS les transformeurs : StandardScaler, MinMaxScaler, LabelEncoder, OneHotEncoder, PCA. fit_transform sur le train, transform partout ailleurs."
         }
       ]
     },
@@ -197,6 +221,16 @@
         {
           "what": "Attention à la taille",
           "note": "Une colonne à 1000 modalités → 1000 colonnes one-hot. Pour les arbres, un ordinal encoding suffit parfois."
+        },
+        {
+          "what": "LabelEncoder : encoder la cible y",
+          "code": "from sklearn.preprocessing import LabelEncoder\nle = LabelEncoder()\ny_enc = le.fit_transform(y)      # ['non', 'oui'] → [0, 1]\nle.inverse_transform([0, 1])     # ['non', 'oui'] : retrouver les labels",
+          "note": "Réservé à la cible y (ou à une colonne à 2 modalités) : il crée un ordre artificiel, donc à éviter sur des features à 3 catégories ou plus."
+        },
+        {
+          "what": "OneHotEncoder : la version scikit-learn du one-hot",
+          "code": "from sklearn.preprocessing import OneHotEncoder\nohe = OneHotEncoder(handle_unknown='ignore')\nX_quartier = ohe.fit_transform(df[['quartier']])   # fit sur train, transform sur test",
+          "note": "Même résultat que pd.get_dummies, mais il s'intègre dans un Pipeline et applique fit/transform comme un scaler. handle_unknown='ignore' évite de planter au test sur une catégorie jamais vue."
         }
       ]
     },
@@ -205,35 +239,43 @@
       "items": [
         {
           "what": "Régression linéaire",
-          "note": "Trace la meilleure droite (y = a·x + b, un coefficient par feature). Simple, interprétable, base de la régression."
+          "code": "from sklearn.linear_model import LinearRegression\nmodel = LinearRegression().fit(X_tr, y_tr)\nmodel.coef_, model.intercept_    # les a et le b de la droite",
+          "note": "Trace la meilleure droite (y = a·x + b, un coefficient par feature). Interprétable via ses coefficients et rapide à entraîner, mais suppose la linéarité et est sensible aux valeurs extrêmes (outliers)."
         },
         {
           "what": "Régression logistique",
-          "note": "Classification binaire : combine les features en ligne droite puis passe par une sigmoïde pour donner une probabilité entre 0 et 1."
+          "code": "from sklearn.linear_model import LogisticRegression\nmodel = LogisticRegression(C=1.0, max_iter=1000).fit(X_tr, y_tr)\nmodel.predict_proba(X_te)        # probabilités par classe",
+          "note": "Classification binaire : combine les features en ligne droite puis passe par une sigmoïde pour donner une probabilité entre 0 et 1. Marche aussi en multiclasse ; petit C = régularisation plus forte (moins de surapprentissage)."
         },
         {
           "what": "KNN (k plus proches voisins)",
-          "note": "Prédit la classe majoritaire des k voisins les plus proches. Nécessite des données mises à l'échelle ; lent en prédiction sur gros volumes."
+          "code": "from sklearn.neighbors import KNeighborsClassifier\nmodel = KNeighborsClassifier(n_neighbors=5).fit(X_tr_s, y_tr)",
+          "note": "Prédit la classe majoritaire des k voisins les plus proches. Nécessite des données mises à l'échelle ; lent en prédiction sur gros volumes. k petit : variance élevée, k grand : biais élevé."
         },
         {
           "what": "SVM (machine à vecteurs de support)",
-          "note": "Trouve la frontière qui maximise la marge entre les classes. Le kernel permet des frontières non linéaires."
+          "code": "from sklearn.svm import SVC\nmodel = SVC(kernel='rbf', C=1.0, gamma='scale').fit(X_tr_s, y_tr)",
+          "note": "Trouve la frontière qui maximise la marge entre les classes. Le kernel permet des frontières non linéaires ('linear', 'rbf', ...) et C règle le compromis marge large / peu d'erreurs. Mise à l'échelle obligatoire."
         },
         {
           "what": "Arbre de décision",
-          "note": "Suite de questions « feature > seuil ? » jusqu'à une feuille. Très lisible, mais un arbre seul surapprend vite."
+          "code": "from sklearn.tree import DecisionTreeClassifier\nmodel = DecisionTreeClassifier(max_depth=5, min_samples_leaf=10).fit(X_tr, y_tr)",
+          "note": "Suite de questions « feature > seuil ? » jusqu'à une feuille. Très lisible, pas besoin de mise à l'échelle, mais un arbre seul surapprend vite : limiter max_depth et min_samples_leaf."
         },
         {
           "what": "Random forest",
-          "note": "Ensemble de nombreux arbres entraînés sur des échantillons/votes : moyenne les prédictions, plus robuste et plus précis qu'un arbre seul."
+          "code": "from sklearn.ensemble import RandomForestClassifier\nmodel = RandomForestClassifier(n_estimators=200, random_state=42).fit(X_tr, y_tr)",
+          "note": "Ensemble de nombreux arbres entraînés sur des échantillons/votes : moyenne les prédictions, plus robuste et plus précis qu'un arbre seul. Plus d'arbres = plus stable, mais moins interprétable."
         },
         {
           "what": "k-means (clustering, non supervisé)",
-          "note": "Découpe les données en k groupes par distance au centre le plus proche. Il faut choisir k à l'avance et mettre à l'échelle."
+          "code": "from sklearn.cluster import KMeans\nkm = KMeans(n_clusters=3, n_init=10, random_state=42).fit(X_s)\nkm.labels_, km.cluster_centers_, km.predict(nouveau)",
+          "note": "Découpe les données en k groupes par distance euclidienne au centre le plus proche. Il faut choisir k à l'avance (cas typique : segmenter les clients) et mettre à l'échelle."
         },
         {
           "what": "PCA (réduction de dimension)",
-          "note": "Projette les données sur les axes qui gardent le maximum de variance. Standardiser AVANT le PCA."
+          "code": "from sklearn.decomposition import PCA\npca = PCA(n_components=0.95).fit(X_std)\nX_reduit = pca.transform(X_std)  # mêmes données, moins de colonnes",
+          "note": "Projette les données sur les axes qui gardent le maximum de variance. n_components=0.95 : garder assez d'axes pour 95 % de la variance. Standardiser AVANT le PCA."
         }
       ]
     },
@@ -251,8 +293,13 @@
         },
         {
           "what": "Régler un hyperparamètre",
-          "code": "from sklearn.model_selection import GridSearchCV\nGridSearchCV(RandomForestClassifier(),\n             {'n_estimators': [100, 200]}, cv=5).fit(X_tr, y_tr)",
-          "note": "Le réglage se fait par validation croisée sur le train, jamais sur le test."
+          "code": "from sklearn.model_selection import GridSearchCV\ngrid = GridSearchCV(\n    RandomForestClassifier(random_state=42),\n    {'n_estimators': [100, 200], 'max_depth': [None, 10, 20]},\n    cv=5).fit(X_tr, y_tr)\ngrid.best_params_, grid.best_score_, grid.best_estimator_",
+          "note": "Le réglage se fait par validation croisée sur le train, jamais sur le test. grid.best_estimator_ est le modèle déjà réentraîné avec les meilleurs réglages."
+        },
+        {
+          "what": "Sauvegarder et recharger un modèle entraîné",
+          "code": "import joblib\njoblib.dump(model, 'modele.joblib')     # sauvegarder\nmodel = joblib.load('modele.joblib')    # recharger sans réentraîner\n# équivalent avec pickle : pickle.dump(model, f), pickle.load(f)",
+          "note": "Le fichier contient le modèle complet : si scaler et modèle sont dans un Pipeline, tout est sauvegardé d'un coup. joblib est recommandé pour les gros tableaux numpy."
         }
       ]
     }

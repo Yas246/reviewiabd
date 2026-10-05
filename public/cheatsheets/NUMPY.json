@@ -1,0 +1,311 @@
+{
+  "id": "NUMPY",
+  "title": "NumPy",
+  "description": "Référence rapide : créer des tableaux, types et inspection, sauvegarde, opérations vectorisées, statistiques, slicing et indexation booléenne, reshape et axes, empilement, copies et tri.",
+  "sections": [
+    {
+      "title": "Premiers pas",
+      "items": [
+        {
+          "what": "La convention d'import universelle",
+          "code": "import numpy as np",
+          "note": "NumPy est la bibliothèque de base du calcul scientifique en Python : un objet tableau multidimensionnel (ndarray) très performant et des outils pour le manipuler."
+        },
+        {
+          "what": "Afficher la documentation d'une fonction ou d'un attribut",
+          "code": "np.info(np.ndarray.dtype)",
+          "note": "Équivalent NumPy de help() : marche aussi sur une fonction précise, par exemple np.info(np.mean)."
+        }
+      ]
+    },
+    {
+      "title": "Créer des tableaux",
+      "items": [
+        {
+          "what": "Créer un tableau depuis une liste (1D, 2D, 3D)",
+          "code": "a = np.array([1, 2, 3])\nb = np.array([(1.5, 2, 3), (4, 5, 6)], dtype=float)\nc = np.array([[(1.5, 2, 3), (4, 5, 6)], [(3, 2, 1), (4, 5, 6)]], dtype=float)",
+          "note": "Une liste de listes donne un tableau 2D, une liste de listes de listes un tableau 3D. dtype force le type des éléments (float, int...)."
+        },
+        {
+          "what": "Tableaux pré-remplis : zéros, uns, constante, vide",
+          "code": "np.zeros((3, 4))\nnp.ones((2, 3, 4), dtype=np.int16)\ne = np.full((2, 2), 7)\nnp.empty((3, 2))",
+          "note": "La forme est un tuple (lignes, colonnes). np.empty réserve de la mémoire sans l'initialiser : son contenu est imprévisible."
+        },
+        {
+          "what": "Suites de valeurs régulières",
+          "code": "d = np.arange(10, 25, 5)   # array([10, 15, 20])\nnp.linspace(0, 2, 9)       # 9 valeurs réparties de 0 à 2",
+          "note": "arange : pas imposé, borne finale EXCLUE. linspace : nombre de points imposé, les deux bornes INCLUSES."
+        },
+        {
+          "what": "Matrice identité",
+          "code": "f = np.eye(2)   # identité 2x2",
+          "note": "Des 1 sur la diagonale, des 0 ailleurs : élément neutre du produit matriciel."
+        },
+        {
+          "what": "Valeurs aléatoires uniformes entre 0 et 1",
+          "code": "np.random.random((2, 2))",
+          "note": "L'argument est la FORME du tableau (ici 2x2), pas un nombre de tirages."
+        }
+      ]
+    },
+    {
+      "title": "Types de données",
+      "items": [
+        {
+          "what": "Les principaux types NumPy",
+          "code": "np.int64      # entier signé 64 bits\nnp.float32    # flottant double précision (32 bits)\nnp.complex    # complexe (deux flottants)\nnp.bool_      # booléen True / False\nnp.object     # type objet Python\nnp.string_    # chaîne de longueur fixe\nnp.unicode_   # chaîne unicode de longueur fixe"
+        },
+        {
+          "what": "Connaître le type des éléments",
+          "code": "b.dtype\nb.dtype.name   # 'float64' : le nom lisible du type",
+          "note": "Un ndarray est homogène : tous ses éléments partagent le MÊME type, contrairement aux listes Python."
+        },
+        {
+          "what": "Convertir un tableau vers un autre type",
+          "code": "b.astype(int)",
+          "note": "astype renvoie une COPIE convertie : le tableau d'origine reste inchangé."
+        },
+        {
+          "what": "Forme et nombre de dimensions",
+          "code": "a.shape   # (3,) : les dimensions du tableau\nb.ndim    # 2 : le nombre d'axes",
+          "note": "Un tableau 2D de 3 lignes et 4 colonnes a une shape de (3, 4) et un ndim de 2."
+        },
+        {
+          "what": "Nombre d'éléments et longueur",
+          "code": "e.size   # 4 : nombre total d'éléments\nlen(a)   # 3 : taille de la 1re dimension",
+          "note": "Sur un tableau 2D, len donne le nombre de LIGNES, pas le nombre d'éléments."
+        }
+      ]
+    },
+    {
+      "title": "Sauvegarder et charger",
+      "items": [
+        {
+          "what": "Sauvegarder et recharger au format binaire NumPy",
+          "code": "np.save('mon_tableau', a)\nnp.savez('tableaux.npz', a, b)\nnp.load('mon_tableau.npy')",
+          "note": "L'extension .npy est ajoutée automatiquement par save. savez range plusieurs tableaux dans une seule archive .npz."
+        },
+        {
+          "what": "Lire et écrire des fichiers texte et CSV",
+          "code": "np.loadtxt('monfichier.txt')\nnp.genfromtxt('mon_fichier.csv', delimiter=',')\nnp.savetxt('montableau.txt', a, delimiter=' ')",
+          "note": "genfromtxt gère les valeurs manquantes, loadtxt exige un fichier propre. delimiter précise le séparateur (virgule, espace...)."
+        }
+      ]
+    },
+    {
+      "title": "Arithmétique vectorisée",
+      "items": [
+        {
+          "what": "Opérations élément par élément avec les opérateurs",
+          "code": "g = a - b   # soustraction\nb + a       # addition\na / b       # division\na * b       # multiplication ÉLÉMENT par élément",
+          "note": "Les opérateurs s'appliquent à chaque paire d'éléments : a * b n'est PAS un produit matriciel."
+        },
+        {
+          "what": "Les mêmes opérations en fonctions",
+          "code": "np.subtract(a, b)\nnp.add(b, a)\nnp.divide(a, b)\nnp.multiply(a, b)"
+        },
+        {
+          "what": "Fonctions mathématiques appliquées à chaque élément",
+          "code": "np.exp(b)    # exponentielle\nnp.sqrt(b)   # racine carrée\nnp.sin(a)    # sinus\nnp.cos(b)    # cosinus\nnp.log(a)    # logarithme népérien"
+        },
+        {
+          "what": "Produit matriciel (produit scalaire)",
+          "code": "e.dot(f)      # aussi : np.dot(e, f)",
+          "note": "Chaque élément = une ligne de e multipliée par une colonne de f. C'est le vrai produit matriciel, à ne pas confondre avec a * b."
+        },
+        {
+          "what": "Diffusion (broadcasting)",
+          "code": "prix + 500          # le scalaire est ajouté à chaque élément\nprix * quantites    # même forme : élément par élément\n# (n, 1) * (1, m) : formes compatibles, résultat (n, m)",
+          "note": "NumPy étire automatiquement les formes de taille 1. Piège : un vecteur (n,) n'est pas (n, 1)."
+        }
+      ]
+    },
+    {
+      "title": "Comparaisons",
+      "items": [
+        {
+          "what": "Comparer élément par élément",
+          "code": "a == b   # égalité : tableau de booléens\na < 2    # infériorité : tableau de booléens",
+          "note": "Le résultat est un tableau de True/False, directement réutilisable comme masque de sélection."
+        },
+        {
+          "what": "Comparer deux tableaux en une seule réponse",
+          "code": "np.array_equal(a, b)   # True si les deux tableaux sont identiques",
+          "note": "Compare TOUS les éléments d'un coup et renvoie un seul booléen."
+        },
+        {
+          "what": "np.where : le si vectorisé",
+          "code": "np.where(notes >= 10, \"admis\", \"ajourné\")  # décision élément par élément\nnp.where(notes > 15)[0]                    # les INDICES qui satisfont la condition"
+        }
+      ]
+    },
+    {
+      "title": "Statistiques et agrégats",
+      "items": [
+        {
+          "what": "Sommes et cumuls",
+          "code": "a.sum()           # somme de tout le tableau\nb.cumsum(axis=1)  # sommes cumulées le long des lignes"
+        },
+        {
+          "what": "Minimum et maximum, avec choix de l'axe",
+          "code": "a.min()\nb.max(axis=0)",
+          "note": "axis=0 : on descend le long des lignes, donc un résultat par COLONNE. axis=1 : on traverse les colonnes, donc un résultat par LIGNE."
+        },
+        {
+          "what": "Moyenne et médiane",
+          "code": "a.mean()\nnp.median(b)"
+        },
+        {
+          "what": "Écart-type",
+          "code": "np.std(b)"
+        },
+        {
+          "what": "Coefficient de corrélation",
+          "code": "np.corrcoef(a)",
+          "note": "Renvoie la matrice des coefficients de corrélation entre les lignes du tableau."
+        },
+        {
+          "what": "Valeurs distinctes : np.unique",
+          "code": "np.unique(villes)                          # les valeurs distinctes, triées\nnp.unique(villes, return_counts=True)      # + leur effectif"
+        }
+      ]
+    },
+    {
+      "title": "Indexation et slicing",
+      "items": [
+        {
+          "what": "Sélectionner un élément",
+          "code": "a[2]      # l'élément d'indice 2 du tableau 1D\nb[1, 2]   # ligne 1, colonne 2 (équivalent à b[1][2])",
+          "note": "Les indices commencent à ZÉRO, pas à un."
+        },
+        {
+          "what": "Tranche sur un tableau 1D",
+          "code": "a[0:2]   # array([1, 2]) : indices 0 et 1",
+          "note": "Comme en Python : le premier indice est inclus, le dernier EXCLU."
+        },
+        {
+          "what": "Tranches sur un tableau 2D",
+          "code": "b[0:2, 1]   # lignes 0 et 1 de la colonne 1\nb[:1]       # toute la ligne 0 (équivalent à b[0:1, :])"
+        },
+        {
+          "what": "Sélection dans un tableau 3D",
+          "code": "c[1, ...]   # équivalent à c[1, :, :]",
+          "note": "Les points de suspension (...) signifient : toutes les dimensions restantes."
+        },
+        {
+          "what": "Inverser l'ordre des éléments",
+          "code": "a[::-1]   # array([3, 2, 1]) : le tableau renversé"
+        },
+        {
+          "what": "Indexation booléenne : sélectionner par condition",
+          "code": "a[a < 2]   # array([1]) : les éléments qui satisfont la condition"
+        },
+        {
+          "what": "Indexation avancée (fancy indexing)",
+          "code": "b[[1, 0, 1, 0], [0, 1, 2, 0]]   # éléments (1,0), (0,1), (1,2) et (0,0)",
+          "note": "On fournit une liste d'indices de lignes et une liste d'indices de colonnes, assemblées position par position. On peut aussi extraire un sous-ensemble de lignes et de colonnes : b[[1, 0, 1, 0]][:, [0, 1, 2, 0]]."
+        }
+      ]
+    },
+    {
+      "title": "Forme : transposer, aplatir, redimensionner",
+      "items": [
+        {
+          "what": "Transposer (échanger lignes et colonnes)",
+          "code": "i = np.transpose(b)\ni = b.T             # notation équivalente"
+        },
+        {
+          "what": "Aplatir en un tableau 1D",
+          "code": "b.ravel()",
+          "note": "ravel renvoie une vue quand c'est possible ; flatten renvoie toujours une copie indépendante."
+        },
+        {
+          "what": "Changer la forme sans toucher aux données",
+          "code": "g.reshape(3, 2)",
+          "note": "Le nombre total d'éléments doit rester identique. reshape renvoie un NOUVEAU tableau, les données ne changent pas."
+        },
+        {
+          "what": "Redimensionner le tableau lui-même",
+          "code": "h.resize((2, 6))",
+          "note": "Contrairement à reshape, resize modifie le tableau EN PLACE et peut compléter (avec des zéros) ou tronquer pour atteindre la nouvelle forme."
+        }
+      ]
+    },
+    {
+      "title": "Ajouter, supprimer, combiner, séparer",
+      "items": [
+        {
+          "what": "Ajouter, insérer ou retirer des éléments",
+          "code": "np.append(h, g)     # ajouter des valeurs à la fin\nnp.insert(a, 1, 5)  # insérer la valeur 5 à la position 1\nnp.delete(a, [1])   # supprimer les éléments d'indice 1"
+        },
+        {
+          "what": "Coller des tableaux bout à bout selon un axe",
+          "code": "np.concatenate((a, d), axis=0)"
+        },
+        {
+          "what": "Empiler verticalement (en lignes)",
+          "code": "np.vstack((a, b))\nnp.r_[e, f]         # raccourci équivalent"
+        },
+        {
+          "what": "Empiler horizontalement (en colonnes)",
+          "code": "np.hstack((e, f))\nnp.column_stack((a, d))\nnp.c_[a, d]         # raccourci équivalent"
+        },
+        {
+          "what": "Séparer un tableau en morceaux",
+          "code": "np.hsplit(a, 3)   # coupe en 3 morceaux le long des colonnes\nnp.vsplit(c, 2)   # coupe en 2 morceaux le long des lignes",
+          "note": "Le résultat est une LISTE de tableaux."
+        }
+      ]
+    },
+    {
+      "title": "Copier et trier",
+      "items": [
+        {
+          "what": "Créer une vue (mêmes données, autre regard)",
+          "code": "h = a.view()",
+          "note": "Modifier la vue modifie AUSSI le tableau d'origine : les données sont partagées."
+        },
+        {
+          "what": "Copier réellement (copie indépendante)",
+          "code": "h = a.copy()\nh = np.copy(a)",
+          "note": "La copie profonde possède ses propres données : changer h ne touche jamais a."
+        },
+        {
+          "what": "Trier un tableau en place",
+          "code": "a.sort()          # trie le tableau EN PLACE\nc.sort(axis=0)    # trie le long d'un axe (ici : colonne par colonne)",
+          "note": "a.sort() remplace a par sa version triée."
+        },
+        {
+          "what": "Obtenir une copie triée sans toucher à l'original",
+          "code": "np.sort(a)",
+          "note": "Renvoie un NOUVEAU tableau trié : a reste inchangé."
+        }
+      ]
+    },
+    {
+      "title": "Pièges fréquents",
+      "items": [
+        {
+          "what": "b = a ne copie pas, h = a.view() non plus",
+          "note": "Seul a.copy() produit des données indépendantes : c'est LA source classique de bugs NumPy."
+        },
+        {
+          "what": "Une tranche est une vue, pas une copie",
+          "note": "Si c = a[0:2], modifier c change a. Pensez à .copy() quand vous voulez une version indépendante."
+        },
+        {
+          "what": "Que veut dire axis ?",
+          "note": "axis=0 parcourt les lignes (un résultat par colonne), axis=1 parcourt les colonnes (un résultat par ligne). Le tester sur un petit exemple aide beaucoup."
+        },
+        {
+          "what": "Les bornes finales sont exclues",
+          "note": "Comme range() en Python : np.arange(10, 25, 5) donne 10, 15, 20 (jamais 25), et a[0:2] donne les indices 0 et 1."
+        },
+        {
+          "what": "* n'est pas le produit matriciel",
+          "note": "a * b multiplie élément par élément. Le produit matriciel s'écrit a.dot(b) ou np.dot(a, b)."
+        }
+      ]
+    }
+  ]
+}

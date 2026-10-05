@@ -1,6 +1,171 @@
 # HANDOFF.md : Review IABD
 
-Dernière mise à jour : 2026-10-05 (BASE COMMITTÉE + prête pour Vercel ; phase suivante : design nouveau avec Taste Skills)
+Dernière mise à jour : 2026-10-05 (audit final des fiches : +10 entrées utiles partout ; COMMIT ET PUSH effectués sur ordre de l'utilisateur)
+
+## Audit final des 11 fiches (2026-10-05, FAIT)
+
+- Passerelle token par token sur les 11 fiches ; ajout de 10 entrées utiles :
+  PYTHON : f-strings, compréhensions de liste, tuples/ensembles (46 entrées) ;
+  PANDAS : pd.crosstab (83) ; NUMPY : np.where, np.unique, broadcasting (53) ;
+  R : tri avec order() dans Data frames (70) ; SQL : fonctions fenêtrées OVER,
+  CTE WITH (43). Validateurs : 11/11 VALIDE ✔. R.json sert déjà à jour
+  (network-first, pas de rebuild requis pour public/).
+- Cas pratique (CASE_STUDY) expliqué à l'utilisateur : auto-évaluation par grille,
+  critères formulés « ou équivalent » (aucune exécution) ; reste à faire si demandé :
+  ré-accenter les libellés des grilles (vectorisee → vectorisée).
+
+## Diagnostic explications de code : la vraie cause = setup jamais affiché (2026-10-05)
+
+- Retour utilisateur sur rpd_047 (ventes) : l'explication citait 3000 + 2500 + 4000
+  alors que l'ÉNONCÉ ne parle d'aucun chiffre. Cause : le champ code.setup (les données :
+  DataFrame/vecteur/table SQL) sert aux tests mais n'était JAMAIS affiché (ni question,
+  ni correction). 31 exercices CODE sur 33 ont un setup caché. La banque est complète :
+  rien ne manque dans les fichiers, c'est un défaut d'AFFICHAGE.
+- AUDIT : docs/audit-explications-code.md (les 33 CODE : id, setup, explication
+  actuelle). Le vrai problème validé par l'utilisateur : les données du setup n'étaient
+  jamais affichées (l'explication commentait des valeurs invisibles).
+- FIX APPLIQUÉ : QuestionCard affiche un bloc « DONNÉES DE L'EXERCICE » (classe
+  .code-block, thème-conscient, JetBrains Mono) au-dessus de l'éditeur quand setup est
+  non vide. Vérifié au clic : session Python et R → bloc visible au-dessus de CodeMirror.
+  (Un bloc « Vérifications attendues » avait aussi été testé puis RETIRÉ à la demande
+  de l'utilisateur ; seul le bloc Données est conservé.)
+
+## Reformulation des 33 exercices CODE (2026-10-05, FAIT À LA MAIN, VALIDATEUR VERT)
+
+- Moule validé par l'utilisateur sur rpd_048 : énoncé qui RELIE les données (« on
+  dispose du vecteur revenus donné ci-dessous ») + explication en 3 temps (Les
+  données / La solution / Sur les données avec le calcul chiffré complet).
+- Appliqué à la main (PAS d'agents, demande explicite) : R_PYTHON_DATA 16, SQL 12,
+  NLP 5. 29 énoncés re-reliés aux données, 33 explications réécrites. CHIFFRES
+  VÉRIFIÉS À LA MAIN contre setup/solution/tests (ex. ventes : 1000×3 + 2500×1 +
+  800×5 = 9500 ; SQL : totaux par client, compteurs par film, moyennes par cours).
+- Piège corrigé : le validateur signale les énoncés trop proches (préfixe commun
+  ~40 car.) → ouvertures différenciées (« En Python, la liste... » / « En R, le
+  vecteur... ci-dessous servira de jeu de données » etc.).
+- Validateurs : 14/14 fichiers VALIDE ✔. Flag LOADED_FLAG bumpé v7 → v8
+  (PreloadedQuestionsService) pour forcer le ré-import de la banque ; vérifié dans
+  IndexedDB (store exercises, 1400 questions) : rpd_047/048 avec les nouveaux textes.
+- sw.js en v3.5.1. Pour voir : reload x2 puis session Pratique Python et R.
+
+## Onboarding réorganisé (2026-10-05, FAIT ET VÉRIFIÉ AU CLIC)
+
+- ÉTAPE 1 = Préparation hors ligne (OfflinePrep), aucune mention de fournisseur ;
+  lien « Terminer maintenant (l'IA reste optionnelle) » qui finit l'onboarding.
+- ÉTAPE 2 = Brancher l'IA (optionnel) : fournisseur + clé, « Continuer » exige une clé
+  valide, bouton « Passer : réviser sans IA » = handleFinish direct.
+- ÉTAPE 3 = modèle (si clé). handleSkip refait handleFinish (fin sans clé).
+- Vérifié au clic (onboarding réarmé via IndexedDB settings, clé "user") :
+  étape 1 → Continuer → étape 2 → Passer → dashboard.
+- Pour revoir l'onboarding en test : IndexedDB ReviewIABD → store settings →
+  enregistrement clé "user" → onboardingCompleted=false (clé hors-ligne, pas keyPath).
+
+## Police : Manrope PARTOUT (demande utilisateur, 2026-10-05, FAIT ET VÉRIFIÉ)
+
+- layout.tsx : Space Grotesk remplacé par Manrope (200-800). ATTENTION : les classes de
+  variables next/font doivent être sur <html> (pas <body>) car :root (globals.css)
+  référence var(--font-manrope) : sur body, la résolution de :root échouait.
+- globals.css : --font-sans/--font-serif/--font-mono pointent TOUS sur Manrope (les 28
+  fichiers qui posent font-mono comme style « technique » passent donc en Manrope sans
+  retouche). NOUVEAU token --font-code = JetBrains Mono, réservé au VRAI code :
+  règle unlayered `.code-block, pre, code, .font-code { font-family: var(--font-code) !important }`
+  (!important nécessaire : les utilitaires Tailwind rivalisent à spécificité égale selon
+  les couches). QuestionCard : sortie/erreurs d'exécution passées en font-code.
+- Vérifié : h1/titres/UI = Manrope, blocs de code fiches = JetBrains Mono, fond clair OK.
+
+## PIÈGE OPÉRATIONNEL CRITIQUE : bump SW obligatoire à CHAQUE build
+
+- Turbopack réutilise les MÊMES noms de chunks CSS/JS entre builds (contenus différents).
+  Le SW pré-cachant HTML+chunks à l'install, sans bump de version il ressert l'ANCIEN
+  contenu sous le même nom : modifications invisibles (une feuille 24 Ko sans utilitaires
+  a ainsi remplacé le vrai CSS 64 Ko : tous les styles utilitaires disparaissaient).
+- Règle : après chaque modification + npm run build, incrémenter les 4 noms de caches de
+  public/sw.js (v3.4.3 → ... → v3.4.6 aujourd'hui), puis reload x2 côté navigateur.
+  Les purges effacent aussi les runtimes préchargés : re-précharger une fois (le panneau
+  Paramètres l'indique).
+
+## Fix IDM : « Précharger » passe par le SERVICE WORKER (2026-10-05, FAIT ET VÉRIFIÉ)
+
+- Cause : le bouton « Précharger » (OfflinePrep) appelait warmUp() = VRAI boot Pyodide,
+  dont le loader va chercher python_stdlib.zip sur le réseau : IDM interceptait ce .zip,
+  le téléchargement était volé, Pyodide démarrait sans stdlib (« Failed to import
+  encodings module » côté console).
+- Fix : le bouton appelle désormais precacheViaSW() : le SW télécharge LUI-MÊME les 11
+  fichiers Python (idem R et SQL) dans RUNTIMES_CACHE, invisible pour les gestionnaires
+  de téléchargement ; progression affichée fichier par fichier ; precacheViaSW rejette
+  maintenant si un fichier échoue ; état « PRÊT HORS LIGNE » uniquement après
+  vérification isCached. Une fois en cache, les boots des workers sont servis
+  cache-first par le SW (plus jamais de réseau → IDM ne peut plus rien casser).
+- Vérifié au clic dans Paramètres : Python + Pandas → PRÊT HORS LIGNE, les 11 fichiers
+  pyodide présents en cache (python_stdlib.zip incluse).
+- PARCOURS UTILISATEUR COMPLET VALIDÉ APRÈS CE PRÉCHARGEMENT : Pratique → banque locale
+  → matière Python (R/PY) → session 15 questions → question 1 = exercice code pandas →
+  saisie dans l'éditeur CodeMirror → « Exécuter et vérifier » → boot Pyodide depuis le
+  cache SW → TESTS 3/3 PASSÉS (test caché compris) → Valider → correction + explication.
+- Reste côté utilisateur : re-précharger aussi R et SQLite (purge v3.4.6), et en
+  ceinture de sécurité ajouter localhost:3000 aux exclusions IDM (Options IDM → liste
+  d'exclusion). L'ancien runtime pyodide cassé (sans stdlib) est réparé par la purge +
+  re-préchargement.
+
+## Navigation fiches ⇄ historique (2026-10-05, retours utilisateur, CORRIGÉ ET VÉRIFIÉ)
+
+- Retour utilisateur : depuis une fiche, le retour navigateur (réflexe mobile) quittait
+  TOUTE la section fiches (retour à la page précédente hors /cheatsheets).
+- Fix : ouvrir une fiche fait window.history.pushState({cheatsheetId}), un écouteur
+  popstate ferme/rouvre la fiche selon l'état, le bouton « Toutes les fiches » fait
+  history.back() (pile propre), et au chargement on restaure la fiche depuis
+  history.state (reload au milieu d'une fiche OK).
+- Vérifié au clic : fiche SQL → retour navigateur = LISTE sur /cheatsheets (pas de
+  sortie) ; avant navigateur = la fiche se rouvre ; bouton « Toutes les fiches » = liste,
+  URL inchangée. tsc 0 erreur, build relancé, serveur production relancé.
+
+## Fix « fiches illisibles en mode clair » (2026-10-05, CORRIGÉ ET VÉRIFIÉ)
+
+- Cause exacte : les blocs de code des fiches avaient un fond sombre codé en dur
+  (#0d1117) et des couleurs de syntaxe claires codées en dur, mais la couleur du texte
+  de base du code n'était PAS fixée : elle héritait de --ink-primary. En sombre : clair
+  sur sombre, lisible. En clair : encre presque noire sur fond noir → seul le texte
+  colorisé (chaînes, nombres) restait visible, le reste du code disparaissait.
+- Fix : blocs de code thème-conscients. globals.css : variables --code-* (bg, border,
+  plain, kw, str, com, num) définies dans :root (éditeur clair #f6f8fa, texte #24292f,
+  kw #0550ae, str #0a7d32, com #6e7781, num #b3540e) ET dans [data-theme="dark"]
+  (valeurs nuit inchangées : #0d1117, #c9d1d9, #82aaff, #a5d6a7, #7a8592, #f78c6c).
+  Classe .code-block + tokens .tok-kw/.tok-str/.tok-com/.tok-num.
+- cheatsheets/page.tsx : highlightCode émet les classes .tok-* (plus de couleurs en dur
+  dans le HTML injecté), les deux <pre> (vue fiche + résultats de recherche) utilisent
+  .code-block.
+- Vérifié au navigateur sur le serveur production : Pandas en CLAIR (fond clair, code
+  complet lisible, syntaxe adaptée), Pandas en SOMBRE (identique à avant), fiche R en
+  CLAIR (mots-clés bleus, chaînes vertes, nombres orange, commentaires italiques).
+- Piège au passage : le port 3000 tournait en `next start` (production) → le build a
+  été relancé (npm run build) puis `npm start` relancé en tâche de fond. Penser à
+  rebuillder après chaque modif avant de tester sur :3000 (le SW ne sert que du
+  production ; reload x2 pour laisser le SW se mettre à jour).
+
+## Design nouveau : IDENTITÉ « AURORE » (v2 du design, appliquée, en attente de validation)
+
+Retour utilisateur sur la v1 « Clarté » : trop simple, trop générique. Recherche en ligne
+(aurora/mesh + glassmorphism 2025, avis anti-slop) → identité « Aurore » :
+
+- Sombre « Nuit d'aurore » : encre bleu-vert #0a0d12, cartes verre solide #11161d avec
+  liseré interne lumineux, AURORE en fond (3 nappes radiales fixées : émeraude, cyan, or)
+  + grain de papier à 3,5 % (fixed, pointer-events-none). Accent ÉMERAUDE #34d399.
+- Clair « Jour d'examen » : silver #eef0f4, cartes blanches, mêmes nappes à faible
+  opacité, accent émeraude profond #0d9463. AUCUN beige+laiton (palette interdite).
+- Police : Space Grotesk (display + UI, Google Fonts) + JetBrains Mono. Outfit retiré.
+- Navbar desktop : PILULE FLOTTANTE en verre (top-4, rounded-full, backdrop-blur-xl,
+  max-w-4xl) ; mobile : barre fine en verre avec BASCULE DE THÈME à côté du hamburger
+  (retour utilisateur : impossible de changer de thème sur mobile).
+- ProductTour ajouté : 8 étapes (projecteur + carte), 1re visite auto sur le dashboard,
+  rejouable via Paramètres → Revoir la visite guidée ; Échap/←/→ ; carte responsive
+  (corrigeait un débordement du bouton Suivant signalé) ; attributs data-tour sur
+  dashboard (today/revision/exam/modes/stats) + navbar (nav-plus) + ThemeToggle (theme).
+- Cartes du haut du dashboard : hauteur égale rétablie (h-full, retour utilisateur).
+- Matière renommée « Python et R » (types + prompts IA).
+- Vérifié : tsc OK, build OK, captures desktop sombre/clair et mobile (dashboard,
+  bascule, menu). Fonctionnalités intactes.
+- En attente : validation utilisateur, puis commit design (et commit ProductTour).
+
+## Commits locaux effectués (2026-10-05) — base stable avant design
 
 ## Commits locaux effectués (2026-10-05) — dépôt propre
 
@@ -35,18 +200,39 @@ Dernière mise à jour : 2026-10-05 (BASE COMMITTÉE + prête pour Vercel ; phas
 - Page /cheatsheets : liste des fiches par matière, vue fiche ouverte (sections, items
   « ça sert à quoi / code / piège »), recherche DANS la fiche ouverte et recherche
   TRANSVERSALE sur toutes les fiches.
-- 8 fiches (public/cheatsheets/*.json, format docs/SPEC_CHEATSHEETS.md, validateur
-  scripts/validate-cheatsheets.mjs) : PYTHON (19 sections/56), R (15/41), SQL (11/33),
-  MACHINE_LEARNING (46), DEEP_LEARNING (43), ANALYSE_CONCEPTION (46), GESTION_PROJET (41),
-  BIG_DATA (42) = 348 entrées, toutes VALIDE. Fiches langage reconstruites sur le modèle
-  des cheat sheets de référence en ligne (pythoncheatsheet.org, DataCamp Basics of R) :
-  affectation, types, chaînes, listes/dicts, conditions, boucles, fonctions, erreurs,
-  fichiers, dates... AVANT les parties data. sw.js : /cheatsheets/* en NETWORK-FIRST
-  (fraîcheur des fiches, secours cache hors ligne).
+- 11 fiches (public/cheatsheets/*.json, validateur scripts/validate-cheatsheets.mjs),
+  toutes VALIDE, 546 entrées au total, construites en croisant les planches DataCamp PDF
+  fournies par l'utilisateur (Documents/ : python-basics, pandas + pandas2, numpy, scipy,
+  R basics, tidyverse, data.table, sql-for-data-science, ML) :
+  PYTHON 20 sections/43 (langage pur, ordre DataCamp), PANDAS 16/82 (fiche SÉPARÉE,
+  demande utilisateur), NUMPY 12/50, SCIPY 10/42, R 16/62 (enrichie tidyverse/dplyr/
+  data.table/ggplot2), SQL 11/41 (enrichie DataCamp), MACHINE_LEARNING 10/54 (enrichie
+  sklearn), DEEP_LEARNING 10/43, ANALYSE_CONCEPTION 9/46, GESTION_PROJET 9/41,
+  BIG_DATA 9/42. Rendu des items en tableau (sujet à gauche, code à droite).
+  sw.js : /cheatsheets/* en NETWORK-FIRST (fraîcheur, secours cache hors ligne).
+  Absentes (pas de PDF fourni) : Keras/PyTorch, PySpark, scikit-learn dédié.
 - Accès : menu « Plus » (premier entré) + mobile + carte sur le tableau de bord.
 - SW : /cheatsheets/* ajouté à la règle runtime-asset (cache-first) → consultable hors
   ligne une fois visité.
 - Matière renommée aussi dans les prompts IA : « Python et R: data frames... ».
+- SQL enrichie (2026-10-05) par croisement avec la planche DataCamp « SQL for Data
+  Science » (Documents/sql-for-data-science.pdf) : 33 → 41 items, sections conservées.
+  Ajouts : ORDER BY (ASC/DESC), alias AS, LIMIT/TOP, CASE WHEN dans une agrégation,
+  GROUP BY multi-colonnes, COUNT(DISTINCT), erreurs classiques d'agrégation, fonctions
+  de date (CURRENT_DATE/INTERVAL, variantes SQLite/MySQL). Enrichis : ordre d'exécution
+  logique (FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT) en note,
+  NOT LIKE, NOT IN, BETWEEN sur dates, coquille « AVG/SUM/AVG » corrigée. Valide ✔.
+- 2 NOUVELLES fiches depuis les PDF DataCamp de l'utilisateur (2026-10-05) : NUMPY
+  (public/cheatsheets/NUMPY.json, id NUMPY, 12 sections / 50 items) et SCIPY
+  (public/cheatsheets/SCIPY.json, id SCIPY, 10 sections / 42 items). Contenu repris de
+  Documents/Numpy_Cheat_Sheet.pdf et Documents/SciPy_Cheat_Sheet.pdf avec formulation
+  française originale (pas de copie verbatim). NumPy : création, types/inspection, E-S,
+  arithmétique vectorisée, comparaisons, stats, slicing/indexation booléenne et fancy,
+  reshape/axes, empilement/séparation, copie/tri, pièges. SciPy : linalg (inverse,
+  normes, systèmes, fonctions de matrices, décompositions), sparse (csr/csc/dok,
+  spsolve, eigs/svds), utilitaires NumPy (mgrid, poly1d, vectorize, select), misc
+  combinatoire/dérivées, pièges de dépréciation (np.matrix déprécié, scipy.misc
+  supprimé, scipy.linalg vs numpy.linalg). Deux fichiers VALIDE ✔.
 
 ## Retours utilisateur intégrés (série 2)
 

@@ -99,6 +99,36 @@ class WorkerRunner {
   }
 }
 
+// Listes exactes des fichiers de chaque runtime (tous servis depuis
+// /runtimes/ en local ; les wheels Pandas sont embarquées par setup:runtimes).
+const PYTHON_URLS = [
+  "/runtimes/pyodide/pyodide.mjs",
+  "/runtimes/pyodide/pyodide.js",
+  "/runtimes/pyodide/pyodide.asm.mjs",
+  "/runtimes/pyodide/pyodide.asm.wasm",
+  "/runtimes/pyodide/python_stdlib.zip",
+  "/runtimes/pyodide/pyodide-lock.json",
+  "/runtimes/pyodide/pandas-3.0.2-cp314-cp314-pyemscripten_2026_0_wasm32.whl",
+  "/runtimes/pyodide/numpy-2.4.6-cp314-cp314-pyemscripten_2026_0_wasm32.whl",
+  "/runtimes/pyodide/python_dateutil-2.9.0.post0-py2.py3-none-any.whl",
+  "/runtimes/pyodide/pytz-2026.1.post1-py2.py3-none-any.whl",
+  "/runtimes/pyodide/six-1.17.0-py2.py3-none-any.whl",
+];
+
+const R_URLS = [
+  "/runtimes/webr/webr.js",
+  "/runtimes/webr/webr-worker.js",
+  "/runtimes/webr/R.js",
+  "/runtimes/webr/R.wasm",
+  "/runtimes/webr/libRblas.so",
+  "/runtimes/webr/libRlapack.so",
+];
+
+const SQL_URLS = [
+  "/runtimes/sqljs/sql-wasm.js",
+  "/runtimes/sqljs/sql-wasm.wasm",
+];
+
 class CodeRunnerService {
   // Pyodide 314+ exige un module worker (plus de support des workers classiques)
   private py = new WorkerRunner("/workers/py-worker.mjs", "module");
@@ -198,6 +228,53 @@ class CodeRunnerService {
       return urls.some((u) => u.includes("webr") && /R\.bin|\.wasm/i.test(u));
     }
     return urls.some((u) => u.includes("sql-wasm.wasm"));
+  }
+
+  /**
+   * Précharge les fichiers d'un runtime DEPUIS LE SERVICE WORKER : le SW
+   * télécharge lui-même chaque fichier et le place dans RUNTIMES_CACHE.
+   * Avantage : les gros .zip/.wasm ne sont jamais exposés comme
+   * téléchargements côté page (les gestionnaires type IDM ne les voient pas).
+   * onProgress reçoit une ligne par fichier.
+   */
+  async precacheViaSW(
+    kind: "python" | "r" | "sql",
+    onProgress?: (msg: string) => void
+  ): Promise<void> {
+    if (typeof window === "undefined" || !("serviceWorker" in navigator)) {
+      throw new Error("Service Worker indisponible");
+    }
+    const reg = await navigator.serviceWorker.ready;
+    const active = reg.active;
+    if (!active) throw new Error("Service Worker non actif");
+
+    const urls =
+      kind === "python" ? PYTHON_URLS : kind === "r" ? R_URLS : SQL_URLS;
+
+    await new Promise<void>((resolve, reject) => {
+      const channel = new MessageChannel();
+      const failures: string[] = [];
+      const timer = setTimeout(
+        () => reject(new Error("Préchargement trop long, réessaie")),
+        kind === "r" ? 300_000 : 240_000
+      );
+      channel.port1.onmessage = (event) => {
+        const data = event.data || {};
+        if (data.stage) {
+          if (String(data.stage).startsWith("échec")) failures.push(String(data.stage));
+          onProgress?.(data.stage);
+        }
+        if (data.stage === "OK") {
+          clearTimeout(timer);
+          if (failures.length > 0) {
+            reject(new Error(`Fichiers non préchargés : ${failures.join(" ; ")}`));
+          } else {
+            resolve();
+          }
+        }
+      };
+      active.postMessage({ type: "PRECACHE_URLS", urls }, [channel.port2]);
+    });
   }
 }
 

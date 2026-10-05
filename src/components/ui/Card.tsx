@@ -11,9 +11,10 @@ interface CardProps {
   className?: string;
   onClick?: () => void;
   hoverable?: boolean;
+  style?: React.CSSProperties;
 }
 
-export function Card({ children, className, onClick, hoverable = true }: CardProps) {
+export function Card({ children, className, onClick, hoverable = true, style }: CardProps) {
   return (
     <div
       className={cn(
@@ -23,6 +24,7 @@ export function Card({ children, className, onClick, hoverable = true }: CardPro
         className
       )}
       onClick={onClick}
+      style={style}
     >
       {children}
     </div>

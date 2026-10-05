@@ -988,8 +988,8 @@ function QuizContent() {
           {/* Mobile layout */}
           <div className="sm:hidden space-y-2">
             <div className="flex items-center justify-between">
-              <h1 className="font-mono font-semibold text-sm truncate flex-1">
-                {sessionLabel || (examMode ? "Examen" : "Pratique")}
+              <h1 className="font-mono font-semibold text-sm flex-1">
+                {examMode ? "Examen" : "Pratique"}
               </h1>
               <span className="font-mono text-xs text-ink-muted ml-2">
                 {currentIndex + 1}/{questions.length}
@@ -1036,10 +1036,13 @@ function QuizContent() {
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-4 min-w-0 flex-1">
                 <div className="min-w-0">
-                  <h1 className="font-mono font-semibold text-base truncate">
-                    {sessionLabel || (examMode ? "Mode Examen" : "Mode Pratique")}
+                  <h1 className="font-mono font-semibold text-base">
+                    {examMode ? "Mode Examen" : "Mode Pratique"}
                   </h1>
                   <p className="font-mono text-xs text-ink-muted">
+                    {sessionLabel && (
+                      <span>{sessionLabel} • </span>
+                    )}
                     Question {currentIndex + 1} / {questions.length}
                     <span>{` • ${answeredCount}/${questions.length} répondues`}</span>
                   </p>

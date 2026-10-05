@@ -317,7 +317,7 @@
     "id": "sql_010",
     "domain": "BASES_DONNEES_SQL",
     "type": "CODE",
-    "question": "Affichez le nom et la ville des clients qui habitent à Cotonou, triés par nom dans l'ordre alphabétique croissant.",
+    "question": "Les tables clients et commandes de la base sont données ci-dessous. Affichez le nom et la ville des clients qui habitent à Cotonou, triés par nom dans l'ordre alphabétique croissant.",
     "context": "La base d'une boutique contient deux tables : clients(id, nom, ville) et commandes(id, client_id, montant, date_commande).",
     "answers": [],
     "code": {
@@ -328,7 +328,7 @@
       "timeLimitMs": 10000,
       "tests": []
     },
-    "explanation": "La clause WHERE filtre les lignes sur la ville, puis ORDER BY nom trie le résultat en ordre alphabétique croissant (ordre par défaut). Trois clients de Cotonou sont attendus : Adjovi, Dossa et Mensah.",
+    "explanation": "Les données : la table clients compte six clients, dont trois habitent à Cotonou : Adjovi, Dossa et Mensah. La solution : WHERE ville = 'Cotonou' garde uniquement les lignes de Cotonou, et ORDER BY nom trie le résultat en ordre alphabétique croissant (sens par défaut). Résultat attendu : Adjovi, Dossa, Mensah.",
     "difficulty": "easy",
     "tags": [
       "sql-interrogation",
@@ -768,7 +768,7 @@
     "id": "sql_023",
     "domain": "BASES_DONNEES_SQL",
     "type": "CODE",
-    "question": "Affichez le nom du client et le montant de chaque commande, triés par montant décroissant (les montants sont tous différents).",
+    "question": "Les tables clients et commandes d'une boutique en ligne sont données ci-dessous. Affichez le nom du client et le montant de chaque commande, triés par montant décroissant (les montants sont tous différents).",
     "context": "La base d'une boutique contient deux tables : clients(id, nom, ville) et commandes(id, client_id, montant, date_commande).",
     "answers": [],
     "code": {
@@ -779,7 +779,7 @@
       "timeLimitMs": 10000,
       "tests": []
     },
-    "explanation": "La jointure interne rapproche chaque commande de son client via client_id = id, puis ORDER BY montant DESC classe du plus gros au plus petit achat. Sept lignes sont attendues, la première étant la commande de Kossi à 45000.",
+    "explanation": "Les données : sept commandes relient cinq clients : Kossi 45000, Dossa 30000, Adjovi 25000, Tossou 15000, Dossa 12000, Mensah 9000 et Adjovi 8000. La solution : la jointure interne rapproche chaque commande de son client via co.client_id = c.id, puis ORDER BY co.montant DESC classe du plus gros achat au plus petit. Résultat : sept lignes, de Kossi (45000) à Adjovi (8000).",
     "difficulty": "medium",
     "tags": [
       "jointures",
@@ -1793,7 +1793,7 @@
     "id": "sql_052",
     "domain": "BASES_DONNEES_SQL",
     "type": "CODE",
-    "question": "Pour chaque étudiant, affichez son nom et sa moyenne des notes (colonne nommée moyenne), triés par moyenne décroissante puis par nom croissant.",
+    "question": "Les tables etudiants et notes d'une faculté sont données ci-dessous. Pour chaque étudiant, affichez son nom et sa moyenne des notes (colonne nommée moyenne), triés par moyenne décroissante puis par nom croissant.",
     "context": "La base d'un département contient trois tables : etudiants(id, nom, filliere), cours(id, intitule, credits) et notes(id, etudiant_id, cours_id, valeur).",
     "answers": [],
     "code": {
@@ -1804,7 +1804,7 @@
       "timeLimitMs": 10000,
       "tests": []
     },
-    "explanation": "La jointure relie chaque note à son étudiant, GROUP BY par étudiant forme les groupes, AVG calcule la moyenne et le tri décroissant classe Awa (16) devant Sena (14), puis Kevin et Rock (10).",
+    "explanation": "Les données : Sena a trois notes (15, 13, 14), Kevin trois (9, 11, 10), Awa une (16) et Rock deux (8, 12). La solution : la jointure relie chaque note à son étudiant, GROUP BY e.id, e.nom forme un groupe par étudiant, AVG calcule la moyenne et le double tri classe le résultat. Sur les données : Sena (15 + 13 + 14) / 3 = 14, Kevin (9 + 11 + 10) / 3 = 10, Awa 16 et Rock (8 + 12) / 2 = 10, d'où l'ordre Awa (16), Sena (14), puis Kevin et Rock (10) départagés par nom.",
     "difficulty": "medium",
     "tags": [
       "agregation",
@@ -2138,7 +2138,7 @@
     "id": "sql_062",
     "domain": "BASES_DONNEES_SQL",
     "type": "CODE",
-    "question": "Pour chaque film ayant reçu au moins une interaction, affichez son titre et le nombre d'interactions (colonne nb), triés par nombre décroissant puis par titre croissant.",
+    "question": "Les tables films et interactions d'une plateforme de visionnage sont données ci-dessous. Pour chaque film ayant reçu au moins une interaction, affichez son titre et le nombre d'interactions (colonne nb), triés par nombre décroissant puis par titre croissant.",
     "context": "Une plateforme de streaming contient trois tables : films(id, titre, genre, annee), utilisateurs(id, pseudo, pays) et interactions(id, film_id, utilisateur_id, type_interaction, duree_secondes).",
     "answers": [],
     "code": {
@@ -2149,7 +2149,7 @@
       "timeLimitMs": 10000,
       "tests": []
     },
-    "explanation": "La jointure interne écarte le film sans interaction, GROUP BY par film forme les groupes, COUNT(*) compte les lignes de chacun et le double tri classe Zemidjan express (3) en tête, puis les films à 2 par ordre alphabétique.",
+    "explanation": "Les données : les onze interactions se répartissent ainsi : Zemidjan express 3, Sous les manguiers 2, La nuit de Cotonou 2, Rires de Ganvie 2, Codes sources 2, et Passage secret aucune. La solution : la jointure interne écarte d'emblée le film sans interaction, GROUP BY par film forme les groupes et COUNT(*) compte les lignes de chacun ; le double tri classe par nombre décroissant puis par titre. Résultat : Zemidjan express (3) en tête, puis les quatre films à 2 par ordre alphabétique : Codes sources, La nuit de Cotonou, Rires de Ganvie, Sous les manguiers.",
     "difficulty": "medium",
     "tags": [
       "agregation",
@@ -2339,7 +2339,7 @@
     "id": "sql_068",
     "domain": "BASES_DONNEES_SQL",
     "type": "CODE",
-    "question": "Affichez le titre et l'année de sortie des films du genre « comedie », triés par année décroissante puis par titre croissant.",
+    "question": "La table films est donnée ci-dessous. Affichez le titre et l'année de sortie des films du genre « comedie », triés par année décroissante puis par titre croissant.",
     "context": "La base d'une plateforme de VOD contient trois tables : films(id, titre, genre, annee), utilisateurs(id, pseudo, pays) et interactions(id, film_id, utilisateur_id, type_interaction, duree_secondes).",
     "answers": [],
     "code": {
@@ -2350,7 +2350,7 @@
       "timeLimitMs": 10000,
       "tests": []
     },
-    "explanation": "Une requête de lecture se compose d'une projection (titre, annee), d'un filtre sur le genre avec WHERE et d'un tri multi-colonnes avec ORDER BY, chaque colonne pouvant porter son propre sens (DESC ou ASC).",
+    "explanation": "Les données : la table films contient six films, dont deux comedies : Rires de Ganvie (2022) et Zemidjan express (2023). La solution : WHERE genre = 'comedie' filtre les lignes, et ORDER BY annee DESC, titre ASC trie par année décroissante puis par titre. Résultat : Zemidjan express (2023) puis Rires de Ganvie (2022).",
     "difficulty": "easy",
     "tags": [
       "select",
@@ -2459,7 +2459,7 @@
     "id": "sql_072",
     "domain": "BASES_DONNEES_SQL",
     "type": "CODE",
-    "question": "Affichez le nom des étudiants qui ont obtenu au moins une note supérieure ou égale à 15, triés par nom croissant.",
+    "question": "Les tables etudiants et notes ci-dessous recensent les étudiants et leurs résultats. Affichez le nom des étudiants qui ont obtenu au moins une note supérieure ou égale à 15, triés par nom croissant.",
     "context": "La base d'un établissement contient trois tables : etudiants(id, nom, filliere), cours(id, intitule, credits) et notes(id, etudiant_id, cours_id, valeur).",
     "answers": [],
     "code": {
@@ -2470,7 +2470,7 @@
       "timeLimitMs": 10000,
       "tests": []
     },
-    "explanation": "La sous-requête interne ramène les identifiants des étudiants concernés, et l'opérateur IN filtre la table externe sur cet ensemble. Un tri final sur le nom présente le résultat par ordre alphabétique.",
+    "explanation": "Les données : les neuf notes se répartissent entre Sena (15, 13, 14), Kevin (9, 11, 10), Awa (16) et Rock (8, 12). La solution : la sous-requête SELECT etudiant_id FROM notes WHERE valeur >= 15 ramène les identifiants concernés, et l'opérateur IN filtre la table des étudiants sur cet ensemble ; ORDER BY nom présente le résultat par ordre alphabétique. Sur les données : Sena (15) et Awa (16) sont concernés, d'où le résultat Awa, Sena.",
     "difficulty": "medium",
     "tags": [
       "sous-requete",
@@ -2568,7 +2568,7 @@
     "id": "sql_076",
     "domain": "BASES_DONNEES_SQL",
     "type": "CODE",
-    "question": "Affichez le nom des clients qui n'ont passé aucune commande, triés par nom croissant.",
+    "question": "Reprenons la base clients et commandes donnée ci-dessous. Affichez le nom des clients qui n'ont passé aucune commande, triés par nom croissant.",
     "context": "La base d'une boutique contient deux tables : clients(id, nom, ville) et commandes(id, client_id, montant, date_commande).",
     "answers": [],
     "code": {
@@ -2579,7 +2579,7 @@
       "timeLimitMs": 10000,
       "tests": []
     },
-    "explanation": "Le LEFT JOIN conserve tous les clients même sans correspondance ; leurs colonnes de commandes valent alors NULL. Filtrer sur IS NULL isole exactement les clients restés sans commande.",
+    "explanation": "Les données : six clients et sept commandes ; les identifiants présents dans commandes sont 1, 2, 3, 5 et 6, si bien que seul Aholou (id 4) n'a jamais commandé. La solution : le LEFT JOIN conserve tous les clients même sans correspondance, leurs colonnes de commandes valent alors NULL, et le filtre WHERE co.id IS NULL isole exactement ceux restés sans commande. Résultat : Aholou.",
     "difficulty": "medium",
     "tags": [
       "jointure",
@@ -2687,7 +2687,7 @@
     "id": "sql_079",
     "domain": "BASES_DONNEES_SQL",
     "type": "CODE",
-    "question": "Pour chaque client ayant dépensé plus de 40000 FCFA au total, affichez son nom et le total de ses commandes sous le nom total_depense, triés par total décroissant.",
+    "question": "Toujours sur les tables clients et commandes ci-dessous, affichez, pour chaque client ayant dépensé plus de 40000 FCFA au total, son nom et le total de ses commandes sous le nom total_depense, triés par total décroissant.",
     "context": "La base d'une boutique contient deux tables : clients(id, nom, ville) et commandes(id, client_id, montant, date_commande).",
     "answers": [],
     "code": {
@@ -2698,7 +2698,7 @@
       "timeLimitMs": 10000,
       "tests": []
     },
-    "explanation": "La jointure relie chaque commande à son client, le GROUP BY calcule la somme par client, HAVING ne garde que les groupes dont le total dépasse 40000 et ORDER BY classe ces totaux du plus grand au plus petit.",
+    "explanation": "Les données : par client, Adjovi a dépensé 25000 + 8000 = 33000, Kossi 45000, Dossa 12000 + 30000 = 42000, Mensah 9000 et Tossou 15000. La solution : la jointure relie chaque commande à son client, GROUP BY calcule le total par client et HAVING SUM(co.montant) > 40000 ne garde que les groupes au-dessus du seuil ; ORDER BY classe ensuite ces totaux en décroissant. Résultat : Kossi (45000) puis Dossa (42000).",
     "difficulty": "medium",
     "tags": [
       "group-by",
@@ -2749,7 +2749,7 @@
     "id": "sql_081",
     "domain": "BASES_DONNEES_SQL",
     "type": "CODE",
-    "question": "Affichez l'intitulé des cours ayant reçu au moins 3 notes, avec la moyenne de ces notes sous le nom moyenne, triés par moyenne décroissante.",
+    "question": "Les tables cours et notes sont données ci-dessous. Affichez l'intitulé des cours ayant reçu au moins 3 notes, avec la moyenne de ces notes sous le nom moyenne, triés par moyenne décroissante.",
     "context": "La base d'un établissement contient trois tables : etudiants(id, nom, filliere), cours(id, intitule, credits) et notes(id, etudiant_id, cours_id, valeur).",
     "answers": [],
     "code": {
@@ -2760,7 +2760,7 @@
       "timeLimitMs": 10000,
       "tests": []
     },
-    "explanation": "Le GROUP BY regroupe les notes par cours, AVG calcule la moyenne de chaque groupe et la condition HAVING COUNT(*) >= 3 écarte les cours insuffisamment évalués. Le tri décroissant classe les meilleures moyennes en premier.",
+    "explanation": "Les données : Bases de donnees a reçu trois notes (15, 9, 16), Machine Learning trois (13, 10, 8) et Reseaux deux (14, 11). La solution : GROUP BY par cours forme les groupes, AVG calcule la moyenne de chaque groupe et HAVING COUNT(*) >= 3 écarte les cours insuffisamment évalués. Sur les données : Bases de donnees (15 + 9 + 16) / 3 ≈ 13,33 et Machine Learning (13 + 10 + 8) / 3 ≈ 10,33 ; Reseaux est écarté, et le tri place Bases de donnees en premier.",
     "difficulty": "hard",
     "tags": [
       "group-by",
@@ -2833,7 +2833,7 @@
     "id": "sql_084",
     "domain": "BASES_DONNEES_SQL",
     "type": "CODE",
-    "question": "Affichez le titre des films dont le nombre d'interactions est strictement supérieur à la moyenne du nombre d'interactions de tous les films.",
+    "question": "Toujours avec les tables films et interactions ci-dessous, affichez le titre des films dont le nombre d'interactions est strictement supérieur à la moyenne du nombre d'interactions de tous les films.",
     "context": "La base d'une plateforme de VOD contient trois tables : films(id, titre, genre, annee), utilisateurs(id, pseudo, pays) et interactions(id, film_id, utilisateur_id, type_interaction, duree_secondes).",
     "answers": [],
     "code": {
@@ -2844,7 +2844,7 @@
       "timeLimitMs": 10000,
       "tests": []
     },
-    "explanation": "Le GROUP BY compte les interactions de chaque film, puis HAVING compare ce compteur au résultat d'une sous-requête qui calcule la moyenne des compteurs de tous les films. Seuls les films plus populaires que cette moyenne apparaissent.",
+    "explanation": "Les données : cinq films sur six ont des interactions, avec les compteurs 2, 2, 2, 2 et 3, soit une moyenne de 11 / 5 = 2,2. La solution : le GROUP BY compte les interactions de chaque film, et HAVING compare ce compteur au résultat de la sous-requête qui calcule la moyenne des compteurs ; seuls les films au-dessus de cette moyenne apparaissent. Résultat : Zemidjan express, dont 3 est supérieur à 2,2.",
     "difficulty": "hard",
     "tags": [
       "group-by",
@@ -3054,7 +3054,7 @@
     "id": "sql_090",
     "domain": "BASES_DONNEES_SQL",
     "type": "CODE",
-    "question": "Pour chaque genre de film, affichez le genre et le nombre de films sous le nom nb_films, triés par nb_films décroissant puis par genre croissant.",
+    "question": "La table films seule est donnée ci-dessous. Pour chaque genre de film, affichez le genre et le nombre de films sous le nom nb_films, triés par nb_films décroissant puis par genre croissant.",
     "context": "La base d'une plateforme de VOD contient une table films(id, titre, genre, annee).",
     "answers": [],
     "code": {
@@ -3065,7 +3065,7 @@
       "timeLimitMs": 10000,
       "tests": []
     },
-    "explanation": "Le GROUP BY forme un groupe par valeur distincte du genre et COUNT(*) compte les lignes de chaque groupe. L'alias créé avec AS peut être réutilisé dans le tri, et le second critère de tri départage les genres à égalité.",
+    "explanation": "Les données : la table films contient six films : 2 drames, 2 comedies, 1 thriller et 1 documentaire. La solution : GROUP BY forme un groupe par valeur distincte du genre et COUNT(*) compte les lignes de chaque groupe ; l'alias nb_films créé avec AS est réutilisable dans le tri, et le second critère départage les égalités par genre croissant. Résultat : comedie 2, drame 2, documentaire 1, thriller 1.",
     "difficulty": "medium",
     "tags": [
       "group-by",
@@ -3181,7 +3181,7 @@
     "id": "sql_094",
     "domain": "BASES_DONNEES_SQL",
     "type": "CODE",
-    "question": "Affichez le pseudo des utilisateurs ayant interagi avec au moins 3 films distincts, avec ce nombre sous le nom nb_films, triés par nb_films décroissant puis par pseudo croissant.",
+    "question": "Les tables utilisateurs et interactions sont données ci-dessous. Affichez le pseudo des utilisateurs ayant interagi avec au moins 3 films distincts, avec ce nombre sous le nom nb_films, triés par nb_films décroissant puis par pseudo croissant.",
     "context": "La base d'une plateforme de VOD contient trois tables : films(id, titre, genre, annee), utilisateurs(id, pseudo, pays) et interactions(id, film_id, utilisateur_id, type_interaction, duree_secondes).",
     "answers": [],
     "code": {
@@ -3192,7 +3192,7 @@
       "timeLimitMs": 10000,
       "tests": []
     },
-    "explanation": "La jointure relie chaque interaction à son utilisateur, le GROUP BY forme un groupe par utilisateur et COUNT(DISTINCT film_id) compte les films uniques plutôt que toutes les interactions. HAVING ne garde que les groupes atteignant 3 films distincts.",
+    "explanation": "Les données : par utilisateur, arielle a interagi avec 4 films distincts, ching avec 3, bruno et delphine avec 2, et emanuel aucun. La solution : la jointure relie chaque interaction à son utilisateur, GROUP BY forme un groupe par utilisateur et COUNT(DISTINCT i.film_id) compte les films uniques plutôt que les interactions ; HAVING ne garde que les groupes atteignant 3. Résultat : arielle (4) puis ching (3).",
     "difficulty": "hard",
     "tags": [
       "group-by",

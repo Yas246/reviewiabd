@@ -27,6 +27,7 @@ export function OfflinePrep() {
     r: "checking",
     sql: "checking",
   });
+  const [progress, setProgress] = useState<Record<string, string>>({});
 
   const refreshPrepStates = useCallback(async () => {
     const next: Record<string, PrepState> = {};
@@ -49,12 +50,26 @@ export function OfflinePrep() {
     refreshPrepStates();
   }, [refreshPrepStates]);
 
+  // Préchargement via le SERVICE WORKER : c'est lui qui télécharge chaque
+  // fichier et le place dans son cache. Aucun .zip/.wasm ne transite par un
+  // téléchargement côté page, donc les gestionnaires type IDM n'ont rien à
+  // intercepter. Une fois en cache, les boots des workers sont servis du
+  // cache (jamais du réseau) : l'interception ne peut plus rien casser.
   const handlePreload = async (key: "python" | "r" | "sql") => {
     setPrepStates((prev) => ({ ...prev, [key]: "caching" }));
+    setProgress((prev) => ({ ...prev, [key]: "démarrage..." }));
     try {
-      await codeRunner.warmUp(key);
-      await refreshPrepStates();
-    } catch {
+      await codeRunner.precacheViaSW(key, (msg) =>
+        setProgress((prev) => ({ ...prev, [key]: msg }))
+      );
+      const ok = await codeRunner.isCached(key);
+      if (!ok) throw new Error("cache incomplet après préchargement");
+      setPrepStates((prev) => ({ ...prev, [key]: "ready" }));
+    } catch (e) {
+      setProgress((prev) => ({
+        ...prev,
+        [key]: e instanceof Error ? e.message : "échec",
+      }));
       setPrepStates((prev) => ({ ...prev, [key]: "failed" }));
     }
   };
@@ -96,17 +111,29 @@ export function OfflinePrep() {
                 </p>
               </div>
               {st === "caching" ? (
-                <span className="flex items-center gap-1.5 font-mono text-xs text-accent shrink-0">
-                  <Loader2 className="w-4 h-4 animate-spin" /> TÉLÉCHARGEMENT...
+                <span className="flex flex-col items-end gap-1 font-mono text-xs text-accent shrink-0">
+                  <span className="flex items-center gap-1.5">
+                    <Loader2 className="w-4 h-4 animate-spin" /> TÉLÉCHARGEMENT...
+                  </span>
+                  {progress[rt.key] && (
+                    <span className="text-[10px] text-ink-muted">{progress[rt.key]}</span>
+                  )}
                 </span>
               ) : st === "ready" ? (
                 <span className="flex items-center gap-1.5 font-mono text-xs text-domain-dl shrink-0">
                   <CheckCircle2 className="w-4 h-4" /> PRÊT HORS LIGNE
                 </span>
               ) : st === "failed" ? (
-                <Button variant="secondary" size="sm" onClick={() => handlePreload(rt.key)}>
-                  Réessayer
-                </Button>
+                <span className="flex flex-col items-end gap-1 shrink-0">
+                  <Button variant="secondary" size="sm" onClick={() => handlePreload(rt.key)}>
+                    Réessayer
+                  </Button>
+                  {progress[rt.key] && (
+                    <span className="font-mono text-[10px] text-domain-ml text-right max-w-[240px]">
+                      {progress[rt.key]}
+                    </span>
+                  )}
+                </span>
               ) : (
                 <Button
                   variant="secondary"

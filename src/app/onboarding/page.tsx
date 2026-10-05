@@ -94,12 +94,13 @@ export default function OnboardingPage() {
 
   const handleContinue = () => {
     if (step === 1) {
+      // Étape hors ligne : on continue vers l'IA (optionnelle)
+      setStep(2);
+    } else if (step === 2) {
       if (!isValidKey) {
         setError("Please enter a valid API key");
         return;
       }
-      setStep(2);
-    } else if (step === 2) {
       setStep(3);
     }
   };
@@ -137,8 +138,9 @@ export default function OnboardingPage() {
     }
   };
 
+  // Passer l'étape IA : on termine l'onboarding sans clé (banque locale suffisante)
   const handleSkip = () => {
-    setStep(3);
+    handleFinish();
   };
 
   return (
@@ -193,8 +195,41 @@ export default function OnboardingPage() {
           </div>
         </div>
 
-        {/* Step 1: Provider & API Key */}
+        {/* Step 1 : Préparation hors ligne (zéro IA exigée) */}
         {step === 1 && (
+          <Card className="animate-fade-in-up">
+            <CardContent>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+                  <WifiOff className="w-6 h-6 text-accent" />
+                </div>
+                <div>
+                  <h2 className="font-mono font-semibold text-lg mb-1">
+                    Préparation hors ligne
+                  </h2>
+                  <p className="text-sm text-ink-muted">
+                    Ta banque de questions est déjà embarquée : tu peux réviser tout de
+                    suite, sans clé API ni connexion.
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-sm text-ink-secondary mb-5">
+                Les outils ci-dessous servent à vérifier le code que tu écris dans les
+                exercices (Python, R, SQL). Télécharge-les maintenant si tu veux, ou plus
+                tard dans <strong>Paramètres → Préparation hors ligne</strong> : ils sont
+                facultatifs, les QCM et cas pratiques fonctionnent sans eux. L&apos;IA,
+                elle, reste optionnelle : étape suivante si tu en veux, sinon tu peux
+                terminer ici.
+              </p>
+
+              <OfflinePrep />
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Step 2 : Fournisseur IA + clé API (OPTIONNEL) */}
+        {step === 2 && (
           <Card className="animate-fade-in-up">
             <CardContent>
               {/* Provider Selection */}
@@ -204,13 +239,19 @@ export default function OnboardingPage() {
                 </div>
                 <div className="flex-1">
                   <h2 className="font-mono font-semibold text-lg mb-1">
-                    Fournisseur IA
+                    Brancher l&apos;IA (optionnel)
                   </h2>
                   <p className="text-sm text-ink-muted">
-                    Choisissez le service pour générer vos questions
+                    Étape facultative : générer des questions par IA. Tu peux passer et
+                    réviser avec la banque locale, puis brancher une clé quand tu veux
+                    dans les Paramètres.
                   </p>
                 </div>
               </div>
+
+              <p className="font-mono text-xs text-ink-muted uppercase mb-3">
+                Fournisseur
+              </p>
 
               <div className="grid grid-cols-2 gap-4 mb-8">
                 {/* OpenRouter Option */}
@@ -498,37 +539,6 @@ export default function OnboardingPage() {
           </Card>
         )}
 
-        {/* Step 3: Offline preparation */}
-        {step === 3 && (
-          <Card className="animate-fade-in-up">
-            <CardContent>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
-                  <WifiOff className="w-6 h-6 text-accent" />
-                </div>
-                <div>
-                  <h2 className="font-mono font-semibold text-lg mb-1">
-                    Préparation hors ligne
-                  </h2>
-                  <p className="text-sm text-ink-muted">
-                    Ta banque de questions est déjà embarquée : tu peux réviser tout de
-                    suite, sans clé API ni connexion.
-                  </p>
-                </div>
-              </div>
-
-              <p className="text-sm text-ink-secondary mb-5">
-                Les outils ci-dessous servent à vérifier le code que tu écris dans les
-                exercices (Python, R, SQL). Télécharge-les maintenant si tu veux, ou plus
-                tard dans <strong>Paramètres → Préparation hors ligne</strong> : ils sont
-                facultatifs, les QCM et cas pratiques fonctionnent sans eux.
-              </p>
-
-              <OfflinePrep />
-            </CardContent>
-          </Card>
-        )}
-
         {/* Navigation Buttons */}
         <div className="flex gap-4 justify-between mt-12">
           <Button
@@ -551,15 +561,28 @@ export default function OnboardingPage() {
               variant="primary"
               onClick={handleContinue}
               loading={isLoading}
-              disabled={step === 1 && !isValidKey}
+              disabled={step === 2 && !isValidKey}
             >
               Continuer
             </Button>
           )}
         </div>
 
-        {/* Skip onboarding */}
+        {/* Terminer sans IA dès l'étape 1 */}
         {step === 1 && (
+          <div className="mt-8 text-center">
+            <button
+              onClick={handleSkip}
+              disabled={isLoading}
+              className="text-sm text-ink-muted hover:text-accent transition-colors disabled:opacity-50"
+            >
+              Terminer maintenant (l&apos;IA reste optionnelle) →
+            </button>
+          </div>
+        )}
+
+        {/* Skip IA : depuis l'étape 2 (fournisseur/clé) uniquement */}
+        {step === 2 && (
           <div className="mt-8 border-t border-paper-dark pt-6 text-center">
             <p className="text-sm text-ink-secondary mb-4">
               Tu n&apos;as pas besoin de clé API pour réviser : la{" "}
@@ -577,7 +600,7 @@ export default function OnboardingPage() {
               disabled={isLoading}
               className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg border border-paper-dark bg-paper-secondary text-sm font-mono text-ink-secondary hover:border-accent hover:text-accent hover:bg-accent/5 active:scale-[0.98] transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Commencer sans IA (banque locale) →
+              Passer : réviser sans IA (banque locale) →
             </button>
           </div>
         )}

@@ -1,0 +1,469 @@
+{
+  "id": "PANDAS",
+  "title": "Pandas",
+  "description": "Référence rapide pandas : créer Series et DataFrames, charger des fichiers, sélectionner avec loc et iloc, nettoyer, regrouper, fusionner, transformer, dates et graphiques.",
+  "sections": [
+    {
+      "title": "Créer des Series et des DataFrames",
+      "items": [
+        {
+          "what": "Créer une Series : un tableau à une dimension étiqueté",
+          "code": "import pandas as pd\ns = pd.Series([3, -5, 7, 4], index=['a', 'b', 'c', 'd'])",
+          "note": "Sans l'argument index, les étiquettes sont les entiers 0, 1, 2..."
+        },
+        {
+          "what": "Créer un DataFrame à partir d'un dictionnaire de colonnes",
+          "code": "df = pd.DataFrame({'a': [4, 5, 6], 'b': [7, 8, 9]}, index=[1, 2, 3])",
+          "note": "Chaque clé devient une colonne : les listes doivent avoir la même longueur."
+        },
+        {
+          "what": "Créer un DataFrame ligne par ligne",
+          "code": "df = pd.DataFrame([[4, 7, 10], [5, 8, 11], [6, 9, 12]],\n                  index=[1, 2, 3], columns=['a', 'b', 'c'])"
+        },
+        {
+          "what": "Créer un DataFrame avec un MultiIndex (index hiérarchique)",
+          "code": "idx = pd.MultiIndex.from_tuples([('d', 1), ('d', 2), ('e', 2)],\n                                names=['n', 'v'])\ndf = pd.DataFrame({'a': [4, 5, 6]}, index=idx)",
+          "note": "Index à plusieurs niveaux : on regroupe ensuite avec groupby(level='n')."
+        }
+      ]
+    },
+    {
+      "title": "Charger et enregistrer des données",
+      "items": [
+        {
+          "what": "Lire un fichier CSV",
+          "code": "df = pd.read_csv('fichier.csv')\ndf = pd.read_csv('fichier.csv', sep=';', header=None, nrows=5)",
+          "note": "nrows limite le nombre de lignes lues : pratique pour tester un gros fichier."
+        },
+        {
+          "what": "Lire un fichier Excel (une ou plusieurs feuilles)",
+          "code": "df = pd.read_excel('fichier.xlsx')\nxlsx = pd.ExcelFile('fichier.xlsx')\ndf = pd.read_excel(xlsx, 'Feuille2')"
+        },
+        {
+          "what": "Lire depuis une base de données SQL",
+          "code": "from sqlalchemy import create_engine\nengine = create_engine('sqlite:///ma_base.db')\ndf = pd.read_sql('SELECT * FROM ma_table', engine)",
+          "note": "read_sql englobe read_sql_table et read_sql_query. Écriture : df.to_sql('ma_table', engine)."
+        },
+        {
+          "what": "Enregistrer un DataFrame",
+          "code": "df.to_csv('sortie.csv', index=False)\ndf.to_excel('sortie.xlsx', sheet_name='Feuil1')",
+          "note": "index=False évite d'écrire l'index comme une colonne supplémentaire."
+        },
+        {
+          "what": "Autres formats : JSON et formats binaires",
+          "code": "df = pd.read_json('data.json')\ndf.to_parquet('data.parquet')\ndf.to_feather('data.feather')",
+          "note": "Parquet et feather sont plus rapides et plus compacts que le CSV."
+        }
+      ]
+    },
+    {
+      "title": "Inspecter et résumer",
+      "items": [
+        {
+          "what": "Aperçu des premières et dernières lignes",
+          "code": "df.head()      # 5 premières lignes\ndf.head(10)    # 10 premières\ndf.tail()      # 5 dernières"
+        },
+        {
+          "what": "Dimensions et structure",
+          "code": "df.shape      # (nb de lignes, nb de colonnes)\nlen(df)       # nb de lignes\ndf.columns    # noms des colonnes\ndf.index      # étiquettes des lignes",
+          "note": "shape est un attribut, pas une méthode : pas de parenthèses."
+        },
+        {
+          "what": "Types et empreinte mémoire",
+          "code": "df.info()\ndf.dtypes\ndf.memory_usage()"
+        },
+        {
+          "what": "Statistiques descriptives",
+          "code": "df.describe()",
+          "note": "Ne décrit que les colonnes numériques ; df.describe(include='all') pour tout voir."
+        },
+        {
+          "what": "Compter et dénombrer",
+          "code": "df['w'].nunique()        # nb de valeurs distinctes\ndf['w'].value_counts()   # effectif par valeur\ndf.count()               # nb de non-NA par colonne"
+        },
+        {
+          "what": "Régler l'affichage dans la console",
+          "code": "pd.options.display.max_rows = 20\npd.set_option('display.max_columns', None)\npd.reset_option('display.max_rows')",
+          "note": "Ce ne sont que des options d'affichage : les données complètes restent en mémoire."
+        }
+      ]
+    },
+    {
+      "title": "Sélectionner : colonnes, échantillons, extrêmes",
+      "items": [
+        {
+          "what": "Sélectionner une colonne (résultat : Series)",
+          "code": "df['largeur']\ndf.largeur   # équivalent si le nom est un identifiant valide",
+          "note": "La notation à point échoue si le nom contient des espaces ou caractères spéciaux."
+        },
+        {
+          "what": "Sélectionner plusieurs colonnes (résultat : DataFrame)",
+          "code": "df[['largeur', 'longueur', 'espece']]",
+          "note": "Double crochet : on passe une liste de noms de colonnes."
+        },
+        {
+          "what": "Sélectionner des colonnes par expression régulière",
+          "code": "df.filter(regex='^sep')"
+        },
+        {
+          "what": "Prendre une tranche de lignes",
+          "code": "df[10:20]   # lignes en positions 10 à 19"
+        },
+        {
+          "what": "Tirer un échantillon aléatoire",
+          "code": "df.sample(frac=0.5)                # 50 % des lignes\ndf.sample(n=10)                    # 10 lignes\ndf.sample(n=10, random_state=42)   # tirage reproductible"
+        },
+        {
+          "what": "Garder les plus grandes ou plus petites valeurs",
+          "code": "df.nlargest(5, 'valeur')\ndf.nsmallest(5, 'valeur')"
+        }
+      ]
+    },
+    {
+      "title": "Sélectionner avec loc et iloc",
+      "items": [
+        {
+          "what": "Par position : iloc",
+          "code": "df.iloc[10:20]\ndf.iloc[:, [1, 2, 5]]   # toutes les lignes, colonnes 1, 2 et 5\ndf.iloc[0, 0]           # première cellule",
+          "note": "Les positions commencent à 0 ; la borne de fin est EXCLUE (ici lignes 10 à 19)."
+        },
+        {
+          "what": "Par étiquette : loc",
+          "code": "df.loc[:, 'x2':'x4']    # colonnes x2 à x4\ndf.loc[[0], ['Pays']]",
+          "note": "Avec loc, la borne de fin est INCLUSE (contrairement à iloc) : piège classique."
+        },
+        {
+          "what": "Combiner une condition et un choix de colonnes",
+          "code": "df.loc[df['a'] > 10, ['a', 'c']]"
+        },
+        {
+          "what": "Accéder à une seule valeur",
+          "code": "df.iat[1, 2]      # par position\ndf.at[4, 'A']     # par étiquette",
+          "note": "L'ancien .ix (mélange étiquettes et positions) a été supprimé de pandas : ne plus l'utiliser."
+        },
+        {
+          "what": "Modifier une valeur",
+          "code": "s['a'] = 6\ndf.loc[0, 'Pays'] = 'France'"
+        }
+      ]
+    },
+    {
+      "title": "Filtrer avec des conditions",
+      "items": [
+        {
+          "what": "Masque booléen simple",
+          "code": "df[df['Longueur'] > 7]"
+        },
+        {
+          "what": "Combiner des conditions",
+          "code": "df[(df['a'] < -1) | (df['a'] > 2)]\ndf[(df['a'] > 1) & (df['b'] < 5)]\ndf[~(df['a'] > 1)]   # négation",
+          "note": "Utiliser & | ~ (jamais and/or/not) et parenthéser chaque condition : sinon erreur ou résultat faux."
+        },
+        {
+          "what": "Tester l'appartenance à une liste",
+          "code": "df[df['espece'].isin(['setosa', 'virginica'])]\ndf[~df['espece'].isin(['setosa'])]   # exclusion"
+        },
+        {
+          "what": "Filtrer avec query",
+          "code": "df.query('Longueur > 7')\ndf.query('Longueur > 7 and Largeur < 8')",
+          "note": "Dans la chaîne passée à query, and et or sont autorisés."
+        },
+        {
+          "what": "Filtrer sur des méthodes de chaînes",
+          "code": "df.query('Nom.str.startswith(\"abc\")', engine='python')"
+        }
+      ]
+    },
+    {
+      "title": "Trier et classer",
+      "items": [
+        {
+          "what": "Trier les lignes selon une colonne",
+          "code": "df.sort_values('mpg')\ndf.sort_values('mpg', ascending=False)"
+        },
+        {
+          "what": "Trier selon plusieurs colonnes",
+          "code": "df.sort_values(['col1', 'col2'], ascending=[True, False])"
+        },
+        {
+          "what": "Trier selon l'index",
+          "code": "df.sort_index()"
+        },
+        {
+          "what": "Attribuer des rangs",
+          "code": "df['rang'] = df['valeur'].rank()\ndf['valeur'].rank(method='dense')   # rangs sans trous\ndf['valeur'].rank(pct=True)         # ramené sur [0, 1]",
+          "note": "Par défaut, les ex æquo reçoivent le rang moyen ; method='min', 'first' ou 'dense' change cette règle."
+        }
+      ]
+    },
+    {
+      "title": "Réorganiser index et colonnes",
+      "items": [
+        {
+          "what": "Renommer des colonnes",
+          "code": "df.rename(columns={'y': 'annee'})"
+        },
+        {
+          "what": "Réinitialiser l'index",
+          "code": "df.reset_index()\ndf.reset_index(drop=True)   # sans garder l'ancien index en colonne"
+        },
+        {
+          "what": "Supprimer des colonnes ou des lignes",
+          "code": "df.drop(columns=['Longueur', 'Hauteur'])\ndf.drop([1, 2])   # lignes d'index 1 et 2",
+          "note": "Écriture ancienne équivalente : df.drop('Longueur', axis=1)."
+        },
+        {
+          "what": "Réordonner les colonnes",
+          "code": "df = df[['c', 'a', 'b']]   # nouvel ordre souhaité",
+          "note": "On resélectionne dans l'ordre voulu : une colonne absente de la liste disparaît, un nom inconnu lève une KeyError."
+        },
+        {
+          "what": "Passer du format large au format long",
+          "code": "pd.melt(df)",
+          "note": "Les colonnes sont empilées en deux colonnes 'variable' et 'value' ; id_vars=['pays'] pour garder des colonnes identifiantes."
+        },
+        {
+          "what": "Passer du format long au format large",
+          "code": "df.pivot(columns='var', values='val')",
+          "note": "Échoue (KeyError) si le couple index/colonne contient des doublons : utiliser pivot_table dans ce cas."
+        }
+      ]
+    },
+    {
+      "title": "Nettoyer les données",
+      "items": [
+        {
+          "what": "Supprimer les lignes incomplètes",
+          "code": "df.dropna()\ndf.dropna(subset=['email'])   # ne regarder que cette colonne",
+          "note": "Par défaut, dès qu'UNE cellule est NA, la ligne part : subset évite les suppressions trop larges."
+        },
+        {
+          "what": "Remplacer les valeurs manquantes",
+          "code": "df.fillna(0)\ndf['age'] = df['age'].fillna(df['age'].mean())"
+        },
+        {
+          "what": "Détecter les valeurs manquantes",
+          "code": "df['age'].isnull()      # ou isna()\ndf[df['age'].notnull()]"
+        },
+        {
+          "what": "Supprimer les doublons",
+          "code": "df.drop_duplicates()\ndf.drop_duplicates(subset=['client'])",
+          "note": "La comparaison porte sur toutes les colonnes ; keep='last' pour garder la dernière occurrence."
+        },
+        {
+          "what": "Convertir les types",
+          "code": "df['prix'] = pd.to_numeric(df['prix'], errors='coerce')\ndf['col'] = df['col'].astype('float')\ndf = df.convert_dtypes()",
+          "note": "errors='coerce' remplace les valeurs impossibles par NaN au lieu de lever une erreur."
+        },
+        {
+          "what": "Nettoyer des chaînes de caractères (vectorisé)",
+          "code": "df['nom'] = df['nom'].str.lower().str.strip()\ndf['tel'] = df['tel'].str.replace('-', '', regex=False)\ndf['initiales'] = df['nom'].str.slice(0, 2)",
+          "note": "L'accesseur .str applique les méthodes Python de chaînes à toute la Series ; les NA restent NA."
+        }
+      ]
+    },
+    {
+      "title": "Créer et transformer des colonnes",
+      "items": [
+        {
+          "what": "Ajouter une ou plusieurs colonnes calculées",
+          "code": "df = df.assign(Aire=lambda d: d.Longueur * d.Hauteur)",
+          "note": "assign renvoie une copie : penser à réaffecter le résultat."
+        },
+        {
+          "what": "Ajouter une colonne par affectation directe",
+          "code": "df['Volume'] = df.Longueur * df.Hauteur * df.Profondeur"
+        },
+        {
+          "what": "Appliquer une fonction à chaque élément d'une Series",
+          "code": "s.map(lambda x: 2 * x)\ndf['genre'] = df['code'].map({'H': 'homme', 'F': 'femme'})",
+          "note": "Avec un dictionnaire, map recatégorise : toute valeur absente du dictionnaire devient NaN."
+        },
+        {
+          "what": "Appliquer une fonction par ligne ou par colonne",
+          "code": "df.apply(lambda s: s.max() - s.min(), axis=1)   # ligne par ligne\ndf.apply('median')                              # colonne par colonne"
+        },
+        {
+          "what": "Appliquer une fonction à chaque cellule",
+          "code": "df.applymap(lambda x: round(x, 2))",
+          "note": "Lent sur les gros DataFrames : préférer une opération vectorisée. Depuis pandas 2.1, DataFrame.map fait la même chose."
+        },
+        {
+          "what": "Découper en classes et borner les valeurs",
+          "code": "pd.qcut(df['col'], 4, labels=False)   # 4 classes par quantiles\ns.clip(lower=-10, upper=10)           # coupe les extrêmes"
+        }
+      ]
+    },
+    {
+      "title": "Chaîner les méthodes",
+      "items": [
+        {
+          "what": "Principe du chaînage",
+          "code": "df.query('val >= 200').sort_values('val').head()",
+          "note": "La plupart des méthodes renvoient un DataFrame : on peut appeler la méthode suivante dessus et lire le traitement de gauche à droite."
+        },
+        {
+          "what": "Style multi-lignes avec parenthèses",
+          "code": "df = (pd.melt(df)\n      .rename(columns={'variable': 'var', 'value': 'val'})\n      .query('val >= 200'))",
+          "note": "Les parenthèses englobantes autorisent le retour à la ligne, ce qui rend le chaînage lisible."
+        },
+        {
+          "what": "Les méthodes renvoient une copie",
+          "note": "query, dropna, sort_values... laissent le DataFrame d'origine intact : réaffecter (df = df.dropna()) pour conserver le résultat. Éviter inplace=True, en voie de suppression."
+        }
+      ]
+    },
+    {
+      "title": "Regrouper et agréger (groupby)",
+      "items": [
+        {
+          "what": "Créer des groupes",
+          "code": "g = df.groupby('col')",
+          "note": "Le découpage est paresseux : rien n'est calculé tant qu'on n'appelle pas une agrégation (mean, size...)."
+        },
+        {
+          "what": "Agréger par groupe",
+          "code": "df.groupby('col')['val'].mean()\ndf.groupby('col').agg('median')\ndf.groupby('col').agg({'a': 'mean', 'b': ['min', 'max']})"
+        },
+        {
+          "what": "Grouper sur plusieurs colonnes",
+          "code": "df.groupby(['a', 'b']).mean().reset_index()",
+          "note": "Après un groupby multiple, l'index devient hiérarchique : reset_index remet les clés en colonnes."
+        },
+        {
+          "what": "Taille des groupes",
+          "code": "df.groupby('col').size()",
+          "note": "size compte toutes les lignes, NA compris ; count ne compte que les non-NA."
+        },
+        {
+          "what": "Calculer par groupe sans réduire (transform)",
+          "code": "df['moy_groupe'] = df.groupby('col')['val'].transform('mean')",
+          "note": "transform renvoie un résultat de la taille du DataFrame d'origine : idéal pour une colonne de référence de groupe."
+        },
+        {
+          "what": "Agréger avec une fonction personnalisée",
+          "code": "df.groupby('col')['val'].apply(lambda s: s.max() - s.min())"
+        },
+        {
+          "what": "Fonctions de synthèse applicables partout",
+          "code": "df.sum()                   # somme par colonne\ndf.quantile([0.25, 0.75])  # quantiles\ndf.idxmax()                # index du maximum",
+          "note": "sum, count, mean, median, min, max, var, std, quantile, apply marchent sur Series, DataFrame, GroupBy, rolling et expanding."
+        },
+        {
+          "what": "Tableau croisé : pd.crosstab",
+          "code": "pd.crosstab(df[\"ville\"], df[\"fidele\"])                 # effectifs croisés\npd.crosstab(df[\"ville\"], df[\"fidele\"], margins=True)   # + totaux\npd.crosstab(df[\"ville\"], df[\"fidele\"], normalize=\"index\")  # en proportions par ligne"
+        }
+      ]
+    },
+    {
+      "title": "Fusionner des tables",
+      "items": [
+        {
+          "what": "Jointure à gauche",
+          "code": "pd.merge(adf, bdf, how='left', on='x1')",
+          "note": "Toutes les lignes de adf, complétées par bdf : NaN quand il n'y a pas de correspondance."
+        },
+        {
+          "what": "Jointures inner, outer et right",
+          "code": "pd.merge(adf, bdf, how='inner', on='x1')   # lignes communes\npd.merge(adf, bdf, how='outer', on='x1')   # toutes les lignes\npd.merge(adf, bdf, how='right', on='x1')",
+          "note": "Si les deux tables ont une colonne de même nom, pandas ajoute les suffixes _x et _y (paramètre suffixes)."
+        },
+        {
+          "what": "Jointure sur l'index",
+          "code": "df.join(bdf, how='left')",
+          "note": "join joint par défaut sur l'index ; merge joint sur des colonnes : les deux aboutissent au même type de résultat."
+        },
+        {
+          "what": "Empiler des tables",
+          "code": "pd.concat([df1, df2])          # verticalement\npd.concat([df1, df2], axis=1)  # côte à côte",
+          "note": "concat aligne sur les étiquettes : les colonnes absentes sont remplies de NaN."
+        },
+        {
+          "what": "Semi-jointure et anti-jointure par filtrage",
+          "code": "adf[adf.x1.isin(bdf.x1)]     # lignes de adf présentes dans bdf\nadf[~adf.x1.isin(bdf.x1)]    # lignes de adf absentes de bdf"
+        },
+        {
+          "what": "Différence entre deux tables",
+          "code": "(pd.merge(ydf, zdf, how='outer', indicator=True)\n .query('_merge == \"left_only\"')\n .drop(columns=['_merge']))",
+          "note": "indicator=True ajoute une colonne _merge qui indique d'où vient chaque ligne."
+        }
+      ]
+    },
+    {
+      "title": "Fenêtres, cumuls et décalages",
+      "items": [
+        {
+          "what": "Décaler les valeurs",
+          "code": "df['veille'] = df['valeur'].shift(1)     # valeur de la ligne précédente\ndf['lendemain'] = df['valeur'].shift(-1)",
+          "note": "Crée des NaN aux extrémités : classique pour une variation df['valeur'] - df['valeur'].shift(1)."
+        },
+        {
+          "what": "Cumuls",
+          "code": "df.cumsum()     # somme cumulée\ndf.cummax()     # maximum courant\ndf.cummin()\ndf.cumprod()"
+        },
+        {
+          "what": "Fenêtre glissante",
+          "code": "df['valeur'].rolling(3).mean()",
+          "note": "Moyenne mobile sur 3 lignes : les 2 premières restent NaN."
+        },
+        {
+          "what": "Cumul élargissant",
+          "code": "df.expanding().sum()",
+          "note": "La fenêtre grandit au fil des lignes : calcul cumulé depuis le début."
+        }
+      ]
+    },
+    {
+      "title": "Travailler avec les dates",
+      "items": [
+        {
+          "what": "Convertir une colonne en dates",
+          "code": "df['date'] = pd.to_datetime(df['date'], format='%d/%m/%Y')",
+          "note": "L'accesseur .dt exige le type datetime64 : toujours convertir d'abord. Sans format, pandas devine et peut inverser jour et mois."
+        },
+        {
+          "what": "Extraire année, mois, jour, trimestre",
+          "code": "df['date'].dt.year\ndf['date'].dt.month\ndf['date'].dt.day\ndf['date'].dt.quarter"
+        },
+        {
+          "what": "Extraire heure, minute, seconde",
+          "code": "df['date'].dt.hour\ndf['date'].dt.minute\ndf['date'].dt.second"
+        },
+        {
+          "what": "Manipuler des durées",
+          "code": "pd.to_timedelta(['1 days', '2 days'])\nduree = df['fin'] - df['debut']   # différence de dates = timedelta",
+          "note": "Un timedelta s'additionne à une date : df['debut'] + pd.Timedelta(days=3)."
+        }
+      ]
+    },
+    {
+      "title": "Graphiques rapides",
+      "items": [
+        {
+          "what": "Courbes",
+          "code": "df.plot()",
+          "note": "Une courbe par colonne numérique, l'index en abscisse. Repose sur matplotlib : en script, terminer par plt.show()."
+        },
+        {
+          "what": "Nuage de points",
+          "code": "df.plot.scatter(x='w', y='h')"
+        },
+        {
+          "what": "Histogramme",
+          "code": "df.plot.hist(bins=30)",
+          "note": "bins règle le nombre de classes de l'histogramme."
+        },
+        {
+          "what": "Barres, boîtes, secteurs, aires",
+          "code": "df.plot.bar(stacked=True)\ndf.plot.box()\ndf.plot.pie(y='val')\ndf.plot.area()",
+          "note": "stacked=True n'a de sens que pour bar, barh et area."
+        },
+        {
+          "what": "Options utiles",
+          "code": "df.plot(title='Ventes par mois', alpha=0.5)\ndf.plot(subplots=True)   # un graphique par colonne",
+          "note": "alpha règle la transparence ; subplots=True éclate chaque colonne dans son propre graphique."
+        }
+      ]
+    }
+  ]
+}

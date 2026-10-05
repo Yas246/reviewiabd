@@ -570,7 +570,7 @@
     "id": "nlp_017",
     "domain": "NLP",
     "type": "CODE",
-    "question": "Complétez la fonction tokeniser(texte) qui renvoie la liste des mots du texte en minuscules, débarrassés de la ponctuation . , ; : ! ?",
+    "question": "On dispose du texte donné ci-dessous. Complétez la fonction tokeniser(texte) qui renvoie la liste des mots du texte en minuscules, débarrassés de la ponctuation . , ; : ! ?",
     "code": {
       "language": "python",
       "setup": "texte = 'Le chat dort. Le chien joue !'",
@@ -595,7 +595,7 @@
         }
       ]
     },
-    "explanation": "On remplace chaque signe de ponctuation par un espace, puis on passe en minuscules et on découpe aux espaces. Cette tokenization naïve suffit ici, mais elle traiterait mal les élisions comme « l'homme ».",
+    "explanation": "Les données : texte vaut 'Le chat dort. Le chien joue !', avec un point et un point d'exclamation à nettoyer. La solution : chaque signe de ponctuation est remplacé par un espace, puis lower() passe en minuscules et split() découpe aux espaces. Sur les données : tokeniser(texte) = ['le', 'chat', 'dort', 'le', 'chien', 'joue']. Cas vérifiés aussi : 'Le chat dort.' donne ['le', 'chat', 'dort'] et 'Bonjour, monde !' donne ['bonjour', 'monde']. Cette tokenization naïve traiterait mal les élisions comme « l'homme ».",
     "difficulty": "medium",
     "tags": [
       "tokenization",
@@ -868,7 +868,7 @@
     "id": "nlp_025",
     "domain": "NLP",
     "type": "CODE",
-    "question": "Complétez la fonction tf(mots, mot) qui renvoie la fréquence du terme : le nombre d'occurrences de mot divisé par le nombre total de mots de la liste.",
+    "question": "On dispose de la liste mots donnée ci-dessous. Complétez la fonction tf(mots, mot) qui renvoie la fréquence du terme : le nombre d'occurrences de mot divisé par le nombre total de mots de la liste.",
     "code": {
       "language": "python",
       "setup": "mots = ['le', 'chat', 'dort', 'le', 'soir']",
@@ -893,7 +893,7 @@
         }
       ]
     },
-    "explanation": "La fréquence d'un terme rapporte ses occurrences au total de mots du document. Un terme absent donne zéro, un terme majoritaire tend vers 1.",
+    "explanation": "Les données : mots contient cinq termes, dont 'le' apparaît deux fois. La solution : mots.count(mot) compte les occurrences et la division par len(mots) ramène à une fréquence entre 0 et 1. Sur les données : tf(mots, 'le') = 2 / 5 = 0,4 et tf(mots, 'chat') = 1 / 5 = 0,2. Un terme absent donne 0, un terme majoritaire tend vers 1 : le test caché attend 0,75 pour 'x' présent trois fois sur quatre.",
     "difficulty": "medium",
     "tags": [
       "tf-idf",
@@ -1818,7 +1818,7 @@
         }
       ]
     },
-    "explanation": "Le produit scalaire se calcule terme à terme, les normes avec la racine carrée des carrés sommés. Deux vecteurs orthogonaux donnent zéro, deux vecteurs colinéaires donnent 1, quel que soit leur module.",
+    "explanation": "Les données : la fonction prend deux vecteurs de même longueur, par exemple [1, 0, 2] et [0, 4, 0]. La solution : zip parcourt les vecteurs en parallèle, sum(a * b for a, b in zip(v1, v2)) calcule le produit scalaire, et chaque norme est la racine carrée des carrés sommés ; la similarité vaut le produit scalaire divisé par le produit des normes. Sur les tests : [1, 0, 2] et [0, 4, 0] sont orthogonaux (produit scalaire nul, similarité 0) ; [1, 2, 3] et [2, 4, 6] sont colinéaires (similarité 1) ; et cosinus([2, 2], [2, 0]) = 4 / (√8 × 2) ≈ 0,707.",
     "difficulty": "hard",
     "tags": [
       "similarite-cosinus",
@@ -2504,7 +2504,7 @@
         }
       ]
     },
-    "explanation": "La décomposition NFD sépare chaque lettre de son diacritique ; on filtre ensuite les caractères combinants avant la mise en minuscules. La cédille et le tréma disparaissent comme les accents aigus et graves.",
+    "explanation": "Les données : la fonction doit transformer par exemple « École » en « ecole » et « À bientôt ! » en « a bientot ! ». La solution : unicodedata.normalize('NFD', texte) décompose chaque lettre accentuée en lettre de base et diacritique, le filtre if not unicodedata.combining(c) supprime ces diacritiques, et lower() termine en minuscules. Sur les tests : 'Garçon déjà ünïformé' devient 'garcon deja uniforme' : la cédille et le tréma disparaissent comme les accents aigus et graves.",
     "difficulty": "medium",
     "tags": [
       "normalisation",
@@ -3514,7 +3514,7 @@
     "id": "nlp_099",
     "domain": "NLP",
     "type": "CODE",
-    "question": "Complétez la fonction compter_mots(texte) qui renvoie un dictionnaire associant à chaque mot (converti en minuscules) son nombre d'occurrences dans le texte.",
+    "question": "On dispose du petit texte donné ci-dessous. Complétez la fonction compter_mots(texte) qui renvoie un dictionnaire associant à chaque mot (converti en minuscules) son nombre d'occurrences dans le texte.",
     "code": {
       "language": "python",
       "setup": "texte = 'Le chat et le chien'",
@@ -3539,7 +3539,7 @@
         }
       ]
     },
-    "explanation": "On parcourt les mots en minuscules et on incrémente le compteur associé avec dict.get. L'ordre des clés n'importe pas pour l'égalité des dictionnaires en Python.",
+    "explanation": "Les données : texte vaut 'Le chat et le chien', cinq mots dont 'le' deux fois (une majuscule, une minuscule). La solution : texte.lower().split() produit les mots en minuscules, et stats.get(mot, 0) + 1 incrémente le compteur de chaque mot, en partant de 0 à la première occurrence. Sur les données : compter_mots(texte) = {'le': 2, 'chat': 1, 'et': 1, 'chien': 1}. L'ordre des clés n'importe pas pour l'égalité des dictionnaires en Python.",
     "difficulty": "medium",
     "tags": [
       "pretraitement",

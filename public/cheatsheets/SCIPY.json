@@ -1,0 +1,248 @@
+{
+  "id": "SCIPY",
+  "title": "SciPy",
+  "description": "Référence rapide : algèbre linéaire avec scipy.linalg (inversion, normes, systèmes, fonctions de matrices, décompositions), matrices creuses avec sparse, et les utilitaires NumPy de la planche (grilles, polynômes, vectorisation).",
+  "sections": [
+    {
+      "title": "SciPy en bref",
+      "items": [
+        {
+          "what": "À quoi sert SciPy",
+          "note": "SciPy est un des paquets centraux du calcul scientifique : il apporte des algorithmes mathématiques et des fonctions utilitaires construits SUR l'extension NumPy de Python. Les modules à connaître ici : linalg (algèbre linéaire) et sparse (matrices creuses)."
+        },
+        {
+          "what": "Importer les modules clés",
+          "code": "import numpy as np\nfrom scipy import linalg, sparse",
+          "note": "scipy.linalg CONTIENT et ÉTEND numpy.linalg : pour l'algèbre linéaire scientifique, c'est le module SciPy qu'on importe."
+        },
+        {
+          "what": "Demander de l'aide",
+          "code": "help(scipy.linalg.diagsvd)\nnp.info(np.matrix)",
+          "note": "Les deux outils habituels marchent : help() sur une fonction SciPy, np.info() sur un type NumPy."
+        }
+      ]
+    },
+    {
+      "title": "Créer des matrices",
+      "items": [
+        {
+          "what": "Construire une matrice depuis un tableau ou une liste",
+          "code": "A = np.matrix(np.random.random((2, 2)))\nB = np.asmatrix(b)\nC = np.mat(np.random.random((10, 5)))\nD = np.mat([[3, 4], [5, 6]])",
+          "note": "np.matrix est déprécié : pour du code neuf, préférez des ndarray 2D avec les fonctions de scipy.linalg."
+        },
+        {
+          "what": "Préparer une matrice (identité, mise à zéro)",
+          "code": "F = np.eye(3, k=1)      # identité décalée d'une diagonale\nG = np.mat(np.identity(2))\nC[C > 0.5] = 0          # mettre à zéro toutes les valeurs > 0.5",
+          "note": "np.eye(n, k=1) décale la diagonale de k positions vers le haut : utile pour fabriquer des matrices creuses d'exemple."
+        }
+      ]
+    },
+    {
+      "title": "Routines de base sur les matrices",
+      "items": [
+        {
+          "what": "Inverser une matrice",
+          "code": "linalg.inv(A)\nA.I          # inverse d'un objet np.matrix",
+          "note": "A.I n'existe que sur np.matrix : sur un ndarray, utilisez linalg.inv(A)."
+        },
+        {
+          "what": "Transposée, adjointe, trace",
+          "code": "A.T           # transposée\nA.H           # transposée conjuguée (adjointe)\nnp.trace(A)   # somme des éléments de la diagonale"
+        },
+        {
+          "what": "Addition, soustraction, division de matrices",
+          "code": "np.add(A, D)\nnp.subtract(A, D)\nnp.divide(A, D)"
+        },
+        {
+          "what": "Les différents produits de matrices",
+          "code": "np.multiply(D, A)   # produit ÉLÉMENT par élément\nnp.dot(A, D)        # produit matriciel\nnp.vdot(A, D)       # produit scalaire (conjugué)\nnp.inner(A, D)      # produit interne\nnp.outer(A, D)      # produit externe\nnp.tensordot(A, D)  # produit tensoriel\nnp.kron(A, D)       # produit de Kronecker"
+        },
+        {
+          "what": "Normes d'une matrice",
+          "code": "linalg.norm(A)          # norme de Frobenius\nlinalg.norm(A, 1)       # norme L1 : max des sommes en colonne\nlinalg.norm(A, np.inf)  # norme L-infini : max des sommes en ligne"
+        },
+        {
+          "what": "Rang et déterminant",
+          "code": "np.linalg.matrix_rank(C)\nlinalg.det(A)",
+          "note": "Un déterminant nul signale une matrice non inversible (rang incomplet)."
+        }
+      ]
+    },
+    {
+      "title": "Résoudre des systèmes linéaires",
+      "items": [
+        {
+          "what": "Système dense Ax = b",
+          "code": "linalg.solve(A, b)",
+          "note": "Résout Ax = b directement : plus rapide et plus stable que calculer inv(A) puis multiplier."
+        },
+        {
+          "what": "Solution aux moindres carrés",
+          "code": "E = np.mat(a).T\nlinalg.lstsq(D, E)",
+          "note": "lstsq donne la meilleure solution approximative quand le système n'a pas de solution exacte (trop ou pas assez d'équations)."
+        },
+        {
+          "what": "Pseudo-inverse d'une matrice",
+          "code": "linalg.pinv(C)    # via moindres carrés\nlinalg.pinv2(C)   # via décomposition SVD",
+          "note": "La pseudo-inverse généralise l'inverse aux matrices non carrées ou singulières."
+        }
+      ]
+    },
+    {
+      "title": "Fonctions de matrices",
+      "items": [
+        {
+          "what": "Exponentielle de matrice",
+          "code": "linalg.expm(A)",
+          "note": "expm est la méthode de référence ; expm2 (série de Taylor) et expm3 (par décomposition en valeurs propres) en sont les variantes historiques."
+        },
+        {
+          "what": "Logarithme de matrice",
+          "code": "linalg.logm(A)"
+        },
+        {
+          "what": "Trigonométrie matricielle",
+          "code": "linalg.sinm(D)   # sinus matriciel\nlinalg.cosm(D)   # cosinus matriciel\nlinalg.tanm(A)   # tangente matricielle"
+        },
+        {
+          "what": "Trigonométrie hyperbolique matricielle",
+          "code": "linalg.sinhm(D)  # sinus hyperbolique matriciel\nlinalg.coshm(D)  # cosinus hyperbolique matriciel\nlinalg.tanhm(A)  # tangente hyperbolique matricielle"
+        },
+        {
+          "what": "Racine carrée et fonction quelconque de matrice",
+          "code": "linalg.sqrtm(A)\nlinalg.funm(A, lambda x: x * x)   # évalue f sur la matrice",
+          "note": "funm applique une fonction quelconque en passant par la décomposition en valeurs propres."
+        },
+        {
+          "what": "Signe d'une matrice",
+          "code": "linalg.signm(A)   # fonction signe MATRICIELLE\nnp.sign(A)        # fonction signe élément par élément",
+          "note": "La planche écrit np.sigm(A) : ce nom n'existe pas dans NumPy actuel ; utilisez linalg.signm (matriciel) ou np.sign (élément par élément)."
+        }
+      ]
+    },
+    {
+      "title": "Décompositions",
+      "items": [
+        {
+          "what": "Valeurs propres et vecteurs propres",
+          "code": "la, v = linalg.eig(A)   # valeurs propres (la), vecteurs propres (v)\nl1, l2 = la             # déballer les valeurs propres\nv[:, 0]                 # 1er vecteur propre\nv[:, 1]                 # 2e vecteur propre\nlinalg.eigvals(A)       # valeurs propres seules",
+          "note": "eig résout le problème aux valeurs propres d'une matrice carrée (ordinaire ou généralisée)."
+        },
+        {
+          "what": "Décomposition en valeurs singulières (SVD)",
+          "code": "U, s, Vh = linalg.svd(B)\nM, N = B.shape\nSig = linalg.diagsvd(s, M, N)   # reconstruire la matrice Sigma",
+          "note": "B = U diagonale(s) Vh : diagsvd remet le vecteur de valeurs singulières s sous forme de matrice M x N."
+        },
+        {
+          "what": "Décomposition LU",
+          "code": "P, L, U = linalg.lu(C)",
+          "note": "C = P L U : la base de la résolution efficace de nombreux systèmes linéaires."
+        }
+      ]
+    },
+    {
+      "title": "Matrices creuses (sparse)",
+      "items": [
+        {
+          "what": "Pourquoi le format creux",
+          "note": "Une matrice creuse ne stocke que les valeurs non nulles : indispensable quand la taille explose (graphes, textes, systèmes discrets) et que la plupart des coefficients sont nuls."
+        },
+        {
+          "what": "Construire une matrice creuse depuis une matrice pleine",
+          "code": "H = sparse.csr_matrix(C)   # lignes compressées (CSR)\nI = sparse.csc_matrix(D)   # colonnes compressées (CSC)\nJ = sparse.dok_matrix(A)   # dictionnaire de clés (DOK)",
+          "note": "CSR est efficace pour les calculs ligne par ligne, CSC pour les opérations en colonnes, DOK pour construire progressivement."
+        },
+        {
+          "what": "Tester le format et revenir au format plein",
+          "code": "sparse.isspmatrix_csc(A)   # True si c'est une matrice CSC\nE.todense()                # reconvertir en matrice dense"
+        },
+        {
+          "what": "Opérations sur les matrices creuses",
+          "code": "sparse.linalg.inv(I)\nsparse.linalg.norm(I)\nsparse.linalg.spsolve(H, I)   # résoudre un système creux"
+        },
+        {
+          "what": "Fonctions et décompositions creuses",
+          "code": "sparse.linalg.expm(I)             # exponentielle de matrice creuse\nla, v = sparse.linalg.eigs(F, 1)  # valeurs et vecteurs propres\nsparse.linalg.svds(H, 2)          # SVD creuse (k valeurs singulières)",
+          "note": "eigs et svds ne calculent que les k valeurs demandées : c'est ce qui rend possible le calcul sur de très grandes matrices."
+        }
+      ]
+    },
+    {
+      "title": "Interagir avec NumPy",
+      "items": [
+        {
+          "what": "Grilles de coordonnées",
+          "code": "np.mgrid[0:5, 0:5]   # grille dense (tous les points)\nnp.ogrid[0:2, 0:2]   # grille ouverte (économique en mémoire)"
+        },
+        {
+          "what": "Empilement rapide de tableaux",
+          "code": "np.r_[3, [0] * 5, -1:1:10j]   # empiler en lignes\nnp.c_[b, c]                   # empiler en colonnes",
+          "note": "Le suffixe 10j dans un slicing de r_ signifie : 10 points régulièrement répartis entre -1 et 1."
+        },
+        {
+          "what": "Polynômes",
+          "code": "from numpy import poly1d\np = poly1d([3, 4, 5])   # représente 3x^2 + 4x + 5\np(1)                    # évaluation : 12",
+          "note": "Les coefficients vont du degré le plus haut au degré le plus bas."
+        },
+        {
+          "what": "Vectoriser une fonction Python classique",
+          "code": "def myfunc(a):\n    if a < 0:\n        return a * 2\n    else:\n        return a / 2\n\nnp.vectorize(myfunc)",
+          "note": "np.vectorize transforme une fonction écrite pour un seul scalaire en fonction applicable à tout un tableau, comme les ufunc de NumPy."
+        },
+        {
+          "what": "Parties réelle et imaginaire d'un tableau complexe",
+          "code": "np.real(c)                       # partie réelle\nnp.imag(c)                       # partie imaginaire\nnp.real_if_close(c, tol=1000)    # tableau réel si la partie imaginaire est négligeable"
+        },
+        {
+          "what": "Angles, échelles de valeurs, correction d'angles",
+          "code": "np.angle(b, deg=True)         # angle des nombres complexes\nnp.linspace(0, np.pi, num=5)  # n valeurs régulièrement espacées\nnp.logspace(0, 10, 3)         # valeurs régulièrement espacées en échelle log\nnp.unwrap(g)                  # corriger les sauts de 2*pi d'un angle"
+        },
+        {
+          "what": "Choisir des valeurs selon des conditions",
+          "code": "np.select([c < 4], [c * 2])",
+          "note": "Renvoie c * 2 là où c < 4 est vrai, et 0 ailleurs : une liste de conditions, une liste de tableaux de valeurs."
+        }
+      ]
+    },
+    {
+      "title": "Combinatoire et dérivées (scipy.misc)",
+      "items": [
+        {
+          "what": "Factorielle et combinaisons",
+          "code": "misc.factorial(a)\nmisc.comb(10, 3, exact=True)",
+          "note": "ATTENTION : le module scipy.misc a été supprimé des versions récentes de SciPy. Équivalents actuels : scipy.special.factorial, math.comb ou scipy.special.comb."
+        },
+        {
+          "what": "Dérivée numérique d'une fonction en un point",
+          "code": "misc.derivative(myfunc, 1.0)\nmisc.central_diff_weights(3)   # poids d'une dérivée centrale à N points",
+          "note": "Dans les SciPy récents, voir scipy.differentiate.derivative (ou écrire sa différence finie à la main)."
+        }
+      ]
+    },
+    {
+      "title": "Pièges fréquents",
+      "items": [
+        {
+          "what": "np.matrix est déprécié",
+          "note": "Il fonctionne encore mais n'évolue plus : pour du nouveau code, préférez des ndarray 2D et scipy.linalg (linalg.inv(A) au lieu de A.I)."
+        },
+        {
+          "what": "scipy.linalg ou numpy.linalg ?",
+          "note": "scipy.linalg contient et étend numpy.linalg. Pour l'algèbre linéaire scientifique (solve, inv, eig, svd...), importez toujours scipy.linalg."
+        },
+        {
+          "what": "scipy.misc n'existe plus",
+          "note": "factorial, comb et derivative ont été retirés de scipy.misc dans les versions récentes : passez par scipy.special, math et scipy.differentiate."
+        },
+        {
+          "what": "Ne construisez pas une matrice creuse naïvement",
+          "note": "Remplir une grande matrice élément par élément au format creux est très lent : construisez en DOK, ou créez une dense puis convertissez (csr_matrix, csc_matrix)."
+        },
+        {
+          "what": "Les fonctions de matrices ne sont pas élément par élément",
+          "note": "expm, logm, sqrtm, sinm... appliquent la fonction à la MATRICE entière (via ses valeurs propres), contrairement à np.exp(A) qui agit sur chaque élément."
+        }
+      ]
+    }
+  ]
+}

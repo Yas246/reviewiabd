@@ -1,95 +1,229 @@
 {
   "id": "PYTHON",
-  "title": "Python et Pandas",
-  "description": "Tout le langage : variables, chaînes, listes, conditions, boucles, fonctions, fichiers, erreurs... puis Pandas de A à Z.",
+  "title": "Python : les bases",
+  "description": "Tout le langage dans l'ordre : aide et types, packages, opérateurs, listes, dictionnaires, chaînes, conditions, boucles, fonctions, erreurs, fichiers, dates... jusqu'aux tableaux NumPy et aux premiers DataFrames.",
   "sections": [
     {
-      "title": "Variables et types de base",
+      "title": "Aide et types",
       "items": [
         {
-          "what": "Affecter une variable (pas de déclaration de type)",
-          "code": "age = 25            # int\nprix = 1200.5       # float\nnom = \"Alice\"       # str (chaîne)\nest_etudiant = True # bool (True/False, majuscules !)"
+          "what": "Commenter une ligne",
+          "code": "# tout ce qui suit le dièse est ignoré"
         },
         {
-          "what": "Connaître et convertir un type",
-          "code": "type(age)              # <class 'int'>\nint(\"42\")              # 42\nfloat(\"3.14\")          # 3.14\nstr(25)                # \"25\"\nbool(0)                # False"
+          "what": "Afficher la documentation d'une fonction",
+          "code": "help(max)"
         },
         {
-          "what": "Afficher et formater avec f-string",
-          "code": "print(f\"{nom} a {age} ans\")\nprint(f\"moyenne : {moy:.2f}\")   # 2 décimales"
+          "what": "Connaître le type d'un objet",
+          "code": "type('alice')   # <class 'str'>\ntype(25)        # <class 'int'>"
+        },
+        {
+          "what": "Tuples et ensembles",
+          "code": "point = (3, 4)        # tuple : immuable, indexé comme une liste\nx, y = point          # décomposition\nnombres = {1, 2, 2, 3}  # {1, 2, 3} : un ensemble sans doublons\nset([1, 1, 2])        # dédoublonner une liste"
         }
       ]
     },
     {
-      "title": "Opérateurs",
+      "title": "Importer des packages",
       "items": [
         {
-          "what": "Opérateurs arithmétiques",
-          "code": "7 + 2    # 9\n7 - 2    # 5\n7 * 2    # 14\n7 / 2    # 3.5 (division réelle)\n7 // 2   # 3 (division entière)\n7 % 2    # 1 (reste, modulo)\n7 ** 2   # 49 (puissance)"
+          "what": "Installer un package (dans le terminal)",
+          "code": "pip install pandas"
         },
         {
-          "what": "Comparaisons et logique",
-          "code": "a == b    # égal\na != b    # différent\na > b     # supérieur\na and b   # les deux vrais\na or b    # au moins un\nnot a     # inverse"
-        },
-        {
-          "what": "Test d'appartenance",
-          "code": "\"al\" in \"alice\"   # True\n3 in [1, 2, 3]    # True"
+          "what": "Importer avec et sans alias",
+          "code": "import pandas                    # import simple\nimport pandas as pd              # avec alias\nfrom pandas import DataFrame     # importer un objet précis"
         }
       ]
     },
     {
-      "title": "Chaînes de caractères",
+      "title": "Dossier de travail",
       "items": [
         {
-          "what": "Méthodes usuelles",
-          "code": "s = \"  Bonjour le Monde  \"\ns.strip()          # retire les espaces aux extrémités\ns.upper()          # majuscules\ns.lower()          # minuscules\ns.replace(\"o\", \"0\")\ns.split(\" \")       # découpe en liste"
-        },
-        {
-          "what": "Découper (slicing)",
-          "code": "s = \"pandas\"\ns[0]      # 'p'\ns[-1]     # 's' (dernier)\ns[0:3]    # 'pan'\ns[:3]     # 'pan'\ns[3:]     # 'das'"
-        },
-        {
-          "what": "Assembler et compter",
-          "code": "\"-\".join([\"a\", \"b\", \"c\"])   # 'a-b-c'\ns.count(\"a\")\ns.find(\"das\")                # position ou -1\nlen(s)"
+          "what": "Lire et changer le dossier de travail",
+          "code": "import os\nos.getcwd()                    # dossier courant\nos.chdir('C:/data')            # changer de dossier",
+          "note": "C'est le chemin par défaut où Python lit et sauvegarde les fichiers."
         }
       ]
     },
     {
-      "title": "Listes",
+      "title": "Opérateurs arithmétiques",
       "items": [
         {
-          "what": "Créer, lire, modifier",
-          "code": "nombres = [3, 1, 4, 1, 5]\nnombres[0]      # 3\nnombres[-1]     # 5 (dernier)\nnombres[0] = 9\nnombres.append(6)      # ajouter à la fin\nnombres.insert(1, 7)   # insérer à la position 1\nnombres.remove(1)      # retirer la valeur 1"
+          "what": "Les 7 opérateurs",
+          "code": "102 + 37    # addition\n102 - 37    # soustraction\n4 * 6       # multiplication\n22 / 7      # division (réelle)\n22 // 7     # division entière\n3 ** 4      # puissance\n22 % 7      # reste (modulo)"
         },
         {
-          "what": "Trier, inverser, longueur",
-          "code": "nombres.sort()            # tri croissant, modifie la liste\nnombres.sort(reverse=True)\ntrie = sorted(nombres)    # nouvelle liste triée\nnombres.reverse()\nlen(nombres)\nsum(nombres), max(nombres), min(nombres)"
-        },
-        {
-          "what": "Compréhension de liste (très utilisé)",
-          "code": "carres = [n * n for n in range(5)]            # [0, 1, 4, 9, 16]\npairs = [n for n in range(10) if n % 2 == 0]"
+          "what": "Opérateurs d'affectation",
+          "code": "a = 5       # affecter 5 à a\nx[0] = 1    # changer le 1er élément d'une liste"
         }
       ]
     },
     {
-      "title": "Dictionnaires, tuples, ensembles",
+      "title": "Comparaisons et logique",
       "items": [
         {
-          "what": "Dictionnaire : clé -> valeur",
-          "code": "ages = {\"alice\": 25, \"bruno\": 45}\nages[\"alice\"]          # 25\nages[\"chloe\"] = 30     # ajouter\nages.get(\"dan\", 0)     # 0 si clé absente\nfor nom, a in ages.items():\n    print(nom, a)"
+          "what": "Opérateurs de comparaison",
+          "code": "3 == 3    # égal à\n3 != 3    # différent de\n3 > 1     # supérieur\n3 >= 3    # supérieur ou égal\n3 < 4     # inférieur\n3 <= 4    # inférieur ou égal"
         },
         {
-          "what": "Tuple : liste immuable",
-          "code": "point = (3, 5)\nx, y = point    # décomposition"
-        },
-        {
-          "what": "Ensemble : valeurs uniques",
-          "code": "villes = {\"Cotonou\", \"Parakou\", \"Cotonou\"}   # 2 éléments\nvilles.add(\"Abomey\")\n\"Cotonou\" in villes"
+          "what": "Opérateurs logiques",
+          "code": "not (2 == 2)                 # NON logique\n(1 != 1) and (1 < 1)         # ET logique\n(1 >= 1) or (1 < 1)          # OU logique"
         }
       ]
     },
     {
-      "title": "Conditions",
+      "title": "Listes : créer et manipuler",
+      "items": [
+        {
+          "what": "Créer une liste",
+          "code": "x = [1, 3, 2]",
+          "note": "Une liste est une séquence ORDONNÉE et MODIFIABLE : elle peut contenir entiers, chaînes, floats, voire d'autres objets."
+        },
+        {
+          "what": "Fonctions et méthodes de liste",
+          "code": "sorted(x)     # copie triée (x inchangé)\nx.sort()      # trie en place (remplace x)\nreversed(x)   # ordre inversé\nx.count(2)    # nombre d'occurrences de 2"
+        },
+        {
+          "what": "Concaténer et répéter des listes",
+          "code": "x = [1, 3, 6]\ny = [10, 15, 21]\nx + y    # [1, 3, 6, 10, 15, 21]\n3 * x    # [1, 3, 6, 1, 3, 6, 1, 3, 6]"
+        },
+        {
+          "what": "Compréhensions de liste",
+          "code": "carres = [x * x for x in range(5)]        # [0, 1, 4, 9, 16]\nadmis = [v for v in notes if v >= 10]     # filtrer\ndoubles = [v * 2 for v in notes]          # transformer",
+          "note": "Structure [expression for élément in liste if condition] : transformer et filtrer en une ligne."
+        }
+      ]
+    },
+    {
+      "title": "Listes : sélectionner (zéro-indexé)",
+      "items": [
+        {
+          "what": "Les règles d'indexation",
+          "note": "Les listes Python démarrent à 0. Dans un slicing, le premier index est INCLUS, le dernier EXCLUS."
+        },
+        {
+          "what": "Sélectionner des éléments",
+          "code": "x = ['a', 'b', 'c', 'd', 'e']\nx[0]     # 'a' (1er élément)\nx[-1]    # 'e' (dernier)\nx[1:3]   # ['b', 'c'] (du 2e inclus au 3e exclu)\nx[2:]    # ['c', 'd', 'e'] (du 3e à la fin)\nx[:3]    # ['a', 'b', 'c'] (du début au 3e exclu)"
+        }
+      ]
+    },
+    {
+      "title": "Dictionnaires",
+      "items": [
+        {
+          "what": "Créer un dictionnaire (paires clé-valeur)",
+          "code": "x = {'a': 1, 'b': 2, 'c': 3}",
+          "note": "Contrairement aux listes indexées par position, un dictionnaire est indexé par ses clés, qui doivent être uniques."
+        },
+        {
+          "what": "Méthodes et accès",
+          "code": "x.keys()      # dict_keys(['a', 'b', 'c'])\nx.values()    # dict_values([1, 2, 3])\nx['a']        # 1 (valeur associée à la clé 'a')"
+        }
+      ]
+    },
+    {
+      "title": "Chaînes : créer et découper",
+      "items": [
+        {
+          "what": "Créer une chaîne (guillemets, échappement, multi-lignes)",
+          "code": "\"DataCamp\"\n'Il a dit, \\\"bonjour\\\"'\n\"\"\"\nUne chaîne\nsur plusieurs lignes\n\"\"\""
+        },
+        {
+          "what": "Caractère et sous-chaîne",
+          "code": "str[0]     # caractère à la position 0\nstr[0:2]   # sous-chaîne de 0 (inclus) à 2 (exclu)"
+        }
+      ]
+    },
+    {
+      "title": "Chaînes : combiner, découper, transformer",
+      "items": [
+        {
+          "what": "Concaténer, répéter, découper",
+          "code": "\"Data\" + \"Framed\"     # 'DataFramed'\n3 * \"data\"           # 'data data data '\n\"beekeepers\".split(\"e\")   # ['b', '', 'k', '', 'p', 'rs']"
+        },
+        {
+          "what": "Transformer la casse et remplacer",
+          "code": "str = \"Jack and Jill\"\nstr.upper()           # 'JACK AND JILL'\nstr.lower()           # 'jack and jill'\nstr.title()           # 'Jack And Jill'\nstr.replace(\"J\", \"P\") # 'Pack and Pill'"
+        },
+        {
+          "what": "Les f-strings : insérer des valeurs",
+          "code": "nom = \"Awa\"; age = 21\nf\"{nom} a {age} ans\"          # \"Awa a 21 ans\"\nf\"Moyenne : {sum(notes) / len(notes):.2f}\"  # 2 décimales",
+          "note": "Le préfixe f interprète les expressions entre accolades. Plus lisible que la concaténation."
+        }
+      ]
+    },
+    {
+      "title": "NumPy : créer des tableaux",
+      "items": [
+        {
+          "what": "Importer et convertir",
+          "code": "import numpy as np\nnp.array([1, 2, 3])    # array([1, 2, 3])",
+          "note": "NumPy fournit des tableaux multidimensionnels et des opérations efficaces : la base du calcul scientifique en Python."
+        },
+        {
+          "what": "Séquences, répétitions, tuiles",
+          "code": "np.arange(1, 5)         # array([1, 2, 3, 4]) (fin exclu)\nnp.arange(1, 5, 2)      # array([1, 3]) (avec un pas)\nnp.repeat([1, 3, 6], 3) # [1,1,1, 3,3,3, 6,6,6]\nnp.tile([1, 3, 6], 3)   # [1,3,6, 1,3,6, 1,3,6]"
+        }
+      ]
+    },
+    {
+      "title": "NumPy : fonctions mathématiques",
+      "items": [
+        {
+          "what": "Sur un tableau x",
+          "code": "np.log(x)         # logarithme\nnp.exp(x)         # exponentielle\nnp.max(x); np.min(x)\nnp.sum(x); np.mean(x)\nnp.quantile(x, 0.5)  # quantile q\nnp.round(x, 2)    # arrondi à 2 décimales\nnp.var(x)         # variance\nnp.std(x)         # écart-type"
+        }
+      ]
+    },
+    {
+      "title": "Pandas : créer des DataFrames",
+      "items": [
+        {
+          "what": "Importer et créer depuis un dictionnaire",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\n  'a': [1, 2, 3],\n  'b': [4, 4, 6],\n  'c': ['x', 'x', 'y']\n})"
+        },
+        {
+          "what": "Créer depuis une liste de dictionnaires",
+          "code": "df = pd.DataFrame([\n  {'a': 1, 'b': 4, 'c': 'x'},\n  {'a': 1, 'b': 4, 'c': 'x'},\n  {'a': 3, 'b': 6, 'c': 'y'}\n])",
+          "note": "Un DataFrame = des données 2D en lignes et colonnes. Une Series = des données 1D."
+        }
+      ]
+    },
+    {
+      "title": "Pandas : sélectionner",
+      "items": [
+        {
+          "what": "Lignes, colonnes, éléments",
+          "code": "df.iloc[3]              # ligne en position 3\ndf['col']               # une colonne par nom\ndf[['col1', 'col2']]    # plusieurs colonnes\ndf.iloc[:, 2]           # colonne en position 2\ndf.iloc[3, 2]           # élément ligne 3, colonne 2",
+          "note": "Toutes les positions comptent à partir de ZÉRO, pas de un."
+        }
+      ]
+    },
+    {
+      "title": "Pandas : manipuler",
+      "items": [
+        {
+          "what": "Concaténer et filtrer",
+          "code": "pd.concat([df, df])                   # empiler verticalement\npd.concat([df, df], axis='columns')   # côte à côte\ndf.query('age > 30')                  # lignes selon une condition"
+        },
+        {
+          "what": "Nettoyer et renommer",
+          "code": "df.drop(columns=['col_name'])               # retirer une colonne\ndf.rename(columns={'oldname': 'newname'})   # renommer\ndf.drop_duplicates()                        # retirer les doublons"
+        },
+        {
+          "what": "Ajouter une colonne calculée",
+          "code": "df = df.assign(temp_f=9 / 5 * df['temp_c'] + 32)"
+        },
+        {
+          "what": "Statistiques et tri",
+          "code": "df.mean()                    # moyenne par colonne\ndf.agg('median')             # autre agrégat par colonne\ndf.sort_values(by='col_name')\ndf.nlargest(5, 'col_name')   # les 5 plus grandes valeurs"
+        }
+      ]
+    },
+    {
+      "title": "Conditions et boucles",
       "items": [
         {
           "what": "if / elif / else",
@@ -97,25 +231,12 @@
           "note": "L'indentation (4 espaces) DÉFINIT les blocs : un mauvais décalage = erreur."
         },
         {
-          "what": "Ternaire sur une ligne",
-          "code": "mention = \"admis\" if note >= 10 else \"ajourné\""
-        }
-      ]
-    },
-    {
-      "title": "Boucles",
-      "items": [
-        {
-          "what": "Boucle for",
-          "code": "for i in range(5):        # 0, 1, 2, 3, 4\n    print(i)\n\nfor ville in [\"Cotonou\", \"Parakou\"]:\n    print(ville)"
+          "what": "for, while, break/continue, enumerate/zip",
+          "code": "for i in range(5):        # 0 à 4\n    print(i)\n\nwhile compteur < 5:\n    compteur += 1\n\nfor i, ville in enumerate(villes):\n    print(i, ville)\n\nfor nom, a in zip(noms, ages):\n    print(nom, a)"
         },
         {
-          "what": "Boucle while et break/continue",
-          "code": "compteur = 0\nwhile compteur < 5:\n    compteur += 1\n    if compteur == 3:\n        continue   # saute ce tour\n    if compteur == 4:\n        break      # sort de la boucle"
-        },
-        {
-          "what": "enumerate et zip",
-          "code": "for i, ville in enumerate(villes):   # index + valeur\n    print(i, ville)\n\nfor nom, age in zip(noms, ages):     # deux listes ensemble\n    print(nom, age)"
+          "what": "Compréhension de liste",
+          "code": "carres = [n * n for n in range(5)]\npairs = [n for n in range(10) if n % 2 == 0]"
         }
       ]
     },
@@ -124,15 +245,11 @@
       "items": [
         {
           "what": "Définir une fonction",
-          "code": "def moyenne(valeurs):\n    return sum(valeurs) / len(valeurs)\n\nm = moyenne([400, 1200, 800])"
+          "code": "def moyenne(valeurs):\n    return sum(valeurs) / len(valeurs)"
         },
         {
-          "what": "Paramètres par défaut et plusieurs valeurs",
-          "code": "def salutation(nom, message=\"bonjour\"):\n    return f\"{message} {nom}\"\n\ndef stats(valeurs):\n    return min(valeurs), max(valeurs)\n\nmini, maxi = stats([1, 5, 3])   # décomposition du tuple"
-        },
-        {
-          "what": "Fonction lambda (une ligne)",
-          "code": "double = lambda x: x * 2\npaires.sort(key=lambda p: p[1])   # tri par 2e élément"
+          "what": "Défauts, lambda, plusieurs retours",
+          "code": "def salutation(nom, message=\"bonjour\"):\n    return f\"{message} {nom}\"\n\ndouble = lambda x: x * 2\n\ndef stats(v):\n    return min(v), max(v)\nmini, maxi = stats([1, 5, 3])"
         }
       ]
     },
@@ -140,176 +257,26 @@
       "title": "Gestion des erreurs",
       "items": [
         {
-          "what": "try / except / finally",
-          "code": "try:\n    valeur = int(\"abc\")\nexcept ValueError as e:\n    print(\"Conversion impossible :\", e)\nfinally:\n    print(\"toujours exécuté\")",
-          "note": "Le type d'erreur doit correspondre : ValueError pour une conversion, ZeroDivisionError pour une division par 0, KeyError pour une clé de dict absente."
-        },
-        {
-          "what": "Lever une erreur",
-          "code": "if len(valeurs) == 0:\n    raise ValueError(\"liste vide\")"
+          "what": "try / except / finally et raise",
+          "code": "try:\n    valeur = int(\"abc\")\nexcept ValueError as e:\n    print(\"Conversion impossible :\", e)\nfinally:\n    print(\"toujours exécuté\")\n\nif len(valeurs) == 0:\n    raise ValueError(\"liste vide\")"
         }
       ]
     },
     {
-      "title": "Fichiers",
+      "title": "Fichiers et dates",
       "items": [
         {
-          "what": "Lire et écrire un fichier texte",
-          "code": "with open(\"notes.txt\", \"w\", encoding=\"utf-8\") as f:\n    f.write(\"première ligne\\n\")\n\nwith open(\"notes.txt\", \"r\", encoding=\"utf-8\") as f:\n    contenu = f.read()"
+          "what": "Lire et écrire un fichier",
+          "code": "with open(\"notes.txt\", \"w\", encoding=\"utf-8\") as f:\n    f.write(\"première ligne\\n\")\n\nwith open(\"notes.txt\", encoding=\"utf-8\") as f:\n    contenu = f.read()"
         },
         {
-          "what": "Lire ligne par ligne et JSON",
-          "code": "with open(\"notes.txt\", encoding=\"utf-8\") as f:\n    for ligne in f:\n        print(ligne.strip())\n\nimport json\nwith open(\"data.json\", encoding=\"utf-8\") as f:\n    data = json.load(f)"
+          "what": "Dates",
+          "code": "from datetime import datetime, date\ndate.today().strftime(\"%d/%m/%Y\")\nd = datetime.strptime(\"2026-06-15\", \"%Y-%m-%d\")"
         }
       ]
     },
     {
-      "title": "Modules et packages",
-      "items": [
-        {
-          "what": "Importer un module",
-          "code": "import math\nmath.sqrt(16)          # 4.0\n\nfrom datetime import datetime\ndatetime.now()"
-        },
-        {
-          "what": "Installer un package",
-          "code": "# dans un terminal (pas dans Python)\npip install pandas numpy matplotlib"
-        }
-      ]
-    },
-    {
-      "title": "Dates et heures",
-      "items": [
-        {
-          "what": "Date du jour et formatage",
-          "code": "from datetime import datetime, date\naujourdhui = date.today()\nmaintenant = datetime.now()\naujourdhui.strftime(\"%d/%m/%Y\")   # '05/10/2026'"
-        },
-        {
-          "what": "Convertir une chaîne en date",
-          "code": "from datetime import datetime\nd = datetime.strptime(\"2026-06-15\", \"%Y-%m-%d\")"
-        }
-      ]
-    },
-    {
-      "title": "Pandas : charger et inspecter",
-      "items": [
-        {
-          "what": "Lire un CSV dans un DataFrame",
-          "code": "import pandas as pd\ndf = pd.read_csv('clients.csv')"
-        },
-        {
-          "what": "Voir un aperçu des données",
-          "code": "df.head()        # 5 premières lignes\ndf.tail()        # 5 dernières\ndf.sample(5)     # 5 lignes au hasard"
-        },
-        {
-          "what": "Structure et types des colonnes",
-          "code": "df.info()        # colonnes, types, non-nuls\ndf.shape         # (lignes, colonnes)\ndf.columns       # noms des colonnes\ndf.dtypes        # types seulement"
-        },
-        {
-          "what": "Statistiques descriptives rapides",
-          "code": "df.describe()    # count, mean, std, min, quartiles, max"
-        }
-      ]
-    },
-    {
-      "title": "Pandas : sélectionner et filtrer",
-      "items": [
-        {
-          "what": "Sélectionner une ou plusieurs colonnes",
-          "code": "df['revenu']             # Série (une colonne)\ndf[['id', 'revenu']]     # DataFrame (liste de colonnes)"
-        },
-        {
-          "what": "Filtrer des lignes",
-          "code": "df[df['age'] > 30]\ndf[df['a_achete'] == 'Oui']",
-          "note": "La condition crée un masque booléen qu'on applique entre crochets."
-        },
-        {
-          "what": "Combiner plusieurs conditions",
-          "code": "df[(df['age'] > 30) & (df['revenu'] < 1000)]",
-          "note": "Toujours & et | avec des PARENTHÈSES autour de chaque condition, jamais and/or."
-        },
-        {
-          "what": "loc vs iloc",
-          "code": "df.loc[3, 'revenu']    # par libellé (ligne 3, colonne revenu)\ndf.iloc[0, 2]          # par position (1re ligne, 3e colonne)",
-          "note": "loc = libellés, iloc = positions. La confusion est un piège classique."
-        }
-      ]
-    },
-    {
-      "title": "Pandas : valeurs manquantes",
-      "items": [
-        {
-          "what": "Repérer les valeurs manquantes",
-          "code": "df.isna().sum()     # nombre de NaN par colonne\ndf[df['age'].isna()]  # lignes avec age manquant"
-        },
-        {
-          "what": "Supprimer les lignes incomplètes",
-          "code": "df = df.dropna()\ndf = df.dropna(subset=['age'])"
-        },
-        {
-          "what": "Remplacer les manquants",
-          "code": "df['revenu'] = df['revenu'].fillna(df['revenu'].mean())\ndf['a_achete'] = df['a_achete'].fillna('Inconnu')"
-        }
-      ]
-    },
-    {
-      "title": "Pandas : agréger (groupby)",
-      "items": [
-        {
-          "what": "Moyenne par groupe",
-          "code": "df.groupby('ville')['revenu'].mean()"
-        },
-        {
-          "what": "Plusieurs statistiques à la fois",
-          "code": "df.groupby('ville')['revenu'].agg(['mean', 'median', 'count'])"
-        },
-        {
-          "what": "Compter les occurrences",
-          "code": "df['a_achete'].value_counts()"
-        },
-        {
-          "what": "Groupby multi-colonnes",
-          "code": "df.groupby(['ville', 'a_achete'])['revenu'].sum().reset_index()"
-        }
-      ]
-    },
-    {
-      "title": "Pandas : colonnes, tri, fusion",
-      "items": [
-        {
-          "what": "Créer une colonne calculée",
-          "code": "df['prix_m2'] = df['prix'] / df['surface']\ndf['achete_num'] = (df['a_achete'] == 'Oui').astype(int)"
-        },
-        {
-          "what": "One-hot encoding",
-          "code": "df = pd.get_dummies(df, columns=['quartier'])",
-          "note": "Crée une colonne par catégorie : évite de donner un ordre artificiel."
-        },
-        {
-          "what": "Trier",
-          "code": "df.sort_values('revenu', ascending=False)"
-        },
-        {
-          "what": "Fusionner deux tables",
-          "code": "pd.merge(clients, commandes, on='client_id', how='inner')",
-          "note": "how='left' garde tous les clients même sans commande."
-        }
-      ]
-    },
-    {
-      "title": "Pandas : statistiques et graphiques",
-      "items": [
-        {
-          "what": "Statistiques par colonne",
-          "code": "df['revenu'].mean()\ndf['revenu'].median()\ndf[['surface', 'prix']].corr()"
-        },
-        {
-          "what": "Graphique rapide",
-          "code": "import matplotlib.pyplot as plt\ndf['revenu'].hist(bins=20)\nplt.show()\n\ndf.plot.scatter(x='surface', y='prix')"
-        }
-      ]
-    },
-    {
-      "title": "Pièges fréquents en Python",
+      "title": "Pièges fréquents",
       "items": [
         {
           "what": "L'indentation fait partie de la syntaxe",
@@ -321,10 +288,10 @@
         },
         {
           "what": "Copier une liste",
-          "note": "b = a ne copie PAS : les deux noms pointent vers la même liste. Pour copier : b = a.copy() ou b = list(a)."
+          "note": "b = a ne copie PAS : les deux noms pointent vers la même liste. Copier : b = a.copy()."
         },
         {
-          "what": "True/False/None s'écrivent en majuscule",
+          "what": "True/False/None en majuscule",
           "note": "true, false, null provoquent des NameError : c'est True, False, None."
         }
       ]
