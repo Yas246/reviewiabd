@@ -1,6 +1,25 @@
 # HANDOFF.md : Review IABD
 
-Dernière mise à jour : 2026-10-05 (audit final des fiches : +10 entrées utiles partout ; COMMIT ET PUSH effectués sur ordre de l'utilisateur)
+Dernière mise à jour : 2026-10-05 (tours guidés sur Pratique, Examen et Importer ; audit fiches +10 entrées ; commit + push effectués sur ordre)
+
+## Product Tour généralisé (2026-10-05, FAIT ET VÉRIFIÉ AU CLIC)
+
+- Demande utilisateur : des visites guidées aussi sur Pratique, Examen et Importer.
+- ProductTour devient générique : props id + steps (+ flagKey optionnel), drapeau
+  localStorage tour_done_<id>, rejeu via sessionStorage tour_replay_<id>.
+  Accueil : id home, flagKey tour_done_v1 (compatibilité, pas de re-déclenchement).
+- Pratique : 7 étapes (source, matière, nombre, difficulté, commencer, historique),
+  attributs p-* ; Examen : 5 étapes (source, format 40q/2h ou 20q/1h, matière si
+  concerné, commencer), attributs e-* ; Importer : 4 étapes (principe sans clé,
+  étapes 1-2-3), attributs i-etape1..3.
+- ui/Card : les attributs (data-tour...) sont désormais transmis (CardProps étend
+  HTMLAttributes).
+- Paramètres : rubrique « Visites guidées » avec 4 boutons (Accueil, Pratique,
+  Examen, Importer) : chacun efface le drapeau de sa page, pose tour_replay_<id>
+  et navigue vers la page.
+- Vérifié au clic : tours 7/5/4 étapes actifs sur les trois pages, projecteur
+  correct (capture étape matière), Échap pose le flag, boutons Paramètres présents.
+- sw.js en v3.5.2.
 
 ## Audit final des 11 fiches (2026-10-05, FAIT)
 

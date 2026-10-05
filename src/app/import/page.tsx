@@ -21,6 +21,29 @@ import { parseQuestionBatch } from "@/lib/questionValidation";
 import { questionBank } from "@/services/QuestionBankService";
 import { indexedDBService } from "@/services/IndexedDBService";
 import { preloadedQuestionsService } from "@/services/PreloadedQuestionsService";
+import { ProductTour, TourStep } from "@/components/ProductTour";
+
+const IMPORT_TOUR_STEPS: TourStep[] = [
+  {
+    title: "Pas besoin de clé API ici",
+    text: "Le principe : tu copies un prompt, tu le colles dans ton IA préférée (ChatGPT, Mistral, ton abonnement perso), puis tu ramènes le JSON ici. Les questions rejoignent ta banque locale, hors ligne.",
+  },
+  {
+    target: "i-etape1",
+    title: "Étape 1 : configure",
+    text: "Matière, nombre de questions, difficulté, et surtout les formats : QCM, multi-réponses, Vrai/Faux, texte à trous, code vérifié par tests, cas pratiques.",
+  },
+  {
+    target: "i-etape2",
+    title: "Étape 2 : copie le prompt",
+    text: "Le prompt est construit selon ta configuration. Copie-le et colle-le dans n'importe quelle IA à laquelle tu as accès.",
+  },
+  {
+    target: "i-etape3",
+    title: "Étape 3 : colle le résultat",
+    text: "Rapporte le JSON renvoyé, clique Analyser : le validateur vérifie la structure, tu prévisualises chaque question, puis tu enregistres dans ta banque.",
+  },
+];
 
 // ============================================
 // IMPORT PAGE
@@ -118,7 +141,7 @@ export default function ImportPage() {
         />
 
         {/* Étape 1 : configurer le prompt */}
-        <Card className="mb-8">
+        <Card data-tour="i-etape1" className="mb-8">
           <CardContent>
             <h3 className="font-mono font-semibold mb-4">Étape 1 : Configure tes questions</h3>
             <div className="space-y-6">
@@ -209,7 +232,7 @@ export default function ImportPage() {
         </Card>
 
         {/* Étape 2 : copier le prompt */}
-        <Card className="mb-8">
+        <Card data-tour="i-etape2" className="mb-8">
           <CardContent>
             <div className="flex items-center justify-between mb-4 gap-4 flex-wrap">
               <h3 className="font-mono font-semibold">Étape 2 : Copie ce prompt</h3>
@@ -229,7 +252,7 @@ export default function ImportPage() {
         </Card>
 
         {/* Étape 3 : coller le résultat */}
-        <Card className="mb-8">
+        <Card data-tour="i-etape3" className="mb-8">
           <CardContent>
             <div className="flex items-center justify-between mb-4 gap-4 flex-wrap">
               <h3 className="font-mono font-semibold">Étape 3 : Colle la réponse JSON</h3>
@@ -351,6 +374,7 @@ export default function ImportPage() {
           </CardContent>
         </Card>
       </main>
+      <ProductTour id="import" steps={IMPORT_TOUR_STEPS} />
     </div>
   );
 }

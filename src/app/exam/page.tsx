@@ -16,12 +16,40 @@ import { notificationService } from "@/services/NotificationService";
 import { generationService } from "@/services/GenerationService";
 import { questionBank } from "@/services/QuestionBankService";
 import { shuffleArray, getAllDomains } from "@/lib/utils";
+import { ProductTour, TourStep } from "@/components/ProductTour";
 
 // ============================================
 // EXAM PAGE
 // Examens blancs. Source par défaut : banque
 // locale (hors ligne). IA optionnelle.
 // ============================================
+
+const EXAM_TOUR_STEPS: TourStep[] = [
+  {
+    title: "Bienvenue en mode Examen",
+    text: "Ici on s'entraîne comme à l'examen : chronomètre lancé, correction masquée pendant l'épreuve, score et corrigé complet à la fin.",
+  },
+  {
+    target: "e-source",
+    title: "Banque locale ou IA",
+    text: "La banque locale tire des questions équilibrées entre les matières, hors ligne. La génération IA reste optionnelle.",
+  },
+  {
+    target: "e-type",
+    title: "Deux formats d'examen",
+    text: "Complet : 40 questions en 2h, toutes les matières. Par matière : 20 questions en 1h pour cibler une révision.",
+  },
+  {
+    target: "e-matiere",
+    title: "Choisis la matière",
+    text: "En examen par matière, sélectionne celle que tu veux travailler. Pour l'examen complet, cette étape n'existe pas.",
+  },
+  {
+    target: "e-commencer",
+    title: "Le chrono démarre",
+    text: "Dès que tu cliques, le compte à rebours tourne : réponds à ton rythme, tu peux revenir sur les questions avant de rendre.",
+  },
+];
 
 type Source = "local" | "ai";
 
@@ -476,7 +504,7 @@ export default function ExamPage() {
         )}
 
         {/* Sélecteur de source */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+        <div data-tour="e-source" className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
           <button
             onClick={() => setSource("local")}
             className={`card text-left ${source === "local" ? "ring-2 ring-accent" : ""}`}
@@ -510,7 +538,7 @@ export default function ExamPage() {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div data-tour="e-type" className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           {/* Full Exam Card */}
           <Card hoverable onClick={() => setExamType("full")} className={examType === "full" ? "ring-2 ring-accent" : ""}>
             <CardContent>
@@ -586,16 +614,18 @@ export default function ExamPage() {
 
         {/* Domain Selection (only for domain exam) */}
         {examType === "domain" && (
-          <Card className="mb-8 animate-fade-in-up">
-            <CardContent>
-              <h3 className="font-mono font-semibold mb-4">Sélection de la Matière</h3>
-              <DomainSelector value={selectedDomain} onChange={setSelectedDomain} variant="grid" />
-            </CardContent>
-          </Card>
+          <div data-tour="e-matiere">
+            <Card className="mb-8 animate-fade-in-up">
+              <CardContent>
+                <h3 className="font-mono font-semibold mb-4">Sélection de la Matière</h3>
+                <DomainSelector value={selectedDomain} onChange={setSelectedDomain} variant="grid" />
+              </CardContent>
+            </Card>
+          </div>
         )}
 
         {/* Actions */}
-        <div className="flex gap-4 justify-center items-center mb-12">
+        <div data-tour="e-commencer" className="flex gap-4 justify-center items-center mb-12">
           <Button variant="secondary" onClick={() => router.back()} disabled={isGenerating}>
             Retour
           </Button>
@@ -679,6 +709,7 @@ export default function ExamPage() {
           )}
         </div>
       </main>
+      <ProductTour id="exam" steps={EXAM_TOUR_STEPS} />
     </div>
   );
 }

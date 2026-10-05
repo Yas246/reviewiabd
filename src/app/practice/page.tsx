@@ -18,12 +18,50 @@ import { notificationService } from "@/services/NotificationService";
 import { generationService } from "@/services/GenerationService";
 import { questionBank } from "@/services/QuestionBankService";
 import { shuffleArray } from "@/lib/utils";
+import { ProductTour, TourStep } from "@/components/ProductTour";
 
 // ============================================
 // PRACTICE PAGE
 // Source par défaut : la banque locale (hors ligne,
 // sans clé API). La génération IA reste optionnelle.
 // ============================================
+
+const PRACTICE_TOUR_STEPS: TourStep[] = [
+  {
+    title: "Bienvenue en mode Pratique",
+    text: "Configure ta session en 30 secondes : matière, nombre de questions, difficulté. Tout fonctionne hors ligne depuis la banque embarquée.",
+  },
+  {
+    target: "p-source",
+    title: "Banque locale ou IA",
+    text: "La banque locale embarque 1 400 questions validées : aucun compte, aucune connexion. La génération par IA reste optionnelle (clé requise).",
+  },
+  {
+    target: "p-matiere",
+    title: "Choisis ta matière",
+    text: "14 matières IABD. Le compteur t'indique combien de questions sont disponibles dans la banque pour celle que tu vises.",
+  },
+  {
+    target: "p-nombre",
+    title: "Combien de questions ?",
+    text: "De 5 à 50 par session. Une session courte par jour vaut mieux qu'un marathon : ton objectif quotidien compte chaque réponse.",
+  },
+  {
+    target: "p-diffic",
+    title: "La difficulté",
+    text: "Facile, Moyen, Difficile ou Toutes. Les six formats sont inclus automatiquement : QCM, multi-réponses, Vrai/Faux, texte à trous, code, cas pratiques.",
+  },
+  {
+    target: "p-commencer",
+    title: "Lance la session",
+    text: "C'est parti : réponds, valide, et regarde la correction avec les notes sous chaque option. Les erreurs repartent dans ton cahier d'erreurs.",
+  },
+  {
+    target: "p-histo",
+    title: "Reprends où tu t'es arrêté",
+    text: "Tes sessions inachevées attendent ici : continue-les ou recommence-les quand tu veux.",
+  },
+];
 
 type Source = "local" | "ai";
 
@@ -493,7 +531,7 @@ export default function PracticePage() {
         )}
 
         {/* Sélecteur de source */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+        <div data-tour="p-source" className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
           <button
             onClick={() => setSource("local")}
             className={`card text-left ${source === "local" ? "ring-2 ring-accent" : ""}`}
@@ -534,7 +572,7 @@ export default function PracticePage() {
         <Card className="mb-8">
           <CardContent>
             <div className="space-y-8">
-              <div>
+              <div data-tour="p-matiere">
                 <h3 className="font-mono font-semibold mb-4">01. {source === "local" ? "Matière" : "Domaine IABD"}</h3>
                 <DomainSelector value={selectedDomain} onChange={setSelectedDomain} variant="grid" />
                 {source === "local" && (
@@ -545,14 +583,14 @@ export default function PracticePage() {
                 )}
               </div>
 
-              <div>
+              <div data-tour="p-nombre">
                 <h3 className="font-mono font-semibold mb-4">02. Nombre de Questions</h3>
                 <QuestionCounter value={questionCount} onChange={setQuestionCount} />
               </div>
 
               {source === "local" && (
-                <div>
-                  <h3 className="font-mono font-semibold mb-4">03. Difficulté</h3>
+                <div data-tour="p-diffic">
+                <h3 className="font-mono font-semibold mb-4">03. Difficulté</h3>
                   <div className="flex flex-wrap gap-2">
                     {DIFFICULTIES.map((d) => (
                       <button
@@ -589,7 +627,7 @@ export default function PracticePage() {
         </Card>
 
         {/* Action Buttons */}
-        <div className="flex gap-4 justify-center items-center">
+        <div data-tour="p-commencer" className="flex gap-4 justify-center items-center">
           <Button variant="secondary" onClick={() => router.back()} disabled={isGenerating}>
             Retour
           </Button>
@@ -623,7 +661,7 @@ export default function PracticePage() {
         )}
 
         {/* Quiz précédents */}
-        <div className="mt-12">
+        <div data-tour="p-histo" className="mt-12">
           <div className="flex items-center gap-3 mb-6">
             <History className="w-5 h-5 text-accent" />
             <h2 className="font-mono font-semibold text-xl">Quiz Précédents</h2>
@@ -730,6 +768,7 @@ export default function PracticePage() {
           )}
         </div>
       </main>
+      <ProductTour id="practice" steps={PRACTICE_TOUR_STEPS} />
     </div>
   );
 }

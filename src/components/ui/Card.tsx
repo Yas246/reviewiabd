@@ -6,15 +6,12 @@ import { ReactNode } from "react";
 // Laboratory notes style with hover animation
 // ============================================
 
-interface CardProps {
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
-  className?: string;
-  onClick?: () => void;
   hoverable?: boolean;
-  style?: React.CSSProperties;
 }
 
-export function Card({ children, className, onClick, hoverable = true, style }: CardProps) {
+export function Card({ children, className, onClick, hoverable = true, style, ...rest }: CardProps) {
   return (
     <div
       className={cn(
@@ -25,6 +22,7 @@ export function Card({ children, className, onClick, hoverable = true, style }: 
       )}
       onClick={onClick}
       style={style}
+      {...rest}
     >
       {children}
     </div>

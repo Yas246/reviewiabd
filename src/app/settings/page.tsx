@@ -511,21 +511,32 @@ export default function SettingsPage() {
                 </div>
 
                 <div className="pt-4 border-t border-paper-dark">
-                  <p className="font-medium mb-2">Visite guidée</p>
+                  <p className="font-medium mb-2">Visites guidées</p>
                   <p className="text-sm text-ink-muted mb-2">
-                    Rejouer la visite du tableau de bord (les zones clés de l&apos;app).
+                    Rejouer la visite d&apos;une page : accueil, pratique, examen ou
+                    import de questions.
                   </p>
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    onClick={() => {
-                      localStorage.removeItem("tour_done_v1");
-                      sessionStorage.setItem("tour_replay", "1");
-                      window.location.href = "/";
-                    }}
-                  >
-                    Revoir la visite guidée
-                  </Button>
+                  <div className="flex flex-wrap gap-2">
+                    {[
+                      { label: "Accueil", id: "home", flag: "tour_done_v1", path: "/" },
+                      { label: "Pratique", id: "practice", flag: "tour_done_practice", path: "/practice" },
+                      { label: "Examen", id: "exam", flag: "tour_done_exam", path: "/exam" },
+                      { label: "Importer", id: "import", flag: "tour_done_import", path: "/import" },
+                    ].map((t) => (
+                      <Button
+                        key={t.id}
+                        variant="secondary"
+                        size="sm"
+                        onClick={() => {
+                          localStorage.removeItem(t.flag);
+                          sessionStorage.setItem(`tour_replay_${t.id}`, "1");
+                          window.location.href = t.path;
+                        }}
+                      >
+                        {t.label}
+                      </Button>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="pt-4 border-t border-paper-dark">

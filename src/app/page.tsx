@@ -34,7 +34,7 @@ import { mistakesService } from "@/services/MistakesService";
 import { dailyStatsService } from "@/services/DailyStatsService";
 import { questionBank } from "@/services/QuestionBankService";
 import { QuizSession, Domain } from "@/types";
-import { ProductTour } from "@/components/ProductTour";
+import { ProductTour, HOME_TOUR_STEPS } from "@/components/ProductTour";
 
 // ============================================
 // HOME PAGE : tableau de bord
@@ -520,7 +520,7 @@ export default function HomePage() {
       </main>
 
       <Footer />
-      <ProductTour />
+      <ProductTour id="home" flagKey="tour_done_v1" steps={HOME_TOUR_STEPS} />
     </div>
   );
 }

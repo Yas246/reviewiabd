@@ -5,23 +5,22 @@ import { Button } from "@/components/ui/Button";
 import { X } from "lucide-react";
 
 // ============================================
-// PRODUCT TOUR
-// Visite guidée du tableau de bord : voile
-// assombri + projecteur sur l'élément visé,
-// carte explicative pas à pas. Se déclenche à
-// la première arrivée, rejouable depuis les
-// Paramètres (flag localStorage + tour_replay).
+// PRODUCT TOUR (générique)
+// Visite guidée d'une page : voile assombri +
+// projecteur sur l'élément visé, carte
+// explicative pas à pas. Chaque page a son
+// identifiant (drapeau localStorage) et ses
+// étapes ; rejouable depuis les Paramètres
+// (clé sessionStorage tour_replay_<id>).
 // ============================================
 
-const TOUR_FLAG = "tour_done_v1";
-
-interface TourStep {
+export interface TourStep {
   target?: string; // attribut data-tour de l'élément visé ; absent = carte centrée
   title: string;
   text: string;
 }
 
-const STEPS: TourStep[] = [
+export const HOME_TOUR_STEPS: TourStep[] = [
   {
     title: "Bienvenue sur Review IABD",
     text: "L'app fonctionne 100 % hors ligne : ta banque de 1 400 questions est embarquée, aucune clé API n'est nécessaire pour réviser. Voici l'essentiel en 30 secondes.",
@@ -58,20 +57,29 @@ const STEPS: TourStep[] = [
   },
   {
     title: "C'est parti !",
-    text: "La banque est prête : lance ta première session en mode Pratique. Cette visite est rejouable à tout moment dans Paramètres, bouton « Revoir la visite guidée ».",
+    text: "La banque est prête : lance ta première session en mode Pratique. Cette visite est rejouable à tout moment dans Paramètres, rubrique « Visites guidées ».",
   },
 ];
 
-export function ProductTour() {
+export function ProductTour({
+  id,
+  steps,
+  flagKey,
+}: {
+  id: string;
+  steps: TourStep[];
+  flagKey?: string;
+}) {
+  const TOUR_FLAG = flagKey ?? `tour_done_${id}`;
   const [active, setActive] = useState(false);
   const [stepIndex, setStepIndex] = useState(0);
   const [rect, setRect] = useState<DOMRect | null>(null);
 
-  const step = STEPS[stepIndex];
-  const isLast = stepIndex === STEPS.length - 1;
+  const step = steps[stepIndex];
+  const isLast = stepIndex === steps.length - 1;
 
   const position = useCallback(() => {
-    const current = STEPS[stepIndex];
+    const current = steps[stepIndex];
     if (!current?.target) {
       setRect(null);
       return;
@@ -83,24 +91,24 @@ export function ProductTour() {
     }
     el.scrollIntoView({ block: "center", behavior: "smooth" });
     window.setTimeout(() => setRect(el.getBoundingClientRect()), 380);
-  }, [stepIndex]);
+  }, [stepIndex, steps]);
 
   const start = useCallback(() => {
     setStepIndex(0);
     setActive(true);
   }, []);
 
-  // Déclenchement : première visite OU demande de rejeu depuis les Paramètres
+  // Déclenchement : première visite de la page OU demande de rejeu des Paramètres
   useEffect(() => {
     const shouldStart =
       localStorage.getItem(TOUR_FLAG) === null ||
-      sessionStorage.getItem("tour_replay") === "1";
+      sessionStorage.getItem(`tour_replay_${id}`) === "1";
     if (shouldStart) {
-      sessionStorage.removeItem("tour_replay");
+      sessionStorage.removeItem(`tour_replay_${id}`);
       const t = window.setTimeout(start, 700);
       return () => window.clearTimeout(t);
     }
-  }, [start]);
+  }, [start, id, TOUR_FLAG]);
 
   // Positionne le projecteur à chaque étape (et au redimensionnement)
   useEffect(() => {
@@ -131,7 +139,7 @@ export function ProductTour() {
   const finish = useCallback(() => {
     setActive(false);
     localStorage.setItem(TOUR_FLAG, new Date().toISOString());
-  }, []);
+  }, [TOUR_FLAG]);
 
   const next = useCallback(() => {
     if (isLast) {
@@ -204,7 +212,7 @@ export function ProductTour() {
       >
         <div className="flex items-start justify-between gap-3 mb-2">
           <span className="font-mono text-[10px] uppercase tracking-widest text-ink-muted">
-            {stepIndex + 1} / {STEPS.length}
+            {stepIndex + 1} / {steps.length}
           </span>
           <button
             onClick={finish}
@@ -220,7 +228,7 @@ export function ProductTour() {
 
         <div className="flex flex-wrap items-center justify-end gap-x-2 gap-y-2 mt-4">
           <div className="flex items-center gap-1.5 mr-auto">
-            {STEPS.map((_, i) => (
+            {steps.map((_, i) => (
               <span
                 key={i}
                 className={`h-1.5 rounded-full transition-all duration-300 ${
