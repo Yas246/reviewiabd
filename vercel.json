@@ -1,0 +1,3 @@
+{
+  "buildCommand": "npm run setup:runtimes && npm run build"
+}
