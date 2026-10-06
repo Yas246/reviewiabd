@@ -1,6 +1,29 @@
 # HANDOFF.md : Review IABD
 
-Dernière mise à jour : 2026-10-06 (synchronisation : UNE base Supabase pour tous les utilisateurs, branchée au build via variables d'environnement, plus aucune config dans l'interface)
+Dernière mise à jour : 2026-10-06 (onboarding 3 écrans avec question IA + révélation, tour Paramètres, base Supabase branchée au build via .env ; idée deferred : personnalisation « Bonjour, prénom » depuis Google)
+
+## Onboarding 3 écrans + tour Paramètres (2026-10-06, FAIT ET VÉRIFIÉ AU CLIC)
+
+- Parcours final : 1) Préparation hors ligne ; 2) Synchronisation Google (SyncSettings,
+  sautée automatiquement si la base n'est pas branchée) ; 3) QUESTION « Voulez-vous
+  ajouter une clé API ? » avec le contexte (1 400 questions déjà embarquées, la clé ne
+  sert qu'à générer du neuf). Oui → révèle fournisseur+clé ET modèle dans le même
+  écran, avec badges OPTIONNEL. Retour depuis l'écran révélé → RE-DÉPLIE la question
+  (changement d'avis possible). Non → handleFinish → dashboard.
+- Boutons Oui/Non de la question : « Non, je révise avec les 1 400 questions » /
+  « Oui, je veux générer de nouvelles questions ». Footer : Continuer (étapes 1-2),
+  Aller à l'application (étape 3 révélée seulement).
+- Paramètres : badges OPTIONNEL sur Fournisseur IA & Clés API et Modèle IA ;
+  ProductTour id settings (6 étapes s-sync/s-offline/s-ai/s-model/s-prefs/s-data,
+  Card transmet désormais les data-* ) ; bouton « Paramètres » dans la rubrique
+  Visites guidées.
+- Supabase branché par l'utilisateur : .env.local rempli (URL + publishable key
+  sb_publishable_...), SQL sync_rows exécuté ; env à ajouter sur Vercel + redeploy.
+  Test accidentel : un clic scripté sur « Continuer avec Google » a bien ouvert la
+  page de consentement Google → le provider est opérationnel.
+- Idée différée (demande explicite) : personnalisation dashboard « Bonjour, prénom »
+  depuis le profil Google (disponible via la session Supabase user_metadata).
+- sw.js v3.6.5.
 
 ## Synchronisation multi-appareils (2026-10-06, ARCHITECTURE CORRIGÉE : env au build)
 

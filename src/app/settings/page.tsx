@@ -5,10 +5,46 @@ import { Navigation } from "@/components/layout/Navigation";
 import { PageHeader } from "@/components/layout/Header";
 import { Card, CardContent, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { Badge } from "@/components/ui/Badge";
 import { Key, Cpu, Trash2, Download, Upload, Target, Calendar, WifiOff } from "lucide-react";
 import { storageService } from "@/services/StorageService";
 import { indexedDBService } from "@/services/IndexedDBService";
 import { SyncSettings } from "@/components/features/SyncSettings";
+import { ProductTour, TourStep } from "@/components/ProductTour";
+
+// Visite guidée des Paramètres : suit l'ordre des cartes
+const SETTINGS_TOUR_STEPS: TourStep[] = [
+  {
+    target: "s-sync",
+    title: "Synchronisation multi-appareils",
+    text: "Connecte ton compte Google une seule fois par appareil : ta progression (sessions, questions importées, réglages) se retrouve partout. C'est la première chose qu'on t'propose, mais c'est optionnel.",
+  },
+  {
+    target: "s-offline",
+    title: "Préparation hors ligne",
+    text: "La banque de 1 400 questions est déjà embarquée. Les outils de vérification de code (Python, R, SQL) se téléchargent ici pour réviser sans connexion.",
+  },
+  {
+    target: "s-ai",
+    title: "Fournisseur IA & Clés API",
+    text: "Uniquement si tu veux GÉNÉRER de nouvelles questions avec une IA. Optionnel : la révision fonctionne très bien sans.",
+  },
+  {
+    target: "s-model",
+    title: "Modèle IA",
+    text: "Le modèle utilisé pour ces générations. Même histoire : optionnel, tu peux changer quand tu veux.",
+  },
+  {
+    target: "s-prefs",
+    title: "Tes préférences",
+    text: "Objectif quotidien, date d'examen avec compte à rebours, notifications et les visites guidées (rejouables ici).",
+  },
+  {
+    target: "s-data",
+    title: "Données locales",
+    text: "Export ou import manuel de tout ton profil, et la suppression complète des données de cet appareil.",
+  },
+];
 import { notificationService } from "@/services/NotificationService";
 import { AIProvider } from "@/types";
 import { BatchSizeSlider } from "@/components/features/BatchSizeSlider";
@@ -200,10 +236,12 @@ export default function SettingsPage() {
 
         <div className="space-y-6">
           {/* Synchronisation multi-appareils (optionnelle) */}
-          <SyncSettings />
+          <div data-tour="s-sync">
+            <SyncSettings />
+          </div>
 
           {/* Préparation hors ligne */}
-          <Card>
+          <Card data-tour="s-offline">
             <CardContent className="pt-6">
               <div className="flex items-center gap-3 mb-2">
                 <WifiOff className="w-5 h-5 text-domain-bigdata" />
@@ -220,11 +258,14 @@ export default function SettingsPage() {
           </Card>
 
           {/* Provider Selection & API Keys */}
-          <Card>
+          <Card data-tour="s-ai">
             <CardContent className="pt-6">
               <div className="flex items-center gap-3 mb-4">
                 <Cpu className="w-5 h-5 text-accent" />
-                <CardTitle>Fournisseur IA & Clés API</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  Fournisseur IA & Clés API
+                  <Badge variant="warning">OPTIONNEL</Badge>
+                </CardTitle>
               </div>
 
               {/* Provider Selector */}
@@ -339,11 +380,14 @@ export default function SettingsPage() {
           </Card>
 
           {/* Model Selection */}
-          <Card>
+          <Card data-tour="s-model">
             <CardContent className="pt-6">
               <div className="flex items-center gap-3 mb-4">
                 <Cpu className="w-5 h-5 text-accent" />
-                <CardTitle>Modèle IA</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  Modèle IA
+                  <Badge variant="warning">OPTIONNEL</Badge>
+                </CardTitle>
               </div>
               <div className="space-y-2">
                 {models
@@ -471,7 +515,7 @@ export default function SettingsPage() {
           </Card>
 
           {/* Preferences */}
-          <Card>
+          <Card data-tour="s-prefs">
             <CardContent className="pt-6">
               <CardTitle className="mb-4">Préférences</CardTitle>
               <div className="space-y-4">
@@ -543,6 +587,7 @@ export default function SettingsPage() {
                       { label: "Pratique", id: "practice", flag: "tour_done_practice", path: "/practice" },
                       { label: "Examen", id: "exam", flag: "tour_done_exam", path: "/exam" },
                       { label: "Importer", id: "import", flag: "tour_done_import", path: "/import" },
+                      { label: "Paramètres", id: "settings", flag: "tour_done_settings", path: "/settings" },
                     ].map((t) => (
                       <Button
                         key={t.id}
@@ -568,7 +613,7 @@ export default function SettingsPage() {
           </Card>
 
           {/* Data Management */}
-          <Card>
+          <Card data-tour="s-data">
             <CardContent className="pt-6">
               <CardTitle className="mb-4">Données locales</CardTitle>
               <div className="space-y-3">
@@ -618,6 +663,7 @@ export default function SettingsPage() {
           </div>
         </div>
       </main>
+      <ProductTour id="settings" steps={SETTINGS_TOUR_STEPS} />
     </div>
   );
 }

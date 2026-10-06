@@ -12,6 +12,8 @@ import { storageService } from "@/services/StorageService";
 import { AIProvider } from "@/types";
 import { BatchSizeSlider } from "@/components/features/BatchSizeSlider";
 import { OfflinePrep } from "@/components/features/OfflinePrep";
+import { SyncSettings } from "@/components/features/SyncSettings";
+import { syncService } from "@/services/SyncService";
 
 // ============================================
 // ONBOARDING PAGE
@@ -59,6 +61,11 @@ export default function OnboardingPage() {
   const [error, setError] = useState("");
   const [step, setStep] = useState(1);
   const [showHelpModal, setShowHelpModal] = useState(false);
+  // Étape 3 : l'utilisateur VEUT-il brancher l'IA ? Tant qu'il n'a pas dit oui,
+  // les cartes fournisseur/modèle restent cachées.
+  const [aiChosen, setAiChosen] = useState(false);
+  // L'étape Synchronisation n'existe que si la base est branchée au build
+  const syncConfigured = syncService.getState().configured;
 
   useEffect(() => {
     // Check if onboarding is already completed
@@ -94,13 +101,10 @@ export default function OnboardingPage() {
 
   const handleContinue = () => {
     if (step === 1) {
-      // Étape hors ligne : on continue vers l'IA (optionnelle)
-      setStep(2);
+      // Étape hors ligne : vers la synchro (si branchée), sinon vers l'IA
+      setStep(syncConfigured ? 2 : 3);
     } else if (step === 2) {
-      if (!isValidKey) {
-        setError("Please enter a valid API key");
-        return;
-      }
+      // Étape synchro : l'utilisateur s'est connecté ou a passé
       setStep(3);
     }
   };
@@ -228,23 +232,86 @@ export default function OnboardingPage() {
           </Card>
         )}
 
-        {/* Step 2 : Fournisseur IA + clé API (OPTIONNEL) */}
+        {/* Step 2 : Synchronisation Google (optionnelle) */}
         {step === 2 && (
+          <div className="space-y-4">
+            <p className="text-sm text-ink-secondary">
+              Connecte ton compte Google pour retrouver ta progression sur tous tes
+              appareils (téléphone, ordinateur). 100 % optionnel : tu peux passer et
+              le faire plus tard dans <strong>Paramètres</strong>.
+            </p>
+            <SyncSettings />
+          </div>
+        )}
+
+        {/* Step 3 : l'IA, d'abord une question simple */}
+        {step === 3 && !aiChosen && (
           <Card className="animate-fade-in-up">
             <CardContent>
-              {/* Provider Selection */}
-              <div className="flex items-center gap-3 mb-6">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+                  <Cpu className="w-6 h-6 text-accent" />
+                </div>
+                <div>
+                  <h2 className="font-mono font-semibold text-lg mb-1">
+                    Voulez-vous ajouter une clé API ?
+                  </h2>
+                  <p className="text-sm text-ink-muted">
+                    L&apos;app embarque déjà <strong>1 400 questions</strong> : tu peux
+                    réviser entièrement sans aucune clé. Une clé API ne sert qu&apos;à
+                    GÉNÉRER de nouvelles questions avec une intelligence artificielle
+                    (OpenRouter ou Gemini).
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <button
+                  onClick={() => handleSkip()}
+                  disabled={isLoading}
+                  className="w-full text-left p-4 rounded-lg border border-paper-dark bg-paper-secondary hover:border-accent/50 hover:bg-accent/5 transition-all disabled:opacity-50"
+                >
+                  <p className="font-mono font-semibold text-ink-primary">
+                    Non, je révise avec les 1 400 questions
+                  </p>
+                  <p className="text-sm text-ink-muted mt-1">
+                    Recommandé pour commencer : tout est prêt, et tu pourras ajouter
+                    une clé à tout moment dans Paramètres.
+                  </p>
+                </button>
+                <button
+                  onClick={() => setAiChosen(true)}
+                  className="w-full text-left p-4 rounded-lg border border-paper-dark bg-paper-secondary hover:border-accent/50 hover:bg-accent/5 transition-all"
+                >
+                  <p className="font-mono font-semibold text-ink-primary">
+                    Oui, je veux générer de nouvelles questions
+                  </p>
+                  <p className="text-sm text-ink-muted mt-1">
+                    J&apos;ajoute une clé d&apos;un fournisseur (OpenRouter ou Gemini)
+                    et je choisis mon modèle.
+                  </p>
+                </button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Step 3 (révélé) : fournisseur + clé */}
+        {step === 3 && aiChosen && (
+          <Card className="animate-fade-in-up border-l-4" style={{ borderLeftColor: "var(--accent)" }}>
+            <CardContent>
+              <div className="flex items-center gap-3 mb-6 flex-wrap">
                 <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center">
                   <Cpu className="w-6 h-6 text-accent" />
                 </div>
                 <div className="flex-1">
-                  <h2 className="font-mono font-semibold text-lg mb-1">
-                    Brancher l&apos;IA (optionnel)
+                  <h2 className="font-mono font-semibold text-lg mb-1 flex items-center gap-2">
+                    Fournisseur IA & Clés API
+                    <Badge variant="warning">OPTIONNEL</Badge>
                   </h2>
                   <p className="text-sm text-ink-muted">
-                    Étape facultative : générer des questions par IA. Tu peux passer et
-                    réviser avec la banque locale, puis brancher une clé quand tu veux
-                    dans les Paramètres.
+                    Générer des questions par IA. Tu peux laisser vide et revenir à
+                    tout moment dans les Paramètres.
                   </p>
                 </div>
               </div>
@@ -398,13 +465,14 @@ export default function OnboardingPage() {
           </Card>
         )}
 
-        {/* Step 2: Model Selection */}
-        {step === 2 && (
-          <Card className="animate-fade-in-up">
+        {/* Step 3 (révélé) : modèle */}
+        {step === 3 && aiChosen && (
+          <Card className="animate-fade-in-up border-l-4" style={{ borderLeftColor: "var(--accent)" }}>
             <CardContent>
               <div className="mb-6">
-                <h2 className="font-mono font-semibold text-lg mb-2">
-                  Sélection du Modèle
+                <h2 className="font-mono font-semibold text-lg mb-2 flex items-center gap-2">
+                  Modèle IA
+                  <Badge variant="warning">OPTIONNEL</Badge>
                 </h2>
                 <p className="text-sm text-ink-muted">
                   Choisissez le modèle IA pour générer vos questions
@@ -543,25 +611,34 @@ export default function OnboardingPage() {
         <div className="flex gap-4 justify-between mt-12">
           <Button
             variant="secondary"
-            onClick={() => setStep(step - 1)}
+            onClick={() => {
+              // Depuis l'écran IA révélé : revenir à la QUESTION pour
+              // permettre de changer d'avis (Oui ↔ Non)
+              if (step === 3 && aiChosen) {
+                setAiChosen(false);
+                return;
+              }
+              setStep(step - 1);
+            }}
             disabled={step === 1 || isLoading}
           >
             Retour
           </Button>
           {step === 3 ? (
-            <Button
-              variant="primary"
-              onClick={handleFinish}
-              loading={isLoading}
-            >
-              Aller à l&apos;application
-            </Button>
+            aiChosen ? (
+              <Button
+                variant="primary"
+                onClick={handleFinish}
+                loading={isLoading}
+              >
+                Aller à l&apos;application
+              </Button>
+            ) : null
           ) : (
             <Button
               variant="primary"
               onClick={handleContinue}
               loading={isLoading}
-              disabled={step === 2 && !isValidKey}
             >
               Continuer
             </Button>
@@ -577,30 +654,6 @@ export default function OnboardingPage() {
               className="text-sm text-ink-muted hover:text-accent transition-colors disabled:opacity-50"
             >
               Terminer maintenant (l&apos;IA reste optionnelle) →
-            </button>
-          </div>
-        )}
-
-        {/* Skip IA : depuis l'étape 2 (fournisseur/clé) uniquement */}
-        {step === 2 && (
-          <div className="mt-8 border-t border-paper-dark pt-6 text-center">
-            <p className="text-sm text-ink-secondary mb-4">
-              Tu n&apos;as pas besoin de clé API pour réviser : la{" "}
-              <strong>banque locale embarquée</strong> contient des questions dans toutes les
-              matières (QCM, multi-réponses, Vrai/Faux, texte à trous, code, cas pratiques), et
-              tu pourras en importer sans clé depuis la page Importer. La clé IA reste
-              optionnelle, dans les{" "}
-              <a href="/settings" className="text-accent hover:underline">
-                Paramètres
-              </a>
-              .
-            </p>
-            <button
-              onClick={handleSkip}
-              disabled={isLoading}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg border border-paper-dark bg-paper-secondary text-sm font-mono text-ink-secondary hover:border-accent hover:text-accent hover:bg-accent/5 active:scale-[0.98] transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Passer : réviser sans IA (banque locale) →
             </button>
           </div>
         )}
