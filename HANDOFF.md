@@ -1,6 +1,28 @@
 # HANDOFF.md : Review IABD
 
-Dernière mise à jour : 2026-10-06 (runtimes permanents entre les mises à jour + salutation d'accueil depuis le profil Google : faits, poussés 8a1b398)
+Dernière mise à jour : 2026-10-06 (audit complet de couverture sync + rechargement auto des écrans quand la fusion modifie les données + compteurs par catégorie dans la carte Synchronisation ; poussé 4798277)
+
+## Audit exhaustif de couverture sync (2026-10-06, demandé par l'utilisateur)
+
+- Les 11 stores IndexedDB : 8 stores de DONNÉES UTILISATEUR synchronisés
+  (sessions, exams, practiceQuizzes, questions importées, favorites, mistakes,
+  dailyStats, settings). 3 stores volontairement LOCAUX : exercises (cache de la
+  banque préchargée, dérivée des fichiers embarqués), statistics (recalculées depuis
+  l'union des sessions après chaque synchro qui apporte des données), backgroundTasks
+  (tâches internes éphémères).
+- Toutes les surfaces tirent de stores synchronisés : Historique (/exams) = exams +
+  sessions ✓ ; Pratique = sessions + practiceQuizzes ✓ ; Épreuves réelles = exams +
+  sessions ✓ ; Favoris ✓ ; Erreurs ✓ ; Import = questions ✓ ; Dashboard = sessions +
+  dailyStats + settings ✓.
+- Cause du signalement « l'historique ne se synchronise pas » : l'auto-synchro au
+  lancement applique les lignes pendant que les pages lisent déjà les leurs → écrans
+  stales jusqu'au rechargement. Fix : après une synchro AUTO qui a APPLIQUÉ des
+  lignes (applied > 0), l'app se recharge automatiquement (boucle impossible : la
+  synchro suivante n'applique plus rien, convergence par union/LWW/max).
+- Visibilité : la carte Synchronisation affiche désormais le contenu du cloud par
+  catégorie (sessions N · examens N · quiz N · questions importées N · favoris N ·
+  erreurs N · jours N · réglages 1) : toute discrepancy est visible immédiatement.
+- sw.js v3.6.9. Poussé : 4798277.
 
 ## Runtimes permanents + salutation (2026-10-06, FAIT ET VÉRIFIÉ)
 
