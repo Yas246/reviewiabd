@@ -270,7 +270,7 @@ export default function HomePage() {
           title={greeting ? `${greeting}` : "Tableau de Bord"}
           subtitle={
             greeting
-              ? "Voici où tu en es aujourd'hui : tout fonctionne hors ligne."
+              ? "Voici où tu en es aujourd'hui."
               : "Bienvenue sur Review IABD : tout fonctionne hors ligne, la banque locale est embarquée"
           }
         />

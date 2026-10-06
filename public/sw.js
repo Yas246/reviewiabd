@@ -3,9 +3,9 @@
 // Caches static assets for offline use
 // ============================================
 
-const CACHE_NAME = "review-iabd-v3.6.7";
-const STATIC_CACHE = "review-iabd-static-v3.6.7";
-const RUNTIME_CACHE = "review-iabd-runtime-v3.6.7";
+const CACHE_NAME = "review-iabd-v3.6.8";
+const STATIC_CACHE = "review-iabd-static-v3.6.8";
+const RUNTIME_CACHE = "review-iabd-runtime-v3.6.8";
 // Nom STABLE : les runtimes (Pyodide, webR, SQLite, ~70 Mo) survivent aux
 // mises à jour de l'app. Ne bumper QUE si les fichiers des runtimes changent.
 const RUNTIMES_CACHE = "review-iabd-runtimes";
