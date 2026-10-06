@@ -21,6 +21,7 @@ import { parseQuestionBatch } from "@/lib/questionValidation";
 import { questionBank } from "@/services/QuestionBankService";
 import { indexedDBService } from "@/services/IndexedDBService";
 import { preloadedQuestionsService } from "@/services/PreloadedQuestionsService";
+import { syncService } from "@/services/SyncService";
 import { ProductTour, TourStep } from "@/components/ProductTour";
 
 const IMPORT_TOUR_STEPS: TourStep[] = [
@@ -115,6 +116,8 @@ export default function ImportPage() {
       await indexedDBService.init();
       await indexedDBService.saveQuestions(importResult.questions);
       questionBank.invalidate();
+      // Synchronisation multi-appareils silencieuse (si un compte est branché)
+      syncService.notifyProgressChanged();
       setSaved(true);
       setPasted("");
       setImportResult(null);

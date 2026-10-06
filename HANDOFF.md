@@ -1,6 +1,37 @@
 # HANDOFF.md : Review IABD
 
-Dernière mise à jour : 2026-10-05 (tours guidés sur Pratique, Examen et Importer ; audit fiches +10 entrées ; commit + push effectués sur ordre)
+Dernière mise à jour : 2026-10-06 (synchronisation multi-appareils optionnelle : Supabase Auth + réplique ligne à ligne, prête ; configuration du projet par l'utilisateur restante)
+
+## Synchronisation multi-appareils (2026-10-06, CODE FAIT ET VÉRIFIÉ SANS COMPTE)
+
+- Demande : retrouver sa progression entre PC et téléphone. Choix retenu (discussion) :
+  Supabase (Auth + table) du projet DE l'utilisateur, auth OPTIONNELLE, app 100 % locale
+  par défaut ; PAS un gros JSON : réplique LIGNE À LIGNE pour convergence naturelle.
+- SyncService.ts : client Supabase créé depuis l'URL + clé anon collées dans
+  Paramètres (localStorage sync_cfg_url/key). Auth : e-mail + mot de passe (signUp /
+  signIn) ET Google OAuth (signInWithOAuth provider google, redirect → /settings).
+- Réplique : table sync_rows (user_id, store, id, data jsonb, updated_at ; PK
+  user_id,store,id). Stores répliqués : sessions, exams, practiceQuizzes, QUESTIONS
+  (importées : demande utilisateur explicite), favorites, mistakes, dailyStats,
+  settings. La banque préchargée (exercises) et statistics (recalculées) NON sync.
+- Fusion par store : union par clé pour l'append-only (sessions/exams/quiz/
+  questions/favoris : les quiz des deux appareils coexistent et restent rejouables) ;
+  LWW via ombre locale d'horodatages (localStorage sync_shadow) pour mistakes et
+  settings ; MAX(questionsAnswered) par date pour dailyStats (progression monotone).
+- Rythme automatique (demande utilisateur) : au lancement (autoPullOnLaunch dans
+  AppProvider si onboardingCompleted), APRÈS chaque fin de quiz/examen (hook dans
+  handleQuizCompletion) et après un import de questions (notifyProgressChanged,
+  debouncé 4 s, silencieux), et au RETOUR du réseau (hookOnlineListener). Bouton
+  manuel "Synchroniser maintenant" (+ reload) dans Paramètres.
+- UI : src/components/features/SyncSettings.tsx, carte dans Paramètres entre la
+  préparation hors ligne et Gestion des Données : config projet, compte (e-mail,
+  Google), état, bouton de synchro, déconnexion.
+- Script SQL à exécuter chez l'utilisateur : docs/supabase-sync.sql (table + RLS
+  auth.uid() = user_id + note config Google OAuth et redirect URLs).
+- Vérifié au clic : carte visible, dashboard inchangé sans compte, fausse config →
+  "Failed to fetch" affiché proprement puis nettoyée. sw.js v3.6.0.
+- RESTE (côté utilisateur) : créer le projet Supabase, exécuter le SQL, coller
+  URL + clé anon dans Paramètres, tester PC ↔ téléphone (et activer Google si voulu).
 
 ## Product Tour généralisé (2026-10-05, FAIT ET VÉRIFIÉ AU CLIC)
 

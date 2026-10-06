@@ -5,6 +5,7 @@ import { indexedDBService } from "@/services/IndexedDBService";
 import { preloadedQuestionsService } from "@/services/PreloadedQuestionsService";
 import { storageService } from "@/services/StorageService";
 import { statisticsService } from "@/services/StatisticsService";
+import { syncService } from "@/services/SyncService";
 import { DOMAIN_LABELS } from "@/types";
 
 // ============================================
@@ -52,6 +53,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           model: settings.model,
           onboardingCompleted: settings.onboardingCompleted,
         });
+
+        // Synchronisation multi-appareils (optionnelle) : si un compte est
+        // configuré et connecté, récupère silencieusement la progression.
+        if (settings.onboardingCompleted) {
+          syncService.hookOnlineListener();
+          syncService.autoPullOnLaunch().catch(() => {});
+        }
 
         const sessions = await indexedDBService.getAllSessions();
         console.log('[AppProvider] Current sessions:', sessions.length);

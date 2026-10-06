@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { Key, Cpu, Trash2, Download, Upload, Target, Calendar, WifiOff } from "lucide-react";
 import { storageService } from "@/services/StorageService";
 import { indexedDBService } from "@/services/IndexedDBService";
+import { SyncSettings } from "@/components/features/SyncSettings";
 import { notificationService } from "@/services/NotificationService";
 import { AIProvider } from "@/types";
 import { BatchSizeSlider } from "@/components/features/BatchSizeSlider";
@@ -562,6 +563,9 @@ export default function SettingsPage() {
               <OfflinePrep />
             </CardContent>
           </Card>
+
+          {/* Synchronisation multi-appareils (optionnelle) */}
+          <SyncSettings />
 
           {/* Data Management */}
           <Card>

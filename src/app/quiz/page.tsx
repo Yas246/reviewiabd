@@ -30,6 +30,7 @@ import { generationService } from "@/services/GenerationService";
 import { statisticsService } from "@/services/StatisticsService";
 import { mistakesService } from "@/services/MistakesService";
 import { dailyStatsService } from "@/services/DailyStatsService";
+import { syncService } from "@/services/SyncService";
 import {
   areChoicesCorrect,
   areBlanksCorrect,
@@ -718,6 +719,9 @@ function QuizContent() {
               });
             }
           }
+
+          // Synchronisation multi-appareils silencieuse (si un compte est branché)
+          syncService.notifyProgressChanged();
         } catch (error) {
           console.error("[Quiz] Failed to update session/statistics:", error);
         }
