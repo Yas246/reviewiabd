@@ -1,6 +1,23 @@
 # HANDOFF.md : Review IABD
 
-Dernière mise à jour : 2026-10-06 (sync testée PC ↔ téléphone par l'utilisateur : 3 défauts corrigés : stats globales recalculées après fusion, réglages/stats-jour fusionnés via horodatages RÉELS, auto-synchro à la première connexion)
+Dernière mise à jour : 2026-10-06 (runtimes permanents entre les mises à jour + salutation d'accueil depuis le profil Google : faits, poussés 8a1b398)
+
+## Runtimes permanents + salutation (2026-10-06, FAIT ET VÉRIFIÉ)
+
+- Demande utilisateur : re-télécharger les outils de correction à CHAQUE mise à jour
+  = comportement à éviter (~70 Mo à chaque déploiement).
+- Fix sw.js : RUNTIMES_CACHE = « review-iabd-runtimes » (nom SANS version, stable) ;
+  l'activate migre automatiquement tout ancien cache review-iabd-runtimes-* vers le
+  nom stable AVANT de purger. Les 3 caches d'APP restent bumpés à chaque release
+  (règle inchangée, chunks Turbopack). Ne bumper RUNTIMES_CACHE QUE si les fichiers
+  des runtimes changent (ex. montée de version de Pyodide).
+- Salutation dashboard : titre « Bonjour / Bon après-midi / Bonsoir + prénom »
+  (profil Google : given_name / full_name / email) selon l'heure, uniquement si
+  connecté ; sinon titre standard « Tableau de Bord ». State syncService : displayName.
+- Vérifié : build OK, v3.6.7 actif, cache stable en place, titre standard hors
+  connexion (comportement attendu). Poussé : 8a1b398.
+- Idée deferred (demande explicite) : personnalisation dashboard « Bonjour, prénom »
+  depuis le profil Google — FAIT (voir ci-dessus).
 
 ## Sync : correctifs du premier test réel (2026-10-06, FAIT, à re-tester)
 
