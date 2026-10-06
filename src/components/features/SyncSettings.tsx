@@ -11,9 +11,9 @@ import { syncService, SyncStatus } from "@/services/SyncService";
 // Synchronisation OPTIONNELLE multi-appareils.
 // La base Supabase est celle de l'app (incrustée
 // au build). Activation en UN geste : connexion
-// Google. Sans compte, l'app reste 100 % locale.
-// La carte ne s'affiche que si la base est
-// branchée (variables d'environnement présentes).
+// Google. Sans connexion, l'app reste 100 %
+// locale. La carte ne s'affiche que si la base
+// est branchée (variables d'environnement).
 // ============================================
 
 function GoogleIcon() {
@@ -83,7 +83,7 @@ export function SyncSettings() {
             <h3 className="font-mono font-semibold">Synchronisation multi-appareils</h3>
             <p className="text-sm text-ink-muted">
               Optionnel : retrouve ta progression sur ton téléphone et ton ordinateur.
-              Sans compte, l&apos;app reste 100 % locale.
+              Sinon, tout reste 100 % local sur cet appareil.
             </p>
           </div>
         </div>
