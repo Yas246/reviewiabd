@@ -30,12 +30,14 @@ interface StoreSpec {
   // champ servant de clé unique (id, date, ...)
   keyField: string;
   // fusion quand la ligne existe des deux côtés :
-  //  - "union"  : la locale gagne (données ajoutées, jamais mutées)
-  //  - "lww"    : dernier-modifié gagne (via l'ombre des horodatages)
-  //  - "max"    : le plus grand compteur gagne (progression monotone)
+  //  - "union" : la locale gagne (données ajoutées, jamais mutées)
+  //  - "lww"   : dernier-modifié gagne, comparé sur lwwField (horodatage réel)
+  //  - "max"   : chaque compteur prend la plus grande valeur
   merge: "union" | "lww" | "max";
-  // champ compteur pour la fusion "max"
-  maxField?: string;
+  // champ horodaté pour la fusion "lww"
+  lwwField?: string;
+  // champs compteurs pour la fusion "max"
+  maxFields?: string[];
 }
 
 const STORES: Record<string, StoreSpec> = {
@@ -76,13 +78,14 @@ const STORES: Record<string, StoreSpec> = {
     write: (r) => indexedDBService.saveMistake(r),
     keyField: "id",
     merge: "lww",
+    lwwField: "lastSeenAt",
   },
   dailyStats: {
     read: () => indexedDBService.getAllDailyStats(),
     write: (r) => indexedDBService.saveDailyStat(r),
     keyField: "date",
     merge: "max",
-    maxField: "questionsAnswered",
+    maxFields: ["answered", "correct", "timeSpent"],
   },
   settings: {
     read: async () => {
@@ -92,6 +95,7 @@ const STORES: Record<string, StoreSpec> = {
     write: (r) => indexedDBService.saveSettings(r),
     keyField: "user_id", // champ synthétique ajouté avant l'envoi
     merge: "lww",
+    lwwField: "updatedAt",
   },
 };
 
@@ -103,26 +107,18 @@ interface SyncRow {
   updated_at: string;
 }
 
-// Ombre locale des horodatages distants connus : permet un vrai
-// dernier-modifié-gagne pour les lignes mutables (réglages, erreurs SRS,
-// stats journalières) sans ajouter de champ updated_at dans IndexedDB.
-const SHADOW_KEY = "sync_shadow";
-
-function loadShadow(): Record<string, string> {
-  if (typeof window === "undefined") return {};
-  try {
-    return JSON.parse(localStorage.getItem(SHADOW_KEY) || "{}");
-  } catch {
-    return {};
+// Extrait l'horodatage RÉEL d'un enregistrement (updatedAt des réglages,
+// lastSeenAt des erreurs SRS...) : c'est lui qui arbitre le dernier-modifié,
+// pas l'instant d'envoi.
+function realTimestamp(rec: unknown): string | null {
+  if (!rec || typeof rec !== "object") return null;
+  const r = rec as Record<string, unknown>;
+  for (const field of ["updatedAt", "lastSeenAt", "createdAt", "startedAt"]) {
+    const v = r[field];
+    if (v instanceof Date) return v.toISOString();
+    if (typeof v === "string" && v.includes("T")) return v;
   }
-}
-
-function saveShadow(shadow: Record<string, string>): void {
-  localStorage.setItem(SHADOW_KEY, JSON.stringify(shadow));
-}
-
-function shadowSet(shadow: Record<string, string>, store: string, id: string, at: string): void {
-  shadow[`${store}:${id}`] = at;
+  return null;
 }
 
 export type SyncStatus = "idle" | "working" | "ok" | "offline" | "error";
@@ -161,9 +157,16 @@ class SyncService {
         this.client.auth
           .getSession()
           .then(({ data }) => {
-            this.userId = data.session?.user?.id ?? null;
-            this.sessionEmail = data.session?.user?.email ?? null;
+            const nextId = data.session?.user?.id ?? null;
+            if (nextId !== this.userId) {
+              this.userId = nextId;
+              this.sessionEmail = data.session?.user?.email ?? null;
+              this.autoPullDone = false;
+            }
             this.notify();
+            // Restauration au retour d'OAuth / au lancement : la session
+            // arrive APRÈS l'init de l'app, on lance donc la synchro ici.
+            if (this.userId) this.autoPullOnLaunch();
           })
           .catch(() => {});
         this.client.auth.onAuthStateChange((_event, session) => {
@@ -172,8 +175,10 @@ class SyncService {
             this.autoPullDone = false;
             this.userId = nextId;
             this.sessionEmail = session?.user?.email ?? null;
+            this.notify();
+            // Première connexion / retour de Google : synchro immédiate
+            if (this.userId) this.autoPullOnLaunch();
           }
-          this.notify();
         });
       }
     }
@@ -313,17 +318,15 @@ class SyncService {
           store,
           id: this.keyOf(store, data),
           data,
-          updated_at: now,
+          // Horodatage RÉEL de la donnée (sinon instant d'envoi)
+          updated_at: realTimestamp(data) ?? now,
         });
       }
     }
     return rows;
   }
 
-  private async applyRemoteRows(
-    remote: SyncRow[],
-    shadow: Record<string, string>
-  ): Promise<number> {
+  private async applyRemoteRows(remote: SyncRow[]): Promise<number> {
     let applied = 0;
     const byStore = new Map<string, SyncRow[]>();
     for (const r of remote) {
@@ -336,45 +339,52 @@ class SyncService {
       const local = (await spec.read()) as Record<string, unknown>[];
       const localKeys = new Set(local.map((rec) => this.keyOf(store, rec)));
       for (const r of rows) {
-        const known = shadow[`${store}:${r.id}`];
-        // Déjà connue dans cette version : rien à faire
-        if (known && known >= r.updated_at && spec.merge !== "max") continue;
+        const remoteData = r.data as Record<string, unknown>;
+        const localRec = local.find((rec) => this.keyOf(store, rec) === r.id);
+
         // Absente localement : union (données ajoutées sur un autre appareil)
-        if (!localKeys.has(r.id)) {
-          await spec.write(r.data as Record<string, unknown>);
-          shadowSet(shadow, store, r.id, r.updated_at);
+        if (!localRec) {
+          await spec.write(remoteData);
           applied++;
           continue;
         }
         // Présente des deux côtés : fusion selon le type de store
-        if (spec.merge === "lww" && known && known < r.updated_at) {
-          await spec.write(r.data as Record<string, unknown>);
-          shadowSet(shadow, store, r.id, r.updated_at);
-          applied++;
-        } else if (spec.merge === "max" && spec.maxField) {
-          const localRec = local.find(
-            (rec) => this.keyOf(store, rec) === r.id
-          );
-          const localVal = Number(localRec?.[spec.maxField] ?? 0);
-          const remoteVal = Number(
-            (r.data as Record<string, unknown>)?.[spec.maxField] ?? 0
-          );
-          if (remoteVal > localVal) {
-            await spec.write(r.data as Record<string, unknown>);
+        if (spec.merge === "lww" && spec.lwwField) {
+          const localTs = realTimestamp(localRec);
+          const remoteTs = realTimestamp(remoteData);
+          if (remoteTs && (!localTs || remoteTs > localTs)) {
+            await spec.write(remoteData);
+            applied++;
+          }
+        } else if (spec.merge === "max" && spec.maxFields) {
+          // Compteurs monotones : chaque champ prend sa plus grande valeur
+          const merged = { ...localRec };
+          let changed = false;
+          for (const f of spec.maxFields) {
+            const localVal = Number(localRec[f] ?? 0);
+            const remoteVal = Number(remoteData[f] ?? 0);
+            if (remoteVal > localVal) {
+              merged[f] = remoteVal;
+              changed = true;
+            }
+          }
+          if (changed) {
+            await spec.write(merged);
             applied++;
           }
         }
       }
     }
-    saveShadow(shadow);
     return applied;
   }
 
   /**
    * Synchronisation complète : pousse TOUTES les lignes locales (upsert),
-   * puis applique les lignes distantes absentes localement. Les sessions,
-   * examens, quiz, questions importées et favoris convergent par union ;
-   * les lignes mutables suivent la dernière écriture.
+   * puis applique les lignes distantes absentes ou plus récentes. Les
+   * sessions, examens, quiz, questions importées et favoris convergent par
+   * union ; les lignes mutables suivent leur horodatage réel ; les stats
+   * journalières prennent les compteurs maximaux. Les statistiques globales
+   * sont recalculées depuis l'union des sessions.
    */
   async syncAll(trigger: "manual" | "auto"): Promise<void> {
     const client = this.getClient();
@@ -392,11 +402,7 @@ class SyncService {
     this.syncing = true;
     this.setStatus("working", "Synchronisation...");
     try {
-      const shadow = loadShadow();
-      const now = new Date().toISOString();
-
-      // 1. Pousser les lignes locales (par lots de 200) et noter les
-      //    horodatages dans l'ombre locale.
+      // 1. Pousser les lignes locales (par lots de 200)
       const rows = await this.collectLocalRows(this.userId);
       for (let i = 0; i < rows.length; i += 200) {
         const batch = rows.slice(i, i + 200);
@@ -405,8 +411,6 @@ class SyncService {
           .upsert(batch, { onConflict: "user_id,store,id" });
         if (error) throw new Error("Envoi : " + error.message);
       }
-      for (const r of rows) shadowSet(shadow, r.store, r.id, now);
-      saveShadow(shadow);
 
       // 2. Ramener les lignes distantes
       const { data, error } = await client
@@ -415,8 +419,8 @@ class SyncService {
         .eq("user_id", this.userId);
       if (error) throw new Error("Récupération : " + error.message);
 
-      // 3. Appliquer les lignes distantes plus récentes que ce qu'on connaît
-      const applied = await this.applyRemoteRows((data ?? []) as SyncRow[], shadow);
+      // 3. Appliquer les lignes absentes ou plus récentes
+      const applied = await this.applyRemoteRows((data ?? []) as SyncRow[]);
 
       this.lastSyncAt = new Date().toISOString();
       this.autoPullDone = true;
@@ -424,6 +428,13 @@ class SyncService {
         "ok",
         `Synchronisé : ${rows.length} lignes envoyées, ${applied} récupérées.`
       );
+
+      // 4. Statistiques globales = f(sessions) : si la fusion a apporté des
+      //    données, on les recalcule pour que le dashboard soit à jour.
+      if (applied > 0 || trigger === "manual") {
+        const { statisticsService } = await import("./StatisticsService");
+        await statisticsService.reset();
+      }
       return;
     } catch (e) {
       const msg = e instanceof Error ? e.message : "Erreur de synchronisation";

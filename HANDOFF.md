@@ -1,6 +1,31 @@
 # HANDOFF.md : Review IABD
 
-Dernière mise à jour : 2026-10-06 (onboarding 3 écrans avec question IA + révélation, tour Paramètres, base Supabase branchée au build via .env ; idée deferred : personnalisation « Bonjour, prénom » depuis Google)
+Dernière mise à jour : 2026-10-06 (sync testée PC ↔ téléphone par l'utilisateur : 3 défauts corrigés : stats globales recalculées après fusion, réglages/stats-jour fusionnés via horodatages RÉELS, auto-synchro à la première connexion)
+
+## Sync : correctifs du premier test réel (2026-10-06, FAIT, à re-tester)
+
+Retours du test PC ↔ téléphone de l'utilisateur (synchro des sessions/quiz/examens
+OK dès le départ) et 3 défauts corrigés dans SyncService.ts :
+1. STATISTIQUES GLOBALES à zéro sur le PC : le store statistics n'était pas sync
+   (choix assumé) mais aussi jamais recalculé après la fusion. Fix : après une
+   synchro (fusion non vide ou synchro manuelle) → statisticsService.reset()
+   (recalcul depuis l'union des sessions). Le dashboard reflète alors le total
+   des deux appareils.
+2. RÉGLAGES (date d'examen...) et stats journalières ne passaient pas : la
+   fusion LWW comparait l'INSTANT D'ENVOI (le dernier appareil à avoir poussé
+   gagnait toujours, en écrasant le cloud avec ses valeurs). Fix : fusion sur
+   les horodatages RÉELS des enregistrements (settings.updatedAt,
+   mistakes.lastSeenAt) via realTimestamp() ; ombre localStorage supprimée.
+   dailyStats : la fusion max portait sur un champ INEXISTANT
+   (questionsAnswered au lieu de answered) → désormais max par champ
+   (answered, correct, timeSpent).
+3. PREMIÈRE CONNEXION sans synchro auto : la session Supabase se restaure
+   APRÈS l'init de l'app, autoPullOnLaunch partait trop tôt. Fix : la synchro
+   est déclenchée dans getSession()/onAuthStateChange quand un userId
+   apparaît (retour de Google, rechargement déjà connecté).
+- sw.js v3.6.6. À re-tester par l'utilisateur : téléphone (recharger, synchro
+  manuelle une fois) puis PC : stats globales identiques, date d'examen présente,
+  et synchro auto à la connexion.
 
 ## Onboarding 3 écrans + tour Paramètres (2026-10-06, FAIT ET VÉRIFIÉ AU CLIC)
 
