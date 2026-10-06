@@ -199,6 +199,26 @@ export default function SettingsPage() {
         />
 
         <div className="space-y-6">
+          {/* Synchronisation multi-appareils (optionnelle) */}
+          <SyncSettings />
+
+          {/* Préparation hors ligne */}
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-3 mb-2">
+                <WifiOff className="w-5 h-5 text-domain-bigdata" />
+                <CardTitle>Préparation hors ligne</CardTitle>
+              </div>
+              <p className="text-sm text-ink-muted mb-4">
+                La banque de questions (1 400 questions) est déjà embarquée. Les outils de
+                correction de code sont lourds : télécharge-les une seule fois ici pour
+                pouvoir faire les exercices de code sans connexion.
+              </p>
+
+              <OfflinePrep />
+            </CardContent>
+          </Card>
+
           {/* Provider Selection & API Keys */}
           <Card>
             <CardContent className="pt-6">
@@ -547,30 +567,10 @@ export default function SettingsPage() {
             </CardContent>
           </Card>
 
-          {/* Préparation hors ligne */}
-          <Card>
-            <CardContent className="pt-6">
-              <div className="flex items-center gap-3 mb-2">
-                <WifiOff className="w-5 h-5 text-domain-bigdata" />
-                <CardTitle>Préparation hors ligne</CardTitle>
-              </div>
-              <p className="text-sm text-ink-muted mb-4">
-                La banque de questions (1 400 questions) est déjà embarquée. Les outils de
-                correction de code sont lourds : télécharge-les une seule fois ici pour
-                pouvoir faire les exercices de code sans connexion.
-              </p>
-
-              <OfflinePrep />
-            </CardContent>
-          </Card>
-
-          {/* Synchronisation multi-appareils (optionnelle) */}
-          <SyncSettings />
-
           {/* Data Management */}
           <Card>
             <CardContent className="pt-6">
-              <CardTitle className="mb-4">Gestion des Données</CardTitle>
+              <CardTitle className="mb-4">Données locales</CardTitle>
               <div className="space-y-3">
                 <div className="flex gap-3">
                   <Button

@@ -10,18 +10,38 @@ import { syncService, SyncStatus } from "@/services/SyncService";
 // SYNC SETTINGS
 // Synchronisation OPTIONNELLE multi-appareils.
 // La base Supabase est celle de l'app (incrustée
-// au build) : l'utilisateur ne configure RIEN,
-// il crée simplement un compte (e-mail ou Google).
-// Sans compte, l'app reste 100 % locale.
+// au build). Activation en UN geste : connexion
+// Google. Sans compte, l'app reste 100 % locale.
 // La carte ne s'affiche que si la base est
 // branchée (variables d'environnement présentes).
 // ============================================
 
+function GoogleIcon() {
+  return (
+    <svg className="w-4 h-4 mr-2 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        fill="#4285F4"
+        d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47c-.29 1.48-1.14 2.73-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z"
+      />
+      <path
+        fill="#34A853"
+        d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09C3.26 21.3 7.31 24 12 24z"
+      />
+      <path
+        fill="#FBBC05"
+        d="M5.27 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.62H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.38l3.98-3.09z"
+      />
+      <path
+        fill="#EA4335"
+        d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.98 3.09C6.22 6.86 8.87 4.75 12 4.75z"
+      />
+    </svg>
+  );
+}
+
 export function SyncSettings() {
   const [state, setState] = useState(syncService.getState());
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [busy, setBusy] = useState<null | "signup" | "signin" | "google" | "sync" | "signout">(null);
+  const [busy, setBusy] = useState<null | "google" | "sync" | "signout">(null);
   const [localError, setLocalError] = useState("");
 
   useEffect(() => {
@@ -68,52 +88,22 @@ export function SyncSettings() {
           </div>
         </div>
 
-        {/* Non connecté : créer un compte ou se connecter */}
+        {/* Non connecté : un seul geste, la connexion Google */}
         {!state.signedIn && (
-          <div className="space-y-3">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="ton@email.com"
-              className="w-full px-4 py-3 bg-paper-secondary border border-paper-dark rounded font-mono text-sm text-ink-primary placeholder:text-ink-muted focus:outline-none focus:border-accent"
-            />
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Mot de passe (8 caractères minimum)"
-              className="w-full px-4 py-3 bg-paper-secondary border border-paper-dark rounded font-mono text-sm text-ink-primary placeholder:text-ink-muted focus:outline-none focus:border-accent"
-            />
-            <div className="flex flex-wrap gap-2 items-center">
-              <Button
-                variant="primary"
-                size="sm"
-                disabled={!email.trim() || password.length < 8}
-                loading={busy === "signin"}
-                onClick={() => run("signin", () => syncService.signIn(email.trim(), password))}
-              >
-                Se connecter
-              </Button>
-              <Button
-                variant="secondary"
-                size="sm"
-                disabled={!email.trim() || password.length < 8}
-                loading={busy === "signup"}
-                onClick={() => run("signup", () => syncService.signUp(email.trim(), password))}
-              >
-                Créer un compte
-              </Button>
-              <span className="font-mono text-[10px] uppercase text-ink-muted">ou</span>
-              <Button
-                variant="secondary"
-                size="sm"
-                loading={busy === "google"}
-                onClick={() => run("google", () => syncService.signInWithGoogle())}
-              >
-                Continuer avec Google
-              </Button>
-            </div>
+          <div className="space-y-2">
+            <Button
+              variant="primary"
+              size="sm"
+              loading={busy === "google"}
+              onClick={() => run("google", () => syncService.signInWithGoogle())}
+            >
+              <GoogleIcon />
+              Continuer avec Google
+            </Button>
+            <p className="text-xs text-ink-muted">
+              Connecte-toi une seule fois sur chaque appareil : tes sessions, tes
+              questions importées et tes réglages se retrouvent partout.
+            </p>
           </div>
         )}
 
@@ -166,10 +156,11 @@ export function SyncSettings() {
               </Button>
             </div>
             <p className="text-xs text-ink-muted">
-              Au lancement de l&apos;app, la progression du cloud est récupérée
-              automatiquement. Après chaque synchronisation, les données des deux
-              appareils sont fusionnées : les sessions s&apos;additionnent, les
-              réglages suivent la version la plus récente.
+              La synchronisation part aussi automatiquement : au lancement de
+              l&apos;app, après chaque quiz ou examen terminé, après un import de
+              questions et au retour de la connexion. Les données des deux appareils
+              se fusionnent : les sessions s&apos;additionnent, les réglages suivent
+              la version la plus récente.
             </p>
           </div>
         )}
