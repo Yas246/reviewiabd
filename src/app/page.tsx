@@ -35,6 +35,7 @@ import { dailyStatsService } from "@/services/DailyStatsService";
 import { questionBank } from "@/services/QuestionBankService";
 import { QuizSession, Domain } from "@/types";
 import { ProductTour, HOME_TOUR_STEPS } from "@/components/ProductTour";
+import { syncService } from "@/services/SyncService";
 
 // ============================================
 // HOME PAGE : tableau de bord
@@ -114,6 +115,8 @@ export default function HomePage() {
   const [mounted, setMounted] = useState(false);
   const [checking, setChecking] = useState(true);
   const [statsLoading, setStatsLoading] = useState(true);
+  // Salutation personnalisée si connecté via Google (sinon titre standard)
+  const [greeting, setGreeting] = useState<string | null>(null);
   const [stats, setStats] = useState({
     totalQuestions: 0,
     totalCorrect: 0,
@@ -132,6 +135,23 @@ export default function HomePage() {
   const [bankTotal, setBankTotal] = useState(0);
   const [examCountdown, setExamCountdown] = useState<number | null>(null);
   const [examLabel, setExamLabel] = useState<string>("");
+
+  useEffect(() => {
+    // Salutation selon l'heure, avec le prénom du profil Google si connecté
+    const compute = () => {
+      const st = syncService.getState();
+      if (!st.signedIn || !st.displayName) {
+        setGreeting(null);
+        return;
+      }
+      const h = new Date().getHours();
+      const salut = h < 12 ? "Bonjour" : h < 18 ? "Bon après-midi" : "Bonsoir";
+      setGreeting(`${salut} ${st.displayName}`);
+    };
+    compute();
+    const unsub = syncService.subscribe(compute);
+    return unsub;
+  }, []);
 
   useEffect(() => {
     const init = async () => {
@@ -247,8 +267,12 @@ export default function HomePage() {
 
       <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <Header
-          title="Tableau de Bord"
-          subtitle="Bienvenue sur Review IABD : tout fonctionne hors ligne, la banque locale est embarquée"
+          title={greeting ? `${greeting}` : "Tableau de Bord"}
+          subtitle={
+            greeting
+              ? "Voici où tu en es aujourd'hui : tout fonctionne hors ligne."
+              : "Bienvenue sur Review IABD : tout fonctionne hors ligne, la banque locale est embarquée"
+          }
         />
 
         {/* Aujourd'hui : streak + objectif + révision due + compte à rebours */}

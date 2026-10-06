@@ -198,10 +198,13 @@ OK dès le départ) et 3 défauts corrigés dans SyncService.ts :
   Le SW pré-cachant HTML+chunks à l'install, sans bump de version il ressert l'ANCIEN
   contenu sous le même nom : modifications invisibles (une feuille 24 Ko sans utilitaires
   a ainsi remplacé le vrai CSS 64 Ko : tous les styles utilitaires disparaissaient).
-- Règle : après chaque modification + npm run build, incrémenter les 4 noms de caches de
-  public/sw.js (v3.4.3 → ... → v3.4.6 aujourd'hui), puis reload x2 côté navigateur.
-  Les purges effacent aussi les runtimes préchargés : re-précharger une fois (le panneau
-  Paramètres l'indique).
+- Règle (2026-10-06, affinée) : après chaque modification + npm run build, incrémenter
+  les 3 caches d'APP de public/sw.js (CACHE_NAME, STATIC_CACHE, RUNTIME_CACHE,
+  aujourd'hui v3.6.6), puis reload x2 côté navigateur. Les purges n'effacent PLUS les
+  runtimes : RUNTIMES_CACHE a un nom STABLE (review-iabd-runtimes, sans version) et
+  l'activate MIGR automatiquement les anciens caches runtimes vers le nom stable.
+  Ne bumper RUNTIMES_CACHE QUE si les fichiers des runtimes eux-mêmes changent.
+  (Fini les re-téléchargements de 70 Mo à chaque mise à jour, demande utilisateur.)
 
 ## Fix IDM : « Précharger » passe par le SERVICE WORKER (2026-10-05, FAIT ET VÉRIFIÉ)
 

@@ -127,6 +127,7 @@ class SyncService {
   private client: SupabaseClient | null = null;
   private userId: string | null = null;
   private sessionEmail: string | null = null;
+  private displayName: string | null = null;
   private status: SyncStatus = "idle";
   private message = "";
   private lastSyncAt: string | null = null;
@@ -134,6 +135,30 @@ class SyncService {
   private initDone = false;
   private autoPullDone = false;
   private syncing = false;
+
+  // Prénom affichable sur le dashboard (profil Google)
+  private extractName(user: any): string | null {
+    if (!user) return null;
+    const md = user.user_metadata ?? {};
+    const raw =
+      md.given_name ||
+      (md.full_name ? String(md.full_name).split(" ")[0] : null) ||
+      md.name ||
+      md.preferred_username ||
+      (user.email ? String(user.email).split("@")[0] : null);
+    return raw ? String(raw) : null;
+  }
+
+  private adoptSession(user: any): void {
+    const nextId = user?.id ?? null;
+    if (nextId !== this.userId) {
+      this.autoPullDone = false;
+      this.userId = nextId;
+      this.displayName = this.extractName(user);
+      this.sessionEmail = user?.email ?? null;
+    }
+    this.notify();
+  }
 
   // ----- Configuration du projet : incrustée au build (env Vercel / .env.local)
   // Une SEULE base Supabase (celle de l'app) sert tous les utilisateurs ;
@@ -157,28 +182,16 @@ class SyncService {
         this.client.auth
           .getSession()
           .then(({ data }) => {
-            const nextId = data.session?.user?.id ?? null;
-            if (nextId !== this.userId) {
-              this.userId = nextId;
-              this.sessionEmail = data.session?.user?.email ?? null;
-              this.autoPullDone = false;
-            }
-            this.notify();
+            this.adoptSession(data.session?.user ?? null);
             // Restauration au retour d'OAuth / au lancement : la session
             // arrive APRÈS l'init de l'app, on lance donc la synchro ici.
             if (this.userId) this.autoPullOnLaunch();
           })
           .catch(() => {});
         this.client.auth.onAuthStateChange((_event, session) => {
-          const nextId = session?.user?.id ?? null;
-          if (nextId !== this.userId) {
-            this.autoPullDone = false;
-            this.userId = nextId;
-            this.sessionEmail = session?.user?.email ?? null;
-            this.notify();
-            // Première connexion / retour de Google : synchro immédiate
-            if (this.userId) this.autoPullOnLaunch();
-          }
+          this.adoptSession(session?.user ?? null);
+          // Première connexion / retour de Google : synchro immédiate
+          if (this.userId) this.autoPullOnLaunch();
         });
       }
     }
@@ -191,6 +204,7 @@ class SyncService {
     configured: boolean;
     signedIn: boolean;
     email: string | null;
+    displayName: string | null;
     status: SyncStatus;
     message: string;
     lastSyncAt: string | null;
@@ -200,6 +214,7 @@ class SyncService {
       configured: !!this.getConfig(),
       signedIn: !!this.userId,
       email: this.sessionEmail,
+      displayName: this.displayName,
       status: this.status,
       message: this.message,
       lastSyncAt: this.lastSyncAt,

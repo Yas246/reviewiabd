@@ -3,10 +3,12 @@
 // Caches static assets for offline use
 // ============================================
 
-const CACHE_NAME = "review-iabd-v3.6.6";
-const STATIC_CACHE = "review-iabd-static-v3.6.6";
-const RUNTIME_CACHE = "review-iabd-runtime-v3.6.6";
-const RUNTIMES_CACHE = "review-iabd-runtimes-v3.6.6";
+const CACHE_NAME = "review-iabd-v3.6.7";
+const STATIC_CACHE = "review-iabd-static-v3.6.7";
+const RUNTIME_CACHE = "review-iabd-runtime-v3.6.7";
+// Nom STABLE : les runtimes (Pyodide, webR, SQLite, ~70 Mo) survivent aux
+// mises à jour de l'app. Ne bumper QUE si les fichiers des runtimes changent.
+const RUNTIMES_CACHE = "review-iabd-runtimes";
 
 // Assets to cache on install (core HTML pages)
 const urlsToCache = [
@@ -62,9 +64,35 @@ self.addEventListener("install", (event) => {
 self.addEventListener("activate", (event) => {
   console.log("[SW] Activating service worker...");
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
+    (async () => {
+      const keys = await caches.keys();
+
+      // Migration : récupérer les runtimes déjà téléchargés depuis les
+      // anciens caches versionnés, pour ne jamais les re-télécharger.
+      const oldRuntimeNames = keys.filter(
+        (k) => k.startsWith("review-iabd-runtimes") && k !== RUNTIMES_CACHE
+      );
+      for (const oldName of oldRuntimeNames) {
+        try {
+          const oldCache = await caches.open(oldName);
+          const newCache = await caches.open(RUNTIMES_CACHE);
+          const reqs = await oldCache.keys();
+          for (const req of reqs) {
+            if (!(await newCache.match(req))) {
+              const res = await oldCache.match(req);
+              if (res) await newCache.put(req, res);
+            }
+          }
+          console.log(
+            "[SW] Migrated " + reqs.length + " runtime files from " + oldName
+          );
+        } catch (e) {
+          console.warn("[SW] Runtime cache migration warning:", e);
+        }
+      }
+
+      await Promise.all(
+        keys.map((cacheName) => {
           if (
             cacheName !== CACHE_NAME &&
             cacheName !== STATIC_CACHE &&
@@ -76,7 +104,7 @@ self.addEventListener("activate", (event) => {
           }
         }),
       );
-    }),
+    })(),
   );
   self.clients.claim();
 });
