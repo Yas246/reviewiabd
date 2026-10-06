@@ -131,6 +131,7 @@ class SyncService {
   private status: SyncStatus = "idle";
   private message = "";
   private lastSyncAt: string | null = null;
+  private lastCounts: { pushed: number; applied: number; cloud: Record<string, number> } | null = null;
   private listeners = new Set<() => void>();
   private initDone = false;
   private autoPullDone = false;
@@ -208,6 +209,7 @@ class SyncService {
     status: SyncStatus;
     message: string;
     lastSyncAt: string | null;
+    lastCounts: { pushed: number; applied: number; cloud: Record<string, number> } | null;
   } {
     this.getClient(); // déclenche la restauration de session au premier appel
     return {
@@ -218,6 +220,7 @@ class SyncService {
       status: this.status,
       message: this.message,
       lastSyncAt: this.lastSyncAt,
+      lastCounts: this.lastCounts,
     };
   }
 
@@ -439,16 +442,35 @@ class SyncService {
 
       this.lastSyncAt = new Date().toISOString();
       this.autoPullDone = true;
-      this.setStatus(
-        "ok",
-        `Synchronisé : ${rows.length} lignes envoyées, ${applied} récupérées.`
-      );
 
       // 4. Statistiques globales = f(sessions) : si la fusion a apporté des
       //    données, on les recalcule pour que le dashboard soit à jour.
       if (applied > 0 || trigger === "manual") {
         const { statisticsService } = await import("./StatisticsService");
         await statisticsService.reset();
+      }
+
+      // 5. Compteurs visibles dans la carte Synchronisation
+      const cloud: Record<string, number> = {};
+      for (const r of (data ?? []) as SyncRow[]) {
+        cloud[r.store] = (cloud[r.store] || 0) + 1;
+      }
+      this.lastCounts = {
+        pushed: rows.length,
+        applied,
+        cloud,
+      };
+
+      this.setStatus(
+        "ok",
+        `Synchronisé : ${rows.length} lignes envoyées, ${applied} récupérées.`
+      );
+
+      // 6. Si la fusion a modifié les données locales pendant que les écrans
+      //    étaient déjà affichés, on recharge pour tout rendre visible.
+      //    Boucle impossible : la synchro suivante n'applique plus rien.
+      if (applied > 0 && trigger === "auto") {
+        window.location.reload();
       }
       return;
     } catch (e) {

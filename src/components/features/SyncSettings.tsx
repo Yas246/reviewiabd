@@ -130,6 +130,26 @@ export function SyncSettings() {
                 {state.message}
               </p>
             )}
+            {state.lastCounts && (
+              <p className="font-mono text-[10px] text-ink-muted leading-relaxed">
+                Cloud :{" "}
+                {Object.entries(state.lastCounts.cloud)
+                  .map(([store, n]) => {
+                    const labels: Record<string, string> = {
+                      sessions: "sessions",
+                      exams: "examens",
+                      practiceQuizzes: "quiz",
+                      questions: "questions importées",
+                      favorites: "favoris",
+                      mistakes: "erreurs",
+                      dailyStats: "jours",
+                      settings: "réglages",
+                    };
+                    return `${labels[store] ?? store} ${n}`;
+                  })
+                  .join(" · ")}
+              </p>
+            )}
             <div className="flex flex-wrap gap-2 items-center">
               <Button
                 variant="primary"
