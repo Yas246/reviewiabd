@@ -1,8 +1,30 @@
 # HANDOFF.md : Review IABD
 
-Dernière mise à jour : 2026-10-06 (synchronisation multi-appareils optionnelle : Supabase Auth + réplique ligne à ligne, prête ; configuration du projet par l'utilisateur restante)
+Dernière mise à jour : 2026-10-06 (synchronisation : UNE base Supabase pour tous les utilisateurs, branchée au build via variables d'environnement, plus aucune config dans l'interface)
 
-## Synchronisation multi-appareils (2026-10-06, CODE FAIT ET VÉRIFIÉ SANS COMPTE)
+## Synchronisation multi-appareils (2026-10-06, ARCHITECTURE CORRIGÉE : env au build)
+
+- Correction demandée par l'utilisateur : PAS de configuration dans l'interface. UNE
+  base Supabase (celle du propriétaire de l'app) sert TOUS les utilisateurs ; eux ne
+  font que créer un compte (e-mail ou Google). URL + clé anon incrustées au build via
+  NEXT_PUBLIC_SUPABASE_URL et NEXT_PUBLIC_SUPABASE_ANON_KEY (.env.local en dev,
+  variables Vercel en prod, .env.example documenté). Si absentes, la carte
+  Synchronisation ne s'affiche pas du tout.
+- SyncService.ts : client Supabase depuis les env ; auth e-mail/mot de passe +
+  Google OAuth ; réplique ligne à ligne (voir détails ci-dessous conservés) ;
+  ombre d'horodatages (sync_shadow) ; auto-sync lancement / fin de quiz / import /
+  retour réseau ; bouton manuel.
+- Réplique : sync_rows (user_id, store, id, data, updated_at). Union : sessions,
+  exams, practiceQuizzes, questions importées, favorites. LWW : mistakes, settings.
+  MAX(questionsAnswered) par date : dailyStats. Non synchronisés : banque préchargée,
+  statistics (recalculées), cron.
+- Commits : 9f15d5e (feature) puis 0274952 (env au build). sw.js v3.6.1.
+- RESTE (côté utilisateur/propriétaire) : créer le projet Supabase → exécuter
+  docs/supabase-sync.sql → mettre URL + clé anon dans .env.local ET dans les
+  variables Vercel → redéployer → tester PC ↔ téléphone (Google : activer le
+  provider + redirect URLs, cf. commentaire du script SQL).
+
+## Synchronisation multi-appareils : conception (2026-10-06)
 
 - Demande : retrouver sa progression entre PC et téléphone. Choix retenu (discussion) :
   Supabase (Auth + table) du projet DE l'utilisateur, auth OPTIONNELLE, app 100 % locale
