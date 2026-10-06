@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Cloud, CloudOff, Loader2, LogOut, RefreshCw, CheckCircle2, AlertCircle, Settings2 } from "lucide-react";
+import { Cloud, Loader2, LogOut, RefreshCw, CheckCircle2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/Card";
 import { syncService, SyncStatus } from "@/services/SyncService";
@@ -9,20 +9,19 @@ import { syncService, SyncStatus } from "@/services/SyncService";
 // ============================================
 // SYNC SETTINGS
 // Synchronisation OPTIONNELLE multi-appareils.
-// L'utilisateur colle l'URL + la clé anon de son
-// projet Supabase, crée un compte (e-mail ou
-// Google), et sa progression est répliquée ligne
-// à ligne. Sans compte, l'app reste 100 % locale.
+// La base Supabase est celle de l'app (incrustée
+// au build) : l'utilisateur ne configure RIEN,
+// il crée simplement un compte (e-mail ou Google).
+// Sans compte, l'app reste 100 % locale.
+// La carte ne s'affiche que si la base est
+// branchée (variables d'environnement présentes).
 // ============================================
 
 export function SyncSettings() {
   const [state, setState] = useState(syncService.getState());
-  const [showConfig, setShowConfig] = useState(false);
-  const [url, setUrl] = useState("");
-  const [anonKey, setAnonKey] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [busy, setBusy] = useState<null | "config" | "signup" | "signin" | "google" | "sync" | "signout">(null);
+  const [busy, setBusy] = useState<null | "signup" | "signin" | "google" | "sync" | "signout">(null);
   const [localError, setLocalError] = useState("");
 
   useEffect(() => {
@@ -30,6 +29,9 @@ export function SyncSettings() {
     setState(syncService.getState());
     return unsub;
   }, []);
+
+  // Base non branchée au build : la carte n'a aucun sens pour l'utilisateur
+  if (!state.configured) return null;
 
   const run = async (kind: typeof busy, fn: () => Promise<void>) => {
     setBusy(kind);
@@ -53,96 +55,21 @@ export function SyncSettings() {
   return (
     <Card className="mb-8">
       <CardContent>
-        <div className="flex items-start justify-between gap-3 mb-4 flex-wrap">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
-              {state.configured ? (
-                <Cloud className="w-6 h-6 text-accent" />
-              ) : (
-                <CloudOff className="w-6 h-6 text-ink-muted" />
-              )}
-            </div>
-            <div>
-              <h3 className="font-mono font-semibold">Synchronisation multi-appareils</h3>
-              <p className="text-sm text-ink-muted">
-                Optionnel : retrouve ta progression sur ton téléphone et ton ordinateur.
-                Sans compte, l&apos;app reste 100 % locale.
-              </p>
-            </div>
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+            <Cloud className="w-6 h-6 text-accent" />
           </div>
-          {state.configured && (
-            <button
-              onClick={() => setShowConfig((v) => !v)}
-              className="text-ink-muted hover:text-accent transition-colors"
-              aria-label="Modifier la configuration du projet"
-            >
-              <Settings2 className="w-4 h-4" />
-            </button>
-          )}
+          <div>
+            <h3 className="font-mono font-semibold">Synchronisation multi-appareils</h3>
+            <p className="text-sm text-ink-muted">
+              Optionnel : retrouve ta progression sur ton téléphone et ton ordinateur.
+              Sans compte, l&apos;app reste 100 % locale.
+            </p>
+          </div>
         </div>
 
-        {/* Configuration du projet Supabase */}
-        {(!state.configured || showConfig) && (
-          <div className="space-y-3 mb-5 p-4 border border-paper-dark rounded-lg">
-            <p className="text-xs text-ink-muted">
-              Crée un projet gratuit sur <span className="font-mono">supabase.com</span>, exécute
-              le script SQL de la documentation (table <span className="font-mono">sync_rows</span>),
-              puis colle ici l&apos;URL du projet et la clé anon (Settings → API).
-            </p>
-            <input
-              type="text"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              placeholder="https://xxxx.supabase.co"
-              className="w-full px-4 py-3 bg-paper-secondary border border-paper-dark rounded font-mono text-sm text-ink-primary placeholder:text-ink-muted focus:outline-none focus:border-accent"
-            />
-            <input
-              type="password"
-              value={anonKey}
-              onChange={(e) => setAnonKey(e.target.value)}
-              placeholder="Clé anon (ey...)"
-              className="w-full px-4 py-3 bg-paper-secondary border border-paper-dark rounded font-mono text-sm text-ink-primary placeholder:text-ink-muted focus:outline-none focus:border-accent"
-            />
-            <div className="flex gap-2">
-              <Button
-                variant="primary"
-                size="sm"
-                disabled={!url.trim() || !anonKey.trim()}
-                loading={busy === "config"}
-                onClick={() =>
-                  run("config", async () => {
-                    syncService.saveConfig(url, anonKey);
-                    setShowConfig(false);
-                  })
-                }
-              >
-                Enregistrer
-              </Button>
-              {state.configured && (
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => {
-                    syncService.clearConfig();
-                    setShowConfig(false);
-                  }}
-                >
-                  Retirer la configuration
-                </Button>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Non configuré : rien de plus à afficher */}
-        {!state.configured && (
-          <p className="text-xs text-ink-muted">
-            Pas envie de te connecter ? Continue simplement : tout fonctionne hors ligne.
-          </p>
-        )}
-
-        {/* Compte */}
-        {state.configured && !state.signedIn && (
+        {/* Non connecté : créer un compte ou se connecter */}
+        {!state.signedIn && (
           <div className="space-y-3">
             <input
               type="email"
@@ -191,7 +118,7 @@ export function SyncSettings() {
         )}
 
         {/* Connecté : état + actions */}
-        {state.configured && state.signedIn && (
+        {state.signedIn && (
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-sm text-ink-secondary">
               {statusIcon(state.status)}

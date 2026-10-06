@@ -3,6 +3,16 @@
 -- À exécuter UNE FOIS dans Supabase → SQL Editor (New query).
 -- Crée la table de réplique ligne à ligne + les règles RLS :
 -- chaque utilisateur ne voit QUE ses propres lignes.
+--
+-- Ensuite, branche la base à l'app (UNE base pour TOUS les
+-- utilisateurs : ils ne configurent rien, ils créent juste
+-- un compte) :
+--   1. Supabase → Settings → API : copie l'URL du projet et
+--      la clé anon.
+--   2. En local : copie .env.example en .env.local et colle
+--      les deux valeurs.
+--   3. Sur Vercel : Project → Settings → Environment Variables,
+--      mêmes noms, puis redéploie.
 -- ============================================================
 
 create table if not exists public.sync_rows (

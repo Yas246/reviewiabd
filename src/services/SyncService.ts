@@ -19,8 +19,8 @@ import { indexedDBService } from "./IndexedDBService";
 //   calculées localement à partir des sessions.
 // ============================================
 
-const CFG_URL = "sync_cfg_url";
-const CFG_KEY = "sync_cfg_key";
+const CFG_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const CFG_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 interface StoreSpec {
   // lecture locale (retourne un tableau ou l'objet settings)
@@ -139,36 +139,14 @@ class SyncService {
   private autoPullDone = false;
   private syncing = false;
 
-  // ----- Configuration du projet (URL + clé anon) -----
+  // ----- Configuration du projet : incrustée au build (env Vercel / .env.local)
+  // Une SEULE base Supabase (celle de l'app) sert tous les utilisateurs ;
+  // les règles RLS de sync_rows isole les lignes de chaque compte.
 
   getConfig(): { url: string; key: string } | null {
     if (typeof window === "undefined") return null;
-    const url = localStorage.getItem(CFG_URL);
-    const key = localStorage.getItem(CFG_KEY);
-    return url && key ? { url, key } : null;
-  }
-
-  saveConfig(url: string, key: string): void {
-    localStorage.setItem(CFG_URL, url.trim().replace(/\/+$/, ""));
-    localStorage.setItem(CFG_KEY, key.trim());
-    // On repart d'un client propre
-    this.client = null;
-    this.userId = null;
-    this.sessionEmail = null;
-    this.initDone = false;
-    this.notify();
-  }
-
-  clearConfig(): void {
-    localStorage.removeItem(CFG_URL);
-    localStorage.removeItem(CFG_KEY);
-    this.client = null;
-    this.userId = null;
-    this.sessionEmail = null;
-    this.initDone = false;
-    this.status = "idle";
-    this.message = "";
-    this.notify();
+    if (!CFG_URL || !CFG_KEY) return null;
+    return { url: CFG_URL, key: CFG_KEY };
   }
 
   private getClient(): SupabaseClient | null {
