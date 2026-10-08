@@ -446,7 +446,21 @@ class SyncService {
     this.syncing = true;
     this.setStatus("working", "Synchronisation...");
     try {
-      // 1. Pousser les lignes locales (par lots de 200)
+      // 1. TIRER : lire le cloud AVANT tout envoi. Pousser d'abord écraserait
+      //    les lignes cloud plus récentes (ex. les réglages modifiés sur le
+      //    téléphone) avec les valeurs locales plus anciennes.
+      const { data, error } = await client
+        .from("sync_rows")
+        .select("user_id,store,id,data,updated_at")
+        .eq("user_id", this.userId);
+      if (error) throw new Error("Récupération : " + error.message);
+      const remote = (data ?? []) as SyncRow[];
+
+      // 2. FUSIONNER : appliquer localement les lignes absentes (union) ou
+      //    plus récentes (lww sur horodatage réel / max par compteur)
+      const applied = await this.applyRemoteRows(remote);
+
+      // 3. POUSHER : l'état local fusionné devient la vérité dans le cloud
       const rows = await this.collectLocalRows(this.userId);
       for (let i = 0; i < rows.length; i += 200) {
         const batch = rows.slice(i, i + 200);
@@ -455,16 +469,6 @@ class SyncService {
           .upsert(batch, { onConflict: "user_id,store,id" });
         if (error) throw new Error("Envoi : " + error.message);
       }
-
-      // 2. Ramener les lignes distantes
-      const { data, error } = await client
-        .from("sync_rows")
-        .select("user_id,store,id,data,updated_at")
-        .eq("user_id", this.userId);
-      if (error) throw new Error("Récupération : " + error.message);
-
-      // 3. Appliquer les lignes absentes ou plus récentes
-      const applied = await this.applyRemoteRows((data ?? []) as SyncRow[]);
 
       this.lastSyncAt = new Date().toISOString();
       this.autoPullDone = true;
@@ -478,7 +482,7 @@ class SyncService {
 
       // 5. Compteurs visibles dans la carte Synchronisation
       const cloud: Record<string, number> = {};
-      for (const r of (data ?? []) as SyncRow[]) {
+      for (const r of remote) {
         cloud[r.store] = (cloud[r.store] || 0) + 1;
       }
       this.lastCounts = {
