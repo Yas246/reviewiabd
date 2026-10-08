@@ -1,6 +1,22 @@
 # HANDOFF.md : Review IABD
 
-Dernière mise à jour : 2026-10-06 (nouvelle page « Lire les questions » /banque : lecture par domaine en corrigé complet, défilement continu, reprise de position par domaine ; poussé)
+Dernière mise à jour : 2026-10-06 (page Lecture : positions indépendantes par domaine confirmées, questions importées SÉPARÉES de la banque officielle avec badge, positions de lecture synchronisées entre appareils ; poussé 04bcded)
+
+## Lecture /banque : compléments demandés (2026-10-06, FAIT ET VÉRIFIÉ)
+
+- Positions PAR DOMAINE indépendantes : chaque domaine garde son propre marqueur
+  (lecture_pos_<domain>), vérifié (ML → q12, autres → NOUVEAU).
+- Questions importées SÉPARÉES (demande explicite) : dans un domaine, après les 100
+  questions de la banque officielle, une bannière « Vos questions importées » ouvre la
+  section des questions importées/IA du même domaine (badge « importée »/« IA » par
+  question, compteur « N importée(s) » sur la carte du domaine). Injecté 2 fausses
+  questions en test : séparation visible, puis nettoyées.
+- Positions de lecture SYNCHRONISÉES entre appareils : store virtuel « lecture » dans
+  SyncService (lignes localStorage lecture_pos_* ; fusion max : la position la plus
+  avancée gagne). Les positions partent avec les synchros automatiques (lancement,
+  fin de quiz, import, retour réseau). Compteur « positions de lecture » ajouté aux
+  compteurs cloud de la carte Synchronisation.
+- QuestionBankService.getAll() public. sw.js v3.7.2. Poussé : 04bcded.
 
 ## Page « Lire les questions » /banque (2026-10-06, FAIT ET VÉRIFIÉ AU CLIC)
 
