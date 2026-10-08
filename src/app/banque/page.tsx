@@ -66,27 +66,53 @@ export default function BanquePage() {
     load();
   }, []);
 
-  const openDomain = useCallback(async (domain: Domain) => {
+  const openDomain = useCallback(async (domain: Domain, opts?: { fromHistory?: boolean }) => {
     const bank = await questionBank.getAll();
     const list = bank
       .filter((q) => q.domain === domain)
       .sort((a, b) => a.id.localeCompare(b.id, "fr", { numeric: true }));
     setQuestions(list);
     setSelected(domain);
-    // Le domaine ouvert survit au rechargement (partagable en plus)
-    window.history.replaceState(null, "", `/banque?d=${domain}`);
+    if (!opts?.fromHistory) {
+      // Navigation enregistrée dans l'historique : Retour = liste des domaines
+      window.history.pushState({ banque: domain }, "", `/banque?d=${domain}`);
+    }
     const saved = Number(localStorage.getItem(posKey(domain)) || "0");
     setSavedPos(saved > 0 && saved < list.length ? saved : null);
     setCurrent(saved > 0 && saved < list.length ? saved : 0);
   }, []);
 
   // Après le chargement : réouvrir le domaine présent dans l'URL (?d=...)
+  // en s'assurant que Back ramène à la liste (entrée liste + entrée domaine)
   useEffect(() => {
     if (loading || selected || domains.length === 0) return;
-    const d = new URLSearchParams(window.location.search).get("d") as Domain | null;
-    if (d && domains.includes(d)) openDomain(d);
+    const d = (new URLSearchParams(window.location.search).get("d") ||
+      window.history.state?.banque) as Domain | null;
+    if (d && domains.includes(d)) {
+      window.history.replaceState({ banque: null }, "", "/banque");
+      window.history.pushState({ banque: d }, "", `/banque?d=${d}`);
+      openDomain(d, { fromHistory: true });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, domains]);
+
+  // Retour du navigateur : liste des domaines, ou re-ouverture de la fiche
+  useEffect(() => {
+    const onPopState = (e: PopStateEvent) => {
+      const domain = e.state?.banque as Domain | null;
+      if (domain && domains.includes(domain)) {
+        openDomain(domain, { fromHistory: true });
+      } else {
+        setSelected(null);
+        setQuestions([]);
+        setSavedPos(null);
+        window.history.replaceState({ banque: null }, "", "/banque");
+      }
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [domains]);
 
   // Reprise de position : après le rendu de la liste, scroll vers la question
   useEffect(() => {
@@ -139,11 +165,9 @@ export default function BanquePage() {
   };
 
   const backToList = () => {
-    setSelected(null);
-    setQuestions([]);
-    setSavedPos(null);
-    window.history.replaceState(null, "", "/banque");
-    window.scrollTo({ top: 0 });
+    // Consomme l'entrée d'historique poussée à l'ouverture : le popstate
+    // remet la liste (et l'URL reste /banque)
+    window.history.back();
   };
 
   return (
