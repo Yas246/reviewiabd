@@ -499,7 +499,15 @@ class SyncService {
       // 6. Si la fusion a modifié les données locales pendant que les écrans
       //    étaient déjà affichés, on recharge pour tout rendre visible.
       //    Boucle impossible : la synchro suivante n'applique plus rien.
-      if (applied > 0 && trigger === "auto") {
+      //    SAUF sur l'écran de résultats du quiz : son rechargement entrait en
+      //    collision avec les boutons « Accueil / Nouveau quiz » (la page se
+      //    rechargeait au moment du clic). Les données sont déjà à jour en
+      //    base ; les écrans suivants les liront à la navigation.
+      if (
+        applied > 0 &&
+        trigger === "auto" &&
+        !window.location.pathname.startsWith("/quiz")
+      ) {
         window.location.reload();
       }
       return;
