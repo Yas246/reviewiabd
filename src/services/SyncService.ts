@@ -97,6 +97,32 @@ const STORES: Record<string, StoreSpec> = {
     merge: "lww",
     lwwField: "updatedAt",
   },
+  lecture: {
+    // Positions de lecture de /banque (une ligne par domaine, stockées
+    // dans localStorage : lecture_pos_<domain> = index de question).
+    // Fusion max : la position la plus avancée gagne.
+    read: async () => {
+      if (typeof window === "undefined") return [];
+      const prefix = "lecture_pos_";
+      const out: Record<string, unknown>[] = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.startsWith(prefix)) {
+          const domain = k.slice(prefix.length);
+          out.push({ id: domain, position: Number(localStorage.getItem(k) || "0") });
+        }
+      }
+      return out;
+    },
+    write: async (r) => {
+      if (typeof r?.id === "string") {
+        localStorage.setItem("lecture_pos_" + r.id, String(Number(r.position ?? 0)));
+      }
+    },
+    keyField: "id",
+    merge: "max",
+    maxFields: ["position"],
+  },
 };
 
 interface SyncRow {

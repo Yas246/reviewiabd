@@ -7,10 +7,7 @@ import { cn } from "@/lib/utils";
 import {
   Menu,
   X,
-  BookOpen,
   FileText,
-  Star,
-  History,
   Settings,
   Home,
   AlertCircle,
@@ -19,6 +16,10 @@ import {
   ChevronDown,
   Sun,
   Moon,
+  BookOpen,
+  NotebookPen,
+  History,
+  Star,
 } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
@@ -43,7 +44,8 @@ const primaryLinks: NavLink[] = [
 ];
 
 const secondaryLinks: NavLink[] = [
-  { href: "/cheatsheets", label: "Cheat Sheets", icon: BookOpen },
+  { href: "/banque", label: "Lire les questions", icon: BookOpen },
+  { href: "/cheatsheets", label: "Cheat Sheets", icon: NotebookPen },
   { href: "/mistakes", label: "Erreurs", icon: AlertCircle },
   { href: "/favorites", label: "Favoris", icon: Star },
   { href: "/import", label: "Importer", icon: Download },

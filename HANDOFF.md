@@ -1,6 +1,25 @@
 # HANDOFF.md : Review IABD
 
-Dernière mise à jour : 2026-10-06 (audit complet de couverture sync + rechargement auto des écrans quand la fusion modifie les données + compteurs par catégorie dans la carte Synchronisation ; poussé 4798277)
+Dernière mise à jour : 2026-10-06 (nouvelle page « Lire les questions » /banque : lecture par domaine en corrigé complet, défilement continu, reprise de position par domaine ; poussé)
+
+## Page « Lire les questions » /banque (2026-10-06, FAIT ET VÉRIFIÉ AU CLIC)
+
+- Demande utilisateur : un écran pour LIRE toutes les questions par domaine (14 × 100)
+  avec TOUT le corrigé (bonne réponse, notes par option, explication), pour apprendre
+  avant de se tester. Reformulé puis validé : défilement continu, accès menu Plus.
+- /banque : liste des 14 domaines (badge « NOUVEAU » ou « REPRISE : qN »), lecture en
+  corrigé complet : énoncé + contexte, options avec ✓ sur la (les) bonne(s) réponse(s)
+  et note sous CHAQUE option, FILL_BLANK (réponses acceptées), CODE (données + solution
+  en .code-block), CASE_STUDY (corrigé par sous-question), explication globale, tags.
+- Barre collante : domaine, « QUESTION N / total », boutons Reprendre à qN / Début.
+  Position par domaine dans localStorage (lecture_pos_<domain>), suivie au scroll
+  (débounce 400 ms), restaurée au retour + mention « Reprise de ta dernière lecture ».
+- Rechargement : le domaine ouvert survit via l'URL ?d=<DOMAIN> (replaceState) ;
+  QuestionBankService.getAll() ajouté (expose le getBank privé).
+- Vérifié au clic : liste 14 domaines, lecture ML 100 questions, bonne réponse
+  marquée, notes + explication, reprise q12 après reload (URL + scroll + mention).
+- Navigation : « Lire les questions » en tête du menu Plus (icônes ajoutées).
+- sw.js v3.7.1. Poussé.
 
 ## Audit exhaustif de couverture sync (2026-10-06, demandé par l'utilisateur)
 

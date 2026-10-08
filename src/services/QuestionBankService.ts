@@ -62,6 +62,13 @@ class QuestionBankService {
   }
 
   /**
+   * Toute la banque (préchargée + importée), pour le mode lecture.
+   */
+  async getAll(): Promise<Question[]> {
+    return this.getBank();
+  }
+
+  /**
    * Invalide le cache (après un import de questions par exemple).
    */
   invalidate(): void {
