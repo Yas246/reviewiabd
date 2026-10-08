@@ -26,6 +26,7 @@ import {
   Download,
   Play,
   BookMarked,
+  BookOpenText,
 } from "lucide-react";
 import { storageService } from "@/services/StorageService";
 import { statisticsService } from "@/services/StatisticsService";
@@ -102,6 +103,13 @@ const MODES: ModeCard[] = [
     href: "/cheatsheets",
     icon: BookMarked,
     color: "var(--domain-sql)",
+  },
+  {
+    title: "Lire les questions",
+    description: "Les questions par matière avec leurs corrigés complets : lis et apprends avant de te tester",
+    href: "/banque",
+    icon: BookOpenText,
+    color: "var(--domain-viz)",
   },
 ];
 
