@@ -1,8 +1,35 @@
 # HANDOFF.md : Review IABD
 
-Dernière mise à jour : 2026-10-06 (page Lecture : positions indépendantes par domaine confirmées, questions importées SÉPARÉES de la banque officielle avec badge, positions de lecture synchronisées entre appareils ; poussé 04bcded)
+Dernière mise à jour : 2026-10-06 (synchro NON BLOQUANTE : sessions allégées, paquets plafonnés, rechargement interdit pendant l'interaction, synchro de lancement différée + tirage aléatoire de matière dans Pratique ; poussé)
 
-## Lecture /banque : compléments demandés (2026-10-06, FAIT ET VÉRIFIÉ)
+## Synchro non bloquante + tirage aléatoire (2026-10-06, FAIT ET VÉRIFIÉ AU CLIC)
+
+- Retour utilisateur (connexions lentes) : à l'ouverture de l'app, cliquer vers une
+  autre page ne fait RIEN pendant un long moment. Causes identifiées et corrigées :
+  1. La synchro embarquait les SNAPSHOTS COMPLETS des questions dans chaque session
+     (mégaoctets, sérialisés d'un bloc sur le fil principal à l'envoi). Fix : les
+     sessions/examens synchronisent les IDENTIFIANTS des questions
+     (stripQuestions), et l'appareil destinataire RECONSTITUE les snapshots depuis
+     sa banque locale (identique ; questions importées appliquées AVANT les
+     sessions — ordre du map STORES). Payload passé de Mo à Ko.
+  2. L'envoi se fait par paquets plafonnés (~700 Ko) avec pauses rendues au
+     navigateur entre chaque paquet : plus de gel prolongé.
+  3. Le rechargement auto en fin de synchro ne se produit JAMAIS pendant que
+     l'utilisateur interagit (garde interaction : pointerdown/keydown/touchstart/
+     wheel ; rechargement seulement si aucune interaction depuis 15 s) ni sur
+     /quiz. Sinon les données s'afficheront à la prochaine navigation.
+  4. La synchro de lancement est DIFFÉRÉE de 3 s (l'app devient interactive
+     d'abord) ; statisticsService.calculateFromScratch rend aussi la main par
+     paquets de 25 sessions.
+- Tirage aléatoire (chantier 2, validé par reformulation) : toggle « 🎲 Matière
+  aléatoire » dans Pratique (source locale uniquement). Activé : le sélecteur de
+  matière est remplacé par l'explication du tirage ; Commencer tire au hasard une
+  matière parmi celles ayant ≥ questionCount questions, setSelectedDomain(domain),
+  et la session démarre normalement (label + domaine du tiré). Vérifié : 3 tirages
+  → 3 matières différentes.
+- sw.js v3.7.7. Poussé.
+
+## Page « Lire les questions » /banque (2026-10-06, FAIT ET VÉRIFIÉ AU CLIC)
 
 - Positions PAR DOMAINE indépendantes : chaque domaine garde son propre marqueur
   (lecture_pos_<domain>), vérifié (ML → q12, autres → NOUVEAU).

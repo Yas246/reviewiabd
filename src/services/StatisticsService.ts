@@ -81,8 +81,14 @@ class StatisticsService {
       };
     });
 
-    // Process each completed session
-    completedSessions.forEach((session) => {
+    // Process each completed session — par paquets avec pauses rendues au
+    // navigateur : le recalcul (après une synchro qui a beaucoup apporté)
+    // ne doit jamais geler l'interface.
+    let processed = 0;
+    for (const session of completedSessions) {
+      if (++processed % 25 === 0) {
+        await new Promise((resolve) => setTimeout(resolve, 0));
+      }
       const sessionQuestions = session.questions || [];
       const sessionUserAnswers = session.userAnswers || {};
 
@@ -117,7 +123,7 @@ class StatisticsService {
           }
         }
       });
-    });
+    }
 
     // Count exams taken (unique completed exam sessions)
     const examSessions = completedSessions.filter((s) => s.type === "exam");

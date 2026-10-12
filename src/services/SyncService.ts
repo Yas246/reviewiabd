@@ -1,5 +1,6 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { indexedDBService } from "./IndexedDBService";
+import { questionBank } from "./QuestionBankService";
 
 // ============================================
 // SYNC SERVICE
@@ -38,27 +39,15 @@ interface StoreSpec {
   lwwField?: string;
   // champs compteurs pour la fusion "max"
   maxFields?: string[];
+  // La ligne embarque des snapshots de questions (lourds) : on ne synchronise
+  // que les IDENTIFIANTS et l'autre appareil reconstitue depuis sa banque
+  // locale (identique). Réduit la charge de mégaoctets à des kilooctets.
+  stripQuestions?: boolean;
 }
 
+// Ordre d'application : les QUESTIONS importées avant les SESSIONS/EXAMENS,
+// pour que la reconstitution de leurs snapshots trouve tout dans la banque.
 const STORES: Record<string, StoreSpec> = {
-  sessions: {
-    read: () => indexedDBService.getAllSessions(),
-    write: (r) => indexedDBService.saveSession(r),
-    keyField: "id",
-    merge: "union",
-  },
-  exams: {
-    read: () => indexedDBService.getAllExams(),
-    write: (r) => indexedDBService.saveExam(r),
-    keyField: "id",
-    merge: "union",
-  },
-  practiceQuizzes: {
-    read: () => indexedDBService.getAllPracticeQuizzes(),
-    write: (r) => indexedDBService.savePracticeQuiz(r),
-    keyField: "id",
-    merge: "union",
-  },
   questions: {
     // Questions IMPORTÉES par l'utilisateur : elles se synchronisent
     // aussi, ligne par ligne, par union des identifiants.
@@ -70,6 +59,26 @@ const STORES: Record<string, StoreSpec> = {
   favorites: {
     read: () => indexedDBService.getAllFavorites(),
     write: (r) => indexedDBService.addFavorite(r),
+    keyField: "id",
+    merge: "union",
+  },
+  sessions: {
+    read: () => indexedDBService.getAllSessions(),
+    write: (r) => indexedDBService.saveSession(r),
+    keyField: "id",
+    merge: "union",
+    stripQuestions: true,
+  },
+  exams: {
+    read: () => indexedDBService.getAllExams(),
+    write: (r) => indexedDBService.saveExam(r),
+    keyField: "id",
+    merge: "union",
+    stripQuestions: true,
+  },
+  practiceQuizzes: {
+    read: () => indexedDBService.getAllPracticeQuizzes(),
+    write: (r) => indexedDBService.savePracticeQuiz(r),
     keyField: "id",
     merge: "union",
   },
@@ -162,6 +171,22 @@ class SyncService {
   private initDone = false;
   private autoPullDone = false;
   private syncing = false;
+  // Garde-fou navigation : on n'autoload JAMAIS la page pendant que
+  // l'utilisateur interagit (clics/touches récents), sinon la synchro
+  // annule sa navigation sur les connexions lentes.
+  private lastInteractionAt = Date.now();
+  private interactionHooked = false;
+
+  private hookInteractionTracker(): void {
+    if (this.interactionHooked || typeof window === "undefined") return;
+    this.interactionHooked = true;
+    const mark = () => {
+      this.lastInteractionAt = Date.now();
+    };
+    for (const ev of ["pointerdown", "keydown", "touchstart", "wheel"]) {
+      window.addEventListener(ev, mark, { passive: true, capture: true });
+    }
+  }
 
   // Prénom affichable sur le dashboard (profil Google)
   private extractName(user: any): string | null {
@@ -200,6 +225,7 @@ class SyncService {
   private getClient(): SupabaseClient | null {
     const cfg = this.getConfig();
     if (!cfg) return null;
+    this.hookInteractionTracker();
     if (!this.client) {
       this.client = createClient(cfg.url, cfg.key, {
         auth: { persistSession: true, autoRefreshToken: true },
@@ -353,10 +379,21 @@ class SyncService {
       if (!Array.isArray(raw)) continue;
       for (const rec of raw) {
         if (!rec || typeof rec !== "object") continue;
-        const data =
-          store === "settings"
-            ? { ...rec, user_id: "user" }
-            : (rec as Record<string, unknown>);
+        let data: Record<string, unknown>;
+        if (store === "settings") {
+          data = { ...rec, user_id: "user" };
+        } else if (spec.stripQuestions) {
+          // Allègement : on n'envoie PAS les snapshots de questions
+          // (plusieurs Mo) mais leurs identifiants. L'appareil destinataire
+          // reconstitue depuis sa banque locale, identique.
+          const { questions, ...rest } = rec as { questions?: unknown[] };
+          data = {
+            ...rest,
+            questionIds: (questions ?? []).map((q: any) => q.id),
+          } as Record<string, unknown>;
+        } else {
+          data = rec as Record<string, unknown>;
+        }
         rows.push({
           user_id: userId,
           store,
@@ -366,6 +403,8 @@ class SyncService {
           updated_at: realTimestamp(data) ?? now,
         });
       }
+      // Pause rendue au navigateur entre les stores
+      await new Promise((resolve) => setTimeout(resolve, 0));
     }
     return rows;
   }
@@ -386,9 +425,22 @@ class SyncService {
         const remoteData = r.data as Record<string, unknown>;
         const localRec = local.find((rec) => this.keyOf(store, rec) === r.id);
 
+        // Reconstituer les snapshots de questions depuis la banque locale
+        // (les identifiants voyagent, pas les objets lourds)
+        let prepared: Record<string, unknown> = remoteData;
+        if (spec.stripQuestions) {
+          const bank = await questionBank.getAll();
+          const byId = new Map(bank.map((q) => [q.id, q]));
+          const questionIds = (remoteData.questionIds as string[] | undefined) ?? [];
+          prepared = {
+            ...remoteData,
+            questions: questionIds.map((id) => byId.get(id)).filter(Boolean),
+          };
+        }
+
         // Absente localement : union (données ajoutées sur un autre appareil)
         if (!localRec) {
-          await spec.write(remoteData);
+          await spec.write(prepared);
           applied++;
           continue;
         }
@@ -397,7 +449,7 @@ class SyncService {
           const localTs = realTimestamp(localRec);
           const remoteTs = realTimestamp(remoteData);
           if (remoteTs && (!localTs || remoteTs > localTs)) {
-            await spec.write(remoteData);
+            await spec.write(prepared);
             applied++;
           }
         } else if (spec.merge === "max" && spec.maxFields) {
@@ -418,6 +470,8 @@ class SyncService {
           }
         }
       }
+      // Pause rendue au navigateur entre les stores
+      await new Promise((resolve) => setTimeout(resolve, 0));
     }
     return applied;
   }
@@ -460,15 +514,31 @@ class SyncService {
       //    plus récentes (lww sur horodatage réel / max par compteur)
       const applied = await this.applyRemoteRows(remote);
 
-      // 3. POUSHER : l'état local fusionné devient la vérité dans le cloud
+      // 3. POUSHER : l'état local fusionné devient la vérité dans le cloud.
+      //    Paquets plafonnés en taille (~700 Ko) avec pauses rendues au
+      //    navigateur : la sérialisation reste courte, l'UI ne gèle pas.
       const rows = await this.collectLocalRows(this.userId);
-      for (let i = 0; i < rows.length; i += 200) {
-        const batch = rows.slice(i, i + 200);
+      let batch: SyncRow[] = [];
+      let batchSize = 0;
+      const sendBatch = async () => {
+        if (batch.length === 0) return;
         const { error } = await client
           .from("sync_rows")
           .upsert(batch, { onConflict: "user_id,store,id" });
         if (error) throw new Error("Envoi : " + error.message);
+        batch = [];
+        batchSize = 0;
+        await new Promise((resolve) => setTimeout(resolve, 0));
+      };
+      for (const row of rows) {
+        const size = JSON.stringify(row).length;
+        if (batch.length > 0 && (batchSize + size > 700_000 || batch.length >= 200)) {
+          await sendBatch();
+        }
+        batch.push(row);
+        batchSize += size;
       }
+      await sendBatch();
 
       this.lastSyncAt = new Date().toISOString();
       this.autoPullDone = true;
@@ -497,15 +567,19 @@ class SyncService {
       );
 
       // 6. Si la fusion a modifié les données locales pendant que les écrans
-      //    étaient déjà affichés, on recharge pour tout rendre visible.
-      //    Boucle impossible : la synchro suivante n'applique plus rien.
-      //    SAUF sur l'écran de résultats du quiz : son rechargement entrait en
-      //    collision avec les boutons « Accueil / Nouveau quiz » (la page se
-      //    rechargeait au moment du clic). Les données sont déjà à jour en
-      //    base ; les écrans suivants les liront à la navigation.
+      //    étaient déjà affichés, on recharge pour tout rendre visible —
+      //    MAIS JAMAIS pendant que l'utilisateur interagit avec l'app :
+      //    le rechargement annule sa navigation (connexions lentes). Dans ce
+      //    cas, les données sont en base et s'afficheront à la prochaine
+      //    navigation ou au prochain lancement. Boucle impossible : une fois
+      //    fusionnées, les synchros suivantes n'appliquent plus rien.
+      //    Écran de résultats du quiz : jamais de rechargement (collision
+      //    avec les boutons Accueil / Nouveau quiz).
+      const idleLongEnough = Date.now() - this.lastInteractionAt > 15_000;
       if (
         applied > 0 &&
         trigger === "auto" &&
+        idleLongEnough &&
         !window.location.pathname.startsWith("/quiz")
       ) {
         window.location.reload();
@@ -520,12 +594,15 @@ class SyncService {
     }
   }
 
-  /** Récupération silencieuse au lancement (si connecté et en ligne). */
+  /** Récupération silencieuse au lancement, différée de 3 s : l'app devient
+   *  interactive d'abord, la synchro (réseau + fusion) arrive ensuite. */
   async autoPullOnLaunch(): Promise<void> {
     if (this.autoPullDone) return;
     const client = this.getClient();
     if (!client || !this.userId) return;
     if (typeof navigator !== "undefined" && !navigator.onLine) return;
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+    if (this.autoPullDone) return;
     try {
       await this.syncAll("auto");
     } catch {

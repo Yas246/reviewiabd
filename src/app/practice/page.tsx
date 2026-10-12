@@ -76,6 +76,7 @@ export default function PracticePage() {
   const router = useRouter();
   const [source, setSource] = useState<Source>("local");
   const [selectedDomain, setSelectedDomain] = useState<Domain>(Domain.MACHINE_LEARNING);
+  const [randomMode, setRandomMode] = useState(false);
   const [questionCount, setQuestionCount] = useState(10);
   const [difficulty, setDifficulty] = useState<"" | "easy" | "medium" | "hard">("");
   const [bankStats, setBankStats] = useState<{ total: number; byDomain: Partial<Record<Domain, number>> }>({ total: 0, byDomain: {} });
@@ -157,9 +158,26 @@ export default function PracticePage() {
   const handleStartLocal = async () => {
     setIsGenerating(true);
     try {
-      await indexedDBService.init();
+      // Tirage aléatoire : une matière au hasard parmi celles qui ont
+      // assez de questions pour le nombre demandé
+      let domain = selectedDomain;
+      if (randomMode) {
+        const candidates = (Object.entries(bankStats.byDomain) as [Domain, number][])
+          .filter(([, count]) => count >= questionCount)
+          .map(([d]) => d);
+        if (candidates.length === 0) {
+          alert(
+            `Aucune matière n'a assez de questions pour une session de ${questionCount}. Réduis le nombre de questions ou importe-en depuis la page Importer.`
+          );
+          setIsGenerating(false);
+          return;
+        }
+        domain = candidates[Math.floor(Math.random() * candidates.length)];
+        setSelectedDomain(domain);
+      }
+
       const questions = await questionBank.pick({
-        domain: selectedDomain,
+        domain,
         count: questionCount,
         difficulty: difficulty || undefined,
         types: undefined,
@@ -174,24 +192,24 @@ export default function PracticePage() {
       }
 
       const sessionId = `local-practice-${Date.now()}`;
-      const quizId = `local-${selectedDomain}-${Date.now()}`;
+      const quizId = `local-${domain}-${Date.now()}`;
 
       await indexedDBService.saveSession({
         id: sessionId,
         type: "practice",
-        domain: selectedDomain,
+        domain,
         questions,
         userAnswers: {},
         currentIndex: 0,
         status: "IN_PROGRESS" as any,
         startedAt: new Date(),
         practiceQuizId: quizId,
-        label: `Pratique : ${DOMAIN_LABELS[selectedDomain]}`,
+        label: `Pratique : ${DOMAIN_LABELS[domain]}`,
       });
 
       await indexedDBService.savePracticeQuiz({
         id: quizId,
-        domain: selectedDomain,
+        domain,
         questionCount: questions.length,
         questions,
         attempts: 1,
@@ -573,13 +591,40 @@ export default function PracticePage() {
           <CardContent>
             <div className="space-y-8">
               <div data-tour="p-matiere">
-                <h3 className="font-mono font-semibold mb-4">01. {source === "local" ? "Matière" : "Domaine IABD"}</h3>
-                <DomainSelector value={selectedDomain} onChange={setSelectedDomain} variant="grid" />
-                {source === "local" && (
-                  <p className="font-mono text-xs text-ink-muted mt-3">
-                    {domainCount} question{domainCount > 1 ? "s" : ""} disponible
-                    {domainCount > 1 ? "s" : ""} dans la banque locale pour cette matière.
+                <div className="flex items-center justify-between gap-3 mb-4 flex-wrap">
+                  <h3 className="font-mono font-semibold mb-0">
+                    01. {source === "local" ? "Matière" : "Domaine IABD"}
+                  </h3>
+                  {source === "local" && (
+                    <button
+                      onClick={() => setRandomMode((v) => !v)}
+                      className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border font-mono text-sm transition-all ${
+                        randomMode
+                          ? "border-accent bg-accent/10 text-accent"
+                          : "border-paper-dark text-ink-muted hover:border-accent/50 hover:text-accent"
+                      }`}
+                    >
+                      🎲 Matière aléatoire
+                    </button>
+                  )}
+                </div>
+
+                {source === "local" && randomMode ? (
+                  <p className="text-sm text-ink-secondary p-4 rounded border border-accent/40 bg-accent/5">
+                    🎲 Au clic sur <strong>Commencer</strong>, une matière sera tirée
+                    au hasard parmi celles qui ont assez de questions pour une
+                    session de {questionCount}.
                   </p>
+                ) : (
+                  <>
+                    <DomainSelector value={selectedDomain} onChange={setSelectedDomain} variant="grid" />
+                    {source === "local" && (
+                      <p className="font-mono text-xs text-ink-muted mt-3">
+                        {domainCount} question{domainCount > 1 ? "s" : ""} disponible
+                        {domainCount > 1 ? "s" : ""} dans la banque locale pour cette matière.
+                      </p>
+                    )}
+                  </>
                 )}
               </div>
 
